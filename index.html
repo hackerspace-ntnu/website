@@ -4,9 +4,23 @@
         <title>Hackerspace NTNU</title>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="/static/js/bootstrap.js"></script>
+        <script src="/static/js/instafeed.min.js"></script>
         <link rel="stylesheet" href="/static/css/bootstrap.css" />
         <link rel="stylesheet" href="/static/css/carousel.css" />
         <link rel="stylesheet" href="/static/css/custom.css" />
+        <script>
+            $(document).ready(function() {
+                var feed = new Instafeed({
+                    get: 'tagged',
+                    tagName: 'hackerspace',
+                    clientId: 'a287cbc7f0794cfaad6fce4908f4a333',
+                    limit: 6,
+                    template: '<div class="col-md-2 col-xs-4"><a href="{{ `{{link}}` }}"><img class="img-thumbnail" src="{{ `{{image}}` }}" /></a></div>'
+
+                });
+                feed.run(); 
+            });
+        </script>
     </head>
     <body>
         <div class="jumbotron">
@@ -106,6 +120,12 @@
                 </div>
             </div>
             <hr class="featurette-divider" />
+            <h2 class="">Siste på instagram <span class="text-muted">#hackerspace<span></h2>
+            <div class="row">
+                <div id="instafeed"></div>
+            </div>
+            <hr class="featurette-divider" />
+
             <footer>
                 <p>Har du spørmål? Ta kontakt via. <a href="mailto:hackerspace@idi.ntnu.no">epost</a> eller #hackerspace på EFNet.</p>
             </footer>

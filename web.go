@@ -8,7 +8,6 @@ import (
 func indexPageHandler(w http.ResponseWriter, r *http.Request){
     t, _ := template.ParseFiles("index.html")
     d := make(map[string]string)
-    d["Who"] = "World"
     t.Execute(w, d)
 }
 

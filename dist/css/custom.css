@@ -1,3 +1,13 @@
+header .jumbotron {
+  background: #fff url('/static/img/HS_things.jpg') no-repeat center -630px fixed;
+  color: #fff;
+}
+
+.jumbotron.social {
+
+}
+
+
 /* From the boostrap documentation */
 .bs-callout {
   margin: 20px 0px 40px;
@@ -14,7 +24,7 @@
 .bs-callout .highlight {
   background-color: #fff;
 }
- 
+
 /* Themes for different contexts */
 .bs-callout-danger {
   background-color: #fcf2f2;

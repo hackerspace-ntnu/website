@@ -1,7 +1,16 @@
 header .jumbotron {
+  position: relative;
+
   background: #fff url('/static/img/HS_things.jpg') no-repeat center -630px fixed;
   color: #fff;
+  height: 480px;
 }
+
+header .jumbotron .container {
+position: relative;
+bottom: -50px;
+}
+
 
 .jumbotron.social {
 

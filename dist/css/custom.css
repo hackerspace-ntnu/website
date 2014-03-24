@@ -3,17 +3,12 @@ header .jumbotron {
 
   background: #fff url('../img/HS_things.jpg') no-repeat center -630px fixed;
   color: #fff;
-  height: 480px;
+  height: 550px;
 }
 
 header .jumbotron .container {
 position: relative;
 bottom: -50px;
-}
-
-
-.jumbotron.social {
-
 }
 
 .helptext {

@@ -2,12 +2,13 @@
 <html lang="en">
     <head>
         <title>Hackerspace NTNU</title>
-        <script src="/dist/js/jquery-1.11.0.min.js"></script>
-        <script src="/dist/js/bootstrap.js"></script>
-        <script src="/dist/js/instafeed.min.js"></script>
-        <link rel="stylesheet" href="/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="/dist/css/carousel.css" />
-        <link rel="stylesheet" href="/dist/css/custom.css" />
+        <meta charset="UTF-8"> 
+        <script src="./dist/js/jquery-1.11.0.min.js"></script>
+        <script src="./dist/js/bootstrap.js"></script>
+        <script src="./dist/js/instafeed.min.js"></script>
+        <link rel="stylesheet" href="./dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="./dist/css/carousel.css" />
+        <link rel="stylesheet" href="./dist/css/custom.css" />
         <script>
             $(document).ready(function() {
                 var feed = new Instafeed({
@@ -106,15 +107,34 @@
                 </div>
             </div>-->
             <hr class="featurette-divider" />
+            <div class="row featurette">
+              <div class="col-md-5">
+                <div style="height:100%;width:100%;border: 1px solid #ddd">
+                  <iframe src="https://kiwiirc.com/client/irc.underworld.no/?nick=web|?&theme=mini#hackerspace" style="border:0; width:100%; height:450px;"></iframe>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <h2 class="featurette-heading" style="margin-top:40px">Bli med på diskusjonen!</h2>
+                <p class="lead">Har du spørsmål? Ønsker du å hjelpe til med uformingen av hackerspace eller bare ha et prate med studenter 
+                som har like interesser som deg selv? Bli med i vår chattekanal på IRC-nettverket <em>EFnet (irc.underworld.no)</em> og 
+                kanalen <em>#hackerspace</em>. <br /><br />
+                Du kan bruke klienten til høyre, eller du kan bruke programvare som
+                <a href="http://mirc.com">mIRC</a> eller 
+                <a href="irssi" href="https://www.youtube.com/watch?v=PXFmxUaCVD0">irssi på NTNU-serverene</a>. 
+                Med sistnevnte slipper du å hoppe ut og inn av kanalen når du logger av PCen og du får med deg alt som har skjedd mens
+                du har vært borte.<br /><br /> <b>Vi chattes!</b>
+                </p>
+              </div>
+            </div>
+            <hr class="featurette-divider" />
             <h2 class="">Siste på instagram <span class="text-muted">#hackerspacentnu<span></h2>
             <div class="row">
                 <div id="instafeed"></div>
             </div>
             <hr class="featurette-divider" />
         </div>
-        
         <footer>
-          <div class="container">
+        <div class="container">
             <div class="row">
               <p>Har du spørmål? Ta kontakt via. <a href="mailto:hackerspace@idi.ntnu.no">epost</a> eller #hackerspace på EFNet.</p>
             </div>

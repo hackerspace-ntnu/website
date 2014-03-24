@@ -1,7 +1,7 @@
 header .jumbotron {
   position: relative;
 
-  background: #fff url('/dist/img/HS_things.jpg') no-repeat center -630px fixed;
+  background: #fff url('./dist/img/HS_things.jpg') no-repeat center -630px fixed;
   color: #fff;
   height: 480px;
 }

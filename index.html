@@ -10,16 +10,57 @@
         <link rel="stylesheet" href="./dist/css/carousel.css" />
         <link rel="stylesheet" href="./dist/css/custom.css" />
         <script>
-            $(document).ready(function() {
-                var feed = new Instafeed({
-                    get: 'tagged',
-                    tagName: 'hackerspacentnu',
-                    clientId: 'a287cbc7f0794cfaad6fce4908f4a333',
-                    limit: 6,
-                    template: '<div class="col-md-2 col-xs-4"><a href="{{link}}"><img class="img-thumbnail" src="{{image}}" /></a></div>'
-                });
-                feed.run();
+          $(document).ready(function() {
+            var feed = new Instafeed({
+              get: 'tagged',
+              tagName: 'hackerspacentnu',
+              clientId: 'a287cbc7f0794cfaad6fce4908f4a333',
+              limit: 6,
+              template: '<div class="col-md-2 col-xs-4"><a href="{{link}}"><img class="img-thumbnail" src="{{image}}" /></a></div>'
             });
+            feed.run();
+          });
+
+          var subscribe = function() {
+            $.ajax({
+              type: "POST",
+              url: "https://lists.ansatt.ntnu.no/idi.ntnu.no",
+              data: {
+                "list": "hackerspace",
+                "action": "subrequest",
+                "email": $("#email").val(),
+              },
+              complete: getPassword,
+            })
+          }
+
+          var getPassword = function(data) {
+            $("#emailwrap").hide();
+            $("#passwrap").show();
+          }
+
+          var sendPass = function() {
+            $.ajax({
+              type: "POST",
+              url: "https://lists.ansatt.ntnu.no/idi.ntnu.no",
+              data: {
+                "passwd": $("#password").val(),
+                "email": $("#email").val(),
+                "list": "hackerspace",
+                "action": "subrequest",
+                "previous_list": "hackerspace",
+                "previous_action": "subrequest",
+                "action_subscribe": "Subscribe",
+              },
+              complete: thanks,
+            })
+          }
+
+          var thanks = function() {
+            $("#passwrap").hide()
+            $("#email-header").hide()
+            $("#thanks").show()
+          }
         </script>
     </head>
     <body>
@@ -28,23 +69,45 @@
             <div class="container">
                 <h1>Hackerspace <span style="color:#00509e">NTNU</span></h1>
                 <p>Hackerspace NTNU er et pilotprosjekt i regi av IDI ved NTNU i samarbeid med Abakus og Online. Vi holder til på drivhuset slik at studenter ved IDI kan komme og leke!</p>
-                <div class="row">
+                <hr>
+                <div class="row" id="email-header">
                     <div class="col-xs-10">
-                        <p><b>Dette er jeg interessert i! Hold meg oppdatert på
-                            e-posten min: </b></p>
+                        <p><b>Dette er jeg interessert i! Hold meg oppdatert på e-posten min</b></p>
                     </div>
                 </div>
-                <form action="." method="post">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <input type="text" class="form-control"
-                            name="email" placeholder="ola.nordmann@stud.ntnu.no"></input>
-                        </div>
-                        <div class="col-xs-2">
-                            <button type="submit" class="btn btn-success">Meld meg på e-postlisten</button>
-                        </div>
+                <div id="emailwrap">
+                  <div class="row"><div class="col-md-10">
+                    <p class="helptext">Det vil på epostlisten sendes ut informasjon om åpningsdager; arrangementer;
+                    nytt og planlagt utstyr; og sosiale events.<br />
+                    <em>Ingen</em> spam, <em>ingen</em> masing og din e-post er <em>trygg</em> hos oss.</p>
+                  </div></div>
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="ola.nordmann@stud.ntnu.no"></input>
                     </div>
-                </form>
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-success" onclick="subscribe();return false">Meld meg på e-postlisten</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="passwrap" style="display:none">
+                  <div class="row"><div class="col-md-10">
+                      <p class="helptext">Du skal ha mottat en <em>valideringskode</em> på din e-post. Vennligst skriv
+                      den inn under.</p>
+                  </div></div>
+                  <div class="row">
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" id="password" name="password" placeholder="5487dbfG3"></input>
+                    </div>
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-success" onclick="sendPass();return false">Valider meg</button>
+                    </div>
+                  </div>
+                </div>
+                <div id="thanks" style="display:none">
+                  <p>Tusen takk! Du er nå påmeldt e-postlisten og vil fortløpende få beskjed om framtidige hendelser og
+                  annet aktuelt!</p>
+                </div>
             </div>
         </div>
       </header>

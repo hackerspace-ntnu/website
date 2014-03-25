@@ -6,9 +6,13 @@ header .jumbotron {
   height: 550px;
 }
 
+hr.featurette-divider {
+  margin: 40px 0px !important;
+}
+
 header .jumbotron .container {
-position: relative;
-bottom: -50px;
+  position: relative;
+  bottom: -50px;
 }
 
 .helptext {

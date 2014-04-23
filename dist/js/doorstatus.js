@@ -1,5 +1,5 @@
 var openString = "<h2> Hackerspace er åpent. Velkommen inn! :) </h2>"
-var closedString = "<h2> Hackerspace er desverre ikke åpent nå. Sjekk igjen senere :) </h2>"
+var closedString = "<h2> Hackerspace er dessverre ikke åpent nå. Sjekk igjen senere :) </h2>"
 
 var jqxhr = $.getJSON("api/door", function() {
   console.log("door fetch success");

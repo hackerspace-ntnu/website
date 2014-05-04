@@ -1,55 +1,74 @@
-header .jumbotron {
-  position: relative;
+.ntnu-blue {
+    color: rgb(0, 80, 158); // http://www.ntnu.no/trykk/ntnu-farger
+}
 
-  background: #fff url('../img/HS_things.jpg') no-repeat center -630px fixed;
-  color: #fff;
-  height: 550px;
+header .jumbotron {
+    position: relative;
+
+    background: #fff url('../img/HS_things.jpg') no-repeat center -630px fixed;
+    color: #fff;
+    min-height: 550px;
+
+    padding-bottom: 3em;
+}
+
+#door-status span.door-status {
+    font-size: xx-large;
+    font-weight: bold;
 }
 
 hr.featurette-divider {
-  margin: 40px 0px !important;
+    margin: 40px 0 !important;
 }
 
 header .jumbotron .container {
-  position: relative;
-  bottom: -50px;
+    position: relative;
+    bottom: -50px;
 }
 
 .helptext {
-  margin-top:0px;
-  margin-bottom:0px;
-  font-size:14px !important;
+    margin-top:0;
+    margin-bottom:0;
+    font-size:14px !important;
+}
+
+form#mail-signup .input-area {
+    min-width: 30%;
+}
+
+form#mail-signup .input-area input.form-control {
+    width: 100%;
 }
 
 
 /* From the boostrap documentation */
 .bs-callout {
-  margin: 20px 0px 40px;
-  padding: 15px 30px 15px 15px;
-  border-left: 5px solid #eee;
+    margin: 20px 0 40px;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid #eee;
 }
 .bs-callout h4 {
-  margin-top: 0;
+    margin-top: 0;
 }
 .bs-callout p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 .bs-callout code,
 .bs-callout .highlight {
-  background-color: #fff;
+    background-color: #fff;
 }
 
 /* Themes for different contexts */
 .bs-callout-danger {
-  background-color: #fcf2f2;
-  border-color: #dFb5b4;
+    background-color: #fcf2f2;
+    border-color: #dFb5b4;
 }
 .bs-callout-warning {
-  background-color: #fefbed;
-  border-color: #f1e7bc;
+    background-color: #fefbed;
+    border-color: #f1e7bc;
 }
 .bs-callout-info {
-  /*background-color: #f0f7fd;*/
-  background-color: #d6e9f9;
-  border-color: #00509e;
+    /*background-color: #f0f7fd;*/
+    background-color: #d6e9f9;
+    border-color: #00509e;
 }

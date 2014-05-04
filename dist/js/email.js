@@ -6,36 +6,36 @@ var subscribe = function() {
     data: {
       "list": "hackernews",
       "action": "subrequest",
-      "email": $("#email").val(),
+      "email": $("#email").val()
     },
-    complete: getPassword,
-  })
-}
+    complete: getValidationKey
+  });
+};
 
-var getPassword = function(data) {
+var getValidationKey = function(data) {
   $("#emailwrap").hide();
-  $("#passwrap").show();
-}
+  $("#validationwrap").show();
+};
 
-var sendPass = function() {
+var sendKey = function() {
   $.ajax({
     type: "POST",
     url: "https://lists.ansatt.ntnu.no/idi.ntnu.no",
     data: {
-      "passwd": $("#password").val(),
+      "passwd": $("#validation").val(),
       "email": $("#email").val(),
       "list": "hackernews",
       "action": "subrequest",
       "previous_list": "hackernews",
       "previous_action": "subrequest",
-      "action_subscribe": "Subscribe",
+      "action_subscribe": "Subscribe"
     },
-    complete: thanks,
-  })
-}
+    complete: thanks
+  });
+};
 
 var thanks = function() {
-  $("#passwrap").hide()
-  $("#email-header").hide()
-  $("#thanks").show()
-}
+  $("#validationwrap").hide();
+  $("#email-header").hide();
+  $("#thanks").show();
+};

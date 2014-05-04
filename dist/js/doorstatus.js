@@ -6,10 +6,10 @@ jqxhr.done(console.log("door fetch second success"));
 jqxhr.fail(console.log("door fetch error"));
 jqxhr.always(console.log("door fetch complete"));
 
-jqxhr.complete(function() {
-    console.log( "door fetch second complete" );
+jqxhr.complete(function () {
+    console.log("door fetch second complete");
     var doorstatusDiv = $("#door-status");
-    if(jqxhr.responseJSON[0].isOpen) {
+    if (jqxhr.responseJSON[0].isOpen) {
         doorstatusDiv.html(openString);
         doorstatusDiv.addClass('alert-success');
         doorstatusDiv.removeClass('alert-info');

@@ -3,9 +3,9 @@
 <head>
     <title>Hackerspace NTNU</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./dist/css/bootswatch.yeti.min.css" />
-    <link rel="stylesheet" href="./dist/css/carousel.css" />
-    <link rel="stylesheet" href="./dist/css/custom.css" />
+    <link rel="stylesheet" href="./dist/css/bootswatch.yeti.min.css"/>
+    <link rel="stylesheet" href="./dist/css/carousel.css"/>
+    <link rel="stylesheet" href="./dist/css/custom.css"/>
 </head>
 <body>
 <header>
@@ -14,24 +14,28 @@
             <h1>
                 Hackerspace <span class="ntnu-blue">NTNU</span>
             </h1>
+
             <p>
                 Hackerspace NTNU er et pilotprosjekt i regi av IDI ved NTNU i samarbeid med Abakus og Online.
                 Vi holder til på drivhuset slik at studenter ved IDI kan komme og leke!
             </p>
+
             <div id="door-status" class="alert alert-info">
                 Har ikke fått tak i status
             </div>
             <p style="font-weight: bold;">
                 Dette er jeg interessert i! Hold meg oppdatert på e-posten min
             </p>
+
             <form id="mail-signup" class="form-inline" role="form">
                 <div id="emailwrap">
                     <p class="helptext">
                         Det vil på epostlisten sendes ut informasjon om åpningsdager; arrangementer;
                         nytt og planlagt utstyr; og sosiale events.
-                        <br />
+                        <br/>
                         <em>Ingen</em> spam, <em>ingen</em> masing og din e-post er <em>trygg</em> hos oss.
                     </p>
+
                     <div class="form-group input-area">
                         <input type="text"
                                class="form-control"
@@ -45,11 +49,12 @@
                         </button>
                     </div>
                 </div>
-                <div id="validationwrap"style="display:none">
+                <div id="validationwrap" style="display:none">
                     <p class="helptext">
                         Du skal ha mottat en <em>valideringskode</em> på din e-post.
                         Vennligst skriv den inn under.
                     </p>
+
                     <div class="form-group input-area">
                         <input type="text"
                                class="form-control"
@@ -66,7 +71,8 @@
                 <div id="thanks" style="display:none">
                     <p>
                         Tusen takk!
-                        Du er nå påmeldt e-postlisten og vil fortløpende få beskjed om framtidige hendelser og annet aktuelt!
+                        Du er nå påmeldt e-postlisten og vil fortløpende få beskjed om framtidige hendelser og annet
+                        aktuelt!
                     </p>
                 </div>
             </form>
@@ -77,10 +83,12 @@
 <div class="container marketing">
     <div class="row">
         <div class="col-lg-4">
-            <img src="./dist/img/oculus.jpg" class="img-circle" style="width:140px; height:140px"/>
+            <img src="./dist/img/oculus.jpg" class="img-circle"/>
+
             <h2>
                 Oculus Rift
             </h2>
+
             <p>
                 Har du noengang prøvd en Oculus Rift?
                 Hvis ikke er dette sjansen din!
@@ -88,10 +96,12 @@
             </p>
         </div>
         <div class="col-lg-4">
-            <img src="./dist/img/arduino.jpg" class="img-circle" style="width:140px;height:140px" />
+            <img src="./dist/img/arduino.jpg" class="img-circle"/>
+
             <h2>
                 Arduino
             </h2>
+
             <p>
                 Har du noengang ønsket å lage en duppedings som reagerer på lyd eller lys?
                 Eller kanskje en 'Drawing bot', 'LED Matrix Controller' eller en DAB radio?
@@ -99,10 +109,12 @@
             </p>
         </div>
         <div class="col-lg-4">
-            <img src="./dist/img/ras_pi.jpg" class="img-circle" style="width:140px;height:140px" />
+            <img src="./dist/img/ras_pi.jpg" class="img-circle"/>
+
             <h2>
                 Raspberry Pi
             </h2>
+
             <p>
                 Noen gang ønsket å sette opp ditt eget mediasenter,
                 lage en værstasjon eller lage dit eget automatiserte system hjemme for å kontrollere feks. TV og lys?
@@ -110,55 +122,61 @@
             </p>
         </div>
     </div>
-    <hr class="featurette-divider" />
+    <hr class="featurette-divider"/>
 
-    <h2 style="text-align:center;font-size:40px;">
-        Bilder fra kickoff 18. mars 2014
-    </h2>
-    <div class="galleria" style="height:500px;margin:0 auto"></div>
-    <p style="text-align:center">
-        Bilder hentet fra
-        <a href="http://www.flickr.com/photos/idintnu/sets/72157642546421854/">
-            IDI sitt galleri på Flickr
-        </a>.
-    </p>
+    <div id="gallery">
+        <h2>
+            Bilder fra kickoff 18. mars 2014
+        </h2>
 
-    <hr class="featurette-divider" />
+        <div class="galleria"></div>
+        <p style="text-align:center">
+            Bilder hentet fra
+            <a href="http://www.flickr.com/photos/idintnu/sets/72157642546421854/">
+                IDI sitt galleri på Flickr
+            </a>.
+        </p>
+    </div>
+
+    <hr class="featurette-divider"/>
     <div class="row featurette">
         <div class="col-md-5">
-            <div style="height:100%; width:100%; border: 1px solid #ddd;">
-                <iframe src="https://kiwiirc.com/client/irc.underworld.no/?nick=web|?&theme=mini#hackerspace" style="border:0; width:100%; height:450px;"></iframe>
+            <div id="irc-container">
+                <iframe src="https://kiwiirc.com/client/irc.underworld.no/?nick=web|?&theme=mini#hackerspace"></iframe>
             </div>
         </div>
         <div class="col-md-7">
             <h2 class="featurette-heading" style="margin-top:40px">
                 Bli med på diskusjonen!
             </h2>
+
             <p class="lead">
                 Har du spørsmål?
                 Ønsker du å hjelpe til med utformingen av hackerspace eller bare ha et prate med studenter
                 som har like interesser som deg selv?
                 Bli med i vår chattekanal på IRC-nettverket <em>EFnet (irc.underworld.no)</em> og
                 kanalen <em>#hackerspace</em>.
-                <br /><br />
+                <br><br>
                 Du kan bruke klienten til venstre, eller du kan bruke programvare som
                 <a href="http://mirc.com">mIRC</a> eller
                 <a href="https://www.youtube.com/watch?v=PXFmxUaCVD0">irssi på NTNU-serverene</a>.
-                Med sistnevnte slipper du å hoppe ut og inn av kanalen når du logger av PCen og du får med deg alt som har skjedd mens
+                Med sistnevnte slipper du å hoppe ut og inn av kanalen når du logger av PCen og du får med deg alt som
+                har skjedd mens
                 du har vært borte.
-                <br /><br />
+                <br><br>
                 <b>Vi chattes!</b>
             </p>
         </div>
     </div>
-    <hr class="featurette-divider" />
+    <hr class="featurette-divider"/>
     <h2>
         Siste på instagram <span class="text-muted">#hackerspacentnu</span>
     </h2>
+
     <div class="row">
         <div id="instafeed"></div>
     </div>
-    <hr class="featurette-divider" />
+    <hr class="featurette-divider"/>
 </div>
 <footer>
     <div class="container">

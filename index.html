@@ -15,67 +15,80 @@
                 Hackerspace <span class="ntnu-blue">NTNU</span>
             </h1>
 
-            <p>
-                Hackerspace NTNU er et pilotprosjekt i regi av IDI ved NTNU i samarbeid med Abakus og Online.
-                Vi holder til på drivhuset slik at studenter ved IDI kan komme og leke!
-            </p>
-
-            <div id="door-status" class="alert alert-info">
-                Har ikke fått tak i status
-            </div>
-            <p style="font-weight: bold;">
-                Dette er jeg interessert i! Hold meg oppdatert på e-posten min
-            </p>
-
-            <form id="mail-signup" class="form-inline" role="form">
-                <div id="emailwrap">
-                    <p class="helptext">
-                        Det vil på epostlisten sendes ut informasjon om åpningsdager; arrangementer;
-                        nytt og planlagt utstyr; og sosiale events.
-                        <br/>
-                        <em>Ingen</em> spam, <em>ingen</em> masing og din e-post er <em>trygg</em> hos oss.
-                    </p>
-
-                    <div class="form-group input-area">
-                        <input type="text"
-                               class="form-control"
-                               id="email"
-                               name="email"
-                               placeholder="ola.nordmann@stud.ntnu.no"/>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success center-block" onclick="subscribe(); return false;">
-                            Meld meg på e-postlisten
-                        </button>
-                    </div>
-                </div>
-                <div id="validationwrap" style="display:none">
-                    <p class="helptext">
-                        Du skal ha mottat en <em>valideringskode</em> på din e-post.
-                        Vennligst skriv den inn under.
-                    </p>
-
-                    <div class="form-group input-area">
-                        <input type="text"
-                               class="form-control"
-                               id="validation"
-                               name="validation"
-                               placeholder="5487dbfG3"/>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success center-block" onclick="sendKey(); return false;">
-                            Valider meg
-                        </button>
-                    </div>
-                </div>
-                <div id="thanks" style="display:none">
+            <div class="row">
+                <div class="col-md-9">
                     <p>
-                        Tusen takk!
-                        Du er nå påmeldt e-postlisten og vil fortløpende få beskjed om framtidige hendelser og annet
-                        aktuelt!
+                        Hackerspace NTNU er et pilotprosjekt i regi av IDI ved NTNU i samarbeid med Abakus og Online.
+                        Vi holder til på drivhuset slik at studenter ved IDI kan komme og leke!
                     </p>
+
+                    <p style="font-weight: bold;">
+                        Dette er jeg interessert i! Hold meg oppdatert på e-posten min
+                    </p>
+
+                    <form id="mail-signup" class="form-inline" role="form">
+                        <div id="emailwrap">
+                            <p class="helptext">
+                                Det vil på epostlisten sendes ut informasjon om åpningsdager; arrangementer;
+                                nytt og planlagt utstyr; og sosiale events.
+                                <br/>
+                                <em>Ingen</em> spam, <em>ingen</em> masing og din e-post er <em>trygg</em> hos oss.
+                            </p>
+
+                            <div class="form-group input-area">
+                                <input type="text"
+                                       class="form-control"
+                                       id="email"
+                                       name="email"
+                                       placeholder="ola.nordmann@stud.ntnu.no"/>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success center-block"
+                                        onclick="subscribe(); return false;">
+                                    Meld meg på e-postlisten
+                                </button>
+                            </div>
+                        </div>
+                        <div id="validationwrap" style="display:none">
+                            <p class="helptext">
+                                Du skal ha mottat en <em>valideringskode</em> på din e-post.
+                                Vennligst skriv den inn under.
+                            </p>
+
+                            <div class="form-group input-area">
+                                <input type="text"
+                                       class="form-control"
+                                       id="validation"
+                                       name="validation"
+                                       placeholder="5487dbfG3"/>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success center-block"
+                                        onclick="sendKey(); return false;">
+                                    Valider meg
+                                </button>
+                            </div>
+                        </div>
+                        <div id="thanks" style="display:none">
+                            <p>
+                                Tusen takk!
+                                Du er nå påmeldt e-postlisten og vil fortløpende få beskjed om framtidige hendelser og
+                                annet
+                                aktuelt!
+                            </p>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <div class="col-md-3">
+                    <div id="door-status" class="bg-info">
+                        <span>
+                            <a onclick="doorStatus(true)">
+                                Er døra åpen?
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </header>
@@ -122,6 +135,48 @@
             </p>
         </div>
     </div>
+
+    <hr class="featurette-divider"/>
+
+    <div id="wherewhen">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>
+                    Hvor? Når?
+                </h2>
+
+                <p>
+                    Hackerspace holder til på rommet i hjørnet av drivhuset på IT-Syd, rom 119C.
+                </p>
+                Nå i eksamensperioden har vi kjernetider:
+                <dl class="dl-horizontal">
+                    <dt>Mandag</dt>
+                    <dd>10 - 14</dd>
+                    <dt>Tirsdag</dt>
+                    <dd>12 - 16</dd>
+                    <dt>Onsdag</dt>
+                    <dd>13 - 16</dd>
+                    <dt>Torsdag</dt>
+                    <dd>12 - 16</dd>
+                    <dt>Fredag</dt>
+                    <dd>12 - 14</dd>
+                </dl>
+                <p>
+                    Vi holder ofte åpent utenfor disse tidene,
+                    men hvis du vil planlegge et besøk anbefales det å gå ut i fra tiden ovenfor.
+                    Du kan se om døren er åpen på toppen av siden.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <iframe width="600" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        src="http://use.mazemap.com/?&v=1&campusid=1&desttype=poi&dest=71922&embedded=true"
+                        style="border: 1px solid grey"></iframe>
+                <br/>
+                <small><a href="http://www.mazemap.com/">Map by MazeMap</a></small>
+            </div>
+        </div>
+    </div>
+
     <hr class="featurette-divider"/>
 
     <div id="gallery">
@@ -139,6 +194,7 @@
     </div>
 
     <hr class="featurette-divider"/>
+
     <div class="row featurette">
         <div class="col-md-5">
             <div id="irc-container">
@@ -176,15 +232,48 @@
     <div class="row">
         <div id="instafeed"></div>
     </div>
-    <hr class="featurette-divider"/>
 </div>
 <footer>
     <div class="container">
         <div class="row">
-            <p>
-                Har du spørmål?
-                Ta kontakt via <a href="mailto:hackerspace@idi.ntnu.no">epost</a> eller #hackerspace på EFNet.
-            </p>
+            <div class="col-md-4">
+                Har du spørsmål?<br>
+                Ta kontakt via <a href="mailto:hackerspace@idi.ntnu.no">hackerspace@idi.ntnu.no</a>
+                eller #hackerspace på EFNet.
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="/wiki/">
+                            Hackerspace NTNU Wiki
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/hackerspace-ntnu/">
+                            Hackerspace NTNU på github
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3 col-md-offset-1">
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="http://idi.ntnu.no/">
+                            IDI NTNU
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://abakus.no/">
+                            Abakus
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://online.ntnu.no/">
+                            Online
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </footer>

@@ -16,7 +16,7 @@
             </h1>
 
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-sm-9">
                     <p>
                         Hackerspace NTNU er et pilotprosjekt i regi av IDI ved NTNU i samarbeid med Abakus og Online.
                         Vi holder til på drivhuset slik at studenter ved IDI kan komme og leke!
@@ -79,8 +79,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3">
-                    <div id="door-status" class="bg-info">
+                <div class="col-sm-3">
+                    <div id="door-status" class="bg-info center-block">
                         <span>
                             <a onclick="doorStatus(true)">
                                 Er døra åpen?
@@ -168,11 +168,11 @@
                 </p>
             </div>
             <div class="col-md-6">
-                <iframe width="600" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="http://use.mazemap.com/?&v=1&campusid=1&desttype=poi&dest=71922&embedded=true"
-                        style="border: 1px solid grey"></iframe>
+                <img src="dist/img/IT-Syd.jpg" class="img-responsive img-thumbnail">
                 <br/>
-                <small><a href="http://www.mazemap.com/">Map by MazeMap</a></small>
+                <small>
+                    Kart over IT-syd. Hackerspace øverst til venstre.
+                </small>
             </div>
         </div>
     </div>
@@ -198,7 +198,11 @@
     <div class="row featurette">
         <div class="col-md-5">
             <div id="irc-container">
-                <iframe src="https://kiwiirc.com/client/irc.underworld.no/?nick=web|?&theme=mini#hackerspace"></iframe>
+                <span class="irc-btn-container">
+                    <button class="btn btn-info btn-lg" onclick="loadKiwiIRC()">
+                        Start IRC
+                    </button>
+                </span>
             </div>
         </div>
         <div class="col-md-7">
@@ -287,5 +291,6 @@
 <script src="./dist/js/email.js"></script>
 <script src="./dist/js/instagram.js"></script>
 <script src="./dist/js/doorstatus.js"></script>
+<script src="./dist/js/irc.js"></script>
 </body>
 </html>

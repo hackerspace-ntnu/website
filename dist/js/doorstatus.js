@@ -16,16 +16,18 @@ var doorStatus = function (showAlert) {
     doorstatusDiv.css("line-height", w);
 
     var jqxhr = $.getJSON("api/door", console.log("door fetch success"));
-    if (jqxhr.responseJSON === undefined) {
-        if (showAlert) {
-            alert("Det ser ut som dør-APIet vårt ikke fungerer.\n" +
-                "Si gjerne fra om det på hackerspace@idi.ntnu.no eller #hackerspace på EFNet.");
-        }
-        return;
-    }
     jqxhr.done(console.log("door fetch second success"));
     jqxhr.fail(console.log("door fetch error"));
-    jqxhr.always(console.log("door fetch complete"));
+    jqxhr.always(function() {
+      console.log("door fetch complete");
+      if (jqxhr.responseJSON === undefined) {
+        if (showAlert) {
+          alert("Det ser ut som dør-APIet vårt ikke fungerer.\n" +
+            "Si gjerne fra om det på hackerspace@idi.ntnu.no eller #hackerspace på EFNet.");
+        }
+        return;
+      }
+    });
 
     jqxhr.complete(function () {
         console.log("door fetch second complete");

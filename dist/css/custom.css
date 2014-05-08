@@ -9,11 +9,11 @@ body {
 header .jumbotron {
     position: relative;
 
-    background: #fff url('../img/HS_things.jpg') no-repeat center -630px fixed;
+    background: #fff url('../img/HS_things.jpg') no-repeat center 0 fixed;
     color: #fff;
     min-height: 550px;
 
-    padding-bottom: 3em;
+    padding-bottom: 4em;
 }
 
 #door-status {
@@ -21,6 +21,7 @@ header .jumbotron {
     padding: 0 1em;
     color: #000000;
     border-radius: 50%;
+    max-width: 256px;
 }
 
 #door-status span {
@@ -72,9 +73,15 @@ form#mail-signup .input-area input.form-control {
 }
 
 #irc-container {
-    height: 100%;
+    text-align: center;
+    height: 450px;
     width: 100%;
     border: 1px solid #ddd;
+}
+
+#irc-container span.irc-btn-container {
+    margin-top: 40%;
+    display: inline-block;
 }
 
 #irc-container iframe {

@@ -6,15 +6,11 @@
  and if the api still doesn't work it will fail with an alert.
  */
 
-var openString = "<span class='door-status'>Hackerspace er åpent.<br> Velkommen inn!</span>";
-var closedString = "<span class='door-status'>Hackerspace er dessverre ikke åpent nå. Sjekk igjen senere :)</span>";
+var openString = "Hackerspace er åpent. Velkommen inn!";
+var closedString = "Hackerspace er dessverre ikke åpent nå. Vil du ha beskjed når døra åpnes? Legg til HACKERSPACE på <a href=\"http://justyo.co\">Yo</a>.";
 
 var doorStatus = function (showAlert) {
     var doorstatusDiv = $("#door-status");
-    var w = doorstatusDiv.css("width");
-    doorstatusDiv.css("height", w);
-    doorstatusDiv.css("line-height", w);
-
     var jqxhr = $.getJSON("api/door", console.log("door fetch success"));
     jqxhr.done(console.log("door fetch second success"));
     jqxhr.fail(console.log("door fetch error"));
@@ -33,8 +29,8 @@ var doorStatus = function (showAlert) {
         console.log("door fetch second complete");
         if (jqxhr.responseJSON[0].isOpen) {
             doorstatusDiv.html(openString);
-            doorstatusDiv.addClass('bg-success');
-            doorstatusDiv.removeClass('bg-info');
+            doorstatusDiv.addClass('alert-success');
+            doorstatusDiv.removeClass('alert-info');
         } else {
             doorstatusDiv.html(closedString);
         }

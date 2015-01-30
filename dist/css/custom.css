@@ -11,27 +11,14 @@ header .jumbotron {
 
     background: #fff url('../img/HS_things.jpg') no-repeat center 0 fixed;
     color: #fff;
-    min-height: 550px;
 
-    padding-bottom: 4em;
+    padding-bottom: 8em;
 }
 
 #door-status {
     text-align: center;
-    padding: 0 1em;
-    color: #000000;
-    border-radius: 50%;
-    max-width: 256px;
-}
-
-#door-status span {
-    display: inline-block;
-    line-height: normal;
-    vertical-align: middle;
-}
-
-#door-status span.door-status {
-    font-size: x-large;
+    margin: 0;
+    font-size: large;
 }
 
 hr.featurette-divider {

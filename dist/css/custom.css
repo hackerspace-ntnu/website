@@ -7,13 +7,10 @@ body {
 }
 
 header .jumbotron {
-    position: relative;
-
     background: #fff url('../img/HS_things.jpg') no-repeat center 0 fixed;
     color: #fff;
-
-    padding-bottom: 8em;
 }
+
 
 #door-status {
     text-align: center;
@@ -23,11 +20,6 @@ header .jumbotron {
 
 hr.featurette-divider {
     margin: 40px 0 !important;
-}
-
-header .jumbotron .container {
-    position: relative;
-    bottom: -50px;
 }
 
 .helptext {

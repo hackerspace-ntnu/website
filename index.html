@@ -14,7 +14,7 @@
     <div class="jumbotron" style="margin: 0;">
         <div class="container">
             <h1>
-                Hackerspace <span class="ntnu-blue">NTNU</span>
+                Hackerspace NTNU
             </h1>
 
             <p>
@@ -22,64 +22,7 @@
                 Vi holder til på drivhuset slik at studenter ved IDI kan komme og leke!
             </p>
 
-            <p style="font-weight: bold;">
-                Interessert?
-                <a href="https://www.facebook.com/hackerspacentnu">
-                    Lik oss på facebook
-                </a>
-                og meld deg på e-postlisten vår:
-            </p>
-
-            <form id="mail-signup" class="form-inline" role="form">
-                <div id="emailwrap">
-                    <p class="helptext">
-                        Det vil på epostlisten sendes ut informasjon om åpningsdager; arrangementer;
-                        nytt og planlagt utstyr; og sosiale events.
-                        <br/>
-                        <em>Ingen</em> spam, <em>ingen</em> masing og din e-post er <em>trygg</em> hos oss.
-                    </p>
-
-                    <div class="form-group input-area">
-                        <input type="text"
-                               class="form-control"
-                               id="email"
-                               name="email"
-                               placeholder="ola.nordmann@stud.ntnu.no"/>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success center-block"
-                                onclick="subscribe(); return false;">
-                            Meld meg på e-postlisten
-                        </button>
-                    </div>
-                </div>
-                <div id="validationwrap" style="display:none">
-                    <p class="helptext">
-                        Du skal ha mottat en <em>valideringskode</em> på din e-post.
-                        Vennligst skriv den inn under.
-                    </p>
-
-                    <div class="form-group input-area">
-                        <input type="text"
-                               class="form-control"
-                               id="validation"
-                               name="validation"
-                               placeholder="5487dbfG3"/>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success center-block" onclick="sendKey(); return false;">
-                            Valider meg
-                        </button>
-                    </div>
-                </div>
-                <div id="thanks" style="display:none">
-                    <p>
-                        Tusen takk!
-                        Du er nå påmeldt e-postlisten
-                        og vil fortløpende få beskjed om framtidige hendelser og annet aktuelt!
-                    </p>
-                </div>
-            </form>
+            
         </div>
     </div>
 
@@ -90,7 +33,59 @@
     </div>
 </header>
 
+
 <div class="container marketing">
+
+<h2>
+        Siste på instagram <span class="text-muted">#hackerspacentnu</span>
+    </h2>
+
+    <div class="row">
+        <div id="instafeed"></div>
+    </div>
+
+    <hr class="featurette-divider"/>
+
+    <div id="wherewhen">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>
+                    Hvor? Når?
+                </h2>
+
+                <p>
+                    Hackerspace holder til på rommet i hjørnet av drivhuset på IT-Syd, rom 119C.
+                </p>
+                Vi har følgende kjernetid:
+                <dl class="dl-horizontal">
+                    <dt>Tirsdag</dt>
+                    <dd>12 - 18</dd>
+                </dl>
+                <p>
+                    Vi holder ofte åpent utenfor disse tidene,
+                    men hvis du vil planlegge et besøk anbefales det å gå ut i fra tiden ovenfor.
+                    Du kan se om døren er åpen på toppen av siden.
+                </p>
+            </div>
+            <div class="col-md-6">
+                <img src="dist/img/IT-Syd.jpg" class="img-responsive img-thumbnail">
+                <br/>
+                <small>
+                    Kart over IT-syd. Hackerspace øverst til venstre.
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <hr class="featurette-divider"/>
+    
+    
+    
+    
+<div class="container marketing">
+
+	
+
     <div class="row">
         <div class="col-lg-4">
             <img src="./dist/img/oculus.jpg" class="img-circle"/>
@@ -133,47 +128,8 @@
         </div>
     </div>
 
-    <hr class="featurette-divider"/>
-
-    <div id="wherewhen">
-        <div class="row">
-            <div class="col-md-6">
-                <h2>
-                    Hvor? Når?
-                </h2>
-
-                <p>
-                    Hackerspace holder til på rommet i hjørnet av drivhuset på IT-Syd, rom 119C.
-                </p>
-                Vi har følgende kjernetid:
-                <dl class="dl-horizontal">
-                    <dt>Tirsdag</dt>
-                    <dd>12 - 18</dd>
-                </dl>
-                <p>
-                    Vi holder ofte åpent utenfor disse tidene,
-                    men hvis du vil planlegge et besøk anbefales det å gå ut i fra tiden ovenfor.
-                    Du kan se om døren er åpen på toppen av siden.
-                </p>
-            </div>
-            <div class="col-md-6">
-                <img src="dist/img/IT-Syd.jpg" class="img-responsive img-thumbnail">
-                <br/>
-                <small>
-                    Kart over IT-syd. Hackerspace øverst til venstre.
-                </small>
-            </div>
-        </div>
-    </div>
-
-    <hr class="featurette-divider"/>
-    <h2>
-        Siste på instagram <span class="text-muted">#hackerspacentnu</span>
-    </h2>
-
-    <div class="row">
-        <div id="instafeed"></div>
-    </div>
+        
+    
 </div>
 <footer class="well well-lg">
     <div class="container">

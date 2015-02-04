@@ -27,7 +27,7 @@ var doorStatus = function (showAlert) {
 
     jqxhr.complete(function () {
         console.log("door fetch second complete");
-        if (jqxhr.responseJSON[0].isOpen) {
+        if (jqxhr.responseJSON.isOpen.door) {
             doorstatusDiv.html(openString);
             doorstatusDiv.addClass('alert-success');
             doorstatusDiv.removeClass('alert-info');

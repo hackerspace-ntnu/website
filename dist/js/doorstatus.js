@@ -21,13 +21,11 @@ var doorStatus = function (showAlert) {
 
     jqxhr.always(function () {
         console.log("door fetch complete");
-        if (jqxhr.responseJSON === undefined) {
-            if (showAlert) {
-                alert("Det ser ut som dør-APIet vårt ikke fungerer.\nSi gjerne fra om det på hackerspace@idi.ntnu.no.");
-            } else {
-                setTimeout(doorStatus, 60000);
-            }
+        if (jqxhr.responseJSON === undefined && showAlert) {
+            alert("Det ser ut som dør-APIet vårt ikke fungerer.\nSi gjerne fra om det på hackerspace@idi.ntnu.no.");
+            return;
         }
+        setTimeout(doorStatus, 60000);
     });
 
     jqxhr.complete(function () {

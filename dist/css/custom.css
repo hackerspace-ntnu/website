@@ -11,6 +11,14 @@ header .jumbotron {
     color: #fff;
 }
 
+.infoscreen-col {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.infoscreen-col p {
+	font-size:20px;
+}
 
 #door-status {
     text-align: center;

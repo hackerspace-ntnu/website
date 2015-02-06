@@ -11,12 +11,8 @@ header .jumbotron {
     color: #fff;
 }
 
-.infoscreen-col {
-	padding-left: 10%;
-	padding-right: 10%;
-}
 
-.infoscreen-col p {
+#bigscreen p {
 	font-size:20px;
 }
 

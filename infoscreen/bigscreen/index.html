@@ -5,21 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="60"> <!--Refresh every 1 minute (60 s)-->
+    <meta http-equiv="refresh" content="600"> <!-- every 10 minutes we refresh the whole shebang -->
     <link rel="stylesheet" href="./../../dist/css/bootswatch.yeti.min.css"/>
     <link rel="stylesheet" href="./../../dist/css/carousel.css"/>
     <link rel="stylesheet" href="./../../dist/css/custom.css"/>
-    
 </head>
-<body>
 
+<body id="bigscreen">
 <header style="margin-bottom: 2em;">
     <div class="jumbotron" style="margin: 0;">
         <div class="container">
             <h1>
                 Hackerspace NTNU
             </h1>
-
         </div>
     </div>
 
@@ -30,46 +28,75 @@
     </div>
 </header>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-1 col-md-5 infoscreen-col">
+            <div class="marketing">
+                <h2>
+                    Nybegynnerkurs i Linux/UNIX
+                </h2>
 
-<div class="container-fluid marketing">
+                <h3>
+                    Torsdag 12. februar, 18:15 i R2
+                </h3>
 
-  <div class="row">
-    <div class="col-md-7 infoscreen-col"> 
-	<h2>Nybegynnerkurs i Linux/UNIX</h2>
-  <h3>Torsdag 12. februar, 18:15 i R2</h3>
-  <p>
-  Bli kjent kommandolinjen i Linux, et veldig kraftig verktøy for å snakke med
-  operativsystemet. Kurset er veldig relevant for raspberry Pi hacking, men
-  også for de som ønsker å drive med web-utvikling på Linux/UNIX servere.
-  </p><p>
-  Kurset tar for seg de mest relevante kommandoene i Linux/UNIX og forutsetter
-  ingen forkunnskap. Vi går gjennom litt historie og designvalg i Linux. Kurset
-  starter fra bånn ved å fortelle hvordan man kommer seg rundt i mapper og hva
-  en fil er. Vi går så langt som å vise hvordan man kan hente ting fra nett,
-  søke etter filer og sette tilganger til filer. Dersom vi har tid på slutten
-  vil det bli vist hvordan man lager tjenester.
-  </p>        
-  <p><i>Kurset finnes på Hackerspace NTNU sin Facebookside.</i></p>
-  <br />
-  <img src="/dist/img/unix_finn.jpg"/>
+                <p>
+                    Bli kjent kommandolinjen i Linux, et veldig kraftig verktøy for å snakke med
+                    operativsystemet. Kurset er veldig relevant for raspberry Pi hacking, men
+                    også for de som ønsker å drive med web-utvikling på Linux/UNIX servere.
+                </p>
+
+                <p>
+                    Kurset tar for seg de mest relevante kommandoene i Linux/UNIX og forutsetter
+                    ingen forkunnskap. Vi går gjennom litt historie og designvalg i Linux. Kurset
+                    starter fra bånn ved å fortelle hvordan man kommer seg rundt i mapper og hva
+                    en fil er. Vi går så langt som å vise hvordan man kan hente ting fra nett,
+                    søke etter filer og sette tilganger til filer. Dersom vi har tid på slutten
+                    vil det bli vist hvordan man lager tjenester.
+                </p>
+
+                <p>
+                    <i>
+                        Kurset finnes på Hackerspace NTNU sin Facebookside: <a><b>tinyurl.com/hackerspace-linux-kurs</b></a>
+                    </i>
+                </p>
+
+                <hr style="visibility: hidden">
+
+                <img src="./../../dist/img/unix_finn.jpg" class="img-responsive">
+            </div>
+        </div>
+
+        <div class="col-md-offset-1 col-md-4 infoscreen-col">
+            <div class="well well-lg">
+                <h2>
+                    Om Hackerspace
+                </h2>
+
+                <p>
+                    Hackerspace NTNU er et pilotprosjekt for å fremme interessen for ny teknologi.
+                    Målet er å være et lavterskeltilbud som alltid har det kuleste og nyeste.
+                    Vi har droner, 3D-printer, leap motion, robot-kit og Oculus Rift for å nevne noe.
+                </p>
+
+                <p>
+                    Det holdes regelmessig kurs for både nybegynnere og viderekomne.
+                    Nybegynnerkurs i Arduino og 3D-printing er populære gjenngangere.
+                </p>
+
+                <p>
+                    Trenger du hjelp med ditt første Arduino-prosjekt eller er ønsker å lage en 3D-modell av Trondheim
+                    kan vi stille med både utstyr og kompetanse.
+                    Dersom vi ikke kan svare på spørsmål, vil vi etter beste evne finne noen som kan hjelpe.
+                </p>
+
+                <p>
+                    Finn ut mer på <a href="http://hackerspace.idi.ntnu.no"> http://hackerspace.idi.ntnu.no</a>.
+                </p>
+            </div>
+        </div>
     </div>
-    <div class="col-md-5 infoscreen-col">
-      <h2>Om oss</h2>
-      <p>
-Hackerspace NTNU er et pilotprosjekt for å fremme interessen for ny teknologi. Målet er å være et lavterskeltilbud som alltid har det kuleste og nyeste. Vi har droner, 3D-printer, leap motion, robot-kit og Oculus Rift for å nevne noe. 
-<br /><br />
-Det holdes regelmessig kurs for både nybegynnere og viderekomne. Nybegynnerkurs i Arduino og 3D-printing er populære gjenngangere. 
-<br /><br />
-Trenger du hjelp med ditt første Arduino-prosjekt eller er ønsker å lage en 3D-modell av Trondheim kan vi stille med både utstyr og kompetanse. Dersom vi ikke kan svare på spørsmål, vil vi etter beste evne finne noen som kan hjelpe.
-<br /><br />
-Finn ut mer på <a href="http://hackerspace.idi.ntnu.no"> http://hackerspace.idi.ntnu.no</a>.
-	  </p>        
-    </div>
-  </div>
-  
-
 </div>
-
 
 <script src="./../../dist/js/jquery-1.11.0.min.js"></script>
 <script src="./../../dist/js/bootstrap.min.js"></script>

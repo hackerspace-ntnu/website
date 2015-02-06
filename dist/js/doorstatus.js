@@ -11,7 +11,7 @@ var closedString = "Hackerspace er dessverre ikke åpent nå. Vil du ha beskjed 
 
 var doorStatus = function (showAlert) {
     var doorstatusDiv = $("#door-status");
-    var jqxhr = $.getJSON("api/door", console.log("door fetch success"));
+    var jqxhr = $.getJSON("/api/door", console.log("door fetch success"));
     jqxhr.done(console.log("door fetch second success"));
     jqxhr.fail(console.log("door fetch error"));
     jqxhr.always(function() {
@@ -27,7 +27,7 @@ var doorStatus = function (showAlert) {
 
     jqxhr.complete(function () {
         console.log("door fetch second complete");
-        if (jqxhr.responseJSON[0].isOpen) {
+        if (jqxhr.responseJSON.isOpen.door) {
             doorstatusDiv.html(openString);
             doorstatusDiv.addClass('alert-success');
             doorstatusDiv.removeClass('alert-info');

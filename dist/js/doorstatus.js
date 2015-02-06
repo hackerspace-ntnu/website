@@ -7,22 +7,27 @@
  */
 
 var openString = "Hackerspace er åpent. Velkommen inn!";
-var closedString = "Hackerspace er dessverre ikke åpent nå. Vil du ha beskjed når døra åpnes? Legg til HACKERSPACE på <a href=\"http://justyo.co\">Yo</a>.";
+var closedString = "Hackerspace er dessverre ikke åpent nå." +
+    "Vil du ha beskjed når døra åpnes?" +
+    "Legg til HACKERSPACE på <a href=\"http://justyo.co\">Yo</a>.";
 
 var doorStatus = function (showAlert) {
     var doorstatusDiv = $("#door-status");
     var jqxhr = $.getJSON("/api/door", console.log("door fetch success"));
+
     jqxhr.done(console.log("door fetch second success"));
+
     jqxhr.fail(console.log("door fetch error"));
-    jqxhr.always(function() {
-      console.log("door fetch complete");
-      if (jqxhr.responseJSON === undefined) {
-        if (showAlert) {
-          alert("Det ser ut som dør-APIet vårt ikke fungerer.\n" +
-            "Si gjerne fra om det på hackerspace@idi.ntnu.no eller #hackerspace på EFNet.");
+
+    jqxhr.always(function () {
+        console.log("door fetch complete");
+        if (jqxhr.responseJSON === undefined) {
+            if (showAlert) {
+                alert("Det ser ut som dør-APIet vårt ikke fungerer.\nSi gjerne fra om det på hackerspace@idi.ntnu.no.");
+            } else {
+                setTimeout(doorStatus, 60000);
+            }
         }
-        return;
-      }
     });
 
     jqxhr.complete(function () {
@@ -33,6 +38,8 @@ var doorStatus = function (showAlert) {
             doorstatusDiv.removeClass('alert-info');
         } else {
             doorstatusDiv.html(closedString);
+            doorstatusDiv.removeClass('alert-success');
+            doorstatusDiv.addClass('alert-info');
         }
     });
 };

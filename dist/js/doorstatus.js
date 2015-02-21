@@ -1,4 +1,4 @@
-/*
+﻿/*
  Talks to /api/door and displays the returned status on #door-status.
  If the api doesn't return a JSON object (with .responseJSON)
  it will fail silently on page load.
@@ -7,8 +7,8 @@
  */
 
 var openString = "Hackerspace er åpent. Velkommen inn!";
-var closedString = "Hackerspace er dessverre ikke åpent nå." +
-    "Vil du ha beskjed når døra åpnes?" +
+var closedString = "Hackerspace er dessverre ikke åpent nå. " +
+    "Vil du ha beskjed når døra åpnes? " +
     "Legg til HACKERSPACE på <a href=\"http://justyo.co\">Yo</a>.";
 
 var doorStatus = function (showAlert) {

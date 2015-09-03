@@ -42,6 +42,7 @@ audio:not([controls]) {
 template {
   display: none;
 }
+
 a {
   background: transparent;
 }
@@ -4199,6 +4200,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   padding: 10px 16px;
   font-size: 18px;
 }
+
 .pagination-lg > li:first-child > a,
 .pagination-lg > li:first-child > span {
   border-top-left-radius: 6px;

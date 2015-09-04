@@ -40,9 +40,22 @@ form#mail-signup .input-area input.form-control {
     width: 100%;
 }
 
-.marketing .img-circle {
+.img-circle {
     width: 140px;
     height: 140px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+
+.img-circle img {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+    width: 100%;
 }
 
 #gallery h2 {

@@ -11,6 +11,12 @@ header .jumbotron {
     color: #fff;
 }
 
+.alert-link a {
+    font-size: x-large;
+    color:#fff;
+
+}
+
 
 #bigscreen p {
 	font-size:20px;

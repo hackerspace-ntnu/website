@@ -133,3 +133,14 @@ footer.well {
     background-color: #d6e9f9;
     border-color: #00509e;
 }
+
+.bigscreen-background {
+    background-image: url(../img/logo.png);
+    background-size: cover;
+    height: 750px;
+    width: 750px;
+
+    position: relative;
+
+    
+}

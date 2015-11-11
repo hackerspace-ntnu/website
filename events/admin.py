@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from articles.models import Article, Image, Thumbnail
+from events.models import Event, Image, Thumbnail
 
 
 class ImageInline(admin.StackedInline):
@@ -14,14 +14,9 @@ class ThumbnailInline(admin.StackedInline):
     extra = 0
 
 
-@admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+@admin.register(Event)
+class Eventadmin(admin.ModelAdmin):
     fieldsets = [
-        #('Article or Event', {
-        #    'fields': [
-        #        'post_type'
-        #    ]
-        #}),
         ('Article', {
             'fields': [
                 'header_text',
@@ -34,9 +29,16 @@ class ArticleAdmin(admin.ModelAdmin):
                 'ingress_text'
             ]
         }),
-        (None, {
+        ('Dates', {
             'fields': [
-                'pub_date'
+                'pub_date',
+                'event_date'
+            ]
+        }),
+        ('Place', {
+            'fields': [
+                'event_place',
+                'event_place_href'
             ]
         }),
         ('Custom article header', {
@@ -89,7 +91,7 @@ class ArticleAdmin(admin.ModelAdmin):
         'header_text'
     ]
     inlines = [
-        ImageInline,
+        ImageInline
     ]
 
 

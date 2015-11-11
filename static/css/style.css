@@ -1,0 +1,336 @@
+/*!
+ * Start Bootstrap - Scrolling Nav HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body, html {
+    width: 100%;
+    height: 100%;
+	margin: 0;
+	padding: 0;
+	background:#eae4d2;
+	color:#4e4b46;
+	font-family: 'Open Sans', sans-serif;
+	font-size:18px;
+	margin:0;
+}
+
+#header {
+	height:86px;
+	border-bottom:3px solid #959186;
+	position:fixed;
+	width:100%;
+	z-index:99999;
+}
+
+.open #header {
+	background:#9cd590;
+	border-top:3px solid #5bba47;
+}
+
+.closed #header {
+	border-top:3px solid #e25e48;
+	background:#ea9989;
+}
+
+#logo {
+	background-size:120px 120px;
+	background-position:center;
+	background-repeat: no-repeat;
+	height:120px;
+	min-width:380px;
+	max-width:1200px;
+	margin:auto;
+	margin-top:20px;
+	pointer-events: none;
+}
+
+.open .logo {
+	background-image:url(../img/Logo_round_green.png);
+}
+
+.closed .logo{
+	background-image:url(../img/Logo_round_white.png);
+}
+
+#menu {
+	z-index: 999;
+	position: relative;
+	text-align: center;
+}
+
+#menu>ul {
+	padding:0;
+	list-style: none;
+}
+
+#menu>ul>li {
+  z-index: 900;
+  float: none;
+  display: inline-block;
+  position: relative;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  padding:10px;
+  font-weight:300;
+}
+
+#menu>ul>li>a {
+  text-decoration:none;
+  color:#2e2c28;
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+	top:0;
+	padding-top:80px;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto; 
+    width: 100%;
+	max-width:680px;
+	padding:20px;
+}
+
+#status {
+	height:100%;
+	background-size:90%;
+	background-repeat: no-repeat;
+	background-position:center;
+}
+
+.open #status {
+	background-image:url(../img/Logo_green.png);
+}
+
+.closed #status {
+	background-image:url(../img/Logo_white.png);
+}
+
+#slides {
+      display: none
+    }
+
+    #slides .slidesjs-navigation {
+      margin-top:3px;
+    }
+
+    #slides .slidesjs-previous {
+      margin-right: 5px;
+      float: left;
+    }
+
+    #slides .slidesjs-next {
+      margin-right: 5px;
+      float: left;
+    }
+
+    .slidesjs-pagination {
+      margin: 6px 0 0;
+      float: right;
+      list-style: none;
+    }
+
+    .slidesjs-pagination li {
+      float: left;
+      margin: 0 1px;
+    }
+
+    .slidesjs-pagination li a {
+      display: block;
+      width: 13px;
+      height: 0;
+      padding-top: 13px;
+      background-image: url(../img/pagination.png);
+      background-position: 0 0;
+      float: left;
+      overflow: hidden;
+    }
+
+    .slidesjs-pagination li a.active,
+    .slidesjs-pagination li a:hover.active {
+      background-position: 0 -13px
+    }
+
+    .slidesjs-pagination li a:hover {
+      background-position: 0 -26px
+    }
+
+    #slides a:link,
+    #slides a:visited {
+      color: #333
+    }
+
+    #slides a:hover,
+    #slides a:active {
+      color: #9e2020
+    }
+
+    .navbar {
+      overflow: hidden
+    }
+
+/* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
+The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
+of those sections to manage the look and feel of the site. */
+
+.intro-section {
+    height: 100%;
+    padding-top: 150px;
+    text-align: center;
+    background: #eae4d2;
+	background-image: url(../img/noise_beige.png);
+}
+
+.readmore-section {
+	height: 50px;
+	background: #2e2c28;
+	border-top:3px solid #5d5a54;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin:0;
+	width:100%;
+	text-align:center;
+}
+
+#scrolldown {
+	width:100%;
+	color:#a39f93;
+	font-size:14px;
+	font-weight:300;
+	line-height:40px;
+}
+
+#scrolldownarrow {
+	width:100%;
+	color:#5d5a54;
+	font-size:10px;
+	font-weight:300;
+	margin-top:-14px;
+	display:block;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.about-section {
+    min-height: 100%;
+    padding-top: 150px;
+    text-align: center;
+    background: #eee;
+	background-image: url(../img/noise_gray.png);
+}
+
+.about-section .img-circle {
+  width: 128px;
+  height: 128px;
+}
+
+.icon {
+	width:64px;
+	height:64px;
+	background-size:64px 64px;
+	background-repeat:no-repeat;
+	margin:6px;
+}
+
+.icon-printer {
+	background-image: url(../img/printer.png);
+}
+.icon-chip {
+	background-image: url(../img/chip.png);
+}
+.icon-controller {
+	background-image: url(../img/controller.png);
+}
+.icon-oculus {
+	background-image: url(../img/oculus.png);
+}.icon-people {
+	background-image: url(../img/people.png);
+}
+.icon-wifi {
+	background-image: url(../img/wifi.png);
+}
+.icon-edit {
+	background-image: url(../img/edit.png);
+}
+.icon-books {
+	background-image: url(../img/books.png);
+}
+.icon-earth {
+	background-image: url(../img/earth.png);
+}
+
+.gallery-section {
+    min-height: 100%;
+    padding-top: 180px;
+    text-align: center;
+    background: #eae4d2;
+	background-image: url(../img/noise_beige.png);
+}
+
+.events-section {
+    padding-top: 150px;
+    text-align: center;
+	min-height:100%;
+    background: #eee;
+	background-image: url(../img/noise_gray.png);
+}
+
+.wiki-section {
+    min-height:100%;
+    padding-top: 150px;
+    text-align: center;
+	background: #eae4d2;
+	background-image: url(../img/noise_beige.png);
+}
+
+.footer-section {
+	min-height:350px;
+	background:#2e2c28;
+	border-top:3px solid #4e4b46;
+	width:100%;
+	background-image:url(../img/overlay.png);
+	background-position:bottom right;
+	background-repeat:no-repeat;
+	background-size:50%;
+	padding:60px;
+	color:#777;
+	}
+
+
+.scrollToTop{
+	width:60px;
+	height:60px;
+	text-align:center; 
+	background: #000000;
+	opacity:0.6;
+	color: #a39f93;
+	text-decoration: none;
+	position:fixed;
+	bottom:12px;
+	right:12px;
+	display:none;
+	font-size:40px;
+	border-radius: 60px;
+	cursor:pointer;
+}
+.scrollToTop:hover, .scrollToTop:active{
+	text-decoration:none;
+}

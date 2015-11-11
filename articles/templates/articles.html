@@ -91,11 +91,7 @@
     {% for article in article_list %}
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <img alt="..." src="
-                    {{ article.thumbnail.thumbnail_src }}
-                " data-holder-rendered="true"
-                     style="height: 200px; width: 360px; display: block;">
-
+                <img alt="..." src="{{ article.thumbnail.thumbnail_image }}" data-holder-rendered="true" style="height: 200px; width: 360px; display: block;">
                 <div class="caption">
                     <h3 id="thumbnail-label">{{ article.ingress_header_text }}<a class="anchorjs-link"
                                                                href="index.html#thumbnail-label"><span

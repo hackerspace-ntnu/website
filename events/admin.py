@@ -119,7 +119,8 @@ class ThumbnailAdmin(admin.ModelAdmin):
         ('Thumbnail', {
             'fields': [
                 'thumbnail_title',
-                'thumbnail_src',
+                'thumbnail_image',
+                #'thumbnail_src',
             ]
         })
     ]

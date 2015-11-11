@@ -2,7 +2,8 @@ from django.db import models
 from django.template.defaulttags import register
 
 class Thumbnail(models.Model):
-    thumbnail_src = models.CharField(max_length=200, verbose_name="Source", help_text="http://example.com/image.jpg")
+    thumbnail_image = models.ImageField(upload_to="static/thumbnails")
+    #thumbnail_src = models.CharField(max_length=200, verbose_name="Source", help_text="http://example.com/image.jpg")
     thumbnail_title = models.CharField(max_length=100, verbose_name="Title")
 
     def __str__(self):

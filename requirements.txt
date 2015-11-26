@@ -1,0 +1,4 @@
+local_settings.py
+	SECRET_KEY = 'some-random-numbers-and-stuff'
+	DEBUG = True
+	

@@ -1,23 +1,4 @@
-{% load staticfiles %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hackerspace NTNU</title>
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/style.css" %}" rel="stylesheet">
-</head>
-
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" class="open">
-
-
-<div id="header">
-    <div id="logo" class="logo"></div>
-</div>
+{% include 'base.html' %}
 
 <section id="intro" class="intro-section">
     <div class="container">
@@ -160,66 +141,7 @@
     </div>
 </section>
 
-<section id="footer" class="footer-section">
-    <div class="container">
-        <div class="col-md-4">
-            Har du spørsmål?<br>
-            Ta kontakt via <a href="mailto:hackerspace@idi.ntnu.no">hackerspace@idi.ntnu.no</a>
-            eller kom innom!
-            <br>
-            <br>
-        </div>
-        <div class="col-md-3 col-md-offset-1">
-            <ul class="list-unstyled">
-
-                <li>
-                    <a href="http://wikipedia.org" target="_blank">
-                        Hackerspace NTNU Wiki
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.facebook.com/hackerspacentnu" target="_blank">
-                        Hackerspace NTNU på Facebook
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/hackerspace-ntnu/" target="_blank">
-                        Hackerspace NTNU på github
-                    </a>
-                </li>
-            </ul>
-            <br>
-        </div>
-        <div class="col-md-3 col-md-offset-1">
-            <ul class="list-unstyled">
-                <li>
-                    <a href="http://ntnu.edu/idi/" target="_blank">
-                        IDI NTNU
-                    </a>
-                </li>
-                <li>
-                    <a href="https://abakus.no/" target="_blank">
-                        Abakus
-                    </a>
-                </li>
-                <li>
-                    <a href="https://online.ntnu.no/" target="_blank">
-                        Online
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-
-<script src="{% static "js/jquery.js" %}"></script>
-
-<script src="{% static "js/bootstrap.min.js" %}"></script>
-
-<script src="{% static "js/jquery.easing.min.js" %}"></script>
-<script src="{% static "js/scrolling-nav.js" %}"></script>
-<script src="{% static "js/opening_bar.js" %}"></script>
+{% include 'footer.html' %}
 
 </body>
 </html>

@@ -1,24 +1,20 @@
-<body style="margin:0">
-<img src="https://dl.dropboxusercontent.com/u/104328841/hackerspacelogo.png" style="width: 100%;">
+{% include 'base.html' %}
 
+<div style="height: 100px;"></div>
 <div style="
       width:600px;
       margin-left:auto;
       margin-right:auto;
-      background-color: #fff;
-      padding: 20px;
-      margin-top:50px;
+      padding-top:50px;
+      margin-top:0px;
       min-height:400px;
   ">
     {% if image_list %}
     {% for image in image_list.all %}
-    <img
-            style="
-                        margin:10px;
-                        float:{{ image.image_float}};
-                        margin-top:30px;
-                        "
-            src="{{ image.image_src }}"
+    <img style="margin:10px;
+                float:{{ image.image_float}};
+                margin-top:30px;"
+         src="{{ image.image_src }}"
             {% if image.image_customDimensions %}
             height="{{ image.image_height }}"
             width="{{ image.image_width }}"
@@ -43,4 +39,5 @@
         {{ article.text_text }}
     </p>
 </div>
-</body>
+{% include 'footer.html' %}
+

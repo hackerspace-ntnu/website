@@ -20,3 +20,6 @@ class Textbox(models.Model):
 
     def __str__(self):
         return self.header_text
+
+    class Meta:
+        app_label = 'textboxes'

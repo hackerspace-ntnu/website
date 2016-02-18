@@ -1,13 +1,18 @@
 from django.db import models
 from django.template.defaulttags import register
 
+
 class Thumbnail(models.Model):
     thumbnail_image = models.ImageField(upload_to="static/thumbnails")
-    #thumbnail_src = models.CharField(max_length=200, verbose_name="Source", help_text="http://example.com/image.jpg")
+    # thumbnail_src = models.CharField(max_length=200, verbose_name="Source", help_text="http://example.com/image.jpg")
     thumbnail_title = models.CharField(max_length=100, verbose_name="Title")
 
     def __str__(self):
         return self.thumbnail_title
+
+    class Meta:
+        app_label = 'events'
+
 
 class Event(models.Model):
     header_text = models.CharField(max_length=100, verbose_name='Header')
@@ -41,6 +46,9 @@ class Event(models.Model):
     def __str__(self):
         return self.header_text
 
+    class Meta:
+        app_label = 'events'
+
 
 class Image(models.Model):
     # image = models.ImageField(upload_to="img")
@@ -56,3 +64,6 @@ class Image(models.Model):
 
     def __str__(self):
         return self.image_title
+
+    class Meta:
+        app_label = 'events'

@@ -3,6 +3,6 @@
 *.save
 *.saved
 .idea/
-
+*.pyc
 local_settings.py
 *.sqlite3

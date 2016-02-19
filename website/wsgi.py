@@ -23,7 +23,7 @@ PROJECT_PARENT = os.path.abspath(os.path.split(PROJECT_PATH)[0])
 sys.path.append(PROJECT_PATH)
 sys.path.append(PROJECT_PARENT)
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "website.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION

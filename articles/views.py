@@ -11,7 +11,7 @@ def index(request):
         'thumbnail_list': thumbnail_list
     }
 
-    return render(request, '../website/templates/articles.html', context)
+    return render(request, 'articles.html', context)
 
 
 def article(request, article_id):
@@ -21,11 +21,11 @@ def article(request, article_id):
     except Image.DoesNotExist:
         image_list = None
     if image_list:
-        return render(request, '../website/templates/article.html', {
+        return render(request, 'article.html', {
             'article': requested_article,
             'image_list': image_list
         })
     else:
-        return render(request, '../website/templates/article.html', {
+        return render(request, 'article.html', {
             'article': requested_article
         })

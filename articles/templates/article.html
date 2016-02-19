@@ -1,4 +1,4 @@
-{% include '../../website/templates/base.html' %}
+{% include 'base.html' %}
 
 <div style="height: 100px;"></div>
 <div style="
@@ -14,7 +14,7 @@
     <img style="margin:10px;
                 float:{{ image.image_float}};
                 margin-top:30px;"
-         src="{{ image.image_src }}"
+         src="{{ MEDIA_URL }}{{ image.image_src }}"
             {% if image.image_customDimensions %}
             height="{{ image.image_height }}"
             width="{{ image.image_width }}"
@@ -39,5 +39,5 @@
         {{ article.text_text }}
     </p>
 </div>
-{% include '../../website/templates/footer.html' %}
+{% include 'footer.html' %}
 

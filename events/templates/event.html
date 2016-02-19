@@ -18,7 +18,7 @@
                         float:{{ image.image_float}};
                         margin-top:30px;
                         "
-            src="{{ image.image_src }}"
+            src="{{ MEDIA_URL }}{{ image.image_src }}"
             {% if image.image_customDimensions %}
             height="{{ image.image_height }}"
             width="{{ image.image_width }}"

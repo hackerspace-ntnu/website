@@ -92,7 +92,7 @@
     {% for event in event_list %}
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <img alt="..." src="{{ event.thumbnail.thumbnail_image }}" data-holder-rendered="true" style="height: 200px; width: 360px; display: block;">
+                <img alt="..." src="{{ MEDIA_URL }}{{ event.thumbnail.thumbnail_image }}" data-holder-rendered="true" style="height: 200px; width: 360px; display: block;">
                 <div class="caption">
                     <h3 id="thumbnail-label" style="position:absolute; left:25px; top:190px;">
                         <div style="font-size: 50px; font-weight: normal;">{{ event.event_date|date:"d" }}</div>

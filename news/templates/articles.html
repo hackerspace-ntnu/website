@@ -2,7 +2,7 @@
     {% for article in article_list %}
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <a href="/articles/{{ article.id }}">
+                <a href="/news/articles/{{ article.id }}">
                     <img alt="..." src="{{ MEDIA_URL }}{{ article.thumbnail.thumbnail_image }}" data-holder-rendered="true" style="height: 200px; width: 360px; display: block;">
                 </a>
                 <div class="caption">
@@ -15,7 +15,7 @@
                     <p>
                         <!--<a href="index.html#" class="btn btn-primary" role="button">Button</a>
                         <a href="index.html#" class="btn btn-default" role="button">Button</a>-->
-                        <a href="/articles/{{ article.id }}"
+                        <a href="/news/article/{{ article.id }}"
                             style="
                             position: absolute;
                             bottom: 24px;

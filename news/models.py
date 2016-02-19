@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Thumbnail(models.Model):
-    thumbnail_image = models.ImageField(upload_to="thumbnails")
+    thumbnail_image = models.ImageField(upload_to="static/thumbnails")
     # thumbnail_src = models.CharField(max_length=200, verbose_name="Source", help_text="http://example.com/image.jpg")
     thumbnail_title = models.CharField(max_length=100, verbose_name="Title")
 
@@ -10,7 +10,7 @@ class Thumbnail(models.Model):
         return self.thumbnail_title
 
     class Meta:
-        app_label = 'articles'
+        app_label = 'news'
 
 
 class Article(models.Model):
@@ -44,12 +44,49 @@ class Article(models.Model):
         return self.header_text
 
     class Meta:
-        app_label = 'articles'
+        app_label = 'news'
+
+
+class Event(models.Model):
+    header_text = models.CharField(max_length=100, verbose_name='Header')
+    header_fontsize = models.IntegerField(default=32, verbose_name='Fontsize')
+    header_color = models.CharField(max_length=7, default="#000000", verbose_name='Color', help_text='RGB-code')
+    header_fontfamily = models.CharField(max_length=100, default="sans-serif", verbose_name='Font family')
+
+    text_text = models.TextField(max_length=10000, verbose_name='Text')
+    text_fontsize = models.IntegerField(default=14, verbose_name='Fontsize')
+    text_color = models.CharField(max_length=7, default="#000000", verbose_name='Color', help_text='RGB-code')
+    text_fontfamily = models.CharField(max_length=100, default="sans-serif", verbose_name='Font family')
+
+    ingress_text = models.TextField(max_length=500, verbose_name='Text')
+    ingress_fontsize = models.IntegerField(default=18, verbose_name='Fontsize')
+    ingress_color = models.CharField(max_length=7, default="#505050", verbose_name='Color', help_text='RGB-code')
+    ingress_fontfamily = models.CharField(max_length=100, default="sans-serif", verbose_name='Font family')
+
+    ingress_header_text = models.CharField(max_length=100, verbose_name='Header')
+    ingress_header_fontsize = models.IntegerField(default=24, verbose_name='Fontsize')
+    ingress_header_color = models.CharField(max_length=7, default="#505050", verbose_name='Color', help_text='RGB-code')
+    ingress_header_fontfamily = models.CharField(max_length=100, default="sans-serif", verbose_name='Font family')
+
+    event_date = models.DateTimeField('Event date')
+    event_place = models.CharField(max_length=100, verbose_name='Place', default='')
+    event_place_href = models.CharField(max_length=200, verbose_name='Place URL', default='#')
+
+    pub_date = models.DateTimeField('Publication date')
+
+    thumbnail = models.OneToOneField(Thumbnail, null=True)
+
+    def __str__(self):
+        return self.header_text
+
+    class Meta:
+        app_label = 'news'
 
 
 class Image(models.Model):
     # image = models.ImageField(upload_to="img")
-    article = models.ForeignKey(Article)
+    event = models.ForeignKey(Event, blank=True ,null=True)
+    article = models.ForeignKey(Article, blank=True, null=True)
     image_src = models.CharField(max_length=200, verbose_name="Source", help_text="http://example.com/image.jpg")
     image_title = models.CharField(max_length=100, verbose_name="Title")
     image_customDimensions = models.BooleanField(default=False, verbose_name="Custom dimensions",
@@ -63,4 +100,4 @@ class Image(models.Model):
         return self.image_title
 
     class Meta:
-        app_label = 'articles'
+        app_label = 'news'

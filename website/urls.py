@@ -14,8 +14,7 @@ urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^robots.txt', lambda _: HttpResponse('User-agent: *\nDisallow: /')),
-    url(r'^articles/', include('articles.urls')),
-    url(r'^events/', include('events.urls')),
+    url(r'^news/', include('news.urls')),
 ]
 
 

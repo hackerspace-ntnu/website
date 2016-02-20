@@ -2,39 +2,35 @@
     {% for event in event_list %}
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <img alt="..." src="{{ MEDIA_URL }}{{ event.thumbnail.thumbnail_image }}" data-holder-rendered="true" style="height: 200px; width: 360px; display: block;">
-                <div class="caption">
+                <a href="/news/event/{{ event.id }}">
+                    <img alt="..." src="{{ MEDIA_URL }}{{ event.thumbnail.image }}" data-holder-rendered="true"
+                         style="height: 200px; width: 360px; display: block;">
+                </a>
+
+                <div>
                     <h3 id="thumbnail-label" style="position:absolute; left:25px; top:190px;">
-                        <div style="font-size: 50px; font-weight: normal;">{{ event.event_date|date:"d" }}</div>
-                        <div style="color: #0b0; font-weight: normal;">{{ event.event_date|date:"M"|upper }}</div>
+                        <div style="font-size: 50px; font-weight: normal;">{{ event.date|date:"d" }}</div>
+                        <div style="color: #0b0; font-weight: normal;">{{ event.date|date:"M"|upper }}</div>
                         <a class="anchorjs-link" href="index.html#thumbnail-label">
                             <span class="anchorjs-icon"></span>
                         </a>
                     </h3>
                     <div style="text-align: left; margin-left: 75px; min-height: 55px;">
-                        <h3 id="thumbnail-label">
-                            {{ event.ingress_header_text }}
-                            <a class="anchorjs-link" href="index.html#thumbnail-label">
-                                <span class="anchorjs-icon"></span>
-                            </a>
-                        </h3>
-                        <h2 style="font-size: 14px; margin-top: -10px;">
-                            {{ event.event_date|date:"H:i"|upper }} at <a href = {{ event.event_place_href }}>{{ event.event_place }}</a>
+                        <h2 style="font-size: 14px; margin-top: 14px;">
+                            {{ event.date|date:"H:i"|upper }} at <a href={{ event.place_href }}>{{ event.place }}</a>
                         </h2>
                     </div>
-                    <p>{{ event.ingress_text }}</p>
+                    {% autoescape off %}
+                        {{ event.ingress_content }}
+                    {% endautoescape %}
                     <div style="height: 10px;"></div>
                     <p>
-                        <!--<a href="index.html#" class="btn btn-primary" role="button">Button</a>
-                        <a href="index.html#" class="btn btn-default" role="button">Button</a>-->
                         <a href="/news/event/{{ event.id }}"
                             style="
-                            position: absolute;
-                            bottom: 24px;
-                            right: 24px;
-                            color:{{ event.ingress_color }};
-                            font-family:{{ event.ingress_fontfamily }};
-                            ">
+                                    position: absolute;
+                                    bottom: 24px;
+                                    right: 24px;
+                                    ">
                             Les mer...
                         </a>
                     </p>

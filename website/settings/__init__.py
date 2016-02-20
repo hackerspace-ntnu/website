@@ -37,6 +37,7 @@ USE_TZ = True
 
 MEDIA_ROOT = os_path.join(PROJECT_PATH, 'media')
 MEDIA_URL = '/media/'
+CKEDITOR_UPLOAD_PATH = "/static/ckeditor/"
 
 #STATIC_ROOT = os_path.join(PROJECT_PATH, 'static')
 STATIC_URL = '/static/'
@@ -44,7 +45,7 @@ STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 MIDDLEWARE_CLASSES = [
@@ -100,6 +101,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.admindocs',
     'news',
+    'ckeditor',
     'sekizai',
     'sorl.thumbnail',
     'django_nyt',

@@ -2,27 +2,23 @@
     {% for article in article_list %}
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
-                <a href="/news/articles/{{ article.id }}">
-                    <img alt="..." src="{{ MEDIA_URL }}{{ article.thumbnail.thumbnail_image }}" data-holder-rendered="true" style="height: 200px; width: 360px; display: block;">
+                <a href="/news/article/{{ article.id }}">
+                    <img alt="..." src="{{ MEDIA_URL }}{{ article.thumbnail.image }}" data-holder-rendered="true"
+                         style="height: 200px; width: 360px; display: block;">
                 </a>
-                <div class="caption">
-                    <h3 id="thumbnail-label">{{ article.ingress_header_text }}<a class="anchorjs-link"
-                                                               href="index.html#thumbnail-label"><span
-                            class="anchorjs-icon"></span></a></h3>
 
-                    <p>{{ article.ingress_text }}</p>
+                <div>
+                    {% autoescape off %}
+                        {{ article.ingress_content }}
+                    {% endautoescape %}
                     <div style="height: 10px;"></div>
                     <p>
-                        <!--<a href="index.html#" class="btn btn-primary" role="button">Button</a>
-                        <a href="index.html#" class="btn btn-default" role="button">Button</a>-->
                         <a href="/news/article/{{ article.id }}"
                             style="
-                            position: absolute;
-                            bottom: 24px;
-                            right: 24px;
-                            color:{{ article.ingress_color }};
-                            font-family:{{ article.ingress_fontfamily }};
-                            ">
+                                position: absolute;
+                                bottom: 24px;
+                                right: 24px;
+                        ">
                             Les mer...
                         </a>
                     </p>

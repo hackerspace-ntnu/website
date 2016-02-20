@@ -1,47 +1,19 @@
 {% include 'base.html' %}
 
 <div style="height: 100px;"></div>
-<div style="
-      width:600px;
-      margin-left:auto;
-      margin-right:auto;
-      padding-top: 50px;
-      margin-top:0px;
-      min-height:400px;
-  ">
-    {% if image_list %}
-    {% for image in image_list.all %}
-    <img
-            style="
-                        margin:10px;
-                        float:{{ image.image_float}};
-                        margin-top:30px;
-                        "
-            src="{{ MEDIA_URL }}{{ image.image_src }}"
-            {% if image.image_customDimensions %}
-            height="{{ image.image_height }}"
-            width="{{ image.image_width }}"
-            {% endif %}
-            >
-    {% endfor %}
-    {% endif %}
-    <h1 style="
-          font-size:{{ event.header_fontsize }}px;
-          color:{{ event.header_color }};
-          font-family:{{ event.header_fontfamily }};
-      ">
-        {{ event.header_text }}
-    </h1>
 
-    <p style="
-          word-wrap:break-word;
-          font-size:{{ event.text_fontsize }}px;
-          color:{{ event.text_color }};
-          font-family:{{ event.text_fontfamily }}
-      ">
-        {{ event.event_date }} <br>
-        {{ event.text_text }}
-    </p>
+<div id="content" style="
+      width:600px;
+      min-height: 300px;
+      margin: 50px auto;
+      margin-bottom: 100px;
+  ">
+    {% autoescape off %}
+        {{ event.main_content }}
+    {% endautoescape %}
+    <br>
+    Place: <a href="{{ event.place_href }}">{{ event.place }}</a><br>
+    Time: {{ event.date }}
 </div>
 
 {% include 'footer.html' %}

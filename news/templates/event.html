@@ -1,6 +1,8 @@
 {% include 'base.html' %}
 
-<div style="height: 100px;"></div>
+<div style="height: 150px;"></div>
+
+{% include 'admintools.html' %}
 
 <div id="content" style="
       width:600px;
@@ -14,6 +16,17 @@
     <br>
     Place: <a href="{{ event.place_href }}">{{ event.place }}</a><br>
     Time: {{ event.date }}
+</div>
+
+<div id="edit" style="display: none;">
+  <div style="
+        width:800px;
+        min-height:400px;
+        margin: 50px auto;
+        margin-bottom: 100px;
+    ">
+    {% include "edit_event.html" %}
+  </div>
 </div>
 
 {% include 'footer.html' %}

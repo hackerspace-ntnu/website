@@ -7,4 +7,6 @@ urlpatterns = [
     #url(r'^event/$', views.events, name='events'),
     url(r'^article/(?P<article_id>[0-9]+)/$', views.article, name='article'),
     #url(r'^article/$', views.articles, name='articles'),
+    url(r'^editarticle/', views.editarticle, name='editarticle'),
+    url(r'^editevent/', views.editevent, name='editevent'),
 ]

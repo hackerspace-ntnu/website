@@ -6,3 +6,5 @@
 *.pyc
 local_settings.py
 *.sqlite3
+migrations/
+media/

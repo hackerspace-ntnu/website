@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^robots.txt', lambda _: HttpResponse('User-agent: *\nDisallow: /')),
     url(r'^news/', include('news.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 
 

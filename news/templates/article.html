@@ -1,6 +1,8 @@
 {% include 'base.html' %}
 
-<div style="height: 100px;"></div>
+<div style="height: 150px;"></div>
+
+{% include 'admintools.html' %}
 
 <div id="content" style="
       width:600px;
@@ -13,5 +15,15 @@
     {% endautoescape %}
 </div>
 
-{% include 'footer.html' %}
+<div id="edit" style="display: none;">
+  <div style="
+        width:800px;
+        min-height:400px;
+        margin: 50px auto;
+        margin-bottom: 100px;
+    ">
+    {% include "edit_article.html" %}
+  </div>
+</div>
 
+{% include 'footer.html' %}

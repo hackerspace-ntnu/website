@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="{% static "js/loginform.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "css/loginform.css" %}">
+
+<div id="loginform" style="display:none">
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        <div class="fieldWrapper">
+            {{ form.username.errors }}
+            <!--<label for="{{ form.username.id_for_label }}">Username: </label>-->
+            {{ form.username }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.password.errors }}
+            <!--<label for="{{ form.password.id_for_label }}">Password: </label>-->
+            {{ form.password }}
+        </div>
+        {{ loginMessage }}
+        <div class="outerButton"><input id="loginButton" class="button" type="submit" value="Login"/></div>
+ </form>
+</div>

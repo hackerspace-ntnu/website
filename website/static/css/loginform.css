@@ -1,0 +1,86 @@
+#loginform {
+    position: fixed;
+    right: 30px;
+    width: 300px;
+    height: 200px;
+    margin: 0 auto;
+    padding: 32px;
+    background: #9CD590;
+    border-radius: 3px;
+    border: solid 3px #959186;
+    border-top: 0;
+    z-index: 1000;
+}
+.loginStill {
+    top: -302px;
+    animation: none;
+}
+.loginIn {
+    animation: loginIn 0.5s ease-in-out;
+    top: 83px;
+}
+.loginOut {
+    animation: loginOut 0.5s ease-in-out;
+    top: -117px;
+}
+.fieldWrapper {
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+#loginButton {
+    margin-top: 10px;
+    width: 100%;
+}
+#id_username, #id_password {
+    padding: 3px;
+    width: 100%;
+    border-radius: 1px;
+    outline: 0;
+}
+.button {
+  font-size: 18px;
+  margin-right: 10px;
+  margin-left: 1px;
+  float: left;
+  background:#4CB04A;
+  padding: 3px 8px;
+  border-radius:3px;
+  color:#fff;
+  text-decoration: none;
+  border: 3px none #41913E;
+  border-bottom-style: solid;
+  outline:0;
+}
+.outerButton {
+  display: inline;
+  padding: 0;
+}
+.button:hover {
+  background:#56BC51;
+}
+.outerButton:active {
+  display: block;
+  animation: buttonDown 0.2s ease-in-out;
+}
+.button:active {
+  animation: buttonBorder 0.2s ease-in-out;
+}
+@keyframes buttonDown {
+  0% {transform: translateY(0);}
+  50% {transform: translateY(2px);}
+  100% {transform: translateY(0);}
+}
+@keyframes buttonBorder {
+  0% {border-width: 3px;}
+  20% {border-width: 3px;}
+  50% {border-width: 1px;}
+  100% {border-width: 3px;}
+}
+@keyframes loginIn {
+    0% {transform: translateY(-200px);}
+    100% {transform: translateY(0);}
+}
+@keyframes loginOut {
+    0% {transform: translateY(200px);}
+    100% {transform: translateY(0;);}
+}

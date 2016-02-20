@@ -19,9 +19,6 @@
     <div id="logo" class="logo"></div>
 </div>
 
-
-
-
 <script src="{% static "js/jquery.js" %}"></script>
 
 <script src="{% static "js/bootstrap.min.js" %}"></script>
@@ -31,3 +28,11 @@
 <script src="{% static "js/opening_bar.js" %}"></script>
 
 </body>
+
+<section id="login" style="
+        padding-top: 84px;
+        background-image: url({% static "img/noise_beige.png" %});
+        width: 100%;
+    ">
+    {% include "login.html" %}
+</section>

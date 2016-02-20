@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import Event, Article, Thumbnail, EventEditForm, ArticleEditForm
+from . import log_changes
 from django import forms
 
 
@@ -58,15 +59,16 @@ def article(request, article_id):
     return render(request, 'article.html', context)
 
 
-def editevent(request):
+def edit_event(request):
     if request.method == 'POST':
         form = EventEditForm(request.POST)
         if form.is_valid():
             event_id = form.cleaned_data['event_id']
-            event = Event.objects.get(pk = event_id)
+            event = Event.objects.get(pk=event_id)
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
             event.save()
+            log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/'+str(event_id)+'/')
     else:
         form = EventEditForm()
@@ -74,15 +76,17 @@ def editevent(request):
     return render(request, 'edit_event.html', {'form': form})
 
 
-def editarticle(request):
+def edit_article(request):
     if request.method == 'POST':
         form = ArticleEditForm(request.POST)
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
-            article = Article.objects.get(pk = article_id)
+            article = Article.objects.get(pk=article_id)
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
             article.save()
+            log_changes.change(request, article)
+
             return HttpResponseRedirect('/news/article/'+str(article_id)+'/')
     else:
         form = ArticleEditForm()

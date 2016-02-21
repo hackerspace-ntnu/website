@@ -14,6 +14,7 @@ body, html {
 	font-family: 'Open Sans', sans-serif;
 	font-size:18px;
 	margin:0;
+	background-image: url(../img/noise_beige.png);
 }
 
 #header {

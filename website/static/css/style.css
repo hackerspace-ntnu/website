@@ -349,6 +349,7 @@ of those sections to manage the look and feel of the site. */
   	line-height: 30px;
   	padding:10px;
   	font-weight:300;
+    background-color:transparent;
 }
 
 /* Dropdown button on hover & focus */
@@ -360,6 +361,7 @@ of those sections to manage the look and feel of the site. */
 .drop_down {
     position: relative;
     display: inline-block;
+
 
 }
 
@@ -374,9 +376,11 @@ of those sections to manage the look and feel of the site. */
 /* Links inside the dropdown */
 .drop_down_content a {
     color: black;
-    padding: 12px 16px;
+    padding: 5px 5px;
+    font-size: 16px;
     text-decoration: none;
     display: block;
+    background-color:#eae4d2;
 }
 
 /* Change color of dropdown links on hover */

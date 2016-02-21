@@ -1,68 +1,24 @@
 {% load staticfiles %}
-<script>
-    function edit() {
-        document.getElementById("edit").style.display="inline";
-        document.getElementById("content").style.display="none";
-        document.getElementById("cancelBtn").style.display="inline";
-        document.getElementById("editBtn").style.display="none";
-    }
-    function cancel() {
-        location.reload();
-    }
-    function adminPage() {
-        var url = window.location.href;
-        var id = url.substr(url.length-3, url.length-2);
-        window.location.replace("/admin/news/event"+id+"change/");
-    }
-    function del() {
-        var url = window.location.href;
-        var id = url.substr(url.length-3, url.length-2);
-        window.location.replace("/admin/news/event"+id+"delete/");
-    }
-    function createnew() {
-        window.location.replace("/admin/news/event/add/");
-    }
-</script>
 <script src="{% static "js/clockpicker.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
 <script src="{% static "js/datepicker.js" %}"></script>
 <script src="{% static "js/datepicker.en.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
 
-<style>label {width: 150px;}</style>
-<form action="/news/edit-event/" method="post">
+<form action="/news/edit-event/" method="post" style="width: 835px;">
     {% csrf_token %}
     <div id="the_post">
         {{ form.media }}
         {{ form.as_p }}
     </div>
     <!--https://github.com/t1m0n/air-datepicker-->
-    <label for="{{ form.date.id_for_label }}" style="float:left; margin-right:10px; margin-top:10px;">Date:</label>
-    <input type='text' class='form-control datepicker-here' id="datepicker" data-language='en' style="width:120px;" />
-    <br>
+    <p><label>Date:</label>
+    <input type='text' class='datepicker-here' id="datepicker" data-language='en' /></p>
     <!--https://github.com/weareoutman/clockpicker-->
-    <label for="{{ form.time.id_for_label }}" style="float:left; margin-right:10px;">Time:</label>
-    <div class="input-group clockpicker-with-callbacks" data-autoclose="true">
-        <input type="text" class="form-control" value="00:00" id="timepicker" style="width: 120px; border-radius:4px;">
-    </div>
-    <input type="submit" value="Save" style="margin-top: 20px; margin-left: -80px;"/>
+    <p><label>Time:</label>
+    <input id="timepicker" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
+    <div class="outerButton"><input id="loginButton" class="button" type="submit" value="Save"/></div>
 </form>
 
-<script type="text/javascript">
-    $('#timepicker').val($('#id_time').val());
-    $('#datepicker').val($('#id_date').val());
-    var input = $('.clockpicker-with-callbacks').clockpicker({
-    align: 'left',
-        afterDone: function() {
-            //console.log("after done");
-            $('#id_time').val($('#timepicker').val());
-        }
-    });
-    $('#datepicker').datepicker({
-        autoClose: "true",
-        dateFormat: "dd/mm/yyyy",
-        onSelect: function onSelect(fd, date) {
-            $('#id_date').val($('#datepicker').val());
-        }
-    })
-</script>
+<script src="{% static "js/edit_event.js" %}"></script>

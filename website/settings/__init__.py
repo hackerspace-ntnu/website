@@ -24,7 +24,7 @@ DATABASES = {
 }
 
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-TIME_ZONE = 'Europe/Copenhagen'
+TIME_ZONE = 'Europe/Oslo'
 
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-dk'
@@ -33,7 +33,7 @@ SITE_ID = 1
 
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+#USE_TZ = True
 
 MEDIA_ROOT = os_path.join(PROJECT_PATH, 'media')
 MEDIA_URL = '/media/'

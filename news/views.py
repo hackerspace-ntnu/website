@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Event, Article, Thumbnail, EventEditForm, ArticleEditForm
+from .models import Event, Article, Thumbnail
+from .forms import EventEditForm, ArticleEditForm
 from . import log_changes
 from django import forms
+from django.utils import formats
 
 
 def events(request):
@@ -21,9 +23,9 @@ def event(request, event_id):
     form = EventEditForm(initial={
         'event_id': event_id,
         'ingress_content': requested_event.ingress_content,
-        'main_content': requested_event.main_content
+        'main_content': requested_event.main_content,
+        'time': formats.date_format(requested_event.date, 'H:i'),
     })
-    form.fields['event_id'].widget = forms.HiddenInput()
     context = {
         'event': requested_event,
         'form': form
@@ -67,6 +69,13 @@ def edit_event(request):
             event = Event.objects.get(pk=event_id)
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
+            hour = int(form.cleaned_data['time'][:2])
+            minute = int(form.cleaned_data['time'][-2:])
+            day = int(form.cleaned_data['date'][:2])
+            month = int(form.cleaned_data['date'][3:5])
+            year = int(form.cleaned_data['date'][-4:])
+            event.date = event.date.replace(hour=hour, minute=minute)
+            event.date = event.date.replace(day=day, month=month, year=year)
             event.save()
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/'+str(event_id)+'/')

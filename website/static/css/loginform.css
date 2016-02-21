@@ -32,10 +32,8 @@
     width: 100%;
 }
 #id_username, #id_password {
-    padding: 3px;
     width: 100%;
-    border-radius: 1px;
-    outline: 0;
+    margin-bottom: 5px;
 }
 .button {
   font-size: 18px;

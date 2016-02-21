@@ -603,6 +603,8 @@ class SearchForm(forms.Form):
 
 class UserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True, max_length=50)
+    last_name = forms.CharField(required=True, max_length=50)
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
@@ -632,4 +634,4 @@ class UserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email")
+        fields = ("username", "first_name", "last_name", "email")

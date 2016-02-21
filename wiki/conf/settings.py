@@ -124,7 +124,7 @@ ACCOUNT_HANDLING = getattr(django_settings, 'WIKI_ACCOUNT_HANDLING', True)
 # Signup allowed? If it's not allowed, logged in superusers can still access
 # the signup page to create new users.
 ACCOUNT_SIGNUP_ALLOWED = ACCOUNT_HANDLING and getattr(
-    django_settings, 'WIKI_ACCOUNT_SIGNUP_ALLOWED', False
+    django_settings, 'WIKI_ACCOUNT_SIGNUP_ALLOWED', True
 )
 
 if ACCOUNT_HANDLING:

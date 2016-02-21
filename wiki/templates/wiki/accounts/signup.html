@@ -1,7 +1,9 @@
 {% extends "wiki/base.html" %}
-{% load i18n wiki_tags sekizai_tags %}
-{% block wiki_pagetitle %}{% trans "Sign up" %}{% endblock %}
+{% load i18n wiki_tags sekizai_tags check_user_group %}
 
+{% if request.user|has_group:"member" %}
+
+{% block wiki_pagetitle %}{% trans "Sign up" %}{% endblock %}
 {% block wiki_contents %}
 <h1 class="page-header">{% trans "Sign up" %}</h1>
 <form method="POST" class="form-horizontal">
@@ -25,3 +27,4 @@
 </script>
 {% endaddtoblock %}
 {% endblock %}
+{% endif %}

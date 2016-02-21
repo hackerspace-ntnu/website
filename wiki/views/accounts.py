@@ -37,7 +37,7 @@ class Signup(CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         # Let logged in super users continue
-        if not request.user.is_anonymous() and not request.user.is_superuser:
+        if request.user.is_anonymous():
             return redirect('wiki:root')
         # If account handling is disabled, don't go here
         if not settings.ACCOUNT_HANDLING:

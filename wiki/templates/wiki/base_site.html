@@ -1,4 +1,4 @@
-{% load sekizai_tags i18n wiki_tags %}<!DOCTYPE html>
+{% load sekizai_tags i18n wiki_tags check_user_group %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -59,9 +59,11 @@
                   <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
+                    {% if request.user|has_group:"member" %}
                     <li>
                         <a href="{% url 'wiki:signup' %}">{% trans "Create user" %}</a>
                     </li>
+                    {% endif %}
                     <li>
                     <a href="{% url 'wiki:logout' %}">
                       <i class="fa fa-power-off"></i>
@@ -92,7 +94,7 @@
           </div>
           {% block wiki_header_navlinks %}
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">{% trans "Home" %}</a></li>
+            <li class="active"><a href="/">{% trans "Main page" %}</a></li>
           </ul>
           {% endblock %}
         </div>

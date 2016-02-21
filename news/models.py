@@ -1,7 +1,5 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from django import forms
-from ckeditor.widgets import CKEditorWidget
 
 
 class Thumbnail(models.Model):
@@ -48,15 +46,3 @@ class Event(models.Model):
 
     class Meta:
         app_label = 'news'
-
-
-class EventEditForm(forms.Form):
-    event_id = forms.IntegerField();
-    ingress_content = forms.CharField(widget = CKEditorWidget(), label='')
-    main_content = forms.CharField(widget = CKEditorWidget(), label='')
-
-
-class ArticleEditForm(forms.Form):
-    article_id = forms.IntegerField();
-    ingress_content = forms.CharField(widget = CKEditorWidget(), label='')
-    main_content = forms.CharField(widget = CKEditorWidget(), label='')

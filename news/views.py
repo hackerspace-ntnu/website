@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Event, Article, Thumbnail, EventEditForm, ArticleEditForm
+from .models import Event, Article, Thumbnail
+from .forms import EventEditForm, ArticleEditForm
 from . import log_changes
 from django import forms
 

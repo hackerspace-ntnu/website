@@ -25,6 +25,7 @@ def event(request, event_id):
         'ingress_content': requested_event.ingress_content,
         'main_content': requested_event.main_content,
         'time': formats.date_format(requested_event.date, 'H:i'),
+        'date': formats.date_format(requested_event.date, 'd/m/Y'),
     })
     context = {
         'event': requested_event,

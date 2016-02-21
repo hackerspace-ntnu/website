@@ -14,5 +14,5 @@ class EventEditForm(forms.Form):
 
 class ArticleEditForm(forms.Form):
     article_id = forms.IntegerField();
-    ingress_content = forms.CharField(widget=CKEditorWidget(), label='')
-    main_content = forms.CharField(widget=CKEditorWidget(), label='')
+    ingress_content = forms.CharField(widget=CKEditorWidget(), label='Ingress')
+    main_content = forms.CharField(widget=CKEditorWidget(), label='Article')

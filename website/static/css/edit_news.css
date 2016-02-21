@@ -17,3 +17,6 @@ input {
     border-radius: 4px;
     box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
 }
+.submitButton {
+    width: 100%;
+}

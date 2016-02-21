@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/loginform.css" %}">
 
 <div id="loginform" style="display:none">
-    <form action="/login/" method="post">
+    <form action="/authentication/login/" method="post">
         {% csrf_token %}
         <div class="fieldWrapper">
             {{ form.username.errors }}

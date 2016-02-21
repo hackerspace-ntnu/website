@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from login.forms import LoginForm
+from authentication.forms import LoginForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
@@ -18,8 +18,15 @@ def login_user(request):
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
 
-
     else:
         form = LoginForm()
+
+    return render(request, 'index.html', {'form': form})
+
+
+def logout_user(request):
+
+    if request.user.is_authenticated:
+        logout(request)
 
     return HttpResponseRedirect(reverse('index'))

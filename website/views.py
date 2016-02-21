@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from news.models import Article, Event, Thumbnail
-from login.forms import LoginForm
+from authentication.forms import LoginForm
 
 
 def index(request):

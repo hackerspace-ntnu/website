@@ -1,4 +1,8 @@
 {% load staticfiles %}
+{% load check_user_group %}
+
+{% if request.user|has_group:"member" %}
+
 <script src="{% static "js/clockpicker.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
 <script src="{% static "js/datepicker.js" %}"></script>
@@ -22,3 +26,4 @@
 </form>
 
 <script src="{% static "js/edit_event.js" %}"></script>
+{% endif %}

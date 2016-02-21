@@ -1,4 +1,8 @@
 {% load staticfiles %}
+{% load check_user_group %}
+
+{% if request.user|has_group:"member" %}
+
 <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
 
 <form action="/news/edit-article/" method="post">
@@ -11,3 +15,5 @@
  </form>
 
 <script src="{% static "js/edit_article.js" %}"></script>
+
+{% endif %}

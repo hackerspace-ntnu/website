@@ -29,6 +29,7 @@
 <script src="{% static "js/datepicker.en.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
 
+<style>label {width: 150px;}</style>
 <form action="/news/edit-event/" method="post">
     {% csrf_token %}
     <div id="the_post">
@@ -36,11 +37,11 @@
         {{ form.as_p }}
     </div>
     <!--https://github.com/t1m0n/air-datepicker-->
-    <label for="{{ form.date.id_for_label }}" style="float:left; margin-right:10px; margin-top:10px; width:70px;">Date:</label>
+    <label for="{{ form.date.id_for_label }}" style="float:left; margin-right:10px; margin-top:10px;">Date:</label>
     <input type='text' class='form-control datepicker-here' id="datepicker" data-language='en' style="width:120px;" />
     <br>
     <!--https://github.com/weareoutman/clockpicker-->
-        <label for="{{ form.time.id_for_label }}" style="float:left; margin-right:10px; margin-top:10px; width:70px;">Time:</label>
+    <label for="{{ form.time.id_for_label }}" style="float:left; margin-right:10px;">Time:</label>
     <div class="input-group clockpicker-with-callbacks" data-autoclose="true">
         <input type="text" class="form-control" value="00:00" id="timepicker" style="width: 120px; border-radius:4px;">
     </div>

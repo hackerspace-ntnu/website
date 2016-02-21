@@ -24,6 +24,8 @@ def event(request, event_id):
         'event_id': event_id,
         'ingress_content': requested_event.ingress_content,
         'main_content': requested_event.main_content,
+        'place': requested_event.place,
+        'place_href': requested_event.place_href,
         'time': formats.date_format(requested_event.date, 'H:i'),
         'date': formats.date_format(requested_event.date, 'd/m/Y'),
     })
@@ -70,6 +72,8 @@ def edit_event(request):
             event = Event.objects.get(pk=event_id)
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
+            event.place = form.cleaned_data['place']
+            event.place_href = form.cleaned_data['place_href']
             hour = int(form.cleaned_data['time'][:2])
             minute = int(form.cleaned_data['time'][-2:])
             day = int(form.cleaned_data['date'][:2])

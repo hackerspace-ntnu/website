@@ -8,6 +8,8 @@ class EventEditForm(forms.Form):
     main_content = forms.CharField(widget=CKEditorWidget(), label='')
     time = forms.CharField(widget=forms.HiddenInput())
     date = forms.CharField(widget=forms.HiddenInput())
+    place = forms.CharField(max_length=100, label='Location')
+    place_href = forms.CharField(max_length=200, label='Location URL')
 
 
 class ArticleEditForm(forms.Form):

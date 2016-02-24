@@ -101,6 +101,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.admindocs',
     'news',
+    'door',
     'ckeditor',
     'sekizai',
     'sorl.thumbnail',
@@ -173,10 +174,11 @@ except ImportError:
 
 # "Secret" key for the prepopulated db
 
-from local_settings import SECRET_KEY, DEBUG
+from local_settings import SECRET_KEY, DEBUG, DOOR_KEY
 
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
+DOOR_KEY = DOOR_KEY
 
 try:
     from website.settings.local import *

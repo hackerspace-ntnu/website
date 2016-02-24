@@ -37,7 +37,8 @@ USE_L10N = True
 
 MEDIA_ROOT = os_path.join(PROJECT_PATH, 'media')
 MEDIA_URL = '/media/'
-CKEDITOR_UPLOAD_PATH = "/static/ckeditor/"
+CKEDITOR_UPLOAD_PATH = MEDIA_ROOT
+CKEDITOR_BROWSE_SHOW_DIRS = True
 
 #STATIC_ROOT = os_path.join(PROJECT_PATH, 'static')
 STATIC_URL = '/static/'
@@ -102,6 +103,7 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'news',
     'ckeditor',
+    'ckeditor_uploader',
     'sekizai',
     'sorl.thumbnail',
     'django_nyt',

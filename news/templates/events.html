@@ -17,7 +17,7 @@
                     </h3>
                     <div style="text-align: left; margin-left: 75px; min-height: 55px;">
                         <h2 style="font-size: 14px; margin-top: 14px;">
-                            {{ event.date|date:"H:i"|upper }} at <a href={{ event.place_href }}>{{ event.place }}</a>
+                            {{ event.date|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
                         </h2>
                     </div>
                     {% autoescape off %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from authentication.forms import LoginForm, ChangePasswordForm
+from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.admin import User
 from django.core.urlresolvers import reverse
 
 
@@ -17,11 +18,15 @@ def login_user(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
-
+            else:
+                error_message = 'Username or password is incorrect'
+        else:
+            error_message = 'Invalid input'
     else:
         form = LoginForm()
 
-    return HttpResponseRedirect(reverse('index'))
+    return render(request, 'index.html', {'form': form,
+                                          'error_message': error_message})
 
 
 def logout_user(request):
@@ -58,3 +63,33 @@ def change_password(request):
 
 def change_password_done(request):
     return render(request, 'change_password_done.html')
+
+
+def signup(request):
+    error_message = None
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            confirm_password = form.cleaned_data['confirm_password']
+
+        try:
+            user = User.objects.get(username=username)
+            error_message = 'User already exists'
+            return render(request, 'signup.html', {'form': form,
+                                                   'error_message': error_message})
+        except user.DoesNotExist:
+            pass
+
+        if '@stud.ntnu.no' in email or '@ntnu.no' in email:
+            pass
+
+    else:
+        form = SignUpForm()
+
+    return render(request, 'signup.html', {'form': form,
+                                           'error_message': error_message})

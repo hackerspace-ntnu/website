@@ -1,0 +1,38 @@
+{% load staticfiles %}
+{% include 'base.html' %}
+
+<link rel="stylesheet" type="text/css" href="{% static "css/change_password.css" %}">
+
+<div id="signupForm">
+    <form action="/authentication/signup/" method="post">
+        {% if error_message %}
+            <h4 style="color: red;text-align: center">{{ error_message }}</h4>
+        {% endif %}
+        {% csrf_token %}
+        <div class="fieldWrapper">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+        </div>
+        <div class="fieldWrapper">
+        <label for="{{ form.first_name.id_for_label }}">First name</label>
+        {{ form.first_name }}
+        </div>
+        <div class="fieldWrapper">
+        <label for="{{ form.last_name.id_for_label }}">Last name</label>
+        {{ form.last_name }}
+        </div>
+        <div class="fieldWrapper">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        </div>
+        <div class="fieldWrapper">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+        </div>
+        <div class="fieldWrapper">
+        <label for="{{ form.confirm_password.id_for_label }}">Confirm password</label>
+        {{ form.confirm_password }}
+        </div>
+        <div class="outerButton"><input id="loginButton" class="button" type="submit" value="Change"/></div>
+ </form>
+</div>

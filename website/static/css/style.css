@@ -81,6 +81,7 @@ body, html {
 #menu>ul>li>a {
   text-decoration:none;
   color:#2e2c28;
+	cursor: pointer;	
 }
 
 .outer {

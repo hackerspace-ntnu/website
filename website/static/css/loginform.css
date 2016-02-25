@@ -2,7 +2,7 @@
     position: fixed;
     right: 30px;
     width: 300px;
-    height: 200px;
+    height: 300px;
     margin: 0 auto;
     padding: 32px;
     background: #9CD590;
@@ -10,6 +10,15 @@
     border: solid 3px #959186;
     border-top: 0;
     z-index: 1000;
+}
+
+#signupForm {
+    width: 100%;
+    height: 300px;
+    margin: 0 auto;
+    padding: 32px;
+    z-index: 1000;
+    text-align: center;
 }
 .loginStill {
     top: -302px;
@@ -27,9 +36,10 @@
     margin: 0 auto;
     margin-bottom: 10px;
 }
-#loginButton {
+#loginButton , #signUpButton{
     margin-top: 10px;
     width: 100%;
+    text-align: center;
 }
 #id_username, #id_password {
     width: 100%;
@@ -49,6 +59,15 @@
   border-bottom-style: solid;
   outline:0;
 }
+
+#errorMessage{
+    text-align: center;
+    color:#4e4b46;
+    font-size: 14px;
+    margin-top: 10px;
+
+}
+
 .outerButton {
   display: inline;
   padding: 0;
@@ -80,5 +99,5 @@
 }
 @keyframes loginOut {
     0% {transform: translateY(200px);}
-    100% {transform: translateY(0;);}
+    100% {transform: translateY(0);}
 }

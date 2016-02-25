@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
+from website.settings import EMAIL_HOST_USER
 
 
 def login_user(request):
@@ -95,6 +97,11 @@ def signup(request):
                                                last_name=last_name,
                                                password=password,)
                     user.save()
+                    send_mail('Account verification',
+                              'Link to activation',
+                              '%s'.format(EMAIL_HOST_USER),
+                              [email],
+                              fail_silently=False)
                     return HttpResponseRedirect(reverse('signup_done'))
                 else:
                     error_message = 'Password does not match'

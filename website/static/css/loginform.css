@@ -53,7 +53,7 @@
 #signUpButton:visited, #signUpButton:hover, #signUpButton:link, #signUpButton:active {
     color: white;
 }
-#id_username, #id_password {
+#loginform #id_username, #loginform #id_password {
     width: 100%;
     margin-bottom: 5px;
 }

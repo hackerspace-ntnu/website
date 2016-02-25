@@ -1,0 +1,11 @@
+#signupForm {
+  width: 770px;
+  margin-top: 100px;
+}
+label {
+  width: 200px;
+  text-align: left;
+}
+input {
+  width: 500px;
+}

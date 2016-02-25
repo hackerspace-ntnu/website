@@ -1,11 +1,12 @@
 from django import forms
-from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class EventEditForm(forms.Form):
     event_id = forms.IntegerField(widget=forms.HiddenInput())
-    ingress_content = forms.CharField(widget=CKEditorWidget(), label='Ingress')
-    main_content = forms.CharField(widget=CKEditorWidget(), label='Article')
+    ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress')
+
+    main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article')
     time = forms.CharField(widget=forms.HiddenInput())
     date = forms.CharField(widget=forms.HiddenInput())
     place = forms.CharField(max_length=100, label='Location')
@@ -14,5 +15,5 @@ class EventEditForm(forms.Form):
 
 class ArticleEditForm(forms.Form):
     article_id = forms.IntegerField();
-    ingress_content = forms.CharField(widget=CKEditorWidget(), label='Ingress')
-    main_content = forms.CharField(widget=CKEditorWidget(), label='Article')
+    ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress')
+    main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article')

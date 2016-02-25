@@ -21,6 +21,9 @@
     text-align: center;
 }
 .loginStill {
+
+}
+.loginHide {
     top: -302px;
     animation: none;
 }
@@ -31,6 +34,10 @@
 .loginOut {
     animation: loginOut 0.5s ease-in-out;
     top: -117px;
+}
+.loginStill {
+    animation: none;
+    top: 83px;
 }
 .fieldWrapper {
     margin: 0 auto;

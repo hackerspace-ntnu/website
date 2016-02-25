@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),
     url(r'^door/', include('door.urls')),
+    url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
 ]
 
 

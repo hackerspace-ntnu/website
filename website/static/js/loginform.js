@@ -1,9 +1,10 @@
 $(function() {
     var showLogin = false;
     var timeout;
-    $('#loginform').addClass('loginStill');
-    $('#menu_login').click(function() {
+    $('#loginform').addClass('loginHide');
+    $('#status').click(function() {
         showLogin = !showLogin;
+        $('#loginform').removeClass('loginHide');
         $('#loginform').removeClass('loginStill');
         if (showLogin) {
             clearTimeout(timeout);
@@ -15,7 +16,7 @@ $(function() {
             $('#loginform').removeClass('loginIn');
             $('#loginform').addClass('loginOut');
             timeout = setTimeout(function () {
-              $('#loginform').css('display', 'none');
+                $('#loginform').css('display', 'none');
             }, 500);
         }
     });

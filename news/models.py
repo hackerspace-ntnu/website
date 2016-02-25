@@ -1,5 +1,5 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Thumbnail(models.Model):
@@ -15,8 +15,8 @@ class Thumbnail(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
-    main_content = RichTextField()
-    ingress_content = RichTextField()
+    main_content = RichTextUploadingField()
+    ingress_content = RichTextUploadingField()
 
     pub_date = models.DateTimeField('Publication date')
     thumbnail = models.OneToOneField(Thumbnail, null=True)
@@ -30,8 +30,8 @@ class Article(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
-    main_content = RichTextField()
-    ingress_content = RichTextField()
+    main_content = RichTextUploadingField()
+    ingress_content = RichTextUploadingField()
 
     date = models.DateTimeField('Event date')
     place = models.CharField(max_length=100, verbose_name='Place', default='')

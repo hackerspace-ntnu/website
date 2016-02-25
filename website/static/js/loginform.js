@@ -2,7 +2,7 @@ $(function() {
     var showLogin = false;
     var timeout;
     $('#loginform').addClass('loginHide');
-    $('#status').click(function() {
+    $('#menu_login').click(function() {
         showLogin = !showLogin;
         $('#loginform').removeClass('loginHide');
         $('#loginform').removeClass('loginStill');

@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^change-password/$', views.change_password, name='change_password'),
     url(r'^change-password-done/$', views.change_password_done, name='change_password_done'),
     url(r'^signup/$', views.signup, name='signup'),
+    url(r'^signup-done/$', views.signup_done, name='signup_done'),
+
 ]

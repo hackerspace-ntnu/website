@@ -77,19 +77,40 @@ def signup(request):
             password = form.cleaned_data['password']
             confirm_password = form.cleaned_data['confirm_password']
 
-        try:
-            user = User.objects.get(username=username)
-            error_message = 'User already exists'
-            return render(request, 'signup.html', {'form': form,
-                                                   'error_message': error_message})
-        except user.DoesNotExist:
-            pass
+            try:
+                user = User.objects.get(username=username)
+                error_message = 'User already exists'
+                return render(request, 'signup.html', {'form': form,
+                                                       'error_message': error_message})
+            except User.DoesNotExist:
+                pass
 
-        if '@stud.ntnu.no' in email or '@ntnu.no' in email:
-            pass
+            if '@stud.ntnu.no' in email or '@ntnu.no' in email:
+
+                if password == confirm_password:
+
+                    user = User.objects.create(username=username,
+                                               email=email,
+                                               first_name=first_name,
+                                               last_name=last_name,
+                                               password=password,)
+                    user.save()
+                    return HttpResponseRedirect(reverse('signup_done'))
+                else:
+                    error_message = 'Password does not match'
+                    return render(request, 'signup.html', {'form': form,
+                                                           'error_message': error_message})
+            else:
+                error_message = 'You need to use an NTNU email'
+                return render(request, 'signup.html',  {'form': form,
+                                                        'error_message': error_message})
 
     else:
         form = SignUpForm()
 
     return render(request, 'signup.html', {'form': form,
                                            'error_message': error_message})
+
+
+def signup_done(request):
+    return render(request, 'signup_done.html')

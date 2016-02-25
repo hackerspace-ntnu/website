@@ -45,8 +45,13 @@
 }
 #loginButton , #signUpButton{
     margin-top: 10px;
+    height: 38px;
+    text-decoration: none;
     width: 100%;
     text-align: center;
+}
+#signUpButton:visited, #signUpButton:hover, #signUpButton:link, #signUpButton:active {
+    color: white;
 }
 #id_username, #id_password {
     width: 100%;

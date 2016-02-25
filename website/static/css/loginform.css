@@ -33,7 +33,7 @@
 }
 .loginOut {
     animation: loginOut 0.5s ease-in-out;
-    top: -117px;
+    top: -217px;
 }
 .loginStill {
     animation: none;
@@ -101,10 +101,10 @@
   100% {border-width: 3px;}
 }
 @keyframes loginIn {
-    0% {transform: translateY(-200px);}
+    0% {transform: translateY(-300px);}
     100% {transform: translateY(0);}
 }
 @keyframes loginOut {
-    0% {transform: translateY(200px);}
+    0% {transform: translateY(300px);}
     100% {transform: translateY(0);}
 }

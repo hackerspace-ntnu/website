@@ -1,13 +1,14 @@
 #signupForm {
   width: 770px;
-  margin-top: 100px;
+  margin: 10px auto;
 }
 label {
-  width: 200px;
+  width: 20%;
   text-align: left;
+    transform: translateY(-20%);
 }
 input {
-  width: 500px;
+  width: 80%;
 }
 
 #pageName {

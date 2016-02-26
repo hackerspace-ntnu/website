@@ -8,6 +8,7 @@ from django.core.mail import send_mail
 from website.settings import EMAIL_HOST_USER
 from . import password_generate
 from threading import Thread
+import time
 
 
 def login_user(request):
@@ -109,7 +110,7 @@ def signup(request):
                 email_message = 'Congratulations! Your user is created. \n' +\
                                 'Here is your insane secure password! \n' +\
                                 'Password: {} \n'.format(password)
-                thread = Thread(target=send_password_email(email_subject, email_message, email))
+                thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 
                 return HttpResponseRedirect(reverse('signup_done'))
@@ -158,7 +159,7 @@ def forgot_password(request):
                 email_subject = 'New password @ hackerspace-ntnu.no'
                 email_message = 'Here is your new password! \n' +\
                                 'Password: {} \n'.format(new_password)
-                thread = Thread(target=send_password_email(email_subject, email_message, user.email))
+                thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 
                 return HttpResponseRedirect(reverse('forgot_password_done'))

@@ -38,3 +38,10 @@ class SignUpForm(forms.Form):
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
                                 widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+
+
+class ForgotPasswordForm(forms.Form):
+
+    email = forms.EmailField(max_length=100,
+                             label='Email',
+                             widget=forms.TextInput(attrs={'placeholder': 'Email'}))

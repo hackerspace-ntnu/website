@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm
+from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
@@ -97,7 +97,11 @@ def signup(request):
                 user.set_password(password)
                 user.save()
 
-                thread = Thread(target=send_password_email(email, password))
+                email_subject = 'Account @ hackerspace NTNU'
+                email_message = 'Congratulations! Your user is created. \n' +\
+                                'Here is your insane secure password! \n' +\
+                                'Password: {} \n'.format(password)
+                thread = Thread(target=send_password_email(email_subject, email_message, email))
                 thread.start()
 
                 return HttpResponseRedirect(reverse('signup_done'))
@@ -114,11 +118,9 @@ def signup(request):
                                            'error_message': error_message})
 
 
-def send_password_email(email, password):
-    send_mail('Account @ hackerspace NTNU',
-              'Congratulations! Your user is created. \n' +
-              'Here is your insane secure password that you should change! \n' +
-              'Password: {} \n'.format(password),
+def send_password_email(subject, message, email):
+    send_mail(subject,
+              message,
               '%s'.format(EMAIL_HOST_USER),
               [email],
               fail_silently=False)
@@ -126,3 +128,43 @@ def send_password_email(email, password):
 
 def signup_done(request):
     return render(request, 'signup_done.html')
+
+
+def forgot_password(request):
+    error_message = None
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                error_message = 'User does not exist'
+                return render(request, 'forgot_password.html', {'form': form,
+                                                                'error_message': error_message})
+            else:
+                new_password = password_generate.generate_password()
+                user.set_password(new_password)
+                user.save()
+
+                email_subject = 'New password @ hackerspace-ntnu.no'
+                email_message = 'Here is your new password! \n' +\
+                                'Password: {} \n'.format(new_password)
+                thread = Thread(target=send_password_email(email_subject, email_message, user.email))
+                thread.start()
+
+                return HttpResponseRedirect(reverse('forgot_password_done'))
+
+        else:
+            error_message = "Invalid input!"
+
+    else:
+        form = ForgotPasswordForm()
+
+    return render(request, 'forgot_password.html', {'form': form,
+                                                    'error_message': error_message})
+
+
+def forgot_password_done(request):
+    return render(request, 'forgot_password_done.html')
+

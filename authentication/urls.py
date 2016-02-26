@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^change-password-done/$', views.change_password_done, name='change_password_done'),
     url(r'^signup/$', views.signup, name='signup'),
     url(r'^signup-done/$', views.signup_done, name='signup_done'),
+    url(r'^forgot-password/$', views.forgot_password, name='forgot_password'),
+    url(r'^forgot-password-done/$', views.forgot_password_done, name='forgot_password_done'),
 
 ]

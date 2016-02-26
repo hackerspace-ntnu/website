@@ -20,6 +20,7 @@
     z-index: 1000;
     text-align: center;
 }
+
 .loginStill {
 
 }
@@ -77,7 +78,10 @@
     color:#4e4b46;
     font-size: 14px;
     margin-top: 10px;
+}
 
+#forgotPasswordLink{
+    font-size: 14px;
 }
 
 .outerButton {

@@ -9,3 +9,8 @@ label {
 input {
   width: 500px;
 }
+
+#pageName {
+    margin-top: 100px;
+    text-align: center;
+}

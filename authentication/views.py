@@ -82,13 +82,21 @@ def signup(request):
 
             try:
                 user = User.objects.get(username=username)
-                error_message = 'User already exists'
+                error_message = 'Username already exists'
                 return render(request, 'signup.html', {'form': form,
                                                        'error_message': error_message})
             except User.DoesNotExist:
                 pass
 
-            if '@stud.ntnu.no' in email or '@ntnu.no' in email:
+            try:
+                user = User.objects.get(email=email)
+                error_message = 'Email is already registered'
+                return render(request, 'signup.html', {'form': form,
+                                                       'error_message': error_message})
+            except User.DoesNotExist:
+                pass
+
+            if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no'):
 
                 user = User.objects.create(username=username,
                                            email=email,

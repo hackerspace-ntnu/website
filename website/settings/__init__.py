@@ -176,7 +176,7 @@ except ImportError:
 
 # "Secret" key for the prepopulated db
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = '173.194.71.108'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -188,6 +188,7 @@ DEBUG = DEBUG
 DOOR_KEY = DOOR_KEY
 EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+
 
 try:
     from website.settings.local import *

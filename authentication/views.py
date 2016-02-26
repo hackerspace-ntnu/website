@@ -6,6 +6,8 @@ from django.contrib.auth.admin import User
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from website.settings import EMAIL_HOST_USER
+from . import password_generate
+from threading import Thread
 
 
 def login_user(request):
@@ -76,8 +78,7 @@ def signup(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            confirm_password = form.cleaned_data['confirm_password']
+            password = password_generate.generate_password()
 
             try:
                 user = User.objects.get(username=username)
@@ -89,24 +90,18 @@ def signup(request):
 
             if '@stud.ntnu.no' in email or '@ntnu.no' in email:
 
-                if password == confirm_password:
+                user = User.objects.create(username=username,
+                                           email=email,
+                                           first_name=first_name,
+                                           last_name=last_name,)
+                user.set_password(password)
+                user.save()
 
-                    user = User.objects.create(username=username,
-                                               email=email,
-                                               first_name=first_name,
-                                               last_name=last_name,
-                                               password=password,)
-                    user.save()
-                    send_mail('Account verification',
-                              'Link to activation',
-                              '%s'.format(EMAIL_HOST_USER),
-                              [email],
-                              fail_silently=False)
-                    return HttpResponseRedirect(reverse('signup_done'))
-                else:
-                    error_message = 'Password does not match'
-                    return render(request, 'signup.html', {'form': form,
-                                                           'error_message': error_message})
+                thread = Thread(target=send_password_email(email, password))
+                thread.start()
+
+                return HttpResponseRedirect(reverse('signup_done'))
+
             else:
                 error_message = 'You need to use an NTNU email'
                 return render(request, 'signup.html',  {'form': form,
@@ -117,6 +112,16 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': form,
                                            'error_message': error_message})
+
+
+def send_password_email(email, password):
+    send_mail('Account @ hackerspace NTNU',
+              'Congratulations! Your user is created. \n' +
+              'Here is your insane secure password that you should change! \n' +
+              'Password: {} \n'.format(password),
+              '%s'.format(EMAIL_HOST_USER),
+              [email],
+              fail_silently=False)
 
 
 def signup_done(request):

@@ -9,15 +9,15 @@
 
                 <div>
                     <h3 id="thumbnail-label" style="position:absolute; left:25px; top:190px;">
-                        <div style="font-size: 50px; font-weight: normal;">{{ event.date|date:"d" }}</div>
-                        <div style="color: #0b0; font-weight: normal;">{{ event.date|date:"M"|upper }}</div>
+                        <div style="font-size: 50px; font-weight: normal;">{{ event.time_start|date:"d" }}</div>
+                        <div style="color: #0b0; font-weight: normal;">{{ event.time_start|date:"M"|upper }}</div>
                         <a class="anchorjs-link" href="index.html#thumbnail-label">
                             <span class="anchorjs-icon"></span>
                         </a>
                     </h3>
                     <div style="text-align: left; margin-left: 75px; min-height: 55px;">
                         <h2 style="font-size: 14px; margin-top: 14px;">
-                            {{ event.date|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
+                            {{ event.time_start|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
                         </h2>
                     </div>
                     {% autoescape off %}

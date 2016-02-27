@@ -34,11 +34,12 @@ class Event(models.Model):
     main_content = RichTextUploadingField()
     ingress_content = RichTextUploadingField()
 
-    date = models.DateTimeField('Event date')
+    time_start = models.DateTimeField('Start time')
+    time_end = models.DateTimeField('End time')
     place = models.CharField(max_length=100, verbose_name='Place', default='')
     place_href = models.CharField(max_length=200, verbose_name='Place URL', default='#')
 
-    pub_date = models.DateTimeField('Publication date')
+    pub_date = models.DateTimeField('Publication date', default=timezone.now())
 
     thumbnail = models.OneToOneField(Thumbnail, null=True)
 

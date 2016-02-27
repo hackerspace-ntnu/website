@@ -21,13 +21,15 @@ function createnew() {
     window.location.replace("/admin/news/event/add/");
 }
 
-$('#timepicker').val($('#id_time').val());
+$('#timepicker_start').val($('#id_time_start').val());
+$('#timepicker_end').val($('#id_time_end').val());
 $('#datepicker').val($('#id_date').val());
 var input = $('.clockpicker-with-callbacks').clockpicker({
 align: 'left',
     afterDone: function() {
         //console.log("after done");
-        $('#id_time').val($('#timepicker').val());
+        $('#id_time_start').val($('#timepicker_start').val());
+        $('#id_time_end').val($('#timepicker_end').val());
     }
 });
 $('#datepicker').datepicker({

@@ -11,7 +11,7 @@ from django.utils import timezone
 
 
 def events(request):
-    event_list = Event.objects.order_by('-date')
+    event_list = Event.objects.order_by('-time_start')
     thumbnail_list = Thumbnail.objects.all()
     context = {
         'event_list': event_list,
@@ -29,8 +29,9 @@ def event(request, event_id):
         'main_content': requested_event.main_content,
         'place': requested_event.place,
         'place_href': requested_event.place_href,
-        'time': formats.date_format(requested_event.date, 'H:i'),
-        'date': formats.date_format(requested_event.date, 'd/m/Y'),
+        'time_start': formats.date_format(requested_event.time_start, 'H:i'),
+        'time_end': formats.date_format(requested_event.time_end, 'H:i'),
+        'date': formats.date_format(requested_event.time_start, 'd/m/Y'),
     })
     context = {
         'event': requested_event,
@@ -77,13 +78,17 @@ def edit_event(request):
             event.main_content = form.cleaned_data['main_content']
             event.place = form.cleaned_data['place']
             event.place_href = form.cleaned_data['place_href']
-            hour = int(form.cleaned_data['time'][:2])
-            minute = int(form.cleaned_data['time'][-2:])
+            hour_start = int(form.cleaned_data['time_start'][:2])
+            minute_start = int(form.cleaned_data['time_start'][-2:])
+            hour_end = int(form.cleaned_data['time_end'][:2])
+            minute_end = int(form.cleaned_data['time_end'][-2:])
             day = int(form.cleaned_data['date'][:2])
             month = int(form.cleaned_data['date'][3:5])
             year = int(form.cleaned_data['date'][-4:])
-            event.date = event.date.replace(hour=hour, minute=minute)
-            event.date = event.date.replace(day=day, month=month, year=year)
+            event.time_start = event.time_start.replace(hour=hour_start, minute=minute_start)
+            event.time_start = event.time_start.replace(day=day, month=month, year=year)
+            event.time_end = event.time_end.replace(hour=hour_end, minute=minute_end)
+            event.time_end = event.time_end.replace(day=day, month=month, year=year)
             event.save()
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/'+str(event_id)+'/')

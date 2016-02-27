@@ -7,7 +7,8 @@ class EventEditForm(forms.Form):
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress')
 
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article')
-    time = forms.CharField(widget=forms.HiddenInput())
+    time_start = forms.CharField(widget=forms.HiddenInput())
+    time_end = forms.CharField(widget=forms.HiddenInput())
     date = forms.CharField(widget=forms.HiddenInput())
     place = forms.CharField(max_length=100, label='Location')
     place_href = forms.CharField(max_length=200, label='Location URL')

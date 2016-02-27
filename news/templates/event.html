@@ -17,8 +17,13 @@
         {{ event.main_content }}
     {% endautoescape %}
     <br>
-    Place: <a href="{{ event.place_href }}">{{ event.place }}</a><br>
-    Time: {{ event.date }}
+    Place: <a href="{{ event.place_href }}">{{ event.place }}</a>
+    <br>
+    Date: {{ event.time_start|date:"d/m/Y" }}
+    <br>
+    Start time: {{ event.time_start|date:"H:i" }}
+    <br>
+    End time: {{ event.time_end|date:"H:i" }}
 </div>
 
 <div id="edit" style="display: none;">

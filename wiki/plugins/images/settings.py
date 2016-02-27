@@ -10,7 +10,7 @@ SLUG = 'images'
 APP_LABEL = 'images' if VERSION < (1, 7) else None
 
 # Where to store images
-IMAGE_PATH = getattr(django_settings, 'WIKI_IMAGES_PATH', "wiki/images/%aid/")
+IMAGE_PATH = 'wiki/images'
 
 # Storage backend to use, default is to use the same as the rest of the
 # wiki, which is set in WIKI_STORAGE_BACKEND, but you can override it

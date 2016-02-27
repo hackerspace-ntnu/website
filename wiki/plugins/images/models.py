@@ -25,11 +25,6 @@ def upload_path(instance, filename):
     # Has to match original extension filename
 
     upload_path = settings.IMAGE_PATH
-    upload_path = upload_path.replace(
-        '%aid', str(instance.plugin.image.article.id))
-    if settings.IMAGE_PATH_OBSCURIFY:
-        import uuid
-        upload_path = os.path.join(upload_path, uuid.uuid4().hex)
     return os.path.join(upload_path, filename)
 
 

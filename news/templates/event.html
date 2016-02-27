@@ -1,7 +1,7 @@
 {% include 'base.html' %}
 {% load check_user_group %}
 
-<div style="height: 150px;"></div>
+<div style="height: 50px;"></div>
 
 {% if request.user|has_group:"member" %}
     {% include 'admintools.html' %}

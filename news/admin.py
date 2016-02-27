@@ -25,7 +25,6 @@ class Eventadmin(admin.ModelAdmin):
         }),
         ('Dates', {
             'fields': [
-                'pub_date',
                 'time_start',
                 'time_end',
             ]
@@ -59,11 +58,6 @@ class ArticleAdmin(admin.ModelAdmin):
         ('Ingress', {
             'fields': [
                 'ingress_content'
-            ]
-        }),
-        (None, {
-            'fields': [
-                'pub_date'
             ]
         }),
         ('Thumbnail', {

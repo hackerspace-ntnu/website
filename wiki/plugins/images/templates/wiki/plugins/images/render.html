@@ -3,8 +3,8 @@
   
   NB! Watch out for line breaks, markdown might add <br />s and <p>s.
 {% endcomment %}{% with image.current_revision.imagerevision as revision %}{% spaceless %}
-<figure class="thumbnail{% if align %} pull-{{ align }}{% endif %}" style="width: 250px;">
-    <a href="/media/{{ revision.image }}"><img src="/media/{{ revision.image }}" style="width: 250px; height: 250px;"/></a>
+<figure>
+    <img src="/media/{{ revision.image }}"/>
   <figcaption class="caption">{{ caption|safe }}</figcaption>
 </figure>
 {% endspaceless %}{% endwith %}

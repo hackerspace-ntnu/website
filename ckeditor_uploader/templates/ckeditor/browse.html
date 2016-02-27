@@ -45,7 +45,9 @@
                     </form>
                     <button onclick="uploadwindow = window.open('/news/upload-file', 'Upload', 'width=400,height=200,scrollbars=yes');" style="float: left;">Upload</button>
                     <button onclick="location.reload();" style="float: left;">Refresh</button>
+                    <button onclick="$('#id_q').val(''); $('#searchForm').submit();" style="float: left;">Clear Search</button>
                 </div>
+                <style>
                     #searchForm .errorList {
                         display: none;
                     }

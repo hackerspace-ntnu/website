@@ -50,7 +50,9 @@ class Event(models.Model):
 
 class Upload(models.Model):
     title = models.CharField(max_length=100, verbose_name='Filename')
+    time = models.DateTimeField()
     file = models.FileField(upload_to='uploads')
+    number = models.IntegerField()
 
     def __str__(self):
         return self.title

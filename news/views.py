@@ -7,6 +7,7 @@ from django import forms
 from django.utils import formats
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 
 
 def events(request):
@@ -114,7 +115,18 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            instance = Upload(file=request.FILES['file'], title=form.cleaned_data['title'])
+            title = form.cleaned_data['title']
+            file = request.FILES['file']
+            number = 0
+
+            for element in Upload.objects.order_by('-time'):
+                if title == element.title:
+                    number = element.number + 1
+                    break
+
+            ext = file.name.split(".")[-1:][0]
+            file.name="/upload/"+title+"_"+str(number)+"."+ext
+            instance = Upload(file=file, title=title, time=timezone.now(), number=number)
             instance.save()
             return HttpResponseRedirect('/news/upload-done')
     else:

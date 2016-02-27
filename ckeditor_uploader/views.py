@@ -15,6 +15,7 @@ from ckeditor_uploader import image_processing
 from ckeditor_uploader import utils
 from ckeditor_uploader.forms import SearchForm
 from django.utils.html import escape
+from news.models import Upload
 
 
 def get_upload_filename(upload_name, user):
@@ -158,10 +159,25 @@ def is_image(path):
     ext = path.split('.')[-1].lower()
     return ext in ['jpg', 'jpeg', 'png', 'gif']
 
+def custom_get_files():
+    raw = Upload.objects.order_by('-time')
+    files = []
+    for file in raw:
+        visible_filename = file.title
+        if file.number > 0:
+            visible_filename += " " + str(file.number)
+        if len(visible_filename) > 15:
+            visible_filename = visible_filename[0:15] + '...'
+        files.append({
+            'thumb': file.file.url,
+            'src': file.file.url,
+            'is_image': is_image(file.file.url),
+            'visible_filename': visible_filename,
+        })
+    return files
 
 def browse(request):
-    
-    files = get_files_browse_urls(request.user)
+    files = custom_get_files()#_browse_urls(request.user)
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():

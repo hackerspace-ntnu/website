@@ -38,11 +38,18 @@
                     <div id="caption" class="caption-container"></div>
                 </div>
                 <div id="search">
-                    <form action="" method="post">
+                    <form action="" id="searchForm" method="post">
                         {% csrf_token %}
                         {{ form }}
+                        <input id="submit_q" type="submit" value="Search" />
                     </form>
+                    <button onclick="uploadwindow = window.open('/news/upload-file', 'Upload', 'width=400,height=200,scrollbars=yes');" style="float: left;">Upload</button>
+                    <button onclick="location.reload();" style="float: left;">Refresh</button>
                 </div>
+                    #searchForm .errorList {
+                        display: none;
+                    }
+                </style>
                 <div id="thumbs" class="navigation">
                     <ul class="thumbs noscript">
                         {% if show_dirs %}

@@ -17,3 +17,8 @@ class ArticleEditForm(forms.Form):
     article_id = forms.IntegerField();
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress')
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article')
+
+
+class UploadForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()

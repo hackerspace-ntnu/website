@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Event, Article, Thumbnail
-from .forms import EventEditForm, ArticleEditForm
+from .models import Event, Article, Thumbnail, Upload
+from .forms import EventEditForm, ArticleEditForm, UploadForm
 from . import log_changes
 from django import forms
 from django.utils import formats
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
 
 
 def events(request):
@@ -106,3 +108,19 @@ def edit_article(request):
         form = ArticleEditForm()
 
     return render(request, 'edit_article.html', {'form': form})
+
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = Upload(file=request.FILES['file'], title=form.cleaned_data['title'])
+            instance.save()
+            return HttpResponseRedirect('/news/upload-done')
+    else:
+        form = UploadForm()
+    return render(request, 'upload.html', {'form': form})
+
+
+def upload_done(request):
+    return render(request, 'upload_done.html')

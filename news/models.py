@@ -46,3 +46,14 @@ class Event(models.Model):
 
     class Meta:
         app_label = 'news'
+
+
+class Upload(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Filename')
+    file = models.FileField(upload_to='uploads')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        app_label = 'news'

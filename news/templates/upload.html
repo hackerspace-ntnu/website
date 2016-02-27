@@ -1,0 +1,29 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hackerspace NTNU</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/loginform.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/uploadForm.css" %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <form id="uploadForm" action="/news/upload-file/" enctype="multipart/form-data" method="post">
+      {% csrf_token %}
+      <div id="the_post">
+          {{ form.media }}
+          {{ form.as_p }}
+      </div>
+      <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
+  </form>
+</body>

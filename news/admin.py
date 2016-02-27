@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, Event, Thumbnail
+from .models import Article, Event, Thumbnail, Upload
 
 
 class ThumbnailInline(admin.StackedInline):
@@ -83,6 +83,20 @@ class ThumbnailAdmin(admin.ModelAdmin):
             'fields': [
                 'title',
                 'image',
+            ]
+        })
+    ]
+    search_fields = [
+        'title'
+    ]
+
+@admin.register(Upload)
+class UploadModelAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Upload', {
+            'fields': [
+                'title',
+                'file',
             ]
         })
     ]

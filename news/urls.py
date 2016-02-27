@@ -9,4 +9,6 @@ urlpatterns = [
     # url(r'^article/$', views.articles, name='articles'),
     url(r'^edit-article/', views.edit_article, name='edit-article'),
     url(r'^edit-event/', views.edit_event, name='edit-event'),
+    url(r'^upload-file/', views.upload_file, name='upload-file'),
+    url(r'^upload-done/', views.upload_done, name='upload-done'),
 ]

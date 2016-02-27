@@ -26,7 +26,8 @@ class Eventadmin(admin.ModelAdmin):
         ('Dates', {
             'fields': [
                 'pub_date',
-                'date'
+                'time_start',
+                'time_end',
             ]
         }),
         ('Place', {

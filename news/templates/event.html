@@ -17,7 +17,7 @@
         {{ event.main_content }}
     {% endautoescape %}
     <br>
-    Place: <a href="{{ event.place_href }}">{{ event.place }}</a>
+    Place: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
     <br>
     Date: {{ event.time_start|date:"d/m/Y" }}
     <br>

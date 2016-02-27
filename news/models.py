@@ -1,5 +1,6 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils import timezone
 
 
 class Thumbnail(models.Model):
@@ -50,9 +51,9 @@ class Event(models.Model):
 
 class Upload(models.Model):
     title = models.CharField(max_length=100, verbose_name='Filename')
-    time = models.DateTimeField()
+    time = models.DateTimeField(default=timezone.now)
     file = models.FileField(upload_to='uploads')
-    number = models.IntegerField()
+    number = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

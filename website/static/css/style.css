@@ -20,7 +20,7 @@ body, html {
 #header {
 	height:10%;
 	border-bottom:3px solid #959186;
-	position:fixed;
+	position:absolute;
 	width:100%;
 	z-index:99999;
 }

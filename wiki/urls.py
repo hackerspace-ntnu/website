@@ -39,7 +39,6 @@ class WikiURLPatterns(object):
     article_diff_view = staticmethod(article.diff)
 
     # account views
-    signup_view_class = accounts.Signup
     login_view_class = accounts.Login
     logout_view_class = accounts.Logout
 
@@ -90,9 +89,6 @@ class WikiURLPatterns(object):
 
     def get_accounts_urls(self):
         urlpatterns = [
-            url('^_accounts/sign-up/$',
-                self.signup_view_class.as_view(),
-                name='signup'),
             url('^_accounts/logout/$',
                 self.logout_view_class.as_view(),
                 name='logout'),

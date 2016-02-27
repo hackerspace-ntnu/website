@@ -18,7 +18,7 @@ body, html {
 }
 
 #header {
-	height:86px;
+	height:10%;
 	border-bottom:3px solid #959186;
 	position:fixed;
 	width:100%;
@@ -189,8 +189,8 @@ The padding is very important to make sure the scrollspy picks up the right area
 of those sections to manage the look and feel of the site. */
 
 .intro-section {
-    height: 100%;
-    padding-top: 150px;
+    height: 90%;
+    padding-top: 100px;
     text-align: center;
     background: #eae4d2;
 	background-image: url(../img/noise_beige.png);
@@ -233,7 +233,7 @@ of those sections to manage the look and feel of the site. */
 
 .about-section {
     min-height: 100%;
-    padding-top: 150px;
+    padding-top: 100px;
     text-align: center;
     background: #eee;
 	background-image: url(../img/noise_gray.png);
@@ -280,27 +280,25 @@ of those sections to manage the look and feel of the site. */
 }
 
 .gallery-section {
-    min-height: 100%;
-    padding-top: 180px;
+    padding-top: 50px;
     text-align: center;
     background: #eae4d2;
 	background-image: url(../img/noise_beige.png);
 }
 
 .events-section {
-    padding-top: 150px;
+    padding-top: 50px;
     text-align: center;
-	min-height:100%;
     background: #eee;
 	background-image: url(../img/noise_gray.png);
 }
 
 .wiki-section {
-    min-height:100%;
-    padding-top: 150px;
+    padding-top: 50px;
+	padding-bottom: 50px;
     text-align: center;
-	background: #eae4d2;
-	background-image: url(../img/noise_beige.png);
+	background: #eee;
+	background-image: url(../img/noise_gray.png);
 }
 
 .footer-section {
@@ -308,7 +306,6 @@ of those sections to manage the look and feel of the site. */
 	background:#2e2c28;
 	border-top:3px solid #4e4b46;
 	width:100%;
-	background-image:url(../img/overlay.png);
 	background-position:bottom right;
 	background-repeat:no-repeat;
 	background-size:50%;

@@ -179,11 +179,19 @@ except ImportError:
 
 # "Secret" key for the prepopulated db
 
-from local_settings import SECRET_KEY, DEBUG, DOOR_KEY
+EMAIL_HOST = '173.194.71.108'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
 DOOR_KEY = DOOR_KEY
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+
 
 try:
     from website.settings.local import *

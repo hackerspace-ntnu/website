@@ -130,11 +130,9 @@ ACCOUNT_SIGNUP_ALLOWED = ACCOUNT_HANDLING and getattr(
 if ACCOUNT_HANDLING:
     LOGIN_URL = reverse_lazy("wiki:login")
     LOGOUT_URL = reverse_lazy("wiki:logout")
-    SIGNUP_URL = reverse_lazy("wiki:signup")
 else:
     LOGIN_URL = getattr(django_settings, "LOGIN_URL", "/")
     LOGOUT_URL = getattr(django_settings, "LOGOUT_URL", "/")
-    SIGNUP_URL = getattr(django_settings, "WIKI_SIGNUP_URL", "/")
 
 ##################
 # OTHER SETTINGS #

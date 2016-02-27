@@ -59,11 +59,6 @@
                   <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    {% if request.user|has_group:"member" %}
-                    <li>
-                        <a href="{% url 'wiki:signup' %}">{% trans "Create user" %}</a>
-                    </li>
-                    {% endif %}
                     <li>
                     <a href="{% url 'wiki:logout' %}">
                       <i class="fa fa-power-off"></i>

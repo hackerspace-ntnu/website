@@ -55,8 +55,8 @@ def edit_event(request, event_id):
         form = EventEditForm(request.POST)
         if form.is_valid():
             event_id = form.cleaned_data['event_id']
-            if event_id == -1:
-                event = Event()
+            if event_id == 0:
+                event = Event(time_start=timezone.now(), time_end=timezone.now())
             else:
                 event = Event.objects.get(pk=event_id)
             event.title = form.cleaned_data['title']
@@ -79,18 +79,26 @@ def edit_event(request, event_id):
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/'+str(event.id)+'/')
     else:
-        requested_event = Event.objects.get(pk=event_id)
-        form = EventEditForm(initial={
-            'title': requested_event.title,
-            'event_id': event_id,
-            'ingress_content': requested_event.ingress_content,
-            'main_content': requested_event.main_content,
-            'place': requested_event.place,
-            'place_href': requested_event.place_href,
-            'time_start': formats.date_format(requested_event.time_start, 'H:i'),
-            'time_end': formats.date_format(requested_event.time_end, 'H:i'),
-            'date': formats.date_format(requested_event.time_start, 'd/m/Y'),
-        })
+        if int(event_id) == 0:
+            form = EventEditForm(initial={
+                'event_id': 0,
+                'time_start': '00:00',
+                'time_end': '00:00',
+                'date': formats.date_format(timezone.now(), 'd/m/Y'),
+            })
+        else:
+            requested_event = Event.objects.get(pk=event_id)
+            form = EventEditForm(initial={
+                'title': requested_event.title,
+                'event_id': event_id,
+                'ingress_content': requested_event.ingress_content,
+                'main_content': requested_event.main_content,
+                'place': requested_event.place,
+                'place_href': requested_event.place_href,
+                'time_start': formats.date_format(requested_event.time_start, 'H:i'),
+                'time_end': formats.date_format(requested_event.time_end, 'H:i'),
+                'date': formats.date_format(requested_event.time_start, 'd/m/Y'),
+            })
 
     return render(request, 'edit_event.html', {'form': form})
 
@@ -100,7 +108,7 @@ def edit_article(request, article_id):
         form = ArticleEditForm(request.POST)
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
-            if article_id == -1:
+            if article_id == 0:
                 article = Article()
             else:
                 article = Article.objects.get(pk=article_id)
@@ -112,13 +120,18 @@ def edit_article(request, article_id):
 
             return HttpResponseRedirect('/news/article/'+str(article.id)+'/')
     else:
-        requested_article = Article.objects.get(pk=article_id)
-        form = ArticleEditForm(initial={
-            'title': requested_article.title,
-            'article_id': article_id,
-            'ingress_content': requested_article.ingress_content,
-            'main_content': requested_article.main_content
-        })
+        if int(article_id) == 0:
+            form = ArticleEditForm(initial={
+                'article_id': 0,
+            })
+        else:
+            requested_article = Article.objects.get(pk=article_id)
+            form = ArticleEditForm(initial={
+                'title': requested_article.title,
+                'article_id': article_id,
+                'ingress_content': requested_article.ingress_content,
+                'main_content': requested_article.main_content
+            })
 
     return render(request, 'edit_article.html', {'form': form})
 
@@ -148,19 +161,3 @@ def upload_file(request):
 
 def upload_done(request):
     return render(request, 'upload_done.html')
-
-
-def new_article(request):
-    form = ArticleEditForm(initial={
-        'article_id': -1,
-    })
-    return render(request, 'edit_article.html', {'form': form})
-
-def new_event(request):
-    form = EventEditForm(initial={
-        'event_id': -1,
-        'time_start': '00:00',
-        'time_end': '00:00',
-        'date': formats.date_format(timezone.now(), 'd/m/Y'),
-    })
-    return render(request, 'edit_event.html', {'form': form})

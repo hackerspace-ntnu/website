@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load check_user_group %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,10 @@
 <script src="{% static "js/opening_bar.js" %}"></script>
 
 </body>
+
+{% if request.user|has_group:"member" %}
+    {% include 'admintools_home.html' %}
+{% endif %}
 
 <div style="height: 80px;"></div>
 

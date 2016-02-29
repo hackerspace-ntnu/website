@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static "css/admintools.css" %}">
+
+<div id="adminTools" class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin<span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li id="editBtn"><a onclick="edit()">Edit</a></li>
+      <li id="cancelBtn" style="display:none;"><a onclick="cancel()">Cancel</a></li>
+      <li><a onclick="del()">Delete</a></li>
+      <li><a onclick="createnew()">New</a></li>
+    </ul>
+</div>

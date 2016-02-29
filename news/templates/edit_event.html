@@ -3,12 +3,13 @@
 
 {% if request.user|has_group:"member" %}
 
-<script src="{% static "js/clockpicker.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
-<script src="{% static "js/datepicker.js" %}"></script>
-<script src="{% static "js/datepicker.en.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="{% static "js/clockpicker.js" %}"></script>
+<script src="{% static "js/datepicker.js" %}"></script>
+<script src="{% static "js/datepicker.en.js" %}"></script>
 
 <form action="/news/edit-event/" method="post" style="width: 835px;">
     {% csrf_token %}

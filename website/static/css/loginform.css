@@ -2,7 +2,7 @@
     position: absolute;;
     right: 30px;
     width: 300px;
-    height: 38%;
+    height: 300px;
     margin: 0 auto;
     padding: 32px;
     background: #9CD590;
@@ -29,15 +29,15 @@
 }
 .loginIn {
     animation: loginIn 0.5s ease-in-out;
-    top: 9%;
+    top: 83px;
 }
 .loginOut {
     animation: loginOut 0.5s ease-in-out;
-    top: -30%;
+    top: -217px;
 }
 .loginStill {
     animation: none;
-    top: 10%;
+    top: 83px;
 }
 .fieldWrapper {
     margin: 0 auto;

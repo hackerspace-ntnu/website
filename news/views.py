@@ -24,6 +24,7 @@ def events(request):
 def event(request, event_id):
     requested_event = Event.objects.get(pk=event_id)
     form = EventEditForm(initial={
+        'title': requested_event.title,
         'event_id': event_id,
         'ingress_content': requested_event.ingress_content,
         'main_content': requested_event.main_content,
@@ -55,11 +56,11 @@ def articles(request):
 def article(request, article_id):
     requested_article = Article.objects.get(pk=article_id)
     form = ArticleEditForm(initial={
+        'title': requested_article.title,
         'article_id': article_id,
         'ingress_content': requested_article.ingress_content,
         'main_content': requested_article.main_content
     })
-    form.fields['article_id'].widget = forms.HiddenInput()
     context = {
         'article': requested_article,
         'form': form,
@@ -73,7 +74,10 @@ def edit_event(request):
         form = EventEditForm(request.POST)
         if form.is_valid():
             event_id = form.cleaned_data['event_id']
-            event = Event.objects.get(pk=event_id)
+            if event_id == -1:
+                event = Event()
+            else:
+                event = Event.objects.get(pk=event_id)
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
             event.place = form.cleaned_data['place']
@@ -91,7 +95,7 @@ def edit_event(request):
             event.time_end = event.time_end.replace(day=day, month=month, year=year)
             event.save()
             log_changes.change(request, event)
-            return HttpResponseRedirect('/news/event/'+str(event_id)+'/')
+            return HttpResponseRedirect('/news/event/'+str(event.id)+'/')
     else:
         form = EventEditForm()
 
@@ -103,13 +107,16 @@ def edit_article(request):
         form = ArticleEditForm(request.POST)
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
-            article = Article.objects.get(pk=article_id)
+            if article_id == -1:
+                article = Article()
+            else:
+                article = Article.objects.get(pk=article_id)
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
             article.save()
             log_changes.change(request, article)
 
-            return HttpResponseRedirect('/news/article/'+str(article_id)+'/')
+            return HttpResponseRedirect('/news/article/'+str(article.id)+'/')
     else:
         form = ArticleEditForm()
 
@@ -141,3 +148,19 @@ def upload_file(request):
 
 def upload_done(request):
     return render(request, 'upload_done.html')
+
+
+def new_article(request):
+    form = ArticleEditForm(initial={
+        'article_id': -1,
+    })
+    return render(request, 'edit_article.html', {'form': form})
+
+def new_event(request):
+    form = EventEditForm(initial={
+        'event_id': -1,
+        'time_start': '00:00',
+        'time_end': '00:00',
+        'date': formats.date_format(timezone.now(), 'd/m/Y'),
+    })
+    return render(request, 'edit_event.html', {'form': form})

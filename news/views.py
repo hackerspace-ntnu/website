@@ -154,7 +154,7 @@ def new_article(request):
     form = ArticleEditForm(initial={
         'article_id': -1,
     })
-    return render(request, 'article.html', {'form': form})
+    return render(request, 'edit_article.html', {'form': form})
 
 def new_event(request):
     form = EventEditForm(initial={
@@ -163,4 +163,4 @@ def new_event(request):
         'time_end': '00:00',
         'date': formats.date_format(timezone.now(), 'd/m/Y'),
     })
-    return render(request, 'event.html', {'form': form})
+    return render(request, 'edit_event.html', {'form': form})

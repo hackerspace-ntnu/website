@@ -1,7 +1,10 @@
 {% load staticfiles %}
 {% load check_user_group %}
-
 {% if request.user|has_group:"member" %}
+
+{% include 'base.html' %}
+{% load check_user_group %}
+{% include 'admintools_news.html' %}
 
 <link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
@@ -11,22 +14,34 @@
 <script src="{% static "js/datepicker.js" %}"></script>
 <script src="{% static "js/datepicker.en.js" %}"></script>
 
-<form action="/news/edit-event/" method="post" style="width: 835px;">
-    {% csrf_token %}
-    <div id="the_post">
-        {{ form.media }}
-        {{ form.as_p }}
-    </div>
-    <!--https://github.com/t1m0n/air-datepicker-->
-    <p><label>Date:</label>
-    <input type='text' class='datepicker-here' id="datepicker" data-language='en' /></p>
-    <!--https://github.com/weareoutman/clockpicker-->
-    <p><label>Start time:</label>
-    <input id="timepicker_start" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
-    <p><label>End time:</label>
-    <input id="timepicker_end" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
-    <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
-</form>
+<div style="height: 50px;"></div>
 
-<script src="{% static "js/edit_event.js" %}"></script>
+<div id="edit">
+  <div style="
+        width:835px;
+        min-height:400px;
+        margin: 50px auto;
+        margin-bottom: 100px;
+    ">
+    <form action="" method="post" style="width: 835px;">
+        {% csrf_token %}
+        <div id="the_post">
+            {{ form.media }}
+            {{ form.as_p }}
+        </div>
+        <!--https://github.com/t1m0n/air-datepicker-->
+        <p><label>Date:</label>
+        <input type='text' class='datepicker-here' id="datepicker" data-language='en' /></p>
+        <!--https://github.com/weareoutman/clockpicker-->
+        <p><label>Start time:</label>
+        <input id="timepicker_start" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
+        <p><label>End time:</label>
+        <input id="timepicker_end" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
+        <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
+    </form>
+
+    <script src="{% static "js/edit_event.js" %}"></script>
+  </div>
+</div>
+
 {% endif %}

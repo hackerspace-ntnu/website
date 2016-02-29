@@ -3,18 +3,35 @@
 
 {% if request.user|has_group:"member" %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+{% include 'base.html' %}
+{% load check_user_group %}
+{% include 'admintools_news.html' %}
 
-<form action="/news/edit-article/" method="post">
-        {% csrf_token %}
-        <div id="the_post">
-            {{ form.media }}
-            {{ form.as_p }}
-        </div>
-        <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
- </form>
+<div style="height: 50px;"></div>
 
-<script src="{% static "js/edit_article.js" %}"></script>
+<div id="edit">
+  <div style="
+        width:835px;
+        min-height:400px;
+        margin: 50px auto;
+        margin-bottom: 100px;
+    ">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+
+    <form action="" method="post">
+            {% csrf_token %}
+            <div id="the_post">
+                {{ form.media }}
+                {{ form.as_p }}
+            </div>
+            <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
+     </form>
+
+    <script src="{% static "js/edit_article.js" %}"></script>
+  </div>
+</div>
+
+{% include 'footer.html' %}
 
 {% endif %}

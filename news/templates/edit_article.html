@@ -7,6 +7,19 @@
 {% load check_user_group %}
 {% include 'admintools_news.html' %}
 
+<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="{% static "js/article.js" %}"></script>
+<script>
+  $('#cancelBtn').css('display', 'list-item');
+  $('#editBtn').css('display', 'none');
+  var $id = {{ article_id }};
+  if ($id == 0) {
+    $('#deleteBtn').css('display', 'none');
+    $('#newBtn').css('display', 'none');
+  }
+</script>
+
 <div style="height: 50px;"></div>
 
 <div id="edit">
@@ -16,9 +29,6 @@
         margin: 50px auto;
         margin-bottom: 100px;
     ">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
-
     <form action="" method="post">
             {% csrf_token %}
             <div id="the_post">
@@ -27,11 +37,8 @@
             </div>
             <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
      </form>
-
-    <script src="{% static "js/edit_article.js" %}"></script>
   </div>
 </div>
 
 {% include 'footer.html' %}
-
 {% endif %}

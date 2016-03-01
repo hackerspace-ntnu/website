@@ -13,6 +13,16 @@
 <script src="{% static "js/clockpicker.js" %}"></script>
 <script src="{% static "js/datepicker.js" %}"></script>
 <script src="{% static "js/datepicker.en.js" %}"></script>
+<script src="{% static "js/event.js" %}"></script>
+<script>
+  $('#cancelBtn').css('display', 'list-item');
+  $('#editBtn').css('display', 'none');
+  var $id = {{ event_id }};
+  if ($id == 0) {
+    $('#deleteBtn').css('display', 'none');
+    $('#newBtn').css('display', 'none');
+  }
+</script>
 
 <div style="height: 50px;"></div>
 
@@ -39,9 +49,10 @@
         <input id="timepicker_end" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
         <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
     </form>
-
-    <script src="{% static "js/edit_event.js" %}"></script>
   </div>
 </div>
 
+<script src="{% static "js/edit_event.js" %}"></script>
+
+{% include 'footer.html' %}
 {% endif %}

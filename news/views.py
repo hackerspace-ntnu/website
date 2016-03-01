@@ -100,7 +100,7 @@ def edit_event(request, event_id):
                 'date': formats.date_format(requested_event.time_start, 'd/m/Y'),
             })
 
-    return render(request, 'edit_event.html', {'form': form})
+    return render(request, 'edit_event.html', {'form': form, 'event_id': event_id})
 
 
 def edit_article(request, article_id):
@@ -133,7 +133,7 @@ def edit_article(request, article_id):
                 'main_content': requested_article.main_content
             })
 
-    return render(request, 'edit_article.html', {'form': form})
+    return render(request, 'edit_article.html', {'form': form, 'article_id': article_id})
 
 
 def upload_file(request):

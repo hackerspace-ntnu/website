@@ -1,9 +1,14 @@
-{% include 'base.html' %}
+{% load staticfiles %}
 {% load check_user_group %}
+{% include 'base.html' %}
 
 {% if request.user|has_group:"member" %}
     {% include 'admintools_news.html' %}
 {% endif %}
+<script>
+  var $id = {{ article.id }};
+</script>
+<script src="{% static "js/article.js" %}"></script>
 
 <div style="height: 50px;"></div>
 

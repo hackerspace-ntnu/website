@@ -38,13 +38,14 @@ body, html {
 #logo {
 	background-size:120px 120px;
 	background-position:center;
-	background-repeat: no-repeat;
 	height:120px;
-	min-width:380px;
-	max-width:1200px;
+  width:120px;
 	margin:auto;
 	margin-top:20px;
-	pointer-events: none;
+}
+
+#logo:hover {
+  cursor: pointer;
 }
 
 .open .logo {

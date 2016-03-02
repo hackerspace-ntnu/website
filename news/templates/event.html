@@ -24,13 +24,9 @@
         {{ event.main_content }}
     {% endautoescape %}
     <br>
-    Place: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
+    Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
     <br>
-    Date: {{ event.time_start|date:"d/m/Y" }}
-    <br>
-    Start time: {{ event.time_start|date:"H:i" }}
-    <br>
-    End time: {{ event.time_end|date:"H:i" }}
+    Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
 </div>
 
 {% include 'footer.html' %}

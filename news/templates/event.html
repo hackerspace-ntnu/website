@@ -23,8 +23,10 @@
     {% autoescape off %}
         {{ event.main_content }}
     {% endautoescape %}
-    <br>
-    Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
+    {% if location.length > 0 %}
+      <br>
+      Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
+    {% endif %}
     <br>
     Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
 </div>

@@ -5,11 +5,11 @@ from django.utils import timezone
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
-    main_content = RichTextUploadingField()
-    ingress_content = RichTextUploadingField()
+    main_content = RichTextUploadingField(blank=True)
+    ingress_content = RichTextUploadingField(blank=True)
 
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.CharField(max_length=200)
+    thumbnail = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.title
@@ -20,17 +20,17 @@ class Article(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
-    main_content = RichTextUploadingField()
-    ingress_content = RichTextUploadingField()
+    main_content = RichTextUploadingField(blank=True)
+    ingress_content = RichTextUploadingField(blank=True)
 
     time_start = models.DateTimeField('Start time')
     time_end = models.DateTimeField('End time')
-    place = models.CharField(max_length=100, verbose_name='Place', default='')
-    place_href = models.CharField(max_length=200, verbose_name='Place URL', default='#')
+    place = models.CharField(max_length=100, verbose_name='Place', blank=True)
+    place_href = models.CharField(max_length=200, verbose_name='Place URL', blank=True)
 
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
 
-    thumbnail = models.CharField(max_length=200)
+    thumbnail = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.title

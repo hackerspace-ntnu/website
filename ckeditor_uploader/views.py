@@ -168,6 +168,8 @@ def custom_get_files():
             visible_filename += " " + str(file.number)
         if len(visible_filename) > 15:
             visible_filename = visible_filename[0:15] + '...'
+        while "_" in visible_filename:
+            visible_filename = visible_filename.replace("_", " ")
         files.append({
             'thumb': file.file.url,
             'src': file.file.url,

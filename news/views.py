@@ -142,7 +142,9 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            title = form.cleaned_data['title']
+            title = str(form.cleaned_data['title'])
+            while " " in title:
+                title = title.replace(" ", "_")
             file = request.FILES['file']
             number = 0
 

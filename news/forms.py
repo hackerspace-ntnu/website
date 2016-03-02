@@ -12,6 +12,7 @@ class EventEditForm(forms.Form):
     date = forms.CharField(widget=forms.HiddenInput())
     place = forms.CharField(max_length=100, label='Location')
     place_href = forms.CharField(max_length=200, label='Location URL')
+    thumbnail = forms.CharField(max_length=100, label='Thumbnail')
 
 
 class ArticleEditForm(forms.Form):
@@ -19,6 +20,7 @@ class ArticleEditForm(forms.Form):
     article_id = forms.IntegerField(widget=forms.HiddenInput());
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress')
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article')
+    thumbnail = forms.CharField(max_length=100, label='Thumbnail')
 
 
 class UploadForm(forms.Form):

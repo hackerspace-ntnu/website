@@ -21,3 +21,7 @@ input {
 .submitButton {
     width: 100%;
 }
+#thumbnailPicker {
+    margin-left: 32px;
+    border-radius: 4px;
+}

@@ -30,15 +30,19 @@
         margin-bottom: 100px;
     ">
     <form action="" method="post">
-            {% csrf_token %}
-            <div id="the_post">
-                {{ form.media }}
-                {{ form.as_p }}
-            </div>
-            <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
+        {% csrf_token %}
+        <div id="the_post">
+            {{ form.media }}
+            {{ form.as_p }}
+        </div>
+        <p><label></label>
+        <img id="thumbnailPicker" src="/media/defaultThumbnail.jpg" style="width:360px; height:200px;"></img></p>
+        <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
      </form>
   </div>
 </div>
+
+<script src="{% static "js/edit_article.js" %}"></script>
 
 {% include 'footer.html' %}
 {% endif %}

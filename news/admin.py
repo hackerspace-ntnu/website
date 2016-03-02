@@ -1,12 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, Event, Thumbnail, Upload
-
-
-class ThumbnailInline(admin.StackedInline):
-    model = Thumbnail
-    max_num = 1
-    extra = 0
+from .models import Article, Event, Upload
 
 
 @admin.register(Event)
@@ -35,11 +29,6 @@ class Eventadmin(admin.ModelAdmin):
                 'place_href'
             ]
         }),
-        ('Thumbnail', {
-            'fields': [
-                'thumbnail',
-            ]
-        })
     ]
     search_fields = [
         'title'
@@ -70,20 +59,6 @@ class ArticleAdmin(admin.ModelAdmin):
         'title'
     ]
 
-
-@admin.register(Thumbnail)
-class ThumbnailAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Thumbnail', {
-            'fields': [
-                'title',
-                'image',
-            ]
-        })
-    ]
-    search_fields = [
-        'title'
-    ]
 
 @admin.register(Upload)
 class UploadModelAdmin(admin.ModelAdmin):

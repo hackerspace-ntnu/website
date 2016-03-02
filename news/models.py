@@ -3,24 +3,13 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 
 
-class Thumbnail(models.Model):
-    image = models.ImageField(upload_to="static/thumbnails")
-    title = models.CharField(max_length=100, verbose_name="Title")
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        app_label = 'news'
-
-
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
     main_content = RichTextUploadingField()
     ingress_content = RichTextUploadingField()
 
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.OneToOneField(Thumbnail, null=True)
+    thumbnail = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
@@ -41,7 +30,7 @@ class Event(models.Model):
 
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
 
-    thumbnail = models.OneToOneField(Thumbnail, null=True)
+    thumbnail = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title

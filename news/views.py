@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .models import Event, Article, Thumbnail, Upload
+from .models import Event, Article, Upload
 from .forms import EventEditForm, ArticleEditForm, UploadForm
 from . import log_changes
 from django import forms
@@ -15,7 +15,6 @@ def events(request):
     thumbnail_list = Thumbnail.objects.all()
     context = {
         'event_list': event_list,
-        'thumbnail_list': thumbnail_list,
     }
 
     return render(request, 'events.html', context)
@@ -35,7 +34,6 @@ def articles(request):
     thumbnail_list = Thumbnail.objects.all()
     context = {
         'article_list': article_list,
-        'thumbnail_list': thumbnail_list,
     }
 
     return render(request, 'articles.html', context)
@@ -62,6 +60,7 @@ def edit_event(request, event_id):
             event.title = form.cleaned_data['title']
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
+            event.thumbnail = form.cleaned_data['thumbnail']
             event.place = form.cleaned_data['place']
             event.place_href = form.cleaned_data['place_href']
             hour_start = int(form.cleaned_data['time_start'][:2])
@@ -93,6 +92,7 @@ def edit_event(request, event_id):
                 'event_id': event_id,
                 'ingress_content': requested_event.ingress_content,
                 'main_content': requested_event.main_content,
+                'thumbnail': requested_event.thumbnail,
                 'place': requested_event.place,
                 'place_href': requested_event.place_href,
                 'time_start': formats.date_format(requested_event.time_start, 'H:i'),
@@ -115,6 +115,7 @@ def edit_article(request, article_id):
             article.title = form.cleaned_data['title']
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
+            article.thumbnail = form.cleaned_data['thumbnail']
             article.save()
             log_changes.change(request, article)
 
@@ -130,7 +131,8 @@ def edit_article(request, article_id):
                 'title': requested_article.title,
                 'article_id': article_id,
                 'ingress_content': requested_article.ingress_content,
-                'main_content': requested_article.main_content
+                'main_content': requested_article.main_content,
+                'thumbnail': requested_article.thumbnail,
             })
 
     return render(request, 'edit_article.html', {'form': form, 'article_id': article_id})

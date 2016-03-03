@@ -62,7 +62,7 @@ def get_status(request):
 def door_data(request):
     opendata_list = OpenData.objects.all()
     for data in opendata_list:
-        data.deltaTime = data.closed - date.opened
+        data.deltaTime = data.closed - data.opened
     if DoorStatus.objects.filter(name='hackerspace').count():
         status = DoorStatus.objects.get(name='hackerspace')
     else:

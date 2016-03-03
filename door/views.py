@@ -10,7 +10,8 @@ import json
 @csrf_exempt
 def door_post(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        unico = request.body.decode('utf-8')
+        data = json.loads(unico)
         if 'key' in data:
             if data['key'] == settings.DOOR_KEY:
                 if 'status' in data:

@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from website import settings
 from datetime import datetime
+from django.http import JsonResponse
 import json
 
 # Create your views here.
@@ -68,8 +69,7 @@ def get_json(request):
     data = {}
     data['status'] = status
     data['lastChanged'] = lastChanged
-    json_data = json.dumps(data)
-    return HttpResponse(json_data)
+    return JsonResponse(data)
 
 def door_data(request):
     opendata_list = OpenData.objects.all()

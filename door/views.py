@@ -31,3 +31,11 @@ def door_post(request):
                     #print("TIME:", time)
 
     return HttpResponse(" ")
+
+@csrf_exempt
+def get_status(request):
+    if DoorStatus.objects.filter(name='hackerspace').count():
+        status = DoorStatus.objects.get(name='hackerspace').status
+    else:
+        status = True
+    return HttpResponse(status)

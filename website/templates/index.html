@@ -28,7 +28,13 @@
     </div>
     <div class="outer">
         <div class="middle">
-            <div id="status" class="inner"></div>
+            <div id="status"
+            {% if door_status %}
+                style="background-image:url(/static/img/Logo_green.png);"
+            {% else %}
+                style="background-image:url(/static/img/Logo_white.png);"
+            {% endif %}
+            class="inner"></div>
         </div>
     </div>
 </section>

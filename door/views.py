@@ -2,19 +2,31 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import DoorStatus
 from django.views.decorators.csrf import csrf_exempt
+from website import settings
+import json
 
 # Create your views here.
 
 @csrf_exempt
-def update_door_status(request):
+def door_post(request):
     if request.method == 'POST':
-        door_status_object = DoorStatus.objects.get(name='hs')
-        status = request.POST.get('status','')
-        if status == '0':
-            #print('DOOR IS CLOSED')
-            door_status_object.status = False
-        elif status == '1':
-            door_status_object.status = True
-            #print('DOOR IS OPEN')
-        door_status_object.save()
+        data = json.loads(request.body)
+        if 'key' in data:
+            if data['key'] == settings.DOOR_KEY:
+                if 'status' in data:
+                    status = data['status']
+                    if DoorStatus.objects.filter(name='hackerspace').count():
+                        door_status_object = DoorStatus.objects.get(name='hackerspace')
+                    else:
+                        door_status_object = DoorStatus(name='hackerspace')
+                    door_status_object.status = status
+                    door_status_object.save()
+                    #print("STATUS:", status)
+                if 'date' in data:
+                    date = data['date']
+                    #print("DATE:", date)
+                if 'time' in data:
+                    time = data['time']
+                    #print("TIME:", time)
+
     return HttpResponse(" ")

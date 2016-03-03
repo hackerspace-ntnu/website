@@ -1,6 +1,16 @@
 from django.contrib import admin
 from .models import DoorStatus
 
-admin.site.register(DoorStatus)
-
-# Register your models here.
+@admin.register(DoorStatus)
+class DoorStatusAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Status', {
+            'fields': [
+                'name',
+                'status',
+            ]
+        })
+    ]
+    search_fields = [
+        'title'
+    ]

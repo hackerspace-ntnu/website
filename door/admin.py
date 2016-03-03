@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DoorStatus
+from .models import DoorStatus, OpenData
 
 @admin.register(DoorStatus)
 class DoorStatusAdmin(admin.ModelAdmin):

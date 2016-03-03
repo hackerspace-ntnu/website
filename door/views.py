@@ -30,7 +30,7 @@ def door_post(request):
                         if 'timeStart' in data and 'dateStart' in data:
                             timeStart = data['timeStart']
                             dateStart = data['dateStart']
-                            opened = datetime.strptime(dateStart+"."+timeStart,"Y-m-d.H:i:s")
+                            opened = datetime.strptime(dateStart+"."+timeStart,"%Y-%m-%d.%H:%i:%s")
                             door_status_object.datetime = opened
                             door_status_object.save()
                     elif status == False:
@@ -42,8 +42,8 @@ def door_post(request):
                             timeEnd = data['timeEnd']
                             dateEnd = data['dateEnd']
                             total = data['timeTotal']
-                            opened = datetime.strptime(dateStart+"."+timeStart,"Y-m-d.H:i:s")
-                            closed = datetime.strptime(dateEnd+"."+timeEnd,"Y-m-d.H:i:s")
+                            opened = datetime.strptime(dateStart+"."+timeStart,"%Y-%m-%d.%H:%i:%s")
+                            closed = datetime.strptime(dateEnd+"."+timeEnd,"%Y-%m-%d.%H:%i:%s")
                             openData = OpenData(opened=opened, closed=closed, total=total)
                             openData.save()
 

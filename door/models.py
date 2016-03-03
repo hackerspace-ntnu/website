@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 class DoorStatus(models.Model):
-    datetime = models.DateTimeField(default=timezone.now)
+    datetime = models.DateTimeField()
     status = models.BooleanField(default=False)
     name = models.CharField(max_length=20)
 
@@ -15,8 +15,8 @@ class DoorStatus(models.Model):
 
 
 class OpenData(models.Model):
-    opened = models.DateTimeField(default=timezone.now)
-    closed = models.DateTimeField(default=timezone.now)
+    opened = models.DateTimeField()
+    closed = models.DateTimeField()
     total = models.IntegerField(default=0)
 
     def __str__(self):

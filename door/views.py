@@ -29,12 +29,12 @@ def door_post(request):
                         if 'timeStart' in data and 'dateStart' in data:
                             time = data['timeStart']
                             date = data['dateStart']
-                            y = date[0:4]
-                            M = date[5:7]
-                            d = date[8:10]
-                            h = time[0:2]
-                            m = time[3:5]
-                            s = time[6:8]
+                            y = int(date[0:4])
+                            M = int(date[5:7])
+                            d = int(date[8:10])
+                            h = int(time[0:2])
+                            m = int(time[3:5])
+                            s = int(time[6:8])
                             door_status_object.opened.replace(hour=h, minute=m, second=s)
                             door_status_object.opened.replace(day=d, month=M, year=y)
                             door_status_object.save()
@@ -45,18 +45,18 @@ def door_post(request):
                             timeEnd = data['timeEnd']
                             dateEnd = data['dateEnd']
                             total = data['timeTotal']
-                            y_s = dateStart[0:4]
-                            M_s = dateStart[5:7]
-                            d_s = dateStart[8:10]
-                            h_s = timeStart[0:2]
-                            m_s = timeStart[3:5]
-                            s_s = timeStart[6:8]
-                            y_e = dateEnd[0:4]
-                            M_e = dateEnd[5:7]
-                            d_e = dateEnd[8:10]
-                            h_e = timeEnd[0:2]
-                            m_e = timeEnd[3:5]
-                            s_e = timeEnd[6:8]
+                            y_s = int(dateStart[0:4])
+                            M_s = int(dateStart[5:7])
+                            d_s = int(dateStart[8:10])
+                            h_s = int(timeStart[0:2])
+                            m_s = int(timeStart[3:5])
+                            s_s = int(timeStart[6:8])
+                            y_e = int(dateEnd[0:4])
+                            M_e = int(dateEnd[5:7])
+                            d_e = int(dateEnd[8:10])
+                            h_e = int(timeEnd[0:2])
+                            m_e = int(timeEnd[3:5])
+                            s_e = int(timeEnd[6:8])
                             openData = OpenData()
                             openData.opened.replace(hour=h_s, minute=m_s, second=s_s)
                             openData.opened.replace(day=d_s, month=M_s, year=y_s)

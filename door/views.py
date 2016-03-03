@@ -20,9 +20,9 @@ def door_post(request):
                 if 'status' in data:
                     status = data['status']
 
-                    if DoorStatus.objects.filter(name='hackerspace').count():
+                    try:
                         door_status_object = DoorStatus.objects.get(name='hackerspace')
-                    else:
+                    except DoorStatus.DoesNotExist:
                         door_status_object = DoorStatus(name='hackerspace')
 
                     if status == True:
@@ -53,17 +53,17 @@ def door_post(request):
 
 @csrf_exempt
 def get_status(request):
-    if DoorStatus.objects.filter(name='hackerspace').count():
+    try:
         status = DoorStatus.objects.get(name='hackerspace').status
-    else:
+    except DoorStatus.DoesNotExist:
         status = True
     return HttpResponse(status)
 
 def get_json(request):
-    if DoorStatus.objects.filter(name='hackerspace').count():
+    try:
         status = DoorStatus.objects.get(name='hackerspace').status
         lastChanged = str(DoorStatus.objects.get(name='hackerspace').datetime)
-    else:
+    except DoorStatus.DoesNotExist:
         status = True
         lastChanged = 'error'
     data = {}
@@ -75,9 +75,9 @@ def door_data(request):
     opendata_list = OpenData.objects.all()
     for data in opendata_list:
         data.deltaTime = data.closed - data.opened
-    if DoorStatus.objects.filter(name='hackerspace').count():
+    try:
         status = DoorStatus.objects.get(name='hackerspace')
-    else:
+    except DoorStatus.DoesNotExist:
         status = DoorStatus(name='hackerspace')
     context = {
         'opendata_list': opendata_list,

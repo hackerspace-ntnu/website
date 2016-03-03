@@ -1,0 +1,45 @@
+{% load staticfiles %}
+{% include 'base.html' %}
+
+
+<section id="articles" class="articles-section">
+    <div class="container">
+        <div class="row">
+            <h1>Articles</h1>
+        </div>
+        <br>
+        <div class="row">
+          {% if article_list %}
+              {% for article in article_list %}
+                  <div class="col-sm-6 col-md-4">
+                      <div class="thumbnail">
+                          <a href="/news/article/{{ article.id }}">
+                              <img alt="..." src="{{ article.thumbnail }}" data-holder-rendered="true"
+                                   style="height: 200px; width: 360px; display: block;">
+                          </a>
+
+                          <div>
+                              {% autoescape off %}
+                                  {{ article.ingress_content }}
+                              {% endautoescape %}
+                              <div style="height: 10px;"></div>
+                              <p>
+                                  <a href="/news/article/{{ article.id }}"
+                                      style="
+                                          position: absolute;
+                                          bottom: 24px;
+                                          right: 24px;
+                                  ">
+                                      Les mer...
+                                  </a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endif %}
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}

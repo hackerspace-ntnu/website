@@ -82,7 +82,7 @@ body, html {
 #menu>ul>li>a {
   text-decoration:none;
   color:#2e2c28;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .outer {
@@ -101,7 +101,7 @@ body, html {
 
 .inner {
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
     width: 100%;
 	max-width:680px;
 	padding:20px;
@@ -186,7 +186,7 @@ body, html {
     }
 
 /* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
-The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
+The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children
 of those sections to manage the look and feel of the site. */
 
 .intro-section {
@@ -287,11 +287,11 @@ of those sections to manage the look and feel of the site. */
 	background-image: url(../img/noise_beige.png);
 }
 
-.events-section {
-    padding-top: 50px;
+.events-section, .articles-section {
+    padding: 100px 0;
     text-align: center;
     background: #eee;
-	background-image: url(../img/noise_gray.png);
+  	background-image: url(../img/noise_gray.png);
 }
 
 .wiki-section {
@@ -318,7 +318,7 @@ of those sections to manage the look and feel of the site. */
 .scrollToTop{
 	width:60px;
 	height:60px;
-	text-align:center; 
+	text-align:center;
 	background: #000000;
 	opacity:0.6;
 	color: #a39f93;

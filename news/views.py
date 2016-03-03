@@ -12,12 +12,11 @@ from django.utils import timezone
 
 def events(request):
     event_list = Event.objects.order_by('-time_start')
-    thumbnail_list = Thumbnail.objects.all()
     context = {
         'event_list': event_list,
     }
 
-    return render(request, 'events.html', context)
+    return render(request, 'events_all.html', context)
 
 
 def event(request, event_id):
@@ -31,12 +30,11 @@ def event(request, event_id):
 
 def articles(request):
     article_list = Article.objects.order_by('-pub_date')
-    thumbnail_list = Thumbnail.objects.all()
     context = {
         'article_list': article_list,
     }
 
-    return render(request, 'articles.html', context)
+    return render(request, 'articles_all.html', context)
 
 
 def article(request, article_id):

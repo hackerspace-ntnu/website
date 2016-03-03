@@ -9,8 +9,8 @@
 {% if opendata_list %}
     {% for opendata in opendata_list %}
         <p>
-          Opened: {{ opendata.opened }}<br>
-          Closed: {{ opendata.closed }}<br>
+          Opened: {{ opendata.opened|date:"d/m/Y" }} {{ opendata.opened|time:"H:i:s" }}<br>
+          Closed: {{ opendata.closed|date:"d/m/Y" }} {{ opendata.closed|time:"H:i:s" }}<br>
           Time: {{ opendata.total }} seconds
         </p>
     {% endfor %}

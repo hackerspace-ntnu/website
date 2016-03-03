@@ -60,12 +60,7 @@ def door_post(request):
                             s_e = int(timeEnd[6:8])
                             print("START TIME:",y_s,"/",M_s,"/",d_s,"  ",h_s,":",m_s,":",s_s)
                             print("END TIME:",y_e,"/",M_e,"/",d_e,"  ",h_e,":",m_e,":",s_e)
-                            openData = OpenData()
-                            openData.opened.replace(hour=h_s, minute=m_s, second=s_s)
-                            openData.opened.replace(day=d_s, month=M_s, year=y_s)
-                            openData.closed.replace(hour=h_e, minute=m_e, second=s_e)
-                            openData.closed.replace(day=d_e, month=M_e, year=y_e)
-                            openData.total = total
+                            openData = OpenData(opened=datetime(y_s,M_s,d_s,h_s,m_s,s_s), closed=datetime(y_e,M_e,d_e,h_e,m_e,s_e), total=total)
                             openData.save()
 
                             if DoorStatus.objects.filter(name='hackerspace').count():

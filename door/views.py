@@ -58,6 +58,18 @@ def get_status(request):
         status = True
     return HttpResponse(status)
 
+def get_json(request):
+    if DoorStatus.objects.filter(name='hackerspace').count():
+        status = DoorStatus.objects.get(name='hackerspace').status
+        lastChanged = DoorStatus.objects.get(name='hackerspace').datetime
+    else:
+        status = True
+        lastChanged = 'error'
+    data = {}
+    data['status'] = status
+    data['lastChanged'] = lastChanged
+    json_data = json.dumps(data)
+    return HttpResponse(json_data)
 
 def door_data(request):
     opendata_list = OpenData.objects.all()

@@ -11,7 +11,7 @@
         <p>
           Opened: {{ opendata.opened|date:"d/m/Y" }} {{ opendata.opened|time:"H:i:s" }}<br>
           Closed: {{ opendata.closed|date:"d/m/Y" }} {{ opendata.closed|time:"H:i:s" }}<br>
-          Time: {{ opendata.total }} seconds
+          Time open: {{ opendata.deltaTime }}
         </p>
     {% endfor %}
 {% endif %}

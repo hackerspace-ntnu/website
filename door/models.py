@@ -17,7 +17,6 @@ class DoorStatus(models.Model):
 class OpenData(models.Model):
     opened = models.DateTimeField()
     closed = models.DateTimeField()
-    total = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.opened)

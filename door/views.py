@@ -36,15 +36,14 @@ def door_post(request):
                     elif status == False:
                         door_status_object.status = status
                         door_status_object.save()
-                        if 'timeStart' in data and 'dateStart' in data and 'timeEnd' in data and 'dateEnd' in data and 'timeTotal' in data:
+                        if 'timeStart' in data and 'dateStart' in data and 'timeEnd' in data and 'dateEnd' in data:
                             timeStart = data['timeStart']
                             dateStart = data['dateStart']
                             timeEnd = data['timeEnd']
                             dateEnd = data['dateEnd']
-                            total = data['timeTotal']
                             opened = datetime.strptime(dateStart+"."+timeStart,"%Y-%m-%d.%H:%M:%S")
                             closed = datetime.strptime(dateEnd+"."+timeEnd,"%Y-%m-%d.%H:%M:%S")
-                            openData = OpenData(opened=opened, closed=closed, total=total)
+                            openData = OpenData(opened=opened, closed=closed)
                             openData.save()
 
                             door_status_object.datetime = closed
@@ -62,6 +61,8 @@ def get_status(request):
 
 def door_data(request):
     opendata_list = OpenData.objects.all()
+    for data in opendata_list:
+        data.deltaTime = data.closed - date.opened
     if DoorStatus.objects.filter(name='hackerspace').count():
         status = DoorStatus.objects.get(name='hackerspace')
     else:

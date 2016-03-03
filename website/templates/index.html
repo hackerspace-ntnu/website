@@ -13,11 +13,10 @@
                 {% if request.user.is_authenticated %}
                 <li id="menu_admin">
                     <div class="drop_down_admin">
-                        <button onclick="myFunction()" class="drop_btn">ADMIN</button>
+                        <button onclick="myFunction()" class="drop_btn">USER</button>
                         <div id="my_drop_down_admin" class="drop_down_content">
-                            <a href="/authentication/logout">LOGOUT</a>
                             <a href="/authentication/change-password">CHANGE PASSWORD</a>
-                            <a href="#">Link 3</a>
+                            <a href="/authentication/logout">LOGOUT</a>
                         </div>
                     </div>
                 </li>

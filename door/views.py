@@ -61,7 +61,7 @@ def get_status(request):
 def get_json(request):
     if DoorStatus.objects.filter(name='hackerspace').count():
         status = DoorStatus.objects.get(name='hackerspace').status
-        lastChanged = DoorStatus.objects.get(name='hackerspace').datetime
+        lastChanged = str(DoorStatus.objects.get(name='hackerspace').datetime)
     else:
         status = True
         lastChanged = 'error'

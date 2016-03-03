@@ -23,7 +23,6 @@ class OpenDataAdmin(admin.ModelAdmin):
             'fields': [
                 'opened',
                 'closed',
-                'total',
             ]
         })
     ]

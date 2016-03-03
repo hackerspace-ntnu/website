@@ -1,8 +1,8 @@
 <h1>Current status:</h1>
 {% if status.status %}
-    <p>Open since: {{ status.datetime }}</p>
+    <p>Open since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>
 {% else %}
-    <p>Closed since: {{ status.datetime }}</p>
+    <p>Closed since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>
 {% endif %}
 
 <h1>Door data:</h1>

@@ -45,6 +45,7 @@ def door_post(request):
                             timeEnd = data['timeEnd']
                             dateEnd = data['dateEnd']
                             total = data['timeTotal']
+                            print("JSON:", timeStart, timeEnd, total)
                             y_s = int(dateStart[0:4])
                             M_s = int(dateStart[5:7])
                             d_s = int(dateStart[8:10])
@@ -57,8 +58,8 @@ def door_post(request):
                             h_e = int(timeEnd[0:2])
                             m_e = int(timeEnd[3:5])
                             s_e = int(timeEnd[6:8])
-                            print(y_s,"/",M_s,"/",d_s,"  ",h_s,":",m_s,":",s_s)
-                            print(y_e,"/",M_e,"/",d_e,"  ",h_e,":",m_e,":",s_e)
+                            print("START TIME:",y_s,"/",M_s,"/",d_s,"  ",h_s,":",m_s,":",s_s)
+                            print("END TIME:",y_e,"/",M_e,"/",d_e,"  ",h_e,":",m_e,":",s_e)
                             openData = OpenData()
                             openData.opened.replace(hour=h_s, minute=m_s, second=s_s)
                             openData.opened.replace(day=d_s, month=M_s, year=y_s)

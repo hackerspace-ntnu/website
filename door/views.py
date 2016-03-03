@@ -4,6 +4,7 @@ from .models import DoorStatus, OpenData
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from website import settings
+from datetime import datetime
 import json
 
 # Create your views here.
@@ -22,54 +23,31 @@ def door_post(request):
                         door_status_object = DoorStatus.objects.get(name='hackerspace')
                     else:
                         door_status_object = DoorStatus(name='hackerspace')
-                    door_status_object.status = status
-                    door_status_object.save()
 
                     if status == True:
+                        door_status_object.status = status
+                        door_status_object.save()
                         if 'timeStart' in data and 'dateStart' in data:
                             time = data['timeStart']
                             date = data['dateStart']
-                            y = int(date[0:4])
-                            M = int(date[5:7])
-                            d = int(date[8:10])
-                            h = int(time[0:2])
-                            m = int(time[3:5])
-                            s = int(time[6:8])
-                            door_status_object.opened.replace(hour=h, minute=m, second=s)
-                            door_status_object.opened.replace(day=d, month=M, year=y)
+                            opened = datetime.strptime(dateStart+"."+timeStart,"d/m/Y.H:i:s")
+                            door_status_object.datetime = opened
                             door_status_object.save()
                     elif status == False:
+                        door_status_object.status = status
+                        door_status_object.save()
                         if 'timeStart' in data and 'dateStart' in data and 'timeEnd' in data and 'dateEnd' in data and 'timeTotal' in data:
                             timeStart = data['timeStart']
                             dateStart = data['dateStart']
                             timeEnd = data['timeEnd']
                             dateEnd = data['dateEnd']
                             total = data['timeTotal']
-                            print("JSON:", timeStart, timeEnd, total)
-                            y_s = int(dateStart[0:4])
-                            M_s = int(dateStart[5:7])
-                            d_s = int(dateStart[8:10])
-                            h_s = int(timeStart[0:2])
-                            m_s = int(timeStart[3:5])
-                            s_s = int(timeStart[6:8])
-                            y_e = int(dateEnd[0:4])
-                            M_e = int(dateEnd[5:7])
-                            d_e = int(dateEnd[8:10])
-                            h_e = int(timeEnd[0:2])
-                            m_e = int(timeEnd[3:5])
-                            s_e = int(timeEnd[6:8])
-                            print("START TIME:",y_s,"/",M_s,"/",d_s,"  ",h_s,":",m_s,":",s_s)
-                            print("END TIME:",y_e,"/",M_e,"/",d_e,"  ",h_e,":",m_e,":",s_e)
-                            openData = OpenData(opened=datetime(y_s,M_s,d_s,h_s,m_s,s_s), closed=datetime(y_e,M_e,d_e,h_e,m_e,s_e), total=total)
+                            opened = datetime.strptime(dateStart+"."+timeStart,"d/m/Y.H:i:s")
+                            closed = datetime.strptime(dateEnd+"."+timeEnd,"d/m/Y.H:i:s")
+                            openData = OpenData(opened=opened, closed=closed, total=total)
                             openData.save()
 
-                            if DoorStatus.objects.filter(name='hackerspace').count():
-                                door_status_object = DoorStatus.objects.get(name='hackerspace')
-                            else:
-                                door_status_object = DoorStatus(name='hackerspace')
-                            door_status_object.status = status
-                            door_status_object.datetime.replace(hour=h_e, minute=m_e, second=s_e)
-                            door_status_object.datetime.replace(day=d_e, month=M_e, year=y_e)
+                            door_status_object.datetime = closed
                             door_status_object.save()
     return HttpResponse(" ")
 

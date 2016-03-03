@@ -1,0 +1,17 @@
+<h1>Current status:</h1>
+{% if status.status %}
+    Opened since: {{ status.datetime }}
+{% else %}
+    Closed since: {{ status.datetime }}
+{% endif %}
+
+<h1>Door open data:</h1>
+{% if opendata_list %}
+    {% for opendata in opendata_list %}
+        <p>
+          Opened: {{ opendata.opened }}
+          Closed: {{ opendata.closed }}
+          Time: {{ opendata.time }} seconds
+        </p>
+    {% endfor %}
+{% endif %}

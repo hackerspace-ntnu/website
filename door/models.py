@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 
 # Create your models here.
 
@@ -19,4 +20,4 @@ class OpenData(models.Model):
     total = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.opened
+        return str(self.opened)

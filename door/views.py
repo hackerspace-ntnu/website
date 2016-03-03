@@ -64,6 +64,15 @@ def door_post(request):
                             openData.closed.replace(day=d_e, month=M_e, year=y_e)
                             openData.total = total
                             openData.save()
+
+                            if DoorStatus.objects.filter(name='hackerspace').count():
+                                door_status_object = DoorStatus.objects.get(name='hackerspace')
+                            else:
+                                door_status_object = DoorStatus(name='hackerspace')
+                            door_status_object.status = status
+                            door_status_object.datetime.replace(hour=h_e, minute=m_e, second=s_e)
+                            door_status_object.datetime.replace(day=d_e, month=M_e, year=y_e)
+                            door_status_object.save()
     return HttpResponse(" ")
 
 @csrf_exempt

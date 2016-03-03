@@ -28,8 +28,8 @@ def door_post(request):
                         door_status_object.status = status
                         door_status_object.save()
                         if 'timeStart' in data and 'dateStart' in data:
-                            time = data['timeStart']
-                            date = data['dateStart']
+                            timeStart = data['timeStart']
+                            dateStart = data['dateStart']
                             opened = datetime.strptime(dateStart+"."+timeStart,"d/m/Y.H:i:s")
                             door_status_object.datetime = opened
                             door_status_object.save()

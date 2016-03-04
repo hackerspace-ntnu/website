@@ -1,0 +1,7 @@
+{% load staticfiles %}
+{% include 'base.html' %}
+<div style="width: 800px; margin: 100px auto;">
+{{ chart.as_html }}
+</div>
+{% include 'footer.html' %}
+<script src="http://cdn.jsdelivr.net/jquery.flot/0.8.3/jquery.flot.min.js"></script>

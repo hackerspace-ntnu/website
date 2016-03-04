@@ -103,7 +103,17 @@ def door_chart(request):
         data.append([(status.opened-start).total_seconds(), 1])
         data.append([(status.closed-start).total_seconds(), 1])
         data.append([(status.closed-start).total_seconds(), 0])
-    chart = flot.LineChart(SimpleDataSource(data=data), html_id="line_chart")
+    try:
+        door_obj = DoorStatus.objects.get(name='hackerspace')
+    except DoorStatus.DoesNotExist:
+        door_obj = DoorStatus(name='hackerspace', status=True, datetime=timezone.now())
+    if status:
+        data.append([(door_obj.datetime-start).total_seconds(), 0])
+        data.append([(door_obj.datetime-start).total_seconds(), 1])
+        data.append([(timezone.now()-start).total_seconds(), 1])
+    else:
+        data.append([(timezone.now()-start).total_seconds(), 0])
+    chart = gchart.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     context = {
         'chart': chart,
     }

@@ -1,7 +1,9 @@
-
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-  google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
-  function drawChart{{ chart.get_html_id }}() {
+
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+  function drawChart() {
     var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
 
     {% if chart.get_options_json %}
@@ -19,4 +21,3 @@
 </script>
 
 <div id="{{ chart.get_html_id }}" style="width: {{ chart.width }}px; height: {{ chart.height }}px;"></div>
-

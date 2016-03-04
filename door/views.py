@@ -77,6 +77,7 @@ def get_json(request):
 
 def door_data(request):
     opendata_list = OpenData.objects.all()
+    opendata_list = list(reversed(opendata_list))
     for data in opendata_list:
         data.deltaTime = data.closed - data.opened
     try:

@@ -1,6 +1,6 @@
 {% load staticfiles %}
 {% include 'base.html' %}
-<div style="width: 800px; min-height: 300px; margin: 100px auto;">
+<div style="width: 1000px; min-height: 300px; margin: 200px auto; margin-bottom: 100px;">
     <div id="chart_div"></div>
 </div>
 {% include 'footer.html' %}
@@ -14,7 +14,7 @@
 
         var data = new google.visualization.DataTable();
         data.addColumn('datetime', 'Time');
-        data.addColumn('number', 'Open');
+        data.addColumn('number', 'Door');
 
         data.addRows([
           {% for entry in data %}
@@ -34,15 +34,20 @@
 
         var options = {
           hAxis: {
-            title: 'Time'
+            title: ''//'Time'
           },
           vAxis: {
-            title: 'Open'
+            title: ''//'Open/Closed'
           }
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
         chart.draw(data, options);
+        $('text:contains("1.00")').html("Open");
+        $('text:contains("0.75")').html("");
+        $('text:contains("0.50")').html("");
+        $('text:contains("0.25")').html("");
+        $('text:contains("0.00")').html("Closed");
     }
 </script>

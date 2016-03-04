@@ -47,6 +47,10 @@ def door_post(request):
                             openData = OpenData(opened=opened, closed=closed)
                             openData.save()
 
+                            currentIndex = openData.id
+                            old = OpenData.objects.filter(id__lte = currentIndex - 50)
+                            old.delete()
+
                             door_status_object.datetime = closed
                             door_status_object.save()
     return HttpResponse(" ")

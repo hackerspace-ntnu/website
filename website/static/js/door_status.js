@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    setTimeout(function(){get_data()}, 1000);
+    setTimeout(function(){get_data()}, 30000);
     function get_data() {
         $.ajax({
             "type": "POST",
@@ -8,7 +8,7 @@ $(document).ready(function() {
               change_status(data);
             },
         });
-        setTimeout(function(){get_data()}, 1000);
+        setTimeout(function(){get_data()}, 30000);
     }
 });
 

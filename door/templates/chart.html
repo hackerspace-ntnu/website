@@ -1,13 +1,13 @@
 {% load staticfiles %}
 {% include 'base.html' %}
-<div style="width: 1000px; min-height: 300px; margin: 200px auto; margin-bottom: 100px;">
+<div style="width: 1200px; margin: 200px auto; margin-bottom: 100px;">
     <div id="chart_div"></div>
 </div>
 {% include 'footer.html' %}
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-  google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.load('current', {packages: ['corechart', 'line']});
     google.charts.setOnLoadCallback(drawBasic);
 
     function drawBasic() {
@@ -33,21 +33,35 @@
         ]);
 
         var options = {
+          width: 1200,
+          height: 300,
+          backgroundColor: { fill:'transparent' },
           hAxis: {
-            title: ''//'Time'
+            title: '',//'Time',
+            gridlines: {
+              color: 'transparent',
+              count: 10
+            }
           },
           vAxis: {
-            title: ''//'Open/Closed'
-          }
+            title: '',//'Open/Closed',
+            gridlines: {
+              color: 'transparent',
+              count: 2
+            }
+          },
+          colors: ['#5bba47']
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
 
         chart.draw(data, options);
-        $('text:contains("1.00")').html("Open");
-        $('text:contains("0.75")').html("");
-        $('text:contains("0.50")').html("");
-        $('text:contains("0.25")').html("");
-        $('text:contains("0.00")').html("Closed");
+
+        $('text').filter(function () {
+            return $(this).text() == '1';
+        }).text("Open");
+        $('text').filter(function () {
+            return $(this).text() == '0';
+        }).text("Closed");
     }
 </script>

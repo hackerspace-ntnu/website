@@ -4,7 +4,7 @@ from .base import BaseChart
 from matplotlib.ticker import FormatStrFormatter
 
 import matplotlib.pyplot as plt
-import StringIO
+from io import StringIO
 import base64
 
 

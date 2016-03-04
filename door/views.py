@@ -6,8 +6,6 @@ from django.utils import timezone
 from website import settings
 from datetime import datetime
 from django.http import JsonResponse
-from graphos.renderers import gchart, yui, flot, morris, highcharts, matplotlib_renderer
-from graphos.sources.simple import SimpleDataSource
 import json
 
 # Create your views here.
@@ -94,27 +92,13 @@ def door_data(request):
     return render(request, 'door_data.html', context)
 
 def door_chart(request):
-    data =  [
-        ['Second', 'Open'],
-    ]
-    start = OpenData.objects.all()[0].opened
-    for status in OpenData.objects.all():
-        data.append([(status.opened-start).total_seconds(), 0])
-        data.append([(status.opened-start).total_seconds(), 1])
-        data.append([(status.closed-start).total_seconds(), 1])
-        data.append([(status.closed-start).total_seconds(), 0])
     try:
         door_obj = DoorStatus.objects.get(name='hackerspace')
     except DoorStatus.DoesNotExist:
         door_obj = DoorStatus(name='hackerspace', status=True, datetime=timezone.now())
-    if status:
-        data.append([(door_obj.datetime-start).total_seconds(), 0])
-        data.append([(door_obj.datetime-start).total_seconds(), 1])
-        data.append([(timezone.now()-start).total_seconds(), 1])
-    else:
-        data.append([(timezone.now()-start).total_seconds(), 0])
-    chart = gchart.LineChart(SimpleDataSource(data=data), html_id="line_chart")
     context = {
-        'chart': chart,
+        'data': OpenData.objects.all(),
+        'status': door_obj,
+        'now': timezone.now(),
     }
     return render(request, 'chart.html', context)

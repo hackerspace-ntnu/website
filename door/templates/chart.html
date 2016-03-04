@@ -1,7 +1,48 @@
 {% load staticfiles %}
 {% include 'base.html' %}
-<div style="width: 800px; margin: 100px auto;">
-{{ chart.as_html }}
+<div style="width: 800px; min-height: 300px; margin: 100px auto;">
+    <div id="chart_div"></div>
 </div>
 {% include 'footer.html' %}
-<script src="http://cdn.jsdelivr.net/jquery.flot/0.8.3/jquery.flot.min.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+  google.charts.load('current', {packages: ['corechart', 'line']});
+    google.charts.setOnLoadCallback(drawBasic);
+
+    function drawBasic() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('datetime', 'Time');
+        data.addColumn('number', 'Open');
+
+        data.addRows([
+          {% for entry in data %}
+              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 0],
+              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 1],
+              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 1],
+              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 0],
+          {% endfor %}
+          {% if status.status %}
+              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 0],
+              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 1],
+              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 1]
+          {% else %}
+              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 0]
+          {% endif %}
+        ]);
+
+        var options = {
+          hAxis: {
+            title: 'Time'
+          },
+          vAxis: {
+            title: 'Open'
+          }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+    }
+</script>

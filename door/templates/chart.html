@@ -1,70 +1,108 @@
 {% load staticfiles %}
 {% include 'base.html' %}
-<div style="width: 1200px; margin: 200px auto; margin-bottom: 100px;">
-    <div id="chart_div"></div>
-</div>
+<head>
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" defer async></script>
+	<script src="//www.google.com/jsapi"></script>
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+<div id="dashboard" style="width: 1200px; margin: 200px auto; margin-bottom: 100px;">
+  	<div id="chart"></div>
+  	<div id="filter" style="height: 50px;"></div>
+  </div>
 {% include 'footer.html' %}
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script>
-    google.charts.load('current', {packages: ['corechart', 'line']});
-    google.charts.setOnLoadCallback(drawBasic);
+<script type="text/javascript">
+	var data = [
+    {% for entry in plot_list %}
+        [new Date({{ entry.datetime|date:"Y" }}, {{ entry.datetime|date:"m" }}-1, {{ entry.datetime|date:"d" }}, {{ entry.datetime|time:"H" }}, {{ entry.datetime|time:"i" }}, {{ entry.datetime|time:"s" }}), {{ entry.status }}, '{{ entry.tooltip }}'],
+    {% endfor %}
+  ]
 
-    function drawBasic() {
+  google.load('visualization', '1.0', {'packages':['corechart', 'controls']});
+	google.setOnLoadCallback(apiLoaded);
+	var controlWrapper;
+	function apiLoaded() {
+		var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn('datetime', 'time');
+    dataTable.addColumn('number', 'door');
+    dataTable.addColumn({type: 'string', role: 'tooltip'});
+		dataTable.addRows(data);
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('datetime', 'Time');
-        data.addColumn('number', 'Door');
-
-        data.addRows([
-          {% for entry in data %}
-              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}-1, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 0],
-              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}-1, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 1],
-              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}-1, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 1],
-              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}-1, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 0],
-          {% endfor %}
-          {% if status.status %}
-              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}-1, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 0],
-              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}-1, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 1],
-              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}-1, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 1]
-          {% else %}
-              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}-1, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 0]
-          {% endif %}
-        ]);
-
-        var options = {
-          width: 1200,
-          height: 300,
-          backgroundColor: { fill:'transparent' },
-          hAxis: {
-            title: '',//'Time',
+		controlWrapper = new google.visualization.ControlWrapper({
+			controlType: 'ChartRangeFilter',
+			containerId: 'filter',
+      state: {
+        range: {
+          start: new Date({{ start|date:"Y" }}, {{ start|date:"m" }}-1, {{ start|date:"d" }}, {{ start|time:"H" }}, {{ start|time:"i" }}, {{ start|time:"s" }}),
+          end: new Date({{ end|date:"Y" }}, {{ end|date:"m" }}-1, {{ end|date:"d" }}, {{ end|time:"H" }}, {{ end|time:"i" }}, {{ end|time:"s" }})
+        }
+      },
+			options: {
+				filterColumnIndex: 0,
+				ui: {
+					chartType: 'AreaChart',
+					chartOptions: {
+            backgroundColor: "transparent",
+						chartArea: {
+              height: 30,
+							width: '90%'
+						},
+						hAxis: {
+              format: 'HH:mm dd/MM',
+              gridlines: {
+                color: '#d5c9aa',
+                count: 5,
+              },
+              textPosition: 'out'
+						},
+            vAxis: {
+              gridlines: {
+                color: '#d5c9aa',
+                count: 2,
+              },
+						},
             baselineColor: '#d5c9aa',
-            format: 'HH:mm dd/MM',
-            gridlines: {
-              color: '#d5c9aa',
-              count: 10,
-            }
+            colors: ['#5bba47']
+					},
+					minRangeSize: 3600000,
+        }
+      }
+		});
+
+		var chartWrapper = new google.visualization.ChartWrapper({
+			chartType: 'AreaChart',
+			containerId: 'chart',
+			options: {
+        width: 1200,
+        height: 300,
+        backgroundColor: { fill:'transparent' },
+				chartArea: {
+					width: '90%'
+				},
+				legend: 'none',
+				hAxis: {
+          format: 'HH:mm dd/MM',
+          gridlines: {
+            color: '#d5c9aa',
+            count: 10,
+          }
+				},
+				vAxis: {
+          baselineColor: '#d5c9aa',
+          gridlines: {
+            color: '#d5c9aa',
           },
-          vAxis: {
-            title: '',//'Open/Closed',
-            baselineColor: '#d5c9aa',
-            gridlines: {
-              color: '#d5c9aa',
-              count: 2
-            }
-          },
-          colors: ['#5bba47']
-        };
+          ticks: [{v:0, f:"Closed"},{v:1, f:"Open"}]
+				},
+        colors: ['#5bba47'],
+			}
+		});
 
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-
-        $('text').filter(function () {
-            return $(this).text() == '1';
-        }).text("Open");
-        $('text').filter(function () {
-            return $(this).text() == '0';
-        }).text("Closed");
-    }
+		var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+		dashboard.bind(controlWrapper, chartWrapper).draw(dataTable);
+	}
 </script>

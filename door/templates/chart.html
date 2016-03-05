@@ -18,17 +18,17 @@
 
         data.addRows([
           {% for entry in data %}
-              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 0],
-              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 1],
-              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 1],
-              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 0],
+              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}-1, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 0],
+              [new Date({{ entry.opened|date:"Y" }}, {{ entry.opened|date:"m" }}-1, {{ entry.opened|date:"d" }}, {{ entry.opened|time:"H" }}, {{ entry.opened|time:"i" }}, {{ entry.opened|time:"s" }}), 1],
+              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}-1, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 1],
+              [new Date({{ entry.closed|date:"Y" }}, {{ entry.closed|date:"m" }}-1, {{ entry.closed|date:"d" }}, {{ entry.closed|time:"H" }}, {{ entry.closed|time:"i" }}, {{ entry.closed|time:"s" }}), 0],
           {% endfor %}
           {% if status.status %}
-              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 0],
-              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 1],
-              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 1]
+              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}-1, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 0],
+              [new Date({{ status.datetime|date:"Y" }}, {{ status.datetime|date:"m" }}-1, {{ status.datetime|date:"d" }}, {{ status.datetime|time:"H" }}, {{ status.datetime|time:"i" }}, {{ status.datetime|time:"s" }}), 1],
+              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}-1, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 1]
           {% else %}
-              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 0]
+              [new Date({{ now|date:"Y" }}, {{ now|date:"m" }}-1, {{ now|date:"d" }}, {{ now|time:"H" }}, {{ now|time:"i" }}, {{ now|time:"s" }}), 0]
           {% endif %}
         ]);
 

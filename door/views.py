@@ -117,19 +117,22 @@ def door_chart(request):
         tooltipString = ["Closed", "Open"]
         for seconds in range(0, int((end-start).total_seconds()), 600):
             if index < len(OpenData.objects.all()):
-                if status == 0 and seconds > (OpenData.objects.all()[index].opened-start).total_seconds():
-                    entry = Point(datetime=OpenData.objects.all()[index].opened, status=status, tooltip="Door opened " + str(OpenData.objects.all()[index].opened))
-                    entry.save()
-                    status = 1
-                    entry = Point(datetime=OpenData.objects.all()[index].opened, status=status, tooltip="Door opened " + str(OpenData.objects.all()[index].opened))
-                    entry.save()
-                if status == 1 and seconds > (OpenData.objects.all()[index].closed-start).total_seconds():
-                    entry = Point(datetime=OpenData.objects.all()[index].closed, status=status, tooltip="Door closed " + str(OpenData.objects.all()[index].closed))
-                    entry.save()
-                    status = 0
-                    entry = Point(datetime=OpenData.objects.all()[index].closed, status=status, tooltip="Door closed " + str(OpenData.objects.all()[index].closed))
-                    entry.save()
-                    index += 1
+                while (status == 0 and seconds > (OpenData.objects.all()[index].opened-start).total_seconds()) or (status == 1 and seconds > (OpenData.objects.all()[index].closed-start).total_seconds()):
+                    if status == 0 and seconds > (OpenData.objects.all()[index].opened-start).total_seconds():
+                        entry = Point(datetime=OpenData.objects.all()[index].opened, status=status, tooltip="Door opened " + str(OpenData.objects.all()[index].opened))
+                        entry.save()
+                        status = 1
+                        entry = Point(datetime=OpenData.objects.all()[index].opened, status=status, tooltip="Door opened " + str(OpenData.objects.all()[index].opened))
+                        entry.save()
+                    if status == 1 and seconds > (OpenData.objects.all()[index].closed-start).total_seconds():
+                        entry = Point(datetime=OpenData.objects.all()[index].closed, status=status, tooltip="Door closed " + str(OpenData.objects.all()[index].closed))
+                        entry.save()
+                        status = 0
+                        entry = Point(datetime=OpenData.objects.all()[index].closed, status=status, tooltip="Door closed " + str(OpenData.objects.all()[index].closed))
+                        entry.save()
+                        index += 1
+                        if index >= len(OpenData.objects.all()):
+                            break
             if seconds > (door_obj.datetime-start).total_seconds() and not statusAdded:
                 statusAdded = True
                 if door_obj.status:

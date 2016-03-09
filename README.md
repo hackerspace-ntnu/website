@@ -31,7 +31,7 @@ Go into the project:
 Install requirements:
 `pip install -r requirements.txt`
 
-#Now its time to setup the database
+####Now its time to setup the database
 
 Change to postgres user:
 `sudo su - postgres`
@@ -50,6 +50,8 @@ Grant access to the user just created:
 
 Exit the database:
 `\q`
+
+Exit postgres user session:
 `exit`
 
 Create local_settings.py:
@@ -63,8 +65,10 @@ and add the follow values:
 - DATABASE_USERNAME = 'hackerspace'
 - DATABASE_PASSWORD = ''
 
-Migrate the database:
+Make migrations for the database:
 `python manage.py makemigrations`
+
+Migrate the database:
 `python manage.py migrate`
 
 Run the server:

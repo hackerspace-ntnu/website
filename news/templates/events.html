@@ -1,6 +1,96 @@
+{% load staticfiles %}
+{% load check_user_group %}
 {% if event_list %}
     {% for event in event_list %}
-        <div class="col-sm-6 col-md-4">
+        <style is="custom-style">
+            paper-card{
+                margin: 5px;
+            }
+            #top {
+                height: 90px;
+            }
+            #right {
+                width: 240px;
+                float: right;
+            }
+            #event_title {
+                font-size: 34px;
+                text-align: left;
+            }
+            #place {
+                text-align: left;
+            }
+            #place a {
+                color: #0B0;
+            }
+            #date-label {
+                float: left;
+                width: 60px;
+                margin-top: -4px;
+            }
+            #date-label #date {
+                font-size: 46px;
+            }
+            #date-label #month {
+                color: #0B0;
+                font-size: 24px;
+                margin-top: -20px;
+            }
+            .card-actions a {
+                color: #4E4B46;
+            }
+            .card-actions a paper-button {
+                width: 140px;
+            }
+            #admintools a paper-button{
+                font-size: 12px;
+                width: 80px;
+                height: 30px;
+                text-align: center;
+            }
+        </style>
+        <paper-card style="width:360px;" image="{{ event.thumbnail }}" href="/news/event/{{ event.id }}">
+            <div class="card-content">
+                <div id="top">
+                    <div id=right>
+                        <div id="event_title">
+                            {{ event.title|title }}
+                        </div>
+                        <div id="place">
+                            {{ event.time_start|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
+                        </div>
+                    </div>
+                    <div id="date-label">
+                        <div id="date">{{ event.time_start|date:"d" }}</div>
+                        <div id="month">{{ event.time_start|date:"M"|upper }}</div>
+                    </div>
+                </div>
+                <div id="ingress">
+                    {% autoescape off %}
+                        {{ event.ingress_content }}
+                    {% endautoescape %}
+                </div>
+            </div>
+            <div class="card-actions">
+                <a href="/news/event/{{ event.id }}">
+                    <paper-button>Les mer</paper-button>
+                </a>
+            </div>
+            {% if request.user|has_group:"member" %}
+                <div id="admintools" class="card-actions">
+                    <a href="/news/event/{{ event.id }}/edit">
+                        <paper-button>Edit</paper-button>
+                    </a>
+                    <a href="/news/event/{{ event.id }}">
+                        <paper-button>Publish</paper-button>
+                    </a>
+                    <a href="/admin/news/event/{{ event.id }}/delete/">
+                        <paper-button>Delete</paper-button>
+                    </a>
+                </div>
+            {% endif %}
+        </paper-card>
+        <!-- <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
                 <a href="/news/event/{{ event.id }}">
                     <img alt="..." src="{{ event.thumbnail }}" data-holder-rendered="true"
@@ -36,6 +126,6 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div> -->
     {% endfor %}
 {% endif %}

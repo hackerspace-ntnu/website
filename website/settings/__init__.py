@@ -59,12 +59,19 @@ CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
 CKEDITOR_BROWSE_SHOW_DIRS = False
 
+BOWER_COMPONENTS_ROOT = os_path.join(PROJECT_PATH, 'static/bower')
+
+BOWER_INSTALLED_APPS = (
+    'polymer',
+)
+
 #STATIC_ROOT = os_path.join(PROJECT_PATH, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
@@ -136,6 +143,7 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
+    'djangobower',
 ]
 from django import VERSION
 if VERSION < (1, 7):

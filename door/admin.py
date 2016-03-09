@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DoorStatus, OpenData
+from .models import DoorStatus, OpenData, Point
 
 @admin.register(DoorStatus)
 class DoorStatusAdmin(admin.ModelAdmin):
@@ -28,4 +28,19 @@ class OpenDataAdmin(admin.ModelAdmin):
     ]
     search_fields = [
         'opened'
+    ]
+
+@admin.register(Point)
+class PointAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Data', {
+            'fields': [
+                'datetime',
+                'status',
+                'tooltip'
+            ]
+        })
+    ]
+    search_fields = [
+        'datetime'
     ]

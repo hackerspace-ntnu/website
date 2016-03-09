@@ -6,6 +6,18 @@ import os
 PROJECT_PATH = os_path.abspath(os_path.split(os_path.dirname(__file__))[0])
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DATABASE_USERNAME,\
+    DATABASE_PASSWORD
+
+SECRET_KEY = SECRET_KEY
+DEBUG = DEBUG
+DOOR_KEY = DOOR_KEY
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+DATABASE_USERNAME = DATABASE_USERNAME
+DATABASE_PASSWORD = DATABASE_PASSWORD
+
 DEBUG = True
 
 ADMINS = (
@@ -14,12 +26,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hsdb',
-        'USER': 'hackerspace',
-        'PASSWORD': '',
+        'USER': DATABASE_USERNAME,
+        'PASSWORD': DATABASE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -186,14 +199,6 @@ EMAIL_HOST = '173.194.71.108'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-
-from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-
-SECRET_KEY = SECRET_KEY
-DEBUG = DEBUG
-DOOR_KEY = DOOR_KEY
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 
 
 try:

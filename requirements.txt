@@ -8,3 +8,4 @@ django-mptt
 psycopg2
 markdown
 Pillow
+django-bower

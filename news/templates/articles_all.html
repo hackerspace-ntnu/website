@@ -1,7 +1,13 @@
 {% load staticfiles %}
 {% include 'base.html' %}
 
-
+<link rel="import" href="{% static "bower/bower_components/paper-badge/paper-badge.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-button/paper-button.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-styles/paper-styles.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-card/paper-card.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-toast/paper-toast.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-icon-button/paper-icon-button.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-toast/paper-toast.html" %}">
 <section id="articles" class="articles-section">
     <div class="container">
         <div class="row">
@@ -9,35 +15,7 @@
         </div>
         <br>
         <div class="row">
-          {% if article_list %}
-              {% for article in article_list %}
-                  <div class="col-sm-6 col-md-4">
-                      <div class="thumbnail">
-                          <a href="/news/article/{{ article.id }}">
-                              <img alt="..." src="{{ article.thumbnail }}" data-holder-rendered="true"
-                                   style="height: 200px; width: 360px; display: block;">
-                          </a>
-
-                          <div>
-                              {% autoescape off %}
-                                  {{ article.ingress_content }}
-                              {% endautoescape %}
-                              <div style="height: 10px;"></div>
-                              <p>
-                                  <a href="/news/article/{{ article.id }}"
-                                      style="
-                                          position: absolute;
-                                          bottom: 24px;
-                                          right: 24px;
-                                  ">
-                                      Les mer...
-                                  </a>
-                              </p>
-                          </div>
-                      </div>
-                  </div>
-              {% endfor %}
-          {% endif %}
+            {% include 'articles.html' %}
         </div>
     </div>
 </section>

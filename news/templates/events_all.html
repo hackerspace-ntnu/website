@@ -1,6 +1,13 @@
 {% load staticfiles %}
 {% include 'base.html' %}
 
+<link rel="import" href="{% static "bower/bower_components/paper-badge/paper-badge.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-button/paper-button.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-styles/paper-styles.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-card/paper-card.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-toast/paper-toast.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-icon-button/paper-icon-button.html" %}">
+<link rel="import" href="{% static "bower/bower_components/paper-toast/paper-toast.html" %}">
 <section id="events" class="events-section">
     <div class="container">
         <div class="row">
@@ -8,47 +15,7 @@
         </div>
         <br>
         <div class="row">
-          {% if event_list %}
-              {% for event in event_list %}
-                  <div class="col-sm-6 col-md-4">
-                      <div class="thumbnail">
-                          <a href="/news/event/{{ event.id }}">
-                              <img alt="..." src="{{ event.thumbnail }}" data-holder-rendered="true"
-                                   style="height: 200px; width: 360px; display: block;">
-                          </a>
-
-                          <div>
-                              <h3 id="thumbnail-label" style="position:absolute; left:25px; top:190px;">
-                                  <div style="font-size: 50px; font-weight: normal;">{{ event.time_start|date:"d" }}</div>
-                                  <div style="color: #0b0; font-weight: normal;">{{ event.time_start|date:"M"|upper }}</div>
-                                  <a class="anchorjs-link" href="index.html#thumbnail-label">
-                                      <span class="anchorjs-icon"></span>
-                                  </a>
-                              </h3>
-                              <div style="text-align: left; margin-left: 75px; min-height: 55px;">
-                                  <h2 style="font-size: 14px; margin-top: 14px;">
-                                      {{ event.time_start|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
-                                  </h2>
-                              </div>
-                              {% autoescape off %}
-                                  {{ event.ingress_content }}
-                              {% endautoescape %}
-                              <div style="height: 10px;"></div>
-                              <p>
-                                  <a href="/news/event/{{ event.id }}"
-                                      style="
-                                              position: absolute;
-                                              bottom: 24px;
-                                              right: 24px;
-                                              ">
-                                      Les mer...
-                                  </a>
-                              </p>
-                          </div>
-                      </div>
-                  </div>
-              {% endfor %}
-          {% endif %}
+            {% include 'events.html' %}
         </div>
     </div>
 </section>

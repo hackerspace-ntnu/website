@@ -1,37 +1,37 @@
 {% load staticfiles %}
 {% load check_user_group %}
 {% if article_list %}
+    <style is="custom-style">
+        paper-card{
+            margin: 5px;
+        }
+        #top {
+            height: 90px;
+        }
+        #title {
+            font-size: 34px;
+            text-align: center;;
+        }
+        .card-actions a {
+            color: #4E4B46;
+        }
+        .card-actions a paper-button {
+            width: 140px;
+        }
+        #admintools a paper-button{
+            font-size: 12px;
+            width: 80px;
+            height: 30px;
+            text-align: center;
+        }
+        .iron-image {
+            height: 120px;
+        }
+        img {
+            height: 120px;
+        }
+    </style>
     {% for article in article_list %}
-      <style is="custom-style">
-          paper-card{
-              margin: 5px;
-          }
-          #top {
-              height: 90px;
-          }
-          #title {
-              font-size: 34px;
-              text-align: center;;
-          }
-          .card-actions a {
-              color: #4E4B46;
-          }
-          .card-actions a paper-button {
-              width: 140px;
-          }
-          #admintools a paper-button{
-              font-size: 12px;
-              width: 80px;
-              height: 30px;
-              text-align: center;
-          }
-          .iron-image {
-              height: 120px;
-          }
-          img {
-              height: 120px;
-          }
-      </style>
       <paper-card style="width:360px;" image="{{ article.thumbnail }}" href="/news/article/{{ article.id }}">
           <div class="card-content">
               <div id="top">
@@ -65,30 +65,5 @@
               </div>
           {% endif %}
       </paper-card>
-        <!-- <div class="col-sm-6 col-md-4">
-            <div class="thumbnail">
-                <a href="/news/article/{{ article.id }}">
-                    <img alt="..." src="{{ article.thumbnail }}" data-holder-rendered="true"
-                         style="height: 200px; width: 360px; display: block;">
-                </a>
-
-                <div>
-                    {% autoescape off %}
-                        {{ article.ingress_content }}
-                    {% endautoescape %}
-                    <div style="height: 10px;"></div>
-                    <p>
-                        <a href="/news/article/{{ article.id }}"
-                            style="
-                                position: absolute;
-                                bottom: 24px;
-                                right: 24px;
-                        ">
-                            Les mer...
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div> -->
     {% endfor %}
 {% endif %}

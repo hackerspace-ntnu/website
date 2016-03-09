@@ -4,17 +4,23 @@ The code running [potet.hackerspace-ntnu.no](http://potet.hackerspace-ntnu.no).
 
 ## Getting started developing
 
+#### Install all the requirements
+
 Install pip3:
 `apt-get install python3-pip`
 
 Install required packages for Pillow(Python Image Library):
 `sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk`
 
+Install postgresql:
+`sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib`
+
+#### Download the project
+
 Clone the project:
 `git clone https://github.com/hackerspace-ntnu/website.git`
 
-Install postgresql:
-`sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib`
+#### Set up the virtualenv
 
 Install virtualenv:
 `pip3 install virtualenv`
@@ -25,13 +31,26 @@ Create virtualenv:
 Activate virtualenv:
 `source venv/bin/activate`
 
+#### Install all python packages
+
 Go into the project:
 `cd website/`
 
 Install requirements:
 `pip install -r requirements.txt`
 
-####Now its time to setup the database
+Create local_settings.py:
+`vim local_settings.py`
+and add the follow values:
+- SECRET_KEY = ""
+- DEBUG = True
+- DOOR_KEY = ''
+- EMAIL_HOST_USER = 'web.hackerspace.ntnu@gmail.com'
+- EMAIL_HOST_PASSWORD = ''
+- DATABASE_USERNAME = 'hackerspace'
+- DATABASE_PASSWORD = ''
+
+#### Set up the database
 
 Change to postgres user:
 `sudo su - postgres`
@@ -54,22 +73,15 @@ Exit the database:
 Exit postgres user session:
 `exit`
 
-Create local_settings.py:
-`vim local_settings.py`
-and add the follow values:
-- SECRET_KEY = ""
-- DEBUG = True
-- DOOR_KEY = ''
-- EMAIL_HOST_USER = 'web.hackerspace.ntnu@gmail.com'
-- EMAIL_HOST_PASSWORD = ''
-- DATABASE_USERNAME = 'hackerspace'
-- DATABASE_PASSWORD = ''
+#### Populate the database
 
 Make migrations for the database:
 `python manage.py makemigrations`
 
 Migrate the database:
 `python manage.py migrate`
+
+#### Start the server
 
 Run the server:
 `python manage.py runserver`

@@ -105,9 +105,8 @@ def door_chart(request):
 
     if (timezone.now() - plot_obj.datetime).total_seconds() > 180 or plot_obj.status != door_obj.status or Point.objects.count() == 0:
 
-        if OpenData.objects.count() == 0 {
+        if OpenData.objects.count() == 0:
             return HttpResponseRedirect("/")
-        }
 
         Point.objects.all().delete()
 

@@ -1,108 +1,111 @@
-{% load staticfiles %}
+<!-- amCharts javascript sources -->
+{% load staticfiles%}
+
 {% include 'base.html' %}
-<head>
-	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" defer async></script>
-	<script src="//www.google.com/jsapi"></script>
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-</head>
-<div id="dashboard" style="width: 1200px; margin: 200px auto; margin-bottom: 100px;">
-  	<div id="chart"></div>
-  	<div id="filter" style="height: 50px;"></div>
-  </div>
+
+<div id="chartdiv" style="width: 80%; height: 400px; background:none; margin: 100px auto;" ></div>
+
 {% include 'footer.html' %}
 
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+
+<!-- amCharts javascript code -->
 <script type="text/javascript">
-	var data = [
-    {% for entry in plot_list %}
-        [new Date({{ entry.datetime|date:"Y" }}, {{ entry.datetime|date:"m" }}-1, {{ entry.datetime|date:"d" }}, {{ entry.datetime|time:"H" }}, {{ entry.datetime|time:"i" }}, {{ entry.datetime|time:"s" }}), {{ entry.status }}, '{{ entry.tooltip }}'],
-    {% endfor %}
-  ]
 
-  google.load('visualization', '1.0', {'packages':['corechart', 'controls']});
-	google.setOnLoadCallback(apiLoaded);
-	var controlWrapper;
-	function apiLoaded() {
-		var dataTable = new google.visualization.DataTable();
-    dataTable.addColumn('datetime', 'time');
-    dataTable.addColumn('number', 'door');
-    dataTable.addColumn({type: 'string', role: 'tooltip'});
-		dataTable.addRows(data);
-
-		controlWrapper = new google.visualization.ControlWrapper({
-			controlType: 'ChartRangeFilter',
-			containerId: 'filter',
-      state: {
-        range: {
-          start: new Date({{ start|date:"Y" }}, {{ start|date:"m" }}-1, {{ start|date:"d" }}, {{ start|time:"H" }}, {{ start|time:"i" }}, {{ start|time:"s" }}),
-          end: new Date({{ end|date:"Y" }}, {{ end|date:"m" }}-1, {{ end|date:"d" }}, {{ end|time:"H" }}, {{ end|time:"i" }}, {{ end|time:"s" }})
-        }
-      },
-			options: {
-				filterColumnIndex: 0,
-				ui: {
-					chartType: 'AreaChart',
-					chartOptions: {
-            backgroundColor: "transparent",
-						chartArea: {
-              height: 30,
-							width: '90%'
-						},
-						hAxis: {
-              format: 'dd/MM',
-              gridlines: {
-                color: '#d5c9aa',
-                count: 5,
-              },
-              textPosition: 'out'
-						},
-            vAxis: {
-              gridlines: {
-                color: '#d5c9aa',
-                count: 2,
-              },
-						},
-            baselineColor: '#d5c9aa',
-            colors: ['#5bba47']
-					},
-					minRangeSize: 3600000,
-        }
-      }
-		});
-
-		var chartWrapper = new google.visualization.ChartWrapper({
-			chartType: 'AreaChart',
-			containerId: 'chart',
-			options: {
-        width: 1200,
-        height: 300,
-        backgroundColor: { fill:'transparent' },
-				chartArea: {
-					width: '90%'
+	var chart = AmCharts.makeChart("chartdiv",
+		{
+			"type": "serial",
+			"categoryField": "date",
+			"dataDateFormat": "YYYY-MM-DD HH:NN:SS",
+			"colors": [
+				"#58BA59",
+				"#FCD202",
+				"#B0DE09",
+				"#0D8ECF",
+				"#2A0CD0",
+				"#CD0D74",
+				"#CC0000",
+				"#00CC00",
+				"#0000CC",
+				"#DDDDDD",
+				"#999999",
+				"#333333",
+				"#990000"
+			],
+			"theme": "default",
+			"categoryAxis": {
+				"minPeriod": "ss",
+				"parseDates": true
+			},
+			"chartCursor": {
+				"enabled": false,
+				"categoryBalloonDateFormat": "JJ:NN:SS",
+				"color": "#fff",
+				"cursorColor": "#339434"
+			},
+			"mouseWheelZoomEnabled": true,
+			"chartScrollbar": {
+				"enabled": true,
+				"oppositeAxis": false,
+				"graph": "AmGraph-1",
+				"backgroundAlpha": "0",
+				"selectedGraphFillColor": "#bbb",
+				"graphLineAlpha": 1,
+				"selectedBackgroundColor": "#bbb",
+				"selectedBackgroundAlpha": 0.5,
+				"offset": 24
+			},
+			"trendLines": [],
+			"graphs": [
+				{
+					"fillAlphas": 0.7,
+					"id": "AmGraph-1",
+					"lineAlpha": 0,
+					"title": "Door",
+					"valueField": "column-1"
 				},
-				legend: 'none',
-				hAxis: {
-          format: 'HH:mm dd/MM',
-          gridlines: {
-            color: '#d5c9aa',
-            count: 10,
-          }
-				},
-				vAxis: {
-          baselineColor: '#d5c9aa',
-          gridlines: {
-            color: '#d5c9aa',
-          },
-          ticks: [{v:0, f:"Closed"},{v:1, f:"Open"}]
-				},
-        colors: ['#5bba47'],
-			}
-		});
+			],
+			"guides": [],
+			"valueAxes": [
+				{
+					"id": "ValueAxis-1",
+					"title": "",
+					"autoGridCount": false,
+					"gridCount": 6,
+					"labelFunction": labelFunction,
+					"maximum": 1.2,
+					"gridAlpha": 0
+				}
+			],
+			"allLabels": [],
+			"balloon": {
+				"enabled": false
+			},
+			"legend": {
+				"enabled": false
+			},
+			"titles": [
+				{
+					"id": "Title-1",
+					"size": 0,
+					"text": ""
+				}
+			],
+			"dataProvider": [
+        {{ open_data | safe }}
+			]
+		}
+	);
 
-		var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
-		dashboard.bind(controlWrapper, chartWrapper).draw(dataTable);
+	function labelFunction(value, formattedValue, valueAxis){
+	    if(value === 0){
+	        return "Closed";
+			} else if(value == 1){
+	        return "Open";
+	    }
+	    else{
+	        return "";
+	    }
 	}
 </script>

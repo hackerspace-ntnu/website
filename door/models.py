@@ -20,11 +20,3 @@ class OpenData(models.Model):
 
     def __str__(self):
         return str(self.opened)
-
-class Point(models.Model):
-    datetime = models.DateTimeField()
-    status = models.IntegerField()
-    tooltip = models.CharField(max_length=50)
-
-    def __str__(self):
-        return str(self.datetime)

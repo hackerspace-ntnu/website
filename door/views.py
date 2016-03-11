@@ -23,7 +23,7 @@ def door_post(request):
                     try:
                         door_status_object = DoorStatus.objects.get(name='hackerspace')
                     except DoorStatus.DoesNotExist:
-                        door_status_object = DoorStatus(name='hackerspace', datetime=timezone.now, status=status)
+                        door_status_object = DoorStatus(name='hackerspace', datetime=timezone.now(), status=status)
 
                     if status == True:
                         door_status_object.status = status

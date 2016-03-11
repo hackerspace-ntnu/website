@@ -108,4 +108,11 @@
 	        return "";
 	    }
 	}
+
+	chart.addListener("rendered", function(event) {
+	  var end = new Date();
+	  var start = new Date();
+	  start.setHours(start.getHours() - 12);
+	  chart.zoomToDates(start, end);
+	});
 </script>

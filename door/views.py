@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from website import settings
 from datetime import datetime, timedelta
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 import json
 
 # Create your views here.
@@ -23,7 +23,7 @@ def door_post(request):
                     try:
                         door_status_object = DoorStatus.objects.get(name='hackerspace')
                     except DoorStatus.DoesNotExist:
-                        door_status_object = DoorStatus(name='hackerspace')
+                        door_status_object = DoorStatus(name='hackerspace', datetime=timezone.now, status=status)
 
                     if status == True:
                         door_status_object.status = status
@@ -103,7 +103,12 @@ def door_chart(request):
         plot_obj = DoorStatus(name='plotchart', status=not door_obj.status, datetime=timezone.now())
         plot_obj.save()
 
-    if (timezone.now() - plot_obj.datetime).total_seconds() > 180 or plot_obj.status != door_obj.status:
+    if (timezone.now() - plot_obj.datetime).total_seconds() > 180 or plot_obj.status != door_obj.status or Point.objects.count() == 0:
+
+        if OpenData.objects.count() == 0 {
+            return HttpResponseRedirect("/")
+        }
+
         Point.objects.all().delete()
 
         start = OpenData.objects.all()[0].opened

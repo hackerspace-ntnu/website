@@ -144,6 +144,7 @@ INSTALLED_APPS = [
     'mptt',
     'authentication',
     'djangobower',
+    'django_user_agents',
 ]
 from django import VERSION
 if VERSION < (1, 7):

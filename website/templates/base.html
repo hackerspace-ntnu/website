@@ -14,23 +14,19 @@
     <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
     <script src="{% static "bower/bower_components/webcomponentsjs/webcomponents-lite.min.js" %}"></script>
     <link rel="import" href="{% static "bower/bower_components/polymer/polymer.html" %}">
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "js/jquery.easing.min.js" %}"></script>
+    <script src="{% static "js/scrolling-nav.js" %}"></script>
+    <script src="{% static "js/opening_bar.js" %}"></script>
+    <script src="{% static "js/logo.js" %}"></script>
+    <link href="{% static "css/logo.css" %}" rel="stylesheet">
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" class="open">
 
+<img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
 
-<div id="header">
-    <div id="logo" class="logo"></div>
-</div>
-
-<script src="{% static "js/jquery.js" %}"></script>
-
-<script src="{% static "js/bootstrap.min.js" %}"></script>
-
-<script src="{% static "js/jquery.easing.min.js" %}"></script>
-<script src="{% static "js/scrolling-nav.js" %}"></script>
-<script src="{% static "js/opening_bar.js" %}"></script>
-<script src="{% static "js/logoclick.js" %}"></script>
+<div id="header"></div>
 
 </body>
 

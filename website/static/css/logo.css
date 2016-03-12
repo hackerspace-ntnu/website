@@ -1,0 +1,38 @@
+#homeico {
+  z-index: 10000000;
+  webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+}
+#homeico:hover {
+  cursor: pointer;
+}
+.floatDown {
+    /*animation: floatDown 3s ease-in-out;*/
+    top: 10px;
+    left: 50px;
+    width: 80px;
+    height: 80px;
+    margin-left: -40px;
+    position: fixed;
+}
+.floatUp {
+    /*animation: floatUp 3s ease-in-out;*/
+    top: 22px;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    position: absolute;;
+}
+@keyframes floatDown {
+  0% {transform: translateY(-100px); transform: translateX(100%);}
+  50% {transform: translateY(0px); transform: translateX(100%);}
+  100% {transform: translateY(0px); transform: translateX(0px);}
+}
+@keyframes floatUp {
+  0% {transform: translateY(100px); transform: translateX(50%);}
+  50% {transform: translateY(100px); transform: translateX(50%);}
+  100% {transform: translateY(0px); transform: translateX(50px);}
+}

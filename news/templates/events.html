@@ -49,7 +49,13 @@
         }
     </style>
     {% for event in event_list %}
-        <paper-card style="width:360px;" image="{{ event.thumbnail }}" href="/news/event/{{ event.id }}">
+        <paper-card
+        {% if mobile %}
+            style="width:90%;"
+        {% else %}
+            style="width:360px;"
+        {% endif %}
+        image="{{ event.thumbnail }}" href="/news/event/{{ event.id }}">
             <div class="card-content">
                 <div id="top">
                     <div id=right>

@@ -1,3 +1,16 @@
+<style>
+    body {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    h1 {
+        font-size: 64px;
+        font-weight: 300;
+        letter-spacing: -2px;
+        margin: .3em 0 .1em 0;
+    }
+</style>
+
 <h1>Current status:</h1>
 {% if status.status %}
     <p>Open since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>

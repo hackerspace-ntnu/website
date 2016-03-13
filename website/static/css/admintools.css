@@ -5,16 +5,12 @@
   z-index: 100000;
 }
 
-#adminTools a {
-  text-decoration: none;
-  color: #41913E;
-}
-
-#adminTools a:visited, #adminTools a:link, #adminTools a:active {
+#adminTools .dropdown-toggle, #adminTools .dropdown-toggle:visited, #adminTools .dropdown-toggle:link, #adminTools .dropdown-toggle:active {
+    text-decoration: none;
     color: #41913E;
 }
 
-#adminTools a:hover {
+#adminTools .dropdown-toggle:hover {
   color: #275d26;
   cursor: pointer;
 }

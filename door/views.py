@@ -7,6 +7,7 @@ from website import settings
 from datetime import datetime, timedelta
 from django.http import JsonResponse, HttpResponseRedirect
 import json
+from django_user_agents.utils import get_user_agent
 
 # Create your views here.
 
@@ -93,6 +94,7 @@ def door_data(request):
     return render(request, 'door_data.html', context)
 
 def door_chart(request):
+    user_agent = get_user_agent(request)
     try:
         door_obj = DoorStatus.objects.get(name='hackerspace')
     except DoorStatus.DoesNotExist:
@@ -134,5 +136,6 @@ def door_chart(request):
 
     context = {
         'open_data': s,
+        'mobile': user_agent.is_mobile,
     }
     return render(request, 'chart.html', context)

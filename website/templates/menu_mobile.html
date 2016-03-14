@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<paper-menu id="menu" style="background: #9CD590;">
+    <paper-submenu>
+        <paper-item style="height: 80px; background: #9CD590;" class="menu-trigger"><img style="width: 40px; height: 40px;" src="{% static "img/ic_menu_black_24px.svg" %}" /></paper-item>
+        <paper-menu class="menu-content" style="background: #9CD590;">
+            <paper-item><a class="page-scroll" href="#about">OM OSS</a></paper-item>
+            <paper-item><a class="page-scroll" href="#articles">ARTICLES</a></paper-item>
+            <paper-item><a class="page-scroll" href="#events">EVENTS</a></paper-item>
+            <paper-item><a href="/wiki">WIKI</a></paper-item>
+            {% if not request.user.is_authenticated %}
+            <paper-submenu>
+                <paper-item class="menu-trigger"><a>USER<span class="caret"></span></a></paper-item>
+                <paper-menu class="menu-content" style="background: #9CD590;">
+                    <paper-item><a href="/authentication/change-password">Change password</a></paper-item>
+                    <paper-item><a href="/authentication/logout">Logout</a></paper-item>
+                </paper-menu>
+            </paper-submenu>
+            {% else %}
+            <paper-item><a>LOGIN</a></paper-item>
+            {% endif %}
+        </paper-menu>
+    </paper-submenu>
+</paper-menu>
+<style>
+    paper-item {
+        background: #b5d6ae;
+    }
+    paper-item a , paper-item a:visited, paper-item a:link, paper-item a:active {
+        text-decoration: none;
+        color: #000;
+    }
+</style>

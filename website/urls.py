@@ -6,6 +6,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.http.response import HttpResponse
 from django.views.static import serve as static_serve
+from wiki.urls import get_pattern as get_wiki_pattern
+from django_nyt.urls import get_pattern as get_notify_pattern
+
 from website.views import index
 
 admin.autodiscover()
@@ -19,6 +22,8 @@ urlpatterns = [
     url(r'^authentication/', include('authentication.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
+    url(r'^notify/', get_notify_pattern()),
+    url(r'^wiki/', get_wiki_pattern, 'wiki')
 ]
 
 
@@ -27,11 +32,3 @@ if settings.DEBUG:
     urlpatterns += [
         url(r'^media/(?P<path>.*)$', static_serve, {'document_root': settings.MEDIA_ROOT}),
     ]
-
-from wiki.urls import get_pattern as get_wiki_pattern
-from django_nyt.urls import get_pattern as get_notify_pattern
-urlpatterns += [
-    url(r'^notify/', get_notify_pattern()),
-    url(r'^wiki/', get_wiki_pattern())
-]
-

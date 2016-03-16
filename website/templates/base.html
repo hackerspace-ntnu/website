@@ -4,43 +4,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hackerspace NTNU</title>
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/style.css" %}" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
+    {% include 'head.html' %}
 </head>
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" class="open">
-
-
-<div id="header">
-    <div id="logo" class="logo"></div>
-</div>
-
-<script src="{% static "js/jquery.js" %}"></script>
-
-<script src="{% static "js/bootstrap.min.js" %}"></script>
-
-<script src="{% static "js/jquery.easing.min.js" %}"></script>
-<script src="{% static "js/scrolling-nav.js" %}"></script>
-<script src="{% static "js/opening_bar.js" %}"></script>
-<script src="{% static "js/logoclick.js" %}"></script>
-
-</body>
-
-{% if request.user|has_group:"member" %}
-    {% include 'admintools_home.html' %}
-{% endif %}
+<div id="header"></div>
 
 <div style="height: 80px;"></div>
 
+<<<<<<< HEAD
 <section id="login">
     {% include "login.html" %}
 </section>
+
+=======
+{% if mobile %}
+    <img id="homeico_mobile" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+{% else %}
+    <img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+{% endif %}
+>>>>>>> origin
 
 {% block errors %}
 {% endblock %}

@@ -9,9 +9,11 @@ from website.settings import EMAIL_HOST_USER
 from . import password_generate
 from threading import Thread
 import time
+from django_user_agents.utils import get_user_agent
 
 
 def login_user(request):
+    user_agent = get_user_agent(request)
     error_message = None
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -30,8 +32,42 @@ def login_user(request):
     else:
         form = LoginForm()
 
-    return render(request, 'index.html', {'form': form,
-                                          'error_message': error_message})
+    context = {
+        'form': form,
+        'error_message': error_message,
+        'mobile': user_agent.is_mobile,
+    }
+
+    return render(request, 'index.html', context)
+
+
+def login_mobile(request):
+    user_agent = get_user_agent(request)
+    error_message = None
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('index'))
+            else:
+                error_message = 'Username or password is incorrect'
+        else:
+            error_message = 'Invalid input'
+    else:
+        form = LoginForm()
+
+    context = {
+        'form': form,
+        'error_message': error_message,
+        'mobile': user_agent.is_mobile,
+    }
+
+    return render(request, 'login_mobile.html', context)
 
 
 def logout_user(request):
@@ -43,6 +79,7 @@ def logout_user(request):
 
 
 def change_password(request):
+    user_agent = get_user_agent(request)
     error_message = None
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
@@ -62,8 +99,12 @@ def change_password(request):
     else:
         form = ChangePasswordForm()
 
-    return render(request, 'change_password.html', {'form': form,
-                                                    'error_message': error_message})
+    context = {
+        'form': form,
+        'error_message': error_message,
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'change_password.html', context)
 
 
 def change_password_done(request):
@@ -71,6 +112,7 @@ def change_password_done(request):
 
 
 def signup(request):
+    user_agent = get_user_agent(request)
     error_message = None
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -84,16 +126,24 @@ def signup(request):
             try:
                 user = User.objects.get(username=username)
                 error_message = 'Username already exists'
-                return render(request, 'signup.html', {'form': form,
-                                                       'error_message': error_message})
+                context = {
+                    'form': form,
+                    'error_message': error_message,
+                    'mobile': user_agent.is_mobile,
+                }
+                return render(request, 'signup.html', context)
             except User.DoesNotExist:
                 pass
 
             try:
                 user = User.objects.get(email=email)
                 error_message = 'Email is already registered'
-                return render(request, 'signup.html', {'form': form,
-                                                       'error_message': error_message})
+                context = {
+                    'form': form,
+                    'error_message': error_message,
+                    'mobile': user_agent.is_mobile,
+                }
+                return render(request, 'signup.html', context)
             except User.DoesNotExist:
                 pass
 
@@ -117,14 +167,22 @@ def signup(request):
 
             else:
                 error_message = 'You need to use an NTNU email'
-                return render(request, 'signup.html',  {'form': form,
-                                                        'error_message': error_message})
+                context = {
+                    'form': form,
+                    'error_message': error_message,
+                    'mobile': user_agent.is_mobile,
+                }
+                return render(request, 'signup.html',  context)
 
     else:
         form = SignUpForm()
 
-    return render(request, 'signup.html', {'form': form,
-                                           'error_message': error_message})
+    context = {
+        'form': form,
+        'error_message': error_message,
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'signup.html', context)
 
 
 def send_password_email(subject, message, email):
@@ -136,10 +194,15 @@ def send_password_email(subject, message, email):
 
 
 def signup_done(request):
-    return render(request, 'signup_done.html')
+    user_agent = get_user_agent(request)
+    context = {
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'signup_done.html', context)
 
 
 def forgot_password(request):
+    user_agent = get_user_agent(request)
     error_message = None
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)
@@ -149,8 +212,12 @@ def forgot_password(request):
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
                 error_message = 'User does not exist'
-                return render(request, 'forgot_password.html', {'form': form,
-                                                                'error_message': error_message})
+                context = {
+                    'form': form,
+                    'error_message': error_message,
+                    'mobile': user_agent.is_mobile,
+                }
+                return render(request, 'forgot_password.html', context)
             else:
                 new_password = password_generate.generate_password()
                 user.set_password(new_password)
@@ -170,10 +237,17 @@ def forgot_password(request):
     else:
         form = ForgotPasswordForm()
 
-    return render(request, 'forgot_password.html', {'form': form,
-                                                    'error_message': error_message})
+    context = {
+        'form': form,
+        'error_message': error_message,
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'forgot_password.html', context)
 
 
 def forgot_password_done(request):
-    return render(request, 'forgot_password_done.html')
-
+    user_agent = get_user_agent(request)
+    context = {
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'forgot_password_done.html', context)

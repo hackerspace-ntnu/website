@@ -5,6 +5,11 @@
 {% if request.user|has_group:"member" %}
     {% include 'admintools_news.html' %}
 {% endif %}
+{% if mobile %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/change_password_mobile.css" %}">
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/change_password.css" %}">
+{% endif %}
 <script>
   var $id = {{ article.id }};
 </script>
@@ -12,12 +17,7 @@
 
 <div style="height: 50px;"></div>
 
-<div id="content" style="
-      width:600px;
-      min-height: 300px;
-      margin: 50px auto;
-      margin-bottom: 100px;
-  ">
+<div id="content">
     {% autoescape off %}
         {{ article.main_content }}
     {% endautoescape %}

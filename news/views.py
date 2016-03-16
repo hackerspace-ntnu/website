@@ -8,12 +8,15 @@ from django.utils import formats
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django_user_agents.utils import get_user_agent
 
 
 def events(request):
     event_list = Event.objects.order_by('-time_start')
+    user_agent = get_user_agent(request)
     context = {
         'event_list': event_list,
+        'mobile': user_agent.is_mobile,
     }
 
     return render(request, 'events_all.html', context)
@@ -21,8 +24,10 @@ def events(request):
 
 def event(request, event_id):
     requested_event = Event.objects.get(pk=event_id)
+    user_agent = get_user_agent(request)
     context = {
         'event': requested_event,
+        'mobile': user_agent.is_mobile,
     }
 
     return render(request, 'event.html', context)
@@ -30,8 +35,10 @@ def event(request, event_id):
 
 def articles(request):
     article_list = Article.objects.order_by('-pub_date')
+    user_agent = get_user_agent(request)
     context = {
         'article_list': article_list,
+        'mobile': user_agent.is_mobile,
     }
 
     return render(request, 'articles_all.html', context)
@@ -39,14 +46,17 @@ def articles(request):
 
 def article(request, article_id):
     requested_article = Article.objects.get(pk=article_id)
+    user_agent = get_user_agent(request)
     context = {
         'article': requested_article,
+        'mobile': user_agent.is_mobile,
     }
 
     return render(request, 'article.html', context)
 
 
 def edit_event(request, event_id):
+    user_agent = get_user_agent(request)
     if request.method == 'POST':
         form = EventEditForm(request.POST)
         if form.is_valid():
@@ -98,10 +108,17 @@ def edit_event(request, event_id):
                 'date': formats.date_format(requested_event.time_start, 'd/m/Y'),
             })
 
-    return render(request, 'edit_event.html', {'form': form, 'event_id': event_id})
+    context = {
+        'form': form,
+        'event_id': event_id,
+        'mobile': user_agent.is_mobile,
+    }
+
+    return render(request, 'edit_event.html', context)
 
 
 def edit_article(request, article_id):
+    user_agent = get_user_agent(request)
     if request.method == 'POST':
         form = ArticleEditForm(request.POST)
         if form.is_valid():
@@ -132,11 +149,17 @@ def edit_article(request, article_id):
                 'main_content': requested_article.main_content,
                 'thumbnail': requested_article.thumbnail,
             })
+    context = {
+        'form': form,
+        'article_id': article_id,
+        'mobile': user_agent.is_mobile,
+    }
 
-    return render(request, 'edit_article.html', {'form': form, 'article_id': article_id})
+    return render(request, 'edit_article.html', context)
 
 
 def upload_file(request):
+    user_agent = get_user_agent(request)
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -158,7 +181,12 @@ def upload_file(request):
             return HttpResponseRedirect('/news/upload-done')
     else:
         form = UploadForm()
-    return render(request, 'upload.html', {'form': form})
+
+    context = {
+        'form': form,
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'upload.html', context)
 
 
 def upload_done(request):

@@ -57,56 +57,14 @@
     width: 100%;
     margin-bottom: 5px;
 }
-.button {
-  font-size: 18px;
-  margin-right: 10px;
-  margin-left: 1px;
-  float: left;
-  background:#4CB04A;
-  padding: 3px 8px;
-  border-radius:3px;
-  color:#fff;
-  text-decoration: none;
-  border: 3px none #41913E;
-  border-bottom-style: solid;
-  outline:0;
-}
-
 #errorMessage{
     text-align: center;
     color:#4e4b46;
     font-size: 14px;
     margin-top: 10px;
 }
-
 #forgotPasswordLink{
     font-size: 14px;
-}
-
-.outerButton {
-  display: inline;
-  padding: 0;
-}
-.button:hover {
-  background:#56BC51;
-}
-.outerButton:active {
-  display: block;
-  animation: buttonDown 0.2s ease-in-out;
-}
-.button:active {
-  animation: buttonBorder 0.2s ease-in-out;
-}
-@keyframes buttonDown {
-  0% {transform: translateY(0);}
-  50% {transform: translateY(2px);}
-  100% {transform: translateY(0);}
-}
-@keyframes buttonBorder {
-  0% {border-width: 3px;}
-  20% {border-width: 3px;}
-  50% {border-width: 1px;}
-  100% {border-width: 3px;}
 }
 @keyframes loginIn {
     0% {transform: translateY(-300px);}

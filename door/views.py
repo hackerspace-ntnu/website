@@ -4,9 +4,10 @@ from .models import DoorStatus, OpenData
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from website import settings
-from datetime import datetime
-from django.http import JsonResponse
+from datetime import datetime, timedelta
+from django.http import JsonResponse, HttpResponseRedirect
 import json
+from django_user_agents.utils import get_user_agent
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ def door_post(request):
                     try:
                         door_status_object = DoorStatus.objects.get(name='hackerspace')
                     except DoorStatus.DoesNotExist:
-                        door_status_object = DoorStatus(name='hackerspace')
+                        door_status_object = DoorStatus(name='hackerspace', datetime=timezone.now(), status=status)
 
                     if status == True:
                         door_status_object.status = status
@@ -84,6 +85,7 @@ def door_data(request):
         status = DoorStatus.objects.get(name='hackerspace')
     except DoorStatus.DoesNotExist:
         status = DoorStatus(name='hackerspace')
+
     context = {
         'opendata_list': opendata_list,
         'status': status,
@@ -92,13 +94,48 @@ def door_data(request):
     return render(request, 'door_data.html', context)
 
 def door_chart(request):
+    user_agent = get_user_agent(request)
     try:
         door_obj = DoorStatus.objects.get(name='hackerspace')
     except DoorStatus.DoesNotExist:
         door_obj = DoorStatus(name='hackerspace', status=True, datetime=timezone.now())
+
+    s = ""
+    for opendata in OpenData.objects.all():
+        s += '{"column-1": 0, "date": "'
+        s += opendata.opened.strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+        s += '{"column-1": 1, "date": "'
+        s += opendata.opened.strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+        s += '{"column-1": 1, "date": "'
+        s += opendata.closed.strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+        s += '{"column-1": 0, "date": "'
+        s += opendata.closed.strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+
+    if door_obj.status:
+        s += '{"column-1": 0, "date": "'
+        s += door_obj.datetime.strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+        s += '{"column-1": 1, "date": "'
+        s += door_obj.datetime.strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+        s += '{"column-1": 1, "date": "'
+        s += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+    else:
+        s += '{"column-1": 0, "date": "'
+        s += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+        s += '"},\n'
+
+    import html.parser
+    html_parser = html.parser.HTMLParser()
+    s = html_parser.unescape(s)
+
     context = {
-        'data': OpenData.objects.all(),
-        'status': door_obj,
-        'now': timezone.now(),
+        'open_data': s,
+        'mobile': user_agent.is_mobile,
     }
     return render(request, 'chart.html', context)

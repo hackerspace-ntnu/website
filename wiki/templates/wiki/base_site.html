@@ -1,8 +1,9 @@
 {% load sekizai_tags i18n wiki_tags check_user_group %}<!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - django-\/\/  i K |{% endblock %}</title>
+    <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - wiki{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
@@ -35,7 +36,17 @@
             <span class="icon-bar"></span>
           </button>
           {% block wiki_header_branding %}
-          <a class="navbar-brand" href="{% url 'wiki:root' %}">Hackerspace WIKI</a>
+          <a class="navbar-brand" href="/">
+              <img style="float: left; margin-right: 4px; margin-top: 0;  height: 24px;" src="{% static "img/Logo_round_green.png" %}"/>
+              <font face="Hackerspace" style="float: left; margin-top: 5px; font-size: 30px;">HACKERSPACE</font>
+          </a>
+          <style>
+              @font-face {
+                 font-family: Hackerspace;
+                 src: url({% static "fonts/ostrich-regular.woff" %});
+              }
+          </style>
+          <a class="navbar-brand" style="margin-top: 5px; margin-left: 10px;" href="{% url 'wiki:root' %}">Wiki root</a>
           {% endblock %}
         </div>
         <div class="navbar-collapse collapse">
@@ -90,11 +101,6 @@
             </ul>
             {% endif %}
           </div>
-          {% block wiki_header_navlinks %}
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/">{% trans "Main page" %}</a></li>
-          </ul>
-          {% endblock %}
         </div>
       </div>
     </div>

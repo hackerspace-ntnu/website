@@ -18,10 +18,10 @@ class ChangePasswordForm(forms.Form):
                                        widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+                                   widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+                                           widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
 
 
 class SignUpForm(forms.Form):

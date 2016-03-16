@@ -4,37 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/style.css" %}" rel="stylesheet">
-    <link href="{% static "css/logo.css" %}" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
-    <link rel="import" href="{% static "bower/bower_components/polymer/polymer.html" %}">
-    <link rel="import" href="{% static "bower/bower_components/paper-menu/paper-menu.html" %}">
-    <link rel="import" href="{% static "bower/bower_components/paper-item/paper-item.html" %}">
-    <link rel="import" href="{% static "bower/bower_components/paper-menu/paper-submenu.html" %}">
-    <script src="{% static "bower/bower_components/webcomponentsjs/webcomponents-lite.min.js" %}"></script>
-    <script src="{% static "js/jquery.js" %}"></script>
-    <script src="{% static "js/jquery.easing.min.js" %}"></script>
-    <script src="{% static "js/scrolling-nav.js" %}"></script>
-    <script src="{% static "js/logo.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hackerspace NTNU</title>
+    {% include 'head.html' %}
 </head>
 
-<img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+<div id="header"></div>
 
-{% if mobile == False %}
-    {% if request.user|has_group:"member" %}
-        {% include 'admintools_home.html' %}
-    {% endif %}
+<div style="height: 80px;"></div>
 
-    <div id="header"></div>
-
-    <div style="height: 80px;"></div>
-
-    <section id="login">
-        {% include "login.html" %}
-    </section>
+{% if mobile %}
+    <img id="homeico_mobile" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+{% else %}
+    <img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
 {% endif %}

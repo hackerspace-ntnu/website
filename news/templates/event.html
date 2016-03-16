@@ -2,6 +2,14 @@
 {% load check_user_group %}
 {% include 'base.html' %}
 
+{% if request.user|has_group:"member" %}
+    {% include 'admintools_news.html' %}
+{% endif %}
+{% if mobile %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
+{% endif %}
 <script>
   var $id = {{ event.id }};
 </script>
@@ -9,16 +17,7 @@
 
 <div style="height: 50px;"></div>
 
-{% if request.user|has_group:"member" %}
-    {% include 'admintools_news.html' %}
-{% endif %}
-
-<div id="content" style="
-      width:600px;
-      min-height: 300px;
-      margin: 50px auto;
-      margin-bottom: 100px;
-  ">
+<div id="content">
     {% autoescape off %}
         {{ event.main_content }}
     {% endautoescape %}

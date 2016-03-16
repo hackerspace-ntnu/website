@@ -56,14 +56,13 @@
                     <paper-button>Les mer</paper-button>
                 </a>
             </div>
-            {% if request.user|has_group:"member" %}
+            {% if request.user|has_group:"member" and not mobile %}
                 <div id="admintools" class="card-actions">
                     <a href="/news/article/{{ article.id }}/edit">
                         <paper-button>Edit</paper-button>
                     </a>
                     <a>
-                        <paper-toast id="toast_publish" text="This action is not yet available."></paper-toast>
-                        <paper-button on-click="toast_publish.open()">Publish</paper-button>
+                        <paper-button>Publish</paper-button>
                     </a>
                     <a href="/admin/news/article/{{ article.id }}/delete/">
                         <paper-button>Delete</paper-button>

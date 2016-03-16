@@ -1,8 +1,9 @@
 {% load staticfiles %}
 
 <script src="{% static "js/loginform.js" %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "css/loginform.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
 
 <div id="loginform" style="display:none">
     <form action="/authentication/login/" method="post">

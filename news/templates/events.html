@@ -82,12 +82,12 @@
                     <paper-button>Les mer</paper-button>
                 </a>
             </div>
-            {% if request.user|has_group:"member" %}
+            {% if request.user|has_group:"member" and not mobile %}
                 <div id="admintools" class="card-actions">
                     <a href="/news/event/{{ event.id }}/edit">
                         <paper-button>Edit</paper-button>
                     </a>
-                    <a href="/news/event/{{ event.id }}">
+                    <a>
                         <paper-button>Publish</paper-button>
                     </a>
                     <a href="/admin/news/event/{{ event.id }}/delete/">

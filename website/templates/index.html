@@ -1,19 +1,37 @@
-{% include 'base.html' %}
 {% load staticfiles %}
-<link rel="import" href="{% static "bower/bower_components/paper-badge/paper-badge.html" %}">
-<link rel="import" href="{% static "bower/bower_components/paper-button/paper-button.html" %}">
-<link rel="import" href="{% static "bower/bower_components/paper-styles/paper-styles.html" %}">
-<link rel="import" href="{% static "bower/bower_components/paper-card/paper-card.html" %}">
-<link rel="import" href="{% static "bower/bower_components/paper-toast/paper-toast.html" %}">
-<link rel="import" href="{% static "bower/bower_components/paper-icon-button/paper-icon-button.html" %}">
-<script src="{% static "js/door_status.js" %}"></script>
+{% load check_user_group %}
+
+<head>
+    {% include 'head.html' %}
+    <link rel="import" href="{% static "bower/bower_components/paper-menu/paper-menu.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-item/paper-item.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-menu/paper-submenu.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-badge/paper-badge.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-button/paper-button.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-styles/paper-styles.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-card/paper-card.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-toast/paper-toast.html" %}">
+    <link rel="import" href="{% static "bower/bower_components/paper-icon-button/paper-icon-button.html" %}">
+    <script src="{% static "js/door_status.js" %}"></script>
+</head>
 
 <body>
+
 <div id="menu">
     {% if mobile %}
     {% include 'menu_mobile.html' %}
+    <img id="homeico_mobile" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
     {% else %}
+    <div id="header"></div>
+    <div style="height: 80px;"></div>
+    <img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+    <section id="login">
+        {% include "login.html" %}
+    </section>
     {% include 'menu.html' %}
+    {% if request.user|has_group:"member" %}
+        {% include 'admintools_home.html' %}
+    {% endif %}
     {% endif %}
 </div>
 {% if mobile %}

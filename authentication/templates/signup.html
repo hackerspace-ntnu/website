@@ -1,7 +1,13 @@
 {% load staticfiles %}
 {% include 'base.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static "css/signupForm.css" %}">
+{% if mobile %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/signup_mobile.css" %}">
+{% else %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/signup.css" %}">
+{% endif %}
+<link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
 
 <h1 id="pageName">Sign up</h1>
 <div id="signupForm">

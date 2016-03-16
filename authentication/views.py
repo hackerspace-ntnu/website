@@ -64,7 +64,7 @@ def login_mobile(request):
     context = {
         'form': form,
         'error_message': error_message,
-        'mobile': False,#user_agent.is_mobile,
+        'mobile': user_agent.is_mobile,
     }
 
     return render(request, 'login_mobile.html', context)

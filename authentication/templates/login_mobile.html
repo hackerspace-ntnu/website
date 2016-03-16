@@ -1,0 +1,25 @@
+{% load staticfiles %}
+{% include 'base.html' %}
+
+<link rel="stylesheet" type="text/css" href="{% static "css/login_mobile.css" %}">
+
+<h1 id="pageName">Login</h1>
+<div id="loginMobile">
+    <form action="/authentication/login/" method="post">
+        {% csrf_token %}
+        <div class="fieldWrapper">
+            <!--<label for="{{ form.username.id_for_label }}">Username: </label>-->
+            {{ form.username }}
+        </div>
+        <div class="fieldWrapper">
+            <!--<label for="{{ form.password.id_for_label }}">Password: </label>-->
+            {{ form.password }}
+        </div>
+        {% if error_message %}
+            <p id="errorMessage">{{ error_message }}</p>
+        {% endif %}
+        <div class="outerButton"><input id="loginButton" class="button" type="submit" value="Login"/></div>
+    </form>
+    <div class="outerButton"><a href="/authentication/signup" id="loginButton" class="button" value="signUp">Sign up</a></div>
+    <a id="forgotPasswordLink" href="/authentication/forgot-password">Forgot your password?</a>
+</div>

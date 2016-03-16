@@ -41,6 +41,35 @@ def login_user(request):
     return render(request, 'index.html', context)
 
 
+def login_mobile(request):
+    user_agent = get_user_agent(request)
+    error_message = None
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect(reverse('index'))
+            else:
+                error_message = 'Username or password is incorrect'
+        else:
+            error_message = 'Invalid input'
+    else:
+        form = LoginForm()
+
+    context = {
+        'form': form,
+        'error_message': error_message,
+        'mobile': False,#user_agent.is_mobile,
+    }
+
+    return render(request, 'login_mobile.html', context)
+
+
 def logout_user(request):
 
     if request.user.is_authenticated:

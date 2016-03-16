@@ -7,7 +7,7 @@
             <paper-item><a class="page-scroll" href="#articles">ARTICLES</a></paper-item>
             <paper-item><a class="page-scroll" href="#events">EVENTS</a></paper-item>
             <paper-item><a href="/wiki">WIKI</a></paper-item>
-            {% if not request.user.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <paper-submenu>
                 <paper-item class="menu-trigger"><a>USER<span class="caret"></span></a></paper-item>
                 <paper-menu class="menu-content" style="background: #9CD590;">

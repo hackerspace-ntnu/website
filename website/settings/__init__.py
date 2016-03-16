@@ -18,14 +18,15 @@ EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 DATABASE_USERNAME = DATABASE_USERNAME
 DATABASE_PASSWORD = DATABASE_PASSWORD
 
-DEBUG = True
-
+DEBUG = False
+THUMBNAIL_DEBUG = False
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
 
+ALLOWED_HOSTS = ['potet.hackerspace-ntnu.no','beta.hackerspace-ntnu.no']
 
 DATABASES = {
     'default': {
@@ -50,9 +51,9 @@ USE_I18N = True
 USE_L10N = True
 #USE_TZ = True
 
-MEDIA_ROOT = os_path.join(PROJECT_PATH, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/static_root/'
+STATIC_ROOT = os.path.join(PROJECT_PATH, "static")
 CKEDITOR_UPLOAD_PATH = os_path.join(PROJECT_PATH, 'media/uploads')
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
@@ -67,7 +68,7 @@ BOWER_INSTALLED_APPS = (
 
 #STATIC_ROOT = os_path.join(PROJECT_PATH, 'static')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
+#STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',

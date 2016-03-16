@@ -49,13 +49,13 @@
             style="width: 100%; height: auto !important;" />
     </div>
     <script>
-    $(window).on("load", function() {
+    $(function() {
     {% if mobile %}
           $("#statusImg").css("margin-top", $(window).height()/2 - $("#statusImg").height()/2 - 140);
     {% else %}
           $("#statusImg").css("margin-top", $(window).height()/2 - $("#statusImg").height()/2 - 240);
     {% endif %}
-    });
+    })();
     </script>
 </section>
 

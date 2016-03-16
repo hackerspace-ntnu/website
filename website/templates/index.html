@@ -60,7 +60,11 @@
 </section>
 
 <section id="readmore" class="readmore-section">
-    <a id="scrolldown" class="label page-scroll" href="#about">Hva er Hackerspace NTNU? Klikk her eller scroll
+    <a id="scrolldown"
+    {% if mobile %}
+        style="font-size: 12px;"
+    {% endif %}
+    class="label page-scroll" href="#about">Hva er Hackerspace NTNU? Klikk her eller scroll
         ned!</a>
     <br>
     <small id="scrolldownarrow">▼</small>

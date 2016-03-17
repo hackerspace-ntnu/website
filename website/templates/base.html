@@ -12,7 +12,7 @@
 <div style="height: 80px;"></div>
 
 {% if mobile %}
-    <img id="homeico_mobile" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+    <img id="logo_mobile" class="page-scroll" onclick='logoClick_mobile()' src="{% static "img/Logo_round_green.png" %}" />
 {% else %}
-    <img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+    <img id="logo" class="floatUp page-scroll" onclick='logoClick()' src="{% static "img/Logo_round_green.png" %}" />
 {% endif %}

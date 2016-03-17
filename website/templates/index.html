@@ -20,11 +20,11 @@
 <div id="menu">
     {% if mobile %}
     {% include 'menu_mobile.html' %}
-    <img id="homeico_mobile" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+    <img id="logo_mobile" onclick='logoClick_mobile()' class="page-scroll" src="{% static "img/Logo_round_green.png" %}" />
     {% else %}
     <div id="header"></div>
     <div style="height: 80px;"></div>
-    <img id="homeico" class="floatUp" onclick='window.location.replace("/");' src="{% static "img/Logo_round_green.png" %}" />
+    <img id="logo" class="floatUp page-scroll" onclick='logoClick()' src="{% static "img/Logo_round_green.png" %}" />
     <section id="login">
         {% include "login.html" %}
     </section>

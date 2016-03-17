@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
   pos = "top";
 });
 
@@ -6,11 +6,27 @@ $(window).scroll(function() {
   var scrollTop = $(window).scrollTop();
   if (pos == "top" && scrollTop > 20) {
     pos = "page";
-    $("#homeico").addClass("floatDown");
-    $("#homeico").removeClass("floatUp");
+    $("#logo").addClass("floatDown");
+    $("#logo").removeClass("floatUp");
   } else if (pos == "page" && scrollTop <= 20) {
     pos = "top";
-    $("#homeico").addClass("floatUp");
-    $("#homeico").removeClass("floatDown");
+    $("#logo").addClass("floatUp");
+    $("#logo").removeClass("floatDown");
   }
 });
+
+function logoClick() {
+  if (pos == "top") {
+    window.location.href = "/";
+  } else {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+        scrollTop: $("#header").offset().top
+    }, 1000, 'easeInOutExpo');
+    event.preventDefault();
+  }
+}
+
+function logoClick_mobile() {
+  window.location.href = "/";
+}

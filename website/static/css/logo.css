@@ -12,7 +12,6 @@
   left: calc(50% - 60px);
   width: 120px;
   height: 120px !important;
-  margin-left: -60px;
   position: absolute;;
 }
 

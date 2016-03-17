@@ -8,25 +8,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DATABASE_USERNAME,\
-    DATABASE_PASSWORD
+    DATABASE_PASSWORD, ALLOWED_HOSTS
 
-SECRET_KEY = SECRET_KEY
-DEBUG = DEBUG
-DOOR_KEY = DOOR_KEY
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-DATABASE_USERNAME = DATABASE_USERNAME
-DATABASE_PASSWORD = DATABASE_PASSWORD
-
-DEBUG = False
-THUMBNAIL_DEBUG = False
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
-
-ALLOWED_HOSTS = ['potet.hackerspace-ntnu.no','beta.hackerspace-ntnu.no']
 
 DATABASES = {
     'default': {

@@ -1,5 +1,5 @@
 {% extends "wiki/article.html" %}
-{% load wiki_tags i18n sekizai_tags %}
+{% load wiki_tags i18n sekizai_tags check_user_group %}
 
 
 {% block wiki_pagetitle %}{% trans "History" %}: {{ article.current_revision.title }}{% endblock %}
@@ -49,6 +49,7 @@
   {% trans "Click each revision to see a list of edited lines. Click the Preview button to see how the article looked at this stage. At the bottom of this page, you can change to a particular revision or merge an old revision with the current one." %}
 </p>
 
+{% if request.user|has_group:"member" %}
 <form method="GET">
   <div class="tab-content" style="overflow: visible;">
     {% for revision in revisions %}
@@ -198,6 +199,7 @@
     </div>
   </div>
 </form>
+{% endif %}
   
 {% endblock %}
 

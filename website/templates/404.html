@@ -1,16 +1,15 @@
-{% extends "wiki/base.html" %}
-{% load wiki_tags i18n %}
+{% extends "base.html" %}
 
-{% block pagetitle %}{% trans "404" %}{% endblock %}
+{% block errors %}
 
-{% block wiki_breadcrumbs %}{% endblock %}
-
-{% block wiki_contents %}
-
-<h1 class="page-header">{% trans "404 - it's not here!" %}</h1>
-
-<div class="error">
-  <p>{% trans "Sorry, keep looking. Good luck!" %}</p>
-</div>
-
+    <h1 style="font-size: 150pt; margin: 70px auto; text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 300;">404</h1>
+    <div style="text-align: center;">
+        <h2 style="font-size: 30pt; display: inline-block; font-weight: 600;">Whoops!</h2>
+        <h3 style="margin: 0 auto; display: inline-block;">
+            Either we fucked up or you did. Did you want to go to the
+            <a href="{% url 'wiki:root' %}">wiki</a>
+            or
+            <a href="{% url 'index' %}">front page</a>?
+        </h3>
+    </div>
 {% endblock %}

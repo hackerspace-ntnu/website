@@ -1,6 +1,6 @@
 # Hackerspace Website
 
-The code running [potet.hackerspace-ntnu.no](http://potet.hackerspace-ntnu.no).
+The code running [beta.hackerspace-ntnu.no](http://beta.hackerspace-ntnu.no).
 
 ## Getting started developing
 
@@ -85,9 +85,3 @@ Migrate the database:
 
 Run the server:
 `python manage.py runserver`
-
-
-
-
-
-

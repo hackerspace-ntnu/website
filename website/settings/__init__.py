@@ -8,7 +8,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DATABASE_USERNAME,\
-    DATABASE_PASSWORD, ALLOWED_HOSTS
+    DATABASE_PASSWORD
+
+if not DEBUG:
+    from local_settings import ALLOWED_HOSTS
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

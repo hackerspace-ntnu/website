@@ -147,7 +147,7 @@ def signup(request):
             except User.DoesNotExist:
                 pass
 
-            if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no'):
+            if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith('@ntnu.edu'):
 
                 user = User.objects.create(username=username,
                                            email=email,

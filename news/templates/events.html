@@ -41,7 +41,7 @@
         .card-actions a paper-button {
             width: 140px;
         }
-        #admintools a paper-button{
+        .admintools_card a paper-button{
             font-size: 12px;
             width: 80px;
             height: 30px;
@@ -83,7 +83,7 @@
                 </a>
             </div>
             {% if request.user|has_group:"member" and not mobile %}
-                <div id="admintools" class="card-actions">
+                <div class="admintools_card card-actions">
                     <a href="/news/event/{{ event.id }}/edit">
                         <paper-button>Edit</paper-button>
                     </a>

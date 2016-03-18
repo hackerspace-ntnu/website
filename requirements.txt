@@ -2,10 +2,11 @@ django
 gunicorn
 django-ckeditor
 django-sekizai
-sorl-thumbnail
+git+https://github.com/mariocesar/sorl-thumbnail.git #sorl.thumbnail
 django_nyt
 django-mptt
 psycopg2
 markdown
 Pillow
 django-bower
+django-user-agents

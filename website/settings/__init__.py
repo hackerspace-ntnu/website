@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 # -*- coding: utf-8 -*-
 from os import path as os_path
-import os
+import os,sys
 PROJECT_PATH = os_path.abspath(os_path.split(os_path.dirname(__file__))[0])
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -17,9 +17,19 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-MANAGERS = ADMINS
+if DEBUG:
+    STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
 
-DATABASES = {
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+else:
+    STATIC_ROOT = os.path.join(PROJECT_PATH, "static")
+
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'hsdb',
@@ -27,8 +37,10 @@ DATABASES = {
         'PASSWORD': DATABASE_PASSWORD,
         'HOST': 'localhost',
         'PORT': '',
+        }
     }
-}
+
+MANAGERS = ADMINS
 
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 TIME_ZONE = 'Europe/Oslo'
@@ -45,10 +57,6 @@ USE_L10N = True
 MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
-if DEBUG:
-    STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
-else:
-    STATIC_ROOT = os.path.join(PROJECT_PATH, "static")
 
 CKEDITOR_UPLOAD_PATH = os_path.join(PROJECT_PATH, 'media/uploads')
 CKEDITOR_BROWSE_SHOW_DIRS = True

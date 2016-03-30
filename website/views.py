@@ -3,6 +3,7 @@ from news.models import Article, Event
 from door.models import DoorStatus
 from authentication.forms import LoginForm
 from django_user_agents.utils import get_user_agent
+from local_settings import DEBUG
 
 
 def index(request):
@@ -23,3 +24,7 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+
+def test404(request):
+    return render(request, '404.html')

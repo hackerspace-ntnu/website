@@ -6,6 +6,12 @@ The code running [beta.hackerspace-ntnu.no](http://beta.hackerspace-ntnu.no).
 
 #### Install all the requirements
 
+Update the OS:
+`sudo apt-get update`
+
+Upgrade the OS:
+`sudo apt-get upgrade`
+
 Install pip3:
 `apt-get install python3-pip`
 
@@ -45,10 +51,11 @@ and add the follow values:
 - SECRET_KEY = ""
 - DEBUG = True
 - DOOR_KEY = ''
-- EMAIL_HOST_USER = 'web.hackerspace.ntnu@gmail.com'
+- EMAIL_HOST_USER = ''
 - EMAIL_HOST_PASSWORD = ''
-- DATABASE_USERNAME = 'hackerspace'
+- DATABASE_USERNAME = ''
 - DATABASE_PASSWORD = ''
+- ALLOWED_HOSTS = ''
 
 #### Set up the database
 

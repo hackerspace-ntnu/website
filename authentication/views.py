@@ -6,6 +6,7 @@ from django.contrib.auth.admin import User
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from website.settings import EMAIL_HOST_USER
+from django.template.loader import render_to_string
 from . import password_generate
 from threading import Thread
 import time
@@ -121,7 +122,8 @@ def signup(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
-            password = password_generate.generate_password()
+            new_password = form.cleaned_data['new_password']
+            confirm_new_password = form.cleaned_data['confirm_new_password']
 
             try:
                 user = User.objects.get(username=username)
@@ -147,19 +149,26 @@ def signup(request):
             except User.DoesNotExist:
                 pass
 
+            if not new_password == confirm_new_password:
+                error_message = 'Passwords does not match'
+                context = {
+                    'form': form,
+                    'error_message': error_message,
+                    'mobile': user_agent.is_mobile,
+                }
+                return render(request, 'signup.html', context)
+
             if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith('@ntnu.edu'):
 
                 user = User.objects.create(username=username,
                                            email=email,
                                            first_name=first_name,
                                            last_name=last_name,)
-                user.set_password(password)
+                user.set_password(new_password)
                 user.save()
 
                 email_subject = 'Account @ hackerspace NTNU'
-                email_message = 'Congratulations! Your user is created. \n' +\
-                                'Here is your insane secure password! \n' +\
-                                'Password: {} \n'.format(password)
+                email_message = render_to_string('signup_mail.html', {'username': username})
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 
@@ -190,7 +199,8 @@ def send_password_email(subject, message, email):
               message,
               '%s'.format(EMAIL_HOST_USER),
               [email],
-              fail_silently=False)
+              fail_silently=False,
+              html_message=message)
 
 
 def signup_done(request):

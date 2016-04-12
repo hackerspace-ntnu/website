@@ -38,6 +38,12 @@ class SignUpForm(forms.Form):
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
                                 widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+    new_password = forms.CharField(max_length=100,
+                                   label="New password",
+                                   widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+    confirm_new_password = forms.CharField(max_length=100,
+                                           label="Confirm password",
+                                           widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
 
 
 class ForgotPasswordForm(forms.Form):

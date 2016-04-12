@@ -32,6 +32,14 @@
         <label for="{{ form.email.id_for_label }}">Email</label>
         {{ form.email }}
         </div>
+        <div class="fieldWrapper">
+            <label for="{{ form.new_password.id_for_label }}">Password: </label>
+            {{ form.new_password }}
+        </div>
+        <div class="fieldWrapper">
+            <label for="{{ form.confirm_new_password.id_for_label }}">Confirm Password: </label>
+            {{ form.confirm_new_password}}
+        </div>
         <div class="outerButton"><input id="signUpButton" class="button" type="submit" value="Sign Up"/></div>
  </form>
 </div>

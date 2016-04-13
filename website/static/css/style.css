@@ -186,3 +186,20 @@ h1 a:active, h1 a:hover, h1 a:visited, h1 a:link {
   color: rgb(78, 75, 70);
   text-decoration: none;
 }
+
+#events {
+	border-top: 1px solid #d9d3c3;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	box-sizing: border-box;
+}
+
+#introtop {
+	background-image: url('../img/introbg.jpg');
+	background-size: 2560px;
+	background-position: center;
+	height: 100%;
+}
+
+#intro {
+	background: none;
+}

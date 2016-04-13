@@ -1,6 +1,6 @@
 # Hackerspace Website
 
-The code running [beta.hackerspace-ntnu.no](http://beta.hackerspace-ntnu.no).
+The code running [hackerspace-ntnu.no](http://hackerspace-ntnu.no).
 
 ## Getting started developing
 

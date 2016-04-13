@@ -60,7 +60,7 @@
                 <div id="top">
                     <div id=right>
                         <div id="event_title">
-                            {{ event.title|title }}
+                            {{ event.title }}
                         </div>
                         <div id="place">
                             {{ event.time_start|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>

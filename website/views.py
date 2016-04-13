@@ -26,5 +26,9 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+def info_screen(request):
+    return render(request, 'info_screen.html')
+
+
 def test404(request):
     return render(request, '404.html')

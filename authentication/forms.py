@@ -51,3 +51,24 @@ class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(max_length=100,
                              label='Email',
                              widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+
+
+class SetPasswordForm(forms.Form):
+
+    new_password = forms.CharField(max_length=100,
+                                   label="New password",
+                                   widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+    confirm_new_password = forms.CharField(max_length=100,
+                                           label="Confirm password",
+                                           widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
+
+    def password_matches(self):
+        new_password = self.cleaned_data['new_password']
+        confirm_new_password = self.cleaned_data['confirm_new_password']
+
+        if new_password == confirm_new_password:
+            return new_password
+        else:
+            return None
+
+

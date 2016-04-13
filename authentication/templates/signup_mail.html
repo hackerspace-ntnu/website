@@ -1,3 +1,2 @@
-<p>Congratulations! Your user is created.</p>
-<p>Activate your user account trough this link:</p>
-<p>Link</p>
+<p>{{ message }}</p>
+<p>Link: <a href="http://{{ request.get_host }}/authentication/activate/{{ hash_key }}/">Link</a></p>

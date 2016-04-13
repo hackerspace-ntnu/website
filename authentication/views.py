@@ -1,14 +1,16 @@
 from django.shortcuts import render
-from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm
-from django.http import HttpResponseRedirect
+from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm, SetPasswordForm
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
 from website.settings import EMAIL_HOST_USER
 from django.template.loader import render_to_string
-from . import password_generate
+from . models import UserAuthentication
 from threading import Thread
+from uuid import UUID
 import time
 from django_user_agents.utils import get_user_agent
 
@@ -26,6 +28,8 @@ def login_user(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('index'))
+                else:
+                    error_message = 'User is not activated'
             else:
                 error_message = 'Username or password is incorrect'
         else:
@@ -165,10 +169,14 @@ def signup(request):
                                            first_name=first_name,
                                            last_name=last_name,)
                 user.set_password(new_password)
+                user.is_active = False
                 user.save()
 
+                auth_object = UserAuthentication.objects.create(user=user)
+                auth_object.save()
                 email_subject = 'Account @ hackerspace NTNU'
-                email_message = render_to_string('signup_mail.html', {'username': username})
+                message = 'Congratulations! Your user is created. Activate your user account trough this link'
+                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message, 'hash_key': auth_object.key.hex})
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 
@@ -195,12 +203,15 @@ def signup(request):
 
 
 def send_password_email(subject, message, email):
+    print("SENDING MAIL")
     send_mail(subject,
               message,
               '%s'.format(EMAIL_HOST_USER),
               [email],
               fail_silently=False,
               html_message=message)
+
+    print("MAIL SENT")
 
 
 def signup_done(request):
@@ -229,13 +240,12 @@ def forgot_password(request):
                 }
                 return render(request, 'forgot_password.html', context)
             else:
-                new_password = password_generate.generate_password()
-                user.set_password(new_password)
-                user.save()
 
+                auth_object = UserAuthentication.objects.create(user=user)
+                auth_object.save()
                 email_subject = 'New password @ hackerspace-ntnu.no'
-                email_message = 'Here is your new password! \n' +\
-                                'Password: {} \n'.format(new_password)
+                message = "Use this link to set a new password"
+                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message, 'hash_key': auth_object.key.hex},)
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 
@@ -261,3 +271,49 @@ def forgot_password_done(request):
         'mobile': user_agent.is_mobile,
     }
     return render(request, 'forgot_password_done.html', context)
+
+
+def activate_account(request, hash_key):
+    user_agent = get_user_agent(request)
+    error_message = None
+    try:
+        value = UUID(hash_key, version=4)
+        auth_object = get_object_or_404(UserAuthentication, key=hash_key)
+        if auth_object.expired():
+            raise Http404
+        if auth_object.user.is_active:
+            if request.method == 'POST':
+                form = SetPasswordForm(request.POST)
+                if form.is_valid():
+                    password = form.password_matches()
+                    if password:
+                        auth_object.set_password(password)
+
+                        return HttpResponseRedirect(reverse('set_password_done'))
+                    else:
+                        error_message = 'Passwords does not match'
+
+            else:
+                form = SetPasswordForm()
+
+            context = {
+                'form': form,
+                'error_message': error_message,
+                'mobile': user_agent.is_mobile,
+                'hash_key': hash_key,
+            }
+            return render(request, 'set_password.html', context)
+        else:
+            auth_object.activate()
+            return render(request, 'activation_done.html')
+
+    except ValueError:
+        raise Http404
+
+
+def set_password_done(request):
+    user_agent = get_user_agent(request)
+    context = {
+        'mobile': user_agent.is_mobile,
+    }
+    return render(request, 'set_password_done.html', context)

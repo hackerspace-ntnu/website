@@ -1,12 +1,14 @@
-django
-gunicorn
-django-ckeditor
-django-sekizai
+django==1.9.2
+gunicorn==17.5
+django-ckeditor==5.0.3
+django-sekizai==0.9.0
+django-bower==5.1.0
+django-user-agents==0.3.0
+django-classy-tags==0.7.2
+django_nyt==0.9.8
+django-mptt==0.8.0
 git+https://github.com/mariocesar/sorl-thumbnail.git #sorl.thumbnail
-django_nyt
-django-mptt
-psycopg2
-markdown
-Pillow
-django-bower
-django-user-agents
+psycopg2==2.4.5
+markdown==2.6.5
+Pillow==3.1.1
+

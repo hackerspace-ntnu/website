@@ -35,3 +35,9 @@ urlpatterns += [
     url(r'^wiki/', get_wiki_pattern())
 ]
 
+
+if settings.DEBUG:
+    from website.views import test404
+    urlpatterns += [
+        url(r'test404', test404, name='404')
+    ]

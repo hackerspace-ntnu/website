@@ -13,9 +13,18 @@ from threading import Thread
 from uuid import UUID
 import time
 from django_user_agents.utils import get_user_agent
+from news.models import Article, Event
+from door.models import DoorStatus
 
 
 def login_user(request):
+    event_list = Event.objects.order_by('-time_start')[:3]
+    article_list = Article.objects.order_by('-pub_date')[:3]
+    try:
+        door_status = DoorStatus.objects.get(name='hackerspace').status
+    except DoorStatus.DoesNotExist:
+        door_status = True
+
     user_agent = get_user_agent(request)
     error_message = None
     if request.method == 'POST':
@@ -38,7 +47,10 @@ def login_user(request):
         form = LoginForm()
 
     context = {
+        'article_list': article_list,
+        'event_list': event_list,
         'form': form,
+        'door_status': door_status,
         'error_message': error_message,
         'mobile': user_agent.is_mobile,
     }

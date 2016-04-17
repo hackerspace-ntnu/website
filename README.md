@@ -1,6 +1,6 @@
 # Hackerspace Website
 
-The code running [beta.hackerspace-ntnu.no](http://beta.hackerspace-ntnu.no).
+The code running [hackerspace-ntnu.no](http://hackerspace-ntnu.no).
 
 ## Getting started developing
 
@@ -47,7 +47,7 @@ Install requirements:
 
 Create local_settings.py:
 `vim local_settings.py`
-and add the follow values:
+and add the following values:
 - SECRET_KEY = ""
 - DEBUG = True
 - DOOR_KEY = ''

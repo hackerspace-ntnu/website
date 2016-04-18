@@ -4,7 +4,7 @@
   <script type="text/javascript" src="{{ STATIC_URL }}wiki/js/article.js"></script>
 {% endaddtoblock %}
 
-<div class="wiki-article">
+<div class="wiki-article" style="margin: 0 auto; max-width: 650px;">
   {% if not preview %}
     {% if article.current_revision %}
       {{ article.get_cached_content }}

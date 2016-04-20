@@ -19,7 +19,13 @@
 
 <div id="content">
     {% autoescape off %}
-        {{ article.main_content }}
+        <img src="{{ article.thumbnail }}" style="width: 40em; display: block; margin: 50px auto 30px auto; border: 1px solid #ccc2a5;">
+        <h1 style="text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 300; font-size: 80px; margin-bottom: 0;">{{ article.title }}</h1>
+        <div style="width: 45em; margin: 0 auto 30px auto;"><hr style="margin-top: 10px; border-color: #ccc2a5" /></div>
+        <div style="font-size: 14pt; width: 38em; margin: 50px auto;">
+            <p style="font-size: 14pt;">{{ article.main_content }}</p>
+        </div>
+
     {% endautoescape %}
 </div>
 

@@ -6,9 +6,9 @@
     {% include 'admintools_news.html' %}
 {% endif %}
 {% if mobile %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/change_password_mobile.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
 {% else %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/change_password.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
 {% endif %}
 <script>
   var $id = {{ article.id }};

@@ -1,53 +1,7 @@
 {% load staticfiles %}
 {% load check_user_group %}
 {% if event_list %}
-    <style is="custom-style">
-        paper-card{
-            margin: 5px;
-        }
-        #top {
-            height: 90px;
-        }
-        #right {
-            width: 70%;
-            float: right;
-        }
-        #event_title {
-            font-size: 34px;
-            text-align: left;
-        }
-        #place {
-            text-align: left;
-        }
-        #place a {
-            color: #0B0;
-        }
-        #date-label {
-            float: left;
-            width: 20%;
-            margin-top: -3px;
-        }
-        #date-label #date {
-            font-size: 46px;
-        }
-        #date-label #month {
-            color: #0B0;
-            font-size: 24px;
-            margin-top: -20px;
-        }
-        .card-actions a {
-            color: #4E4B46;
-        }
-        .card-actions a paper-button {
-            width: 140px;
-        }
-        .admintools_card a paper-button{
-            font-size: 12px;
-            width: 80px;
-            height: 30px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
     {% for event in event_list %}
         <paper-card
         {% if mobile %}

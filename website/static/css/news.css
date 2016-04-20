@@ -4,3 +4,85 @@
     margin: 50px auto;
     margin-bottom: 100px;
 }
+
+paper-card {
+    margin: 5px;
+}
+#top {
+    height: 90px;
+}
+
+#right {
+    width: 70%;
+    float: right;
+}
+
+#event_title {
+    font-size:34px;
+    text-align: left;
+}
+
+#place {
+    text-align: left;
+}
+#place a {
+    color: #080;
+}
+
+#date-label {
+    float: left;
+    width: 20%;
+    margin-top: -3px;
+}
+
+#date-label #date {
+    font-size: 46px;
+}
+
+#date-label #month {
+    color: #0B0;
+    font-size: 24px;
+    margin-top: -20px;
+}
+
+.card-actions a {
+    color: #4E4B46;
+}
+
+.card-actions a paper-button {
+    width: 140px;
+}
+
+.admintools_card a paper-button {
+    font-size: 12px;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+}
+
+#title {
+    font-size: 34px;
+    text-align: center;;
+}
+.card-actions a {
+    color: #4E4B46;
+}
+
+.card-actions a paper-button {
+    width: 140px;
+}
+
+.admintools_card a paper-button{
+    font-size: 12px;
+    width: 80px;
+    height: 30px;
+    text-align: center;
+}
+
+.iron-image {
+    height: 120px;
+}
+
+img {
+    height: 120px;
+}

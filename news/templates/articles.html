@@ -12,9 +12,11 @@
         image="{{ article.thumbnail }}" href="/news/article/{{ article.id }}">
             <div class="card-content">
                 <div id="top">
-                    <div id="title">
-                        {{ article.title }}
-                    </div>
+                    <a href="/news/article/{{ article.id }}" style="color: #5bba47">
+                        <div id="title">
+                            {{ article.title }}
+                        </div>
+                    </a>
                 </div>
                 <div id="ingress">
                     {% autoescape off %}

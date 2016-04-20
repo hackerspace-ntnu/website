@@ -13,9 +13,11 @@
             <div class="card-content">
                 <div id="top">
                     <div id=right>
-                        <div id="event_title">
-                            {{ event.title }}
-                        </div>
+                        <a href="/news/event/{{ event.id }}" style="color: #5bba47">
+                            <div id="event_title">
+                                {{ event.title }}
+                            </div>
+                        </a>
                         <div id="place">
                             {{ event.time_start|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
                         </div>

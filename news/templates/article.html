@@ -5,26 +5,38 @@
 {% if request.user|has_group:"member" %}
     {% include 'admintools_news.html' %}
 {% endif %}
-{% if mobile %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/change_password_mobile.css" %}">
-{% else %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/change_password.css" %}">
-{% endif %}
-<script>
-  var $id = {{ article.id }};
-</script>
-<script src="{% static "js/article.js" %}"></script>
+
+{% block customhead %}
+    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+
+    {% if mobile %}
+        <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
+    {% endif %}
+
+    <script>
+      var $id = {{ article.id }};
+    </script>
+    <script src="{% static "js/article.js" %}"></script>
+{% endblock %}
 
 <div style="height: 50px;"></div>
 
 <div id="content">
     {% autoescape off %}
-        <img src="{{ article.thumbnail }}" style="width: 40em; display: block; margin: 50px auto 30px auto; border: 1px solid #ccc2a5;">
-        <h1 style="text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 300; font-size: 80px; margin-bottom: 0;">{{ article.title }}</h1>
+        <img src="{{ article.thumbnail }}" id="image">
+        <h1 id="title">{{ article.title }}</h1>
         <div style="width: 45em; margin: 0 auto 30px auto;"><hr style="margin-top: 10px; border-color: #ccc2a5" /></div>
-        <div style="font-size: 14pt; width: 38em; margin: 50px auto;">
-            <p style="font-size: 14pt;">{{ article.main_content }}</p>
-        </div>
+        <p style="color: #777777;">
+            Publisert: {{ article.pub_date|date:"d M Y, H:m" }}
+        </p>
+        <p>
+            {{ article.ingress_content }}
+        </p>
+        <p>
+            {{ article.main_content }}
+        </p>
 
     {% endautoescape %}
 </div>

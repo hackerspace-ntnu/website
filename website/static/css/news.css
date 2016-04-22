@@ -1,6 +1,33 @@
 #content {
-    width: 70%;
+    width: 40em;
     min-height: 300px;
     margin: 50px auto;
     margin-bottom: 100px;
+}
+
+#image {
+    width: 40em;
+    display: block;
+    margin: 50px auto 30px auto;
+    border: 1px solid #ccc2a5;
+}
+
+#title {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 80px;
+    margin-bottom: 0;
+}
+
+p {
+    width: 40em;
+    font-family: 'Merriweather', serif;
+    font-size: 12pt;
+}
+
+.info {
+    text-align: center;
+    width: 40em;
+    font-family: 'Open Sans', sans-serif;
 }

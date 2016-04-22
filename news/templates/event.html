@@ -5,28 +5,43 @@
 {% if request.user|has_group:"member" %}
     {% include 'admintools_news.html' %}
 {% endif %}
-{% if mobile %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
-{% else %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
-{% endif %}
-<script>
-  var $id = {{ event.id }};
-</script>
-<script src="{% static "js/event.js" %}"></script>
+
+{% block customhead %}
+    <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+
+    {% if mobile %}
+        <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
+    {% endif %}
+
+    <script>
+      var $id = {{ event.id }};
+    </script>
+    <script src="{% static "js/event.js" %}"></script>
+{% endblock %}
 
 <div style="height: 50px;"></div>
 
 <div id="content">
-    {% autoescape off %}
+    <img src="{{ event.thumbnail }}" id="image">
+    <h1 id="title">{{ event.title }}</h1>
+    <p class="info">Fra
+        <span style="color: #5bba47">{{ event.time_start|date:"d M Y, H:m" }}</span> til
+        <span style="color: #5bba47">{{ event.time_end|date:"d M Y, H:m" }}</span>
+    </p>
+    {% if location.length %}
+      <p class="info">Lokasjon: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p>
+    {% endif %}
+    <hr style="border-color: #ccc2a5; width: 45em; margin: 30px 0 30px -2.5em;">
+
+    <p style="color: #777777;">
+        Publisert: {{ event.pub_date|date:"d M Y, H:m" }}
+    </p>
+    {%  autoescape off %}
+        {{ event.ingress_content }}
         {{ event.main_content }}
     {% endautoescape %}
-    {% if location.length > 0 %}
-      <br>
-      Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
-    {% endif %}
-    <br>
-    Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
 </div>
 
 {% include 'footer.html' %}

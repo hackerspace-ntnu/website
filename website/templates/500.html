@@ -1,16 +1,34 @@
-{% extends "wiki/base.html" %}
-{% load wiki_tags i18n %}
+{% extends "base.html" %}
 
-{% block pagetitle %}{% trans "500 Server err" %}{% endblock %}
+{% block errors %}
 
-{% block wiki_breadcrumbs %}{% endblock %}
+    <h1 style="font-size: 150pt; margin: 70px auto -30px auto; text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 300;">500</h1>
 
-{% block wiki_contents %}
+    <h2 style="font-size: 50pt; margin: 0 auto 50px auto; text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 500;">
+        INTERNAL SERVER ERROR
+    </h2>
 
-<h1 class="page-header">{% trans "500 - ERROR" %}</h1>
+    <div style="text-align: center;">
 
-<div class="error">
-  <p>{% trans "Oh god no the demo has failed. Please rest asured that an open source developer is the logs to resolve this, because it's fun!!" %}</p>
-</div>
+        <h2 style="
+            font-size: 30pt;
+            display: inline-block;
+            font-weight: 600;
+            vertical-align: top;
+            margin: -2px 0 0 0;
+        ">
+            Oh dear!
+        </h2>
 
+        <h3 style="margin: 0 auto; display: inline-block; text-align: left; font-size: 16pt; line-height: 22pt;">
+            The server did not like that. No, sir, not one bit. <br>
+            We're sorry about that, but rest assured that we've been <br>
+            notified, and will set to fixing this in a jiffy! <br>
+            Until then, perhaps you want to go to the
+            <a href="{% url 'wiki:root' %}">wiki</a>
+            or
+            <a href="{% url 'index' %}">front page</a> instead?
+        </h3>
+
+    </div>
 {% endblock %}

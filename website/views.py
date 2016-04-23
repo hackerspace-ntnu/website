@@ -28,3 +28,6 @@ def index(request):
 
 def test404(request):
     return render(request, '404.html')
+
+def test500(request):
+    return render(request, '500.html')

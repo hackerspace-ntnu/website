@@ -37,7 +37,8 @@ urlpatterns += [
 
 
 if settings.DEBUG:
-    from website.views import test404
+    from website.views import test404, test500
     urlpatterns += [
-        url(r'test404', test404, name='404')
+        url(r'test404', test404, name='404'),
+        url(r'test500', test500, name='500')
     ]

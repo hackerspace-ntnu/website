@@ -25,9 +25,9 @@ def index(request):
 
     return render(request, 'index.html', context)
 
+if DEBUG:
+    def test404(request):
+        return render(request, '404.html')
 
-def test404(request):
-    return render(request, '404.html')
-
-def test500(request):
-    return render(request, '500.html')
+    def test500(request):
+        return render(request, '500.html')

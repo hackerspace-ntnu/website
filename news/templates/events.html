@@ -3,13 +3,16 @@
 {% if event_list %}
     <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
     {% for event in event_list %}
-        <paper-card
+        <div class="card"
         {% if mobile %}
             style="width:90%;"
         {% else %}
             style="width:360px;"
         {% endif %}
-        image="{{ event.thumbnail }}" href="/news/event/{{ event.id }}">
+        >
+            <div class="card-image">
+              <img src="{{ event.thumbnail }}" href="/news/event/{{ event.id }}">
+            </div>
             <div class="card-content">
                 <div id="top">
                     <div id=right>
@@ -17,7 +20,7 @@
                             {{ event.title }}
                         </div>
                         <div id="place">
-                            {{ event.time_start|date:"H:i"|upper }} at <a href={{ event.place_href }} target="_blank">{{ event.place }}</a>
+                            {{ event.time_start|date:"H:i"|upper }} at <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
                         </div>
                     </div>
                     <div id="date-label">
@@ -31,24 +34,15 @@
                     {% endautoescape %}
                 </div>
             </div>
-            <div class="card-actions">
-                <a href="/news/event/{{ event.id }}">
-                    <paper-button>Les mer</paper-button>
-                </a>
+            <div class="card-action">
+              <a class="btn-flat waves-effect" href="/news/event/{{ event.id }}">Les Mer</a>
             </div>
             {% if request.user|has_group:"member" and not mobile %}
-                <div class="admintools_card card-actions">
-                    <a href="/news/event/{{ event.id }}/edit">
-                        <paper-button>Edit</paper-button>
-                    </a>
-                    <!-- <a>
-                        <paper-button>Publish</paper-button>
-                    </a> -->
-                    <a href="/admin/news/event/{{ event.id }}/delete/">
-                        <paper-button>Delete</paper-button>
-                    </a>
+                <div class="admintools_card card-action">
+                  <a href="/news/event/{{ event.id }}/edit" class="btn-flat waves-effect">Edit</a>
+                  <a href="/admin/news/event/{{ event.id }}/delete/" class="btn-flat waves-effect">Delete</a>
                 </div>
             {% endif %}
-        </paper-card>
+        </div>
     {% endfor %}
 {% endif %}

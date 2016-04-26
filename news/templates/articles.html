@@ -3,43 +3,37 @@
 {% if article_list %}
     <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
     {% for article in article_list %}
-        <paper-card
+        <div class="card"
         {% if mobile %}
             style="width:90%;"
         {% else %}
             style="width:360px;"
         {% endif %}
-        image="{{ article.thumbnail }}" href="/news/article/{{ article.id }}">
-            <div class="card-content">
-                <div id="top">
-                    <div id="title">
-                        {{ article.title }}
-                    </div>
-                </div>
-                <div id="ingress">
-                    {% autoescape off %}
-                        {{ article.ingress_content }}
-                    {% endautoescape %}
-                </div>
-            </div>
-            <div class="card-actions">
-                <a href="/news/article/{{ article.id }}">
-                    <paper-button>Les mer</paper-button>
-                </a>
-            </div>
-            {% if request.user|has_group:"member" and not mobile %}
-                <div class="admintools_card card-actions">
-                    <a href="/news/article/{{ article.id }}/edit">
-                        <paper-button>Edit</paper-button>
-                    </a>
-                    <!-- <a>
-                        <paper-button>Publish</paper-button>
-                    </a> -->
-                    <a href="/admin/news/article/{{ article.id }}/delete/">
-                        <paper-button>Delete</paper-button>
-                    </a>
-                </div>
+        >
+          <div class="card-image">
+              <img src="{{ article.thumbnail }}" href="/news/article/{{ article.id }}">
+          </div>
+          <div class="card-content">
+              <div id="top">
+                  <div id="title">
+                      {{ article.title }}
+                  </div>
+              </div>
+              <div id="ingress">
+                  {% autoescape off %}
+                      {{ article.ingress_content }}
+                  {% endautoescape %}
+              </div>
+              </div>
+              <div class="card-action">
+                  <a class="btn-flat waves-effect" href="/news/article/{{ article.id }}">Les Mer</a>
+              </div>
+              {% if request.user|has_group:"member" and not mobile %}
+              <div class="card-action">
+                  <a href="/news/article/{{ article.id }}/edit" class="btn-flat waves-effect">Edit</a>
+                  <a href="/admin/news/article/{{ article.id }}/delete/" class="btn-flat waves-effect">Delete</a>
+              </div>
             {% endif %}
-        </paper-card>
+        </div>
     {% endfor %}
 {% endif %}

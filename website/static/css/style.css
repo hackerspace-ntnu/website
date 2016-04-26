@@ -45,6 +45,11 @@ body, html {
   color:#2e2c28;
 }
 
+#menu .btn-flat {
+  padding: 12px 20px;
+  height: auto;
+}
+
 #logo {
   	background-size:120px 120px;
   	background-position:center;
@@ -168,6 +173,11 @@ body, html {
     text-align: center;
   	background: #eee;
   	background-image: url(../img/noise_beige.png);
+}
+
+.wiki-section .btn-flat {
+    padding: 12px 20px;
+    height: auto;
 }
 
 .footer-section {

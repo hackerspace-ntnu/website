@@ -148,7 +148,6 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
-    'djangobower',
     'django_user_agents',
 ]
 from django import VERSION

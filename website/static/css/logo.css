@@ -8,11 +8,20 @@
 
 #logo_mobile {
   z-index: 10000000;
-  top: 22px;
+  top: 20px;
   left: calc(50% - 60px);
   width: 120px;
   height: 120px !important;
-  position: absolute;;
+  position: absolute;
+}
+
+#logo_mobile_menu {
+  z-index: 100;
+  top: 20px;
+  left: calc(50% - 60px);
+  width: 120px;
+  height: 120px !important;
+  position: absolute;
 }
 
 #logo:hover {

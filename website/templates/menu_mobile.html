@@ -1,32 +1,49 @@
 {% load staticfiles %}
-<paper-menu id="menu" style="background: #9CD590;">
-    <paper-submenu>
-        <paper-item style="height: 80px; background: #9CD590;" class="menu-trigger"><img style="width: 40px; height: 40px;" src="{% static "img/ic_menu_black_24px.svg" %}" /></paper-item>
-        <paper-menu class="menu-content" style="background: #9CD590;">
-            <paper-item><a class="page-scroll" href="#about">OM OSS</a></paper-item>
-            <paper-item><a class="page-scroll" href="#articles">ARTICLES</a></paper-item>
-            <paper-item><a class="page-scroll" href="#events">EVENTS</a></paper-item>
-            <paper-item><a href="/wiki">WIKI</a></paper-item>
-            {% if request.user.is_authenticated %}
-            <paper-submenu>
-                <paper-item class="menu-trigger"><a>USER<span class="caret"></span></a></paper-item>
-                <paper-menu class="menu-content" style="background: #9CD590;">
-                    <paper-item><a href="/authentication/change-password">Change password</a></paper-item>
-                    <paper-item><a href="/authentication/logout">Logout</a></paper-item>
-                </paper-menu>
-            </paper-submenu>
-            {% else %}
-            <paper-item><a href="/authentication/login-mobile">LOGIN</a></paper-item>
-            {% endif %}
-        </paper-menu>
-    </paper-submenu>
-</paper-menu>
-<style>
-    paper-item {
-        background: #b5d6ae;
-    }
-    paper-item a , paper-item a:visited, paper-item a:link, paper-item a:active {
-        text-decoration: none;
-        color: #000;
-    }
-</style>
+
+<link href="{% static "css/menu_mobile.css" %}" rel="stylesheet">
+
+<nav id="menu">
+  <img id="logo_mobile_menu" onclick='logoClick_mobile()' class="page-scroll" src="{% static "img/Logo_round_green_small_aa.png" %}" />
+  <ul id="slide-out" class="side-nav">
+      <li><a href="#about" closeOnClick="true">OM OSS</a></li>
+      <li><a href="#events" closeOnClick="true">EVENTS</a></li>
+      <li><a href="#articles" closeOnClick="true">ARTICLES</a></li>
+      <li><a href="/wiki" closeOnClick="true">WIKI</a></li>
+      <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          <li>
+            <a class="collapsible-header">USER<i class="mdi-navigation-arrow-drop-down"></i></a>
+            <div class="collapsible-body">
+              <ul>
+                <li><a href="/authentication/change-password" closeOnClick="true">CHANGE PASSWORD</a></li>
+                <li><a href="/authentication/logout" closeOnClick="true">LOGOUT</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="#about" closeOnClick="true">OM OSS</a></li>
+      <li><a href="#events" closeOnClick="true">EVENTS</a></li>
+      <li><a href="#articles" closeOnClick="true">ARTICLES</a></li>
+      <li><a href="/wiki" closeOnClick="true">WIKI</a></li>
+      <li><a class="dropdown-button" href="#!" data-activates="dropdown1">USER<i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+      <ul id='dropdown1' class='dropdown-content'>
+        <li><a href="/authentication/change-password" closeOnClick="true">CHANGE PASSWORD</a></li>
+        <li><a href="/authentication/logout" closeOnClick="true">LOGOUT</a></li>
+      </ul>
+    </ul>
+  <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+</nav>
+
+<script>
+    $(function(){
+        $(".button-collapse").sideNav();
+    });
+    $("#menu a").click(function() {
+      if ($(this).attr("closeOnClick") == "true") {
+        $(".button-collapse").sideNav("hide");
+      }
+    });
+</script>

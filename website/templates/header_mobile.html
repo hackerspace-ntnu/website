@@ -1,9 +1,7 @@
 {% load staticfiles %}
-
-<link href="{% static "css/menu_mobile.css" %}" rel="stylesheet">
-
+<div id="header-mobile">
 <nav id="menu">
-  <img id="logo_mobile_menu" onclick='logoClick_mobile()' class="page-scroll" src="{% static "img/Logo_round_green_small_aa.png" %}" />
+  <img id="logo" src="{% static "img/logo_white_green.png" %}" />
   <ul id="slide-out" class="side-nav">
       <li><a href="#about" closeOnClick="true">OM OSS</a></li>
       <li><a href="#events" closeOnClick="true">EVENTS</a></li>
@@ -36,7 +34,6 @@
     </ul>
   <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
 </nav>
-
 <script>
     $(function(){
         $(".button-collapse").sideNav();
@@ -47,3 +44,4 @@
       }
     });
 </script>
+</div>

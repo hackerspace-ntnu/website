@@ -10,7 +10,7 @@
 
 <div id="menu">
     {% if mobile %}
-    {% include 'menu_mobile.html' %}
+    {% include 'header_mobile.html' %}
     {% else %}
     <div id="header"></div>
     <div style="height: 80px;"></div>
@@ -18,7 +18,7 @@
     <section id="login">
         {% include "login.html" %}
     </section>
-    {% include 'menu.html' %}
+    {% include 'header_desktop.html' %}
     {% if request.user|has_group:"member" %}
         {% include 'admintools_home.html' %}
     {% endif %}

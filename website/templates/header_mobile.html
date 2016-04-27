@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <div id="header-mobile">
     <nav id="menu">
-        <img id="logo" src="{% static "img/logo_white_green.png" %}"/>
+        <img id="logo" src="{% static "img/logo_header.png" %}"/>
         <ul id="slide-out" class="side-nav">
             <li><a href="#about" closeOnClick="true">OM OSS</a></li>
             <li><a href="#events" closeOnClick="true">EVENTS</a></li>
@@ -34,7 +34,9 @@
                 <li><a href="/authentication/logout" closeOnClick="true">LOGOUT</a></li>
             </ul>
         </ul>
-        <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        <div id="burger">
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+        </div>
     </nav>
     <script>
         $(function () {

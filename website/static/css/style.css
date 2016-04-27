@@ -13,6 +13,10 @@
     margin-top: 8px;
     margin-left: 20px;
 }
+nav .brand-logo {
+    left:0%;
+    transform: translateX(0%);
+}
 
 #header-mobile {
     display: none;

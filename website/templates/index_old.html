@@ -1,0 +1,159 @@
+{% load staticfiles %}
+{% load check_user_group %}
+
+<head>
+    {% include 'head.html' %}
+    <script src="{% static "js/door_status.js" %}"></script>
+</head>
+
+<body>
+
+<div id="menu">
+    {% if mobile %}
+    {% include 'menu_mobile.html' %}
+    {% else %}
+    <div id="header"></div>
+    <div style="height: 80px;"></div>
+    <img id="logo" class="floatUp page-scroll" onclick='logoClick()' src="{% static "img/Logo_round_green_small_aa.png" %}" />
+    <section id="login">
+        {% include "login.html" %}
+    </section>
+    {% include 'menu.html' %}
+    {% if request.user|has_group:"member" %}
+        {% include 'admintools_home.html' %}
+    {% endif %}
+    {% endif %}
+</div>
+{% if mobile %}
+<section id="intro" class="intro-section" style="width: 90%; height: calc(100% - 140px); margin-left: auto; margin-right: auto;">
+{% else %}
+<section id="intro" class="intro-section" style="width: 60%; height: calc(100% - 300px); margin-left: auto; margin-right: auto;">
+{% endif %}
+    <div>
+        <img id="statusImg"
+            {% if door_status %}
+                src="{% static "img/Logo_green.png" %}"
+            {% else %}
+                src="{% static "img/Logo_white.png" %}"
+            {% endif %}
+            style="width: 100%; height: auto !important;" />
+    </div>
+    <script>
+    $(function() {
+    {% if mobile %}
+          $("#statusImg").css("margin-top", $(window).height()/2 - $("#statusImg").height()/2 - 140);
+    {% else %}
+          $("#statusImg").css("margin-top", $(window).height()/2 - $("#statusImg").height()/2 - 240);
+    {% endif %}
+    });
+    </script>
+</section>
+
+<section id="readmore" class="readmore-section">
+    <a id="scrolldown"
+    {% if mobile %}
+        style="font-size: 12px;"
+    {% endif %}
+    class="label page-scroll" href="#about">Hva er Hackerspace NTNU? Klikk her eller scroll
+        ned!</a>
+    <br>
+    <small id="scrolldownarrow">▼</small>
+</section>
+
+<section id="events" class="events-section">
+    <h1><a href="/news/events/">Events</a></h1>
+    {% include "events.html" %}
+</section>
+
+<section id="articles" class="articles-section">
+    <h1><a href="/news/articles/">Articles</a></h1>
+    {% include "articles.html" %}
+</section>
+
+<section id="about" class="about-section">
+    <ul class="list-inline home-icons">
+        <li class="icon icon-wifi"></li>
+        <li class="icon icon-printer"></li>
+        <li class="icon icon-chip"></li>
+        <li class="icon icon-people"></li>
+        <li class="icon icon-oculus"></li>
+        <li class="icon icon-controller"></li>
+    </ul>
+    <h1>Om Hackerspace NTNU</h1>
+    <div class="columns2">
+        <p>
+            Hackerspace NTNU er et pilotprosjekt for å fremme interessen for ny teknologi. Målet er å alltid ha
+            det kuleste og nyeste. Vi har droner, 3D-printer, leap motion, robot-kit og Oculus Rift for å nevne
+            noe.
+        </p>
+
+        <p>
+            Vi ønsker å være et lavterskeltilbud og stiller derfor også opp og hjelper etter beste evne med
+            utvikling av ny teknologi.
+        </p>
+
+        <p>
+            Det holdes regelmessig kurs for både nybegynnere og viderekomne for å supplementere dette.
+            Nybegynnerkurs i Arduino og 3D-printing har vært svært populære tidligere, og noe vi tenker å holde
+            igjen.
+        </p>
+
+        <p>
+            Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller er en
+            fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og
+            kompetanse. Dersom vi ikke kan svare på spørsmål, vil vi etter beste evne finne noen som kan hjelpe.
+        </p>
+
+        <p class="lead">
+            Kom gjerne innom for å se hva vi driver med!
+        </p>
+
+        <p>Vår visjon er å skape en kreativ arena der studenter kan få hjelp til å realisere ideene sine. Vi er
+            for deg som ønsker å prøve ut ny teknologi, utvikle morgendagens løsninger eller sosialisere med
+            andre teknologiinteresserte.</p>
+
+        <p>Vi holder åpent <b>hver dag fra klokken 10 til 18</b></p>
+
+        <p>Vi befinner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.</p>
+    </div>
+    <div id="map" style="position: relative; margin-top: 20px;">
+        <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+            src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
+        <div id="hideFrame" style="opacity: 0.3; background: #000; width: 100%; height: 420px; z-index: 100; position: absolute; top: 0; left: 0;"></div>
+        <script>
+            $("#hideFrame").click(function() { $("#hideFrame").css("display", "none")});
+        </script>
+    </div>
+</section>
+
+<section id="wiki" class="wiki-section">
+    <ul class="list-inline home-icons">
+        <li class="icon icon-edit"></li>
+        <li class="icon icon-books"></li>
+        <li class="icon icon-earth"></li>
+    </ul>
+    <h1>Wiki</h1>
+
+    <p>Hackerspace NTNU har selvfølgelig en egen wiki som fungerer som kunnskapsdatabase og er fri for
+        redigereing av alle med en NTNU-bruker. Her kan man finne informasjon om utstyr og hvordan det
+        skal brukes, med mer.</p>
+    <p>Har du drevet med et prosjekt på Hackerspace NTNU oppfordres du til å lage en prosjektside på
+        wikien der du dokumenterer og deler kunnskap, spesifikasjoner og kode.</p>
+    <a href="/wiki" class="btn-flat waves-effect" style="text-decoration: none; color: #4E4B46;">Gå til wikien</a>
+</section>
+
+{% include 'footer.html' %}
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49400121-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

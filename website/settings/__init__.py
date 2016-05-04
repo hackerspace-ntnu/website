@@ -18,8 +18,6 @@ ADMINS = (
 )
 
 if DEBUG:
-    STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -27,8 +25,6 @@ if DEBUG:
         }
     }
 else:
-    STATIC_ROOT = os.path.join(PROJECT_PATH, "static")
-
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -70,14 +66,14 @@ BOWER_INSTALLED_APPS = (
     'polymer',
 )
 
-#STATIC_ROOT = os_path.join(PROJECT_PATH, 'static')
-
+# static files not belonging to specific apps
+STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
-    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 MIDDLEWARE_CLASSES = [

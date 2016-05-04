@@ -4,6 +4,7 @@
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
 {% endblock head %}
 
 {% block header %}
@@ -26,8 +27,13 @@
                             I am convenient because I require little markup to use effectively.</p>
                     </div>
                     <div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
+                        <div>
+                            <a href="#">Les mer</a>
+                            <div class="admin-action">
+                                <a href="#">Edit</a>
+                                <a href="#">Delete</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

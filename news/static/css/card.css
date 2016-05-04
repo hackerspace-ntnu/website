@@ -1,0 +1,31 @@
+.card {
+  width: 360px;
+  height: 535px !important;
+  margin: 7px 5px;
+  display: inline-block;;
+}
+.card .card-image {
+  position: relative;
+  height: 300px;
+}
+.card .card-image img {
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.card .card-content {
+  margin-top: -20px;
+  height: 2000px;
+}
+.card .card-action {
+  text-align: center;
+}
+.card .card-action a {
+  padding: 20px;
+  color: #000 !important;
+}
+.card .admin-action {
+  margin-top: 10px;
+}

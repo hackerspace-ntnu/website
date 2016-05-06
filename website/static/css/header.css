@@ -28,33 +28,27 @@
     display: block;
 }
 @media screen and (max-device-width: 480px), screen and (max-width: 600px) {
-
     #navbar {
       height: 10vh;
       overflow: hidden;
     }
-
     #header-mobile {
         margin-bottom: 50px;
         display: block;
     }
-
     #header-desktop {
         margin-bottom: 50px;
         display: none;
     }
-
     #menu {
         background: #4e4b46;
         height: 10vh;
         box-shadow: 0px 2px 20px #4e4b46;
         overflow: hidden;
     }
-
     #menu a {
         text-decoration: none;
     }
-
     #logo {
         height: 7vh;
         margin-top: 1.5vh;
@@ -62,14 +56,30 @@
         margin-right: auto;
         display: block;
     }
-
     #burger {
         position: absolute;
         left: 1.5vh;
         top: 1.5vh;
     }
-
     #burger a img {
       height: 7vh;
+    }
+    #slide-out {
+    }
+    #slide-out li a {
+      font-size: 12vw;
+      margin: 8vw 1vw;
+    }
+    #slide-out li:hover {
+      background-color: #fff;
+    }
+    .collapsible-header {
+      margin-left: 3vw !important;
+    }
+    .collapsible-body {
+      margin-left: 2vw !important;
+    }
+    #ddicon {
+      height: 8vw;
     }
 }

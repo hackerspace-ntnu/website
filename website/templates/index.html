@@ -2,14 +2,11 @@
 {% load staticfiles %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
 {% endblock head %}
 
 {% block header %}
-    {% include "header_desktop.html" %}
-    {% include "header_mobile.html" %}
+
 {% endblock header %}
 
 {% block content %}

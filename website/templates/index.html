@@ -10,30 +10,5 @@
 {% endblock header %}
 
 {% block content %}
-    <div id="header-bottom-margin"></div>
-    {% for event in event_list %}
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="card medium">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="static/img/earth.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title">Card Title</span>
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                        <div>
-                            <a href="#">Les mer</a>
-                            <div class="admin-action">
-                                <a href="#">Edit</a>
-                                <a href="#">Delete</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+    {% include "news.html" %}
 {% endblock content %}

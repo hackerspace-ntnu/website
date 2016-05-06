@@ -1,10 +1,22 @@
+.cards {
+  width: 100%;
+  text-align: center;
+}
+.card-container {
+  display: inline-block;
+  overflow: hidden;
+}
+@font-face {
+    font-family: Roboto-Light;
+    src: url("/static/materialize/font/roboto/Roboto-Light.woff");
+}
 .card {
-  width: 360px;
+  width: 300px;
   height: 535px !important;
   margin: 7px 5px;
-  display: inline-block;;
+  font-family: Roboto-Light;
 }
-.card .card-image {
+.card-image {
   position: relative;
   height: 300px;
 }
@@ -15,17 +27,51 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
-.card .card-content {
-  margin-top: -20px;
-  height: 2000px;
-}
 .card .card-action {
   text-align: center;
+  padding: 12px;
 }
 .card .card-action a {
-  padding: 20px;
+  padding: 0 10px;
+  margin: -30px 0;
   color: #000 !important;
 }
-.card .admin-action {
-  margin-top: 10px;
+.card-title {
+  font-size: 32px !important;
+}
+.card .content {
+    width: 70%;
+    min-height: 300px;
+    margin: 50px auto;
+    margin-bottom: 100px;
+}
+.card .top {
+    height: 90px;
+}
+.card .right {
+    width: 70%;
+    float: right;
+}
+.card .event-title {
+    font-size: 32px;
+    text-align: left;
+}
+.card .place {
+    text-align: left;
+}
+.card .place a {
+    color: #5BBA47;
+}
+.card .date-label {
+    float: left;
+    width: 20%;
+    margin-top: -6px;
+}
+.card .date-label .date {
+    font-size: 44px;
+}
+.card .date-label .month {
+    color: #5BBA47;
+    font-size: 23px;
+    margin-top: -20px;
 }

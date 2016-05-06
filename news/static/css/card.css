@@ -7,8 +7,8 @@
   overflow: hidden;
 }
 @font-face {
-    font-family: Roboto-Light;
-    src: url("/static/materialize/font/roboto/Roboto-Light.woff");
+  font-family: Roboto-Light;
+  src: url("/static/materialize/font/roboto/Roboto-Light.woff");
 }
 .card {
   width: 300px;
@@ -40,38 +40,83 @@
   font-size: 32px !important;
 }
 .card .content {
-    width: 70%;
-    min-height: 300px;
-    margin: 50px auto;
-    margin-bottom: 100px;
+  width: 70%;
+  min-height: 300px;
+  margin: 50px auto;
+  margin-bottom: 100px;
 }
 .card .top {
-    height: 90px;
+  height: 90px;
 }
 .card .right {
-    width: 70%;
-    float: right;
+  width: 70%;
+  float: right;
 }
 .card .event-title {
-    font-size: 32px;
-    text-align: left;
+  font-size: 32px;
+  text-align: left;
 }
 .card .place {
-    text-align: left;
+  text-align: left;
 }
 .card .place a {
-    color: #5BBA47;
+  color: #5BBA47;
 }
 .card .date-label {
-    float: left;
-    width: 20%;
-    margin-top: -6px;
+  float: left;
+  width: 20%;
+  margin-top: -6px;
 }
 .card .date-label .date {
-    font-size: 44px;
+  font-size: 44px;
 }
 .card .date-label .month {
-    color: #5BBA47;
-    font-size: 23px;
-    margin-top: -20px;
+  color: #5BBA47;
+  font-size: 23px;
+  margin-top: -20px;
+}
+
+@media screen and (max-device-width: 480px), screen and (max-width: 600px) {
+  .card {
+    width: 95vw;
+    height: 90vh !important;
+  }
+  .card-image {
+    height: 50vh;
+  }
+  .card-title {
+    font-size: 8vh !important;
+    margin-top: 3vh;
+  }
+  .card .event-title {
+    font-size: 8vh;
+    margin-top: -3vh;
+  }
+  .card .date-label {
+      margin-top: -2vh;
+  }
+  .card .date-label .date {
+      font-size: 8vh;
+  }
+  .card .date-label .month {
+      color: #5BBA47;
+      font-size: 4vh;
+      margin-top: -3vh;
+  }
+  .card p {
+    font-size: 4vh;
+  }
+  .card .event-ingress {
+    margin-top: 10vh;
+  }
+  .card .article-ingress {
+    margin-top: 4vh;
+  }
+  .card .place {
+    margin-top: -2vh;
+    font-size: 4vh;
+  }
+  .card-action a {
+    font-size: 3vh;
+  }
 }

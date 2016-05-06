@@ -20,7 +20,7 @@
                             <div class="month">{{ event.time_start|date:"M"|upper }}</div>
                         </div>
                     </div>
-                    <div class="ingress">
+                    <div class="event-ingress">
                         {% autoescape off %}
                             {{ event.ingress_content }}
                         {% endautoescape %}
@@ -41,10 +41,12 @@
                     <img class="activator" src="static/img/earth.png">
                 </div>
                 <div class="card-content">
-                    <span class="card-title">{{ article.title }}</span>
-                    {% autoescape off %}
-                        {{ article.ingress_content }}
-                    {% endautoescape %}
+                    <div class="card-title">{{ article.title }}</div>
+                    <div class="article-ingress">
+                        {% autoescape off %}
+                            {{ article.ingress_content }}
+                        {% endautoescape %}
+                    </div>
                 </div>
                 <div class="card-action">
                     <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ article.id }}/">Les mer</a>

@@ -1,35 +1,38 @@
 #navbar {
     height: 64px;
-}
-
-.nav-wrapper {
-    background: #4e4b46;
-    height: 64px;
+    background-color: #4e4b46;
     box-shadow: 0px 2px 20px #4e4b46;
 }
-
 #logo {
     height: 50px;
     margin-top: 8px;
     margin-left: 20px;
 }
-nav .brand-logo {
-    left:0%;
-    transform: translateX(0%);
+#menu {
+  float: right;
+  margin-top: 20px;
 }
-
+#menu a {
+  display: inline-block;
+  color: #fff;
+}
+#menu ul li a {
+  color: #4e4b46;
+}
 #header-mobile {
     margin-bottom: 50px;
     display: none;
 }
-
 #header-desktop {
     margin-bottom: 50px;
     display: block;
 }
+@media screen and (max-device-width: 480px), screen and (max-width: 600px) {
 
-@media screen and (max-device-width: 480px), screen and (max-width: 480px) {
-
+    #navbar {
+      height: 10vh;
+      overflow: hidden;
+    }
     nav a.button-collapse i {
         height: 64px;
         line-height: 10vh;
@@ -76,14 +79,11 @@ nav .brand-logo {
 
     #burger {
         position: absolute;
-        left: 12px;
-        top: 1.2vh;
+        left: 1.5vh;
+        top: 1.5vh;
     }
 
-    #burger a i {
+    #burger a img {
       height: 7vh;
-      line-height: 7vh;
     }
-
 }
-

@@ -1,26 +1,32 @@
 {% load staticfiles %}
 <div id="header-desktop">
-    <ul id="dropdown1" class="dropdown-content">
-        <li><a href="#!">Change Password</a></li>
-        <li><a href="#!">Logout</a></li>
-    </ul>
-    <nav id="navbar">
-        <div class="nav-wrapper">
-            <a href="#!" class="brand-logo">
-                <img id="logo" src="{% static "img/logo_header.png" %}"/>
-            </a>
-            <ul class="right">
-                <li><a href="sass.html">Om oss</a></li>
-                <li><a href="badges.html">Nyheter</a></li>
-                <li><a href="badges.html">Wiki</a></li>
-                <li><a href="badges.html">Logg inn</a></li>
-                <li>
-                    <a class="dropdown-button" href="#!" data-activates="dropdown1">
-                        User
-                        <i class="material-icons right"></i>
-                    </a>
-                </li>
+    <div id="navbar">
+        <a href="/">
+            <img id="logo" src="{% static "img/logo_header.png" %}"/>
+        </a>
+        <div id="menu">
+            <a class="waves-effect waves-grey btn-flat">Om oss</a>
+            <a class="waves-effect waves-grey btn-flat">Nyheter</a>
+            <a class="waves-effect waves-grey btn-flat">Wiki</a>
+            <a class='dd waves-effect waves-grey btn-flat' href='#' data-activates='dropdown1'>User</a>
+            <ul id='dropdown1' class='dropdown-content' style="margin-top: 8px;">
+              <li><a href="/authentication/change-password">Change password</a></li>
+              <li><a href="/authentication/logout">Logout</a></li>
             </ul>
         </div>
-    </nav>
+    </div>
 </div>
+
+<script>
+  $(function() {
+    $('.dd').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: true, // Displays dropdown below the button
+      alignment: 'left' // Displays dropdown with edge aligned to the left of button
+    });
+  });
+</script>

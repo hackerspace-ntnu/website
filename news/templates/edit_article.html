@@ -1,16 +1,19 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
-
 {% if request.user|has_group:"member" %}
 
-{% include 'base.html' %}
 {% load check_user_group %}
 {% include 'admintools_news.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
-<script src="{% static "js/article.js" %}"></script>
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+    <script src="{% static "js/article.js" %}"></script>
+{% endblock head %}
+
+{% block content %}
 <script>
   $('#cancelBtn').css('display', 'list-item');
   $('#editBtn').css('display', 'none');
@@ -44,6 +47,5 @@
 </div>
 
 <script src="{% static "js/edit_article.js" %}"></script>
-
-{% include 'footer.html' %}
+{% endblock content %}
 {% endif %}

@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
     <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script-->
     <script src="{% static "js/jquery.js" %}"></script>
     <script src="{% static "materialize/js/materialize.min.js" %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
     {% block head %}
     {% endblock head %}
 </head>

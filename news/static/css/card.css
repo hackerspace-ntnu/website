@@ -34,10 +34,11 @@
 .card .card-action a {
   padding: 0 10px;
   margin: -30px 0;
-  color: #000 !important;
+  color: var(--hs-gray-dk) !important;
 }
 .card-title {
   font-size: 32px !important;
+  color: var(--hs-gray-dk);
 }
 .card .content {
   width: 70%;
@@ -55,12 +56,14 @@
 .card .event-title {
   font-size: 32px;
   text-align: left;
+  display: block;
+  color: var(--hs-gray-dk);
 }
 .card .place {
   text-align: left;
 }
 .card .place a {
-  color: #5BBA47;
+  color: var(--hs-green);
 }
 .card .date-label {
   float: left;
@@ -71,7 +74,7 @@
   font-size: 44px;
 }
 .card .date-label .month {
-  color: #5BBA47;
+  color: var(--hs-green);
   font-size: 23px;
   margin-top: -20px;
 }
@@ -99,7 +102,7 @@
       font-size: 8vh;
   }
   .card .date-label .month {
-      color: #5BBA47;
+      color: var(--hs-green);
       font-size: 4vh;
       margin-top: -3vh;
   }

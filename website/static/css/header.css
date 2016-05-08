@@ -1,23 +1,27 @@
 #navbar {
-    height: 64px;
+    height: 80px;
     background-color: #4e4b46;
     box-shadow: 0px 2px 20px #4e4b46;
 }
 #logo {
-    height: 50px;
-    margin-top: 8px;
+    height: 60px;
+    margin-top: 10px;
     margin-left: 20px;
 }
 #menu {
   float: right;
-  margin-top: 20px;
+  margin-top: 35px;
+  margin-right: 10px;
 }
 #menu a {
   display: inline-block;
   color: #fff;
 }
+#menu>a {
+  padding: 0 16px;
+}
 #menu ul li a {
-  color: #4e4b46;
+  color: var(--hs-gray);
 }
 #header-mobile {
     margin-bottom: 50px;
@@ -41,9 +45,9 @@
         display: none;
     }
     #menu {
-        background: #4e4b46;
+        background: var(--hs-gray);
         height: 10vh;
-        box-shadow: 0px 2px 20px #4e4b46;
+        box-shadow: 0px 2px 20px var(--hs-gray);
         overflow: hidden;
     }
     #menu a {

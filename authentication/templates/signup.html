@@ -16,30 +16,36 @@
             <h4 style="color: red;text-align: center">{{ error_message }}</h4>
         {% endif %}
         {% csrf_token %}
-        <div class="fieldWrapper">
-        <label for="{{ form.username.id_for_label }}">Username</label>
-        {{ form.username }}
+        <div class="input-field">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
         </div>
-        <div class="fieldWrapper">
-        <label for="{{ form.first_name.id_for_label }}">First name</label>
-        {{ form.first_name }}
+        <div class="input-field">
+            {{ form.first_name.errors }}
+            <label for="{{ form.first_name.id_for_label }}">First name</label>
+            {{ form.first_name }}
         </div>
-        <div class="fieldWrapper">
-        <label for="{{ form.last_name.id_for_label }}">Last name</label>
-        {{ form.last_name }}
+        <div class="input-field">
+            {{ form.last_name.errors }}
+            <label for="{{ form.last_name.id_for_label }}">Last name</label>
+            {{ form.last_name }}
         </div>
-        <div class="fieldWrapper">
-        <label for="{{ form.email.id_for_label }}">Email</label>
-        {{ form.email }}
+        <div class="input-field">
+            {{ form.email.errors }}
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
         </div>
-        <div class="fieldWrapper">
+        <div class="input-field">
+            {{ form.new_password.errors }}
             <label for="{{ form.new_password.id_for_label }}">Password: </label>
             {{ form.new_password }}
         </div>
-        <div class="fieldWrapper">
+        <div class="input-field">
+            {{ form.confirm_new_password.errors }}
             <label for="{{ form.confirm_new_password.id_for_label }}">Confirm Password: </label>
-            {{ form.confirm_new_password}}
+            {{ form.confirm_new_password }}
         </div>
         <div class="outerButton"><input id="signUpButton" class="button" type="submit" value="Sign Up"/></div>
- </form>
+    </form>
 </div>

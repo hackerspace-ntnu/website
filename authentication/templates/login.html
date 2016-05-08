@@ -7,20 +7,16 @@
 {% block content %}
     <form action="/authentication/login/" method="post">
         {% csrf_token %}
-        {% if error_message %}
-            <p id="errorMessage">{{ error_message }}</p>
-        {% endif %}
-        <div class="fieldWrapper">
+        <div class="input-field">
             {{ form.username.errors }}
-            <!--<label for="{{ form.username.id_for_label }}">Username: </label>-->
+            <label for="{{ form.username.id_for_label }}">Username: </label>
             {{ form.username }}
         </div>
-        <div class="fieldWrapper">
+        <div class="input-field">
             {{ form.password.errors }}
-            <!--<label for="{{ form.password.id_for_label }}">Password: </label>-->
+            <label for="{{ form.password.id_for_label }}">Password: </label>
             {{ form.password }}
         </div>
-
         <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Log in</button>
     </form>
     <a id="forgotPasswordLink" href="/authentication/forgot-password">Forgot your password?</a>

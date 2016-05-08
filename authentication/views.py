@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm, SetPasswordForm
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.admin import User
@@ -16,11 +17,11 @@ from door.models import DoorStatus
 
 
 def login_user(request):
-
     error_message = None
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
+
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
@@ -43,27 +44,26 @@ def login_user(request):
     return render(request, 'login.html', context)
 
 
+@login_required
 def logout_user(request):
-
     if request.user.is_authenticated:
         logout(request)
     return HttpResponseRedirect(reverse('index'))
 
 
+@login_required
 def change_password(request):
-
     error_message = None
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
-        if form.is_valid():
+        form.is_valid()
+        if form.validate(request.user):
 
             # Validation of the passwords
-            if form.validate(request.user):
+            if form.is_valid():
                 request.user.set_password(form.cleaned_data['new_password'])
                 request.user.save()
                 return HttpResponseRedirect(reverse('change_password_done'))
-            else:
-                error_message = "Password does not match!"
     else:
         form = ChangePasswordForm()
 
@@ -75,54 +75,17 @@ def change_password(request):
 
 
 def signup(request):
-
-    error_message = None
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
-            new_password = form.cleaned_data['new_password']
-            confirm_new_password = form.cleaned_data['confirm_new_password']
+            if form.validate():
+                username = form.cleaned_data['username']
+                first_name = form.cleaned_data['first_name']
+                last_name = form.cleaned_data['last_name']
+                email = form.cleaned_data['email']
+                new_password = form.cleaned_data['new_password']
 
-            try:
-                user = User.objects.get(username=username)
-                error_message = 'Username already exists'
-                context = {
-                    'form': form,
-                    'error_message': error_message,
-                    'mobile': user_agent.is_mobile,
-                }
-                return render(request, 'signup.html', context)
-            except User.DoesNotExist:
-                pass
-
-            try:
-                user = User.objects.get(email=email)
-                error_message = 'Email is already registered'
-                context = {
-                    'form': form,
-                    'error_message': error_message,
-                    'mobile': user_agent.is_mobile,
-                }
-                return render(request, 'signup.html', context)
-            except User.DoesNotExist:
-                pass
-
-            if not new_password == confirm_new_password:
-                error_message = 'Passwords does not match'
-                context = {
-                    'form': form,
-                    'error_message': error_message,
-                    'mobile': user_agent.is_mobile,
-                }
-                return render(request, 'signup.html', context)
-
-            if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith(
-                    '@ntnu.edu'):
-
+                # Create user
                 user = User.objects.create(username=username,
                                            email=email,
                                            first_name=first_name,
@@ -131,8 +94,11 @@ def signup(request):
                 user.is_active = False
                 user.save()
 
+                # Create authentication object for activation
                 auth_object = UserAuthentication.objects.create(user=user)
                 auth_object.save()
+
+                # Send mail about activation
                 email_subject = 'Account @ hackerspace NTNU'
                 message = 'Congratulations! Your user is created. Activate your user account trough this link'
                 email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
@@ -142,23 +108,11 @@ def signup(request):
 
                 return HttpResponseRedirect(reverse('signup_done'))
 
-            else:
-                error_message = 'You need to use an NTNU email'
-                context = {
-                    'form': form,
-                    'error_message': error_message,
-                    'mobile': user_agent.is_mobile,
-                }
-                return render(request, 'signup.html', context)
-
     else:
         form = SignUpForm()
 
-    context = {
-        'form': form,
-        'error_message': error_message,
-        'mobile': user_agent.is_mobile,
-    }
+    context = {'form': form}
+
     return render(request, 'signup.html', context)
 
 
@@ -271,6 +225,3 @@ def forgot_password_done(request):
 
 def signup_done(request):
     return render(request, 'signup_done.html')
-
-
-

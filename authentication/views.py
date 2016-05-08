@@ -17,28 +17,20 @@ from door.models import DoorStatus
 
 
 def login_user(request):
-    error_message = None
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
+            if form.validate():
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                user = authenticate(username=username, password=password)
+                login(request, user)
 
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('index'))
-                else:
-                    error_message = 'User is not activated'
-            else:
-                error_message = 'Username or password is incorrect'
     else:
         form = LoginForm()
 
     context = {
         'form': form,
-        'error_message': error_message,
     }
 
     return render(request, 'login.html', context)
@@ -56,11 +48,10 @@ def change_password(request):
     error_message = None
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
-        form.is_valid()
-        if form.validate(request.user):
+        if form.is_valid():
 
             # Validation of the passwords
-            if form.is_valid():
+            if form.validate(request.user):
                 request.user.set_password(form.cleaned_data['new_password'])
                 request.user.save()
                 return HttpResponseRedirect(reverse('change_password_done'))
@@ -129,26 +120,18 @@ def send_password_email(subject, message, email):
 
 
 def forgot_password(request):
-    user_agent = get_user_agent(request)
-    error_message = None
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            try:
-                user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                error_message = 'User does not exist'
-                context = {
-                    'form': form,
-                    'error_message': error_message,
-                    'mobile': user_agent.is_mobile,
-                }
-                return render(request, 'forgot_password.html', context)
-            else:
+            if form.validate():
+                email = form.cleaned_data['email']
 
+                # Create authentication object for verification of new password
+                user = User.objects.get(email=email)
                 auth_object = UserAuthentication.objects.create(user=user)
                 auth_object.save()
+
+                # Send forgot password link
                 email_subject = 'New password @ hackerspace-ntnu.no'
                 message = "Use this link to set a new password"
                 email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
@@ -158,70 +141,75 @@ def forgot_password(request):
 
                 return HttpResponseRedirect(reverse('forgot_password_done'))
 
-        else:
-            error_message = "Invalid input!"
-
     else:
         form = ForgotPasswordForm()
 
     context = {
         'form': form,
-        'error_message': error_message,
-        'mobile': user_agent.is_mobile,
     }
+
     return render(request, 'forgot_password.html', context)
 
 
 def activate_account(request, hash_key):
-    user_agent = get_user_agent(request)
-    error_message = None
+    # Check if the hash_key is in the database
     try:
-        value = UUID(hash_key, version=4)
+        UUID(hash_key, version=4)
         auth_object = get_object_or_404(UserAuthentication, key=hash_key)
         if auth_object.expired():
             raise Http404
+
+        # Checks if the authentication object is valid and validates the userinput
         if auth_object.user.is_active:
             if request.method == 'POST':
                 form = SetPasswordForm(request.POST)
                 if form.is_valid():
-                    password_matches = form.password_matches()
-                    if password_matches:
-                        password = form.cleaned_data["password"]
-                        auth_object.set_password(password)
-
+                    if form.validate():
+                        auth_object.set_password(form.cleaned_data["password"])
                         return HttpResponseRedirect(reverse('set_password_done'))
-                    else:
-                        error_message = 'Passwords does not match'
 
             else:
                 form = SetPasswordForm()
 
             context = {
                 'form': form,
-                'error_message': error_message,
-                'mobile': user_agent.is_mobile,
                 'hash_key': hash_key,
             }
             return render(request, 'set_password.html', context)
         else:
             auth_object.activate()
-            return render(request, 'activation_done.html')
+            context = {
+                'message': "Your user account is now activated. You will soon be redirected"
+            }
+            return render(request, 'activation_done.html', context)
 
     except ValueError:
         raise Http404
 
 
 def set_password_done(request):
-    return render(request, 'set_password_done.html')
+    context = {
+        'message': "The new password is now set. You will soon be redirected"
+    }
+    return render(request, 'activation_done.html', context)
 
 
 def change_password_done(request):
-    return render(request, 'change_password_done.html')
+    context = {
+        'message': "The new password is now set. You will soon be redirected"
+    }
+    return render(request, 'activation_done.html', context)
 
 
 def forgot_password_done(request):
-    return render(request, 'forgot_password_done.html')
+    context = {
+        'message': "You will soon receive an email with further instructions"
+    }
+    return render(request, 'activation_done.html', context)
 
 
 def signup_done(request):
-    return render(request, 'signup_done.html')
+    context = {
+        'message': "The signup was successful. You will soon receive an email"
+    }
+    return render(request, 'activation_done.html', context)

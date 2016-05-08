@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.admin import User
+from django.contrib.auth import authenticate
 
 
 class LoginForm(forms.Form):
@@ -11,8 +12,19 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput())
 
     def validate(self):
-        pass
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        user = authenticate(username=username, password=password)
 
+        if not user.is_active:
+            message = 'User is not activated'
+            self.add_error('username', message)
+            return False
+
+        if user is None:
+            message = 'Username or password is incorrect'
+            self.add_error('username', message)
+            return False
 
 
 class ChangePasswordForm(forms.Form):
@@ -100,18 +112,19 @@ class SignUpForm(forms.Form):
         return True
 
 
-
-
-
-
-
-
-
-
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(max_length=100,
                              label='Email',
                              widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+
+    def validate(self):
+        email = self.cleaned_data['email']
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            message = "Email is not registred"
+            self.add_error("email", message)
+            return False
 
 
 class SetPasswordForm(forms.Form):
@@ -122,11 +135,13 @@ class SetPasswordForm(forms.Form):
                                            label="Confirm password",
                                            widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
 
-    def password_matches(self):
+    def validate(self):
         new_password = self.cleaned_data['new_password']
         confirm_new_password = self.cleaned_data['confirm_new_password']
 
-        if new_password == confirm_new_password:
-            return True
-        else:
+        if not new_password == confirm_new_password:
+            message = "Passwords does not match"
+            self.add_error('new_password', message)
+            self.add_error('confirm_new_password', message)
             return False
+        return True

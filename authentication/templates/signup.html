@@ -12,9 +12,6 @@
 <h1 id="pageName">Sign up</h1>
 <div id="signupForm">
     <form action="/authentication/signup/" method="post">
-        {% if error_message %}
-            <h4 style="color: red;text-align: center">{{ error_message }}</h4>
-        {% endif %}
         {% csrf_token %}
         <div class="input-field">
             {{ form.username.errors }}
@@ -38,12 +35,12 @@
         </div>
         <div class="input-field">
             {{ form.new_password.errors }}
-            <label for="{{ form.new_password.id_for_label }}">Password: </label>
+            <label for="{{ form.new_password.id_for_label }}">Password</label>
             {{ form.new_password }}
         </div>
         <div class="input-field">
             {{ form.confirm_new_password.errors }}
-            <label for="{{ form.confirm_new_password.id_for_label }}">Confirm Password: </label>
+            <label for="{{ form.confirm_new_password.id_for_label }}">Confirm Password</label>
             {{ form.confirm_new_password }}
         </div>
 

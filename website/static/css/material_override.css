@@ -2,7 +2,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: 1px solid var(--hs-green);
   box-shadow: 0 1px 0 0 var(--hs-green);
 }
-input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]) {
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]) {
   border-bottom: 1px solid var(--hs-green);
   box-shadow: var(--hs-green) 0 1px 0 0;
   color: var(--hs-gray);

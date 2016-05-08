@@ -30,13 +30,13 @@ class LoginForm(forms.Form):
 class ChangePasswordForm(forms.Form):
     current_password = forms.CharField(max_length=100,
                                        label="Current password",
-                                       widget=forms.PasswordInput(attrs={'placeholder': 'Current password'}))
+                                       widget=forms.PasswordInput())
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+                                   widget=forms.PasswordInput())
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+                                           widget=forms.PasswordInput())
 
     def validate(self, user):
         current = self.cleaned_data["current_password"]
@@ -58,22 +58,22 @@ class ChangePasswordForm(forms.Form):
 class SignUpForm(forms.Form):
     username = forms.CharField(max_length=100,
                                label="Username",
-                               widget=forms.TextInput(attrs={'placeholder': 'Username'}))
+                               widget=forms.TextInput())
     email = forms.EmailField(max_length=100,
                              label="Email",
-                             widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
+                             widget=forms.EmailInput())
     first_name = forms.CharField(max_length=50,
                                  label="First name",
-                                 widget=forms.TextInput(attrs={'placeholder': 'First name'}))
+                                 widget=forms.TextInput())
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
-                                widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
+                                widget=forms.TextInput())
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+                                   widget=forms.PasswordInput())
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
+                                           widget=forms.PasswordInput())
 
     def validate(self):
         username = self.cleaned_data['username']
@@ -115,7 +115,7 @@ class SignUpForm(forms.Form):
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(max_length=100,
                              label='Email',
-                             widget=forms.TextInput(attrs={'placeholder': 'Email'}))
+                             widget=forms.TextInput())
 
     def validate(self):
         email = self.cleaned_data['email']
@@ -130,10 +130,10 @@ class ForgotPasswordForm(forms.Form):
 class SetPasswordForm(forms.Form):
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
+                                   widget=forms.PasswordInput())
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'}))
+                                           widget=forms.PasswordInput())
 
     def validate(self):
         new_password = self.cleaned_data['new_password']

@@ -8,9 +8,7 @@
                 <div class="card-content">
                     <div class="top">
                         <div class=right>
-                            <div class="event-title">
-                                {{ event.title }}
-                            </div>
+                            <a class="event-title" href="/news/event/{{ event.id }}/">{{ event.title }}</a>
                             <div class="place">
                                 {{ event.time_start|date:"H:i"|upper }} at <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
                             </div>
@@ -41,7 +39,7 @@
                     <img class="activator" src="static/img/earth.png">
                 </div>
                 <div class="card-content">
-                    <div class="card-title">{{ article.title }}</div>
+                    <a class="card-title" href="/news/article/{{ article.id }}/">{{ article.title }}</a>
                     <div class="article-ingress">
                         {% autoescape off %}
                             {{ article.ingress_content }}

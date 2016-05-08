@@ -1,16 +1,17 @@
-#signupForm {
-  width: 70%;
-  margin: 10px auto;
-}
-label {
-  width: 20%;
-  text-align: left;
-}
-input {
-  width: 75%;
-}
-
 #page-message {
     margin-top: 100px;
     text-align: center;
+}
+form {
+  width: 90%;
+  max-width: 600px;
+  margin: 100px auto;
+}
+form button {
+  width: 100%;
+  background-color: var(--hs-green) !important;
+}
+#pageName {
+  text-align: center;
+  color: var(--hs-gray-dk);
 }

@@ -4,14 +4,21 @@
 }
 form {
   width: 90%;
-  max-width: 600px;
-  margin: 100px auto;
+  max-width: 400px;
+  margin: 30px auto;
 }
 form button {
   width: 100%;
+  margin-top: 10px;
   background-color: var(--hs-green) !important;
 }
 #pageName {
+  margin-top: 100px;
   text-align: center;
   color: var(--hs-gray-dk);
+}
+#forgotPasswordLink {
+  margin-top: 10px;
+  color: var(--hs-gray) !important;
+  display: block;
 }

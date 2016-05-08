@@ -6,6 +6,7 @@
 {% endblock header %}
 
 {% block content %}
+    <h1 id="pageName">Logg inn</h1>
     <form action="/authentication/login/" method="post">
         {% csrf_token %}
         {% if error_message %}

@@ -43,77 +43,39 @@ def login_user(request):
     return render(request, 'login.html', context)
 
 
-def login_mobile(request):
-    user_agent = get_user_agent(request)
-    error_message = None
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('index'))
-            else:
-                error_message = 'Username or password is incorrect'
-        else:
-            error_message = 'Invalid input'
-    else:
-        form = LoginForm()
-
-    context = {
-        'form': form,
-        'error_message': error_message,
-        'mobile': user_agent.is_mobile,
-    }
-
-    return render(request, 'login_mobile.html', context)
-
-
 def logout_user(request):
+
     if request.user.is_authenticated:
         logout(request)
-
     return HttpResponseRedirect(reverse('index'))
 
 
 def change_password(request):
-    user_agent = get_user_agent(request)
+
     error_message = None
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
-            current_password = form.cleaned_data['current_password']
-            new_password = form.cleaned_data['new_password']
-            confirm_new_password = form.cleaned_data['confirm_new_password']
-            if request.user.check_password(current_password) and new_password == confirm_new_password:
-                request.user.set_password(new_password)
+
+            # Validation of the passwords
+            if form.validate(request.user):
+                request.user.set_password(form.cleaned_data['new_password'])
                 request.user.save()
                 return HttpResponseRedirect(reverse('change_password_done'))
             else:
                 error_message = "Password does not match!"
-        else:
-            error_message = "Invalid input!"
-
     else:
         form = ChangePasswordForm()
 
     context = {
         'form': form,
         'error_message': error_message,
-        'mobile': user_agent.is_mobile,
     }
     return render(request, 'change_password.html', context)
 
 
-def change_password_done(request):
-    return render(request, 'change_password_done.html')
-
-
 def signup(request):
-    user_agent = get_user_agent(request)
+
     error_message = None
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -212,14 +174,6 @@ def send_password_email(subject, message, email):
     print("MAIL SENT")
 
 
-def signup_done(request):
-    user_agent = get_user_agent(request)
-    context = {
-        'mobile': user_agent.is_mobile,
-    }
-    return render(request, 'signup_done.html', context)
-
-
 def forgot_password(request):
     user_agent = get_user_agent(request)
     error_message = None
@@ -264,14 +218,6 @@ def forgot_password(request):
     return render(request, 'forgot_password.html', context)
 
 
-def forgot_password_done(request):
-    user_agent = get_user_agent(request)
-    context = {
-        'mobile': user_agent.is_mobile,
-    }
-    return render(request, 'forgot_password_done.html', context)
-
-
 def activate_account(request, hash_key):
     user_agent = get_user_agent(request)
     error_message = None
@@ -284,8 +230,9 @@ def activate_account(request, hash_key):
             if request.method == 'POST':
                 form = SetPasswordForm(request.POST)
                 if form.is_valid():
-                    password = form.password_matches()
-                    if password:
+                    password_matches = form.password_matches()
+                    if password_matches:
+                        password = form.cleaned_data["password"]
                         auth_object.set_password(password)
 
                         return HttpResponseRedirect(reverse('set_password_done'))
@@ -311,8 +258,19 @@ def activate_account(request, hash_key):
 
 
 def set_password_done(request):
-    user_agent = get_user_agent(request)
-    context = {
-        'mobile': user_agent.is_mobile,
-    }
-    return render(request, 'set_password_done.html', context)
+    return render(request, 'set_password_done.html')
+
+
+def change_password_done(request):
+    return render(request, 'change_password_done.html')
+
+
+def forgot_password_done(request):
+    return render(request, 'forgot_password_done.html')
+
+
+def signup_done(request):
+    return render(request, 'signup_done.html')
+
+
+

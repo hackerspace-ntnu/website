@@ -23,6 +23,16 @@ class ChangePasswordForm(forms.Form):
                                            label="Confirm password",
                                            widget=forms.PasswordInput(attrs={'placeholder': 'New Password'}))
 
+    def validate(self, user):
+        current = self.cleaned_data["current_password"]
+        new = self.cleaned_data["new_password"]
+        confirm = self.cleaned_data["confirm_new_password"]
+
+        if user.check_password(current) and new == confirm:
+            return True
+        else:
+            return False
+
 
 class SignUpForm(forms.Form):
 
@@ -67,8 +77,8 @@ class SetPasswordForm(forms.Form):
         confirm_new_password = self.cleaned_data['confirm_new_password']
 
         if new_password == confirm_new_password:
-            return new_password
+            return True
         else:
-            return None
+            return False
 
 

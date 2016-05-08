@@ -9,13 +9,13 @@
     <h1 id="pageName">Logg inn</h1>
     <form action="/authentication/login/" method="post">
         {% csrf_token %}
+        <p id="error-message">{{ form.username.errors }}</p>
         <div class="input-field">
-            {{ form.username.errors }}
             <label for="{{ form.username.id_for_label }}">Username</label>
             {{ form.username }}
         </div>
+        <p id="error-message">{{ form.password.errors }}</p>
         <div class="input-field">
-            {{ form.password.errors }}
             <label for="{{ form.password.id_for_label }}">Password</label>
             {{ form.password }}
         </div>

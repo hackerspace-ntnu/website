@@ -16,15 +16,17 @@ class LoginForm(forms.Form):
         password = self.cleaned_data['password']
         user = authenticate(username=username, password=password)
 
+        if user is None:
+            message = 'Username or password is incorrect'
+            self.add_error('username', message)
+            return False
+
         if not user.is_active:
             message = 'User is not activated'
             self.add_error('username', message)
             return False
 
-        if user is None:
-            message = 'Username or password is incorrect'
-            self.add_error('username', message)
-            return False
+        return True
 
 
 class ChangePasswordForm(forms.Form):

@@ -22,3 +22,7 @@ form button {
   color: var(--hs-gray) !important;
   display: block;
 }
+
+ul.errorlist {
+  color: var(--hs-red);
+}

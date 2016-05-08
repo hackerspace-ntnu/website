@@ -25,6 +25,7 @@ def login_user(request):
                 password = form.cleaned_data['password']
                 user = authenticate(username=username, password=password)
                 login(request, user)
+                return HttpResponseRedirect(reverse('index'))
 
     else:
         form = LoginForm()
@@ -181,7 +182,7 @@ def activate_account(request, hash_key):
             context = {
                 'message': "Your user account is now activated. You will soon be redirected"
             }
-            return render(request, 'activation_done.html', context)
+            return render(request, 'redirection_page.html', context)
 
     except ValueError:
         raise Http404
@@ -191,25 +192,25 @@ def set_password_done(request):
     context = {
         'message': "The new password is now set. You will soon be redirected"
     }
-    return render(request, 'activation_done.html', context)
+    return render(request, 'redirection_page.html', context)
 
 
 def change_password_done(request):
     context = {
         'message': "The new password is now set. You will soon be redirected"
     }
-    return render(request, 'activation_done.html', context)
+    return render(request, 'redirection_page.html', context)
 
 
 def forgot_password_done(request):
     context = {
         'message': "You will soon receive an email with further instructions"
     }
-    return render(request, 'activation_done.html', context)
+    return render(request, 'redirection_page.html', context)
 
 
 def signup_done(request):
     context = {
         'message': "The signup was successful. You will soon receive an email"
     }
-    return render(request, 'activation_done.html', context)
+    return render(request, 'redirection_page.html', context)

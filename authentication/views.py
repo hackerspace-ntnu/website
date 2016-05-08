@@ -8,24 +8,15 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from website.settings import EMAIL_HOST_USER
 from django.template.loader import render_to_string
-from . models import UserAuthentication
+from .models import UserAuthentication
 from threading import Thread
 from uuid import UUID
 import time
-from django_user_agents.utils import get_user_agent
-from news.models import Article, Event
 from door.models import DoorStatus
 
 
 def login_user(request):
-    event_list = Event.objects.order_by('-time_start')[:3]
-    article_list = Article.objects.order_by('-pub_date')[:3]
-    try:
-        door_status = DoorStatus.objects.get(name='hackerspace').status
-    except DoorStatus.DoesNotExist:
-        door_status = True
 
-    user_agent = get_user_agent(request)
     error_message = None
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -41,21 +32,15 @@ def login_user(request):
                     error_message = 'User is not activated'
             else:
                 error_message = 'Username or password is incorrect'
-        else:
-            error_message = 'Invalid input'
     else:
         form = LoginForm()
 
     context = {
-        'article_list': article_list,
-        'event_list': event_list,
         'form': form,
-        'door_status': door_status,
         'error_message': error_message,
-        'mobile': user_agent.is_mobile,
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'login.html', context)
 
 
 def login_mobile(request):
@@ -88,7 +73,6 @@ def login_mobile(request):
 
 
 def logout_user(request):
-
     if request.user.is_authenticated:
         logout(request)
 
@@ -174,12 +158,13 @@ def signup(request):
                 }
                 return render(request, 'signup.html', context)
 
-            if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith('@ntnu.edu'):
+            if str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith(
+                    '@ntnu.edu'):
 
                 user = User.objects.create(username=username,
                                            email=email,
                                            first_name=first_name,
-                                           last_name=last_name,)
+                                           last_name=last_name, )
                 user.set_password(new_password)
                 user.is_active = False
                 user.save()
@@ -188,7 +173,8 @@ def signup(request):
                 auth_object.save()
                 email_subject = 'Account @ hackerspace NTNU'
                 message = 'Congratulations! Your user is created. Activate your user account trough this link'
-                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message, 'hash_key': auth_object.key.hex})
+                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
+                                                                      'hash_key': auth_object.key.hex})
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 
@@ -201,7 +187,7 @@ def signup(request):
                     'error_message': error_message,
                     'mobile': user_agent.is_mobile,
                 }
-                return render(request, 'signup.html',  context)
+                return render(request, 'signup.html', context)
 
     else:
         form = SignUpForm()
@@ -257,7 +243,8 @@ def forgot_password(request):
                 auth_object.save()
                 email_subject = 'New password @ hackerspace-ntnu.no'
                 message = "Use this link to set a new password"
-                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message, 'hash_key': auth_object.key.hex},)
+                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
+                                                                      'hash_key': auth_object.key.hex}, )
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
                 thread.start()
 

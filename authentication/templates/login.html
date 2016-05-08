@@ -1,30 +1,27 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
 
-<script src="{% static "js/loginform.js" %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/loginform.css" %}">
+{% block header %}
+{% endblock header %}
 
-<div id="loginform" style="display:none">
+{% block content %}
     <form action="/authentication/login/" method="post">
         {% csrf_token %}
+        {% if error_message %}
+            <p id="errorMessage">{{ error_message }}</p>
+        {% endif %}
         <div class="fieldWrapper">
+            {{ form.username.errors }}
             <!--<label for="{{ form.username.id_for_label }}">Username: </label>-->
             {{ form.username }}
         </div>
         <div class="fieldWrapper">
+            {{ form.password.errors }}
             <!--<label for="{{ form.password.id_for_label }}">Password: </label>-->
             {{ form.password }}
         </div>
-        {% if error_message %}
-            <p id="errorMessage">{{ error_message }}</p>
-        {% endif %}
-        <div class="outerButton"><input id="loginButton" class="button" type="submit" value="Login"/></div>
-    </form>
-    <div class="outerButton"><a href="/authentication/signup" id="signUpButton" class="button" value="signUp">Sign up</a></div>
-    <a id="forgotPasswordLink" href="/authentication/forgot-password">Forgot your password?</a>
-</div>
 
-{% if error_message %}
-    <script src="{% static "js/loginformVisible.js" %}"></script>
-{% endif %}
+        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Log in</button>
+    </form>
+    <a id="forgotPasswordLink" href="/authentication/forgot-password">Forgot your password?</a>
+{% endblock content %}

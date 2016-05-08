@@ -1,0 +1,11 @@
+{% include 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/authentication.css" %}">
+    <meta http-equiv="refresh" content="3;url=/">
+{% endblock header %}
+
+{% block content %}
+    <h1 id="page-message">{{ message }}</h1>
+{% endblock content %}

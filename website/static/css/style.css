@@ -1,3 +1,16 @@
-body{
+:root {
+    --hs-green: #5BBA47;
+    --hs-green-dk: #479438;
+    --hs-gray: #4E4B46;
+    --hs-gray-li: #5D5A54;
+    --hs-gray-li2: #868179;
+    --hs-gray-li3: #b6b3af;
+    --hs-gray-dk: #2E2C28;
+    --hs-blue: #36B5D1;
+    --hs-blue-li: #82CDDB;
+    --hs-red: #E25E48;
+    --hs-red-li: #EA9989;
+}
+body {
     background-image: url(../img/noise_beige.png);
 }

@@ -22,7 +22,6 @@ def event(request, event_id):
     context = {
         'event': requested_event,
     }
-    print("HER")
 
     return render(request, 'event.html', context)
 

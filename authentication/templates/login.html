@@ -11,15 +11,15 @@
         {% csrf_token %}
         <p id="error-message">{{ form.username.errors }}</p>
         <div class="input-field">
-            <label for="{{ form.username.id_for_label }}">Username</label>
+            <label for="{{ form.username.id_for_label }}">Brukernavn</label>
             {{ form.username }}
         </div>
         <p id="error-message">{{ form.password.errors }}</p>
         <div class="input-field">
-            <label for="{{ form.password.id_for_label }}">Password</label>
+            <label for="{{ form.password.id_for_label }}">Passord</label>
             {{ form.password }}
         </div>
-        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Logg in</button>
+        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Logg inn</button>
         <a id="forgotPasswordLink" href="/authentication/forgot-password">Glemt passord?</a>
     </form>
 {% endblock content %}

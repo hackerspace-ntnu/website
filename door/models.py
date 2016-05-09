@@ -1,8 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
-
-# Create your models here.
 
 
 class DoorStatus(models.Model):
@@ -12,6 +9,17 @@ class DoorStatus(models.Model):
 
     def __str__(self):
         return self.name
+
+    @staticmethod
+    def get_door_by_name(name):
+
+        # Creates the object if it does not exist
+        try:
+            door = DoorStatus.objects.get(name=name)
+            return door
+        except DoorStatus.DoesNotExist:
+            door = DoorStatus.objects.create(name=name, datetime=timezone.now())
+            return door
 
 
 class OpenData(models.Model):

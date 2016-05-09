@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from .models import DoorStatus, OpenData
+
 
 @admin.register(DoorStatus)
 class DoorStatusAdmin(admin.ModelAdmin):
@@ -15,6 +17,7 @@ class DoorStatusAdmin(admin.ModelAdmin):
     search_fields = [
         'title'
     ]
+
 
 @admin.register(OpenData)
 class OpenDataAdmin(admin.ModelAdmin):

@@ -1,8 +1,8 @@
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.utils import formats
 from django.utils import timezone
-
 from . import log_changes
 from .forms import EventEditForm, ArticleEditForm, UploadForm
 from .models import Event, Article, Upload
@@ -18,10 +18,11 @@ def events(request):
 
 
 def event(request, event_id):
-    requested_event = Event.objects.get(pk=event_id)
+    requested_event = get_object_or_404(Event, pk=event_id)
     context = {
         'event': requested_event,
     }
+    print("HER")
 
     return render(request, 'event.html', context)
 
@@ -36,7 +37,7 @@ def articles(request):
 
 
 def article(request, article_id):
-    requested_article = Article.objects.get(pk=article_id)
+    requested_article = get_object_or_404(Article, pk=article_id)
     context = {
         'article': requested_article,
     }
@@ -52,7 +53,7 @@ def edit_event(request, event_id):
             if event_id == 0:
                 event = Event(time_start=timezone.now(), time_end=timezone.now())
             else:
-                event = Event.objects.get(pk=event_id)
+                event = get_object_or_404(Event,pk=event_id)
             event.title = form.cleaned_data['title']
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
@@ -109,10 +110,10 @@ def edit_article(request, article_id):
         form = ArticleEditForm(request.POST)
         if form.is_valid():
             article_id = form.cleaned_data['article_id']
-            if article_id == 0:
+            if not article_id:
                 article = Article()
             else:
-                article = Article.objects.get(pk=article_id)
+                article = get_object_or_404(Article, pk=article_id)
             article.title = form.cleaned_data['title']
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
@@ -147,9 +148,7 @@ def upload_file(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            title = str(form.cleaned_data['title'])
-            while " " in title:
-                title = title.replace(" ", "_")
+            title = str(form.cleaned_data['title']).replace(" ", "_")
             file = request.FILES['file']
             number = 0
 

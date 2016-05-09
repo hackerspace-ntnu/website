@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.admin import User
 from django.contrib.auth import authenticate
+from django.contrib.auth.admin import User
 
 
 class LoginForm(forms.Form):

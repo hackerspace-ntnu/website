@@ -1,7 +1,8 @@
-from django.db import models
-from datetime import datetime, timedelta
 import uuid
+from datetime import datetime, timedelta
+
 from django.contrib.auth.admin import User
+from django.db import models
 
 VALID_TIME = 2  # 2 hours
 

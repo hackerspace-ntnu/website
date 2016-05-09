@@ -1,19 +1,19 @@
-from django.shortcuts import render
-from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm, SetPasswordForm
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.admin import User
-from django.core.urlresolvers import reverse
-from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404
-from website.settings import EMAIL_HOST_USER
-from django.template.loader import render_to_string
-from .models import UserAuthentication
 from threading import Thread
 from uuid import UUID
-import time
-from door.models import DoorStatus
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.admin import User
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.template.loader import render_to_string
+
+from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm, SetPasswordForm
+from website.settings import EMAIL_HOST_USER
+from .models import UserAuthentication
 
 
 def login_user(request):

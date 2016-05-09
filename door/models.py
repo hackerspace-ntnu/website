@@ -21,6 +21,9 @@ class DoorStatus(models.Model):
             door = DoorStatus.objects.create(name=name, datetime=timezone.now())
             return door
 
+    class Meta:
+        verbose_name_plural = "Door Statuses"
+
 
 class OpenData(models.Model):
     opened = models.DateTimeField()

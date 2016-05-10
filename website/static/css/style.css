@@ -11,6 +11,10 @@
     --hs-red: #E25E48;
     --hs-red-li: #EA9989;
 }
+@font-face {
+  font-family: Roboto-Light;
+  src: url("/static/materialize/font/roboto/Roboto-Light.woff");
+}
 body {
     background-image: url(../img/noise_beige.png);
 }

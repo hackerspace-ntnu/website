@@ -6,10 +6,6 @@
   display: inline-block;
   overflow: hidden;
 }
-@font-face {
-  font-family: Roboto-Light;
-  src: url("/static/materialize/font/roboto/Roboto-Light.woff");
-}
 .card {
   width: 300px;
   height: 535px !important;

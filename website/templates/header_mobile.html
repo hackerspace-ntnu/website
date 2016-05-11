@@ -43,6 +43,21 @@
             <a href="#" data-activates="slide-out" class="button-collapse"><img id="ddicon" src="{% static "img/ic_menu.svg" %}"></img></a>
         </div>
     </div>
+    <div id="openbar" style="background: var(--hs-green); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light;">
+        <p style="color: #fff; margin-top: 2px;">Hackerspace er åpent</p>
+    </div>
+    <div id="closedbar" style="background: var(--hs-red); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light;">
+        <p style="color: #fff; margin-top: 2px;">Hackerspace er stengt</p>
+    </div>
+    <style>
+        {% if door_status %}
+        #closedbar {
+        {% else %}
+        #openbar {
+        {% endif %}
+            display: none;
+        }
+    <style>
     <script>
         $('.button-collapse').sideNav({
             menuWidth: 800, // Default is 240

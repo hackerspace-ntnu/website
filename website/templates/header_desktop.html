@@ -4,6 +4,9 @@
         <a href="/">
             <img id="logo" src="{% static "img/logo_header.png" %}"/>
         </a>
+        <div style="display: inline-block;">
+          <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
+        </div>
         <div id="menu">
             <a class="waves-effect waves-grey btn-flat" href="#about">OM OSS</a>
             <a class="waves-effect waves-grey btn-flat" href="#news">NYHETER</a>
@@ -20,6 +23,21 @@
             {% endif %}
         </div>
     </div>
+    <div id="openbar" style="background: var(--hs-green); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light;">
+        <p style="color: #fff; margin-top: 2px;">Hackerspace er åpent</p>
+    </div>
+    <div id="closedbar" style="background: var(--hs-red); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light;">
+        <p style="color: #fff; margin-top: 2px;">Hackerspace er stengt</p>
+    </div>
+    <style>
+        {% if door_status %}
+        #closedbar {
+        {% else %}
+        #openbar {
+        {% endif %}
+            display: none;
+        }
+    <style>
 </div>
 
 <script>

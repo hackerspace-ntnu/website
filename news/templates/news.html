@@ -3,7 +3,7 @@
         <div class="card-container">
             <div class="card medium">
                 <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator" src="static/img/earth.png">
+                    <img class="activator" src="{{ event.thumbnail }}">
                 </div>
                 <div class="card-content">
                     <div class="top">
@@ -36,7 +36,7 @@
         <div class="card-container">
             <div class="card medium">
                 <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator" src="static/img/earth.png">
+                    <img class="activator" src="{{ article.thumbnail }}">
                 </div>
                 <div class="card-content">
                     <a class="card-title" href="/news/article/{{ article.id }}/">{{ article.title }}</a>

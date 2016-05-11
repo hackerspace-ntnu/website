@@ -31,6 +31,31 @@
     margin-bottom: 50px;
     display: block;
 }
+#openinghours {
+  font-family: Roboto-Light;
+  color: var(--hs-gray-li3);
+  font-size: 12px;
+  /*animation-name: slidelarge;
+  animation-duration: 1s;*/
+  position: absolute;
+  top: 45px;
+  left: 20px;
+}
+/*@media screen and (max-width: 900px) {
+    #openinghours {
+        left: 20px;
+        animation-name: slidesmall;
+        animation-duration: 0.5s;
+    }
+}
+@keyframes slidesmall {
+    from {left: 230px;}
+    to {left: 20px;}
+}
+@keyframes slidelarge {
+  from {left: 20px;}
+  to {left: 230px;}
+}*/
 @media screen and (max-device-width: 480px), screen and (max-width: 600px) {
     #navbar {
       height: 10vh;

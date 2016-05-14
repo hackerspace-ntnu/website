@@ -56,7 +56,7 @@
   from {left: 20px;}
   to {left: 230px;}
 }*/
-@media screen and (max-device-width: 480px), screen and (max-width: 600px) {
+@media screen and (max-device-width: 480px), screen and (max-width: 720px) {
     #navbar {
       height: 10vh;
       overflow: hidden;

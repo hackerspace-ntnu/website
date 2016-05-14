@@ -75,7 +75,7 @@
   margin-top: -20px;
 }
 
-@media screen and (max-device-width: 480px), screen and (max-width: 600px) {
+@media screen and (max-device-width: 480px), screen and (max-width: 720px) {
   .card {
     width: 95vw;
     height: 90vh !important;

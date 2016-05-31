@@ -20,7 +20,6 @@ urlpatterns = [
     url(r'^application/', include('applications.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
-    url(r'^infoscreen/bigscreen/$', info_screen),
 ]
 
 

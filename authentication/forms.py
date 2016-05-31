@@ -123,6 +123,7 @@ class ForgotPasswordForm(forms.Form):
         email = self.cleaned_data['email']
         try:
             User.objects.get(email=email)
+            return True
         except User.DoesNotExist:
             message = "Email is not registred"
             self.add_error("email", message)

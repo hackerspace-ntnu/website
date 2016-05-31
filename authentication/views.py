@@ -91,8 +91,9 @@ def signup(request):
                 auth_object.save()
 
                 # Send mail about activation
-                email_subject = 'Account @ hackerspace NTNU'
-                message = 'Congratulations! Your user is created. Activate your user account trough this link'
+                email_subject = 'Bruker @ hackerspace NTNU'
+                message = 'Gratulerer! Du har nå laget deg en bruker hos Hackerspace NTNU.' \
+                          ' Aktiver brukeren ved å trykke på følgende link: '
                 email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
                                                                       'hash_key': auth_object.key.hex})
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
@@ -124,7 +125,9 @@ def forgot_password(request):
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
+            print("FORM IS VALID")
             if form.validate():
+                print("VALIDATED")
                 email = form.cleaned_data['email']
 
                 # Create authentication object for verification of new password
@@ -133,8 +136,8 @@ def forgot_password(request):
                 auth_object.save()
 
                 # Send forgot password link
-                email_subject = 'New password @ hackerspace-ntnu.no'
-                message = "Use this link to set a new password"
+                email_subject = 'Nytt passord @ hackerspace-ntnu.no'
+                message = "Trykk på følgende link for å sette deg et nytt passord: "
                 email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
                                                                       'hash_key': auth_object.key.hex}, )
                 thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
@@ -180,7 +183,7 @@ def activate_account(request, hash_key):
         else:
             auth_object.activate()
             context = {
-                'message': "Your user account is now activated. You will soon be redirected"
+                'message': "Brukeren er nå aktiv, du vil snart bli videresendt."
             }
             return render(request, 'redirection_page.html', context)
 
@@ -190,27 +193,27 @@ def activate_account(request, hash_key):
 
 def set_password_done(request):
     context = {
-        'message': "The new password is now set. You will soon be redirected"
+        'message': "Ditt passord er nå endret, du vil snart bli videresendt."
     }
     return render(request, 'redirection_page.html', context)
 
 
 def change_password_done(request):
     context = {
-        'message': "The new password is now set. You will soon be redirected"
+        'message': "Ditt passord er nå endret, du vil snart bli videresendt."
     }
     return render(request, 'redirection_page.html', context)
 
 
 def forgot_password_done(request):
     context = {
-        'message': "You will soon receive an email with further instructions"
+        'message': "Du vil snart motta en mail med videre instruksjoner."
     }
     return render(request, 'redirection_page.html', context)
 
 
 def signup_done(request):
     context = {
-        'message': "The signup was successful. You will soon receive an email"
+        'message': "Registreringen var vellykket og du vil snart motta en mail med videre instruksjoner."
     }
     return render(request, 'redirection_page.html', context)

@@ -37,3 +37,6 @@ input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly
 .btn {
   background-color: var(--hs-green) !important;
 }
+.dropdown-content li a {
+  color: var(--hs-gray-li);
+}

@@ -20,7 +20,7 @@ def event(request, event_id):
 
 def all_news(request):
     article_list = list(Article.objects.order_by('pub_date'))
-    event_list = list(Event.objects.order_by('pub_date'))
+    event_list = list(Event.objects.order_by('time_start'))
     news_list = []
     # Create a list mixed with both articles and events sorted after publication date
     for i in range(len(article_list) + len(event_list)):

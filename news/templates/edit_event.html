@@ -1,64 +1,64 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
-{% if request.user|has_group:"member" %}
-
-{% load check_user_group %}
-{% include 'admintools_news.html' %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
-<script src="{% static "js/clockpicker.js" %}"></script>
-<script src="{% static "js/datepicker.js" %}"></script>
-<script src="{% static "js/datepicker.en.js" %}"></script>
-<script src="{% static "js/event.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+    <script src="{% static "js/clockpicker.js" %}"></script>
+    <script src="{% static "js/datepicker.js" %}"></script>
+    <script src="{% static "js/datepicker.en.js" %}"></script>
+    <script src="{% static "js/event.js" %}"></script>
 {% endblock head %}
 
 {% block content %}
-<script>
-  $('#cancelBtn').css('display', 'list-item');
-  $('#editBtn').css('display', 'none');
-  var $id = {{ event_id }};
-  if ($id == 0) {
-    $('#deleteBtn').css('display', 'none');
-    $('#newBtn').css('display', 'none');
-  }
-</script>
+    {% if request.user|has_group:"member" %}
+        <script>
+            $('#cancelBtn').css('display', 'list-item');
+            $('#editBtn').css('display', 'none');
+            var $id = {{ event_id }};
+            if ($id == 0) {
+                $('#deleteBtn').css('display', 'none');
+                $('#newBtn').css('display', 'none');
+            }
+        </script>
 
-<div style="height: 50px;"></div>
+        <div style="height: 50px;"></div>
 
-<div id="edit">
-  <div style="
+        <div id="edit">
+            <div style="
         width:835px;
         min-height:400px;
         margin: 50px auto;
         margin-bottom: 100px;
     ">
-    <form action="" method="post" style="width: 835px;">
-        {% csrf_token %}
-        <div id="the_post">
-            {{ form.media }}
-            {{ form.as_p }}
+                <form action="" method="post" style="width: 835px;">
+                    {% csrf_token %}
+                    <div id="the_post">
+                        {{ form.media }}
+                        {{ form.as_p }}
+                    </div>
+                    <!--https://github.com/t1m0n/air-datepicker-->
+                    <p><label></label>
+                        <img id="thumbnailPicker" src="" style="width:360px; height:200px;"></img></p>
+                    <p><label>Date:</label>
+                        <input type='text' class='datepicker-here' id="datepicker" data-language='en'/></p>
+                    <!--https://github.com/weareoutman/clockpicker-->
+                    <p><label>Start time:</label>
+                        <input id="timepicker_start" class="clockpicker-with-callbacks" data-autoclose="true"
+                               type="text"></p>
+                    <p><label>End time:</label>
+                        <input id="timepicker_end" class="clockpicker-with-callbacks" data-autoclose="true" type="text">
+                    </p>
+                    <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
+                </form>
+            </div>
         </div>
-        <!--https://github.com/t1m0n/air-datepicker-->
-        <p><label></label>
-        <img id="thumbnailPicker" src="" style="width:360px; height:200px;"></img></p>
-        <p><label>Date:</label>
-        <input type='text' class='datepicker-here' id="datepicker" data-language='en' /></p>
-        <!--https://github.com/weareoutman/clockpicker-->
-        <p><label>Start time:</label>
-        <input id="timepicker_start" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
-        <p><label>End time:</label>
-        <input id="timepicker_end" class="clockpicker-with-callbacks" data-autoclose="true" type="text"></p>
-        <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
-    </form>
-  </div>
-</div>
 
-<script src="{% static "js/edit_event.js" %}"></script>
+        <script src="{% static "js/edit_event.js" %}"></script>
+    {% endif %}
 {% endblock content %}
-{% endif %}
+

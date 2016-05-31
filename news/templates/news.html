@@ -1,58 +1,67 @@
+{% load check_user_group %}
+
 <div class="cards">
     {% for news in news_list %}
-        {% if news.get_class == "Event" %}
-            <div class="card-container">
-                <div class="card medium">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="{{ news.thumbnail }}">
-                    </div>
-                    <div class="card-content">
-                        <div class="top">
-                            <div class=right>
-                                <a class="event-title" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
-                                <div class="place">
-                                    {{ news.time_start|date:"H:i"|upper }} at <a href="{{ news.place_href }}" target="_blank">{{ news.place }}</a>
-                                </div>
-                            </div>
-                            <div class="date-label">
-                                <div class="date">{{ news.time_start|date:"d" }}</div>
-                                <div class="month">{{ news.time_start|date:"M"|upper }}</div>
-                            </div>
-                        </div>
-                        <div class="event-ingress">
-                            {% autoescape off %}
-                                {{ news.ingress_content }}
-                            {% endautoescape %}
+    {% if news.get_class == "Event" %}
+    <div class="card-container">
+        <div class="card medium">
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="{{ news.thumbnail }}">
+            </div>
+            <div class="card-content">
+                <div class="top">
+                    <div class=right>
+                        <a class="event-title" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
+                        <div class="place">
+                            {{ news.time_start|date:"H:i"|upper }} at <a href="{{ news.place_href }}"
+                                                                         target="_blank">{{ news.place }}</a>
                         </div>
                     </div>
-                    <div class="card-action">
-                        <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ news.id }}/">Les mer</a>
-                        <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ news.id }}/edit/">Edit</a>
-                        <a class="waves-effect waves-grey btn-flat" href="/admin/news/event/{{ news.id }}/delete/">Delete</a>
+                    <div class="date-label">
+                        <div class="date">{{ news.time_start|date:"d" }}</div>
+                        <div class="month">{{ news.time_start|date:"M"|upper }}</div>
                     </div>
                 </div>
-            </div>
-        {% elif news.get_class == "Article" %}
-            <div class="card-container">
-                <div class="card medium">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="{{ news.thumbnail }}">
-                    </div>
-                    <div class="card-content">
-                        <a class="card-title" href="/news/article/{{ news.id }}/">{{ news.title }}</a>
-                        <div class="article-ingress">
-                            {% autoescape off %}
-                                {{ news.ingress_content }}
-                            {% endautoescape %}
-                        </div>
-                    </div>
-                    <div class="card-action">
-                        <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/">Les mer</a>
-                        <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/edit/">Edit</a>
-                        <a class="waves-effect waves-grey btn-flat" href="/admin/news/article/{{ news.id }}/delete/">Delete</a>
-                    </div>
+                <div class="event-ingress">
+                    {% autoescape off %}
+                    {{ news.ingress_content }}
+                    {% endautoescape %}
                 </div>
             </div>
-        {% endif %}
+            <div class="card-action">
+                <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ news.id }}/">Les mer</a>
+                {% if request.user|has_group:"member" %}
+                    <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ news.id }}/edit/">Edit</a>
+                    <a class="waves-effect waves-grey btn-flat"
+                       href="/admin/news/event/{{ news.id }}/delete/">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% elif news.get_class == "Article" %}
+    <div class="card-container">
+        <div class="card medium">
+            <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" src="{{ news.thumbnail }}">
+            </div>
+            <div class="card-content">
+                <a class="card-title" href="/news/article/{{ news.id }}/">{{ news.title }}</a>
+                <div class="article-ingress">
+                    {% autoescape off %}
+                    {{ news.ingress_content }}
+                    {% endautoescape %}
+                </div>
+            </div>
+            <div class="card-action">
+                <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/">Les mer</a>
+                {% if request.user|has_group:"member" %}
+                    <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/edit/">Edit</a>
+                    <a class="waves-effect waves-grey btn-flat"
+                       href="/admin/news/article/{{ news.id }}/delete/">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
 </div>

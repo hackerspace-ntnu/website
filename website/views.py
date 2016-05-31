@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from news.models import Article, Event
 from door.models import DoorStatus
-from authentication.forms import LoginForm
-from django_user_agents.utils import get_user_agent
 from local_settings import DEBUG
 from datetime import datetime
 from itertools import chain
@@ -21,20 +19,12 @@ def index(request):
         door_status = DoorStatus.objects.get(name='hackerspace').status
     except DoorStatus.DoesNotExist:
         door_status = True
-    form = LoginForm()
-    user_agent = get_user_agent(request)
     context = {
         'news_list': news_list,
-        'form': form,
         'door_status': door_status,
-        'mobile': user_agent.is_mobile,
     }
 
     return render(request, 'index.html', context)
-
-
-def info_screen(request):
-    return render(request, 'info_screen.html')
 
 
 def test404(request):

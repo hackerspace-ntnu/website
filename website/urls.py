@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.http.response import HttpResponse
 from django.views.static import serve as static_serve
-from website.views import index, info_screen
+from website.views import index
 
 admin.autodiscover()
 

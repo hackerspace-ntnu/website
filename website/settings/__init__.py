@@ -68,6 +68,8 @@ BOWER_INSTALLED_APPS = (
 
 # static files not belonging to specific apps
 STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
+if not DEBUG:
+    STATIC_ROOT = '/home/django/static'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

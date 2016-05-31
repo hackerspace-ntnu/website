@@ -6,24 +6,84 @@
 {% endblock head %}
 
 {% block header %}
-<div id="openbar" style="background: var(--hs-green); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
-    <p style="color: #fff; margin-top: 2px;">Hackerspace er åpent</p>
-</div>
-<div id="closedbar" style="background: var(--hs-red); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
-    <p style="color: #fff; margin-top: 2px;">Hackerspace er stengt</p>
-</div>
-<style>
-    {% if door_status %}
-    #closedbar {
-    {% else %}
-    #openbar {
-    {% endif %}
-        display: none;
-    }
-</style>
+    <div id="openbar"
+         style="background: var(--hs-green); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
+        <p style="color: #fff; margin-top: 2px;">Hackerspace er åpent</p>
+    </div>
+    <div id="closedbar"
+         style="background: var(--hs-red); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
+        <p style="color: #fff; margin-top: 2px;">Hackerspace er stengt</p>
+    </div>
+    <style>
+        {% if door_status %}
+            #closedbar {
+        {% else %}
+            #openbar {
+        {% endif %}
+
+        display: none
+        ;
+        }
+    </style>
 {% endblock header %}
 
 {% block content %}
     {% include "news.html" %}
+    <section id="about" class="about-section" style="margin: 50px 50px">
+        <ul class="list-inline home-icons">
+            <li class="icon icon-wifi"></li>
+            <li class="icon icon-printer"></li>
+            <li class="icon icon-chip"></li>
+            <li class="icon icon-people"></li>
+            <li class="icon icon-oculus"></li>
+            <li class="icon icon-controller"></li>
+        </ul>
+        <h1 style="text-align: center">Om Hackerspace NTNU</h1>
+        <div class="columns2">
+            <p>
+                Hackerspace NTNU er et pilotprosjekt for å fremme interessen for ny teknologi. Målet er å alltid ha
+                det kuleste og nyeste. Vi har droner, 3D-printer, leap motion, robot-kit og Oculus Rift for å nevne
+                noe.
+            </p>
+
+            <p>
+                Vi ønsker å være et lavterskeltilbud og stiller derfor også opp og hjelper etter beste evne med
+                utvikling av ny teknologi.
+            </p>
+
+            <p>
+                Det holdes regelmessig kurs for både nybegynnere og viderekomne for å supplementere dette.
+                Nybegynnerkurs i Arduino og 3D-printing har vært svært populære tidligere, og noe vi tenker å holde
+                igjen.
+            </p>
+
+            <p>
+                Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller er en
+                fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og
+                kompetanse. Dersom vi ikke kan svare på spørsmål, vil vi etter beste evne finne noen som kan hjelpe.
+            </p>
+
+            <p class="lead">
+                Kom gjerne innom for å se hva vi driver med!
+            </p>
+
+            <p>Vår visjon er å skape en kreativ arena der studenter kan få hjelp til å realisere ideene sine. Vi er
+                for deg som ønsker å prøve ut ny teknologi, utvikle morgendagens løsninger eller sosialisere med
+                andre teknologiinteresserte.</p>
+
+            <p>Vi befinner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.</p>
+        </div>
+        <div id="map" style="position: relative; margin-top: 20px;">
+            <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                    src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
+            <div id="hideFrame"
+                 style="opacity: 0.3; background: #000; width: 100%; height: 420px; z-index: 100; position: absolute; top: 0; left: 0;"></div>
+            <script>
+                $("#hideFrame").click(function () {
+                    $("#hideFrame").css("display", "none")
+                });
+            </script>
+        </div>
+    </section>
     {% include "footer.html" %}
 {% endblock content %}

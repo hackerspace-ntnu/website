@@ -3,7 +3,6 @@
     <div id="navbar">
         <img id="logo" src="{% static "img/logo_header.png" %}"/>
         <ul id="slide-out" class="side-nav">
-            <li><a href="#about">OM OSS</a></li>
             <li><a href="#events">NYHETER</a></li>
             <li><a href="/wiki">WIKI</a></li>
             {% if request.user.is_authenticated %}
@@ -25,7 +24,6 @@
             {% endif %}
         </ul>
         <ul class="right">
-            <li><a href="#about">OM OSS</a></li>
             <li><a href="/news/all">NYHETER</a></li>
             <li><a href="/wiki">WIKI</a></li>
             {% if request.user.is_authenticated %}

@@ -3,7 +3,6 @@
     <div id="navbar">
         <img id="logo" src="{% static "img/logo_header.png" %}"/>
         <ul id="slide-out" class="side-nav">
-            <li><a href="#about">OM OSS</a></li>
             <li><a href="#events">NYHETER</a></li>
             <li><a href="/wiki">WIKI</a></li>
             {% if request.user.is_authenticated %}
@@ -24,8 +23,7 @@
                 <li><a href="/authentication/login">LOGG INN</a></li>
             {% endif %}
         </ul>
-        <ul class="right">
-            <li><a href="#about">OM OSS</a></li>
+        <!--<ul class="right">
             <li><a href="/news/all">NYHETER</a></li>
             <li><a href="/wiki">WIKI</a></li>
             {% if request.user.is_authenticated %}
@@ -38,26 +36,11 @@
                 <li><a href="/authentication/signup">REGISTRER</a></li>
                 <li><a href="/authentication/login">LOGG INN</a></li>
             {% endif %}
-        </ul>
+        </ul>-->
         <div id="burger">
             <a href="#" data-activates="slide-out" class="button-collapse"><img id="ddicon" src="{% static "img/ic_menu.svg" %}"></img></a>
         </div>
     </div>
-    <div id="openbar" style="background: var(--hs-green); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light;">
-        <p style="color: #fff; margin-top: 2px;">Hackerspace er åpent</p>
-    </div>
-    <div id="closedbar" style="background: var(--hs-red); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light;">
-        <p style="color: #fff; margin-top: 2px;">Hackerspace er stengt</p>
-    </div>
-    <style>
-        {% if door_status %}
-        #closedbar {
-        {% else %}
-        #openbar {
-        {% endif %}
-            display: none;
-        }
-    </style>
     <script>
         $('.button-collapse').sideNav({
             menuWidth: 800, // Default is 240

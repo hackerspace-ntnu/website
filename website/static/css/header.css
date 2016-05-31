@@ -92,8 +92,8 @@
     #slide-out {
     }
     #slide-out li a {
-      font-size: 12vw;
-      margin: 8vw 1vw;
+      font-size: 8vw;
+      margin: 12vw 1vw;
     }
     #slide-out li:hover {
       background-color: #fff;

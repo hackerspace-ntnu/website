@@ -6,7 +6,21 @@
 {% endblock head %}
 
 {% block header %}
-
+<div id="openbar" style="background: var(--hs-green); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
+    <p style="color: #fff; margin-top: 2px;">Hackerspace er åpent</p>
+</div>
+<div id="closedbar" style="background: var(--hs-red); width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
+    <p style="color: #fff; margin-top: 2px;">Hackerspace er stengt</p>
+</div>
+<style>
+    {% if door_status %}
+    #closedbar {
+    {% else %}
+    #openbar {
+    {% endif %}
+        display: none;
+    }
+</style>
 {% endblock header %}
 
 {% block content %}

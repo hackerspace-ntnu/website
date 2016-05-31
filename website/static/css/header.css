@@ -24,11 +24,9 @@
   color: var(--hs-gray);
 }
 #header-mobile {
-    margin-bottom: 50px;
     display: none;
 }
 #header-desktop {
-    margin-bottom: 50px;
     display: block;
 }
 #openinghours {
@@ -62,11 +60,9 @@
       overflow: hidden;
     }
     #header-mobile {
-        margin-bottom: 50px;
         display: block;
     }
     #header-desktop {
-        margin-bottom: 50px;
         display: none;
     }
     #menu {

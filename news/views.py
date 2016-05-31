@@ -6,15 +6,7 @@ from django.utils import timezone
 from . import log_changes
 from .forms import EventEditForm, ArticleEditForm, UploadForm
 from .models import Event, Article, Upload
-
-
-def events(request):
-    event_list = Event.objects.order_by('-time_start')
-    context = {
-        'event_list': event_list,
-    }
-
-    return render(request, 'events_all.html', context)
+from itertools import chain
 
 
 def event(request, event_id):
@@ -26,13 +18,28 @@ def event(request, event_id):
     return render(request, 'event.html', context)
 
 
-def articles(request):
-    article_list = Article.objects.order_by('-pub_date')
+def all_news(request):
+    article_list = list(Article.objects.order_by('pub_date'))
+    event_list = list(Event.objects.order_by('pub_date'))
+    news_list = []
+    # Create a list mixed with both articles and events sorted after publication date
+    for i in range(len(article_list) + len(event_list)):
+        if len(article_list) == 0:
+            news_list.append(event_list.pop())
+            continue
+        elif len(event_list) == 0:
+            news_list.append(article_list.pop())
+            continue
+        if article_list[len(article_list) - 1].pub_date > event_list[len(event_list) - 1].time_start:
+            news_list.append(article_list.pop())
+        else:
+            news_list.append(event_list.pop())
+
     context = {
-        'article_list': article_list,
+        'news_list': news_list,
     }
 
-    return render(request, 'articles_all.html', context)
+    return render(request, 'all_news.html', context)
 
 
 def article(request, article_id):

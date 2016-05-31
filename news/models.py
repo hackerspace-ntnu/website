@@ -14,6 +14,10 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    @staticmethod
+    def get_class():
+        return "Article"
+
     class Meta:
         app_label = 'news'
         ordering = ('-pub_date',)
@@ -33,6 +37,10 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    @staticmethod
+    def get_class():
+        return "Event"
 
     class Meta:
         app_label = 'news'

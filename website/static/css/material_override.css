@@ -34,3 +34,6 @@ input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly
 .picker__input.picker__input--active {
   border-color: var(--hs-green);
 }
+.btn {
+  background-color: var(--hs-green) !important;
+}

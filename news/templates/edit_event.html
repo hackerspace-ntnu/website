@@ -5,7 +5,6 @@
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/clockpicker.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/datepicker.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
     <script src="{% static "js/clockpicker.js" %}"></script>
@@ -53,7 +52,7 @@
                     <p><label>End time:</label>
                         <input id="timepicker_end" class="clockpicker-with-callbacks" data-autoclose="true" type="text">
                     </p>
-                    <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
+                    <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
                 </form>
             </div>
         </div>
@@ -61,4 +60,3 @@
         <script src="{% static "js/edit_event.js" %}"></script>
     {% endif %}
 {% endblock content %}
-

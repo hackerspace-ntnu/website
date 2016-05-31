@@ -16,10 +16,13 @@
   src: url("/static/materialize/font/roboto/Roboto-Light.woff");
 }
 body {
-    background-image: url(../img/noise_beige.png);
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+}
+html {
+    background-image: url(../img/noise_beige.png);
+    background-color: var(--hs-gray);
 }
 #content {
   flex: 1 0 auto;

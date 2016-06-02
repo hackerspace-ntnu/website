@@ -88,7 +88,7 @@
     width: 95vw;
     height: 90vh !important;
   }
-  .news .card-image {
+  .news .card-image, .news .card-image .event-title img {
     height: 50vh;
   }
   .news .card-title {

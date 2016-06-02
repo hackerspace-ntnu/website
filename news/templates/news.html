@@ -24,7 +24,7 @@
                 </div>
                 <div class="event-ingress">
                     {% autoescape off %}
-                    {{ news.ingress_content }}
+                    {{ news.ingress_content|truncatechars:255 }}
                     {% endautoescape %}
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <a class="card-title" href="/news/article/{{ news.id }}/">{{ news.title }}</a>
                 <div class="article-ingress">
                     {% autoescape off %}
-                    {{ news.ingress_content }}
+                    {{ news.ingress_content|truncatechars:255 }}
                     {% endautoescape %}
                 </div>
             </div>

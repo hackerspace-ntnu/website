@@ -6,6 +6,10 @@
   display: inline-block;
   overflow: hidden;
 }
+div.card-content {
+  min-height: 289px !important;
+  overflow: hidden;
+}
 .card {
   width: 300px;
   height: 535px !important;
@@ -22,6 +26,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  height: 200px;
 }
 .card .card-action {
   text-align: center;

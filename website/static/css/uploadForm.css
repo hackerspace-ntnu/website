@@ -2,15 +2,7 @@
   width: 350px;
   margin: 25px auto;
 }
-label {
-  width: 50px;
-  text-align: left;
-}
-input {
-  width: 280px;
-  float: right;
-}
-.button {
+#submit {
   width: 100%;
 }
 #doneUploading {

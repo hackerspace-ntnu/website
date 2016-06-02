@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.utils import formats
 from django.utils import timezone
+from datetime import datetime, timedelta
 from . import log_changes
 from .forms import EventEditForm, ArticleEditForm, UploadForm
 from .models import Event, Article, Upload
@@ -51,7 +52,6 @@ def article(request, article_id):
 
     return render(request, 'article.html', context)
 
-
 def edit_event(request, event_id):
     if request.method == 'POST':
         form = EventEditForm(request.POST)
@@ -67,17 +67,13 @@ def edit_event(request, event_id):
             event.thumbnail = form.cleaned_data['thumbnail']
             event.place = form.cleaned_data['place']
             event.place_href = form.cleaned_data['place_href']
-            hour_start = int(form.cleaned_data['time_start'][:2])
-            minute_start = int(form.cleaned_data['time_start'][-2:])
-            hour_end = int(form.cleaned_data['time_end'][:2])
-            minute_end = int(form.cleaned_data['time_end'][-2:])
-            day = int(form.cleaned_data['date'][:2])
-            month = int(form.cleaned_data['date'][3:5])
-            year = int(form.cleaned_data['date'][-4:])
-            event.time_start = event.time_start.replace(hour=hour_start, minute=minute_start)
-            event.time_start = event.time_start.replace(day=day, month=month, year=year)
-            event.time_end = event.time_end.replace(hour=hour_end, minute=minute_end)
-            event.time_end = event.time_end.replace(day=day, month=month, year=year)
+            event.date = datetime.strptime(form.cleaned_data['date'], '%d %B, %Y').date()
+            hour_start = form.cleaned_data['time_start'][:2]
+            minute_start = form.cleaned_data['time_start'][-2:]
+            hour_end = form.cleaned_data['time_end'][:2]
+            minute_end = form.cleaned_data['time_end'][-2:]
+            event.time_start = datetime.strptime(form.cleaned_data['date']+' '+hour_start+':'+minute_start, '%d %B, %Y %H:%M')
+            event.time_end = datetime.strptime(form.cleaned_data['date']+' '+hour_end+':'+minute_end, '%d %B, %Y %H:%M')
             event.save()
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
@@ -101,7 +97,7 @@ def edit_event(request, event_id):
                 'place_href': requested_event.place_href,
                 'time_start': formats.date_format(requested_event.time_start, 'H:i'),
                 'time_end': formats.date_format(requested_event.time_end, 'H:i'),
-                'date': formats.date_format(requested_event.time_start, 'd/m/Y'),
+                'date': datetime.strftime(requested_event.time_start, '%-d %B, %Y'),
             })
 
     context = {

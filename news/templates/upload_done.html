@@ -1,23 +1,14 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hackerspace NTNU</title>
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/style.css" %}" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
+{% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/uploadForm.css" %}">
-</head>
+{% endblock head %}
 
-<body>
+{% block content %}
   <p id="doneUploading">Done uploading</p>
-</body>
 
-<script>
-    setTimeout(function(){ window.close(); }, 1000);
-</script>
+  <script>
+      setTimeout(function(){ window.close(); }, 1000);
+  </script>
+{% endblock content %}

@@ -3,7 +3,7 @@
     <div id="navbar">
         <a href="/" ><img id="logo" src="{% static "img/logo_header.png" %}"/></a>
         <ul id="slide-out" class="side-nav">
-            <li><a href="#events">NYHETER</a></li>
+            <li><a href="/news/all">NYHETER</a></li>
             <li><a href="/wiki">WIKI</a></li>
             {% if request.user.is_authenticated %}
               <li class="no-padding">

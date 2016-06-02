@@ -16,7 +16,6 @@ form button {
   background-color: var(--hs-green) !important;
 }
 #pageName {
-  margin-top: 100px;
   text-align: center;
   color: var(--hs-gray-dk);
 }

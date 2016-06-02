@@ -19,5 +19,11 @@ class ApplicationForm(ModelForm):
                   'about',
                   'application_text',
                   ]
+        error_messages = {}
+
+        for field in fields:
+            error_messages[field] = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
+
+
 
 

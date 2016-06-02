@@ -28,3 +28,6 @@ class Application(models.Model):
     application_text = models.TextField(verbose_name="Hvorfor søker du hackerspace?")
     application_date = models.DateTimeField(default=timezone.now, blank=False)
 
+    def __str__(self):
+        return self.name
+

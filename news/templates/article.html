@@ -2,25 +2,16 @@
 {% load staticfiles %}
 {% load check_user_group %}
 
-{% if request.user|has_group:"member" %}
-    {% include 'admintools_news.html' %}
-{% endif %}
-{% if mobile %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
-{% else %}
+{% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
-{% endif %}
-<script>
-  var $id = {{ article.id }};
-</script>
-<script src="{% static "js/article.js" %}"></script>
+{% endblock head %}
 
-<div style="height: 50px;"></div>
+{% block content %}
+  <div style="height: 50px;"></div>
 
-<div id="content">
-    {% autoescape off %}
-        {{ article.main_content }}
-    {% endautoescape %}
-</div>
-
-{% include 'footer.html' %}
+  <div id="content">
+      {% autoescape off %}
+          {{ article.main_content }}
+      {% endautoescape %}
+  </div>
+{% endblock content %}

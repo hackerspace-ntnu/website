@@ -11,8 +11,12 @@
 }
 
 .news-image {
-    transform: translate(-20%, -30%);
-    text-align: center;
+    display: block;
+    margin: 0 auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
 }
 
 .news-hr {

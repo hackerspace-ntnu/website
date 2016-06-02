@@ -4,8 +4,6 @@ from django.utils import timezone
 
 class Application(models.Model):
 
-
-
     name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.PositiveIntegerField()
@@ -15,5 +13,5 @@ class Application(models.Model):
     choice_of_group = models.CharField(max_length=255)
     about = models.TextField()
     application_text = models.TextField()
-    application_date = models.DateTimeField(default=timezone.now())
+    application_date = models.DateTimeField(default=timezone.now)
 

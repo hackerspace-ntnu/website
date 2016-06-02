@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^forgot-password/$', views.forgot_password, name='forgot_password'),
     url(r'^forgot-password-done/$', views.forgot_password_done, name='forgot_password_done'),
     url(r'^activate/(?P<hash_key>[0-9a-zA-Z]+)/$', views.activate_account, name='activate_account'),
-    url(r'set-password-done', views.set_password_done, name='set_password_done'),
+    url(r'^set-password-done/', views.set_password_done, name='set_password_done'),
 
 ]

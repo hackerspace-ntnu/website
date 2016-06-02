@@ -26,7 +26,7 @@
             <p id="error-message">{{ form.phone.errors }}</p>
             <div class="input-field">
                 <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-                <input type="tel" maxlength="8" pattern="[0-9]">
+                {{ form.phone }}
             </div>
 
             <p id="error-message">{{ form.study.errors }}</p>
@@ -34,20 +34,22 @@
                 <label for="{{ form.study.id_for_label }}">{{ form.study.label }}</label>
                 {{ form.study }}
             </div>
-
+            <br>
             <p id="error-message">{{ form.year.errors }}</p>
-            <div class="input-field">
-                <select>
+            <div class="input-field" id="year">
+                <select id="{{ form.year.id_for_label }}">
+                    <option disabled selected value>Velg et årstrinn</option>
                     {% for choice in form.year_choices %}
                         <option value="{{ choice }}">{{ choice }}</option>
                     {% endfor %}
                 </select>
                 <label for="{{ form.year.id_for_label }}">{{ form.year.label }}</label>
             </div>
+            <br>
 
             <p id="error-message">{{ form.group_choice.errors }}</p>
-            <div class="input-field">
-                <select>
+            <div class="input-field" id="group_choice">
+                <select name="{{ form.group_choice.id_for_label }}">
                     <option disabled selected value>Velg en gruppe</option>
                     {% for choice in form.group_choices %}
                         <option value="{{ choice }}">{{ choice }}</option>
@@ -56,6 +58,7 @@
                 <label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
             </div>
 
+            <br>
             <p id="error-message">{{ form.knowledge_of_hs.errors }}</p>
             <div class="input-field">
                 <label for="{{ form.knowledge_of_hs.id_for_label }}">{{ form.knowledge_of_hs.label }}</label>
@@ -82,6 +85,8 @@
     <script>
         $(document).ready(function () {
             $('select').material_select();
+            $('#group_choice input').attr("name", "group_choice");
+            $('#year input').attr("name", "year");
         });
     </script>
 {% endblock content %}

@@ -2,10 +2,16 @@ textarea.materialize-textarea:focus:not([readonly]) {
   border-bottom: 1px solid var(--hs-green);
   box-shadow: 0 1px 0 0 var(--hs-green);
 }
-input {
-  border-bottom: 1px solid var(--hs-green);
-  box-shadow: var(--hs-green) 0 1px 0 0;
-  color: var(--hs-gray);
+input:focus:not([readonly]) {
+  border-bottom: 1px solid var(--hs-green) !important;
+  box-shadow: var(--hs-green) 0 1px 0 0 !important;
+  color: var(--hs-gray) !important;
+}
+.dropdown-content li>span {
+  color: var(--hs-green) !important;
+}
+.dropdown-content li.disabled>span {
+  color: var(--hs-gray-li2) !important;
 }
 ::-webkit-input-placeholder {
    color: var(--hs-gray-li3);

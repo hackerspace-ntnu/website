@@ -1,5 +1,5 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-{% include 'base.html' %}
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static "css/authentication.css" %}">
@@ -10,13 +10,80 @@
     <div id="applicationForm">
         <form action="/application/" method="post">
             {% csrf_token %}
+
             <p id="error-message">{{ form.name.errors }}</p>
             <div class="input-field">
-                <label for="{{ form.name.id_for_label }}">Navn</label>
+                <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
                 {{ form.name }}
             </div>
-            <button id="sendNewPasswordButton" class="btn waves-effect waves-light" type="submit" name="action">Send
+
+            <p id="error-message">{{ form.email.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+            </div>
+
+            <p id="error-message">{{ form.phone.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                <input type="tel" maxlength="8" pattern="[0-9]">
+            </div>
+
+            <p id="error-message">{{ form.study.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.study.id_for_label }}">{{ form.study.label }}</label>
+                {{ form.study }}
+            </div>
+
+            <p id="error-message">{{ form.year.errors }}</p>
+            <div class="input-field">
+                <select>
+                    {% for choice in form.year_choices %}
+                        <option value="{{ choice }}">{{ choice }}</option>
+                    {% endfor %}
+                </select>
+                <label for="{{ form.year.id_for_label }}">{{ form.year.label }}</label>
+            </div>
+
+            <p id="error-message">{{ form.group_choice.errors }}</p>
+            <div class="input-field">
+                <select>
+                    <option disabled selected value>Velg en gruppe</option>
+                    {% for choice in form.group_choices %}
+                        <option value="{{ choice }}">{{ choice }}</option>
+                    {% endfor %}
+                </select>
+                <label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
+            </div>
+
+            <p id="error-message">{{ form.knowledge_of_hs.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.knowledge_of_hs.id_for_label }}">{{ form.knowledge_of_hs.label }}</label>
+                {{ form.knowledge_of_hs }}
+            </div>
+
+            <p id="error-message">{{ form.about_hs.errors }}</p>
+            <div class="input-field">
+                <textarea id="{{ form.about.id_for_label }}" name="" class="materialize-textarea"></textarea>
+                <label for="{{ form.about.id_for_label }}">{{ form.about.label }}</label>
+            </div>
+
+            <p id="error-message">{{ form.application_text_hs.errors }}</p>
+            <div class="input-field">
+                <textarea id="{{ form.application_text.id_for_label }}" name="" class="materialize-textarea"></textarea>
+                <label for="{{ form.application_text.id_for_label }}">{{ form.application_text.label }}</label>
+            </div>
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Send
             </button>
         </form>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('select').material_select();
+        });
+    </script>
 {% endblock content %}
+
+

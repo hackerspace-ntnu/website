@@ -88,8 +88,9 @@
     width: 95vw;
     height: 90vh !important;
   }
-  .news .card-image {
+  .news .card-image, .news .card-image .img-a img {
     height: 50vh;
+    width: auto;
   }
   .news .card-title {
     font-size: 8vh !important;

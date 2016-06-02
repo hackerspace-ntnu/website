@@ -87,8 +87,8 @@
             $('select').material_select();
             $('#group_choice input').attr("name", "group_choice");
             $('#year input').attr("name", "year");
+            $('#group_choice input').attr("value", "{{ form.group_choice.value }}");
+            $('#year input').attr("value", "{{ form.year.value }}")
         });
     </script>
 {% endblock content %}
-
-

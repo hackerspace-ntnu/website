@@ -422,14 +422,10 @@
     //Get the time
     function timeToDate(time) {
       var parts = time.split(':');
-      if (parts.length === 2){
-        var hours = +parts[0];
-        var minAM = parts[1].split(' ');
-        if (minAM.length === 2) {
-          var mins = minAM[0];
-          if (minAM[1] === 'PM') hours += 12;
-          return new Date(1970, 1, 1, hours, mins);
-        }
+      if (parts.length === 2) {
+        var hours = parts[0];
+        var mins = parts[1];
+        return new Date(1970, 1, 1, hours, mins);
       }
       return new Date('x');
     }

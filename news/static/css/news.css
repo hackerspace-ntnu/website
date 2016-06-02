@@ -22,20 +22,16 @@ h1 {
     text-align: center;
     }
 
-p {
+#content p {
     font-size: 15pt;
     color: var(--hs-gray-dk);
     width: 95%;
     margin: 2.5% auto;
 }
 
-p:first-of-type {
+#content p:first-of-type {
     color: var(--hs-gray-li2);
     font-size: 18pt;
-}
-
-#openinghours {
-    margin: 12px 0;
 }
 
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {

@@ -7,6 +7,7 @@ from . import log_changes
 from .forms import EventEditForm, ArticleEditForm, UploadForm
 from .models import Event, Article, Upload
 from itertools import chain
+from wiki.templatetags import check_user_group as groups
 
 
 def event(request, event_id):
@@ -148,6 +149,27 @@ def edit_article(request, article_id):
     }
 
     return render(request, 'edit_article.html', context)
+
+
+def delete_article(request, article_id):
+    if groups.has_group(request.user, 'member'):
+        try:
+            article = Article.objects.get(pk=article_id)
+            article.delete()
+        except Article.DoesNotExist:
+            pass
+
+    return HttpResponseRedirect('/')
+
+def delete_event(request, event_id):
+    if groups.has_group(request.user, 'member'):
+        try:
+            event = Event.objects.get(pk=event_id)
+            event.delete()
+        except Event.DoesNotExist:
+            pass
+
+    return HttpResponseRedirect('/')
 
 
 def upload_file(request):

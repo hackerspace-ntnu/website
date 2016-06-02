@@ -1,4 +1,4 @@
-.cards {
+.news {
   width: 100%;
   text-align: center;
 }
@@ -6,21 +6,21 @@
   display: inline-block;
   overflow: hidden;
 }
-div.card-content {
+.news .card-content {
   min-height: 289px !important;
   overflow: hidden;
 }
-.card {
+.news .card {
   width: 300px;
   height: 535px !important;
   margin: 7px 5px;
   font-family: Roboto-Light;
 }
-.card-image {
+.news .card-image {
   position: relative;
   height: 200px;
 }
-.card .card-image img {
+.news .card .card-image img {
   position: absolute;
   width: 100%;
   left: 50%;
@@ -28,42 +28,42 @@ div.card-content {
   transform: translate(-50%, -50%);
   height: 200px;
 }
-.card .card-action {
+.news .card .card-action {
   text-align: center;
   padding: 12px;
 }
-.card .card-action a {
+.news .card .card-action a {
   padding: 0 10px;
   margin: -30px 0;
   color: var(--hs-gray-dk) !important;
 }
-.card-title {
+.news .card-title {
   font-size: 32px !important;
   color: var(--hs-gray-dk);
 }
-.card .content {
+.news .card .content {
   width: 70%;
   min-height: 300px;
   margin: 50px auto;
   margin-bottom: 100px;
 }
-.card .top {
+.news .card .top {
   height: 90px;
 }
-.card .right {
+.news .card .right {
   width: 70%;
   float: right;
 }
-.card .event-title {
+.news .card .event-title {
   font-size: 32px;
   text-align: left;
   display: block;
   color: var(--hs-gray-dk);
 }
-.card .place {
+.news .card .place {
   text-align: left;
 }
-.card .place a {
+.news .card .place a {
   color: var(--hs-green);
 }
 .card .date-label {
@@ -71,56 +71,59 @@ div.card-content {
   width: 20%;
   margin-top: -6px;
 }
-.card .date-label .date {
+.news .card .date-label .date {
   font-size: 44px;
 }
-.card .date-label .month {
+.news .card .date-label .month {
   color: var(--hs-green);
   font-size: 23px;
   margin-top: -20px;
 }
+.news .event-ingress p {
+  word-wrap: break-word !important;
+}
 
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
-  .card {
+  .news .card {
     width: 95vw;
     height: 90vh !important;
   }
-  .card-image {
+  .news .card-image {
     height: 50vh;
   }
-  .card-title {
+  .news .card-title {
     font-size: 8vh !important;
     margin-top: 3vh;
   }
-  .card .event-title {
+  .news .card .event-title {
     font-size: 8vh;
     margin-top: -3vh;
   }
-  .card .date-label {
+  .news .card .date-label {
       margin-top: -2vh;
   }
-  .card .date-label .date {
+  .news .card .date-label .date {
       font-size: 8vh;
   }
-  .card .date-label .month {
+  .news .card .date-label .month {
       color: var(--hs-green);
       font-size: 4vh;
       margin-top: -3vh;
   }
-  .card p {
+  .news .card p {
     font-size: 4vh;
   }
-  .card .event-ingress {
+  .news .card .event-ingress {
     margin-top: 10vh;
   }
-  .card .article-ingress {
+  .news .card .article-ingress {
     margin-top: 4vh;
   }
-  .card .place {
+  .news .card .place {
     margin-top: -2vh;
     font-size: 4vh;
   }
-  .card-action a {
+  .news .card-action a {
     font-size: 3vh;
   }
 }

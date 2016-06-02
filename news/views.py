@@ -169,7 +169,10 @@ def upload_file(request):
             instance.save()
             return HttpResponseRedirect('/news/upload-done')
     else:
-        form = UploadForm()
+        form = UploadForm(initial={
+            'title': '',
+            'file': '',
+        })
 
     context = {
         'form': form,

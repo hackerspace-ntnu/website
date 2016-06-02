@@ -79,6 +79,9 @@
   font-size: 23px;
   margin-top: -20px;
 }
+.news .event-ingress p {
+  word-wrap: break-word !important;
+}
 
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
   .news .card {

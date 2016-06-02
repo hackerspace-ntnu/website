@@ -11,6 +11,7 @@
 
 .news-image {
     transform: translate(-20%, -30%);
+    text-align: center;
 }
 
 .news-hr {

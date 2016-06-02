@@ -1,8 +1,12 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 
 
 class Application(models.Model):
+
+    # CHANGE THIS DATE TO ALLOW APPLICATIONS
+    APPLICATION_DEADLINE = datetime(2016, 8, 2, 23, 59, 59)
 
     YEAR_CHOICES = ((1, 1),
                     (2, 2),

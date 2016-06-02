@@ -169,7 +169,7 @@ def activate_account(request, hash_key):
                 form = SetPasswordForm(request.POST)
                 if form.is_valid():
                     if form.validate():
-                        auth_object.set_password(form.cleaned_data["password"])
+                        auth_object.set_password(form.cleaned_data["new_password"])
                         return HttpResponseRedirect(reverse('set_password_done'))
 
             else:

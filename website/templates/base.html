@@ -13,6 +13,7 @@
     {% endblock head %}
 </head>
 <body>
+<div id="flex">
 {% include "header_desktop.html" %}
 {% include "header_mobile.html" %}
 {% block header %}
@@ -20,5 +21,9 @@
 <div style="height: 50px;"></div>
 {% block content %}
 {% endblock content %}
+</div>
 </body>
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
 </html>

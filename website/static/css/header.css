@@ -25,6 +25,12 @@
 }
 #header-mobile {
     display: none;
+    position: fixed;
+    width: 100%;
+    z-index: 9001;
+}
+#header-mobile #navbar {
+    box-shadow: none;
 }
 #header-desktop {
     display: block;
@@ -106,5 +112,14 @@
     }
     #ddicon {
       height: 8vw;
+    }
+    .news {
+        margin-top: -40px;
+    }
+    #slide-out {
+        width: 80%;
+    }
+    #openbar, #closedbar {
+        margin-top: 73px;
     }
 }

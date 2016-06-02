@@ -7,11 +7,13 @@ def application_form(request):
         form = ApplicationForm(request.POST)
 
     else:
-        form = ApplicationForm()
+        form = ApplicationForm(initial={
+            'group_choice': 'Velg en gruppe',
+            'year': 'Velg et årstrinn',
+        })
 
     context = {
         'form': form
     }
 
     return render(request, 'application_form.html', context)
-

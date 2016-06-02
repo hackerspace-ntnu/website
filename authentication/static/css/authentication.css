@@ -6,6 +6,10 @@ form {
   max-width: 400px;
   margin: 30px auto;
 }
+form label {
+  color: var(--hs-gray) !important;
+
+}
 form button {
   width: 100%;
   margin-top: 10px;
@@ -25,3 +29,4 @@ form button {
 ul.errorlist {
   color: var(--hs-red);
 }
+

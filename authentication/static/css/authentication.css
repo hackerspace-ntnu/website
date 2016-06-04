@@ -10,7 +10,6 @@ form {
 
 form label {
   color: var(--hs-gray) !important;
-
 }
 
 form button {
@@ -33,4 +32,3 @@ form button {
 ul.errorlist {
   color: var(--hs-red);
 }
-

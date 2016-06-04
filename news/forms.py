@@ -3,24 +3,22 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class EventEditForm(forms.Form):
-    title = forms.CharField(max_length=100, label='Title')
-    event_id = forms.IntegerField(widget=forms.HiddenInput())
+    title = forms.CharField(max_length=100, label='Tittel')
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress', required=False)
-    main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article', required=False)
-    time_start = forms.CharField(widget=forms.HiddenInput())
-    time_end = forms.CharField(widget=forms.HiddenInput())
-    date = forms.CharField(widget=forms.HiddenInput())
-    place = forms.CharField(max_length=100, label='Location', required=False)
-    place_href = forms.CharField(max_length=200, label='Location URL', required=False)
-    thumbnail = forms.CharField(max_length=100, label='Thumbnail', required=False)
+    main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Beskrivelse', required=False)
+    time_start = forms.CharField(label='Start klokkeslett')
+    time_end = forms.CharField(label='Slutt klokkeslett')
+    date = forms.CharField(label='Dato')
+    place = forms.CharField(max_length=100, label='Sted', required=False)
+    place_href = forms.CharField(max_length=200, label='Sted URL', required=False)
+    thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
 
 
 class ArticleEditForm(forms.Form):
-    title = forms.CharField(max_length=100, label='Title')
-    article_id = forms.IntegerField(widget=forms.HiddenInput())
+    title = forms.CharField(max_length=100, label='Tittel')
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress', required=False)
-    main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article', required=False)
-    thumbnail = forms.CharField(max_length=100, label='Thumbnail', required=False)
+    main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Artikkel', required=False)
+    thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
 
 
 class UploadForm(forms.Form):

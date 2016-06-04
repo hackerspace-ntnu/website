@@ -120,6 +120,6 @@
         width: 80%;
     }
     #openbar, #closedbar {
-        margin-top: 73px;
+        margin-top: 10vh;
     }
 }

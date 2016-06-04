@@ -1,10 +1,10 @@
-$(document).ready(function() {
+$(function() {
     setTimeout(function(){get_data()}, 30000);
 });
 
 function get_data() {
     $.ajax({
-        "type": "POST",
+        "type": "GET",
         "url": "/door/get_status/",
         "success": function(data) {
           change_status(data);
@@ -15,10 +15,11 @@ function get_data() {
 }
 
 function change_status(status) {
-    console.log(status);
     if (status == 'True') {
-        $("#statusImg").attr("src","/static/img/Logo_green.png");
+        $("#doorstatus").css("background-color","var(--hs-green)");
+        $("#doorstatus p").html("Hackerspace er åpent");
     } else if (status == 'False') {
-        $("#statusImg").attr("src","/static/img/Logo_white.png");
+        $("#doorstatus").css("background-color","var(--hs-red)");
+        $("#doorstatus p").html("Hackerspace er stengt");
     }
 }

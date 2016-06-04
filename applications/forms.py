@@ -1,13 +1,17 @@
-from django.forms import ModelForm
-from .models import Application
 from datetime import datetime
+
+from django.forms import ModelForm
+
+from .models import Application
 
 
 class ApplicationForm(ModelForm):
 
+    # Creates a list with the choices
     year_choices = [choice[1] for choice in Application.YEAR_CHOICES]
     group_choices = [choice[1] for choice in Application.GROUP_CHOICES]
 
+    # Returns if it's still possible to apply
     @staticmethod
     def deadline_passed():
         if (datetime.now() - Application.APPLICATION_DEADLINE).total_seconds() > 0:

@@ -20,7 +20,7 @@ def login_user(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            if form.validate():
+            if form.validate():  # Custom validation
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
                 user = authenticate(username=username, password=password)
@@ -70,7 +70,7 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            if form.validate():
+            if form.validate():  # Custom validation
                 username = form.cleaned_data['username']
                 first_name = form.cleaned_data['first_name']
                 last_name = form.cleaned_data['last_name']
@@ -109,25 +109,11 @@ def signup(request):
     return render(request, 'signup.html', context)
 
 
-def send_password_email(subject, message, email):
-    print("SENDING MAIL")
-    send_mail(subject,
-              message,
-              '%s'.format(EMAIL_HOST_USER),
-              [email],
-              fail_silently=False,
-              html_message=message)
-
-    print("MAIL SENT")
-
-
 def forgot_password(request):
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
-            print("FORM IS VALID")
-            if form.validate():
-                print("VALIDATED")
+            if form.validate():  # Custom validation
                 email = form.cleaned_data['email']
 
                 # Create authentication object for verification of new password
@@ -168,7 +154,7 @@ def activate_account(request, hash_key):
             if request.method == 'POST':
                 form = SetPasswordForm(request.POST)
                 if form.is_valid():
-                    if form.validate():
+                    if form.validate():  # Custom validation
                         auth_object.set_password(form.cleaned_data["new_password"])
                         return HttpResponseRedirect(reverse('set_password_done'))
 
@@ -217,3 +203,12 @@ def signup_done(request):
         'message': "Registreringen var vellykket og du vil snart motta en mail med videre instruksjoner."
     }
     return render(request, 'redirection_page.html', context)
+
+
+def send_password_email(subject, message, email):
+    send_mail(subject,
+              message,
+              '%s'.format(EMAIL_HOST_USER),
+              [email],
+              fail_silently=False,
+              html_message=message)

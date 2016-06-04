@@ -24,12 +24,6 @@ form button {
   color: var(--hs-gray-dk);
 }
 
-#forgotPasswordLink {
-  margin-top: 10px;
-  color: var(--hs-gray) !important;
-  display: block;
-}
-
 ul.errorlist {
   color: var(--hs-red);
 }

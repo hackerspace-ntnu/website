@@ -4,6 +4,7 @@ from applications.forms import ApplicationForm
 from applications.models import Application
 
 
+# Application page
 def application_form(request):
     if request.method == 'POST':
         form = ApplicationForm(request.POST)
@@ -22,6 +23,7 @@ def application_form(request):
             return HttpResponseRedirect(reverse('application_sent'))
 
     else:
+        # Set the initial choices of the dropdowns
         form = ApplicationForm(initial={
             'group_choice': 'Velg en gruppe',
             'year': 'Velg et årstrinn',

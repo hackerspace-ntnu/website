@@ -1,6 +1,7 @@
+from datetime import datetime
+
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
 
 
 class Application(models.Model):
@@ -34,4 +35,3 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
-

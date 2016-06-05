@@ -15,8 +15,8 @@
                     <div class=right>
                         <a class="event-title" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
                         <div class="place">
-                            {{ news.time_start|date:"H:i"|upper }} at <a href="{{ news.place_href }}"
-                                                                         target="_blank">{{ news.place }}</a>
+                            {{ news.time_start|date:"H:i"|upper }} at
+                            <a href="{{ news.place_href }}" target="_blank">{{ news.place }}</a>
                         </div>
                     </div>
                     <div class="date-label">

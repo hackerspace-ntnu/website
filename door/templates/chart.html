@@ -1,118 +1,122 @@
 <!-- amCharts javascript sources -->
-{% load staticfiles%}
 
-{% include 'base.html' %}
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-<div id="chartdiv" style="width: 80%; height: 400px; background:none; margin: 100px auto;" ></div>
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/door_data.css" %}">
+		<script type="text/javascript" src="{% static "amcharts/amcharts.js"%}"></script>
+		<script type="text/javascript" src="{% static "amcharts/serial.js"%}">></script>
+{% endblock head %}
 
-{% include 'footer.html' %}
+{% block content %}
+    <div id="chartdiv" style="width: 80%; height: 400px; background:none; margin: 100px auto;"></div>
 
-<script type="text/javascript" src="{% static "amcharts/amcharts.js"%}"></script>
-<script type="text/javascript" src="{% static "amcharts/serial.js"%}">></script>
+		<script type="text/javascript">
+
+			var chart = AmCharts.makeChart("chartdiv",
+				{
+					"type": "serial",
+					"categoryField": "date",
+					"dataDateFormat": "YYYY-MM-DD HH:NN:SS",
+					"colors": [
+						"#58BA59",
+						"#FCD202",
+						"#B0DE09",
+						"#0D8ECF",
+						"#2A0CD0",
+						"#CD0D74",
+						"#CC0000",
+						"#00CC00",
+						"#0000CC",
+						"#DDDDDD",
+						"#999999",
+						"#333333",
+						"#990000"
+					],
+					"theme": "default",
+					"categoryAxis": {
+						"minPeriod": "ss",
+						"parseDates": true
+					},
+					"chartCursor": {
+						"enabled": false,
+						"categoryBalloonDateFormat": "JJ:NN:SS",
+						"color": "#fff",
+						"cursorColor": "#339434"
+					},
+					"mouseWheelZoomEnabled": true,
+					"chartScrollbar": {
+						"enabled": true,
+						"oppositeAxis": false,
+						"graph": "AmGraph-1",
+						"backgroundAlpha": "0",
+						"selectedGraphFillColor": "#bbb",
+						"graphLineAlpha": 1,
+						"selectedBackgroundColor": "#bbb",
+						"selectedBackgroundAlpha": 0.5,
+						"offset": 24
+					},
+					"trendLines": [],
+					"graphs": [
+						{
+							"fillAlphas": 0.7,
+							"id": "AmGraph-1",
+							"lineAlpha": 0,
+							"title": "Door",
+							"valueField": "column-1"
+						},
+					],
+					"guides": [],
+					"valueAxes": [
+						{
+							"id": "ValueAxis-1",
+							"title": "",
+							"autoGridCount": false,
+							"gridCount": 6,
+							"labelFunction": labelFunction,
+							"maximum": 1.2,
+							"gridAlpha": 0
+						}
+					],
+					"allLabels": [],
+					"balloon": {
+						"enabled": false
+					},
+					"legend": {
+						"enabled": false
+					},
+					"titles": [
+						{
+							"id": "Title-1",
+							"size": 0,
+							"text": ""
+						}
+					],
+					"dataProvider": [
+		        {{ open_data | safe }}
+					]
+				}
+			);
+
+			function labelFunction(value, formattedValue, valueAxis){
+			    if(value === 0){
+			        return "Closed";
+					} else if(value == 1){
+			        return "Open";
+			    }
+			    else{
+			        return "";
+			    }
+			}
+
+			chart.addListener("rendered", function(event) {
+			  var end = new Date();
+			  var start = new Date();
+			  start.setHours(start.getHours() - 12);
+			  chart.zoomToDates(start, end);
+			});
+		</script>
+{% endblock content %}
 
 <!-- amCharts javascript code -->
-<script type="text/javascript">
-
-	var chart = AmCharts.makeChart("chartdiv",
-		{
-			"type": "serial",
-			"categoryField": "date",
-			"dataDateFormat": "YYYY-MM-DD HH:NN:SS",
-			"colors": [
-				"#58BA59",
-				"#FCD202",
-				"#B0DE09",
-				"#0D8ECF",
-				"#2A0CD0",
-				"#CD0D74",
-				"#CC0000",
-				"#00CC00",
-				"#0000CC",
-				"#DDDDDD",
-				"#999999",
-				"#333333",
-				"#990000"
-			],
-			"theme": "default",
-			"categoryAxis": {
-				"minPeriod": "ss",
-				"parseDates": true
-			},
-			"chartCursor": {
-				"enabled": false,
-				"categoryBalloonDateFormat": "JJ:NN:SS",
-				"color": "#fff",
-				"cursorColor": "#339434"
-			},
-			"mouseWheelZoomEnabled": true,
-			"chartScrollbar": {
-				"enabled": true,
-				"oppositeAxis": false,
-				"graph": "AmGraph-1",
-				"backgroundAlpha": "0",
-				"selectedGraphFillColor": "#bbb",
-				"graphLineAlpha": 1,
-				"selectedBackgroundColor": "#bbb",
-				"selectedBackgroundAlpha": 0.5,
-				"offset": 24
-			},
-			"trendLines": [],
-			"graphs": [
-				{
-					"fillAlphas": 0.7,
-					"id": "AmGraph-1",
-					"lineAlpha": 0,
-					"title": "Door",
-					"valueField": "column-1"
-				},
-			],
-			"guides": [],
-			"valueAxes": [
-				{
-					"id": "ValueAxis-1",
-					"title": "",
-					"autoGridCount": false,
-					"gridCount": 6,
-					"labelFunction": labelFunction,
-					"maximum": 1.2,
-					"gridAlpha": 0
-				}
-			],
-			"allLabels": [],
-			"balloon": {
-				"enabled": false
-			},
-			"legend": {
-				"enabled": false
-			},
-			"titles": [
-				{
-					"id": "Title-1",
-					"size": 0,
-					"text": ""
-				}
-			],
-			"dataProvider": [
-        {{ open_data | safe }}
-			]
-		}
-	);
-
-	function labelFunction(value, formattedValue, valueAxis){
-	    if(value === 0){
-	        return "Closed";
-			} else if(value == 1){
-	        return "Open";
-	    }
-	    else{
-	        return "";
-	    }
-	}
-
-	chart.addListener("rendered", function(event) {
-	  var end = new Date();
-	  var start = new Date();
-	  start.setHours(start.getHours() - 12);
-	  chart.zoomToDates(start, end);
-	});
-</script>

@@ -17,17 +17,24 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
-
-DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'hsdb',
-    'USER': 'postgres',
-    'PASSWORD': 'admin',
-    'HOST': 'localhost',
-    'PORT': '',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hsdb',
+        'USER': DATABASE_USERNAME,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': '',
+        }
+    }
 
 MANAGERS = ADMINS
 

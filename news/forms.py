@@ -26,3 +26,8 @@ class ArticleEditForm(forms.Form):
 class UploadForm(forms.Form):
     title = forms.CharField(max_length=50)
     file = forms.FileField()
+
+
+class EventRegistrationForm(forms.Form):
+    user = forms.CharField(max_length=50)
+    event = forms.CharField(max_length=50)

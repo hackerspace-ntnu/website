@@ -1,6 +1,7 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
+from django.contrib.auth.admin import User
 
 
 class Article(models.Model):
@@ -32,6 +33,7 @@ class Event(models.Model):
 
     registration = models.BooleanField(default=False)
     max_limit = models.PositiveIntegerField(blank=True, default=0)
+    registered_users = models.PositiveIntegerField(blank=True, default=0)
     time_start = models.DateTimeField('Start time')
     time_end = models.DateTimeField('End time')
     place = models.CharField(max_length=100, verbose_name='Place', blank=True)
@@ -43,6 +45,13 @@ class Event(models.Model):
     @staticmethod
     def get_class():
         return "Event"
+
+    def register_user(self):
+        if self.registered_users < self.max_limit:
+            self.registered_users += 1
+            return True
+        else:
+            return False
 
     class Meta:
         app_label = 'news'
@@ -60,3 +69,11 @@ class Upload(models.Model):
 
     class Meta:
         app_label = 'news'
+
+
+class EventRegistration(models.Model):
+    user = models.ForeignKey(User)
+    event = models.ForeignKey(Event)
+
+    def __str__(self):
+        return self.user.username + "registered on: " + self.event.title + " [{}]".format(self.event.pk)

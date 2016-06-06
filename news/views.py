@@ -5,10 +5,11 @@ from django.utils import formats
 from django.utils import timezone
 from datetime import datetime, timedelta
 from . import log_changes
-from .forms import EventEditForm, ArticleEditForm, UploadForm
-from .models import Event, Article, Upload
+from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm
+from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
 from wiki.templatetags import check_user_group as groups
+from django.contrib.auth.admin import User
 
 
 def event(request, event_id):
@@ -17,6 +18,13 @@ def event(request, event_id):
     context = {
         'event': requested_event,
     }
+    if request.method == "POST":
+        form = EventRegistrationForm(request.POST)
+        if form.is_valid():
+            registration = EventRegistration.objects.create(user=User.objects.get(username=form.cleaned_data['user']),
+                                                            event=Event.objects.get(pk=form.cleaned_data['event']),)
+            if requested_event.register_user():
+                registration.save()
 
     return render(request, 'event.html', context)
 

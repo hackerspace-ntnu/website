@@ -1,0 +1,10 @@
+#uploadForm {
+  width: 350px;
+  margin: 25px auto;
+}
+#submit {
+  width: 100%;
+}
+#doneUploading {
+  margin: 80px 130px;
+}

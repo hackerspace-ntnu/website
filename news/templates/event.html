@@ -1,32 +1,33 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
-{% load check_user_group %}
-{% include 'base.html' %}
 
-{% if request.user|has_group:"member" %}
-    {% include 'admintools_news.html' %}
-{% endif %}
-{% if mobile %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
-{% else %}
+{% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
-{% endif %}
-<script>
-  var $id = {{ event.id }};
-</script>
-<script src="{% static "js/event.js" %}"></script>
+{% endblock head %}
 
-<div style="height: 50px;"></div>
+{% block content %}
+  <div style="height: 50px;"></div>
 
-<div id="content">
-    {% autoescape off %}
-        {{ event.main_content }}
-    {% endautoescape %}
-    {% if location.length > 0 %}
-      <br>
-      Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
-    {% endif %}
-    <br>
-    Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
-</div>
+  <div id="content">
+      <div class="image-container">
+          <img class="news-image" src="{{ event.thumbnail }}">
+      </div>
+      <h1>{{ event.title }}</h1>
 
-{% include 'footer.html' %}
+      <hr class="news-hr">
+
+      {% if event.place %}
+          Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a><br>
+      {% endif %}
+      Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
+
+      {% autoescape off %}
+          {{ event.ingress_content }}
+      {% endautoescape %}
+
+      {% autoescape off %}
+          {{ event.main_content }}
+      {% endautoescape %}
+
+  </div>
+{% endblock content %}

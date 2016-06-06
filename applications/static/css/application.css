@@ -1,0 +1,30 @@
+#page-message {
+  text-align: center;
+}
+
+form {
+  width: 90%;
+  max-width: 400px;
+  margin: 30px auto;
+}
+
+form label {
+  color: var(--hs-gray) !important;
+
+}
+
+form button {
+  width: 100%;
+  margin-top: 10px;
+  background-color: var(--hs-green) !important;
+}
+
+#pageName {
+  text-align: center;
+  color: var(--hs-gray-dk);
+}
+
+ul.errorlist {
+  color: var(--hs-red);
+}
+

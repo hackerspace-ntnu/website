@@ -1,0 +1,22 @@
+form {
+  max-width: 835px;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 100px;
+}
+
+h2 {
+  text-align: center;
+}
+
+#thumbnail_picker {
+  border-radius: 4px;
+}
+
+.btn {
+  width: 100%;
+}
+
+.errorlist {
+  color: var(--hs-red);
+}

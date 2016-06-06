@@ -18,8 +18,6 @@ ADMINS = (
 )
 
 if DEBUG:
-    STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
-
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -27,8 +25,6 @@ if DEBUG:
         }
     }
 else:
-    STATIC_ROOT = os.path.join(PROJECT_PATH, "static")
-
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -70,14 +66,16 @@ BOWER_INSTALLED_APPS = (
     'polymer',
 )
 
-#STATIC_ROOT = os_path.join(PROJECT_PATH, 'static')
-
+# static files not belonging to specific apps
+STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
+if not DEBUG:
+    STATIC_ROOT = '/home/django/static'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
-    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 MIDDLEWARE_CLASSES = [
@@ -132,6 +130,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'applications',
     'news',
     'door',
     'ckeditor',
@@ -148,7 +147,6 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
-    'djangobower',
     'django_user_agents',
 ]
 from django import VERSION

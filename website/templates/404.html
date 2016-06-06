@@ -1,9 +1,13 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/error.css" %}">
+{% endblock head %}
 
 {% block errors %}
-
-    <h1 style="font-size: 150pt; margin: 70px auto -30px auto; text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 300;">404</h1>
-    <h2 style="font-size: 50pt; margin: 0 auto 50px auto; text-align: center; font-family: 'Open Sans', sans-serif; font-weight: 500;">NOT FOUND</h2>
+    <h1 class="404" >404</h1>
+    <h2 class="404">NOT FOUND</h2>
     <div style="text-align: center;">
         <h2 style="font-size: 30pt; display: inline-block; font-weight: 600;">Whoops!</h2>
         <h3 style="margin: 0 auto; display: inline-block;">

@@ -1,21 +1,34 @@
 {% load staticfiles %}
-{% load check_user_group %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
-    {% include 'head.html' %}
+    <title>Hackerspace NTNU</title>
+    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script-->
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "materialize/js/materialize.min.js" %}"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head %}
+    {% endblock head %}
 </head>
-
-<div id="header"></div>
-
-<div style="height: 80px;"></div>
-
-{% if mobile %}
-    <img id="logo_mobile" class="page-scroll" onclick='logoClick_mobile()' src="{% static "img/Logo_round_green_small_aa.png" %}" />
-{% else %}
-    <img id="logo" class="floatUp page-scroll" onclick='logoClick()' src="{% static "img/Logo_round_green_small_aa.png" %}" />
-{% endif %}
-
-{% block errors %}
-{% endblock %}
+<body>
+<div id="flex">
+{% include "header_desktop.html" %}
+{% include "header_mobile.html" %}
+{% block header %}
+{% endblock header %}
+<div style="height: 50px;"></div>
+{% block content %}
+{% endblock content %}
+</div>
+{% include "delete.html" %}
+</body>
+{% block footer %}
+{% include "footer.html" %}
+{% endblock footer %}
+</html>

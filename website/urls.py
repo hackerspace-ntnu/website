@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.http.response import HttpResponse
 from django.views.static import serve as static_serve
-from website.views import index, info_screen
+from website.views import index
 
 admin.autodiscover()
 
@@ -17,9 +17,9 @@ urlpatterns = [
     url(r'^news/', include('news.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),
+    url(r'^application/', include('applications.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
-    url(r'^infoscreen/bigscreen/$', info_screen),
 ]
 
 

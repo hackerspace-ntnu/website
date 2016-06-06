@@ -1,0 +1,22 @@
+{% load staticfiles %}
+
+<div id="deleteModal" style="width: 600px;" class="modal">
+  <div class="modal-content">
+    <h4>Are you sure?</h4>
+    <p>It will be permanently deleted!</p>
+  </div>
+  <div class="modal-footer">
+    <a id="deleteButton" href="" class=" modal-action modal-close waves-effect waves-green btn-flat">Delete</a>
+    <a id="cancelButton" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+  </div>
+</div>
+
+<script>
+  $("#deleteModal").click(function() {
+    $('#deleteModal').closeModal();
+  });
+  $(".delete").click(function() {
+    $('#deleteModal').openModal();
+    $("#deleteButton").attr("href", $(this).attr("url"));
+  });
+</script>

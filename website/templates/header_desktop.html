@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<div id="header-desktop">
+    <div id="navbar">
+        <a href="/">
+            <img id="logo" src="{% static "img/logo_header.png" %}"/>
+        </a>
+        <div style="display: inline-block;">
+          <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
+        </div>
+        <div id="menu">
+            <a class="waves-effect waves-grey btn-flat" href="/news/all">NYHETER</a>
+            <a class="waves-effect waves-grey btn-flat" href="/wiki">WIKI</a>
+            {% if request.user.is_authenticated %}
+                <a class='dd waves-effect waves-grey btn-flat' href='#' data-activates='userdropdown'>PROFIL</a>
+                <ul id='userdropdown' class='dropdown-content' style="margin-top: 9px;">
+                    <li><a href="/authentication/change-password">BYTT PASSORD</a></li>
+                    <li><a href="/authentication/logout">LOGG UT</a></li>
+                </ul>
+            {% else %}
+                <a class="waves-effect waves-grey btn-flat" href="/authentication/signup">REGISTRER</a>
+                <a class="waves-effect waves-grey btn-flat" href="/authentication/login">LOGG INN</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('.dd').dropdown({
+          inDuration: 300,
+          outDuration: 225,
+          constrain_width: false, // Does not change width of dropdown to that of the activator
+          hover: false, // Activate on hover
+          gutter: 0, // Spacing from edge
+          belowOrigin: true, // Displays dropdown below the button
+          alignment: 'left' // Displays dropdown with edge aligned to the left of button
+        });
+    });
+</script>

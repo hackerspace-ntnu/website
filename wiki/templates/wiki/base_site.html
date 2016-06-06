@@ -3,6 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
     <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - wiki{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,8 +38,8 @@
           </button>
           {% block wiki_header_branding %}
           <a class="navbar-brand" href="/">
-              <img style="float: left; margin-right: 4px; margin-top: 0;  height: 24px;" src="{% static "img/Logo_round_green.png" %}"/>
-              <font face="Hackerspace" style="float: left; margin-top: 5px; font-size: 30px;">HACKERSPACE</font>
+              <img style="float: left; margin-right: 4px; margin-top: -7px;  height: 36px;" src="{% static "img/logo_header.png" %}"/>
+              <!--<font face="Hackerspace" style="float: left; margin-top: 5px; font-size: 30px;">HACKERSPACE</font>-->
           </a>
           <style>
               @font-face {
@@ -46,7 +47,7 @@
                  src: url({% static "fonts/ostrich-regular.woff" %});
               }
           </style>
-          <a class="navbar-brand" style="margin-top: 5px; margin-left: 10px;" href="{% url 'wiki:root' %}">Wiki root</a>
+          <!--<a class="navbar-brand" style="margin-top: 5px; margin-left: 10px;" href="{% url 'wiki:root' %}">Wiki root</a>-->
           {% endblock %}
         </div>
         <div class="navbar-collapse collapse">

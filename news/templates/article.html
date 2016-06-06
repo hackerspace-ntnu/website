@@ -1,26 +1,29 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
-{% include 'base.html' %}
 
-{% if request.user|has_group:"member" %}
-    {% include 'admintools_news.html' %}
-{% endif %}
-{% if mobile %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/news_mobile.css" %}">
-{% else %}
+{% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
-{% endif %}
-<script>
-  var $id = {{ article.id }};
-</script>
-<script src="{% static "js/article.js" %}"></script>
+{% endblock head %}
 
-<div style="height: 50px;"></div>
+{% block content %}
+  <div style="height: 50px;"></div>
 
-<div id="content">
-    {% autoescape off %}
-        {{ article.main_content }}
-    {% endautoescape %}
-</div>
+  <div id="content">
+      <div class="image-container">
+          <img class="news-image" src="{{ article.thumbnail }}">
+      </div>
+      <h1>{{ article.title }}</h1>
 
-{% include 'footer.html' %}
+      <hr class="news-hr">
+
+      {% autoescape off %}
+          {{ article.ingress_content }}
+      {% endautoescape %}
+
+      {% autoescape off %}
+          {{ article.main_content }}
+      {% endautoescape %}
+
+  </div>
+{% endblock content %}

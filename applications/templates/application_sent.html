@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/application.css" %}">
+  <meta http-equiv="refresh" content="10;url=/">
+{% endblock header %}
+
+{% block content %}
+  <h1 id="page-message">Din søknad er mottatt. Du vil høre fra oss </h1>
+{% endblock content %}

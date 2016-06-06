@@ -1,49 +1,49 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
 
-{% if request.user|has_group:"member" %}
 
-{% include 'base.html' %}
-{% load check_user_group %}
-{% include 'admintools_news.html' %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+{% endblock head %}
 
-<link rel="stylesheet" type="text/css" href="{% static "css/button.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/input.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
-<script src="{% static "js/article.js" %}"></script>
-<script>
-  $('#cancelBtn').css('display', 'list-item');
-  $('#editBtn').css('display', 'none');
-  var $id = {{ article_id }};
-  if ($id == 0) {
-    $('#deleteBtn').css('display', 'none');
-    $('#newBtn').css('display', 'none');
-  }
-</script>
+{% block content %}
+    {% if request.user|has_group:"member" %}
+        <div id="edit">
+            <h2>Rediger artikkel</h2>
+            <form action="" method="post">
+                {% csrf_token %}
 
-<div style="height: 50px;"></div>
+                {{ form.title.errors }}
+                <div class="input-field">
+                  <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                  {{ form.title }}
+                </div>
 
-<div id="edit">
-  <div style="
-        width:835px;
-        min-height:400px;
-        margin: 50px auto;
-        margin-bottom: 100px;
-    ">
-    <form action="" method="post">
-        {% csrf_token %}
-        <div id="the_post">
-            {{ form.media }}
-            {{ form.as_p }}
+                {{ form.ingress_content.errors }}
+                <label>{{ form.ingress_content.label }}</label>
+                {{ form.ingress_content }}
+
+                {{ form.main_content.errors }}
+                <label>{{ form.main_content.label }}</label>
+                {{ form.main_content }}
+
+                {{ form.thumbnail.errors }}
+                <div class="input-field">
+                  <label for="{{ form.thumbnail.id_for_label }}">{{ form.thumbnail.label }}</label>
+                  {{ form.thumbnail }}
+                </div>
+
+                <p><label></label>
+                  <img id="thumbnail_picker" alt="Klikk her for å velge bilde." src="" style="width:360px; height:200px;"></img>
+                </p>
+
+                <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
+
+                <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
+            </form>
         </div>
-        <p><label></label>
-        <img id="thumbnailPicker" src="" style="width:360px; height:200px;"></img></p>
-        <div class="outerButton"><input class="submitButton button" type="submit" value="Save"/></div>
-     </form>
-  </div>
-</div>
-
-<script src="{% static "js/edit_article.js" %}"></script>
-
-{% include 'footer.html' %}
-{% endif %}
+    {% endif %}
+{% endblock content %}

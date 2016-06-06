@@ -3,13 +3,18 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.admin import User
 
 
+default_error_messages = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100,
                                label="Username",
-                               widget=forms.TextInput())
+                               widget=forms.TextInput(),
+                               error_messages=default_error_messages)
     password = forms.CharField(max_length=100,
                                label="Password",
-                               widget=forms.PasswordInput())
+                               widget=forms.PasswordInput(),
+                               error_messages=default_error_messages)
 
     # Custom validation
     def validate(self):
@@ -19,13 +24,13 @@ class LoginForm(forms.Form):
 
         # Checks if user doesn't exist
         if user is None:
-            message = 'Username or password is incorrect'
+            message = 'Feil brukernavn eller passord'
             self.add_error('username', message)
             return False
 
         # Checks if the user is not active
         if not user.is_active:
-            message = 'User is not activated'
+            message = 'Brukeren er ikke aktivert'
             self.add_error('username', message)
             return False
 
@@ -35,13 +40,16 @@ class LoginForm(forms.Form):
 class ChangePasswordForm(forms.Form):
     current_password = forms.CharField(max_length=100,
                                        label="Current password",
-                                       widget=forms.PasswordInput())
+                                       widget=forms.PasswordInput(),
+                                       error_messages=default_error_messages)
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput())
+                                   widget=forms.PasswordInput(),
+                                   error_messages=default_error_messages)
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput())
+                                           widget=forms.PasswordInput(),
+                                           error_messages=default_error_messages)
 
     # Custom validation
     def validate(self, user):
@@ -51,13 +59,13 @@ class ChangePasswordForm(forms.Form):
 
         # Checks if the typed password doesn't match the current password
         if not user.check_password(current):
-            message = "Current password is wrong"
+            message = "Nåværende passord er feil"
             self.add_error('current_password', message)
             return False
 
         # Checks if the new password and confirm new password doesn't match
         if not new == confirm:
-            message = "Passwords does not match"
+            message = "De nye passordene er ikke like"
             self.add_error('current_password', message)
             return False
         return True
@@ -66,22 +74,28 @@ class ChangePasswordForm(forms.Form):
 class SignUpForm(forms.Form):
     username = forms.CharField(max_length=100,
                                label="Username",
-                               widget=forms.TextInput())
+                               widget=forms.TextInput(),
+                               error_messages=default_error_messages)
     email = forms.EmailField(max_length=100,
                              label="Email",
-                             widget=forms.EmailInput())
+                             widget=forms.EmailInput(),
+                             error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
-                                 widget=forms.TextInput())
+                                 widget=forms.TextInput(),
+                                 error_messages=default_error_messages)
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
-                                widget=forms.TextInput())
+                                widget=forms.TextInput(),
+                                error_messages=default_error_messages)
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput())
+                                   widget=forms.PasswordInput(),
+                                   error_messages=default_error_messages)
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput())
+                                           widget=forms.PasswordInput(),
+                                           error_messages=default_error_messages)
 
     # Custom validation
     def validate(self):
@@ -93,7 +107,7 @@ class SignUpForm(forms.Form):
         # Checks if user already exists
         try:
             User.objects.get(username=username)
-            message = 'Username already exists'
+            message = 'Brukernavnet eksisterer allerede'
             self.add_error('username', message)
             return False
         except User.DoesNotExist:
@@ -102,7 +116,7 @@ class SignUpForm(forms.Form):
         # Checks if the email is already registered
         try:
             User.objects.get(email=email)
-            message = 'Email is already registered'
+            message = 'Mailen er allerede registrert'
             self.add_error('email', message)
             return False
         except User.DoesNotExist:
@@ -111,13 +125,13 @@ class SignUpForm(forms.Form):
         # Checks if the email is not from NTNU
         if not (str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith(
                 '@ntnu.edu')):
-            message = 'Email is not from NTNU'
+            message = 'Mailen er ikke fra NTNU'
             self.add_error('email', message)
             return False
 
         # Checks if the new password and confirm new password doesn't match
         if not new_password == confirm_new_password:
-            message = 'Passwords does not match'
+            message = 'Passordene er ikke like'
             self.add_error('new_password', message)
             self.add_error('confirm_new_password', message)
             return False
@@ -128,7 +142,8 @@ class SignUpForm(forms.Form):
 class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(max_length=100,
                              label='Email',
-                             widget=forms.TextInput())
+                             widget=forms.TextInput(),
+                             error_messages=default_error_messages)
 
     # Custom validation
     def validate(self):
@@ -139,7 +154,7 @@ class ForgotPasswordForm(forms.Form):
             User.objects.get(email=email)
             return True
         except User.DoesNotExist:
-            message = "Email is not registred"
+            message = "Mailen er ikke registrert"
             self.add_error("email", message)
             return False
 
@@ -147,10 +162,12 @@ class ForgotPasswordForm(forms.Form):
 class SetPasswordForm(forms.Form):
     new_password = forms.CharField(max_length=100,
                                    label="New password",
-                                   widget=forms.PasswordInput())
+                                   widget=forms.PasswordInput(),
+                                   error_messages=default_error_messages)
     confirm_new_password = forms.CharField(max_length=100,
                                            label="Confirm password",
-                                           widget=forms.PasswordInput())
+                                           widget=forms.PasswordInput(),
+                                           error_messages=default_error_messages)
 
     # Custom validation
     def validate(self):
@@ -159,7 +176,7 @@ class SetPasswordForm(forms.Form):
 
         # Checks if the new password and confirm new password doesn't match
         if not new_password == confirm_new_password:
-            message = "Passwords does not match"
+            message = "Passordene er ikke like"
             self.add_error('new_password', message)
             self.add_error('confirm_new_password', message)
             return False

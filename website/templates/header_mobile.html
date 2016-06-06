@@ -8,8 +8,10 @@
             {% if request.user.is_authenticated %}
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li><a class="collapsible-header">PROFIL<img id="ddicon"
-                                                                     src="{% static "img/ic_arrow_drop_down.svg" %}"></a>
+                        <li>
+                            <a class="collapsible-header">PROFIL
+                              <img id="ddicon" src="{% static "img/ic_arrow_drop_down.svg" %}">
+                            </a>
                             <div class="collapsible-body">
                                 <ul>
                                     <li><a href="/authentication/change-password">BYTT PASSORD</a></li>
@@ -40,16 +42,16 @@
             {% endif %}
         </ul>-->
         <div id="burger">
-            <a href="#" data-activates="slide-out" class="button-collapse"><img id="ddicon"
-                                                                                src="{% static "img/ic_menu.svg" %}"></img></a>
+            <a href="#" data-activates="slide-out" class="button-collapse">
+              <img id="ddicon" src="{% static "img/ic_menu.svg" %}"></img>
+            </a>
         </div>
     </div>
     <script>
         $('.button-collapse').sideNav({
-                    menuWidth: "80%", // Default is 240
-                    edge: 'left', // Choose the horizontal origin
-                    closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
-                }
-        );
+          menuWidth: "80%", // Default is 240
+          edge: 'left', // Choose the horizontal origin
+          closeOnClick: true // Closes side-nav on <a> clicks, useful for Angular/Meteor
+        });
     </script>
 </div>

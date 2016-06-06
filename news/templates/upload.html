@@ -6,25 +6,25 @@
 {% endblock head %}
 
 {% block content %}
-  <form id="uploadForm" action="/news/upload-file/" enctype="multipart/form-data" method="post">
-      {% csrf_token %}
+    <form id="uploadForm" action="/news/upload-file/" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
 
-      {{ form.title.errors }}
-      <div class="input-field">
-        <label for="{{ form.title.id_for_label }}">Title</label>
-        <input id="id_title" name="title" type="text" maxlength="{{ form.fields.title.max_length }}" value="{{ form.title.value }}">
-      </div>
+        {{ form.title.errors }}
+        <div class="input-field">
+          <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+          {{ form.title }}
+        </div>
 
-      {{ form.file.errors }}
-      <div class="file-field input-field">
-        <div class="btn blue">
-          <span>File</span>
-          <input id="id_file" type="file" name="file" value="{{ form.file.value }}">
+        {{ form.file.errors }}
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input id="id_file" type="file" name="file" value="{{ form.file.value }}">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" value="{{ form.file.value }}">
+          </div>
         </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text" value="{{ form.file.value }}">
-        </div>
-      </div>
-      <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Save</button>
-  </form>
+        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Save</button>
+    </form>
 {% endblock content %}

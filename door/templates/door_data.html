@@ -1,30 +1,28 @@
-<style>
-    body {
-        font-family: "Helvetica Neue", Helvetica, sans-serif;
-    }
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-    h1 {
-        font-size: 64px;
-        font-weight: 300;
-        letter-spacing: -2px;
-        margin: .3em 0 .1em 0;
-    }
-</style>
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/door_data.css" %}">
+{% endblock head %}
 
-<h1>Current status:</h1>
-{% if status.status %}
-    <p>Open since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>
-{% else %}
-    <p>Closed since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>
-{% endif %}
+{% block content %}
+    <div id="content">
+        <h1>Current status:</h1>
+        {% if status.status %}
+            <p>Open since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>
+        {% else %}
+            <p>Closed since: {{ status.datetime|date:"d/m/Y" }} {{ status.datetime|time:"H:i:s" }}</p>
+        {% endif %}
 
-<h1>Door data:</h1>
-{% if opendata_list %}
-    {% for opendata in opendata_list %}
-        <p>
-          Opened: {{ opendata.opened|date:"d/m/Y" }} {{ opendata.opened|time:"H:i:s" }}<br>
-          Closed: {{ opendata.closed|date:"d/m/Y" }} {{ opendata.closed|time:"H:i:s" }}<br>
-          Time open: {{ opendata.deltaTime }}
-        </p>
-    {% endfor %}
-{% endif %}
+        <h1>Door data:</h1>
+        {% if open_data_list %}
+            {% for opendata in open_data_list %}
+                <p>
+                  Opened: {{ opendata.opened|date:"d/m/Y" }} {{ opendata.opened|time:"H:i:s" }}<br>
+                  Closed: {{ opendata.closed|date:"d/m/Y" }} {{ opendata.closed|time:"H:i:s" }}<br>
+                  Time open: {{ opendata.deltaTime }}
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock content %}

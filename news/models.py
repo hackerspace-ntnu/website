@@ -48,8 +48,8 @@ class Event(models.Model):
 
 
 class Upload(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Filename')
-    time = models.DateTimeField(default=timezone.now)
+    title = models.CharField(max_length=100, verbose_name='Filnavn')
+    time = models.DateTimeField(default=timezone.now, verbose_name='Tittel')
     file = models.FileField(upload_to='uploads')
     number = models.IntegerField(default=0)
 

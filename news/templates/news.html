@@ -12,10 +12,18 @@
             </a>
           </div>
           <div class="card-content">
-            <a class="card-title" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
-            <div class="date-label">
-              <div class="date">{{ news.time_start|date:"d" }}</div>
-              <div class="month">{{ news.time_start|date:"M"|upper }}</div>
+            <div class="top">
+              <div class=right>
+                <a class="event-title" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
+                <div class="place">
+                  {{ news.time_start|date:"H:i"|upper }} at
+                  <a href="{{ news.place_href }}" target="_blank">{{ news.place }}</a>
+                </div>
+              </div>
+              <div class="date-label">
+                <div class="date">{{ news.time_start|date:"d" }}</div>
+                <div class="month">{{ news.time_start|date:"M"|upper }}</div>
+              </div>
             </div>
             <div class="event-ingress">
               {% autoescape off %}

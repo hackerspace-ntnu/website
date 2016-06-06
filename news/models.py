@@ -30,6 +30,8 @@ class Event(models.Model):
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
     thumbnail = models.CharField(max_length=200, blank=True)
 
+    registration = models.BooleanField(default=False)
+    max_limit = models.PositiveIntegerField(blank=True, default=0)
     time_start = models.DateTimeField('Start time')
     time_end = models.DateTimeField('End time')
     place = models.CharField(max_length=100, verbose_name='Place', blank=True)

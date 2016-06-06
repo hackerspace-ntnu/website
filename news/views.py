@@ -10,6 +10,7 @@ from .models import Event, Article, Upload
 from itertools import chain
 from wiki.templatetags import check_user_group as groups
 
+
 def event(request, event_id):
     event_id = get_id_or_404(event_id)
     requested_event = get_object_or_404(Event, pk=event_id)
@@ -56,29 +57,33 @@ def article(request, article_id):
 
 def edit_event(request, event_id):
     event_id = get_id_or_404(event_id)
-    if request.method == 'POST': # Post form
+    if request.method == 'POST':  # Post form
         form = EventEditForm(request.POST)
         if form.is_valid():
             # Create new event (ID = 0) or update existing event (ID != 0)
             if event_id == 0:
                 event = Event(time_start=timezone.now(), time_end=timezone.now())
             else:
-                event = get_object_or_404(Event,pk=event_id)
+                event = get_object_or_404(Event, pk=event_id)
             event.title = form.cleaned_data['title']
             event.ingress_content = form.cleaned_data['ingress_content']
             event.main_content = form.cleaned_data['main_content']
+            event.registration = form.cleaned_data['registration']
+            event.max_limit = form.cleaned_data['max_limit']
             event.thumbnail = form.cleaned_data['thumbnail']
             event.place = form.cleaned_data['place']
             event.place_href = form.cleaned_data['place_href']
             # Create date from string input
             event.date = datetime.strptime(form.cleaned_data['date'], '%d %B, %Y').date()
             # Create datetime from string input
-            event.time_start = datetime.strptime(form.cleaned_data['date']+' '+form.cleaned_data['time_start'], '%d %B, %Y %H:%M')
-            event.time_end = datetime.strptime(form.cleaned_data['date']+' '+form.cleaned_data['time_end'], '%d %B, %Y %H:%M')
+            event.time_start = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_start'],
+                                                 '%d %B, %Y %H:%M')
+            event.time_end = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_end'],
+                                               '%d %B, %Y %H:%M')
             event.save()
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
-    else: # Request form
+    else:  # Request form
         # Create new event if ID is 0
         if int(event_id) == 0:
             # Set initial values
@@ -111,7 +116,7 @@ def edit_event(request, event_id):
 
 def edit_article(request, article_id):
     article_id = get_id_or_404(article_id)
-    if request.method == 'POST': # Post form
+    if request.method == 'POST':  # Post form
         form = ArticleEditForm(request.POST)
         if form.is_valid():
             if article_id == 0:
@@ -126,7 +131,7 @@ def edit_article(request, article_id):
             log_changes.change(request, article)
 
             return HttpResponseRedirect('/news/article/' + str(article.id) + '/')
-    else: # Request form
+    else:  # Request form
         if article_id == 0:
             form = ArticleEditForm()
         else:

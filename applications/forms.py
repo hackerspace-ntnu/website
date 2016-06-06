@@ -19,6 +19,20 @@ class ApplicationForm(ModelForm):
         else:
             return False
 
+    # Checks if the phone number is valid
+    def custom_validation(self):
+        try:
+            int(self.cleaned_data['phone'])
+            if len(self.cleaned_data['phone']) != 8:
+                message = "Ugyldig nummer"
+                self.add_error("phone", message)
+                return False
+        except ValueError:
+            message = "Ugyldig nummer"
+            self.add_error("phone", message)
+            return False
+        return True
+
     class Meta:
         model = Application
         fields = ['name',

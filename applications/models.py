@@ -24,7 +24,7 @@ class Application(models.Model):
 
     name = models.CharField(max_length=50, verbose_name="Navn")
     email = models.EmailField(verbose_name="Email")
-    phone = models.PositiveIntegerField(verbose_name="Telefon")
+    phone = models.CharField(max_length=8,verbose_name="Telefon")
     study = models.CharField(max_length=255, verbose_name="Studieprogram")
     year = models.IntegerField(verbose_name="Årstrinn", choices=YEAR_CHOICES, default=YEAR_CHOICES[0])
     group_choice = models.CharField(max_length=255, choices=GROUP_CHOICES, verbose_name="Ønsket gruppe")

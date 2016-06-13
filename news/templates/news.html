@@ -14,8 +14,8 @@
           <div class="card-content">
             <div class="top">
               <div class=right>
-                <a class="event-title" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
-                <div class="place">
+                <a class="event-title truncate" href="/news/event/{{ news.id }}/">{{ news.title }}</a>
+                <div class="place truncate">
                   {{ news.time_start|date:"H:i"|upper }} at
                   <a href="{{ news.place_href }}" target="_blank">{{ news.place }}</a>
                 </div>
@@ -51,7 +51,7 @@
             </a>
           </div>
           <div class="card-content">
-            <a class="card-title" href="/news/article/{{ news.id }}/">{{ news.title }}</a>
+            <a class="card-title truncate" href="/news/article/{{ news.id }}/">{{ news.title }}</a>
             <div class="article-ingress">
               {% autoescape off %}
               {{ news.ingress_content|truncatechars:255 }}

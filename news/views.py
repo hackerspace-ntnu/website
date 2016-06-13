@@ -22,7 +22,7 @@ def event(request, event_id):
         form = EventRegistrationForm(request.POST)
         if form.is_valid():
             registration = EventRegistration.objects.create(user=User.objects.get(username=form.cleaned_data['user']),
-                                                            event=Event.objects.get(pk=form.cleaned_data['event']),)
+                                                            event=Event.objects.get(pk=form.cleaned_data['event']), )
             if requested_event.register_user():
                 registration.save()
 
@@ -108,6 +108,8 @@ def edit_event(request, event_id):
                 'ingress_content': event.ingress_content,
                 'main_content': event.main_content,
                 'thumbnail': event.thumbnail,
+                'max_limit': event.max_limit,
+                'registration': event.registration,
                 'place': event.place,
                 'place_href': event.place_href,
                 'time_start': formats.date_format(event.time_start, 'H:i'),

@@ -33,12 +33,12 @@
 
         {{ form.registration.errors }}
         <div class="input-field">
-          <input type="checkbox"  class="filled-in" id="filled-in-box" name="registration"/>
+          <input type="checkbox" class="filled-in" id="filled-in-box" name="registration" value="{{ form.registration.value }}"/>
           <label for="filled-in-box">{{ form.registration.label }}</label>
         </div>
         <br>
 
-         {{ form.max_limit.errors }}
+        {{ form.max_limit.errors }}
         <div class="input-field">
           <label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
           {{ form.max_limit }}
@@ -92,6 +92,21 @@
           });
           $('#{{ form.time_start.id_for_label }}').lolliclock({autoclose: true, hour24: true});
           $('#{{ form.time_end.id_for_label }}').lolliclock({autoclose: true, hour24: true});
+
+          $(function () {
+            if ($("#filled-in-box").prop("value") == "True") {
+              $("#filled-in-box").prop("checked", true);
+            }
+          });
+          $("#filled-in-box").change(function() {
+            if ($("#filled-in-box").prop("value") == "True") {
+              $("#filled-in-box").val("False");
+
+            } else {
+              $("#filled-in-box").val("True");
+            }
+          });
+
         </script>
         <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 

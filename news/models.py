@@ -34,6 +34,7 @@ class Event(models.Model):
     registration = models.BooleanField(default=False)
     max_limit = models.PositiveIntegerField(blank=True, default=0)
     registered_users = models.PositiveIntegerField(blank=True, default=0)
+
     time_start = models.DateTimeField('Start time')
     time_end = models.DateTimeField('End time')
     place = models.CharField(max_length=100, verbose_name='Place', blank=True)
@@ -74,6 +75,7 @@ class Upload(models.Model):
 class EventRegistration(models.Model):
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username + "registered on: " + self.event.title + " [{}]".format(self.event.pk)

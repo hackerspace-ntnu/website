@@ -104,7 +104,7 @@
 
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
   .news .card {
-    width: 80vw;
+    width: 90vw;
     height: 90vh !important;
   }
   .news .card-image, .news .card-image .img-a img {
@@ -116,22 +116,22 @@
     margin-top: 3vh;
   }
   .news .card .event-title {
-    font-size: 8vh;
-    margin-top: -3vh;
+    font-size: 8vw;
+    margin-top: calc(30px - 8vw);
   }
   .news .card .date-label {
-    margin-top: -2vh;
+    margin-top: calc(29px - 6vw);
   }
   .news .card .date-label .date {
-    font-size: 8vh;
+    font-size: 8vw;
   }
   .news .card .date-label .month {
     color: var(--hs-green);
-    font-size: 4vh;
-    margin-top: -3vh;
+    font-size: 4vw;
+    margin-top: -2vw;
   }
   .news .card p {
-    font-size: 4vh;
+    font-size: 4vw;
   }
   .news .card .event-ingress {
     margin-top: 16px;
@@ -140,8 +140,8 @@
     margin-top: 10px;
   }
   .news .card .place {
-    margin-top: -2vh;
-    font-size: 4vh;
+    margin-top: -2vw;
+    font-size: 6vw;
   }
   .news .card-action a {
     font-size: 3vw;

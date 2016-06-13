@@ -111,24 +111,27 @@
     height: 50vh;
     width: auto;
   }
+  .news .card .top {
+    height: 20vw;
+  }
   .news .card-title {
-    font-size: 8vh !important;
-    margin-top: 3vh;
+    font-size: 8vw !important;
+    margin-top: 2vw;
   }
   .news .card .event-title {
     font-size: 8vw;
-    margin-top: calc(30px - 8vw);
+    margin-top: 0;
   }
   .news .card .date-label {
-    margin-top: calc(29px - 6vw);
+    margin-top: 1vw;
   }
   .news .card .date-label .date {
-    font-size: 8vw;
+    font-size: 9vw;
   }
   .news .card .date-label .month {
     color: var(--hs-green);
-    font-size: 4vw;
-    margin-top: -2vw;
+    font-size: 5vw;
+    margin-top: -3.5vw;
   }
   .news .card p {
     font-size: 4vw;

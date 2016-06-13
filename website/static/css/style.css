@@ -35,3 +35,9 @@ html {
 .news {
   margin-top: 20px;
 }
+
+@media screen and (max-device-width: 480px), screen and (max-width: 720px) {
+  #about h1 {
+    font-size: 10vw;
+  }
+}

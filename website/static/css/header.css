@@ -78,7 +78,6 @@
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
   #navbar {
     height: 10vh;
-    overflow: hidden;
   }
   #header-mobile {
     display: block;

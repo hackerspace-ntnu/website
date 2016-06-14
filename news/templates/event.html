@@ -17,11 +17,9 @@
   <hr class="news-hr">
   <div class="registration">
     {% if event.registration and request.user.is_authenticated %}
-      <form method="post">
+      <form method="post" action="/news/register/{{ event.id }}/">
         {% csrf_token %}
         <h1>Påmeldte: {{ event.registered_users }} / {{ event.max_limit }}</h1>
-        <input name="user" value="{{ request.user.username }}" hidden="true">
-        <input name="event" value="{{ event.id }}" hidden="true">
         <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Meld deg på</button>
       </form>
     {% endif %}

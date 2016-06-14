@@ -75,7 +75,7 @@ class Upload(models.Model):
 class EventRegistration(models.Model):
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.user.username + "registered on: " + self.event.title + " [{}]".format(self.event.pk)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, Event, Upload
+from .models import Article, Event, Upload, EventRegistration
 
 
 @admin.register(Event)
@@ -73,3 +73,5 @@ class UploadModelAdmin(admin.ModelAdmin):
     search_fields = [
         'title'
     ]
+
+admin.site.register(EventRegistration)

@@ -1,6 +1,5 @@
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.shortcuts import get_object_or_404, render
 from django.utils import formats
 from django.utils import timezone
 from datetime import datetime, timedelta
@@ -10,6 +9,7 @@ from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
 from wiki.templatetags import check_user_group as groups
 from django.contrib.auth.admin import User
+from django.contrib.auth.decorators import login_required
 
 
 def event(request, event_id):
@@ -18,13 +18,6 @@ def event(request, event_id):
     context = {
         'event': requested_event,
     }
-    if request.method == "POST":
-        form = EventRegistrationForm(request.POST)
-        if form.is_valid():
-            registration = EventRegistration.objects.create(user=User.objects.get(username=form.cleaned_data['user']),
-                                                            event=Event.objects.get(pk=form.cleaned_data['event']), )
-            if requested_event.register_user():
-                registration.save()
 
     return render(request, 'event.html', context)
 
@@ -212,9 +205,18 @@ def upload_done(request):
     return render(request, 'upload_done.html')
 
 
+@login_required
+def register_on_event(request, event_id):
+
+    event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
+    event_reg = EventRegistration.objects.filter(user=request.user, event=event_object)
+    print(event_reg)
+    return HttpResponse(event_reg)
+
+
 def get_id_or_404(object_id):
     object_id = int(object_id)
     # Raise 404 if ID too large for SQLite (2^63-1) or negative
-    if object_id > 9223372036854775807 and object_id >= 0:
+    if object_id > 9223372036854775807 or object_id < 0:
         raise Http404
     return object_id

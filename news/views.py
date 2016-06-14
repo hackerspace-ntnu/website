@@ -15,14 +15,16 @@ from django.contrib.auth.decorators import login_required
 def event(request, event_id):
     event_id = get_id_or_404(event_id)
     requested_event = get_object_or_404(Event, pk=event_id)
-    event_reg = EventRegistration.objects.filter(user=request.user, event=requested_event)
-
     context = {
         'event': requested_event,
     }
 
-    if event_reg:
-        context['registered'] = True
+    if request.user.is_authenticated():
+
+        event_reg = EventRegistration.objects.filter(user=request.user, event=requested_event)
+
+        if event_reg:
+            context['registered'] = True
 
     return render(request, 'event.html', context)
 

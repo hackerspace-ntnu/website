@@ -41,7 +41,7 @@ input:focus:not([readonly]) {
   border-color: var(--hs-green);
 }
 .btn {
-  background-color: var(--hs-green) !important;
+  background-color: var(--hs-green);
 }
 .dropdown-content li a {
   color: var(--hs-gray-li);

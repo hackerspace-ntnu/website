@@ -1,26 +1,31 @@
-
 .news {
   width: 100%;
   text-align: center;
 }
-.card-container{
+
+.card-container {
   display: inline-block;
   overflow: hidden;
+  max-width: 100%;
 }
+
 .news .card-content {
   min-height: 289px !important;
   overflow: hidden;
 }
+
 .news .card {
   width: 300px;
   height: 535px !important;
   margin: 7px 5px;
   font-family: Roboto-Light;
 }
+
 .news .card-image {
   position: relative;
   height: 200px;
 }
+
 .news .card .card-image img {
   position: absolute;
   width: 100%;
@@ -29,103 +34,121 @@
   transform: translate(-50%, -50%);
   height: 200px;
 }
+
 .news .card .card-action {
   text-align: center;
   padding: 12px;
 }
+
 .news .card .card-action a {
   padding: 0 10px;
   margin: -30px 0;
   color: var(--hs-gray-dk) !important;
 }
+
 .news .card-title {
   font-size: 32px !important;
   color: var(--hs-gray-dk);
 }
+
 .news .card .content {
   width: 70%;
   min-height: 300px;
   margin: 50px auto;
   margin-bottom: 100px;
 }
+
 .news .card .top {
   height: 90px;
 }
+
 .news .card .right {
   width: 70%;
   float: right;
 }
+
 .news .card .event-title {
   font-size: 32px;
   text-align: left;
   display: block;
   color: var(--hs-gray-dk);
 }
+
 .news .card .place {
   text-align: left;
 }
+
 .news .card .place a {
   color: var(--hs-green);
 }
+
 .card .date-label {
   float: left;
   width: 20%;
   margin-top: -6px;
 }
+
 .news .card .date-label .date {
   font-size: 44px;
 }
+
 .news .card .date-label .month {
   color: var(--hs-green);
   font-size: 23px;
   margin-top: -20px;
 }
+
 .news .event-ingress p {
   word-wrap: break-word !important;
 }
 
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
   .news .card {
-    width: 95vw;
+    width: 90vw;
     height: 90vh !important;
   }
   .news .card-image, .news .card-image .img-a img {
     height: 50vh;
     width: auto;
   }
+  .news .card .top {
+    height: 20vw;
+  }
   .news .card-title {
-    font-size: 8vh !important;
-    margin-top: 3vh;
+    font-size: 8vw !important;
+    margin-top: 2vw;
   }
   .news .card .event-title {
-    font-size: 8vh;
-    margin-top: -3vh;
+    font-size: 8vw;
+    margin-top: 0;
   }
   .news .card .date-label {
-      margin-top: -2vh;
+    margin-top: 1vw;
   }
   .news .card .date-label .date {
-      font-size: 8vh;
+    font-size: 9vw;
   }
   .news .card .date-label .month {
-      color: var(--hs-green);
-      font-size: 4vh;
-      margin-top: -3vh;
+    color: var(--hs-green);
+    font-size: 5vw;
+    margin-top: -3.5vw;
   }
   .news .card p {
-    font-size: 4vh;
+    font-size: 4vw;
   }
   .news .card .event-ingress {
-    margin-top: 10vh;
+    margin-top: 16px;
   }
   .news .card .article-ingress {
-    margin-top: 4vh;
+    margin-top: 10px;
   }
   .news .card .place {
-    margin-top: -2vh;
-    font-size: 4vh;
+    margin-top: -2vw;
+    font-size: 6vw;
   }
   .news .card-action a {
-    font-size: 3vh;
+    font-size: 3vw;
+    max-width: 20vw;
+    margin: 0 !important;
   }
 }

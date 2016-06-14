@@ -20,3 +20,9 @@ h2 {
 .errorlist {
   color: var(--hs-red);
 }
+
+[type="checkbox"].filled-in:checked+label:after {
+  color: var(--hs-green);
+  background-color: var(--hs-green);
+  border-color: var(--hs-green);
+}

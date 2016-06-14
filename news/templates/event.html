@@ -2,32 +2,49 @@
 {% load staticfiles %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
 {% endblock head %}
 
 {% block content %}
-  <div style="height: 50px;"></div>
+<div style="height: 50px;"></div>
 
-  <div id="content">
-      <div class="image-container">
-          <img class="news-image" src="{{ event.thumbnail }}">
-      </div>
-      <h1>{{ event.title }}</h1>
-
-      <hr class="news-hr">
-
-      {% if event.place %}
-          Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a><br>
-      {% endif %}
-      Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
-
-      {% autoescape off %}
-          {{ event.ingress_content }}
-      {% endautoescape %}
-
-      {% autoescape off %}
-          {{ event.main_content }}
-      {% endautoescape %}
-
+<div id="content">
+  <div class="image-container">
+    <img class="news-image" src="{{ event.thumbnail }}">
   </div>
+  <h1 class="truncate">{{ event.title }}</h1>
+
+  <hr class="news-hr">
+  <div class="registration" style="text-align: center">
+    {% if event.registration and request.user.is_authenticated %}
+      <form method="post" action="/news/register/{{ event.id }}/">
+        {% csrf_token %}
+        <h1>Påmeldte: {{ event.registered_users }} / {{ event.max_limit }}</h1>
+        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Meld deg på</button>
+      </form>
+    {% endif %}
+  </div>
+  {% if event.place %}
+    Location: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a><br>
+  {% endif %}
+  Date: {{ event.time_start|date:"d/m/Y" }}, {{ event.time_start|date:"H:i" }} to {{ event.time_end|date:"H:i" }}
+
+  {% autoescape off %}
+  {{ event.ingress_content }}
+  {% endautoescape %}
+
+  {% autoescape off %}
+  {{ event.main_content }}
+  {% endautoescape %}
+
+</div>
+<script>
+  // Change button text and color to match whether the user is registered on the event or not
+  $(function() {
+    if (("{{ registered }}" == "True")) {
+      $("#submit").css("background-color", "red");
+      $("#submit").html("MELD DEG AV");
+    }
+  })
+</script>
 {% endblock content %}

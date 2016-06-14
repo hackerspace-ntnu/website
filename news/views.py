@@ -15,9 +15,14 @@ from django.contrib.auth.decorators import login_required
 def event(request, event_id):
     event_id = get_id_or_404(event_id)
     requested_event = get_object_or_404(Event, pk=event_id)
+    event_reg = EventRegistration.objects.filter(user=request.user, event=requested_event)
+
     context = {
         'event': requested_event,
     }
+
+    if event_reg:
+        context['registered'] = True
 
     return render(request, 'event.html', context)
 
@@ -210,8 +215,17 @@ def register_on_event(request, event_id):
 
     event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
     event_reg = EventRegistration.objects.filter(user=request.user, event=event_object)
-    print(event_reg)
-    return HttpResponse(event_reg)
+    if event_reg:
+        for ev in event_reg:
+            ev.delete()
+            event_object.registered_users -= 1
+    else:
+        if event_object.registered_users < event_object.max_limit:
+            EventRegistration.objects.create(event=event_object, user=request.user).save()
+            event_object.registered_users += 1
+
+    event_object.save()
+    return HttpResponseRedirect("/news/event/" + str(event_object.id))
 
 
 def get_id_or_404(object_id):

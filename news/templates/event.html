@@ -15,7 +15,7 @@
   <h1 class="truncate">{{ event.title }}</h1>
 
   <hr class="news-hr">
-  <div class="registration">
+  <div class="registration" style="text-align: center">
     {% if event.registration and request.user.is_authenticated %}
       <form method="post" action="/news/register/{{ event.id }}/">
         {% csrf_token %}
@@ -38,4 +38,13 @@
   {% endautoescape %}
 
 </div>
+<script>
+  // Change button text and color to match whether the user is registered on the event or not
+  $(function() {
+    if (("{{ registered }}" == "True")) {
+      $("#submit").css("background-color", "red");
+      $("#submit").html("MELD DEG AV");
+    }
+  })
+</script>
 {% endblock content %}

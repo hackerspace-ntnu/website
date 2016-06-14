@@ -78,4 +78,4 @@ class EventRegistration(models.Model):
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.user.username + "registered on: " + self.event.title + " [{}]".format(self.event.pk)
+        return self.user.username + " registered on: " + self.event.title + " [{}]".format(self.event.pk)

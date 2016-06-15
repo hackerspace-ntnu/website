@@ -8,7 +8,3 @@ try:
         some_field = models.IntegerField(default=0)
 except ImportError:
     pass
-
-
-class CustomGroup(models.Model):
-    pass

@@ -106,18 +106,6 @@ class ArticleModelTest(TestCase):
 
         expected = '/test_slug/'
 
-        self.assertEqual(url, expected)
-
-    def test_get_absolute_url_if_urlpath_set_is_not_exists(self):
-
-        a = Article.objects.create()
-
-        url = a.get_absolute_url()
-
-        expected = '/1/'
-
-        self.assertEqual(url, expected)
-
     def test_article_is_related_to_articlerevision(self):
 
         title = 'Test title'

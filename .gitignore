@@ -3,7 +3,6 @@
 *.save
 *.saved
 .idea/
-*.pyc
 *.sqlite3
-migrations/
+*.pyc
 website/media/*

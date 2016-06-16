@@ -1,14 +1,24 @@
 
 version: '2'
 services:
-  db:
+  database:
     image: postgres
+    env_file: .env
+    volumes_from:
+      - data
+  data:
+    image: busybox
+    volumes: 
+      - /etc/postgresql
+      - /var/log/postgresql
+      - /var/lib/postgresql
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "sleep 3 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
+    depends_on:
+      - database
+    env_file: .env
     ports:
       - "8000:8000"
-    depends_on:
-      - db

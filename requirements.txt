@@ -2,7 +2,6 @@ django==1.9.2
 gunicorn==17.5
 django-ckeditor==5.0.3
 django-sekizai==0.9.0
-django-user-agents==0.3.0
 django-classy-tags==0.7.2
 django_nyt==0.9.8
 django-mptt==0.8.0

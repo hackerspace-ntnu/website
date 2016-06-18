@@ -138,7 +138,6 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
-    'django_user_agents',
 ]
 from django import VERSION
 if VERSION < (1, 7):

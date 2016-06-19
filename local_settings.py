@@ -1,6 +1,0 @@
-SECRET_KEY = "herPuttesSecretKeyen"
-DEBUG = True
-DOOR_KEY = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-ALLOWED_HOSTS = ''

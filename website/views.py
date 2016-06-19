@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from news.models import Article, Event
 from door.models import DoorStatus
-from local_settings import DEBUG
 from datetime import datetime
 from itertools import chain
 

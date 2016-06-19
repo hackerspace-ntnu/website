@@ -5,4 +5,4 @@ RUN mkdir /gunicorn-logfiles
 COPY requirements.txt /code/
 RUN pip install -r /code/requirements.txt
 WORKDIR /code
-CMD ["sh", "/code/entrypoint.sh"]
+CMD ["bash", "/code/entrypoint.sh"]

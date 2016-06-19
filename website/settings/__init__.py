@@ -6,11 +6,16 @@ import os,sys
 PROJECT_PATH = os_path.abspath(os_path.split(os_path.dirname(__file__))[0])
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+if os.environ["DEBUG"] == "True":
+    DEBUG = True
+else:
+    DEBUG = False
 
-from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-
-if not DEBUG:
-    from local_settings import ALLOWED_HOSTS
+SECRET_KEY = os.environ['SECRET_KEY']
+DOOR_KEY = os.environ['DOOR_KEY']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -60,7 +65,7 @@ BOWER_INSTALLED_APPS = (
 # static files not belonging to specific apps
 STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
 if not DEBUG:
-    STATIC_ROOT = '/home/django/static'
+    STATIC_ROOT = '/code/static'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

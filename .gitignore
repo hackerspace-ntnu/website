@@ -6,3 +6,7 @@
 *.sqlite3
 *.pyc
 website/media/*
+*.env
+static/
+media/
+

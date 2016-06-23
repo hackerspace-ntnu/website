@@ -60,22 +60,6 @@
 }
 
 
-/*@media screen and (max-width: 900px) {
-    #openinghours {
-        left: 20px;
-        animation-name: slidesmall;
-        animation-duration: 0.5s;
-    }
-}
-@keyframes slidesmall {
-    from {left: 230px;}
-    to {left: 20px;}
-}
-@keyframes slidelarge {
-  from {left: 20px;}
-  to {left: 230px;}
-}*/
-
 @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
   #navbar {
     height: 10vh;
@@ -110,10 +94,6 @@
   #burger a img {
     height: 7vh;
   }
-  #slide-out li a {
-    font-size: 8vw;
-    margin: 12vw 1vw;
-  }
   #slide-out li:hover {
     background-color: #fff;
   }
@@ -125,9 +105,6 @@
   }
   #ddicon {
     height: 8vw;
-  }
-  #slide-out {
-    width: 80%;
   }
   #openbar, #closedbar {
     margin-top: 10vh;

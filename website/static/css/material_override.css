@@ -43,6 +43,10 @@ input:focus:not([readonly]) {
 .btn {
   background-color: var(--hs-green);
 }
+
+.btn:hover {
+  background-color: var(--hs-green);
+}
 .dropdown-content li a {
   color: var(--hs-gray-li);
 }

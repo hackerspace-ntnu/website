@@ -11,6 +11,7 @@
 {% endblock header %}
 
 {% block content %}
+  <div id="spacer" style="height:50px"></div>
     {% if request.user|has_group:"member" %}
         <a class='dropdown-button btn' href='#' data-activates='dropdown1' style="position: absolute; width: 100px; margin-left: 10px; margin-top: -40px;">New</a>
         <ul id='dropdown1' class='dropdown-content'style="position: absolute; width: 100px; margin-left: 10px; margin-top: -4px;">

@@ -2,12 +2,13 @@ from datetime import datetime
 
 from django.db import models
 from django.utils import timezone
+from applications.validators import validate_phone_number
 
 
 class Application(models.Model):
 
     # CHANGE THIS DATE TO ALLOW APPLICATIONS
-    APPLICATION_DEADLINE = datetime(2016, 8, 2, 23, 59, 59)
+    APPLICATION_DEADLINE = datetime(2016, 9, 4, 23, 59, 59)
 
     YEAR_CHOICES = ((1, 1),
                     (2, 2),
@@ -24,7 +25,7 @@ class Application(models.Model):
 
     name = models.CharField(max_length=50, verbose_name="Navn")
     email = models.EmailField(verbose_name="Email")
-    phone = models.CharField(max_length=8,verbose_name="Telefon")
+    phone = models.CharField(max_length=8, validators=[validate_phone_number], verbose_name="Telefon")
     study = models.CharField(max_length=255, verbose_name="Studieprogram")
     year = models.IntegerField(verbose_name="Årstrinn", choices=YEAR_CHOICES, default=YEAR_CHOICES[0])
     group_choice = models.CharField(max_length=255, choices=GROUP_CHOICES, verbose_name="Ønsket gruppe")

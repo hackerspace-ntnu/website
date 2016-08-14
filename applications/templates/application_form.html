@@ -3,84 +3,69 @@
 
 {% block header %}
   <link rel="stylesheet" type="text/css" href="{% static "css/application.css" %}">
+
 {% endblock header %}
 
 {% block content %}
   {% if not form.deadline_passed %}
     <h1 id="pageName">Søknad til Hackerspace</h1>
     <div id="applicationForm">
-      <form action="/application/" method="post">
+      <form method="post" id="application-form">
         {% csrf_token %}
 
-        <p id="error-message">{{ form.name.errors }}</p>
-        <div class="input-field">
-          <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-          {{ form.name }}
-        </div>
+        <div class="row">
+          <div id="name" class="input-field col s12">
+            {{ form.name }}
+            {{ form.name.label_tag }}
+          </div>
+          <div id="email" class="input-field col s12">
+            {{ form.email }}
+            {{ form.email.label_tag }}
+          </div>
+          <div id="phone" class="input-field col s12">
+            {{ form.phone }}
+            {{ form.phone.label_tag }}
+          </div>
+          <div id="study" class="input-field col s12">
+            {{ form.study }}
+            {{ form.study.label_tag }}
+          </div>
+          <div id="year" class="input-field col s12">
+            <select id="{{ form.year.id_for_label }}">
+              <option disabled selected value>Velg et årstrinn</option>
+              {% for choice in form.year_choices %}
+                <option value="{{ choice }}">{{ choice }}</option>
+              {% endfor %}
+            </select>
+            <label for="{{ form.year.id_for_label }}">{{ form.year.label }}</label>
+          </div>
+          <div id="group_choice" class="input-field col s12">
+            <select id="{{ form.group_choice.id_for_label }}">
+              <option disabled selected value>Velg en gruppe</option>
+              {% for choice in form.group_choices %}
+                <option value="{{ choice }}">{{ choice }}</option>
+              {% endfor %}
+            </select>
+            <label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
+          </div>
+          <div id="knowledge_of_hs" class="input-field col s12">
+            {{ form.knowledge_of_hs }}
+            {{ form.knowledge_of_hs.label_tag }}
+          </div>
 
-        <p id="error-message">{{ form.email.errors }}</p>
-        <div class="input-field">
-          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-          {{ form.email }}
+          <div id="about" class="input-field col s12">
+            <textarea id="about-input" class="materialize-textarea"
+                      name="{{ form.about.name }}"></textarea>
+            <label for="about-input" id="custom-label">{{ form.about.label }}</label>
+          </div>
+          <div id="application_text" class="input-field col s12">
+            <textarea id="application-text-input" class="materialize-textarea"
+                      name="{{ form.application_text.name }}"></textarea>
+            <label for="application-text-input" id="custom-label">{{ form.application_text.label }}</label>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">Send
+          </button>
         </div>
-
-        <p id="error-message">{{ form.phone.errors }}</p>
-        <div class="input-field">
-          <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
-          {{ form.phone }}
-        </div>
-
-        <p id="error-message">{{ form.study.errors }}</p>
-        <div class="input-field">
-          <label for="{{ form.study.id_for_label }}">{{ form.study.label }}</label>
-          {{ form.study }}
-        </div>
-        <br>
-        <p id="error-message">{{ form.year.errors }}</p>
-        <div class="input-field" id="year">
-          <select id="{{ form.year.id_for_label }}">
-            <option disabled selected value>Velg et årstrinn</option>
-            {% for choice in form.year_choices %}
-              <option value="{{ choice }}">{{ choice }}</option>
-            {% endfor %}
-          </select>
-          <label for="{{ form.year.id_for_label }}">{{ form.year.label }}</label>
-        </div>
-        <br>
-
-        <p id="error-message">{{ form.group_choice.errors }}</p>
-        <div class="input-field" id="group_choice">
-          <select name="{{ form.group_choice.id_for_label }}">
-            <option disabled selected value>Velg en gruppe</option>
-            {% for choice in form.group_choices %}
-              <option value="{{ choice }}">{{ choice }}</option>
-            {% endfor %}
-          </select>
-          <label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
-        </div>
-
-        <br>
-        <p id="error-message">{{ form.knowledge_of_hs.errors }}</p>
-        <div class="input-field">
-          <label for="{{ form.knowledge_of_hs.id_for_label }}">{{ form.knowledge_of_hs.label }}</label>
-          {{ form.knowledge_of_hs }}
-        </div>
-
-        <p id="error-message">{{ form.about.errors }}</p>
-        <div class="input-field">
-          <textarea id="{{ form.about.id_for_label }}" name="about" class="materialize-textarea">{{ form.about.value }}</textarea>
-          <label for="{{ form.about.id_for_label }}">{{ form.about.label }}</label>
-        </div>
-
-        <p id="error-message">{{ form.application_text.errors }}</p>
-        <div class="input-field">
-                    <textarea id="{{ form.application_text.id_for_label }}" name="application_text"
-                              class="materialize-textarea">{{ form.application_text.value }}</textarea>
-          <label for="{{ form.application_text.id_for_label }}">{{ form.application_text.label }}</label>
-        </div>
-
-        <button class="btn waves-effect waves-light" type="submit" name="action">Send
-        </button>
       </form>
     </div>
 
@@ -94,6 +79,7 @@
         $('#year input').attr("value", "{{ form.year.value }}")
       });
     </script>
+    <script type="text/javascript" src="{% static 'js/applications.js' %}"></script>
   {% else %}
     <h1 id="pageName">Fristen har gått ut</h1>
   {% endif %}

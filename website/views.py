@@ -7,7 +7,7 @@ from itertools import chain
 
 def index(request):
 
-    number_of_news = 4
+    number_of_news = 3
 
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
     event_list = Event.objects.filter(time_end__gte=datetime.now())[0:number_of_news:-1]

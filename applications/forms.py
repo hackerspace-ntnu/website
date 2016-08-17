@@ -18,11 +18,6 @@ class ApplicationForm(ModelForm):
         else:
             return False
 
-    def clean(self):
-        cleaned_data = super(ApplicationForm, self).clean()
-        phone = cleaned_data.get("phone")
-
-
     class Meta:
         model = Application
         fields = ['name',

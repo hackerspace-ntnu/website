@@ -14,7 +14,6 @@ function ajax_post($form, url, redirectUrl) {
 
     // Serialize data and do ajax request
     var serializedData = $form.serialize();
-    console.log(serializedData);
     $.ajax({
         url: url,
         type: "post",

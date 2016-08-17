@@ -8,7 +8,7 @@ from applications.validators import validate_phone_number
 class Application(models.Model):
 
     # CHANGE THIS DATE TO ALLOW APPLICATIONS
-    APPLICATION_DEADLINE = datetime(2016, 9, 4, 23, 59, 59)
+    APPLICATION_DEADLINE = datetime(2016, 9, 11, 23, 59, 59)
 
     YEAR_CHOICES = ((1, 1),
                     (2, 2),
@@ -20,7 +20,6 @@ class Application(models.Model):
     GROUP_CHOICES = (("DEVOPS", "DEVOPS"),
                      ("PR", "PR"),
                      ("LABOPS", "LABOPS"),
-                     ("PROSJEKT", "PROSJEKT"),
                      )
 
     name = models.CharField(max_length=50, verbose_name="Navn")

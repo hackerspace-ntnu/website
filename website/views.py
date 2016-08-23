@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
 from datetime import datetime
@@ -6,7 +8,6 @@ from itertools import chain
 
 
 def index(request):
-
     number_of_news = 3
 
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
@@ -24,6 +25,10 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+
+def opptak(request):
+    return HttpResponse(reverse('application_form'))
 
 
 def test404(request):

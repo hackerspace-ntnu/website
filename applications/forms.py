@@ -6,7 +6,6 @@ from .models import Application
 
 
 class ApplicationForm(ModelForm):
-
     # Creates a list with the choices
     year_choices = [choice[1] for choice in Application.YEAR_CHOICES]
     group_choices = [choice[1] for choice in Application.GROUP_CHOICES]
@@ -18,20 +17,6 @@ class ApplicationForm(ModelForm):
             return True
         else:
             return False
-
-    # Checks if the phone number is valid
-    def custom_validation(self):
-        try:
-            int(self.cleaned_data['phone'])
-            if len(self.cleaned_data['phone']) != 8:
-                message = "Ugyldig nummer"
-                self.add_error("phone", message)
-                return False
-        except ValueError:
-            message = "Ugyldig nummer"
-            self.add_error("phone", message)
-            return False
-        return True
 
     class Meta:
         model = Application
@@ -49,7 +34,3 @@ class ApplicationForm(ModelForm):
 
         for field in fields:
             error_messages[field] = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
-
-
-
-

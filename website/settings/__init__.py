@@ -2,16 +2,25 @@ from __future__ import absolute_import
 from __future__ import unicode_literals
 # -*- coding: utf-8 -*-
 from os import path as os_path
-import os,sys
+import os, sys
+
 PROJECT_PATH = os_path.abspath(os_path.split(os_path.dirname(__file__))[0])
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-from local_settings import SECRET_KEY, DEBUG, DOOR_KEY, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DATABASE_USERNAME,\
-    DATABASE_PASSWORD
+if os.environ.get("DEBUG") == "False":
+    DOOR_KEY = os.environ.get('DOOR_KEY')
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    DEBUG = False
+else:
+    DEBUG = True
+    SECRET_KEY = "SecretKey"
 
-if not DEBUG:
-    from local_settings import ALLOWED_HOSTS
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -21,18 +30,18 @@ if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': 'database',
         }
     }
 else:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hsdb',
-        'USER': DATABASE_USERNAME,
-        'PASSWORD': DATABASE_PASSWORD,
-        'HOST': 'localhost',
-        'PORT': '',
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('POSTGRES_USER'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': 'database',
+            'PORT': '5432',
         }
     }
 
@@ -48,9 +57,9 @@ SITE_ID = 1
 
 USE_I18N = True
 USE_L10N = True
-#USE_TZ = True
+# USE_TZ = True
 
-MEDIA_ROOT = os.path.join(PROJECT_PATH, "media")
+MEDIA_ROOT = '/code/media'
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
@@ -67,9 +76,9 @@ BOWER_INSTALLED_APPS = (
 )
 
 # static files not belonging to specific apps
-STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static',),)
+STATICFILES_DIRS = (os.path.join(PROJECT_PATH, 'static', ),)
 if not DEBUG:
-    STATIC_ROOT = '/home/django/static'
+    STATIC_ROOT = '/code/static'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -147,9 +156,9 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
-    'django_user_agents',
 ]
 from django import VERSION
+
 if VERSION < (1, 7):
     INSTALLED_APPS.append('south')
 else:
@@ -188,13 +197,14 @@ WIKI_ANONYMOUS_WRITE = False
 WIKI_ANONYMOUS_CREATE = False
 
 # Do not user /accounts/profile as default
-#LOGIN_REDIRECT_URL = "/"
+# LOGIN_REDIRECT_URL = "/"
 from django.core.urlresolvers import reverse_lazy
-LOGIN_REDIRECT_URL = reverse_lazy('wiki:get', kwargs={'path': ''})
 
+LOGIN_REDIRECT_URL = reverse_lazy('wiki:get', kwargs={'path': ''})
 
 try:
     import debug_toolbar  # @UnusedImport
+
     MIDDLEWARE_CLASSES = list(MIDDLEWARE_CLASSES) + [
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
@@ -204,14 +214,11 @@ try:
 except ImportError:
     pass
 
-
 # "Secret" key for the prepopulated db
 
 EMAIL_HOST = '173.194.71.108'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-
-
 
 try:
     from website.settings.local import *

@@ -1,0 +1,26 @@
+
+version: '2'
+services:
+  database:
+    restart: always
+    image: postgres
+    env_file: .env
+    volumes_from:
+      - data
+  data:
+    restart: always
+    image: busybox
+    volumes: 
+      - /etc/postgresql
+      - /var/log/postgresql
+      - /var/lib/postgresql
+  web:
+    restart: always
+    build: .
+    volumes:
+      - .:/code
+    depends_on:
+      - "database"
+    env_file: .env
+    ports:
+      - "8000:8000"

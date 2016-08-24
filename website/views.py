@@ -1,14 +1,14 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
-from local_settings import DEBUG
 from datetime import datetime
 from itertools import chain
 
 
 def index(request):
-
-    number_of_news = 4
+    number_of_news = 3
 
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
     event_list = Event.objects.filter(time_end__gte=datetime.now())[0:number_of_news:-1]
@@ -25,6 +25,10 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+
+def opptak(request):
+    return HttpResponseRedirect(reverse('article', args=[6]))
 
 
 def test404(request):

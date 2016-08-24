@@ -3,8 +3,9 @@
 *.save
 *.saved
 .idea/
-*.pyc
-local_settings.py
 *.sqlite3
-migrations/
-website/media/*
+*.pyc
+*.env
+static/
+media/*
+

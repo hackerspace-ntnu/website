@@ -28,3 +28,9 @@ ul.errorlist {
   color: var(--hs-red);
 }
 
+.errorlist {
+    color: var(--hs-red);
+    margin-top: -1.0em;
+    margin-bottom: 10px;
+}
+

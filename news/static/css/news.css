@@ -57,7 +57,7 @@ h1 {
     max-height: 40vh;
   }
   .news-image {
-    transform: translate(-30%, -30%);
+    transform: translate(-50%, -50%);
   }
   p {
     font-size: 18pt;

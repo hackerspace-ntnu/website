@@ -28,7 +28,7 @@ def index(request):
 
 
 def opptak(request):
-    return HttpResponseRedirect(reverse('application_form'))
+    return HttpResponseRedirect(reverse('article', args=[6]))
 
 
 def test404(request):

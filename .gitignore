@@ -6,6 +6,5 @@
 *.sqlite3
 *.pyc
 *.env
-static/
 media/*
 

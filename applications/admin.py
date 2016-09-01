@@ -1,6 +1,10 @@
 from django.contrib import admin
-
 from .models import Application
 
-admin.site.register(Application)
-# Register your models here.
+class ApplicationAdmin(admin.ModelAdmin):
+    list_display = [
+        '__str__',
+        'group_choice',
+    ]
+
+admin.site.register(Application, ApplicationAdmin)

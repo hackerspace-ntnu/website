@@ -26,9 +26,10 @@
   border: solid 1px var(--hs-green);
 }
 
-h1 {
+#page-title {
   color: var(--hs-gray-dk);
   text-align: center;
+  word-wrap: break-word;
 }
 
 #content p {

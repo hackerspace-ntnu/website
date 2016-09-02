@@ -1,6 +1,6 @@
 import uuid
-from datetime import datetime, timedelta
-
+from datetime import timedelta
+from django.utils import timezone
 from django.contrib.auth.admin import User
 from django.db import models
 
@@ -27,4 +27,4 @@ class UserAuthentication(models.Model):
 
     # Checks if the authentication object is expired
     def expired(self):
-        return not datetime.now() < timedelta(hours=VALID_TIME) + self.created
+        return not timezone.now() < timedelta(hours=VALID_TIME) + self.created

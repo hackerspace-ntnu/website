@@ -13,7 +13,6 @@ import html.parser
 
 DOOR_NAME = "hackerspace"
 
-
 @csrf_exempt
 def door_post(request):
     if request.method == 'POST':
@@ -23,53 +22,33 @@ def door_post(request):
         data = json.loads(unico)
 
         # Authenticate message
-        if 'key' in data:
-            if data['key'] == settings.DOOR_KEY:
+        if 'key' in data and 'status' in data:
+            if data['key'] == 'key':
+                status = data['status']
+                door_status_object = DoorStatus.get_door_by_name(DOOR_NAME)
 
-                if 'status' in data:
-                    status = data['status']
-                    door_status_object = DoorStatus.get_door_by_name(DOOR_NAME)
+                # Door open
+                if status is True and door_status_object.status == False:
+                    # Save status and time to door status object
+                    door_status_object.status = status
+                    door_status_object.datetime = timezone.now()
+                    door_status_object.save()
 
-                    # Door open
-                    if status is True:
-                        # Save status to door status object
-                        door_status_object.status = status
-                        door_status_object.save()
+                # Door closed
+                elif status is False and door_status_object.status == True:
+                    # Create OpenData object with open and close datetime
+                    open_data = OpenData(opened=door_status_object.datetime, closed=timezone.now())
+                    open_data.save()
 
-                        # Save datetime to door status object
-                        if 'timeStart' in data and 'dateStart' in data:
-                            time_start = data['timeStart']
-                            date_start = data['dateStart']
-                            opened = datetime.strptime(date_start + "." + time_start, "%Y-%m-%d.%H:%M:%S")
-                            door_status_object.datetime = opened
-                            door_status_object.save()
+                    # Save status and time to door status object
+                    door_status_object.status = status
+                    door_status_object.datetime = timezone.now()
+                    door_status_object.save()
 
-                    # Door closed
-                    elif status is False:
-                        # Save status to door status object
-                        door_status_object.status = status
-                        door_status_object.save()
-
-                        if 'timeStart' in data and 'dateStart' in data and 'timeEnd' in data and 'dateEnd' in data:
-                            time_start = data['timeStart']
-                            date_start = data['dateStart']
-                            time_end = data['timeEnd']
-                            date_end = data['dateEnd']
-                            opened = datetime.strptime(date_start + "." + time_start, "%Y-%m-%d.%H:%M:%S")
-                            closed = datetime.strptime(date_end + "." + time_end, "%Y-%m-%d.%H:%M:%S")
-
-                            # Create OpenData object with open and close datetime
-                            open_data = OpenData(opened=opened, closed=closed)
-                            open_data.save()
-
-                            # Limit amount of OpenData objects to 50
-                            current_index = open_data.id
-                            old = OpenData.objects.filter(id__lte=current_index - 50)
-                            old.delete()
-
-                            # Save datetime to door status object
-                            door_status_object.datetime = closed
-                            door_status_object.save()
+                    # Limit amount of OpenData objects to 50
+                    current_index = open_data.id
+                    old = OpenData.objects.filter(id__lte=current_index - 50)
+                    old.delete()
     return HttpResponse(" ")
 
 

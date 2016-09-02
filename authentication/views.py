@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 
 from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm, SetPasswordForm
-from website.settings import EMAIL_HOST_USER
+from website.settings import DEFAULT_FROM_MAIL
 from .models import UserAuthentication
 
 
@@ -208,7 +208,7 @@ def signup_done(request):
 def send_password_email(subject, message, email):
     send_mail(subject,
               message,
-              '%s'.format(EMAIL_HOST_USER),
+              '%s'.format(DEFAULT_FROM_MAIL),
               [email],
               fail_silently=False,
               html_message=message)

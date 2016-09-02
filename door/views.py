@@ -23,7 +23,7 @@ def door_post(request):
 
         # Authenticate message
         if 'key' in data and 'status' in data:
-            if data['key'] == 'key':
+            if data['key'] == settings.DOOR_KEY:
                 status = data['status']
                 door_status_object = DoorStatus.get_door_by_name(DOOR_NAME)
 

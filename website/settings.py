@@ -14,6 +14,7 @@ SECRET_KEY = "DefaultSecretKey"
 ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
+APPEND_SLASH = True
 
 ADMINS = (
 	('devops', 'hackerspace-dev@idi.ntnu.no'),

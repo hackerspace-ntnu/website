@@ -33,6 +33,7 @@
 }
 
 #content p {
+  word-wrap: break-word;
   font-size: 15pt;
   color: var(--hs-gray-dk);
   width: 95%;

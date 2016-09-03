@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 	'applications',
 	'news',
 	'door',
+	'files',
 	'ckeditor',
 	'ckeditor_uploader',
 	'sekizai',

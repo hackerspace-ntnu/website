@@ -25,8 +25,8 @@ urlpatterns = [
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
     url(r'^opptak/$', opptak, name='opptak'),
     url(r'^test/$', test, name="500-test"),
+    url(r'^files/', include('files.urls')),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
@@ -36,15 +36,15 @@ if settings.DEBUG:
 
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_notify_pattern
+
 urlpatterns += [
     url(r'^notify/', get_notify_pattern()),
     url(r'^wiki/', get_wiki_pattern())
 ]
 
-
 if settings.DEBUG:
     from website.views import handler404
+
     urlpatterns += [
         url(r'test404', handler404, name='404')
     ]
-

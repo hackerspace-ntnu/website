@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+  <link href="{% static "css/images.css" %}" rel="stylesheet">
+  <link href="{% static "css/button_image.css" %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+  <div id="content">
+
+    <div id="top">
+      <form id="searchForm" action="/files/images/" method="post">
+        <!-- <label>Title or tag:</label> -->
+        {% csrf_token %}
+        <input id="id_search" name="search" type="text" maxlength="100" value="{{ searchText }}">
+        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Search
+          <img src="{% static "img/ic_search_white_24px.svg" %}">
+        </button>
+      </form>
+      <a id="upload" class="waves-effect waves-light btn">Upload<img src="{% static "img/ic_file_upload_white_24px.svg" %}"></a>
+      </top>
+    </div>
+
+    <div id="images">
+      {% for image in images %}
+      <div class="imageItem card" image="{{ image.url }}">
+        <div class="card-image" style="background-image: url({{ image.url }});"></div>
+        <div class="card-content">
+          <p>
+            {% if image.title|length > 18 %}
+              {{ image.title|slice:":15"|capfirst }}...
+            {% else %}
+              {{ image.title|capfirst }}
+              {% if image.number > 1 %}
+                {{ image.number }}
+              {% endif %}
+            {% endif %}
+          </p>
+          <p class="date">
+            {{ image.time|date:"M d, Y, H:i:s" }}
+          </p>
+        </div>
+        <div class="card actions">
+          <div class="relative">
+            <a class="waves-effect waves-light btn previewButton blue" previewImage="{{ image.url }}">Preview</a>
+            <a class="waves-effect waves-light btn selectButton green" selectID={{ image.id }} selectImage="{{ image.url }}">Select</a>
+            <a class="waves-effect waves-light btn editButton orange" href="/files/image/{{ image.id }}/edit">Edit</a>
+            <a url="/files/image/{{ image.id }}/delete/" class="waves-effect waves-light btn delete deleteButton red">Delete</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% include 'imagepopup.html' %}
+  </div>
+
+
+  <script>
+    $(".imageItem").click(function() {
+      if ($(this).hasClass("selected")) {
+        $(".imageItem").removeClass("selected");
+        $(".actions").css("display", "none");
+      } else {
+        $(".imageItem").removeClass("selected");
+        $(".actions").css("display", "none");
+        $(this).addClass("selected");
+        $(this).children(".actions").css("display", "inline");
+      }
+    });
+
+    $("#upload").click(function() {
+      uploadWindow = window.open('/files/image-upload/');
+    });
+
+    $(".selectButton").click(function() {
+      var src = $(this).attr("selectImage");
+      var id = $(this).attr("selectID");
+      window.opener.selectThumnail(src, id);
+    });
+
+    function doneUploading(src) {
+      uploadWindow.close();
+      location.reload();
+    }
+  </script>
+
+{% include 'delete.html' %}
+{% endblock content %}

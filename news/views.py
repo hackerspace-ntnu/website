@@ -10,6 +10,7 @@ from itertools import chain
 from wiki.templatetags import check_user_group as groups
 from django.contrib.auth.admin import User
 from django.contrib.auth.decorators import login_required
+from files.models import Image
 
 
 def event(request, event_id):
@@ -78,7 +79,12 @@ def edit_event(request, event_id):
             event.main_content = form.cleaned_data['main_content']
             event.registration = form.cleaned_data['registration']
             event.max_limit = form.cleaned_data['max_limit']
-            event.thumbnail = form.cleaned_data['thumbnail']
+            thumbnail_raw = form.cleaned_data['thumbnail']
+            try:
+                thumb_id = int(thumbnail_raw)
+                event.thumbnail = Image.objects.get(id=thumb_id)
+            except (TypeError, ObjectDoesNotExist):
+                event.thumbnail = None
             event.place = form.cleaned_data['place']
             event.place_href = form.cleaned_data['place_href']
             # Create date from string input
@@ -102,12 +108,18 @@ def edit_event(request, event_id):
             })
         else:
             event = get_object_or_404(Event, pk=event_id)
+
+            try:
+                thumb_id = event.thumbnail.id
+            except AttributeError:
+                thumb_id = 0
+
             # Set values for edit-form
             form = EventEditForm(initial={
                 'title': event.title,
                 'ingress_content': event.ingress_content,
                 'main_content': event.main_content,
-                'thumbnail': event.thumbnail,
+                'thumbnail': thumb_id,
                 'max_limit': event.max_limit,
                 'registration': event.registration,
                 'place': event.place,
@@ -136,7 +148,12 @@ def edit_article(request, article_id):
             article.title = form.cleaned_data['title']
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
-            article.thumbnail = form.cleaned_data['thumbnail']
+            thumbnail_raw = form.cleaned_data['thumbnail']
+            try:
+                thumb_id = int(thumbnail_raw)
+                article.thumbnail = Image.objects.get(id=thumb_id)
+            except (TypeError, ObjectDoesNotExist):
+                article.thumbnail = None
             article.save()
             log_changes.change(request, article)
 
@@ -146,12 +163,18 @@ def edit_article(request, article_id):
             form = ArticleEditForm()
         else:
             article = get_object_or_404(Article, pk=article_id)
+
+            try:
+                thumb_id = article.thumbnail.id
+            except AttributeError:
+                thumb_id = 0
+
             # Set values for edit-form
             form = ArticleEditForm(initial={
                 'title': article.title,
                 'ingress_content': article.ingress_content,
                 'main_content': article.main_content,
-                'thumbnail': article.thumbnail,
+                'thumbnail': thumb_id,
             })
     context = {
         'form': form,

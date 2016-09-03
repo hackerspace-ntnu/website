@@ -30,17 +30,31 @@
                 <label>{{ form.main_content.label }}</label>
                 {{ form.main_content }}
 
-                {{ form.thumbnail.errors }}
-                <div class="input-field">
-                  <label for="{{ form.thumbnail.id_for_label }}">{{ form.thumbnail.label }}</label>
-                  {{ form.thumbnail }}
+                <div style="display: none;">
+                  {{ form.thumbnail.errors }}
+                  <div class="input-field">
+                    <label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
+                    <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
+                  </div>
                 </div>
 
-                <p><label></label>
-                  <img id="thumbnail_picker" alt="Klikk her for å velge bilde." src="" style="width:360px; height:200px;"></img>
-                </p>
+                <label>Thumbnail</label><br>
+                <div class="imageItem card thumbnailPicker">
+                  <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
+                </div>
 
-                <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
+                <script>
+                  $(".thumbnailPicker").click(function() {
+                      thumbWindow = window.open('/files/images');
+                  });
+
+                  function selectThumnail(src, id) {
+                      thumbWindow.close();
+                      $("input[name^=thumbnail]").val(id);
+                      $(".thumbnailPicker").find("div").css("background-image", "url("+src+")");
+                      console.log(src, id);
+                  }
+                </script>
 
                 <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
             </form>

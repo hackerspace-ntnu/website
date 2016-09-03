@@ -33,7 +33,7 @@ class Event(models.Model):
     thumbnail = models.ForeignKey(Image, blank=True, null=True, related_name='%(app_label)s_%(class)s_related_thumb')
 
     registration = models.BooleanField(default=False)
-    max_limit = models.PositiveIntegerField(blank=True, default=0)
+    max_limit = models.PositiveIntegerField(blank=True, null=True, default=0)
     registered_users = models.PositiveIntegerField(blank=True, default=0)
 
     time_start = models.DateTimeField('Start time')

@@ -61,10 +61,10 @@
   .news-image {
     transform: translate(-50%, -50%);
   }
-  p {
+  #content p {
     font-size: 18pt;
   }
-  p:first-of-type {
+  #content p:first-of-type {
     font-size: 22pt;
   }
 }

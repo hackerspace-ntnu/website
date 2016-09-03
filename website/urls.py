@@ -10,6 +10,9 @@ from website.views import index, opptak
 
 admin.autodiscover()
 
+handler404 = 'website.views.handler404'
+handler500 = 'website.views.handler500'
+
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
@@ -39,7 +42,8 @@ urlpatterns += [
 
 
 if settings.DEBUG:
-    from website.views import test404
+    from website.views import handler404
     urlpatterns += [
-        url(r'test404', test404, name='404')
+        url(r'test404', handler404, name='404')
     ]
+

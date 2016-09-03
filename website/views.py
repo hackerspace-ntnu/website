@@ -31,5 +31,8 @@ def opptak(request):
     return HttpResponseRedirect(reverse('article', args=[6]))
 
 
-def test404(request):
+def handler404(request):
     return render(request, '404.html')
+
+def handler500(request):
+    return render(request, '500.html')

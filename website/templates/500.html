@@ -1,16 +1,26 @@
-{% extends "wiki/base.html" %}
-{% load wiki_tags i18n %}
+{% extends "base.html" %}
+{% load staticfiles %}
 
-{% block pagetitle %}{% trans "500 Server err" %}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/error.css" %}">
+{% endblock head %}
 
-{% block wiki_breadcrumbs %}{% endblock %}
+{% block content %}
+    <main>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <h1 class="center-align red-text darken-4" style="font-weight:300;">500 - Uventet feil</h1>
+                </div>
+                <div>
+                    <p class="flow-text center-align">
+                        Oi, noe gikk visst galt.
+                    </p>
 
-{% block wiki_contents %}
-
-<h1 class="page-header">{% trans "500 - ERROR" %}</h1>
-
-<div class="error">
-  <p>{% trans "Oh god no the demo has failed. Please rest asured that an open source developer is the logs to resolve this, because it's fun!!" %}</p>
-</div>
-
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
 {% endblock %}

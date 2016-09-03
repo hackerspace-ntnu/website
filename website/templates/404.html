@@ -5,16 +5,23 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/error.css" %}">
 {% endblock head %}
 
-{% block errors %}
-    <h1 class="404" >404</h1>
-    <h2 class="404">NOT FOUND</h2>
-    <div style="text-align: center;">
-        <h2 style="font-size: 30pt; display: inline-block; font-weight: 600;">Whoops!</h2>
-        <h3 style="margin: 0 auto; display: inline-block;">
-            Either we fucked up or you did. Did you want to go to the
-            <a href="{% url 'wiki:root' %}">wiki</a>
-            or
-            <a href="{% url 'index' %}">front page</a>?
-        </h3>
+{% block content %}
+    <main>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <h1 class="center-align red-text darken-4" style="font-weight:300;">404 - Ikke funnet</h1>
+                </div>
+                <div>
+                    <p class="flow-text center-align">
+                        Vi finner ikke det du leter etter. Kanskje
+                <a href="{% url 'wiki:root' %}">wikien</a>
+                eller
+                <a href="{% url 'index' %}">forsiden</a> kan hjelpe deg?</p>
+                </div>
+            </div>
+        </div>
     </div>
+    </main>
 {% endblock %}

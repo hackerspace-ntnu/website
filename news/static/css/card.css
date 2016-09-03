@@ -147,8 +147,11 @@
     font-size: 6vw;
   }
   .news .card-action a {
-    font-size: 3vw;
-    max-width: 20vw;
+    vertical-align: middle;
+    font-size: 6vw;
+    padding-top: 4vw;
+    padding-bottom: 4vw;
+    max-width: 40vw;
     margin: 0 !important;
   }
 }

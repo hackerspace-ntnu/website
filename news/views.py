@@ -83,7 +83,7 @@ def edit_event(request, event_id):
             try:
                 thumb_id = int(thumbnail_raw)
                 event.thumbnail = Image.objects.get(id=thumb_id)
-            except (TypeError, Image.DoesNotExist):
+            except (TypeError, ValueError, Image.DoesNotExist):
                 event.thumbnail = None
             event.place = form.cleaned_data['place']
             event.place_href = form.cleaned_data['place_href']
@@ -152,7 +152,7 @@ def edit_article(request, article_id):
             try:
                 thumb_id = int(thumbnail_raw)
                 article.thumbnail = Image.objects.get(id=thumb_id)
-            except (TypeError, Image.DoesNotExist):
+            except (TypeError, ValueError, Image.DoesNotExist):
                 article.thumbnail = None
             article.save()
             log_changes.change(request, article)

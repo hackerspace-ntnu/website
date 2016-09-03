@@ -130,8 +130,8 @@ MIDDLEWARE_CLASSES = [
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 if not DEBUG:
-	STATIC_ROOT = '/code/static'
-	MEDIA_ROOT = '/code/media'
+	STATIC_ROOT = '/static'
+	MEDIA_ROOT = '/media'
 
 CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
 CKEDITOR_BROWSE_SHOW_DIRS = True

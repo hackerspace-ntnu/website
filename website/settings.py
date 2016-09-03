@@ -130,16 +130,14 @@ MIDDLEWARE_CLASSES = [
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 if not DEBUG:
-	STATIC_ROOT = '/static'
-	MEDIA_ROOT = '/media'
+	STATIC_ROOT = '/code/static'
+	MEDIA_ROOT = '/code/media'
 
 CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
 CKEDITOR_BROWSE_SHOW_DIRS = False
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static', ),)
 
 STATICFILES_FINDERS = (
 	'django.contrib.staticfiles.finders.FileSystemFinder',

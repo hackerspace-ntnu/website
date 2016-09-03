@@ -9,8 +9,23 @@ h2 {
   text-align: center;
 }
 
-#thumbnail_picker {
-  border-radius: 4px;
+.imageItem {
+  width: 180px;
+  height: 180px;
+  position: relative;
+  margin: 6px 8px;
+  margin-bottom: 20px;
+  border: 3px solid rgba(0,0,0,0);
+}
+
+.card-image {
+  position: relative;
+  height: 165px;
+  width: 165px;
+  margin: 5px;
+  background-position: center center;
+  background-size: cover;
+  border-radius: 3px;
 }
 
 .btn {

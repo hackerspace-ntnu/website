@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
     url(r'^opptak/$', opptak, name='opptak'),
+    url(r'^files/', include('files.urls')),
 ]
 
 

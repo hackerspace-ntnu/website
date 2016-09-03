@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<link href="{% static "css/imagepopup.css" %}" rel="stylesheet">
+<link href="{% static "css/button_image.css" %}" rel="stylesheet">
+
+<div id="imagepopup">
+  <a id="imagepopupIco" class="btn-floating btn-large waves-effect waves-light red"><img class="floatIcoImg" src="{% static "img/ic_clear_white_24px.svg" %}"></a>
+  <img id="imagepopupImg" class="card">
+</div>
+
+<script>
+  $(".previewButton").click(function() {
+    var src = $(this).attr("previewImage");
+    $("#imagepopupImg").attr("src", src);
+    $("#imagepopup").css("display", "inline");
+  });
+
+  $("#imagepopupIco").click(function() {
+    $("#imagepopup").css("display", "none");
+  });
+
+  $("#imagepopup").click(function() {
+    $("#imagepopup").css("display", "none");
+  });
+</script>

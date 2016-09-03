@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.contrib.auth.admin import User
+from files.models import Image
 
 
 class Article(models.Model):
@@ -10,7 +11,7 @@ class Article(models.Model):
     ingress_content = RichTextUploadingField(blank=True)
 
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.CharField(max_length=200, blank=True)
+    thumbnail = models.ForeignKey(Image, blank=True, null=True, related_name='%(app_label)s_%(class)s_related_thumb')
 
     def __str__(self):
         return self.title
@@ -29,7 +30,7 @@ class Event(models.Model):
     main_content = RichTextUploadingField(blank=True)
     ingress_content = RichTextUploadingField(blank=True)
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.CharField(max_length=200, blank=True)
+    thumbnail = models.ForeignKey(Image, blank=True, null=True, related_name='%(app_label)s_%(class)s_related_thumb')
 
     registration = models.BooleanField(default=False)
     max_limit = models.PositiveIntegerField(blank=True, default=0)

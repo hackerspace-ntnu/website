@@ -28,7 +28,7 @@ def index(request):
 
 
 def opptak(request):
-    return HttpResponseRedirect(reverse('article', args=[6]))
+    return HttpResponseRedirect(reverse('article', args=[7]))
 
 
 def test(request):

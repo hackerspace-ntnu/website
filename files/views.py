@@ -11,35 +11,40 @@ from news.templatetags import check_user_group as groups
 def findId(title):
     number = 1
     for element in Image.objects.order_by('-time'):
-        if title.lower() == element.title.lower():
+        savename = element.title.lower()
+        while ' ' in savename:
+            savename = savename.replace(' ', '_')
+        if title.lower() == savename:
             return element.number + 1
     return number
 
 def fileExt(name):
-    return name.split(".")[-1:][0]
+    return name.split('.')[-1:][0]
 
 def saveImage(file, title, description, tags):
-    while " " in title:
-        title = title.replace(" ", "_")
-    number = findId(title)
+    savename = title.lower()
+    while " " in savename:
+        savename = savename.replace(' ', '_')
+    number = findId(savename)
     if number > 1:
-        file.name = title.lower()+"_"+str(number)+"."+fileExt(file.name)
+        file.name = savename + '_'+str(number) + '.' + fileExt(file.name)
     else:
-        file.name = title.lower()+"."+fileExt(file.name)
+        file.name = savename + '.' + fileExt(file.name)
     instance = Image(file=file, title=title, description=description, tags=tags, time=timezone.now(), number=number)
     instance.save()
     return instance
 
 def renameImage(instance, title):
-    while " " in title:
-        title = title.replace(' ', '_')
+    savename = title.lower()
+    while ' ' in savename:
+        savename = savename.replace(' ', '_')
     instance.number = findId(title)
     oldpath = instance.file.name
     directory = settings.MEDIA_ROOT
     if instance.number > 1:
-        instance.file.name = 'images/'+title.lower()+'_'+str(instance.number)+'.'+fileExt(instance.file.name)
+        instance.file.name = 'images/'+savename+'_'+str(instance.number)+'.'+fileExt(instance.file.name)
     else:
-        instance.file.name = 'images/'+title.lower()+'.'+fileExt(instance.file.name)
+        instance.file.name = 'images/'+savename+'.'+fileExt(instance.file.name)
     #try:
     os.rename(directory+'/'+oldpath, directory+'/'+instance.file.name)
     #except FileNotFoundError:
@@ -52,7 +57,7 @@ def imageUpload(request):
         if request.method == 'POST':
             form = ImageUpload(request.POST, request.FILES)
             if form.is_valid():
-                img = saveImage(request.FILES['file'], form.cleaned_data['title'], form.cleaned_data['description'],form.cleaned_data['tags'])
+                img = saveImage(request.FILES['file'], form.cleaned_data['title'], form.cleaned_data['description'], form.cleaned_data['tags'])
                 context = {
                     'src': img.file.name,
                 }
@@ -125,7 +130,7 @@ def imageEdit(request, image_id):
                     image = Image.objects.get(pk=image_id)
                     title = form.cleaned_data['title']
                     if title != image.title:
-                        image = renameImage(image, form.cleaned_data['title'])
+                        image = renameImage(image, title)
                     image.title = title
                     image.description = form.cleaned_data['description']
                     image.tags = form.cleaned_data['tags']

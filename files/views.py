@@ -74,7 +74,7 @@ def imageUpload(request):
         }
         return render(request, 'image_upload.html', context)
     else:
-        return HttpResponseRedirect('/login')
+        return HttpResponseRedirect('/authentication/login')
 
 def images(request):
     if groups.has_group(request.user, 'member'):
@@ -100,7 +100,7 @@ def images(request):
         }
         return render(request, 'images.html', context)
     else:
-        return HttpResponseRedirect('/login')
+        return HttpResponseRedirect('/authentication/login')
 
 def imageDelete(request, image_id):
     if groups.has_group(request.user, 'member'):
@@ -112,7 +112,7 @@ def imageDelete(request, image_id):
             pass
         return HttpResponseRedirect('/files/images')
     else:
-        return HttpResponseRedirect('/login')
+        return HttpResponseRedirect('/authentication/login')
 
 def imageView(request, image_id):
     try:
@@ -157,4 +157,4 @@ def imageEdit(request, image_id):
 
         return render(request, 'image_edit.html', context)
     else:
-        return HttpResponseRedirect('/login')
+        return HttpResponseRedirect('/authentication/login')

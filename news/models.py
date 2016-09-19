@@ -11,7 +11,7 @@ class Article(models.Model):
     ingress_content = RichTextUploadingField(blank=True)
 
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.ForeignKey(Image, blank=True, null=True, related_name='%(app_label)s_%(class)s_related_thumb')
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -30,7 +30,7 @@ class Event(models.Model):
     main_content = RichTextUploadingField(blank=True)
     ingress_content = RichTextUploadingField(blank=True)
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.ForeignKey(Image, blank=True, null=True, related_name='%(app_label)s_%(class)s_related_thumb')
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
 
     registration = models.BooleanField(default=False)
     max_limit = models.PositiveIntegerField(blank=True, null=True, default=0)

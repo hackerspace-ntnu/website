@@ -20,12 +20,18 @@ def event(request, event_id):
         'event': requested_event,
     }
 
+    context['registration_visible'] = False
     if request.user.is_authenticated():
-
-        event_reg = EventRegistration.objects.filter(user=request.user, event=requested_event)
-
-        if event_reg:
-            context['registered'] = True
+        now = timezone.now()
+        try:
+            er = EventRegistration.objects.get(user=request.user, event=requested_event)
+            if requested_event.time_start > now+timedelta(days=1):
+                context['registered'] = True
+                context['registration_visible'] = True
+        except EventRegistration.DoesNotExist:
+            if now > requested_event.registration_datetime and requested_event.time_start > now:
+                context['registered'] = False
+                context['registration_visible'] = True
 
     return render(request, 'event.html', context)
 

@@ -31,6 +31,7 @@ class Eventadmin(admin.ModelAdmin):
         }),
         ('Registration', {
             'fields': [
+                'registration',
                 'max_limit',
                 'registration_datetime'
             ]

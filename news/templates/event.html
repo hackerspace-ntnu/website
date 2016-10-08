@@ -47,22 +47,33 @@
         {% endif %}
       </div>
       <div class="registered_users">
-        {% if event.registered_list %}
-          <p class="infoheader">Påmeldte:</p>
-          <div class="people">
-            {% for user in event.registered_list %}
-              <p>{{ user }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        {% if event.wait_list %}
-          <p class="infoheader">Venteliste:</p>
-          <div class="people">
-            {% for user in event.wait_list %}
-              <p>{{ user }}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
+        <ul class="collapsible" data-collapsible="accordion">
+          {% if event.registered_list %}
+            <li>
+              <div class="collapsible-header">Påmeldte</div>
+              <div class="collapsible-body people">
+                {% for user in event.registered_list %}
+                  <p>{{ user }}</p>
+                {% endfor %}
+              </div>
+            </li>
+          {% endif %}
+          {% if event.wait_list %}
+            <li>
+              <div class="collapsible-header">Venteliste</div>
+              <div class="collapsible-body people">
+                {% for user in event.wait_list %}
+                  <p>{{ user }}</p>
+                {% endfor %}
+              </div>
+            </li>
+          {% endif %}
+        </ul>
+        <script>
+          $(function(){
+           $('.collapsible').collapsible();
+         });
+        </script>
       </div>
     {% endif %}
   </div>

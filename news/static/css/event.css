@@ -66,11 +66,12 @@
 }
 
 .people {
-  background-color: rgba(100, 100, 100, 0.12);
+  background-color: rgba(100, 100, 100, 0.3);
   border-radius: 3px;
   padding: 8px;
 }
 
 .people p {
   margin: 1px;
+  padding: 1px;
 }

@@ -1,0 +1,67 @@
+#content {
+  max-width: 1200px;
+}
+
+#sidepanel {
+  display: inline-block;
+  width: 14%
+}
+
+#main_content {
+  display: inline-block;
+  width: 85%;
+  float:right;
+}
+
+.infoheader, .info {
+  display: inline-block;
+  margin: 5px 0;
+}
+
+.infoheader {
+  margin-right: 5px;
+  width: 40px;
+  color: var(--hs-gray-li2);
+}
+.infoheader.autowidth {
+  width: auto;
+}
+
+.info {
+  color: #000;
+}
+
+.progress {
+  height: 30px;
+  width: 95%;
+  display: block;
+  margin: auto;
+  margin-bottom: 5px;
+  z-index: -2;
+}
+
+.counter {
+  color: #fff;
+  margin: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.determinate {
+  z-index: -1;
+}
+
+.registered_users {
+  margin-top: 30px;
+}
+
+.people {
+  background-color: rgba(100, 100, 100, 0.12);
+  border-radius: 3px;
+  padding: 8px;
+}
+
+.people p {
+  margin: 1px;
+}

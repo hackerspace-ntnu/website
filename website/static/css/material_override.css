@@ -50,3 +50,9 @@ input:focus:not([readonly]) {
 .dropdown-content li a {
   color: var(--hs-gray-li);
 }
+.progress {
+  background-color: var(--hs-gray);
+}
+.determinate {
+  background-color: var(--hs-green) !important;
+}

@@ -34,7 +34,7 @@ class Event(models.Model):
 
     registration = models.BooleanField(default=False)
     max_limit = models.PositiveIntegerField(blank=True, null=True, default=0)
-    registered_users = models.PositiveIntegerField(blank=True, default=0)
+    registration_datetime = models.DateTimeField('Registration opening date', default=timezone.now)
 
     time_start = models.DateTimeField('Start time')
     time_end = models.DateTimeField('End time')
@@ -48,12 +48,17 @@ class Event(models.Model):
     def get_class():
         return "Event"
 
-    def register_user(self):
-        if self.registered_users < self.max_limit:
-            self.registered_users += 1
-            return True
-        else:
-            return False
+    def registered_count(self):
+        return min(self.max_limit, len(EventRegistration.objects.filter(event=self)))
+
+    def registered_percentage(self):
+        return round(self.registered_count() / self.max_limit * 100)
+
+    def registered_list(self):
+        return ["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]
+
+    def wait_list(self):
+        return ["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:]
 
     class Meta:
         app_label = 'news'
@@ -76,7 +81,10 @@ class Upload(models.Model):
 class EventRegistration(models.Model):
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
-    date = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
+
+    def username(self):
+        return self.user.username
 
     def __str__(self):
-        return self.user.username + " registered on: " + self.event.title + " [{}]".format(self.event.pk)
+        return "%s %s" % (self.user.first_name, self.user.last_name)

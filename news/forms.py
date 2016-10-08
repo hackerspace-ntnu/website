@@ -8,6 +8,8 @@ class EventEditForm(forms.Form):
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Beskrivelse', required=False)
     registration = forms.BooleanField(label="Påmelding", required=False)
     max_limit = forms.IntegerField(label="Antall", required=False)
+    registration_time = forms.CharField(label='Åpningstidspunkt')
+    registration_date = forms.CharField(label='Åpningsdato')
     time_start = forms.CharField(label='Start klokkeslett')
     time_end = forms.CharField(label='Slutt klokkeslett')
     date = forms.CharField(label='Dato')

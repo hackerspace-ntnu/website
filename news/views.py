@@ -94,6 +94,11 @@ def edit_event(request, event_id):
                                                  '%d %B, %Y %H:%M')
             event.time_end = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_end'],
                                                '%d %B, %Y %H:%M')
+            if event.registration:
+                print("f", form.cleaned_data['registration_time'])
+                event.registration_datetime = datetime.strptime(form.cleaned_data['registration_date'] + ' '
+                    + form.cleaned_data['registration_time'], '%d %B, %Y %H:%M')
+                print("t", event.registration_datetime)
             event.save()
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
@@ -104,7 +109,9 @@ def edit_event(request, event_id):
             form = EventEditForm(initial={
                 'time_start': '00:00',
                 'time_end': '00:00',
-                'date': formats.date_format(timezone.now(), 'd F, Y'),
+                'registration_time': '00:00',
+                'date': datetime.strftime(timezone.now(), '%d %B, %Y'),
+                'registration_date': datetime.strftime(timezone.now(), '%d %B, %Y'),
             })
         else:
             event = get_object_or_404(Event, pk=event_id)
@@ -124,10 +131,13 @@ def edit_event(request, event_id):
                 'registration': event.registration,
                 'place': event.place,
                 'place_href': event.place_href,
-                'time_start': formats.date_format(event.time_start, 'H:i'),
-                'time_end': formats.date_format(event.time_end, 'H:i'),
-                'date': datetime.strftime(event.time_start, '%-d %B, %Y'),
+                'time_start': datetime.strftime(event.time_start, '%H:%M'),
+                'time_end': datetime.strftime(event.time_end, '%H:%M'),
+                'date': datetime.strftime(event.time_start, '%d %B, %Y'),
+                'registration_date': datetime.strftime(event.registration_datetime, '%d %B, %Y'),
+                'registration_time': datetime.strftime(event.registration_datetime, '%H:%M'),
             })
+            print(event.registration_datetime, datetime.strftime(event.registration_datetime, '%H:%M'))
 
     context = {
         'form': form,
@@ -237,20 +247,17 @@ def upload_done(request):
 
 @login_required
 def register_on_event(request, event_id):
-
     event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
-    event_reg = EventRegistration.objects.filter(user=request.user, event=event_object)
-    if event_reg:
-        for ev in event_reg:
-            ev.delete()
-            event_object.registered_users -= 1
-    else:
-        if event_object.registered_users < event_object.max_limit:
+    now = timezone.now()
+    try:
+        er = EventRegistration.objects.get(user=request.user, event=event_object)
+        if event_object.time_start > now+timedelta(days=1):
+            er.delete()
+    except EventRegistration.DoesNotExist:
+        if now > event_object.registration_datetime and event_object.time_start > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
-            event_object.registered_users += 1
 
-    event_object.save()
-    return HttpResponseRedirect("/news/event/" + str(event_object.id))
+    return HttpResponseRedirect("/news/event/%i" % event_object.id)
 
 
 def get_id_or_404(object_id):

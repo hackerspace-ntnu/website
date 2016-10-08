@@ -29,36 +29,38 @@
       <p class="infoheader"></p><p class="info">{{ event.time_start|date:"d M Y" }}</p>
     </div>
     <br>
-    <div class="registration" style="text-align: center">
-      <div class="progress">
-        <div class="determinate" style="width: {{ event.registered_percentage }}%"></div>
-        <p class="counter">{{ event.registered_count }} / {{ event.max_limit }}</p>
+    {% if event.registration %}
+      <div class="registration" style="text-align: center">
+        <div class="progress">
+          <div class="determinate" style="width: {{ event.registered_percentage }}%"></div>
+          <p class="counter">{{ event.registered_count }} / {{ event.max_limit }}</p>
+        </div>
+        {% if event.registration and request.user.is_authenticated and registration_visible %}
+          <form method="post" action="/news/register/{{ event.id }}/">
+            {% csrf_token %}
+            <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Meld deg på</button>
+          </form>
+        {% endif %}
       </div>
-      {% if event.registration and request.user.is_authenticated and registration_visible %}
-        <form method="post" action="/news/register/{{ event.id }}/">
-          {% csrf_token %}
-          <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Meld deg på</button>
-        </form>
-      {% endif %}
-    </div>
-    <div class="registered_users">
-      {% if event.registered_list %}
-        <p class="infoheader">Påmeldte:</p>
-        <div class="people">
-          {% for user in event.registered_list %}
-            <p>{{ user }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-      {% if event.wait_list %}
-        <p class="infoheader">Venteliste:</p>
-        <div class="people">
-          {% for user in event.wait_list %}
-            <p>{{ user }}</p>
-          {% endfor %}
-        </div>
-      {% endif %}
-    </div>
+      <div class="registered_users">
+        {% if event.registered_list %}
+          <p class="infoheader">Påmeldte:</p>
+          <div class="people">
+            {% for user in event.registered_list %}
+              <p>{{ user }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if event.wait_list %}
+          <p class="infoheader">Venteliste:</p>
+          <div class="people">
+            {% for user in event.wait_list %}
+              <p>{{ user }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 
   <div id="main_content">

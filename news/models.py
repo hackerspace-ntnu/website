@@ -63,7 +63,7 @@ class Event(models.Model):
 
     def userstatus(self, user):
         if self.is_registered(user): return "Påmeldt"
-        if self.is_waiting(user): return "Ventelista"
+        if self.is_waiting(user): return "Venteliste"
         return "Ikke påmeldt"
 
     def registered_percentage(self):

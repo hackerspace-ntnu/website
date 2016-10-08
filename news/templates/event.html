@@ -28,8 +28,8 @@
     <div>
       <p class="infoheader">Dato:</p><p class="info">{{ event.time_start|date:"d M Y" }}</p>
     </div>
-    <br>
     {% if event.registration %}
+    <p class="infoheader">Status:</p><p class="info">{{ userstatus }}</p>
       <div class="registration" style="text-align: center">
         <div class="progress">
           <div class="determinate" style="width: {{ event.registered_percentage }}%"></div>

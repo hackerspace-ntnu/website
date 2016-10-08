@@ -51,6 +51,21 @@ class Event(models.Model):
     def registered_count(self):
         return min(self.max_limit, len(EventRegistration.objects.filter(event=self)))
 
+    def is_registered(self, user):
+        if user in [er.user for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]:
+            return True
+        return False
+
+    def is_waiting(self, user):
+        if user in [er.user for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:]:
+            return True
+        return False
+
+    def userstatus(self, user):
+        if self.is_registered(user): return "Påmeldt"
+        if self.is_waiting(user): return "Ventelista"
+        return "Ikke påmeldt"
+
     def registered_percentage(self):
         return round(self.registered_count() / self.max_limit * 100)
 

@@ -28,7 +28,7 @@
 
 .infoheader {
   margin-right: 5px;
-  width: 40px;
+  width: 50px;
   color: var(--hs-gray-li2);
 }
 .infoheader.autowidth {
@@ -45,6 +45,7 @@
   display: block;
   margin: auto;
   margin-bottom: 5px;
+  margin-top: 10px;
   z-index: -2;
 }
 

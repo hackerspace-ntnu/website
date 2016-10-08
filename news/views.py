@@ -33,6 +33,8 @@ def event(request, event_id):
                 context['registered'] = False
                 context['registration_visible'] = True
 
+    context['userstatus'] = requested_event.userstatus(request.user)
+
     return render(request, 'event.html', context)
 
 

@@ -23,10 +23,10 @@
       </div>
     {% endif %}
     <div>
-      <p class="infoheader">Tid:</p><p class="info">{{ event.time_start|date:"H:i" }} til {{ event.time_end|date:"H:i" }}</p>
+      <p class="infoheader">Tid:</p><p class="info">{{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
     </div>
     <div>
-      <p class="infoheader"></p><p class="info">{{ event.time_start|date:"d M Y" }}</p>
+      <p class="infoheader">Dato:</p><p class="info">{{ event.time_start|date:"d M Y" }}</p>
     </div>
     <br>
     {% if event.registration %}

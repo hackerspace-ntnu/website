@@ -13,6 +13,14 @@
   float:right;
 }
 
+.hsgreen {
+  background-color: var(--hs-green) !important;
+}
+
+.hsred {
+  background-color: var(--hs-red) !important;
+}
+
 .infoheader, .info {
   display: inline-block;
   margin: 5px 0;

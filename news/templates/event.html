@@ -38,7 +38,11 @@
         {% if event.registration and request.user.is_authenticated and registration_visible %}
           <form method="post" action="/news/register/{{ event.id }}/">
             {% csrf_token %}
-            <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Meld deg på</button>
+            {% if registered %}
+              <button id="submit" class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
+            {% else %}
+              <button id="submit" class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
+            {% endif %}
           </form>
         {% endif %}
       </div>
@@ -71,16 +75,7 @@
     {% autoescape off %}
     {{ event.main_content }}
     {% endautoescape %}
-</div>
+  </div>
 
 </div>
-<script>
-  // Change button text and color to match whether the user is registered on the event or not
-  $(function() {
-    if (("{{ registered }}" == "True")) {
-      $("#submit").css("background-color", "var(--hs-red)");
-      $("#submit").html("MELD DEG AV");
-    }
-  })
-</script>
 {% endblock content %}

@@ -65,7 +65,7 @@
                 <div class="collapsible-header">Venteliste</div>
                 <div class="collapsible-body people">
                   {% for user in event.wait_list %}
-                    <p>{{ user }}</p>
+                    <p>{{ user.0 }} {{ user.1 }}</p>
                   {% endfor %}
                 </div>
               </li>

@@ -73,10 +73,10 @@ class Event(models.Model):
             return 100
 
     def registered_list(self):
-        return ["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]
+        return sorted(["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit])
 
     def wait_list(self):
-        return ["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:]
+        return [(a[0]+1, a[1]) for a in enumerate(["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:])]
 
     class Meta:
         app_label = 'news'

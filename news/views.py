@@ -87,6 +87,7 @@ def edit_event(request, event_id):
             event.main_content = form.cleaned_data['main_content']
             event.registration = form.cleaned_data['registration']
             event.max_limit = form.cleaned_data['max_limit']
+            if not event.max_limit: event.max_limit = 0
             thumbnail_raw = form.cleaned_data['thumbnail']
             try:
                 thumb_id = int(thumbnail_raw)

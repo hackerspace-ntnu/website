@@ -67,7 +67,10 @@ class Event(models.Model):
         return "Ikke påmeldt"
 
     def registered_percentage(self):
-        return round(self.registered_count() / self.max_limit * 100)
+        if self.max_limit:
+            return round(self.registered_count() / self.max_limit * 100)
+        else:
+            return 100
 
     def registered_list(self):
         return ["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]

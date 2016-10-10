@@ -102,11 +102,6 @@ def edit_event(request, event_id):
                                                  '%d %B, %Y %H:%M')
             event.time_end = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_end'],
                                                '%d %B, %Y %H:%M')
-            if event.registration:
-                print("f", form.cleaned_data['registration_time'])
-                event.registration_datetime = datetime.strptime(form.cleaned_data['registration_date'] + ' '
-                    + form.cleaned_data['registration_time'], '%d %B, %Y %H:%M')
-                print("t", event.registration_datetime)
             event.save()
             log_changes.change(request, event)
             return HttpResponseRedirect('/news/event/' + str(event.id) + '/')

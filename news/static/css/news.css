@@ -33,20 +33,19 @@
   word-wrap: break-word;
 }
 
-#main_content p {
+#ingress_and_article .article_content p {
   word-wrap: break-word;
   font-size: 15pt;
   color: var(--hs-gray-dk);
   width: 95%;
-  margin: 2.5% auto;
 }
 
-#main_content p:first-of-type {
+#ingress_and_article .ingress_content p {
   color: var(--hs-gray-li2);
   font-size: 18pt;
 }
 
-#main_content a {
+#ingress_and_article a {
   color: var(--hs-gray-li2);
 }
 

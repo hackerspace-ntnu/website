@@ -36,14 +36,36 @@
           <p class="counter">{{ event.registered_count }} / {{ event.max_limit }}</p>
         </div>
         {% if event.registration and request.user.is_authenticated and registration_visible %}
-          <form method="post" action="/news/register/{{ event.id }}/">
-            {% csrf_token %}
             {% if registered %}
-              <button id="submit" class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
+              <button id="registrationButton" class="btn waves-effect waves-light hsred">Meld deg av</button>
             {% else %}
-              <button id="submit" class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
+              <button id="registrationButton" class="btn waves-effect waves-light hsgreen">Meld deg på</button>
             {% endif %}
-          </form>
+            <div id="registrationModal" style="width: 600px;" class="modal">
+              <div class="modal-content">
+                <h4>Bekreft handling</h4>
+                <p>Eventen starter {{ event.time_start|date:"d M Y, H:i" }}</p>
+                <p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_end|date:"d M Y, H:i" }}</p>
+                <p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end|date:"d M Y, H:i" }}</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post" action="/news/register/{{ event.id }}/">
+                  {% csrf_token %}
+                  {% if registered %}
+                    <button id="submit" class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
+                  {% else %}
+                    <button id="submit" class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
+                  {% endif %}
+                </form>
+                <a id="cancelButton" class=" modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
+              </div>
+            </div>
+
+            <script>
+              $("#registrationButton").click(function() {
+                $('#registrationModal').openModal();
+              });
+            </script>
         {% endif %}
       </div>
 
@@ -81,14 +103,18 @@
     {% endif %}
   </div>
 
-  <div id="main_content">
-    {% autoescape off %}
-    {{ event.ingress_content }}
-    {% endautoescape %}
+  <div id="ingress_and_article">
+    <div class="ingress_content">
+      {% autoescape off %}
+      {{ event.ingress_content }}
+      {% endautoescape %}
+    </div>
 
-    {% autoescape off %}
-    {{ event.main_content }}
-    {% endautoescape %}
+    <div class="article_content">
+      {% autoescape off %}
+      {{ event.main_content }}
+      {% endautoescape %}
+    </div>
   </div>
 
 </div>

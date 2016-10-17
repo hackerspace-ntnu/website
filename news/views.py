@@ -23,16 +23,8 @@ def event(request, event_id):
     context['registration_visible'] = False
     if request.user.is_authenticated():
         now = timezone.now()
-        try:
-            er = EventRegistration.objects.get(user=request.user, event=requested_event)
-            if requested_event.time_start > now+timedelta(days=1):
-                context['registered'] = True
-                context['registration_visible'] = True
-        except EventRegistration.DoesNotExist:
-            if now > requested_event.registration_datetime and requested_event.time_start > now:
-                context['registered'] = False
-                context['registration_visible'] = True
 
+    context['registered'], context['registration_visible'] = requested_event.registration_button_status(request.user)
     context['userstatus'] = requested_event.userstatus(request.user)
 
     return render(request, 'event.html', context)
@@ -77,47 +69,23 @@ def edit_event(request, event_id):
     if request.method == 'POST':  # Post form
         form = EventEditForm(request.POST)
         if form.is_valid():
+
             # Create new event (ID = 0) or update existing event (ID != 0)
-            if event_id == 0:
-                event = Event(time_start=timezone.now(), time_end=timezone.now())
-            else:
+            if event_id:
                 event = get_object_or_404(Event, pk=event_id)
-            event.title = form.cleaned_data['title']
-            event.ingress_content = form.cleaned_data['ingress_content']
-            event.main_content = form.cleaned_data['main_content']
-            event.registration = form.cleaned_data['registration']
-            event.max_limit = form.cleaned_data['max_limit']
-            if not event.max_limit: event.max_limit = 0
-            thumbnail_raw = form.cleaned_data['thumbnail']
-            try:
-                thumb_id = int(thumbnail_raw)
-                event.thumbnail = Image.objects.get(id=thumb_id)
-            except (TypeError, ValueError, Image.DoesNotExist):
-                event.thumbnail = None
-            event.place = form.cleaned_data['place']
-            event.place_href = form.cleaned_data['place_href']
-            # Create date from string input
-            event.date = datetime.strptime(form.cleaned_data['date'], '%d %B, %Y').date()
-            # Create datetime from string input
-            event.time_start = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_start'],
-                                                 '%d %B, %Y %H:%M')
-            event.time_end = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_end'],
-                                               '%d %B, %Y %H:%M')
+            else:
+                event = Event()
+
+            for attr in form.cleaned_data:
+                setattr(event, attr, form.cleaned_data[attr])
+
             event.save()
+
             log_changes.change(request, event)
+
             return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
-    else:  # Request form
-        # Create new event if ID is 0
-        if int(event_id) == 0:
-            # Set initial values
-            form = EventEditForm(initial={
-                'time_start': '00:00',
-                'time_end': '00:00',
-                'registration_time': '00:00',
-                'date': datetime.strftime(timezone.now(), '%d %B, %Y'),
-                'registration_date': datetime.strftime(timezone.now(), '%d %B, %Y'),
-            })
-        else:
+    else:
+        if event_id:
             event = get_object_or_404(Event, pk=event_id)
 
             try:
@@ -138,10 +106,24 @@ def edit_event(request, event_id):
                 'time_start': datetime.strftime(event.time_start, '%H:%M'),
                 'time_end': datetime.strftime(event.time_end, '%H:%M'),
                 'date': datetime.strftime(event.time_start, '%d %B, %Y'),
-                'registration_date': datetime.strftime(event.registration_datetime, '%d %B, %Y'),
-                'registration_time': datetime.strftime(event.registration_datetime, '%H:%M'),
+                'deregistration_end_date': datetime.strftime(event.deregistration_end, '%d %B, %Y'),
+                'deregistration_end_time': datetime.strftime(event.deregistration_end, '%H:%M'),
+                'registration_start_date': datetime.strftime(event.registration_start, '%d %B, %Y'),
+                'registration_start_time': datetime.strftime(event.registration_start, '%H:%M'),
             })
-            print(event.registration_datetime, datetime.strftime(event.registration_datetime, '%H:%M'))
+        else:
+            # No event to edit, set data to default
+            # Set initial values
+            today = datetime.strftime(timezone.now(), '%d %B, %Y')
+            form = EventEditForm(initial={
+                'time_start': '00:00',
+                'time_end': '00:00',
+                'date': today,
+                'registration_start_time': '00:00',
+                'registration_start_date': today,
+                'deregistration_end_time': '00:00',
+                'deregistration_end_date': today,
+            })
 
     context = {
         'form': form,
@@ -255,10 +237,10 @@ def register_on_event(request, event_id):
     now = timezone.now()
     try:
         er = EventRegistration.objects.get(user=request.user, event=event_object)
-        if event_object.time_start > now+timedelta(days=1):
+        if event_object.deregistration_end > now:
             er.delete()
     except EventRegistration.DoesNotExist:
-        if now > event_object.registration_datetime and event_object.time_start > now:
+        if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
     return HttpResponseRedirect("/news/event/%i" % event_object.id)

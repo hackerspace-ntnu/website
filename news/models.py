@@ -26,20 +26,21 @@ class Article(models.Model):
 
 
 class Event(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Title')
-    main_content = RichTextUploadingField(blank=True)
-    ingress_content = RichTextUploadingField(blank=True)
-    pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
+    title = models.CharField(max_length=100, verbose_name='Tittel')
+    main_content = RichTextUploadingField(blank=True, verbose_name='Artikkel')
+    ingress_content = RichTextUploadingField(blank=True, verbose_name='Ingress')
+    pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True, )
 
-    registration = models.BooleanField(default=False)
-    max_limit = models.PositiveIntegerField(blank=True, null=True, default=0)
-    registration_datetime = models.DateTimeField('Registration opening date', default=timezone.now)
+    registration = models.BooleanField(default=False, verbose_name='Påmelding')
+    max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Max påmeldte')
+    registration_start = models.DateTimeField(default=timezone.now, verbose_name='Registrering start')
+    deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avregistrering slutt')
 
-    time_start = models.DateTimeField('Start time')
-    time_end = models.DateTimeField('End time')
-    place = models.CharField(max_length=100, verbose_name='Place', blank=True)
-    place_href = models.CharField(max_length=200, verbose_name='Place URL', blank=True)
+    time_start = models.DateTimeField(verbose_name='Start tidspunkt')
+    time_end = models.DateTimeField(verbose_name='Slutt tidspunkt')
+    place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
+    place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
 
     def __str__(self):
         return self.title
@@ -77,6 +78,17 @@ class Event(models.Model):
 
     def wait_list(self):
         return [(a[0]+1, a[1]) for a in enumerate(["%s %s" % (er.user.first_name, er.user.last_name) for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:])]
+
+    def registration_button_status(self, user):
+        now = timezone.now()
+        try:
+            er = EventRegistration.objects.get(user=user, event=self)
+            if self.deregistration_end > now:
+                return True, True
+        except EventRegistration.DoesNotExist:
+            if now > self.registration_start and self.time_end > now:
+                return False, True
+        return False, False
 
     class Meta:
         app_label = 'news'

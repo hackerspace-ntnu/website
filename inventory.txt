@@ -1,0 +1,61 @@
+
+Gjenstand
+- navn
+- manyToManyField(Tag)
+- 
+
+
+
+
+Tag
+- navn
+- 
+
+
+
+Utlån
+- foreignKey(User)
+- foreignKey(Gjenstand)
+- date_time_field
+	- utlån dato
+	- innleveringsfrist
+	- innleveringstidpunkt (når det ble levert)
+
+Listener
+- send mail hvis over frist
+
+
+
+
+
+View
+
+- forside / liste
+	- sorter på type
+		- status / antall
+
+
+	- søke på navn /tags /type
+		- status		
+
+		- 
+
+
+- side for å legge til (for hackerspace)
+	- legge til Gjenstand
+	- legge til Tag
+
+
+
+- utlån (kun tilgjengelig for hackerspace medlemmer
+	- lage Utlånsobjekt
+	- se om denne personen tidligere har levert for sent
+	- utstyr som ikke er blitt levert tilbake
+
+	- 
+
+
+
+
+
+

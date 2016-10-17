@@ -12,6 +12,10 @@
   --hs-red-li: #EA9989;
 }
 
+.hsred {
+  background-color: var(--hs-red) !important;
+}
+
 @font-face {
   font-family: Roboto-Light;
   src: url("/static/materialize/font/roboto/Roboto-Light.woff");

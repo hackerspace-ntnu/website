@@ -216,14 +216,20 @@ class Article(models.Model):
         groups = content.split('$co')
         for i in range(len(groups)):
             if groups[i].startswith('lstart'):
-                newline = groups[i].index('\n')
+                try:
+                    newline = groups[i].index('\n')
+                except ValueError:
+                    newline = len(groups[i])
                 try:
                     div = '<div style="overflow:hidden;display:inline-block;width:%i%s;vertical-align:top;margin-right:2%s;">' % (int(groups[i][6:newline])-2, '%', '%')
                 except (ValueError, TypeError, IndexError):
                     div = '<div style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;>'
                 groups[i] = div + mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
             elif groups[i].startswith('lend'):
-                newline = groups[i].index('\n')
+                try:
+                    newline = groups[i].index('\n')
+                except ValueError:
+                    newline = len(groups[i])
                 groups[i] = '</div>%s' % mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
             else:
                 groups[i] = mark_safe(article_markdown(groups[i], self, preview=preview_content is not None))

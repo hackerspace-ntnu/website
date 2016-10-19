@@ -209,8 +209,25 @@ class Article(models.Model):
             content = preview_content
         else:
             content = self.current_revision.content
-        return mark_safe(article_markdown(content, self,
-                                          preview=preview_content is not None))
+
+        return self.custom_markdown(content, preview_content)
+
+    def custom_markdown(self, content, preview_content):
+        groups = content.split('$co')
+        for i in range(len(groups)):
+            if groups[i].startswith('lstart'):
+                newline = groups[i].index('\n')
+                try:
+                    div = '<div style="overflow:hidden;display:inline-block;width:%i%s;vertical-align:top;margin-right:2%s;">' % (int(groups[i][6:newline])-2, '%', '%')
+                except (ValueError, TypeError, IndexError):
+                    div = '<div style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;>'
+                groups[i] = div + mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
+            elif groups[i].startswith('lend'):
+                newline = groups[i].index('\n')
+                groups[i] = '</div>%s' % mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
+            else:
+                groups[i] = mark_safe(article_markdown(groups[i], self, preview=preview_content is not None))
+        return "".join(groups)
 
     def get_cache_key(self):
         return "wiki:article:%d" % (

@@ -1,10 +1,10 @@
 {% load wiki_tags i18n cache sekizai_tags %}
 
-{% addtoblock "js" %}        
+{% addtoblock "js" %}
   <script type="text/javascript" src="{{ STATIC_URL }}wiki/js/article.js"></script>
 {% endaddtoblock %}
 
-<div class="wiki-article" style="max-width: 650px;">
+<div class="wiki-article" style="max-width: 800px;">
   {% if not preview %}
     {% if article.current_revision %}
       {{ article.get_cached_content }}
@@ -23,11 +23,10 @@
     {% endaddtoblock %}
   {% endif %}
   {% if plugin.RenderMedia.js %}
-    {% addtoblock "js" %}        
+    {% addtoblock "js" %}
       {% for url in plugin.RenderMedia.js %}
         <script type="text/javascript" src="{{ STATIC_URL }}{{ url }}"></script>
       {% endfor %}
     {% endaddtoblock %}
   {% endif %}
 {% endfor %}
-

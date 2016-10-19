@@ -28,8 +28,10 @@
       {% include "wiki/includes/article_menu.html" %}
     </ul>
     <div>
-      {% block wiki_contents_tab %}
-      {% endblock %}
+      {% autoescape off %}
+         {% block wiki_contents_tab %}
+         {% endblock %}
+      {% endautoescape %}
     </div>
   </div>
 

@@ -3,13 +3,13 @@ Gjenstand
 - navn
 - manyToManyField(Tag)
 - 
-
+- ?? antall man har av denne gjenstanden
 
 
 
 Tag
 - navn
-- 
+- ?? legge inn en counter for å telle popularitet mtp sortering i index?
 
 
 
@@ -28,7 +28,7 @@ Listener
 
 
 
-View
+Views
 
 - forside / liste
 	- sorter på type
@@ -43,11 +43,13 @@ View
 
 - side for å legge til (for hackerspace)
 	- legge til Gjenstand
+	    - må kunne endre verdier
 	- legge til Tag
-
+	    - må kunne endre navn
 
 
 - utlån (kun tilgjengelig for hackerspace medlemmer
+    - ?? knapper for å velge mellom, ledige/ til utlån + over tida / over tida
 	- lage Utlånsobjekt
 	- se om denne personen tidligere har levert for sent
 	- utstyr som ikke er blitt levert tilbake

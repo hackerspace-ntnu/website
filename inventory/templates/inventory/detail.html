@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
+
+{% if item %}
+    <h1>{{ item.name }}</h1>
+    {% if item.tag %}
+        <h3>{{ item.tag }}</h3>
+    {% endif %}
+
+    <p>{{ item.description }}</p>
+
+{% endif %}

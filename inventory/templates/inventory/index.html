@@ -1,0 +1,19 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
+
+{% if items %}
+    <h1>Items</h1>
+    {% for category, items in  test.items %}
+        <h3>{{ category }}</h3>
+        <ul>
+        {% for item in items %}
+            <li>
+                <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+
+
+    {% endfor %}
+
+{% endif %}

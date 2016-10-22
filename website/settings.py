@@ -62,6 +62,7 @@ INSTALLED_APPS = [
 	'wiki.plugins.notifications',
 	'mptt',
 	'authentication',
+    'inventory.apps.InventoryConfig'
 ]
 
 #################################

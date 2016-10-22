@@ -6,7 +6,6 @@ Gjenstand
 - ?? antall man har av denne gjenstanden
 
 
-
 Tag
 - navn
 - ?? legge inn en counter for å telle popularitet mtp sortering i index?
@@ -14,7 +13,8 @@ Tag
 
 
 Utlån
-- foreignKey(User)
+- foreignKey(User)  #lånetaker
+- lender = models.ForeignKey(User)  # utlåner
 - foreignKey(Gjenstand)
 - date_time_field
 	- utlån dato
@@ -23,8 +23,6 @@ Utlån
 
 Listener
 - send mail hvis over frist
-
-
 
 
 

@@ -13,8 +13,9 @@ def get_hostname():
             "Content-Type": "application/x-www-form-urlencoded",
             "Referer":"http://localhost:8000/admin",
             }
+    mac = get_mac()
     data = {
-        "mac": get_mac(),
+        "mac_address": mac,
         "csrfmiddlewaretoken":csrftoken
     }
     hostname = client.post(url, headers=headers, data=data).text

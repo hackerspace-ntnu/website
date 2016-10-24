@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^opptak/$', opptak, name='opptak'),
     url(r'^test/$', test, name="500-test"),
     url(r'^files/', include('files.urls')),
-    url(r'^rpis/', include('rpis.urls')),
+    url(r'^rpi/', include('rpi.urls')),
 ]
 
 if settings.DEBUG:

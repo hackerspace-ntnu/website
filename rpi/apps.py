@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class RpisConfig(AppConfig):
+class RpiConfig(AppConfig):
     name = 'rpi'

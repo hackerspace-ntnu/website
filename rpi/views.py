@@ -9,15 +9,15 @@ names = {
     "ac:7b:a1:56:ae:5a":"Lovelace"
 }
 availNames = ["Ariel","Jane"]
-def add(request):
+def addrpi(request):
     if request.POST:
         mac = request.POST.get('mac_address','')
-    return choice(availNames)
-def dontdieonme(request):
+    return HttpResponse(choice(availNames))
+def lifesign(request):
     mac = ""
     if request.POST:
         mac = request.POST.get('mac_address','')
-    return "Hello,"+names[mac]
+    return HttpResponse("Hello,"+names[mac])
 def detail(request):
     return HttpResponse("Test")
 

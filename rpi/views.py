@@ -42,17 +42,17 @@ def getPi(mac):
     if len(rpis) == 0:
         return None
     else:
-        return rpis[0]
+        return rpis
 def addrpi(request):
     if len(availNames)==0:
         refresh_rpis()
     if request.POST:
-        mac = request.POST.get('mac_address','')
+        mac = request.POST.get('mac_address', '')
         ip = get_client_ip(request)
         hostname = choice(availNames)
-        time = datetime.datetime.strftime(datetime.datetime.now(),format="%Y-%m-%d %H:%M")
+        time = datetime.datetime.strftime(datetime.datetime.now(), format="%Y-%m-%d %H:%M")
         if getPi(mac) is None:
-            RaspberryPi.objects.create(name=hostname,ip=ip,mac=mac,lastSeen=time)
+            RaspberryPi.objects.create(name=hostname, ip=ip, mac=mac, lastSeen=time)
             reserveName(hostname)
             return HttpResponse(hostname)
         else:
@@ -62,16 +62,16 @@ def lifesign(request):
     if len(availNames)==0:
         refresh_rpis()
     if request.POST:
-        mac = request.POST.get('mac_address','')
-        reported_hostname = request.POST.get('hostname','')
+        mac = request.POST.get('mac_address', '')
+        reported_hostname = request.POST.get('hostname', '')
         host_rpi = getPi(mac)
         if host_rpi is not None:
-            ip= get_client_ip(request)
-            time = datetime.datetime.strftime(datetime.datetime.now(),format="%Y-%m-%d %H:%M")
-            hostname = host_rpi.name
+            ip = get_client_ip(request)
+            time = datetime.datetime.strftime(datetime.datetime.now(), format="%Y-%m-%d %H:%M")
+            hostname = host_rpi[0].name
             if reported_hostname != hostname:
                 host_rpi.update(name=hostname)
-            host_rpi.update(ip=ip,lastSeen=time)
+            host_rpi.update(ip=ip, lastSeen=time)
             return HttpResponse("Hello, "+hostname)
         else:
             return HttpResponse("You're new here, arent'cha?")

@@ -3,14 +3,16 @@ from django.http import HttpResponse
 from django.template import loader
 import datetime
 
+from os.path import join,dirname,realpath
 from .models import RaspberryPi
 from random import choice
 
 availNames = []
+namefile = join(dirname(realpath(__file__)),"availnames.txt")
 def reserveName(name):
     global availNames
     availNames.remove(name)
-    with open("availnames.txt",mode="w") as f:
+    with open(namefile,mode="w") as f:
         for n in availNames:
             f.write(n+"\n")
     f.close()
@@ -23,7 +25,7 @@ def refresh_rpis():
     names = json.loads(data)
     """
     availNames = []
-    with open("availnames.txt",mode="r") as f:
+    with open(namefile,mode="r") as f:
         for line in f:
             availNames.append(line.strip())
     f.close()

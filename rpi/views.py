@@ -16,7 +16,6 @@ def reserveName(name):
     f.close()
 def refresh_rpis():
     global availNames
-    data=""
     """
     with open("RPi.json",mode="r") as f:
         for line in f:

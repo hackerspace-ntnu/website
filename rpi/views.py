@@ -17,25 +17,33 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+def getPi(mac):
+    rpis = RaspberryPi.objects.filter(mac=mac)
+    if len(rpis) == 0:
+        return None
+    else:
+        return rpis[0]
 def addrpi(request):
     if request.POST:
         mac = request.POST.get('mac_address','')
         ip = get_client_ip(request)
         hostname = choice(availNames)
         time = datetime.datetime.strftime(datetime.datetime.now(),format="%Y-%m-%d %H:%M")
-        RaspberryPi.objects.create(name=hostname,ip=ip,mac=mac,lastSeen=time)
-    return HttpResponse(hostname)
+        if getPi(mac) is None:
+            RaspberryPi.objects.create(name=hostname,ip=ip,mac=mac,lastSeen=time)
+            return HttpResponse(hostname)
+        else:
+            print("{} already exists".format(mac))
+            return HttpResponse("")
 def lifesign(request):
     if request.POST:
         mac = request.POST.get('mac_address','')
         ip= get_client_ip(request)
         hostname = names[mac]
-        host_rpi = RaspberryPi.objects.filter(mac=mac)
+        host_rpi = getPi(mac)
         time = datetime.datetime.strftime(datetime.datetime.now(),format="%Y-%m-%d %H:%M")
         host_rpi.update(name=hostname,ip=ip,mac=mac,lastSeen=time)
     return HttpResponse("Hello, "+hostname)
-def detail(request):
-    return HttpResponse("Test")
 
 def index(request):
     all_rpis = RaspberryPi.objects.order_by('-lastSeen')[:5]

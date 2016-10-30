@@ -33,7 +33,8 @@ class Eventadmin(admin.ModelAdmin):
             'fields': [
                 'registration',
                 'max_limit',
-                'registration_datetime'
+                'registration_start',
+                'deregistration_end',
             ]
         }),
     ]

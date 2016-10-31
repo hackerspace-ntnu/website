@@ -3,7 +3,7 @@ Gjenstand
 - navn
 - manyToManyField(Tag)
 - 
-- ?? antall man har av denne gjenstanden
+- antall man har av denne gjenstanden
 
 
 Tag
@@ -13,13 +13,17 @@ Tag
 
 
 Utlån
+- ?? item, må gå an å legge til flere forskjellige item og antallet man låner av enkelt item
+
 - foreignKey(User)  #lånetaker
+    - slags drop down meny av alle brukere som minsker når man begynner å skrive
 - lender = models.ForeignKey(User)  # utlåner
 - foreignKey(Gjenstand)
 - date_time_field
 	- utlån dato
 	- innleveringsfrist
 	- innleveringstidpunkt (når det ble levert)
+
 
 Listener
 - send mail hvis over frist

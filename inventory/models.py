@@ -12,20 +12,24 @@ class Tag(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
+    quantity = models.IntegerField(default=1)
 
     tags = models.ManyToManyField(Tag)
 
     def show_tags(self):
-        all_tags = ", ".join([str(tag) for tag in self.tags.all()])
-        return str(self.name) + " is tagged with: " + all_tags
+        all_tags = ", ".join(str(tag) for tag in self.tags.all())
+        return "{} is tagged with {}".format(self.name, all_tags)
 
     def __str__(self):
         return str("name: " + self.name)
 
 
 class Loan(models.Model):
-    borrower = models.ForeignKey(User)  # lånetaker
-    # lender = models.ForeignKey(User)  # utlåner
+    item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+    borrower = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_borrower",
+                                 on_delete=models.SET_NULL, null=True)  # lånetaker
+    lender = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_lender",
+                               on_delete=models.SET_NULL, null=True)  # utlåner
     comment = models.CharField(max_length=300)
 
     loan_date = models.DateTimeField('date_lent')

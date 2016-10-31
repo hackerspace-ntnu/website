@@ -1,9 +1,9 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
 
-{% if items %}
+{% if item_dict %}
     <h1>Items</h1>
-    {% for category, items in  test.items %}
+    {% for category, items in  item_dict.items %}
         <h3>{{ category }}</h3>
         <ul>
         {% for item in items %}
@@ -12,8 +12,21 @@
             </li>
         {% endfor %}
         </ul>
-
-
     {% endfor %}
-
 {% endif %}
+
+
+{% if no_category %}
+<h3>Ingen kategori</h3>
+<ul>
+    {% for item in no_category %}
+    <li>
+    <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<p><a href={% url 'inventory:add_item' %}>Legg til ny gjenstand</a></p>
+<p><a href={% url 'inventory:add_tag' %}>Legg til en ny tag</a></p>
+<p><a href={% url 'inventory:loan' %}>Registrer et utlån</a></p>

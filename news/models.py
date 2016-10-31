@@ -3,7 +3,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.contrib.auth.admin import User
 from files.models import Image
-
+import re
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
@@ -90,6 +90,39 @@ class Event(models.Model):
                 return False, True
         return False, False
 
+    def find_attendees(self, user_string):
+        complete_user_match = []
+        incomplete_user_match = []
+        user_split = user_string.split(' ')
+        er_list = EventRegistration.objects.filter(event=self)
+        full_match = False
+        for er in er_list:
+            full_name = ' '.join([er.user.first_name, er.user.last_name])
+            username = er.user.username
+            if re.search(user_string, full_name, re.IGNORECASE) or re.search(user_string, username, re.IGNORECASE):
+                complete_user_match.append(er.user)
+                full_match = True
+            elif not full_match:
+                for search_term in user_split:
+                    if re.search(search_term, full_name, re.IGNORECASE) or re.search(search_term, username, re.IGNORECASE):
+                        incomplete_user_match.append(er.user)
+                        break
+        if full_match:
+            return complete_user_match
+        else:
+            return incomplete_user_match
+
+
+    def attended(self, user, status):
+        try:
+            er = EventRegistration.objects.get(event=self, user=user)
+            er.attended = status
+            er.save()
+            return True
+        except EventRegistration.DoesNotExist:
+            return False
+
+
     class Meta:
         app_label = 'news'
         ordering = ("-time_start",)
@@ -112,6 +145,7 @@ class EventRegistration(models.Model):
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
     date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
+    attended = models.BooleanField(default=False)
 
     def username(self):
         return self.user.username

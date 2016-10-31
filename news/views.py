@@ -246,6 +246,15 @@ def register_on_event(request, event_id):
     return HttpResponseRedirect("/news/event/%i" % event_object.id)
 
 
+def event_attendees(request, event_id):
+    event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
+    context = {
+        'event': event_object,
+        'users': event_object.registered_list()
+    }
+    return render(request, 'event_attendees.html', context)
+
+
 def get_id_or_404(object_id):
     object_id = int(object_id)
     # Raise 404 if ID too large for SQLite (2^63-1) or negative

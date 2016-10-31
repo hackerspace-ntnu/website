@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block content %}
+    {% for user in users %}
+        <p class="name">{{ user }}</p>
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends base.html %}
+
+{% block content %}
+
+    <form action="{% url 'inventory:add_item' %}" method="post">
+        {% csrf_token %}
+
+        <p id="error-message">{{ form.name.errors }}</p>
+        <div class="input-field">
+            <label for="{{ form.name.id_for_label }}">Gjenstand</label>
+            {{ form.name }}
+        </div>
+
+        <p id="error-message">{{ form.descritption.errors }}</p>
+        <div class="input-field">
+            <label for="{{ form.descritption.id_for_label }}">Beskrivelse</label>
+            {{ form.descritption }}
+        </div>
+
+        <p id="error-message">{{ form.quantity.errors }}</p>
+        <div class="input-field">
+            <label for="{{ form.quantity.id_for_label }}">Antall</label>
+            {{ form.quantity }}
+        </div>
+
+        <p id="error-message">{{ form.tags.errors }}</p>
+        <div class="input-field">
+            <label for="{{ form.tags.id_for_label }}">Tagger</label>
+            <ul>
+                {% for choice in form.tags.choices %}
+                    <li>{{ choice }}</li>
+                {% endfor %}
+            </ul>
+            {{ form.tags.choices }}
+
+        </div>
+
+        <button id="submitButton" type="submit" name="action">Registrer</button>
+
+
+        <ul>
+            {% for choice in form.tags.choices %}
+                <li>{{ choice }}</li>
+            {% endfor %}
+        </ul>
+
+
+    </form>
+{% endblock content %}

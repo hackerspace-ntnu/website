@@ -221,9 +221,9 @@ class Article(models.Model):
                 except ValueError:
                     newline = len(groups[i])
                 try:
-                    div = '<div style="overflow:hidden;display:inline-block;width:%i%s;vertical-align:top;margin-right:2%s;">' % (int(groups[i][6:newline])-2, '%', '%')
+                    div = '<div class="customcol" style="overflow:hidden;display:inline-block;width:%i%s;vertical-align:top;margin-right:2%s;">' % (int(groups[i][6:newline])-2, '%', '%')
                 except (ValueError, TypeError, IndexError):
-                    div = '<div style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;>'
+                    div = '<div class="customcol" style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;>'
                 groups[i] = div + mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
             elif groups[i].startswith('lend'):
                 try:

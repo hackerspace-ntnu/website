@@ -1,32 +1,66 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-{% if item_dict %}
-    <h1>Items</h1>
-    {% for category, items in  item_dict.items %}
-        <h3>{{ category }}</h3>
-        <ul>
-        {% for item in items %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}"
+          xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+{% endblock header %}
+
+
+{% block content %}
+    <h1>Inventar</h1>
+    <!-- TODO knapper man ikke kan bruke med mindre man er logget inn, kan enten linke til innloggingsside, eller
+    være gråe, og ikke fungerende
+    TODO endre fra "category" til "tag", for å være konsekvent
+    -->
+
+    <ul class="collapsible" data-collapsible="accordion">
+        <!-- collapsible sorted by cateogry, items sorted alphabetically -->
+        {% for category, items in item_dict.items %}
             <li>
-                <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+                <div class="collapsible-header">{{ category }}</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <br>
+                        {% for item in items %}
+                            <li>
+                                <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+                            </li>
+                        {% endfor %}
+                        <br>
+                        <li>
+                            <a href="{% url 'inventory:tag_detail' category.id %}">Til kategoriside</a>
+                        </li>
+                    </ul>
+                </div>
+
             </li>
         {% endfor %}
-        </ul>
-    {% endfor %}
-{% endif %}
 
+        <!-- shows items without category -->
+        <!-- TODO evt ikke la "ingen_tag" være utvidet som standard -->
+        {% if no_category %}
+            <li>
+                <div class="collapsible-header active"><i class="material-icons"> </i>Ingen tag</div>
+                <div class="collapsible-body">
+                    <ul>
+                        <br>
+                        {% for item in no_category %}
+                            <li>
+                                <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+                            </li>
+                        {% endfor %}
+                        <br>
+                    </ul>
+                </div>
 
-{% if no_category %}
-<h3>Ingen kategori</h3>
-<ul>
-    {% for item in no_category %}
-    <li>
-    <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+            </li>
+        {% endif %}
+    </ul>
 
-<p><a href={% url 'inventory:add_item' %}>Legg til ny gjenstand</a></p>
-<p><a href={% url 'inventory:add_tag' %}>Legg til en ny tag</a></p>
-<p><a href={% url 'inventory:loan' %}>Registrer et utlån</a></p>
+    <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
+    <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
+    <a href="{% url 'inventory:loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
+
+{% endblock content %}

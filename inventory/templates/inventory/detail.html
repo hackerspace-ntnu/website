@@ -1,14 +1,25 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
 
-<h1>{{ item.name }}</h1>
-{% if item.tags %}
-    <h3>{{ item.tags }}</h3>
-{% endif %}
-<p>{{ item.description }}</p>
-<p>Antall: {{ item.quantity }}</p>
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}"/>
+{% endblock header %}
 
 
+{% block content %}
+    <div class="content">
 
-<p><a href={% url 'inventory:change_item' item.id %}>Endre</a></p>
+        <h1>{{ item.name }}</h1>
+        {% if item.tags %}
+            <h3>{{ item.tags.all }}</h3>
+        {% endif %}
+        <p>{{ item.description }}</p>
+        <p>Antall: {{ item.quantity }}</p>
+
+        <a class="waves-effect waves-light btn">slette, ikke fungerende</a>
+
+        <a href="{% url 'inventory:add_item' item.id %}" class="waves-effect waves-light btn">endre</a>
+        <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
+    </div>
+{% endblock content %}

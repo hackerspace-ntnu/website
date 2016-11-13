@@ -15,4 +15,6 @@ urlpatterns = [
 
     url(r'^loan/', views.loan, name='loan'),
     url(r'^registered/', views.registered, name='registered'),
+
+    url(r'^search/', views.search, name='search'),
 ]

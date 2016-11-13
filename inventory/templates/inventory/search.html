@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+{% endblock header %}
+
+<!-- TODO makere hvor mange som er utlånt, om man har noen tilgjengelige -->
+<!-- TODO finn måte å markere forskjell på items og tagger
+{% block content %}
+    <!-- TODO flytt dette søkefeltet og knappen til riktig sted -->
+    <br>
+    <form id="searchform" action="{% url 'inventory:search' %}" method="get">
+        <!-- {% csrf_token %} -->
+        <input class="searchfield" id="searchbox" name="q" type="text" value="{{ search_text }}" placeholder="Søk"
+               autocomplete="off">
+        <button class="btn waves-effect waves-light" type="submit" name="action">søk</button>
+    </form>
+
+    <br>
+    <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
+    <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
+    <a href="{% url 'inventory:loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
+    <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
+    <br>
+    <br>
+    {% for item in hits %}
+
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">
+                            <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
+                        </span>
+                        <br>
+                        {% if item.tags %}
+                            {% for tag in item.tags.all %}
+                                <div class="chip">
+                                    <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <br>
+                        <p>Antall: {{ item.quantity }}</p><br>
+                        <p>{{ item.description }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{% url 'inventory:add_item' item.id %}">endre</a>
+                        <a href="#">lån ut</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock content %}

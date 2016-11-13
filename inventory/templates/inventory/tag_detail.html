@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
+{% endblock header %}
+
+
+{% block content %}
+    <div class="content">
+
+        <!-- TODO lag card eller noe for å vise alle items -->
+        <h1>{{ tag.name }}</h1>
+        <ul>
+            {% for item in related_items %}
+                <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <span class="card-title">
+                            <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
+                        </span>
+                        <br>
+                        {% if item.tags %}
+                            {% for tag in item.tags.all %}
+                                <div class="chip">
+                                    <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <br>
+                        <br>
+                        <p>Antall: {{ item.quantity }}</p><br>
+                        <p>{{ item.description }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="{% url 'inventory:add_item' item.id %}">endre</a>
+                        <a href="#">lån ut</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </ul>
+        <a href="{% url 'inventory:add_tag' tag.id %}" class="waves-effect waves-light btn">Endre tag</a>
+        <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
+    </div>
+{% endblock content %}

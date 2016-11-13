@@ -4,7 +4,7 @@ Gjenstand
 - manyToManyField(Tag)
 - 
 - antall man har av denne gjenstanden
-
+- legge til usynlig datofelt? (kun for å kunne se alder senere, unødvendig men kan være interessant om mange år)
 
 Tag
 - navn
@@ -24,10 +24,18 @@ Utlån
 	- innleveringsfrist
 	- innleveringstidpunkt (når det ble levert)
 
+- gjøre det mulig for brukere å holde av items i et par dager, slags måte å bestille et item på nett, så blir den holdt
+  av til du kommer å henter den
+
+QR-kode fra mobil
+- HTML 5 jquery
+- få hvem man låner ut til
+- scann object
+vise info
+
 
 Listener
 - send mail hvis over frist
-
 
 
 Views

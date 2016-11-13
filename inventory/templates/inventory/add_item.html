@@ -1,49 +1,105 @@
-{% extends base.html %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+{% endblock header %}
+
 
 {% block content %}
+    <div class="content">
+        <form action="{% url 'inventory:add_item' item_id %}" method="post">
+            {% csrf_token %}
+            <h3>{{ message }}</h3>
 
-    <form action="{% url 'inventory:add_item' %}" method="post">
-        {% csrf_token %}
+            <p id="error-message">{{ form.name.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                {{ form.name }}
+            </div>
 
-        <p id="error-message">{{ form.name.errors }}</p>
-        <div class="input-field">
-            <label for="{{ form.name.id_for_label }}">Gjenstand</label>
-            {{ form.name }}
-        </div>
+            <p id="error-message">{{ form.description.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                {{ form.description }}
+            </div>
 
-        <p id="error-message">{{ form.descritption.errors }}</p>
-        <div class="input-field">
-            <label for="{{ form.descritption.id_for_label }}">Beskrivelse</label>
-            {{ form.descritption }}
-        </div>
+            <p id="error-message">{{ form.quantity.errors }}</p>
+            <div class="input-field">
+                <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+                {{ form.quantity }}
+            </div>
 
-        <p id="error-message">{{ form.quantity.errors }}</p>
-        <div class="input-field">
-            <label for="{{ form.quantity.id_for_label }}">Antall</label>
-            {{ form.quantity }}
-        </div>
+            <p id="error-message">{{ form.tags.errors }}</p>
+            <div class="input-field">
+                <input type="text" id="{{ form.tags.id_for_label }}" name="{{ form.tags.name }}" class="autocomplete"
+                       autocomplete="off">
+                <label for="{{ form.tags.id_for_label }}">{{ form.tags.label }}</label>
+            </div>
+            <!-- TODO få taggene en gjenstand har til å vises i tag feltet når man skal endre -->
 
-        <p id="error-message">{{ form.tags.errors }}</p>
-        <div class="input-field">
-            <label for="{{ form.tags.id_for_label }}">Tagger</label>
-            <ul>
-                {% for choice in form.tags.choices %}
-                    <li>{{ choice }}</li>
-                {% endfor %}
-            </ul>
-            {{ form.tags.choices }}
+            <br>
 
-        </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">{{ button_message }}
+            </button>
+            <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
+        </form>
+    </div>
+    <!--
+    <script>
+        $(function () {
+            alert("hello");
+        });
+    </script>
+    -->
+    <div>
 
-        <button id="submitButton" type="submit" name="action">Registrer</button>
+    </div>
+    <div class="input-field">
+        <input id="dfabd" type="text" class="chips">
+        <label for="dfabd">chips</label>
+    </div>
+    <div class="chip">
+        Tag
+    </div>
+    {{ form.tags }}
 
 
-        <ul>
-            {% for choice in form.tags.choices %}
-                <li>{{ choice }}</li>
-            {% endfor %}
-        </ul>
+    <script>
+        var tags = {{ tags|safe }}
+                $(function () {
+                    $('input.autocomplete').autocomplete({
+                        data: tags
+                    });
+                });
+    </script>
 
+    <script>
+        $('.chips').material_chip();
+        $('.chips-initial').material_chip({
+            data: [{
+                tag: 'Apple',
+            }, {
+                tag: 'Microsoft',
+            }, {
+                tag: 'Google',
+            }],
+        });
+        $('.chips-placeholder').material_chip({
+            placeholder: 'Enter a tag',
+            secondaryPlaceholder: '+Tag',
+        });
+    </script>
 
-    </form>
+    <!--
+    <script>
+        var chip = {
+            tag: 'apple'
+        }
+    </script>
+       -->
 {% endblock content %}

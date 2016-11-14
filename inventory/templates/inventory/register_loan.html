@@ -1,0 +1,9 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
+
+<form action="{% url 'inventory:register_loan' %}" method="post">
+    {%  csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+
+</form>

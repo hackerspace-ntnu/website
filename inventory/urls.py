@@ -6,6 +6,7 @@ app_name = 'inventory'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^(?P<item_id>[0-9]+)/$', views.detail, name='detail'),
+
     url(r'^add_item/', views.add_item, name='add_item'),  # TODO
     url(r'^(?P<item_id>[0-9]+)/add_item/$', views.add_item, name='add_item'),
 
@@ -13,7 +14,9 @@ urlpatterns = [
     url(r'^(?P<tag_id>[0-9]+)/add_tag/$', views.add_tag, name='add_tag'),
     url(r'^(?P<tag_id>[0-9]+)/tag_detail/$', views.tag_detail, name='tag_detail'),
 
-    url(r'^loan/', views.loan, name='loan'),
+    url(r'^register_loan/', views.register_loan, name='register_loan'),
+    url(r'^loans/', views.loans, name='loans'),
+    url(r'^loans/(?P<loan_id>[0-9]+)/$', views.loan_detail, name='loan_detail'),
     url(r'^registered/', views.registered, name='registered'),
 
     url(r'^search/', views.search, name='search'),

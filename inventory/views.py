@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .models import Tag, Item, Loan
-from .forms import ItemForm, LoanForm, TagForm, SearchForm
+from .forms import ItemForm, LoanForm, TagForm
 import json
 
 
@@ -172,7 +172,7 @@ def add_tag(request, tag_id=0):
 
 
 # @login_required  # TODO tilgjenelighet må endres mtp om man er innlogget eller ikke
-def loan(request):
+def register_loan(request):
     if request.method == 'POST':
         form = LoanForm(request.POST)
         if form.is_valid():
@@ -188,7 +188,7 @@ def loan(request):
             return HttpResponseRedirect(reverse('inventory:registered'))
     else:
         form = LoanForm()
-    return HttpResponse(render(request, 'inventory/loan.html', {'form': form}))
+    return HttpResponse(render(request, 'inventory/register_loan.html', {'form': form}))
 
 
 def registered(request):
@@ -207,3 +207,26 @@ def tag_detail(request, tag_id):
         'related_items': related_items,
     }
     return render(request, 'inventory/tag_detail.html', context)
+
+
+def loans(request):
+    '''return HttpResponse("liste over nåværende, for sene og gamle utlån")'''
+
+    all_loans = Loan.objects.all()
+    current_loans = all_loans.filter(date_returned__isnull=True).filter(return_date__lte=timezone.now()).order_by(
+        'loan_date')
+    late_loans = all_loans.filter(date_returned__isnull=True).filter(return_date__gte=timezone.now()).order_by(
+        'loan_date')
+    old_loans = all_loans.filter(date_returned__isnull=False).order_by('date_returned')
+
+    context = {
+        'current_loans': current_loans,
+        'late_loans': late_loans,
+        'old_loans': old_loans,
+    }
+
+    return render(request, 'inventory/loans.html', context)
+
+
+def loan_detail(request, id):
+    return HttpResponse("detaljer for utlån med id " + str(id))

@@ -3,6 +3,23 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <!--
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    -->
+    <!-- TODO her er det mye rot met hva som egentlig trenger å være her-->
+    <!-- TODO fjern linker til gitHub-versjonen, så man kan endre på ting i materialize-autocomplete.js -->
+
+
 {% endblock header %}
 
 
@@ -30,72 +47,82 @@
                 {{ form.quantity }}
             </div>
 
+
+            {% comment %}
             <p id="error-message">{{ form.tags.errors }}</p>
             <div class="input-field">
-                <input type="text" id="{{ form.tags.id_for_label }}" name="{{ form.tags.name }}" class="autocomplete"
+                <input type="text" id="{{ form.tags.id_for_label }}" name=
+                        "{{ form.tags.name }}" value="{{ tags_string }}"
+                       class="autocomplete"
                        autocomplete="off">
                 <label for="{{ form.tags.id_for_label }}">{{ form.tags.label }}</label>
             </div>
+            {% endcomment %}
+
             <!-- TODO få taggene en gjenstand har til å vises i tag feltet når man skal endre -->
+            <!-- TODO få taggene man har skrevet inn som er nye til å gjøres om til chips idet man trykker enter
+            eller komma-->
+            <!-- TODO få taggene man skrev inn isted, til å vises som cips hvis isValid feiler og man må skrive inn
+            noe på nytt-->
+
+            <p id="error-message">{{ form.tags.errors }}</p>
+            <div class="input-field col s12">
+                <div class="autocomplete" id="multiple">
+                    <div class="ac-users"></div>
+                    <div class="ac-input">
+                        <input type="text" id="multipleInput"
+                               data-activates="multipleDropdown" data-beloworigin="true" name="{{ form.tags.name }}"
+                               autocomplete="off">
+                    </div>
+                    <ul id="multipleDropdown" class="dropdown-content ac-dropdown"></ul>
+                    <input type="hidden" name="multipleHidden"/>
+                </div>
+                <label class="active" for="multipleInput">{{ form.tags.label }}</label>
+            </div>
 
             <br>
 
             <button class="btn waves-effect waves-light" type="submit" name="action">{{ button_message }}
             </button>
+            <button type="button" onclick="postElements()" class="btn waves-effect waves-light">Immitate form
+                innsending
+            </button>
+
             <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
         </form>
     </div>
-    <!--
+
+    <button type="button" onclick="getChips()">testing</button>
+
+
+    <script src="{% static 'inventory/js/add_item.js' %}"></script>
+    <script src={% static 'js/materialize-autocomplete.js' %}></script>
     <script>
         $(function () {
-            alert("hello");
+            var multiple = $('#multipleInput').materialize_autocomplete({
+                multiple: {
+                    enable: true
+                },
+                appender: {
+                    el: '.ac-users'
+                },
+                dropdown: {
+                    el: '#multipleDropdown'
+                }
+            });
+
+            multiple.resultCache = {{ form.get_autocomplete_dict|safe }};
+
+            var liste = [];
+            liste = {{ old_tags|safe }};
+            for (var i = 0; i < liste.length; i++) {
+                multiple.setValue(liste[i])
+            }
+
+            // TODO få denne til å fungere
+            multiple.defaults.multiple.maxSize = 6;
         });
-    </script>
-    -->
-    <div>
 
-    </div>
-    <div class="input-field">
-        <input id="dfabd" type="text" class="chips">
-        <label for="dfabd">chips</label>
-    </div>
-    <div class="chip">
-        Tag
-    </div>
-    {{ form.tags }}
-
-
-    <script>
-        var tags = {{ tags|safe }}
-                $(function () {
-                    $('input.autocomplete').autocomplete({
-                        data: tags
-                    });
-                });
     </script>
 
-    <script>
-        $('.chips').material_chip();
-        $('.chips-initial').material_chip({
-            data: [{
-                tag: 'Apple',
-            }, {
-                tag: 'Microsoft',
-            }, {
-                tag: 'Google',
-            }],
-        });
-        $('.chips-placeholder').material_chip({
-            placeholder: 'Enter a tag',
-            secondaryPlaceholder: '+Tag',
-        });
-    </script>
-
-    <!--
-    <script>
-        var chip = {
-            tag: 'apple'
-        }
-    </script>
-       -->
 {% endblock content %}

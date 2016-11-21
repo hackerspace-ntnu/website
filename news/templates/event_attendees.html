@@ -7,7 +7,86 @@
 {% endblock head %}
 
 {% block content %}
-    {% for user in users %}
-        <p class="name">{{ user }}</p>
-    {% endfor %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+
+    <div class="content">
+        <div class="card">
+            <form action="toggle" method="post">
+                {% csrf_token %}
+                <div class="input-field user_search_field">
+                    <input name="user" type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
+                    <label for="autocomplete-input">Autocomplete</label>
+                </div>
+                <input class="waves-effect waves-light btn submit" type="submit" value="Submit" />
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .content {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 800px;
+            padding: 50px;
+        }
+        .card {
+            height: 150px;
+            padding: 30px;
+        }
+        .name {
+            text-transform: capitalize;
+        }
+        input, .input-field {
+            display: inline-block;
+        }
+        .user_search_field {
+            width: 60%;
+        }
+        .submit {
+            width: 35%;
+            margin-top: 25px;
+            float: right;
+        }
+        .name, .username{
+            display: inline-block;
+            width: 200px;
+        }
+        .toggle {
+            width: 50px;
+            display: inline-block;
+            float: right;
+        }
+        .waves-button-input {
+            margin-left: -50px;
+            width: 150%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        function toggle(user) {
+            $.ajax({
+                url: '/news/event/{{ id }}/attendees/toggle/',
+                data: user,
+            });
+        }
+        $(".toggle").click(function() {
+            toggle($(this).attr("user"));
+        });
+        $(function() {
+            $('input.autocomplete').autocomplete({
+                data: {
+                    {% for user in users %}
+                        "{{ user.name }} - {{ user.username }}": null,
+                    {% endfor %}
+                }
+            });
+            {% if toast %}
+                Materialize.toast('{{ toast }}', 4000);
+            {% endif %}
+        });
+    </script>
 {% endblock content %}
+

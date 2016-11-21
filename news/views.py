@@ -4,7 +4,7 @@ from django.utils import formats
 from django.utils import timezone
 from datetime import datetime, timedelta
 from . import log_changes
-from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm
+from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm
 from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
 from wiki.templatetags import check_user_group as groups
@@ -246,13 +246,36 @@ def register_on_event(request, event_id):
     return HttpResponseRedirect("/news/event/%i" % event_object.id)
 
 
-def event_attendees(request, event_id):
+def event_attendees(request, event_id, toast=""):
     event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
+
+    form = AttendeeForm()
+
     context = {
+        'id': event_id,
+        'form': form,
         'event': event_object,
-        'users': event_object.registered_list()
+        'users': EventRegistration.objects.filter(event=event_object),
+        'toast': toast,
     }
+
     return render(request, 'event_attendees.html', context)
+
+
+def attendance_toggle(request, event_id):
+    form = AttendeeForm(request.POST)
+    if form.is_valid():
+        user_string = form.cleaned_data["user"]
+        username = user_string.split(" - ")[1]
+        user = User.objects.get(username=username)
+        event = Event.objects.get(pk=event_id)
+        er = EventRegistration.objects.get(event=event, user=user)
+        er.attended = not er.attended
+        er.save()
+        message = er.name() + ' moette ' + (not er.attended)*'ikke' + ' opp'
+        return event_attendees(request, event_id, message)
+    else:
+        return HttpResponse("Feil")
 
 
 def get_id_or_404(object_id):

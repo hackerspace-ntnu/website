@@ -90,3 +90,7 @@ class UploadForm(forms.Form):
 class EventRegistrationForm(forms.Form):
     user = forms.CharField(max_length=50)
     event = forms.CharField(max_length=50)
+
+
+class AttendeeForm(forms.Form):
+    user = forms.CharField(label='Name', max_length=100)

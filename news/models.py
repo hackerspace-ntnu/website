@@ -90,28 +90,6 @@ class Event(models.Model):
                 return False, True
         return False, False
 
-    def find_attendees(self, user_string):
-        complete_user_match = []
-        incomplete_user_match = []
-        user_split = user_string.split(' ')
-        er_list = EventRegistration.objects.filter(event=self)
-        full_match = False
-        for er in er_list:
-            full_name = ' '.join([er.user.first_name, er.user.last_name])
-            username = er.user.username
-            if re.search(user_string, full_name, re.IGNORECASE) or re.search(user_string, username, re.IGNORECASE):
-                complete_user_match.append(er.user)
-                full_match = True
-            elif not full_match:
-                for search_term in user_split:
-                    if re.search(search_term, full_name, re.IGNORECASE) or re.search(search_term, username, re.IGNORECASE):
-                        incomplete_user_match.append(er.user)
-                        break
-        if full_match:
-            return complete_user_match
-        else:
-            return incomplete_user_match
-
 
     def attended(self, user, status):
         try:
@@ -149,6 +127,9 @@ class EventRegistration(models.Model):
 
     def username(self):
         return self.user.username
+
+    def name(self):
+        return self.user.first_name.capitalize() + " " + self.user.last_name.capitalize()
 
     def __str__(self):
         return "%s %s" % (self.user.first_name, self.user.last_name)

@@ -3,10 +3,12 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <script src="{% static 'inventory/js/add_item.js' %}"></script>
+    <script src={% static 'js/materialize-autocomplete.js' %}></script>
     <!--
     <meta name="viewport" content="width=device-width, initial-scale=1">
     -->
-
+    <!-- henter kryssene til chips -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--
     <meta charset="UTF-8">
@@ -14,18 +16,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
+    <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
     -->
+
     <!-- TODO her er det mye rot met hva som egentlig trenger å være her-->
     <!-- TODO fjern linker til gitHub-versjonen, så man kan endre på ting i materialize-autocomplete.js -->
-
-
 {% endblock header %}
 
 
 {% block content %}
     <div class="content">
-        <form action="{% url 'inventory:add_item' item_id %}" method="post">
+        <form id="item-form" action="{% url 'inventory:add_item' item_id %}" method="post">
             {% csrf_token %}
             <h3>{{ message }}</h3>
 
@@ -37,8 +39,9 @@
 
             <p id="error-message">{{ form.description.errors }}</p>
             <div class="input-field">
+                <textarea id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}"
+                          class="materialize-textarea"></textarea>
                 <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
-                {{ form.description }}
             </div>
 
             <p id="error-message">{{ form.quantity.errors }}</p>
@@ -47,19 +50,6 @@
                 {{ form.quantity }}
             </div>
 
-
-            {% comment %}
-            <p id="error-message">{{ form.tags.errors }}</p>
-            <div class="input-field">
-                <input type="text" id="{{ form.tags.id_for_label }}" name=
-                        "{{ form.tags.name }}" value="{{ tags_string }}"
-                       class="autocomplete"
-                       autocomplete="off">
-                <label for="{{ form.tags.id_for_label }}">{{ form.tags.label }}</label>
-            </div>
-            {% endcomment %}
-
-            <!-- TODO få taggene en gjenstand har til å vises i tag feltet når man skal endre -->
             <!-- TODO få taggene man har skrevet inn som er nye til å gjøres om til chips idet man trykker enter
             eller komma-->
             <!-- TODO få taggene man skrev inn isted, til å vises som cips hvis isValid feiler og man må skrive inn
@@ -80,31 +70,55 @@
                 <label class="active" for="multipleInput">{{ form.tags.label }}</label>
             </div>
 
-            <br>
+            <div class="input-field">
+                <label for="{{ form.tags_chips.id_for_label }}"></label>
+                {{ form.tags_chips }}
+            </div>
 
-            <button class="btn waves-effect waves-light" type="submit" name="action">{{ button_message }}
-            </button>
-            <button type="button" onclick="postElements()" class="btn waves-effect waves-light">Immitate form
-                innsending
+            <br>
+            <button class="btn waves-effect waves-light" type="button" onclick="postElements()">{{ button_message }}
             </button>
 
             <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
         </form>
     </div>
 
-    <button type="button" onclick="getChips()">testing</button>
-
-
-    <script src="{% static 'inventory/js/add_item.js' %}"></script>
-    <script src={% static 'js/materialize-autocomplete.js' %}></script>
     <script>
+
+        /** henter inn id'en til alle chips og legger det i en streng som så legges i tags_chips feltet i formen når
+         * man trykker på submit knappen. */
+        function postElements() {
+            var id_string = "";
+            id_string = getChips();
+            $('#{{ form.tags_chips.id_for_label }}').val(id_string);
+            $('#item-form').submit();
+        }
+
+
+        /** Legger inn tidligere verdi for description i description-feltet, hvis man endrer. */
+        if ('{{ form.description.value }}' != 'None') {
+            document.getElementById('{{ form.description.id_for_label }}').defaultValue =
+                    "{{ form.description.value }}";
+        }
+
+
+        /** Oppretter Autocomplete-object */
         $(function () {
             var multiple = $('#multipleInput').materialize_autocomplete({
                 multiple: {
-                    enable: true
+                    enable: true,
+                    maxSize: 6,
+                    onExist: function (item) {
+                        Materialize.toast('Tag: ' + item.text + ' er alderede lagt til!', 2000);
+                    },
+                    onExceed: function (maxSize, item) {
+                        Materialize.toast('Kan ikke legge til mer enn ' + maxSize + ' tagger!', 2000);
+                    }
                 },
                 appender: {
-                    el: '.ac-users'
+                    el: '.ac-users',
+                    tagTemplate: '<div class="chip" data-id="<%= item.id %>" data-text="<%= item.text %>"><%= item' +
+                    '.text %><i class="material-icons close">close</i></div>'
                 },
                 dropdown: {
                     el: '#multipleDropdown'
@@ -113,14 +127,12 @@
 
             multiple.resultCache = {{ form.get_autocomplete_dict|safe }};
 
+            // Sets existing tags, when changing an item.
             var liste = [];
             liste = {{ old_tags|safe }};
             for (var i = 0; i < liste.length; i++) {
                 multiple.setValue(liste[i])
             }
-
-            // TODO få denne til å fungere
-            multiple.defaults.multiple.maxSize = 6;
         });
 
     </script>

@@ -3,10 +3,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Tag, Item, Loan
 from .forms import ItemForm, LoanForm, TagForm
 import json
+from collections import OrderedDict
 
 
 # TODO tekst på knapper må midtstilles
@@ -16,9 +18,12 @@ import json
 
 def index(request):
     items = Item.objects.all()
-    item_dict = {}  # TODO vurdere å bytte ut med en sorted dict for å kunne vise kategoriene sortert,
-    # evt legge kategorier i en sortert liste
     no_category = []
+    all_tags = [tag for tag in Tag.objects.all() if tag.item_set.all()]
+    all_tags.sort(key=lambda tag: tag.name.lower())
+    item_dict = OrderedDict()
+    for sorted_tag in all_tags:
+        item_dict[sorted_tag] = []
     for item in items:
         if not item.tags.all():
             no_category.append(item)
@@ -28,9 +33,8 @@ def index(request):
                 item_dict[tag].append(item)
             except KeyError:
                 item_dict[tag] = [item]
-
     for value in item_dict.values():
-        value.sort(key=lambda e: e.name.title())
+        value.sort(key=lambda e: e.name.lower())
     no_category.sort(key=lambda w: w.name.lower())
     context = {
         'item_dict': item_dict,
@@ -41,6 +45,13 @@ def index(request):
 
 def search(request):
     search_text = request.GET['q']
+    if search_text.strip() == '/all':
+        context = {
+            'hits': Item.objects.all(),
+            'search_text': search_text,
+            'tags': Tag.objects.all().order_by('name')
+        }
+        return render(request, 'inventory/search.html', context)
     search_words = search_text.split()
     return_set = []
     tags = []
@@ -76,20 +87,27 @@ def add_item(request, item_id=0):
             # skiller ikke på store/små bokstaver itags
             if item_id != '0':  # existing item to be changed
                 item = Item.objects.get(pk=item_id)
+                """
+                basic_attributes = ['name', 'description', 'quatity']
+                for attr in basic_attributes:
+                    setattr(item, attr, form.cleaned_data[attr])
+                """
                 item.name = form.cleaned_data['name']
                 item.description = form.cleaned_data['description']
                 item.quantity = form.cleaned_data['quantity']
                 item.save()
+                messages.add_message(request, messages.SUCCESS, 'Gjenstanden ble endret.')
             else:  # create new item from form
                 name = form.cleaned_data['name']
                 description = form.cleaned_data['description']
                 quantity = form.cleaned_data['quantity']
                 item = Item(name=name, description=description, quantity=quantity)
+                # item = Item(**form.cleaned_data)
                 item.save()
                 item_id = item.id
+                messages.add_message(request, messages.SUCCESS, 'Gjenstandet ble opprettet')
             form.add_new_tags(item_id)
-            # TODO legge til at en liten melding vises øverst når man laster inn neste side, se: "the messages framwork"
-            return HttpResponseRedirect(reverse('inventory:registered'))
+            return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = ItemForm()
         if item_id:
@@ -116,6 +134,47 @@ def add_item(request, item_id=0):
     return render(request, 'inventory/add_item.html', context)
 
 
+def change_multiple_items(request):
+    """ For å endre flere itmes, tilgjengelig hvis man merker gjenstander i search og trykker 'endre'. """
+    # TODO søk på "arduino": hverken arduino eller OculusRift lar seg avmerke i boksen, det fungerer på resten
+    if request.method == "POST":
+        try:
+            """ Items marked in search-view for changing """
+            # items_for_changing: String of all item_id's to be changed, separated with '_' (also one at the end)
+            items_for_changing = request.POST['items']
+        except KeyError:
+            form = ItemForm(request.POST)
+            # TODO is_valid() returnerer ikke true
+            form.is_valid()
+            items = form.cleaned_data['tags_chips']
+            try:
+                new_tags = form.cleaned_data['name']
+            except KeyError:
+                """ Deletes all marked items """
+                # TODO legge til en slags "barnesikring" her?
+                ItemForm.delete_all_items(items)
+                messages.add_message(request, messages.SUCCESS, "Gjenstander ble slettet.")
+                return HttpResponseRedirect(reverse('inventory:index'))
+            else:
+                """ Changes tag on all marked items """
+                ItemForm.change_tags(items, new_tags)
+                messages.add_message(request, messages.SUCCESS, "Tagger ble oppdatert.")
+                return HttpResponseRedirect(reverse('inventory:index'))
+        else:
+            items = [get_object_or_404(Item, pk=item_id) for item_id in items_for_changing.split('_')[:-1]]
+            context = {
+                'autocomplete_dict': ItemForm.get_autocomplete_dict(),
+                'form': ItemForm(initial={'tags_chips': items_for_changing, 'name': 'skip'}),
+                'items': items,
+            }
+            return render(request, 'inventory/change_multiple_items.html', context)
+    else:
+        # TODO slags felles metode for dette i search-view?
+        return render(request, 'inventory/search.html', {'hits': Item.objects.all().order_by('name'),
+                                                         'search_text': '/all',
+                                                         'tags': Tag.objects.all()})
+
+
 # @login_required  # TODO tilgjenelighet må endres mtp om man er innlogget eller ikke
 def add_tag(request, tag_id=0):
     message = "Legg til ny tag"
@@ -128,13 +187,14 @@ def add_tag(request, tag_id=0):
                 tag = Tag.objects.get(pk=tag_id)
                 tag.name = form.cleaned_data['name']
                 tag.save()
+                messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
+                messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
             else:
                 name = form.cleaned_data['name']
                 tag = Tag(name=name)
                 tag.save()
-
-            # TODO legge til at en liten melding vises øverst når man laster inn neste side, se: "the messages framwork"
-            return HttpResponseRedirect(reverse('inventory:registered'))
+                messages.add_message(request, messages.SUCCESS, 'Taggen ble opprettet.')
+            return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = TagForm()
         if tag_id:
@@ -166,27 +226,18 @@ def register_loan(request):
             return_date = form.cleaned_data['return_date']
             loan = Loan(item=item, borrower=borrower, comment=comment, loan_date=loan_date, return_date=return_date)
             loan.save()
-            return HttpResponseRedirect(reverse('inventory:registered'))
+            messages.add_message(request, messages.SUCCESS, 'Lånet ble registrert')
+            return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = LoanForm()
     return HttpResponse(render(request, 'inventory/register_loan.html', {'form': form}))
 
 
-def registered(request):
-    name = "NAME"
-    # TODO mulig å heller redirecte til index, og ha en toast som sier at item.name er registrert, må da finne en
-    # måte å vise denne toasten selv om man kommer til ny side
-    # TODO kan evt vise toast og så redirecte etter et par sekunder
-    return render(request, 'inventory/registered.html', {'type': name})
-
-
 def tag_detail(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
-    related_items = list(tag.item_set.all())
-    related_items.sort(key=lambda i: i.name.lower())
     context = {
         'tag': tag,
-        'related_items': related_items,
+        'related_items': tag.item_set.all().order_by('name'),
     }
     return render(request, 'inventory/tag_detail.html', context)
 

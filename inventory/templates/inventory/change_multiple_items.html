@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <script src={% static 'js/materialize-autocomplete.js' %}></script>
+    <script src="{% static 'inventory/js/add_item.js' %}"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+{% endblock header %}
+
+{% block content %}
+    <div class="content">
+        <p>{{ test }}</p>
+        <h1>Endre flere gjenstander</h1>
+        {% for item in items %}
+            <div class="chip" data-id="_"><a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a></div>
+        {% endfor %}
+        <br>
+
+        <button id="delete-button" type="button" class="waves-effect waves-light btn"
+                onclick="$('#multiple_item_form').submit()">Slett alle
+        </button>
+        <br>
+        <br>
+
+        <form id="multiple_item_form" action="{% url 'inventory:change_multiple_items' %}" method="post">
+            {% csrf_token %}
+
+            <p id="error-message">{{ form.tags.errors }}</p>
+            <div class="input-field col s12">
+                <div class="autocomplete" id="multiple">
+                    <div class="ac-users"></div>
+                    <div class="ac-input">
+                        <input type="text" id="multipleInput"
+                               data-activates="multipleDropdown" data-beloworigin="true" name="{{ form.tags.name }}"
+                               autocomplete="off">
+                    </div>
+                    <ul id="multipleDropdown" class="dropdown-content ac-dropdown"></ul>
+                    <input type="hidden" name="multipleHidden"/>
+                </div>
+                <label class="active" for="multipleInput">{{ form.tags.label }}</label>
+            </div>
+
+            <div class="input-field">
+                <label for="{{ form.tags_chips.id_for_label }}"></label>
+                {{ form.tags_chips }}
+            </div>
+
+            <div class="input-field">
+                <label for="{{ form.name.id_for_label }}"></label>
+                {{ form.name }}
+            </div>
+
+            <br>
+            <button class="btn waves-effect waves-light" type="button" onclick="postElements()">Endre tagger
+            </button>
+
+        </form>
+
+        <script>
+            $('#{{ form.name.id_for_label }}').hide();
+            $('#{{ form.name.id_for_label }}').val("");
+
+            function postElements() {
+                var newTags = "";
+                $('.chip[data-id!="_"]').each(function () {
+                    newTags += $(this).attr('data-id') + '_';
+                });
+                console.log(newTags);
+                $('#{{ form.name.id_for_label }}').val(newTags);
+                $('#multiple_item_form').submit();
+            }
+
+            /** Oppretter Autocomplete-object */
+            // TODO har akkurat det samme i add_item, dropp denne dubliseringen
+            $(function () {
+                var multiple = $('#multipleInput').materialize_autocomplete({
+                    multiple: {
+                        enable: true,
+                        maxSize: 6,
+                        onExist: function (item) {
+                            Materialize.toast('Tag: ' + item.text + ' er alderede lagt til!', 2000);
+                        },
+                        onExceed: function (maxSize, item) {
+                            Materialize.toast('Kan ikke legge til mer enn ' + maxSize + ' tagger!', 2000);
+                        }
+                    },
+                    appender: {
+                        el: '.ac-users',
+                        tagTemplate: '<div class="chip" data-id="<%= item.id %>" data-text="<%= item.text %>"><%= item' +
+                        '.text %><i class="material-icons close">close</i></div>'
+                    },
+                    dropdown: {
+                        el: '#multipleDropdown'
+                    }
+                });
+                multiple.resultCache = {{ autocomplete_dict|safe }};
+            });
+
+        </script>
+
+    </div>
+
+{% endblock content %}

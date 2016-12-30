@@ -1,10 +1,8 @@
+from django.shortcuts import get_object_or_404
 from django import forms
+
 from .models import Tag, Item
 import json
-
-
-class NameForm(forms.Form):
-    your_name = forms.CharField(label='Your name', max_length=100)
 
 
 class ItemForm(forms.Form):
@@ -32,7 +30,34 @@ class ItemForm(forms.Form):
                     dic[tag_name[0:i].upper()] = [tag_dict]
         return json.dumps(dic)
 
+    @staticmethod
+    def delete_all_items(items: str):
+        """ Deletes all the items
+        Args:
+            items: id's separated with '_' (also at the end)
+        """
+        # TODO legge inn en slags barnesikring på sletting? her kunne det vært praktisk med en property for synlig/ikke
+        for item_id in items.split('_'):
+            if item_id:
+                item = get_object_or_404(Item, pk=item_id)
+                item.delete()
+
+    @staticmethod
+    def change_tags(items_str: str, new_tags: str):
+        """ Updates the tags for items in item_str to the tags in new_tags
+        Args:
+            items_str, new_tags: id's separated with '_' (also at the end)
+        """
+        tags = [Tag.objects.get(pk=tag_id) for tag_id in new_tags.split('_')[:-1]]
+        items = [Item.objects.get(pk=item_id) for item_id in items_str.split('_')[:-1]]
+        for item in items:
+            for old_tag in item.tags.all():
+                item.tags.remove(old_tag.id)
+            item.tags.add(*tags)
+            item.save()
+
     def clean(self):
+        # super(ItemForm, self).clean()
         """Splitter alle nye tags i 'tags' feltet og legger strengene tilbake i cleaned data"""
         delimiter = ','
         new_tags = self.cleaned_data['tags']
@@ -65,7 +90,8 @@ class ItemForm(forms.Form):
 
 
 class TagForm(forms.Form):
-    name = forms.CharField(label='Tag', max_length=100, strip=True)
+    name = forms.CharField(label='Tag', max_length=100, strip=True,
+                           widget=forms.TextInput(attrs={'autocomplete': 'off'}))
 
 
 class LoanForm(forms.Form):

@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^add_item/', views.add_item, name='add_item'),
     url(r'^(?P<item_id>[0-9]+)/add_item/$', views.add_item, name='add_item'),
     url(r'^(?P<item_id>[0-9]+)/$', views.detail, name='detail'),
+    url(r'^change_multiple_items/', views.change_multiple_items, name='change_multiple_items'),
 
     url(r'^add_tag/', views.add_tag, name='add_tag'),
     url(r'^(?P<tag_id>[0-9]+)/add_tag/$', views.add_tag, name='add_tag'),
@@ -17,7 +18,6 @@ urlpatterns = [
     url(r'^register_loan/', views.register_loan, name='register_loan'),
     url(r'^loans/', views.loans, name='loans'),
     url(r'^loans/(?P<loan_id>[0-9]+)/$', views.loan_detail, name='loan_detail'),
-    url(r'^registered/', views.registered, name='registered'),
 
     url(r'^search/', views.search, name='search'),
 ]

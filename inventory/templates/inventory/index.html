@@ -9,17 +9,32 @@
 <!-- TODO sette link til inventory i headeren? -->
 
 {% block content %}
-    <div class="content">
+    <!-- For å vise eventuelle meldinger fra oppretting/endring av item eller tag. -->
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var $toastContent = $('<span>{{ message }}</span>');
+                Materialize.toast($toastContent, 5000);
+                <!-- TODO sette delay på disse hvis man har flere meldinger-->
+            </script>
+        {% endfor %}
+    {% endif %}
 
+    <div class="content">
         <!-- TODO flytt dette søkefeltet og knappen til riktig sted -->
         <br>
         <form id="searchform" action="{% url 'inventory:search' %}" method="get">
-            <!-- {% csrf_token %} -->
+            {% csrf_token %}
             <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Søk" autocomplete="off">
             <button class="btn waves-effect waves-light" type="submit" name="action">søk</button>
         </form>
 
         <h1>Inventar</h1>
+        <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
+        <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
+        <a href="{% url 'inventory:register_loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
+        <a href="{% url 'inventory:loans' %}" class="waves-effect waves-light btn">Administrer utlån</a>
+
         <!-- TODO knapper man ikke kan bruke med mindre man er logget inn, kan enten linke til innloggingsside, eller
         være gråe, og ikke fungerende
         TODO endre fra "category" til "tag", for å være konsekvent
@@ -49,10 +64,11 @@
             {% endfor %}
 
             <!-- shows items without category -->
-            <!-- TODO evt ikke la "ingen_tag" være utvidet (altså allerede åpnet) som standard -->
+
+            <!-- TODO lag bakgrunn i collaipsible -->
             {% if no_category %}
                 <li>
-                    <div class="collapsible-header active"><i class="material-icons"> </i>Ingen tag</div>
+                    <div class="collapsible-header"><i class="material-icons"> </i>Ingen tag</div>
                     <div class="collapsible-body">
                         <ul>
                             <br>
@@ -69,9 +85,5 @@
             {% endif %}
         </ul>
 
-        <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
-        <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
-        <a href="{% url 'inventory:register_loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
-        <a href="{% url 'inventory:loans' %}" class="waves-effect waves-light btn">Administrer utlån</a>
     </div>
 {% endblock content %}

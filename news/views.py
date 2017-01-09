@@ -24,8 +24,13 @@ def event(request, event_id):
     if request.user.is_authenticated():
         now = timezone.now()
 
-    context['registered'], context['registration_visible'] = requested_event.registration_button_status(request.user)
-    context['userstatus'] = requested_event.userstatus(request.user)
+    if request.user.is_authenticated():
+        context['registered'], context['registration_visible'] = requested_event.registration_button_status(request.user)
+        context['userstatus'] = requested_event.userstatus(request.user)
+    else:
+        context['registered'] = False
+        context['registration_visible'] = False
+        context['userstatus'] = 'Ikke pålogget'
 
     return render(request, 'event.html', context)
 

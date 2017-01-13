@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/application.css" %}">
+
+{% endblock header %}
+
+{% block content %}
+
+    <h1 id="pageName">Søknad til Hackerspace-prosjektgruppa</h1>
+    <div class="row">
+      <div class="col s12 m6 offset-m3">
+        <div class="ingress">Skriv inn epostadressen din her, så vil du få en lenke til søknadsskjemaet når det offentliggjøres. Du vil få en bekreftelse på epost når du registrerer eposten din.</div>
+          <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Registrer</button>
+          </form>
+      </div>
+    </div>
+
+{% endblock content %}

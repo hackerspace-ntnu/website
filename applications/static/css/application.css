@@ -34,3 +34,8 @@ ul.errorlist {
     margin-bottom: 10px;
 }
 
+.ingress {
+    width: 95%;
+    max-width: 500px;
+    margin: 30px auto;
+}

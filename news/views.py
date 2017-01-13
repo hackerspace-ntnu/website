@@ -18,6 +18,7 @@ def event(request, event_id):
     requested_event = get_object_or_404(Event, pk=event_id)
     context = {
         'event': requested_event,
+        'user': request.user,
     }
 
     context['registration_visible'] = False

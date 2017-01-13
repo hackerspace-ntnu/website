@@ -271,17 +271,20 @@ def event_attendees(request, event_id, toast=""):
 def attendance_toggle(request, event_id):
     form = AttendeeForm(request.POST)
     if form.is_valid():
-        user_string = form.cleaned_data["user"]
-        username = user_string.split(" - ")[1]
-        user = User.objects.get(username=username)
-        event = Event.objects.get(pk=event_id)
-        er = EventRegistration.objects.get(event=event, user=user)
-        er.attended = not er.attended
-        er.save()
-        message = er.name() + ' moette ' + (not er.attended)*'ikke' + ' opp'
-        return event_attendees(request, event_id, message)
+        try:
+            user_string = form.cleaned_data["user"]
+            username = user_string.split(" - ")[1]
+            user = User.objects.get(username=username)
+            event = Event.objects.get(pk=event_id)
+            er = EventRegistration.objects.get(event=event, user=user)
+            er.attended = not er.attended
+            er.save()
+            message = er.name() + ' moette ' + (not er.attended)*'ikke' + ' opp'
+            return event_attendees(request, event_id, message)
+        except IndexError:
+            return event_attendees(request, event_id, "Fant ikke bruker")
     else:
-        return HttpResponse("Feil")
+        return event_attendees(request, event_id, "Fant ikke bruker")
 
 
 def get_id_or_404(object_id):

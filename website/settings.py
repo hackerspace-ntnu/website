@@ -17,51 +17,51 @@ SITE_ID = 1
 APPEND_SLASH = True
 
 ADMINS = (
-	('devops', 'hackerspace-dev@idi.ntnu.no'),
+    ('devops', 'hackerspace-dev@idi.ntnu.no'),
 )
 
 # Set some variables if DEBUG == False
 if os.environ.get('DEBUG') == 'False':
-	DEBUG = False
-	SECRET_KEY = os.environ.get('SECRET_KEY')
-	DOOR_KEY = os.environ.get('DOOR_KEY')
-	ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+    DEBUG = False
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    DOOR_KEY = os.environ.get('DOOR_KEY')
+    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 else:
-	DEBUG = True
+    DEBUG = True
 
 #################################
 # Installed apps                #
 #################################
 
 INSTALLED_APPS = [
-	'django.contrib.humanize',
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.sites',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
-	'django.contrib.admin',
-	'django.contrib.admindocs',
-	'website',
-	'applications',
-	'news',
-	'door',
-	'files',
-	'ckeditor',
-	'ckeditor_uploader',
-	'sekizai',
-	'sorl.thumbnail',
-	'django_nyt',
-	'wiki',
-	'wiki.plugins.macros',
-	'wiki.plugins.help',
-	'wiki.plugins.links',
-	'wiki.plugins.images',
-	'wiki.plugins.attachments',
-	'wiki.plugins.notifications',
-	'mptt',
-	'authentication',
+    'django.contrib.humanize',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'website',
+    'applications',
+    'news',
+    'door',
+    'files',
+    'ckeditor',
+    'ckeditor_uploader',
+    'sekizai',
+    'sorl.thumbnail',
+    'django_nyt',
+    'wiki',
+    'wiki.plugins.macros',
+    'wiki.plugins.help',
+    'wiki.plugins.links',
+    'wiki.plugins.images',
+    'wiki.plugins.attachments',
+    'wiki.plugins.notifications',
+    'mptt',
+    'authentication',
 ]
 
 #################################
@@ -69,48 +69,48 @@ INSTALLED_APPS = [
 #################################
 
 if DEBUG:
-	DATABASES = {
-		'default': {
-			'ENGINE': 'django.db.backends.sqlite3',
-			'NAME': 'database',
-		}
-	}
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'database',
+        }
+    }
 else:
-	DATABASES = {
-		'default': {
-			'ENGINE': 'django.db.backends.postgresql_psycopg2',
-			'NAME': os.environ.get('POSTGRES_USER'),
-			'USER': os.environ.get('POSTGRES_USER'),
-			'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-			'HOST': 'database',
-			'PORT': '5432',
-		}
-	}
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('POSTGRES_USER'),
+            'USER': os.environ.get('POSTGRES_USER'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+            'HOST': 'database',
+            'PORT': '5432',
+        }
+    }
 
 #################################
 # Templates                     #
 #################################
 
 TEMPLATES = [
-	{
-		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'APP_DIRS': True,
-		'DIRS': (os.path.join(BASE_DIR, 'templates/'),),
-		'OPTIONS': {
-			'context_processors': [
-				"django.contrib.auth.context_processors.auth",
-				"django.template.context_processors.debug",
-				"django.template.context_processors.i18n",
-				"django.template.context_processors.media",
-				"django.template.context_processors.request",
-				"django.template.context_processors.static",
-				"django.template.context_processors.tz",
-				"django.contrib.messages.context_processors.messages",
-				"sekizai.context_processors.sekizai",
-			],
-			'debug': DEBUG,
-		}
-	},
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': (os.path.join(BASE_DIR, 'templates/'),),
+        'OPTIONS': {
+            'context_processors': [
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.request",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
+                "sekizai.context_processors.sekizai",
+            ],
+            'debug': DEBUG,
+        }
+    },
 ]
 
 #################################
@@ -118,11 +118,11 @@ TEMPLATES = [
 #################################
 
 MIDDLEWARE_CLASSES = [
-	'django.middleware.common.CommonMiddleware',
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
 #################################
@@ -132,8 +132,8 @@ MIDDLEWARE_CLASSES = [
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 if not DEBUG:
-	STATIC_ROOT = '/code/static'
-	MEDIA_ROOT = '/code/media'
+    STATIC_ROOT = '/code/static'
+    MEDIA_ROOT = '/code/media'
 
 CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
 CKEDITOR_BROWSE_SHOW_DIRS = True
@@ -161,16 +161,20 @@ CKEDITOR_CONFIGS = {
 }
 
 STATICFILES_FINDERS = (
-	'django.contrib.staticfiles.finders.FileSystemFinder',
-	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-	'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 #################################
 # Email                         #
 #################################
 
-#DEFAULT_FROM_MAIL = 'hackerspace-dev@idi.ntnu.no'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# DEFAULT_FROM_MAIL = 'hackerspace-dev@idi.ntnu.no'
 DEFAULT_FROM_MAIL = 'web.hackerspace.ntnu@gmail.com'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
@@ -195,11 +199,11 @@ USE_TZ = True
 #################################
 
 LOGGING = {
-	'version': 1,
-	'disable_existing_loggers': False,
-	'filters': {
-		'require_debug_false': {
-			'()': 'django.utils.log.RequireDebugFalse'
-		}
-	}
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    }
 }

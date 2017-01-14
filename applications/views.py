@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from applications.forms import ApplicationForm, ProjectApplicationForm
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.core.mail import send_mail
+from datetime import datetime
 import json
 
 
@@ -33,17 +35,27 @@ def project_application_form(request):
         form = ProjectApplicationForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse("index"))
+            send_mail(
+                'Hackerspace NTNU takker for interessen :)',
+                """""",
+                'Hackerspace NTNU',
+                [form.cleaned_data['email']],
+                fail_silently=False,
+            )
+            return application_sent(request)
         else:
             return JsonResponse(json.dumps(form.errors), status=400, safe=False)
+
 
     form = ProjectApplicationForm()
 
     context = {
         'form': form
     }
-
-    return render(request, 'project_application_form.html', context)
+    if datetime.now() > datetime(2017, 1, 17, 12, 0, 0):
+        return render(request, 'project_application_form.html', context)
+    else:
+        return HttpResponseRedirect('/')
 
 
 def application_sent(request):

@@ -37,7 +37,16 @@ def project_application_form(request):
             form.save()
             send_mail(
                 'Hackerspace NTNU takker for interessen :)',
-                """""",
+                """Hei og takk for at du er interessert i å søke prosjektgruppa til Hackerspace NTNU!  Søknadsskjemaet åpner mandag den 23. januar klokka 12.00! Da får du en epost med link til søknadsskjemaet, og kan søke stilling i enten Escape-rom gruppa eller VR-gruppa.
+
+Har du spørsmål eller vil du vite mer om oss eller stillingene? Besøk oss gjerne på Slack:
+https://hackerspace-ntnu.slack.com/messages/opptak/
+
+Med vennlig hilsen oss i prosjektgruppa ved Hackerspace NTNU.
+
+https://hackerspace-ntnu.no/
+https://www.facebook.com/hackerspacentnu/?fref=ts
+""",
                 'Hackerspace NTNU',
                 [form.cleaned_data['email']],
                 fail_silently=False,
@@ -52,10 +61,7 @@ def project_application_form(request):
     context = {
         'form': form
     }
-    if datetime.now() > datetime(2017, 1, 17, 12, 0, 0):
-        return render(request, 'project_application_form.html', context)
-    else:
-        return HttpResponseRedirect('/')
+    return render(request, 'project_application_form.html', context)
 
 
 def application_sent(request):

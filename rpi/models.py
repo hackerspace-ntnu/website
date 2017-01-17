@@ -1,12 +1,10 @@
-from random import choice
-
-from django.core.validators import RegexValidator
-from django.db import models
 from os.path import join, dirname, realpath
 
+from django.core.validators import RegexValidator, validate_ipv46_address
+from django.db import models
+
 MAC_VALIDATOR = RegexValidator(r'^([a-f0-9]{2}:){5}[a-f0-9]{2}$')
-IP_VALIDATOR = RegexValidator(
-    r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$')
+IP_VALIDATOR = validate_ipv46_address
 PI_NAMES_FILE = join(dirname(realpath(__file__)), 'availnames.txt')
 
 

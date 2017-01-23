@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 <div class="input-field user_search_field">
                     <input name="user" type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
-                    <label for="autocomplete-input">Autocomplete</label>
+                    <label for="autocomplete-input" id="autocomplete-text">Autocomplete</label>
                 </div>
                 <input class="waves-effect waves-light btn submit" type="submit" value="Submit" />
             </form>
@@ -25,10 +25,13 @@
     </div>
 
     <style>
-        .btn {
+        #autocomplete-text.active {
+            color: var(--hs-green) !important;
+        }
+        .btn, .btn-large {
             background-color: var(--hs-green);
         }
-        .btn:hover {
+        .btn:hover{
             background-color: var(--hs-green);
         }
         .content {

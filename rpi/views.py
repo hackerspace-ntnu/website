@@ -1,55 +1,72 @@
 import datetime
 
-from django.http import HttpResponse
-from django.template import loader
+from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import View
+from django.views.generic.list import ListView
 
 from .models import RaspberryPi
 
 
 def get_client_ip(request):
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
     if x_forwarded_for:
-        ip = x_forwarded_for.split(",")[0]
+        return x_forwarded_for.split(',')[0]
     else:
-        ip = request.META.get("REMOTE_ADDR")
-    return ip
+        return request.META.get('REMOTE_ADDR')
 
 
-def add_rpi(request):
-    if request.POST:
-        mac = request.POST.get("mac_address", "")
+class RPiListView(ListView):
+    model = RaspberryPi
+    ordering = ('-last_seen',)
+    template_name = 'rpis.html'
+    context_object_name = 'rpis'
+
+
+class RPiAPIView(View):
+    def get(self, request, **kwargs):
+        return JsonResponse(
+            data={
+                'pis': [
+                    {
+                        'name': pi.name,
+                        'mac': pi.mac,
+                        'ip': pi.ip,
+                        'last_seen': pi.last_seen.isoformat()
+                    } for pi in RaspberryPi.objects.all()
+                    ]
+            }
+        )
+
+    @csrf_exempt
+    def post(self, request, **kwargs):
+        mac = request.POST.get('mac_address')
         ip = get_client_ip(request)
-        hostname = RaspberryPi.suggest_name()
         time = datetime.datetime.now()
-        if RaspberryPi.objects.filter(mac=mac).exists():
-            return HttpResponse("{} already exists".format(mac), status=400)
-        else:
-            RaspberryPi.objects.create(name=hostname, ip=ip, mac=mac, last_seen=time)
-            return HttpResponse(hostname, status=201)
-    else:
-        return HttpResponse("We only serve POST requests here", status=405)
 
-
-def lifesign(request):
-    if request.POST:
-        mac = request.POST.get("mac_address", "")
-        reported_hostname = request.POST.get("hostname", "")
+        is_new = False
         try:
-            host_rpi = RaspberryPi.objects.get(mac=mac)
-            ip = get_client_ip(request)
-            time = datetime.datetime.now()
-            host_rpi.update(ip=ip, last_seen=time, name=reported_hostname)
-            return HttpResponse("Hello, " + reported_hostname, status=200)
+            pi = RaspberryPi.objects.get(mac=mac)
         except RaspberryPi.DoesNotExist:
-            return HttpResponse("You're new here, arent'cha?", status=400)
-    else:
-        return HttpResponse("We only serve POST requests here", status=405)
+            is_new = True
+            pi = RaspberryPi(
+                mac=mac,
+                name=RaspberryPi.suggest_name(),
+            )
 
+        pi.ip = ip
+        pi.last_seen = time
 
-def index(request):
-    all_rpis = RaspberryPi.objects.order_by("-last_seen")[:5]
-    template = loader.get_template("rpis.html")
-    context = {
-        "rpis": all_rpis,
-    }
-    return HttpResponse(template.render(context, request))
+        pi.full_clean()
+        pi.save()
+
+        return JsonResponse(
+            data={
+                'name': pi.name,
+                'mac': pi.mac,
+                'ip': pi.ip,
+                'last_seen': pi.last_seen,
+            },
+            status=201 if is_new else 200
+        )

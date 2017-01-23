@@ -1,8 +1,8 @@
 from django.conf.urls import url
-from . import views
+
+from rpi.views import RPiListView, RPiAPIView
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^add$', views.add_rpi, name='addrpi'),
-    url(r'^lifesign',views.lifesign,name='lifesign')
+    url(r'^$', RPiListView.as_view(), name='rpi'),
+    url(r'^api/', RPiAPIView.as_view(), name='rpi-api'),
 ]

@@ -1,12 +1,14 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
-from django.conf.urls import include, url
+
 from django.conf import settings
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import include, url
 from django.contrib import admin
-from django.http.response import HttpResponse
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
-from website.views import index, opptak, test
+
+from website.views import index, test
 
 admin.autodiscover()
 
@@ -16,7 +18,7 @@ handler500 = 'website.views.handler500'
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^robots.txt', lambda _: HttpResponse('User-agent: *\nDisallow: /')),
+    url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^news/', include('news.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),

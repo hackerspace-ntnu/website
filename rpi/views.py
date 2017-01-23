@@ -1,6 +1,7 @@
 import datetime
 
-from django.http.response import JsonResponse
+from django.conf import settings
+from django.http.response import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View
 from django.views.generic.list import ListView
@@ -41,6 +42,14 @@ class RPiAPIView(View):
 
     @csrf_exempt
     def post(self, request, **kwargs):
+        key = request.POST.get('secret_key')
+
+        if not key:
+            return HttpResponseBadRequest('secret_key not provided.', status=401)
+
+        if not key == getattr(settings, 'RPI_SECRET_KEY'):
+            return HttpResponseBadRequest('secret_key not valid.', status=401)
+
         mac = request.POST.get('mac_address')
         ip = get_client_ip(request)
         time = datetime.datetime.now()

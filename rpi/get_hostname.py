@@ -27,9 +27,11 @@ def get_hostname():
         'csrfmiddlewaretoken': csrftoken,
         'secret_key': 'topkeklol'
     }
-    hostname = json.loads(client.post(url, headers=headers, data=data).text)['name']  # Laster hele json-strengen
-    print(hostname)
-    return hostname if 10 > len(hostname) > 0 else None
+    try:
+        hostname = json.loads(client.post(url, headers=headers, data=data).text)['name']  # Laster hele json-strengen
+        return hostname
+    except json.decoder.JSONDecodeError:
+        return None
 
 
 if __name__ == '__main__':

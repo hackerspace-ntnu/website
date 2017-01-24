@@ -10,8 +10,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         emails = ProjectApplication.objects.all()
 
-        subject = "Opptaket til Hackerspace sin prosjektgruppe har åpnet"
-        content = "Test"
+        subject = "Opptaket til Hackerspace har åpnet!"
+        content = """Hei, nå kan du gå inn på https://www.hackerspace-ntnu.no/opptak/ og søke stillinger i VR-gruppa og Escape-romgruppa!
+
+Hilsen oss i Hackerspace"""
         from_address = "web.hackerspace.ntnu@gmail.com"
 
         send_mass_mail([(subject, content, from_address, [email]) for email in emails])

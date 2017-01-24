@@ -8,8 +8,6 @@
 
 {% block content %}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 
     <div class="content">
         <div class="card">
@@ -17,22 +15,16 @@
                 {% csrf_token %}
                 <div class="input-field user_search_field">
                     <input name="user" type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
-                    <label for="autocomplete-input" id="autocomplete-text">Autocomplete</label>
+                    <label for="autocomplete-input" id="autocomplete-text">Bruker</label>
                 </div>
-                <input class="waves-effect waves-light btn submit" type="submit" value="Submit" />
+                <a class="waves-effect waves-light btn submit" onclick="$('form').submit();">Send</a>
             </form>
         </div>
     </div>
 
     <style>
         #autocomplete-text.active {
-            color: var(--hs-green) !important;
-        }
-        .btn, .btn-large {
-            background-color: var(--hs-green);
-        }
-        .btn:hover{
-            background-color: var(--hs-green);
+            color: #9e9e9e !important;
         }
         .content {
             display: block;
@@ -68,11 +60,6 @@
             display: inline-block;
             float: right;
         }
-        .waves-button-input {
-            margin-left: -50px;
-            width: 150%;
-            height: 100%;
-        }
     </style>
     <script>
         function toggle(user) {
@@ -98,4 +85,3 @@
         });
     </script>
 {% endblock content %}
-

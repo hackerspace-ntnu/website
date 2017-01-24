@@ -14,6 +14,6 @@ class Command(BaseCommand):
         content = """Hei, nå kan du gå inn på https://www.hackerspace-ntnu.no/opptak/ og søke stillinger i VR-gruppa og Escape-romgruppa!
 
 Hilsen oss i Hackerspace"""
-        from_address = "web.hackerspace.ntnu@gmail.com"
+        from_field = "Hackerspace NTNU"
 
-        send_mass_mail([(subject, content, from_address, [email]) for email in emails])
+        send_mass_mail([(subject, content, from_field, [email]) for email in emails])

@@ -268,7 +268,7 @@ def event_attendees(request, event_id, toast=""):
     return render(request, 'event_attendees.html', context)
 
 
-def attendance_toggle(request, event_id):
+def attendance(request, event_id):
     form = AttendeeForm(request.POST)
     if form.is_valid():
         try:
@@ -277,7 +277,7 @@ def attendance_toggle(request, event_id):
             user = User.objects.get(username=username)
             event = Event.objects.get(pk=event_id)
             er = EventRegistration.objects.get(event=event, user=user)
-            er.attended = not er.attended
+            er.attended = True
             er.save()
             message = er.name() + ' moette ' + (not er.attended)*'ikke' + ' opp'
             return event_attendees(request, event_id, message)

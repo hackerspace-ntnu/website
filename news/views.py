@@ -273,13 +273,14 @@ def attendance(request, event_id):
     if form.is_valid():
         try:
             user_string = form.cleaned_data["user"]
-            username = user_string.split(" - ")[1]
+            username = user_string.split("-")[1].strip()
             user = User.objects.get(username=username)
             event = Event.objects.get(pk=event_id)
             er = EventRegistration.objects.get(event=event, user=user)
             er.attended = True
             er.save()
-            message = er.name() + ' moette ' + (not er.attended)*'ikke' + ' opp'
+            name = er.name() if er.name().strip() != '' else username
+            message = name + ' moette ' + (not er.attended)*'ikke' + ' opp'
             return event_attendees(request, event_id, message)
         except IndexError:
             return event_attendees(request, event_id, "Fant ikke bruker")

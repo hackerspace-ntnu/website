@@ -37,7 +37,7 @@ def project_application_form(request):
             form.save()
             send_mail(
                 'Hackerspace NTNU takker for interessen :)',
-                """Hei og takk for at du er interessert i å søke prosjektgruppa til Hackerspace NTNU!  Søknadsskjemaet åpner mandag den 23. januar klokka 12.00! Da får du en epost med link til søknadsskjemaet, og kan søke stilling i enten Escape-rom gruppa eller VR-gruppa.
+                """Hei og takk for at du er interessert i å søke prosjektgruppa til Hackerspace NTNU! Du får du en epost med link til søknadsskjemaet når det åpner, og kan søke stilling i enten Escape-rom gruppa eller VR-gruppa.
 
 Har du spørsmål eller vil du vite mer om oss eller stillingene? Besøk oss gjerne på Slack:
 https://hackerspace-ntnu.slack.com/messages/opptak/

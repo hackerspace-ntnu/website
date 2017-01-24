@@ -12,7 +12,11 @@
 
         <h1>{{ item.name }}</h1>
         {% if item.tags %}
-            <h3>{{ item.tags.all }}</h3>
+            {% for tag in item.tags.all %}
+                <div class="chip">
+                    <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
+                </div>
+            {% endfor %}
         {% endif %}
         <p>{{ item.description }}</p>
         <p>Antall: {{ item.quantity }}</p>

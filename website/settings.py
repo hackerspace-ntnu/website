@@ -15,6 +15,7 @@ ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
+LOGIN_URL = '/authentication/login/'
 
 ADMINS = (
 	('devops', 'hackerspace-dev@idi.ntnu.no'),
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 	'website',
 	'applications',
 	'news',
+    'inventory',
 	'door',
 	'files',
 	'ckeditor',
@@ -62,7 +64,6 @@ INSTALLED_APPS = [
 	'wiki.plugins.notifications',
 	'mptt',
 	'authentication',
-    'inventory.apps.InventoryConfig'
 ]
 
 #################################

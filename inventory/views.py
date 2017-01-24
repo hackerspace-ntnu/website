@@ -1,25 +1,24 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone
-from django.contrib import messages
-
-from .models import Tag, Item, Loan
-from .forms import ItemForm, LoanForm, TagForm
-import json
 from collections import OrderedDict
+from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
+import json
+
+from .forms import ItemForm, LoanForm, TagForm
+from .models import Tag, Item, Loan
 
 
 # TODO tekst på knapper må midtstilles
 # TODO knapper må flyttes til bestemt punkt på skjermen
 # TODO mulig å bruke QR-kode for merking av gjenstander, må føre til item sin detail-side
-# TODO alt må endres slik at kun de som er innlogget og er i hackerspace har tilgang til å endre osc.
 
 def index(request):
-    items = Item.objects.all()
+    items = Item.objects.all().filter(visible=True)
     no_category = []
-    all_tags = [tag for tag in Tag.objects.all() if tag.item_set.all()]
+    all_tags = [tag for tag in Tag.objects.all() if tag.item_set.all() and tag.visible]
     all_tags.sort(key=lambda tag: tag.name.lower())
     item_dict = OrderedDict()
     for sorted_tag in all_tags:
@@ -47,17 +46,18 @@ def search(request):
     search_text = request.GET['q']
     if search_text.strip() == '/all':
         context = {
-            'hits': Item.objects.all(),
+            'hits': Item.objects.all().filter(visible=True),
             'search_text': search_text,
-            'tags': Tag.objects.all().order_by('name')
+            'tags': Tag.objects.all().filter(visible=True).order_by('name')
         }
         return render(request, 'inventory/search.html', context)
     search_words = search_text.split()
     return_set = []
     tags = []
     for word in search_words:
-        return_set += Item.objects.filter(tags__name__contains=word)
-        return_set += Item.objects.filter(name__contains=word)
+        return_set += Item.objects.filter(visible=True).filter(tags__name__contains=word)
+        return_set += Item.objects.filter(visible=True).filter(name__contains=word)
+        return_set += Item.objects.filter(visible=True).filter(description__contains=word)
         tags += Tag.objects.filter(name__contains=word)
 
     return_set = list(set(return_set))
@@ -76,9 +76,10 @@ def detail(request, item_id):
     return render(request, 'inventory/detail.html', {'item': item})
 
 
-# @login_required  # TODO tilgjenelighet må endres mtp om man er innlogget eller ikke
+@permission_required(['inventory.add_item', 'inventory.change_item', 'inventory.add_tag'])
 def add_item(request, item_id=0):
-    message = "Legg til en ny gjenstand"  # TODO se om denne og button_message kan settes med javascript
+    message = "Legg til en ny gjenstand"  # TODO se om denne og button_message kan settes med javascript,
+    # eller messages framework?
     button_message = "registrer"
     old_tags = []  # liste med alle tags en gjenstand har, for å fylle tags-feltet når man skal endre
     if request.method == 'POST':
@@ -134,9 +135,11 @@ def add_item(request, item_id=0):
     return render(request, 'inventory/add_item.html', context)
 
 
+@permission_required(['inventory.change_item', 'inventory.delete_item'])
 def change_multiple_items(request):
     """ For å endre flere itmes, tilgjengelig hvis man merker gjenstander i search og trykker 'endre'. """
     # TODO søk på "arduino": hverken arduino eller OculusRift lar seg avmerke i boksen, det fungerer på resten
+    # TODO endre her så man også kan lage nye tags
     if request.method == "POST":
         try:
             """ Items marked in search-view for changing """
@@ -151,7 +154,6 @@ def change_multiple_items(request):
                 new_tags = form.cleaned_data['name']
             except KeyError:
                 """ Deletes all marked items """
-                # TODO legge til en slags "barnesikring" her?
                 ItemForm.delete_all_items(items)
                 messages.add_message(request, messages.SUCCESS, "Gjenstander ble slettet.")
                 return HttpResponseRedirect(reverse('inventory:index'))
@@ -170,12 +172,14 @@ def change_multiple_items(request):
             return render(request, 'inventory/change_multiple_items.html', context)
     else:
         # TODO slags felles metode for dette i search-view?
-        return render(request, 'inventory/search.html', {'hits': Item.objects.all().order_by('name'),
-                                                         'search_text': '/all',
-                                                         'tags': Tag.objects.all()})
+        return render(request, 'inventory/search.html', {
+            'hits': Item.objects.all().filter(visible=True).order_by('name'),
+            'search_text': '/all',
+            'tags': Tag.objects.all()
+        })
 
 
-# @login_required  # TODO tilgjenelighet må endres mtp om man er innlogget eller ikke
+@permission_required(['inventory.add_tag', 'inventory.change_tag'])
 def add_tag(request, tag_id=0):
     message = "Legg til ny tag"
     button_message = "Legg til"
@@ -212,7 +216,16 @@ def add_tag(request, tag_id=0):
     return render(request, 'inventory/add_tag.html', context)
 
 
-# @login_required  # TODO tilgjenelighet må endres mtp om man er innlogget eller ikke
+def tag_detail(request, tag_id):
+    tag = get_object_or_404(Tag, pk=tag_id)
+    context = {
+        'tag': tag,
+        'related_items': tag.item_set.all().order_by('name'),
+    }
+    return render(request, 'inventory/tag_detail.html', context)
+
+
+@permission_required('inventory.add_loan')
 def register_loan(request):
     if request.method == 'POST':
         form = LoanForm(request.POST)
@@ -231,15 +244,6 @@ def register_loan(request):
     else:
         form = LoanForm()
     return HttpResponse(render(request, 'inventory/register_loan.html', {'form': form}))
-
-
-def tag_detail(request, tag_id):
-    tag = get_object_or_404(Tag, pk=tag_id)
-    context = {
-        'tag': tag,
-        'related_items': tag.item_set.all().order_by('name'),
-    }
-    return render(request, 'inventory/tag_detail.html', context)
 
 
 def loans(request):

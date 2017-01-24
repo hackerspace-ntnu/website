@@ -1,7 +1,10 @@
 import requests
 import uuid
+import json
+import os
 
 RPI_SERVER = 'http://localhost:8000'
+RPI_SECRET_KEY = 'topkeklol'
 
 
 def get_mac():
@@ -10,7 +13,7 @@ def get_mac():
 
 
 def get_hostname():
-    url = RPI_SERVER + '/rpi/lifesign'
+    url = RPI_SERVER + '/rpi/api/'
     client = requests.session()
     client.get(RPI_SERVER + '/admin/login/')
     csrftoken = client.cookies['csrftoken']
@@ -21,7 +24,23 @@ def get_hostname():
     mac = get_mac()
     data = {
         'mac_address': mac,
-        'csrfmiddlewaretoken': csrftoken
+        'csrfmiddlewaretoken': csrftoken,
+        'secret_key': 'topkeklol'
     }
-    hostname = client.post(url, headers=headers, data=data).text
+    hostname = json.loads(client.post(url, headers=headers, data=data).text)['name']  # Laster hele json-strengen
+    print(hostname)
     return hostname if 10 > len(hostname) > 0 else None
+
+
+if __name__ == '__main__':
+    hostname = get_hostname()
+    if hostname == None:
+        exit()
+    os.system("hostname {}".format(hostname))
+    print("Setting hostname to {}".format(hostname))
+    # Legg til ny bruker med samme navn som hostname
+    os.system("sudo useradd -g users -p hackerspace -s /bin/bash -m {}".format(hostname[::-1], hostname))
+    #  Fjern login for root
+    os.system("sudo usermod -s /bin/nologin root")
+    #  Slett en brukerkonto
+    # os.system("sudo userdel --remove test")

@@ -14,10 +14,10 @@ class EventEditForm(forms.Form):
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Beskrivelse', required=False)
     registration = forms.BooleanField(label="Påmelding", required=False)
     max_limit = forms.IntegerField(label="Antall", required=False)
-    registration_start_time = forms.CharField(label='Påmelding start tidspunk')
-    registration_start_date = forms.CharField(label='Påmelding start dato', error_messages=custom_error)
-    deregistration_end_time = forms.CharField(label='Avmelding slutt tidspunk')
-    deregistration_end_date = forms.CharField(label='Avmelding slutt dato', error_messages=custom_error)
+    registration_start_time = forms.CharField(label='Påmelding start tidspunk', required=False)
+    registration_start_date = forms.CharField(label='Påmelding start dato', required=False)
+    deregistration_end_time = forms.CharField(label='Avmelding slutt tidspunk', required=False)
+    deregistration_end_date = forms.CharField(label='Avmelding slutt dato', required=False)
     time_start = forms.CharField(label='Start klokkeslett')
     time_end = forms.CharField(label='Slutt klokkeslett')
     date = forms.CharField(label='Dato', error_messages=custom_error)
@@ -28,6 +28,7 @@ class EventEditForm(forms.Form):
     def clean(self):
         form_data = self.cleaned_data
 
+        # Verify max_limit
         if not form_data['max_limit']:
             form_data['max_limit'] = 0
         if form_data['max_limit'] < 0:
@@ -36,15 +37,18 @@ class EventEditForm(forms.Form):
             else:
                  form_data['max_limit'] = 0
 
+        # Require date
         if not 'date' in form_data or not form_data['date']:
             raise ValidationError({'date': 'Dato er påkrevet'}, code='invalid')
 
+        # Require registration_start_date and deregistration_end_date (if registration enabled)
         if form_data['registration']:
             if not 'registration_start_date' in form_data or not form_data['registration_start_date']:
                 raise ValidationError({'registration_start_date': 'Påmelding start dato er påkrevet'}, code='invalid')
             if not 'deregistration_end_date' in form_data or not form_data['deregistration_end_date']:
                 raise ValidationError({'deregistration_end_date': 'Avmelding slutt dato er påkrevet'}, code='invalid')
 
+        # Merge start/end 'time and date
         try:
             form_data['time_start'] = datetime.strptime(form_data['date'] + ' ' + form_data['time_start'], '%d %B, %Y %H:%M')
         except ValueError:
@@ -53,34 +57,38 @@ class EventEditForm(forms.Form):
             form_data['time_end'] = datetime.strptime(form_data['date'] + ' ' + form_data['time_end'], '%d %B, %Y %H:%M')
         except ValueError:
             raise ValidationError({'time_end': 'Eventens slutt-tidspunkt eller dato er ugyldig'}, code='invalid')
-        del form_data['date']
+        if 'date' in form_data: del form_data['date']
 
+        # Merge registration time and date
         try:
             form_data['registration_start'] = datetime.strptime(form_data['registration_start_date'] + ' ' + form_data['registration_start_time'], '%d %B, %Y %H:%M')
-        except ValueError:
+        except (ValueError, KeyError):
             if form_data['registration']:
                 raise ValidationError({'registration_start_time': 'Påmeldingens åpnings-tidspunkt eller dato er ugyldig'}, code='invalid')
             else:
                 form_data['registration_start'] = datetime(2000, 1, 1, 0, 0)
-        del form_data['registration_start_date']
-        del form_data['registration_start_time']
+        if 'registration_start_date' in form_data: del form_data['registration_start_date']
+        if 'registration_start_time' in form_data: del form_data['registration_start_time']
 
+        # Merge deregistration time and date
         try:
             form_data['deregistration_end'] = datetime.strptime(form_data['deregistration_end_date'] + ' ' + form_data['deregistration_end_time'], '%d %B, %Y %H:%M')
-        except ValueError:
+        except (ValueError, KeyError):
             if form_data['registration']:
                 raise ValidationError({'deregistration_end_time': 'Avmeldingens slutt-tidspunkt eller dato er ugyldig'}, code='invalid')
             else:
                 form_data['deregistration_end'] = datetime(2000, 1, 1, 0, 0)
-        del form_data['deregistration_end_date']
-        del form_data['deregistration_end_time']
+        if 'deregistration_end_date' in form_data: del form_data['deregistration_end_date']
+        if 'deregistration_end_time' in form_data: del form_data['deregistration_end_time']
 
+        # Verify dates
         if form_data['registration']:
             if not form_data['registration_start'] <= form_data['deregistration_end']:
                 raise ValidationError({'registration_start_time': 'Ugyldige datoer, påmending må åpne før avmelding slutter'}, code='invalid')
             if not form_data['deregistration_end'] <= form_data['time_start']:
                 raise ValidationError({'time_start': 'Ugyldige datoer, avmelding må slutte før eventen starter'}, code='invalid')
 
+        # Verify thumbnail
         try:
             form_data['thumbnail'] = Image.objects.get(id=int(form_data['thumbnail']))
         except (TypeError, ValueError, Image.DoesNotExist):

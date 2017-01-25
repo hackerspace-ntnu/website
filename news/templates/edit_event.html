@@ -56,7 +56,7 @@
             <div class="date inline">
               <div class="input-field">
                 <label for="{{ form.registration_start_date.id_for_label }}">{{ form.registration_start_date.label }}</label>
-                <input id="{{ form.registration_start_date.id_for_label }}" class="datepicker" name="registration_start_date" type="date"
+                <input id="{{ form.registration_start_date.id_for_label }}" class="datepicker" name="registration_start_date"
                        value="{{ form.registration_start_date.value }}">
               </div>
             </div>
@@ -79,7 +79,7 @@
             <div class="date inline">
               <div class="input-field">
                 <label for="{{ form.deregistration_end_date.id_for_label }}">{{ form.deregistration_end_date.label }}</label>
-                <input id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker" name="deregistration_end_date" type="date"
+                <input id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker" name="deregistration_end_date"
                        value="{{ form.deregistration_end_date.value }}">
               </div>
             </div>
@@ -113,7 +113,7 @@
           <div class="date inline">
             <div class="input-field">
               <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
-              <input id="{{ form.date.id_for_label }}" class="datepicker" name="date" type="date"
+              <input id="{{ form.date.id_for_label }}" class="datepicker" name="date"
                      value="{{ form.date.value }}">
             </div>
           </div>
@@ -171,6 +171,9 @@
             } else {
               $("#registration .extra").fadeOut();
             }
+            $(".datepicker").each(function() {
+              $(this).updateDatePickerLabel();
+            });
           });
           $("#filled-in-box").change(function() {
             if ($("#filled-in-box").prop("value") == "True") {
@@ -181,6 +184,16 @@
               $("#registration .extra").fadeIn();
             }
           });
+          $(".datepicker").change(function() {
+            $(this).updateDatePickerLabel();
+          });
+          $.fn.updateDatePickerLabel = function() {
+            if ($(this).val() != "") {
+              $(this).parent().find("label").addClass("active");
+            } else {
+              $(this).parent().find("label").removeClass("active");
+            }
+          }
         </script>
         <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 

@@ -4,6 +4,10 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 from files.models import Image
 
+custom_error = {
+    'required': '',
+}
+
 class EventEditForm(forms.Form):
     title = forms.CharField(max_length=100, label='Tittel')
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress', required=False)
@@ -11,12 +15,12 @@ class EventEditForm(forms.Form):
     registration = forms.BooleanField(label="Påmelding", required=False)
     max_limit = forms.IntegerField(label="Antall", required=False)
     registration_start_time = forms.CharField(label='Påmelding start tidspunk')
-    registration_start_date = forms.CharField(label='Påmelding start dato')
+    registration_start_date = forms.CharField(label='Påmelding start dato', error_messages=custom_error)
     deregistration_end_time = forms.CharField(label='Avmelding slutt tidspunk')
-    deregistration_end_date = forms.CharField(label='Avmelding slutt dato')
+    deregistration_end_date = forms.CharField(label='Avmelding slutt dato', error_messages=custom_error)
     time_start = forms.CharField(label='Start klokkeslett')
     time_end = forms.CharField(label='Slutt klokkeslett')
-    date = forms.CharField(label='Dato')
+    date = forms.CharField(label='Dato', error_messages=custom_error)
     place = forms.CharField(max_length=100, label='Sted', required=False)
     place_href = forms.CharField(max_length=200, label='Sted URL', required=False)
     thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
@@ -31,6 +35,15 @@ class EventEditForm(forms.Form):
                 raise ValidationError({'max_limit': 'Antall plasser på være positivt'}, code='invalid')
             else:
                  form_data['max_limit'] = 0
+
+        if not 'date' in form_data or not form_data['date']:
+            raise ValidationError({'date': 'Dato er påkrevet'}, code='invalid')
+
+        if form_data['registration']:
+            if not 'registration_start_date' in form_data or not form_data['registration_start_date']:
+                raise ValidationError({'registration_start_date': 'Påmelding start dato er påkrevet'}, code='invalid')
+            if not 'deregistration_end_date' in form_data or not form_data['deregistration_end_date']:
+                raise ValidationError({'deregistration_end_date': 'Avmelding slutt dato er påkrevet'}, code='invalid')
 
         try:
             form_data['time_start'] = datetime.strptime(form_data['date'] + ' ' + form_data['time_start'], '%d %B, %Y %H:%M')

@@ -30,10 +30,22 @@
         </form>
 
         <h1>Inventar</h1>
-        <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
-        <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
-        <a href="{% url 'inventory:register_loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
-        <a href="{% url 'inventory:loans' %}" class="waves-effect waves-light btn">Administrer utlån</a>
+
+        {% if request.user.is_authenticated %}
+            {% if perms.inventory.add_item %}
+                <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
+            {% endif %}
+            {% if perms.inventory.add_tag %}
+                <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
+            {% endif %}
+            {% if perms.inventory.add_loan %}
+                <a href="{% url 'inventory:register_loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
+                <a href="{% url 'inventory:administrate_loans' %}" class="waves-effect waves-light btn">Administrer
+                    utlån</a>
+            {% endif %}
+            <a href="{% url 'inventory:my_loans' %}" class="waves-effect waves-light btn">Mine lån</a>
+        {% endif %}
+
 
         <!-- TODO knapper man ikke kan bruke med mindre man er logget inn, kan enten linke til innloggingsside, eller
         være gråe, og ikke fungerende

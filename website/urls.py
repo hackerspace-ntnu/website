@@ -22,10 +22,9 @@ urlpatterns = [
     url(r'^news/', include('news.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),
-    url(r'^opptak/', include('applications.urls')),
+    #url(r'^opptak/', include('applications.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
-    url(r'^opptak/', include('applications.urls')),
     url(r'^test/$', test, name="500-test"),
     url(r'^files/', include('files.urls')),
 ]

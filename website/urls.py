@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
     url(r'^test/$', test, name="500-test"),
     url(r'^files/', include('files.urls')),
+    url(r'^groups/', include('committees.urls', namespace='verv')),
+    url(r'^chaining/', include('smart_selects.urls')),
 ]
 
 if settings.DEBUG:

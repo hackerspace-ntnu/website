@@ -15,6 +15,7 @@ ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
+LOGIN_REDIRECT_URL = '/authentication/login/'
 
 ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),
@@ -62,6 +63,11 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
+    'smart_selects',
+    'committees',
+    'dal',
+    'dal_select2',
+    'material',
 ]
 
 #################################
@@ -207,3 +213,30 @@ LOGGING = {
         }
     }
 }
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'bootstrapck',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['Maximize', 'Find', 'Replace']
+        ],
+        'customConfig': '/static/js/ckeditor_config.js',
+    },
+
+    'committees': {
+        'skin': 'bootstrapck',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['Maximize', 'Find', 'Replace']
+        ],
+        'customConfig': '/static/js/ckeditor_config.js',
+    },
+}
+
+DEFAULT_CONFIG = CKEDITOR_CONFIGS

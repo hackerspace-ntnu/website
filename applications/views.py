@@ -66,3 +66,7 @@ https://www.facebook.com/hackerspacentnu/?fref=ts
 
 def application_sent(request):
     return render(request, 'application_sent.html')
+
+
+def no_application(request):
+    return render(request, 'no_application.html', {})

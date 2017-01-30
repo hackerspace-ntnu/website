@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
+
+{% endblock header %}
+
+
+{% block content %}
+
+    <div class="content">
+        {% if current_loans %}
+            <h2>Current loans</h2>
+            {% for loan in late_loans %}
+                {{ loan.item.name }}
+
+            {% endfor %}
+        {% endif %}
+
+
+        {% if late_loans %}
+            <!-- TODO merk av for om hvor mange reminders personen har fått på mail -->
+
+            <h2>Late loans</h2>
+            {% for loan in late_loans %}
+                {{ loan.item.name }}
+
+            {% endfor %}
+        {% endif %}
+
+
+
+        {% if old_loans %}
+            <h2>Old loans</h2>
+            {% for loan in late_loans %}
+                {{ loan.item.name }}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
+
+{% endblock content %}

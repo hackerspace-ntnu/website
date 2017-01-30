@@ -21,6 +21,7 @@ class Item(models.Model):
 
     # TODO legge til et felt for å telle popularitet i sidevisninger, kan bruke dette når man søker
     # TODO LEGGE TIL ET FELTER FOR HVOR PÅ HACKERSPACEROMMET TINGEN FAKTISK LIGGER
+    # TODO antall lånt ut (må holde styr på antall man har tilgjengelig)??
 
     def show_tags(self):
         all_tags = ", ".join(str(tag) for tag in self.tags.all())
@@ -31,14 +32,15 @@ class Item(models.Model):
 
 
 class Loan(models.Model):
+    # TODO nødvendig med null=True på alle?
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
-    borrower = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_borrower",
-                                 on_delete=models.SET_NULL, null=True)  # lånetaker
-    lender = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_lender",
-                               on_delete=models.SET_NULL, null=True)  # utlåner
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='loan_set')  # lånetaker
+    lender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='lender_set')  # utlåner
+
     comment = models.CharField(max_length=300)
     visible = models.BooleanField(default=True)
 
-    loan_date = models.DateTimeField('date_lent')
-    return_date = models.DateTimeField('return_date')
-    date_returned = models.DateTimeField('date_returned')  # innleveringstidspunkt (når den faktisk ble levert tilbake)
+    loan_date = models.DateTimeField('date_lent', null=True)
+    return_date = models.DateTimeField('return_date', null=True)
+    date_returned = models.DateTimeField('date_returned', null=True)  # innleveringstidspunkt (når den faktisk ble
+    # levert tilbake)

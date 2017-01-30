@@ -1,9 +1,21 @@
+{% extends 'base.html' %}
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'inventory/style.css' %}"/>
 
-<form action="{% url 'inventory:register_loan' %}" method="post">
-    {%  csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}"/>
+{% endblock header %}
 
-</form>
+{% block content %}
+    <div class="content">
+        <h1>Registrer nytt utlån</h1>
+        <form action="{% url 'inventory:register_loan' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+
+
+            <button class="btn waves-effect waves-light" type="submit" name="action">Registrer
+            </button>
+
+        </form>
+    </div>
+{% endblock content %}

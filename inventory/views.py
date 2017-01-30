@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from django.contrib import messages
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -21,6 +22,7 @@ def index(request):
     all_tags = [tag for tag in Tag.objects.all() if tag.item_set.all() and tag.visible]
     all_tags.sort(key=lambda tag: tag.name.lower())
     item_dict = OrderedDict()
+    # TODO flytt dette til et annet sted
     for sorted_tag in all_tags:
         item_dict[sorted_tag] = []
     for item in items:
@@ -45,12 +47,7 @@ def index(request):
 def search(request):
     search_text = request.GET['q']
     if search_text.strip() == '/all':
-        context = {
-            'hits': Item.objects.all().filter(visible=True),
-            'search_text': search_text,
-            'tags': Tag.objects.all().filter(visible=True).order_by('name')
-        }
-        return render(request, 'inventory/search.html', context)
+        return render(request, 'inventory/search.html', show_all_items())
     search_words = search_text.split()
     return_set = []
     tags = []
@@ -69,6 +66,16 @@ def search(request):
         'tags': tags,
     }
     return render(request, 'inventory/search.html', context)
+
+
+def show_all_items() -> dict:
+    """ Returns context with every item. """
+    # TODO sorter navn alfabetisk uavhengig av caps eller ikke
+    return {
+        'hits': Item.objects.all().filter(visible=True).order_by('name'),
+        'search_text': '/all',
+        'tags': Tag.objects.all()
+    }
 
 
 def detail(request, item_id):
@@ -171,14 +178,10 @@ def change_multiple_items(request):
             }
             return render(request, 'inventory/change_multiple_items.html', context)
     else:
-        # TODO slags felles metode for dette i search-view?
-        return render(request, 'inventory/search.html', {
-            'hits': Item.objects.all().filter(visible=True).order_by('name'),
-            'search_text': '/all',
-            'tags': Tag.objects.all()
-        })
+        return render(request, 'inventory/search.html', show_all_items())
 
 
+# TODO permission_required redirecter ikke til dit man kom fra når man må logge inn
 @permission_required(['inventory.add_tag', 'inventory.change_tag'])
 def add_tag(request, tag_id=0):
     message = "Legg til ny tag"
@@ -227,17 +230,21 @@ def tag_detail(request, tag_id):
 
 @permission_required('inventory.add_loan')
 def register_loan(request):
+    # TODO må ha en god måte å registrere ny bruker på hvis de ikke alderede har
     if request.method == 'POST':
         form = LoanForm(request.POST)
         if form.is_valid():
-            item = form.cleaned_data['item']
+            item_string = form.cleaned_data['item']
             borrower = form.cleaned_data['borrower']
-            # TODO plukk ut bruker som var logget inn, og lagre i variabel lender
             comment = form.cleaned_data['comment']
-
-            loan_date = timezone.now()
             return_date = form.cleaned_data['return_date']
-            loan = Loan(item=item, borrower=borrower, comment=comment, loan_date=loan_date, return_date=return_date)
+            # TODO plukk ut bruker som var logget inn, og lagre i variabel lender
+            lender = request.user
+            loan_date = timezone.now()
+            # TODO bruk clean til å hente ut item?
+            # loan = Loan(item=item, borrower=borrower, comment=comment, loan_date=loan_date, return_date=return_date)
+            loan = Loan(**form.cleaned_data)
+
             loan.save()
             messages.add_message(request, messages.SUCCESS, 'Lånet ble registrert')
             return HttpResponseRedirect(reverse('inventory:index'))
@@ -246,8 +253,9 @@ def register_loan(request):
     return HttpResponse(render(request, 'inventory/register_loan.html', {'form': form}))
 
 
-def loans(request):
-    '''return HttpResponse("liste over nåværende, for sene og gamle utlån")'''
+@permission_required('inventory.add_loan')
+def administrate_loans(request):
+    """ return HttpResponse("liste over nåværende, for sene og gamle utlån") """
 
     all_loans = Loan.objects.all()
     current_loans = all_loans.filter(date_returned__isnull=True).filter(return_date__lte=timezone.now()).order_by(
@@ -261,9 +269,26 @@ def loans(request):
         'late_loans': late_loans,
         'old_loans': old_loans,
     }
+    return render(request, 'inventory/administrate_loans.html', context)
 
-    return render(request, 'inventory/loans.html', context)
+
+@login_required
+def my_loans(request):
+    user = request.user
+    loans = user.loan_set.all()
+    context = {
+        'loans': loans,
+    }
+    return render(request, 'inventory/my_loans.html', context)
 
 
-def loan_detail(request, id):
-    return HttpResponse("detaljer for utlån med id " + str(id))
+# @permission_required(['inventory.add_loan', 'inventory.change_loan', 'inventory.delete_loan'])
+def loan_detail(request, loan_id):
+    loan = get_object_or_404(Loan, pk=loan_id)
+    context = {
+        'loan': loan,
+    }
+    return render(request, 'inventory/loan_detail.html', context)
+
+
+# TODO listener for å sende ut mail med purring når det har gått litt over fristen, ..?

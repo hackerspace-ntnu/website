@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
+
+{% endblock header %}
+
+
+{% block content %}
+    <div class="content">
+        {% if request.user.is_authenticated %}
+
+        {% endif %}
+
+        <h1>{{ request.user.username }}</h1>
+        {% if user.loan_set.all %}
+            {% for loan in user.loan_set.all %}
+                <h4>{{ loan.item.name }}</h4>
+                {{ loan.item.name }}
+            {% endfor %}
+        {% else %}
+            <p>Du har ingen registererte lån</p>
+        {% endif %}
+
+
+        <!-- TODO legge inn en betingelse på at man er en slags admin?-->
+        {% if user.lender_set.all %}
+            {% for loan in user.lender_set.all %}
+                <h4>{{ loan.item.name }}</h4>
+                {{ loan.item.name }}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+{% endblock content %}

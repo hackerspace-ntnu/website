@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
+
+{% endblock header %}
+
+
+{% block content %}
+    <div class="content">
+
+        <h2>Utlån av <a href="{% url 'inventory:detail' loan.item.id %}">{{ loan.item.name }}</a></h2>
+
+        <p>Lånt ut av {{ loan.borrower.username }}</p>
+        <p>ansvarlig for utlånet {{ loan.lender.username }}</p>
+
+
+        <!-- TODO få til et annet fancy med farger her for å merke at den har gått over frist -->
+
+    </div>
+{% endblock content %}

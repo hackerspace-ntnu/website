@@ -262,6 +262,7 @@ def event_attendees(request, event_id, toast=""):
         'form': form,
         'event': event_object,
         'users': EventRegistration.objects.filter(event=event_object),
+        'attending_users': event_object.attending_list(),
         'toast': toast,
     }
 
@@ -280,7 +281,7 @@ def attendance(request, event_id):
             er.attended = True
             er.save()
             name = er.name() if er.name().strip() != '' else username
-            message = name + ' moette ' + (not er.attended)*'ikke' + ' opp'
+            message = name + ' er registrert'
             return event_attendees(request, event_id, message)
         except IndexError:
             return event_attendees(request, event_id, "Fant ikke bruker")

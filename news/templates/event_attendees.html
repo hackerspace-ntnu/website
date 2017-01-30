@@ -27,7 +27,12 @@
                 <div class="collapsible-header">Påmeldte</div>
                 <div class="collapsible-body people">
                   {% for user in event.registered_list %}
-                    <p>{{ user }}</p>
+                    <div>
+                        <p class="inline">{{ user }}</p>
+                        {% if user in attending_users %}
+                            <i class="material-icons">done</i>
+                        {% endif %}
+                    </div>
                   {% endfor %}
                 </div>
               </li>
@@ -52,6 +57,12 @@
     </div>
 
     <style>
+        .inline {
+            display: inline-block;
+        }
+        input.inline {
+            float: right;
+        }
         #autocomplete-text.active {
             color: #9e9e9e !important;
         }

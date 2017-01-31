@@ -40,6 +40,13 @@
         }
       }
     </style>
+    <script>
+      $(function() {
+        $(".customcol").each(function() {
+          $(this).css("width", ($(this).attr("width")-3) + "%");
+        });
+      });
+    </script>
   </div>
 
 {% endblock %}

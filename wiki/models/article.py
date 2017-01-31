@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from __future__ import absolute_import
+import re
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
@@ -213,27 +214,10 @@ class Article(models.Model):
         return self.custom_markdown(content, preview_content)
 
     def custom_markdown(self, content, preview_content):
-        groups = content.split('$co')
-        for i in range(len(groups)):
-            if groups[i].startswith('lstart'):
-                try:
-                    newline = groups[i].index('\n')
-                except ValueError:
-                    newline = len(groups[i])
-                try:
-                    div = '<div class="customcol" style="overflow:hidden;display:inline-block;width:%i%s;vertical-align:top;margin-right:2%s;">' % (int(groups[i][6:newline])-2, '%', '%')
-                except (ValueError, TypeError, IndexError):
-                    div = '<div class="customcol" style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;>'
-                groups[i] = div + mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
-            elif groups[i].startswith('lend'):
-                try:
-                    newline = groups[i].index('\n')
-                except ValueError:
-                    newline = len(groups[i])
-                groups[i] = '</div>%s' % mark_safe(article_markdown(groups[i][newline:], self, preview=preview_content is not None))
-            else:
-                groups[i] = mark_safe(article_markdown(groups[i], self, preview=preview_content is not None))
-        return "".join(groups)
+        content = mark_safe(article_markdown(content, self, preview=preview_content is not None))
+        content = re.sub(r'(^|(?P<not_slash>[^\\]))(\<p\>)?\$colend(\<\/p\>)?', '\g<not_slash></div>', content)
+        content = re.sub(r'(^|(?P<not_slash>[^\\]))(\<p\>)?\$colstart(\s)?(?P<col_width>[0-9]{1,3})(\<\/p\>)?', '\g<not_slash><div class="customcol" width="\g<col_width>"; style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;">', content)
+        return content.replace('\\$', '$', -1)
 
     def get_cache_key(self):
         return "wiki:article:%d" % (

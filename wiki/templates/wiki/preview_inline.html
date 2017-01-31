@@ -33,7 +33,9 @@
     </div>
   {% else %}
     
-    {% wiki_render article content %}
+    {% autoescape off %}
+       {% wiki_render article content %}
+    {% endautoescape %}
     {% for plugin in plugins %}
       {% if plugin.RenderMedia.css %}
         {% addtoblock "css" %}

@@ -4,7 +4,7 @@ import json
 import os
 
 RPI_SERVER = 'http://localhost:8000'
-RPI_SECRET_KEY = 'topkeklol'
+RPI_SECRET_KEY = 'idunnolol'
 
 
 def get_mac():
@@ -25,7 +25,7 @@ def get_hostname():
     data = {
         'mac_address': mac,
         'csrfmiddlewaretoken': csrftoken,
-        'secret_key': 'topkeklol'
+        'secret_key': RPI_SECRET_KEY
     }
     try:
         hostname = json.loads(client.post(url, headers=headers, data=data).text)['name']  # Laster hele json-strengen

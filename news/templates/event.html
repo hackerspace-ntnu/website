@@ -94,7 +94,7 @@
                   <div class="collapsible-header">Påmeldte</div>
                   <div class="collapsible-body people">
                     {% for user in event.registered_list %}
-                      <p>{{ user }}</p>
+                      <p>{{ user.0 }}</p>
                     {% endfor %}
                   </div>
                 </li>

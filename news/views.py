@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import formats
 from django.utils import timezone
@@ -252,28 +252,10 @@ def register_on_event(request, event_id):
     return HttpResponseRedirect("/news/event/%i" % event_object.id)
 
 
-def event_attendees(request, event_id, toast=""):
-    event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
-
-    form = AttendeeForm()
-
-    context = {
-        'id': event_id,
-        'form': form,
-        'event': event_object,
-        'users': EventRegistration.objects.filter(event=event_object),
-        'attending_users': event_object.attending_list(),
-        'toast': toast,
-    }
-
-    return render(request, 'event_attendees.html', context)
-
-
-def attendance(request, event_id):
-    form = AttendeeForm(request.POST)
-    if form.is_valid():
+def event_attendees(request, event_id):
+    if request.method == 'POST':
         try:
-            user_string = form.cleaned_data["user"]
+            user_string = request.POST['name']
             username = user_string.split("-")[1].strip()
             user = User.objects.get(username=username)
             event = Event.objects.get(pk=event_id)
@@ -282,11 +264,23 @@ def attendance(request, event_id):
             er.save()
             name = er.name() if er.name().strip() != '' else username
             message = name + ' er registrert'
-            return event_attendees(request, event_id, message)
+            return JsonResponse({'success': True, 'message': message, 'username': username}, safe=False)
         except IndexError:
-            return event_attendees(request, event_id, "Fant ikke bruker")
+            return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
     else:
-        return event_attendees(request, event_id, "Fant ikke bruker")
+        event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
+
+        form = AttendeeForm()
+
+        context = {
+            'id': event_id,
+            'form': form,
+            'event': event_object,
+            'users': EventRegistration.objects.filter(event=event_object),
+            'attending_usernames': event_object.attending_usernames(),
+        }
+
+        return render(request, 'event_attendees.html', context)
 
 
 def get_id_or_404(object_id):

@@ -11,7 +11,6 @@ urlpatterns = [
     url(r'^event/(?P<event_id>[0-9]+)/edit', views.edit_event, name='edit-event'),
     url(r'^event/(?P<event_id>[0-9]+)/delete', views.delete_event, name='delete-event'),
     url(r'^event/(?P<event_id>[0-9]+)/attendees/$', views.event_attendees, name='event-attendees'),
-    url(r'^event/(?P<event_id>[0-9]+)/attendees/toggle', views.attendance, name='attendance'),
     url(r'^upload-file/', views.upload_file, name='upload-file'),
     url(r'^upload-done/', views.upload_done, name='upload-done'),
     url(r'^register/(?P<event_id>[0-9]+)/$', views.register_on_event, name="register-on-event")

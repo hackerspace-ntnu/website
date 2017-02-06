@@ -260,11 +260,17 @@ def event_attendees(request, event_id):
             user = User.objects.get(username=username)
             event = Event.objects.get(pk=event_id)
             er = EventRegistration.objects.get(event=event, user=user)
-            er.attended = True
-            er.save()
             name = er.name() if er.name().strip() != '' else username
-            message = name + ' er registrert'
+
+            if not er.attended:
+                er.attended = True
+                er.save()
+                message = name + ' er nå registrert'
+            else:
+                message = name + ' er allerede registrert'
+
             return JsonResponse({'success': True, 'message': message, 'username': username}, safe=False)
+
         except IndexError:
             return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
     else:

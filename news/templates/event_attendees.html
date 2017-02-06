@@ -30,7 +30,7 @@
                     <div>
                         <p class="inline">{{ user }}</p>
                         {% if user in attending_users %}
-                            <i class="material-icons">done</i>
+                            <i class="material-icons checkmark">done</i>
                         {% endif %}
                     </div>
                   {% endfor %}
@@ -57,6 +57,10 @@
     </div>
 
     <style>
+        .checkmark {
+          vertical-align: middle;
+          margin-bottom: 6px;
+        }
         .inline {
             display: inline-block;
         }

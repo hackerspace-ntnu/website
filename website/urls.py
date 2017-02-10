@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^files/', include('files.urls')),
     url(r'^groups/', include('committees.urls', namespace='verv')),
     url(r'^chaining/', include('smart_selects.urls')),
+    url(r'^rpi/', include('rpi.urls')),
 ]
 
 if settings.DEBUG:

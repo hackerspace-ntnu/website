@@ -1,9 +1,11 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
 from .models import Tag, Item
+from datetime import datetime
 import json
 
 
@@ -74,6 +76,7 @@ class ItemForm(forms.Form):
             for new_tag in tags_list:
                 all_tags.append(new_tag.strip())
         cleaned_data['tags'] = all_tags
+        return cleaned_data
 
     def add_new_tags(self, item_id):
         tag_dict = dict((tag.name.lower(), tag) for tag in Tag.objects.all())
@@ -103,9 +106,87 @@ class TagForm(forms.Form):
 
 
 class LoanForm(forms.Form):
-    borrower = forms.CharField(label='Lånetaker', max_length=100, strip=True)  # username
-    # den som låner ut gis implisitt etter hvem som er innlogget
-    comment = forms.CharField(label='Kommentar', max_length=300, strip=True)
+    """
+    items = forms.CharField(label='Gjenstand', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'off'}),
+                            strip=True)
+    """
+    items = forms.CharField(label='Gjenstand', max_length=100, widget=forms.HiddenInput, strip=True)
 
-    # loan date gis implisitt
-    return_date = forms.DateField(label='Returdato')
+    # TODO skru av standard autocoplete
+    borrower = forms.CharField(label='Brukernavn lånetaker', max_length=100, strip=True)  # username
+    comment = forms.CharField(widget=forms.Textarea, label='Beskrivelse', max_length=300, strip=True,
+                              required=False)
+    return_date = forms.CharField(label='Returdato', widget=forms.HiddenInput)
+
+    @staticmethod
+    def delete_loan(loan):
+        loan.visible = False
+        loan.save()
+
+    @staticmethod
+    def get_autocomplete_dict():
+        dic = {}
+        for item in Item.objects.all():
+            item_name = item.name
+            item_dict = {
+                'id': item.id,
+                'text': item_name,
+            }
+            for i in range(1, len(item_name) + 1):
+                try:
+                    dic[item_name[0:i].upper()].append(item_dict)
+                except KeyError:
+                    dic[item_name[0:i].upper()] = [item_dict]
+        return json.dumps(dic)
+
+    def clean(self):
+        cleaned_data = super(LoanForm, self).clean()
+
+        # ITEM
+        delimiter = ','
+        try:
+            item_ids_string = cleaned_data['items']  # int
+        except KeyError:
+            raise ValidationError({'items': "Ingen items i feltet"})
+        else:
+            if item_ids_string[-1] == delimiter:
+                item_ids_string = item_ids_string[:-1]
+
+        try:
+            # skjekk at feltet består av tall separert av delimiter
+            item_ids = list(map(int, item_ids_string.split(delimiter)))
+        except ValueError:
+            raise ValidationError({'items': "MÅ RETURNERES SOM TALL ADSKILT MED {}".format(delimiter)})
+        else:
+            item_list = []
+            for item_id in item_ids:
+                try:
+                    item = Item.objects.get(pk=item_id)
+                except Item.DoesNotExist:
+                    raise ValidationError({'items': "En av item id'ene eksisterer ikke."}, code='Invalid')
+                else:
+                    item_list.append(item)
+            else:
+                cleaned_data['items'] = item_list
+
+        # BORROWER
+        borrower_string = cleaned_data['borrower']  # String with only username.
+        user_query = User.objects.filter(username=borrower_string)
+        if len(user_query) != 1:
+            raise ValidationError({'borrower': "Feil med brukernavn upps."}, code='Error')
+        else:
+            borrower = user_query[0]
+        cleaned_data['borrower'] = borrower
+
+        # COMMENT
+        comment = cleaned_data['comment']
+        if not comment:
+            del cleaned_data['comment']
+
+        # RETURN_DATE
+        # string format: DD Month, YYYY
+        return_date_string = cleaned_data['return_date'] + " 18:00"  # default time for return
+        return_date = datetime.strptime(return_date_string, "%d %B, %Y %H:%M")
+        cleaned_data['return_date'] = return_date
+
+        return cleaned_data

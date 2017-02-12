@@ -230,27 +230,27 @@ def tag_detail(request, tag_id):
 
 @permission_required('inventory.add_loan')
 def register_loan(request):
-    # TODO må ha en god måte å registrere ny bruker på hvis de ikke alderede har
+    # TODO må ha en god måte å registrere ny bruker på hvis de ikke alderede har, evt link
+    # TODO ha måte å opprette nytt item, evt link til sida
     if request.method == 'POST':
         form = LoanForm(request.POST)
         if form.is_valid():
-            item_string = form.cleaned_data['item']
-            borrower = form.cleaned_data['borrower']
-            comment = form.cleaned_data['comment']
-            return_date = form.cleaned_data['return_date']
-            # TODO plukk ut bruker som var logget inn, og lagre i variabel lender
-            lender = request.user
-            loan_date = timezone.now()
-            # TODO bruk clean til å hente ut item?
-            # loan = Loan(item=item, borrower=borrower, comment=comment, loan_date=loan_date, return_date=return_date)
+            items = form.cleaned_data['items']
+            del form.cleaned_data['items']
             loan = Loan(**form.cleaned_data)
-
+            loan.save()
+            loan.items.add(*items)
+            loan.lender = request.user
+            loan.loan_date = timezone.now()
             loan.save()
             messages.add_message(request, messages.SUCCESS, 'Lånet ble registrert')
             return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = LoanForm()
-    return HttpResponse(render(request, 'inventory/register_loan.html', {'form': form}))
+    return HttpResponse(render(request, 'inventory/register_loan.html', {
+        'form': form,
+        'users': User.objects.all(),
+    }))
 
 
 @permission_required('inventory.add_loan')
@@ -289,6 +289,5 @@ def loan_detail(request, loan_id):
         'loan': loan,
     }
     return render(request, 'inventory/loan_detail.html', context)
-
 
 # TODO listener for å sende ut mail med purring når det har gått litt over fristen, ..?

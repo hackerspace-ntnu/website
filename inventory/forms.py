@@ -20,9 +20,14 @@ class ItemForm(forms.Form):
     name = forms.CharField(label='Gjenstand', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'off'}))
     description = forms.CharField(widget=forms.Textarea, label='Beskrivelse', max_length=300, strip=True,
                                   required=False)
-    quantity = forms.IntegerField(label='Antall', validators=[quantity_validator])
+    quantity = forms.IntegerField(label='Antall', validators=[quantity_validator], required=False)
     tags = forms.CharField(required=False)
     tags_chips = forms.CharField(widget=forms.HiddenInput, required=False)
+
+    # Felt for plassering i rommet.
+    zone = forms.CharField(required=False, label='Sone')
+    shelf = forms.IntegerField(required=False, label='Hylle')
+    place = forms.IntegerField(required=False, label='Plass')
 
     @staticmethod
     def get_autocomplete_dict():
@@ -112,9 +117,10 @@ class LoanForm(forms.Form):
     """
     items = forms.CharField(label='Gjenstand', max_length=100, widget=forms.HiddenInput, strip=True)
 
-    # TODO skru av standard autocoplete
     borrower = forms.CharField(label='Brukernavn lånetaker', max_length=100, strip=True)  # username
-    comment = forms.CharField(widget=forms.Textarea, label='Beskrivelse', max_length=300, strip=True,
+    comment = forms.CharField(widget=forms.Textarea(attrs={'autocomplete': 'off'}), label='Beskrivelse',
+                              max_length=300,
+                              strip=True,
                               required=False)
     return_date = forms.CharField(label='Returdato', widget=forms.HiddenInput)
 

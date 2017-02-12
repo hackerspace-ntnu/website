@@ -95,21 +95,19 @@ def add_item(request, item_id=0):
             # skiller ikke på store/små bokstaver itags
             if item_id != '0':  # existing item to be changed
                 item = Item.objects.get(pk=item_id)
-                """
-                basic_attributes = ['name', 'description', 'quatity']
+                basic_attributes = ['name', 'description', 'quantity', 'zone', 'shelf', 'place']
                 for attr in basic_attributes:
                     setattr(item, attr, form.cleaned_data[attr])
-                """
-                item.name = form.cleaned_data['name']
-                item.description = form.cleaned_data['description']
-                item.quantity = form.cleaned_data['quantity']
                 item.save()
                 messages.add_message(request, messages.SUCCESS, 'Gjenstanden ble endret.')
             else:  # create new item from form
-                name = form.cleaned_data['name']
-                description = form.cleaned_data['description']
-                quantity = form.cleaned_data['quantity']
-                item = Item(name=name, description=description, quantity=quantity)
+                item = Item(name=form.cleaned_data['name'],
+                            description=form.cleaned_data['description'],
+                            quantity=form.cleaned_data['quantity'],
+                            zone=form.cleaned_data['zone'],
+                            shelf=form.cleaned_data['shelf'],
+                            place=form.cleaned_data['place'],
+                            )
                 # item = Item(**form.cleaned_data)
                 item.save()
                 item_id = item.id
@@ -130,6 +128,9 @@ def add_item(request, item_id=0):
                 'name': item.name,
                 'description': item.description,
                 'quantity': item.quantity,
+                'zone': item.zone,
+                'shelf': item.shelf,
+                'place': item.place,
             }
             form = ItemForm(initial=initial)
     context = {

@@ -20,7 +20,17 @@
         {% endif %}
         <p>{{ item.description }}</p>
         <p>Antall: {{ item.quantity }}</p>
-
+        <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Plass: {{ item.place }}</p>
+        <br>
+        <!-- TODO skjekk at user har tilatelse til å se dette -->
+        {% if item.loan_set.all %}
+            <p>Utlån</p>
+            {% for loan in item.loan_set.all %}
+                <p>Låner: {{ loan.borrower.username }}</p>
+                <a href="{% url 'inventory:loan_detail' loan.id %}">loand detail</a>
+                <br>
+            {% endfor %}
+        {% endif %}
         <a class="waves-effect waves-light btn">slette, ikke fungerende</a>
 
         <a href="{% url 'inventory:add_item' item.id %}" class="waves-effect waves-light btn">endre</a>

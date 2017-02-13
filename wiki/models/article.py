@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from __future__ import absolute_import
+import re
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
@@ -209,8 +210,14 @@ class Article(models.Model):
             content = preview_content
         else:
             content = self.current_revision.content
-        return mark_safe(article_markdown(content, self,
-                                          preview=preview_content is not None))
+
+        return self.custom_markdown(content, preview_content)
+
+    def custom_markdown(self, content, preview_content):
+        content = mark_safe(article_markdown(content, self, preview=preview_content is not None))
+        content = re.sub(r'(^|(?P<not_slash>[^\\]))(\<p\>)?\$colend(\<\/p\>)?', '\g<not_slash></div>', content)
+        content = re.sub(r'(^|(?P<not_slash>[^\\]))(\<p\>)?\$colstart(\s)?(?P<col_width>[0-9]{1,3})(\<\/p\>)?', '\g<not_slash><div class="customcol" width="\g<col_width>"; style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;">', content)
+        return content.replace('\\$', '$', -1)
 
     def get_cache_key(self):
         return "wiki:article:%d" % (

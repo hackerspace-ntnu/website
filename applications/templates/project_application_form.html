@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/application.css" %}">
+
+{% endblock header %}
+
+{% block content %}
+
+  <h1 id="pageName" style="margin-top: 80px;">Søknad til Hackerspace-prosjektgruppa</h1>
+  <div class="row" style="margin-top: 50px;">
+    <div class="col s12 m6 offset-m3">
+      <h3>Kort om Escape-gjengen</h3>
+      <p>Dere skal lage et Escape-rom. Det er kort fortalt et rom der man lukker inn en gjeng, så må gjengen samarbeide om å løse puzzles (oppgaver) for å slippe ut igjen. Escape-rom fungererer fantastisk som teambuilding, og er knallgøy! Gruppas første mål vil være å ha klart et rom som kan brukes i fadderperioden 2017. De som tas opp vil få hjelp og kursing fra de eksisterende medlemmene. Hackerspace har tilgang til Arduino, Raspberry Pi og enkle kretselementer som kan brukes til å lage puzzles.</p>
+      <br>
+      <h5>Designere</h5>
+      <p>Dere har ansvaret for at rommet og puzzles har et gjennomført tema, og jobber tett sammen med utviklerne. Dere går i 1-3. klasse, og har helst noen år igjen av studiet.</p>
+      <br>
+      <h5>Utviklere</h5>
+      <p>Dere er ansvarlige for å lage de tekniske løsningene som skal implementeres i Escape-rommet. Det vil gis spesifikk opplæring på utvikling med for eksempel Arduino og Raspberry Pi. Dere går i 1-3. klasse, og har helst noen år igjen av studiet.</p>
+      <br>
+      <br>
+      <h3>Kort om VR-gjengen</h3>
+      <p>Dere skal planlegge og utvikle ett VR-spill som skal lanseres på Norwegian Game Awards vårsemesteret 2018. I oppstarten vil dere bestemme spilltype og konsept, samt få internkursing i Unity og Blender. Dere vil ha stor kreativ frihet underveis i utviklinga av spillet. Hackerspace har tilgang på både Oculus Rift og HTC Vive.</p>
+      <br>
+      <h5>Lyddesignere</h5>
+      <p>Det unike med å utvikle lyd til VR-spill er at lyden må designes for en romopplevelse. Dere samarbeider tett med både 3D-designere og utviklerne for å lage lydsporet og lydeffektene til spillet. Dere er veldig interessert i lyd- og musikkteknologi, og jobber kanskje med egne relevante prosjekter på fritiden. Dere går i 1-3. klasse, og har helst noen år igjen av studiet.</p>
+      <br>
+      <h5>3D-designere</h5>
+      <p>Dere modellerer, teksturerer og eventuelt animerer 3D-modellene til spillet. Dere vil designe selve spillverdenen, karakterene og brukergrensesnittet til spillet. Intern opplæring i Blender gis. Dere går i 1-3. klasse, og har helst noen år igjen av studiet.</p>
+      <br>
+      <h5>Utviklere</h5>
+      <p>Dere skriver koden som trengs for å gi liv til VR-spillet. Dere har programmeringserfaring, enten fra fag eller egne prosjekter. Erfaring med objektorientert programmering er en forutsetning. Det er et pluss om dere har erfaring med AI. Dere går i 1-3. klasse, og har helst noen år igjen av studiet.</p>
+      <br><br><br>
+      <h5>Søk</h5>
+      <div style="margin-bottom: 40px;">
+        <a class="waves-effect waves-light btn hsgreen" style="margin-right: 10px;" target="_blank" href="https://drive.google.com/open?id=15rMBaAhvHvY2uWb-cXQeIHh1ABnqa0Z_FmG92DQbi2o">Søk Escape-room</a>
+        <a class="waves-effect waves-light btn hsgreen" target="_blank" href="https://drive.google.com/open?id=1nk3Xv8Q8gg8ujzWIlgdAb3wcYJ94Q8ZJXlYrCdWzKR4">Søk VR-gruppe</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(function() {
+      $('input').attr('required', '');
+    });
+  </script>
+
+{% endblock content %}

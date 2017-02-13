@@ -78,3 +78,23 @@ input:focus:not([readonly]):not(.waves-button-input) {
     outline: none;
     border: 0 !important;
 }
+
+.mobile-fab-tip, .mobile-fab-tip:hover {
+    position: fixed;
+    right: 85px;
+    padding: 0px 0.5rem;
+    text-align: right;
+    background-color: #323232;
+    border-radius: 2px;
+    color: #FFF;
+    width: auto;
+    cursor: default;
+}
+
+.card-event {
+    margin: 0rem 0 1rem 0;
+}
+
+.hs-green {
+    color: var(--hs-green) !important;
+}

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.forms import ModelForm
 
-from .models import Application
+from .models import Application, ProjectApplication
 
 
 class ApplicationForm(ModelForm):
@@ -34,3 +34,16 @@ class ApplicationForm(ModelForm):
 
         for field in fields:
             error_messages[field] = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
+
+
+class ProjectApplicationForm(ModelForm):
+
+    class Meta:
+        model = ProjectApplication
+        fields = ['email']
+        error_messages = {}
+
+        for field in fields:
+            error_messages[field] = {'required': 'Feltet må fylles ut',
+                                     'invalid': 'Verdien er ikke gyldig'
+                                     }

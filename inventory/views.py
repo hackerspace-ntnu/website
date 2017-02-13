@@ -148,6 +148,7 @@ def change_multiple_items(request):
     """ For å endre flere itmes, tilgjengelig hvis man merker gjenstander i search og trykker 'endre'. """
     # TODO søk på "arduino": hverken arduino eller OculusRift lar seg avmerke i boksen, det fungerer på resten
     # TODO endre her så man også kan lage nye tags
+    # TODO endre så man kan endre zone og/eller shelf
     if request.method == "POST":
         try:
             """ Items marked in search-view for changing """
@@ -258,12 +259,10 @@ def register_loan(request):
 def administrate_loans(request):
     """ return HttpResponse("liste over nåværende, for sene og gamle utlån") """
 
-    all_loans = Loan.objects.all()
-    current_loans = all_loans.filter(date_returned__isnull=True).filter(return_date__lte=timezone.now()).order_by(
-        'loan_date')
-    late_loans = all_loans.filter(date_returned__isnull=True).filter(return_date__gte=timezone.now()).order_by(
-        'loan_date')
-    old_loans = all_loans.filter(date_returned__isnull=False).order_by('date_returned')
+    all_loans = Loan.objects.all().filter(date_returned__isnull=True)
+    current_loans = all_loans.filter(return_date__gte=timezone.now()).order_by('loan_date')
+    late_loans = all_loans.filter(return_date__lte=timezone.now()).order_by('loan_date')
+    old_loans = Loan.objects.all().filter(date_returned__isnull=False).order_by('date_returned')
 
     context = {
         'current_loans': current_loans,
@@ -283,12 +282,16 @@ def my_loans(request):
     return render(request, 'inventory/my_loans.html', context)
 
 
-# @permission_required(['inventory.add_loan', 'inventory.change_loan', 'inventory.delete_loan'])
+@permission_required(['inventory.add_loan', 'inventory.change_loan', 'inventory.delete_loan'])
 def loan_detail(request, loan_id):
     loan = get_object_or_404(Loan, pk=loan_id)
-    context = {
-        'loan': loan,
-    }
-    return render(request, 'inventory/loan_detail.html', context)
+    if request.method == 'POST':
+        if not loan.date_returned:
+            loan.date_returned = timezone.now()
+        else:
+            loan.date_returned = None
+        loan.save()
+
+    return render(request, 'inventory/loan_detail.html', {'loan': loan})
 
 # TODO listener for å sende ut mail med purring når det har gått litt over fristen, ..?

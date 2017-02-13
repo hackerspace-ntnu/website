@@ -5,19 +5,48 @@
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock header %}
 
 
 {% block content %}
     <div class="content">
 
-        <h2>Utlån av <a href="{% url 'inventory:detail' loan.item.id %}">{{ loan.item.name }}</a></h2>
+        <h2>Utlån av </h2>
+        {% for item in loan.items.all %}
+            <div class="chip">
+                <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
+            </div>
+        {% endfor %}
 
         <p>Lånt ut av {{ loan.borrower.username }}</p>
         <p>ansvarlig for utlånet {{ loan.lender.username }}</p>
+        <p>Beskrivelse {{ loan.comment }}</p>
 
+        {% if loan.date_returned %}
+            Status: ble levert {{ loan.date_returned }}
+        {% else %}
+            Status: ikke levert
+            <p>Skal returneres innen {{ loan.return_date }}</p>
 
-        <!-- TODO få til et annet fancy med farger her for å merke at den har gått over frist -->
+        {% endif %}
+        <br>
+        <br>
+        <!-- TODO få til et eller annet fancy med farger her for å merke at den har gått over frist -->
+
+        <form id="registrer" action="{% url 'inventory:loan_detail' loan.id %}" method="post">
+            {% csrf_token %}
+            {% if loan.date_returned %}
+                <button type="submit" class="btn waves-effect waves-light">Omgjør innlevert
+                    <i class="material-icons right">send</i>
+                </button>
+
+            {% else %}
+                <button type="submit" class="btn waves-effect waves-light">Registrer innlevering
+                    <i class="material-icons right">send</i>
+                </button>
+            {% endif %}
+        </form>
 
     </div>
 {% endblock content %}

@@ -10,15 +10,19 @@
 
 {% block content %}
     <div class="content">
-        {% if request.user.is_authenticated %}
+        <h1>Mine lån</h1>
 
-        {% endif %}
 
-        <h1>{{ request.user.username }}</h1>
         {% if user.loan_set.all %}
             {% for loan in user.loan_set.all %}
                 <h4>{{ loan.item.name }}</h4>
-                {{ loan.item.name }}
+                <a href="{% url 'inventory:loan_detail'  loan.id %}">
+                    {% for item in loan.items.all %}
+                        <div class="chip">
+                            {{ item.name }}
+                        </div>
+                    {% endfor %}
+                </a>
             {% endfor %}
         {% else %}
             <p>Du har ingen registererte lån</p>
@@ -27,9 +31,16 @@
 
         <!-- TODO legge inn en betingelse på at man er en slags admin?-->
         {% if user.lender_set.all %}
+            <h4>Du har lånt ut</h4>
             {% for loan in user.lender_set.all %}
                 <h4>{{ loan.item.name }}</h4>
-                {{ loan.item.name }}
+                <a href="{% url 'inventory:loan_detail'  loan.id %}">
+                    {% for item in loan.items.all %}
+                        <div class="chip">
+                            {{ item.name }}
+                        </div>
+                    {% endfor %}
+                </a>
             {% endfor %}
         {% endif %}
 

@@ -12,10 +12,18 @@
 
     <div class="content">
         {% if current_loans %}
-            <h2>Current loans</h2>
+            <h2>For sene</h2>
             {% for loan in late_loans %}
-                {{ loan.item.name }}
+                {% with b=loan.borrower %}
+                    {{ b.username }} - {{ loan.return_date }} - {{ b.first_name }} {{ b.last_name }}
+                {% endwith %}
+                <a href="{% url 'inventory:loan_detail' loan.id %}">
+                    {% for item in loan.items.all %}
+                        <div class="chip">{{ item.name }}</div>
 
+                    {% endfor %}
+                    <br>
+                </a>
             {% endfor %}
         {% endif %}
 
@@ -23,20 +31,36 @@
         {% if late_loans %}
             <!-- TODO merk av for om hvor mange reminders personen har fått på mail -->
 
-            <h2>Late loans</h2>
-            {% for loan in late_loans %}
-                {{ loan.item.name }}
+            <h2>Utlån</h2>
+            {% for loan in current_loans %}
+                {% with b=loan.borrower %}
+                    {{ b.username }} - {{ loan.return_date }} - {{ b.first_name }} {{ b.last_name }}
+                {% endwith %}
+                <a href="{% url 'inventory:loan_detail' loan.id %}">
+                    {% for item in loan.items.all %}
+                        <div class="chip">{{ item.name }}</div>
 
+                    {% endfor %}
+                    <br>
+                </a>
             {% endfor %}
         {% endif %}
 
-
-
         {% if old_loans %}
-            <h2>Old loans</h2>
-            {% for loan in late_loans %}
-                {{ loan.item.name }}
+            <h2>Tidligere lån</h2>
+            {% for loan in old_loans %}
+                {% with b=loan.borrower %}
+                    {{ b.username }} - {{ loan.return_date }} - {{ b.first_name }} {{ b.last_name }}
+                {% endwith %}
+                <a href="{% url 'inventory:loan_detail' loan.id %}">
+                    {% for item in loan.items.all %}
+                        <div class="chip">{{ item.name }}</div>
+
+                    {% endfor %}
+                    <br>
+                </a>
             {% endfor %}
+
         {% endif %}
 
     </div>

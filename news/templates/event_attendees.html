@@ -17,7 +17,7 @@
                     <input name="user" type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
                     <label for="autocomplete-input" id="autocomplete-text">Bruker</label>
                 </div>
-                <a class="waves-effect waves-light btn submit" onclick="$('form').submit();">Registrer</a>
+                <a class="waves-effect waves-light btn submit" onclick="post();">Registrer</a>
             </form>
         </div>
         <div class="registered_users">
@@ -28,12 +28,12 @@
                 <div class="attendee-list collapsible-body people">
                   {% for user in event.registered_list %}
                     <div>
-                        {% if user in attending_users %}
+                        {% if user.1 in attending_usernames %}
                             <i class="material-icons checkmark">done</i>
                         {% else %}
                             <i class="material-icons checkmark">clear</i>
                         {% endif %}
-                        <p class="inline">{{ user }}</p>
+                        <p class="inline user" username="{{ user.1 }}">{{ user.0 }}</p>
                     </div>
                   {% endfor %}
                 </div>
@@ -135,9 +135,29 @@
                     {% endfor %}
                 }
             });
-            {% if toast %}
-                Materialize.toast('{{ toast }}', 4000);
-            {% endif %}
         });
+
+        function post() {
+          $.ajaxSetup({
+              beforeSend: function(xhr, settings) {
+                  xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+              }
+          });
+          $.ajax({
+            type: "POST",
+            url: '',
+            data: {'name': $("#autocomplete-input").val()},
+            success: function(data){
+              Materialize.toast(data['message'], 4000);
+              $("#autocomplete-input").val('');
+              if (data['success']) {
+                var par = $(".user[username=" + data["username"] + "]").parent();
+                if (!par.find(".checkmark").length) {
+                  par.html(par.html() + '<i class="material-icons checkmark">done</i>');
+                }
+              }
+            }
+          });
+        }
     </script>
 {% endblock content %}

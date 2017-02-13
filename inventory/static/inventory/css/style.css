@@ -49,3 +49,8 @@ a {
 .autocomplete .ac-input input {
     height: 2.4rem;
 }
+
+#searchbox {
+    display: inline-block;
+    width: 85%;
+}

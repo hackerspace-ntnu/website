@@ -28,7 +28,7 @@ table.dataTable {
     padding: 10px 18px 6px 18px;
     border-top: 1px solid white; }
   table.dataTable thead {
-    background: var(--hs-gray-li);
+    background: var(--hs-green);
   }
   table.dataTable thead th {
     color: #ffffff;

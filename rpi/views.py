@@ -3,6 +3,7 @@ import datetime
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 
@@ -25,6 +26,7 @@ class RPiListView(ListView):
     context_object_name = 'rpis'
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class RPiAPIView(View):
     def get(self, request, **kwargs):
         return JsonResponse(
@@ -40,7 +42,6 @@ class RPiAPIView(View):
             }
         )
 
-    @csrf_exempt
     def post(self, request, **kwargs):
         key = request.POST.get('secret_key')
 

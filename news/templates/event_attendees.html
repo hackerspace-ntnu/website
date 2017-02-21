@@ -29,9 +29,9 @@
                   {% for user in event.registered_list %}
                     <div>
                         {% if user.1 in attending_usernames %}
-                            <i class="material-icons checkmark">done</i>
+                            <i class="material-icons checkmark" id="check">check_box</i>
                         {% else %}
-                            <i class="material-icons checkmark">clear</i>
+                            <i class="material-icons checkmark" id="uncheck">check_box_outline_blank</i>
                         {% endif %}
                         <p class="inline user" username="{{ user.1 }}">{{ user.0 }}</p>
                     </div>
@@ -59,9 +59,15 @@
     </div>
 
     <style>
+        #check {
+            color: var(--hs-green);
+        }
+        #uncheck {
+            color: var(--hs-gray-li2);
+        }
         .checkmark {
-          vertical-align: middle;
-          margin-bottom: 6px;
+            vertical-align: middle;
+            margin-bottom: 6px;
         }
         .inline {
             display: inline-block;
@@ -152,9 +158,7 @@
               $("#autocomplete-input").val('');
               if (data['success']) {
                 var par = $(".user[username=" + data["username"] + "]").parent();
-                if (!par.find(".checkmark").length) {
-                  par.html(par.html() + '<i class="material-icons checkmark">done</i>');
-                }
+                par.find(".checkmark").html("check_box").css("color", "var(--hs-green)");
               }
             }
           });

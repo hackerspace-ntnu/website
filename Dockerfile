@@ -1,4 +1,4 @@
-FROM python:3.6.0
+FROM python:3.5.3
 RUN apt-get update
 RUN pip install --upgrade pip
 RUN mkdir /code

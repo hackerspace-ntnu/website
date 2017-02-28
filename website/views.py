@@ -44,3 +44,6 @@ def handler404(request):
 
 def handler500(request):
     return render(request, '500.html', status=500)
+
+def calendar(request):
+    return render(request, 'calendar.html')

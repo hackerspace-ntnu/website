@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="author" content="www.django-wiki.org">
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
 
     <!-- Le styles -->
     <link href="{{ STATIC_URL }}wiki/bootstrap/css/wiki-bootstrap.min.css" rel="stylesheet">
@@ -29,7 +30,7 @@
     {% block wiki_body %}
 
     {% block wiki_navbar %}
-    <div class="navbar navbar-fixed-top navbar-inverse">
+    <div id="navbar" class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
         <div class="navbar-header">
           <!-- .navbar-toggle is used as the toggle for collapsed navbar content -->
@@ -40,7 +41,7 @@
           </button>
           {% block wiki_header_branding %}
           <a class="navbar-brand" href="/">
-              <img style="float: left; margin-right: 4px; margin-top: -7px;  height: 36px;" src="{% static "img/logo_header.png" %}"/>
+              <img id="logo" src="{% static "img/logo_header.png" %}"/>
               <!--<font face="Hackerspace" style="float: left; margin-top: 5px; font-size: 30px;">HACKERSPACE</font>-->
           </a>
           <style>
@@ -107,6 +108,22 @@
         </div>
       </div>
     </div>
+    <div style="height: 40px;"></div>
+    <style>
+      #logo {
+        margin-left: -33px;
+        margin-top: -5px;
+      }
+      #navbar {
+        border: 0;
+      }
+      #navbar .navbar-collapse {
+        margin-top: 25px;
+      }
+      #navbar .dropdown-toggle {
+        background-color: var(--hs-gray);
+      }
+    </style>
     {% endblock %}
 
     <div class="container" style="margin-top: 60px;">

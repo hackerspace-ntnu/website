@@ -17,6 +17,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {% block head %}
   {% endblock head %}
+
+  {% block extra_js %}
+  {% endblock %}
 </head>
 <body>
 <div id="flex">
@@ -49,4 +52,7 @@
 {% block footer %}
   {% include "footer.html" %}
 {% endblock footer %}
+
+{% block footer_script %}
+{% endblock %}
 </html>

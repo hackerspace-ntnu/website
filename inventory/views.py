@@ -15,14 +15,16 @@ from .models import Tag, Item, Loan
 # TODO tekst på knapper må midtstilles
 # TODO knapper må flyttes til bestemt punkt på skjermen
 # TODO mulig å bruke QR-kode for merking av gjenstander, må føre til item sin detail-side
-
+# TODO hvordan skal man gjøre det med gjenstander som er slettet (not visible)
 def index(request):
     items = Item.objects.all().filter(visible=True)
     no_category = []
     all_tags = [tag for tag in Tag.objects.all() if tag.item_set.all() and tag.visible]
+    # TODO lag tilsvarende så man kan slette tags (sette visible=False)
     all_tags.sort(key=lambda tag: tag.name.lower())
     item_dict = OrderedDict()
     # TODO flytt dette til et annet sted
+    # TODO noen av kategoriene ser tomme ut, men har items knyttet til seg.
     for sorted_tag in all_tags:
         item_dict[sorted_tag] = []
     for item in items:
@@ -57,6 +59,9 @@ def search(request):
         return_set += Item.objects.filter(visible=True).filter(description__contains=word)
         tags += Tag.objects.filter(name__contains=word)
 
+    for tag in tags:
+        return_set += tag.item_set.all().filter(visible=True)
+
     return_set = list(set(return_set))
     return_set.sort(key=lambda i: i.name.lower())
 
@@ -70,9 +75,11 @@ def search(request):
 
 def show_all_items() -> dict:
     """ Returns context with every item. """
-    # TODO sorter navn alfabetisk uavhengig av caps eller ikke
+    items = list(Item.objects.all().filter(visible=True))
+    items.sort(key=lambda i: i.name.upper())
+
     return {
-        'hits': Item.objects.all().filter(visible=True).order_by('name'),
+        'hits': items,
         'search_text': '/all',
         'tags': Tag.objects.all()
     }
@@ -80,13 +87,17 @@ def show_all_items() -> dict:
 
 def detail(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
+    if request.method == 'POST':
+        item.visible = False
+        item.save()
+        messages.add_message(request, messages.SUCCESS, 'Gjenstanden ble slettet.')
+        return HttpResponseRedirect(reverse('inventory:index'))
     return render(request, 'inventory/detail.html', {'item': item})
 
 
 @permission_required(['inventory.add_item', 'inventory.change_item', 'inventory.add_tag'])
 def add_item(request, item_id=0):
     message = "Legg til en ny gjenstand"  # TODO se om denne og button_message kan settes med javascript,
-    # eller messages framework?
     button_message = "registrer"
     old_tags = []  # liste med alle tags en gjenstand har, for å fylle tags-feltet når man skal endre
     if request.method == 'POST':
@@ -149,6 +160,7 @@ def change_multiple_items(request):
     # TODO søk på "arduino": hverken arduino eller OculusRift lar seg avmerke i boksen, det fungerer på resten
     # TODO endre her så man også kan lage nye tags
     # TODO endre så man kan endre zone og/eller shelf
+    # TODO lag en form og gjør viewet lesbart.
     if request.method == "POST":
         try:
             """ Items marked in search-view for changing """
@@ -225,7 +237,7 @@ def tag_detail(request, tag_id):
     tag = get_object_or_404(Tag, pk=tag_id)
     context = {
         'tag': tag,
-        'related_items': tag.item_set.all().order_by('name'),
+        'related_items': tag.item_set.all().filter(visible=True).order_by('name'),
     }
     return render(request, 'inventory/tag_detail.html', context)
 
@@ -291,6 +303,7 @@ def loan_detail(request, loan_id):
         else:
             loan.date_returned = None
         loan.save()
+        return HttpResponseRedirect(reverse('inventory:loan_detail', args=(loan.id,)))
 
     return render(request, 'inventory/loan_detail.html', {'loan': loan})
 

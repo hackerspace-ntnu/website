@@ -22,6 +22,11 @@
         <p class="infoheader">Sted:</p><a class="info" href="{{ event.place_href }}" target="_blank">{{ event.place }}</a>
       </div>
     {% endif %}
+    {% if event.internal %}
+      <div>
+        <p class="infoheader">Intern:</p><p class="info">Yeeeeeeaaah</p>
+      </div>
+    {% endif %}
     <div>
       <p class="infoheader">Tid:</p><p class="info">{{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
     </div>

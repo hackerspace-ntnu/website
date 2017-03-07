@@ -21,6 +21,9 @@ def event(request, event_id):
         'user': request.user,
     }
 
+    if requested_event.internal and not groups.has_group(request.user, 'member'):
+        return HttpResponseRedirect('/')
+
     context['registration_visible'] = False
     if request.user.is_authenticated():
         now = timezone.now()
@@ -37,8 +40,12 @@ def event(request, event_id):
 
 
 def all_news(request):
-    article_list = list(Article.objects.order_by('pub_date'))
-    event_list = list(Event.objects.order_by('time_start'))
+    if groups.has_group(request.user, 'member'):
+        article_list = list(Article.objects.order_by('pub_date'))
+        event_list = list(Event.objects.order_by('time_start'))
+    else:
+        article_list = list(Article.objects.filter(internal=False).order_by('pub_date'))
+        event_list = list(Event.objects.filter(internal=False).order_by('time_start'))
     news_list = []
     # Create a list mixed with both articles and events sorted after publication date
     for i in range(len(article_list) + len(event_list)):
@@ -66,6 +73,9 @@ def article(request, article_id):
     context = {
         'article': article,
     }
+
+    if article.internal and not groups.has_group(request.user, 'member'):
+        return HttpResponseRedirect('/')
 
     return render(request, 'article.html', context)
 
@@ -107,6 +117,7 @@ def edit_event(request, event_id):
                 'thumbnail': thumb_id,
                 'max_limit': event.max_limit,
                 'registration': event.registration,
+                'internal': event.internal,
                 'place': event.place,
                 'place_href': event.place_href,
                 'time_start': datetime.strftime(event.time_start, '%H:%M'),

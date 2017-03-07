@@ -13,6 +13,7 @@ class EventEditForm(forms.Form):
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress', required=False)
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Beskrivelse', required=False)
     registration = forms.BooleanField(label="Påmelding", required=False)
+    internal = forms.BooleanField(label="Intern", required=False)
     max_limit = forms.IntegerField(label="Antall", required=False)
     registration_start_time = forms.CharField(label='Påmelding start tidspunk', required=False)
     registration_start_date = forms.CharField(label='Påmelding start dato', required=False)

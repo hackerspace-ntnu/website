@@ -158,10 +158,12 @@ def edit_article(request, article_id):
                 article = Article()
             else:
                 article = get_object_or_404(Article, pk=article_id)
+
             article.title = form.cleaned_data['title']
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
             thumbnail_raw = form.cleaned_data['thumbnail']
+            article.internal = form.cleaned_data['internal']
             try:
                 thumb_id = int(thumbnail_raw)
                 article.thumbnail = Image.objects.get(id=thumb_id)
@@ -188,6 +190,7 @@ def edit_article(request, article_id):
                 'ingress_content': article.ingress_content,
                 'main_content': article.main_content,
                 'thumbnail': thumb_id,
+                'internal': article.internal,
             })
     context = {
         'form': form,

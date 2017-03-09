@@ -102,6 +102,8 @@ class ArticleEditForm(forms.Form):
     ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress', required=False)
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Artikkel', required=False)
     thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
+    internal = forms.BooleanField(label="Intern", required=False)
+
 
 
 class UploadForm(forms.Form):

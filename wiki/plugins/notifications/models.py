@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
+
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.db.models import signals
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from django.db.models import signals
-from django.db import models
-
-from django_nyt.utils import notify
 from django_nyt.models import Subscription
-
+from django_nyt.utils import notify
 from wiki import models as wiki_models
+from wiki.core.plugins import registry
 from wiki.decorators import disable_signal_for_loaddata
 from wiki.models.pluginbase import ArticlePlugin
-from wiki.core.plugins import registry
 from wiki.plugins.notifications import settings
 from wiki.plugins.notifications.util import get_title
 
@@ -34,8 +32,6 @@ class ArticleSubscription(ArticlePlugin):
         unique_together = ('subscription', 'articleplugin_ptr')
         # Matches label of upcoming 0.1 release
         db_table = 'wiki_notifications_articlesubscription'
-        if settings.APP_LABEL:
-            app_label = settings.APP_LABEL
 
 
 def default_url(article, urlpath=None):

@@ -1,17 +1,16 @@
+# -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from __future__ import unicode_literals
-# -*- coding: utf-8 -*-
 
-from django import VERSION
 from django.conf import settings as django_settings
 from django.core.exceptions import ImproperlyConfigured
-import warnings
-from six import string_types
+from six import string_types, text_type
 
 # TODO: Don't use wildcards
-from .article import *
-from .pluginbase import *
-from .urlpath import *
+from .article import *  # noqa
+from .pluginbase import *  # noqa
+from .urlpath import *  # noqa
+from django.utils.functional import lazy
 
 # TODO: Should the below stuff be executed a more logical place?
 # Follow Django's default_settings.py / settings.py pattern and put these
@@ -51,7 +50,7 @@ if hasattr(django_settings, 'TEMPLATES'):
     if len(backends) == 1:
         TEMPLATE_CONTEXT_PROCESSORS = backends[0].get('OPTIONS', {}).get('context_processors', [])
 
-if 'django.contrib.auth.context_processors.auth' not in django_settings.TEMPLATE_CONTEXT_PROCESSORS:
+if 'django.contrib.auth.context_processors.auth' not in TEMPLATE_CONTEXT_PROCESSORS:
     raise ImproperlyConfigured(
         'django-wiki: needs django.contrib.auth.context_processors.auth in TEMPLATE_CONTEXT_PROCESSORS')
 
@@ -64,18 +63,8 @@ if 'django_notify' in django_settings.INSTALLED_APPS:
     raise ImproperlyConfigured(
         'django-wiki: You need to change from django_notify to django_nyt in INSTALLED_APPS and your urlconfig.')
 
-######################
-# Warnings
-######################
 
-
-if VERSION < (1, 7):
-    if 'south' not in django_settings.INSTALLED_APPS:
-        warnings.warn(
-            "django-wiki: No south in your INSTALLED_APPS. This is highly discouraged.")
-
-
-from django.core import urlresolvers
+from django.core import urlresolvers  # noqa
 
 original_django_reverse = urlresolvers.reverse
 
@@ -108,4 +97,20 @@ def reverse(*args, **kwargs):
     return url
 
 # Now we redefine reverse method
+reverse_lazy = lazy(reverse, text_type)
 urlresolvers.reverse = reverse
+urlresolvers.reverse_lazy = reverse_lazy
+
+# Patch up other locations of the reverse function
+try:
+    from django.urls import base
+    from django import urls
+    from django import shortcuts
+    base.reverse = reverse
+    base.reverse_lazy = reverse_lazy
+    urls.reverse = reverse
+    urls.reverse_lazy = reverse_lazy
+    shortcuts.reverse = reverse
+    urls.reverse_lazy = reverse_lazy
+except ImportError:
+    pass

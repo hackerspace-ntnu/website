@@ -10,6 +10,13 @@
 
 {% block wiki_contents %}
 
+  <style>
+    .toc a {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  </style>
+
   <div id="article-container">
     <ul class="nav nav-pills" id="article-menu">
       <li class="pull-left" id="article-title-li">
@@ -28,25 +35,9 @@
       {% include "wiki/includes/article_menu.html" %}
     </ul>
     <div>
-      {% autoescape off %}
-         {% block wiki_contents_tab %}
-         {% endblock %}
-      {% endautoescape %}
+      {% block wiki_contents_tab %}
+      {% endblock %}
     </div>
-    <style>
-      @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
-        .customcol {
-          width: 100% !important;
-        }
-      }
-    </style>
-    <script>
-      $(function() {
-        $(".customcol").each(function() {
-          $(this).css("width", ($(this).attr("width")-3) + "%");
-        });
-      });
-    </script>
   </div>
 
 {% endblock %}

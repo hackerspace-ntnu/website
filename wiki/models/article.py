@@ -15,6 +15,7 @@ from wiki.conf import settings
 from wiki.core import compat, permissions
 from wiki.core.markdown import article_markdown
 from wiki.decorators import disable_signal_for_loaddata
+import re
 
 # Django 1.9 deprecation of IPAddressField
 try:
@@ -205,8 +206,15 @@ class Article(models.Model):
             content = preview_content
         else:
             content = self.current_revision.content
-        return mark_safe(article_markdown(content, self,
-                                          preview=preview_content is not None))
+        #return mark_safe(article_markdown(content, self,
+        #                                  preview=preview_content is not None))
+        return self.custom_markdown(content, preview_content)
+
+    def custom_markdown(self, content, preview_content):
+        content = mark_safe(article_markdown(content, self, preview=preview_content is not None))
+        content = re.sub(r'(^|(?P<not_slash>[^\\]))(\<p\>)?\$colend(\<\/p\>)?', '\g<not_slash></div>', content)
+        content = re.sub(r'(^|(?P<not_slash>[^\\]))(\<p\>)?\$colstart(\s)?(?P<col_width>[0-9]{1,3})(\<\/p\>)?', '\g<not_slash><div class="customcol" width="\g<col_width>"; style="overflow:hidden;display:inline-block;vertical-align:top;margin-right:2%;">', content)
+        return content.replace('\\$', '$', -1)
 
     def get_cache_key(self):
         return "wiki:article:%d" % (

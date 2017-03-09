@@ -1,5 +1,6 @@
 {% extends "wiki/base.html" %}
 {% load wiki_tags i18n sekizai_tags %}
+{% load staticfiles %}
 
 
 {% block wiki_pagetitle %}{{ article.current_revision.title }}{% endblock %}
@@ -35,8 +36,25 @@
       {% include "wiki/includes/article_menu.html" %}
     </ul>
     <div>
-      {% block wiki_contents_tab %}
-      {% endblock %}
+      {% autoescape off %}
+         {% block wiki_contents_tab %}
+         {% endblock %}
+      {% endautoescape %}
+      <style>
+        @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
+          .customcol {
+            width: 100% !important;
+          }
+        }
+      </style>
+      <script src="{% static "js/jquery.js" %}"></script>
+      <script>
+        $(function() {
+          $(".customcol").each(function() {
+            $(this).css("width", ($(this).attr("width")-3) + "%");
+          });
+        });
+      </script>
     </div>
   </div>
 

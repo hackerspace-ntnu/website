@@ -5,14 +5,21 @@ from news.models import Article, Event
 from door.models import DoorStatus
 from datetime import datetime
 from itertools import chain
+from wiki.templatetags import check_user_group as groups
 
 
 def index(request):
     number_of_news = 3
 
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
-    event_list = Event.objects.filter(time_end__gte=datetime.now())[0:number_of_news:-1]
-    article_list = Article.objects.order_by('-pub_date')[0:number_of_news - len(event_list)]
+
+    if groups.has_group(request.user, 'member'):
+        event_list = Event.objects.filter(time_end__gte=datetime.now())[0:number_of_news:-1]
+        article_list = Article.objects.order_by('-pub_date')[0:number_of_news - len(event_list)]
+    else:
+        event_list = Event.objects.filter(time_end__gte=datetime.now(), internal=False)[0:number_of_news:-1]
+        article_list = Article.objects.filter(internal=False).order_by('-pub_date')[0:number_of_news - len(event_list)]
+
     news_list = list(chain(event_list, article_list))
 
     try:

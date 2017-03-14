@@ -10,6 +10,7 @@ class Article(models.Model):
     main_content = RichTextUploadingField(blank=True)
     ingress_content = RichTextUploadingField(blank=True)
 
+    internal = models.BooleanField(default=False, verbose_name='Intern')
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -32,6 +33,7 @@ class Event(models.Model):
     pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True, )
 
+    internal = models.BooleanField(default=False, verbose_name='Intern')
     registration = models.BooleanField(default=False, verbose_name='Påmelding')
     max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Max påmeldte')
     registration_start = models.DateTimeField(default=timezone.now, verbose_name='Registrering start')

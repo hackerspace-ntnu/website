@@ -1,9 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 
+import bleach
+import markdown
+
 from wiki.conf import settings
 from wiki.core.markdown.mdx.previewlinks import PreviewLinksExtension
+from wiki.core.markdown.mdx.responsivetable import ResponsiveTableExtension
+from wiki.core.markdown.mdx.codehilite import WikiCodeHiliteExtension
 from wiki.core.plugins import registry as plugin_registry
-import markdown
 
 
 class ArticleMarkdown(markdown.Markdown):
@@ -17,14 +21,27 @@ class ArticleMarkdown(markdown.Markdown):
 
     def core_extensions(self):
         """List of core extensions found in the mdx folder"""
-        return [PreviewLinksExtension()]
+        return [
+            PreviewLinksExtension(),
+            ResponsiveTableExtension(),
+            WikiCodeHiliteExtension(),
+        ]
 
     def get_markdown_extensions(self):
         kwargs = settings.MARKDOWN_KWARGS
-        extensions = kwargs.get('extensions', [])
+        extensions = list(kwargs.get('extensions', []))
         extensions += self.core_extensions()
         extensions += plugin_registry.get_markdown_extensions()
         return extensions
+
+    def convert(self, text, *args, **kwargs):
+        html = super(ArticleMarkdown, self).convert(text, *args, **kwargs)
+        html = bleach.clean(
+            html,
+            tags=settings.MARKDOWN_HTML_WHITELIST,
+            attributes=settings.MARKDOWN_HTML_ATTRIBUTES,
+        )
+        return html
 
 
 def article_markdown(text, article, *args, **kwargs):

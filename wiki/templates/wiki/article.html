@@ -1,5 +1,6 @@
 {% extends "wiki/base.html" %}
 {% load wiki_tags i18n sekizai_tags %}
+{% load staticfiles %}
 
 
 {% block wiki_pagetitle %}{{ article.current_revision.title }}{% endblock %}
@@ -9,6 +10,13 @@
 {% endblock %}
 
 {% block wiki_contents %}
+
+  <style>
+    .toc a {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  </style>
 
   <div id="article-container">
     <ul class="nav nav-pills" id="article-menu">
@@ -32,21 +40,22 @@
          {% block wiki_contents_tab %}
          {% endblock %}
       {% endautoescape %}
-    </div>
-    <style>
-      @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
-        .customcol {
-          width: 100% !important;
+      <style>
+        @media screen and (max-device-width: 480px), screen and (max-width: 720px) {
+          .customcol {
+            width: 100% !important;
+          }
         }
-      }
-    </style>
-    <script>
-      $(function() {
-        $(".customcol").each(function() {
-          $(this).css("width", ($(this).attr("width")-3) + "%");
+      </style>
+      <script src="{% static "js/jquery.js" %}"></script>
+      <script>
+        $(function() {
+          $(".customcol").each(function() {
+            $(this).css("width", ($(this).attr("width")-3) + "%");
+          });
         });
-      });
-    </script>
+      </script>
+    </div>
   </div>
 
 {% endblock %}

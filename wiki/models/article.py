@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from __future__ import absolute_import
-import re
+from __future__ import absolute_import, unicode_literals
+
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
@@ -10,15 +9,13 @@ from django.db.models.signals import post_save, pre_delete, pre_save
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
-
 from mptt.models import MPTTModel
-
+from wiki import managers
 from wiki.conf import settings
-from wiki.core import permissions
-from wiki.core import compat
+from wiki.core import compat, permissions
 from wiki.core.markdown import article_markdown
 from wiki.decorators import disable_signal_for_loaddata
-from wiki import managers
+import re
 
 # Django 1.9 deprecation of IPAddressField
 try:
@@ -196,7 +193,6 @@ class Article(models.Model):
         return str(obj_name)
 
     class Meta:
-        app_label = settings.APP_LABEL
         permissions = (
             ("moderate", _("Can edit all articles and lock/unlock/restore")),
             ("assign", _("Can change ownership of any article")),
@@ -210,7 +206,8 @@ class Article(models.Model):
             content = preview_content
         else:
             content = self.current_revision.content
-
+        #return mark_safe(article_markdown(content, self,
+        #                                  preview=preview_content is not None))
         return self.custom_markdown(content, preview_content)
 
     def custom_markdown(self, content, preview_content):
@@ -263,7 +260,6 @@ class ArticleForObject(models.Model):
         return "{}".format(self.article)
 
     class Meta:
-        app_label = settings.APP_LABEL
         verbose_name = _('Article for object')
         verbose_name_plural = _('Articles for object')
         # Do not allow several objects
@@ -318,6 +314,22 @@ class BaseRevisionMixin(models.Model):
         elif settings.LOG_IPS_ANONYMOUS:
             self.ip_address = request.META.get('REMOTE_ADDR', None)
 
+    def inherit_predecessor(self, predecessor):
+        """
+        This is a naive way of inheriting, assuming that ``predecessor`` is in
+        fact the predecessor and there hasn't been any intermediate changes!
+
+        :param: predecessor is an instance of whatever object for which
+        object.current_revision implements BaseRevisionMixin.
+        """
+        predecessor = predecessor.current_revision
+        self.previous_revision = predecessor
+        self.deleted = predecessor.deleted
+        self.locked = predecessor.locked
+        self.deleted = predecessor.deleted
+        self.locked = predecessor.locked
+        self.revision_number = predecessor.revision_number + 1
+
     class Meta:
         abstract = True
 
@@ -366,7 +378,6 @@ class ArticleRevision(BaseRevisionMixin, models.Model):
         self.locked = predecessor.locked
 
     class Meta:
-        app_label = settings.APP_LABEL
         get_latest_by = 'revision_number'
         ordering = ('created',)
         unique_together = ('article', 'revision_number')

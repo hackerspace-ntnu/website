@@ -191,7 +191,7 @@ def delete_article(request, article_id):
         article = get_object_or_404(Article, pk=article_id)
         article.delete()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/news/all')
 
 
 def delete_event(request, event_id):

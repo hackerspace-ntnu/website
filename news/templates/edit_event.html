@@ -47,8 +47,8 @@
           <div class="inline toggle">
             {{ form.registration.errors }}
             <div class="input-field">
-              <input type="checkbox" class="filled-in" id="filled-in-box" name="registration" value="{{ form.registration.value }}"/>
-              <label for="filled-in-box">{{ form.registration.label }}</label>
+              <input type="checkbox" class="filled-in registration toggle" id="registration-box" name="registration" value="{{ form.registration.value }}"/>
+              <label for="registration-box">{{ form.registration.label }}</label>
             </div>
           </div>
 
@@ -89,6 +89,16 @@
                 <label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
                 {{ form.deregistration_end_time }}
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div id=internal_event>
+          <div class="inline toggle">
+            {{ form.internal.errors }}
+            <div class="input-field">
+              <input type="checkbox" class="filled-in internal toggle" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
+              <label for="internal-box">{{ form.internal.label }}</label>
             </div>
           </div>
         </div>
@@ -165,23 +175,33 @@
           $('#{{ form.deregistration_end_time.id_for_label }}').lolliclock({autoclose: true, hour24: true});
 
           $(function () {
-            if ($("#filled-in-box").prop("value") == "True") {
-              $("#filled-in-box").prop("checked", true);
+            if ($(".registration.toggle").prop("value") == "True") {
+              $(".registration.toggle").prop('checked', true);
               $("#registration .extra").fadeIn();
             } else {
               $("#registration .extra").fadeOut();
+            }
+            if ($(".internal.toggle").prop("value") == "True") {
+              $(".internal.toggle").prop('checked', true);
             }
             $(".datepicker").each(function() {
               $(this).updateDatePickerLabel();
             });
           });
-          $("#filled-in-box").change(function() {
-            if ($("#filled-in-box").prop("value") == "True") {
-              $("#filled-in-box").val("False");
+          $(".registration.toggle").change(function() {
+            if ($(this).prop("value") == "True") {
+              $(this).val("False");
               $("#registration .extra").fadeOut();
             } else {
-              $("#filled-in-box").val("True");
+              $(this).val("True");
               $("#registration .extra").fadeIn();
+            }
+          });
+          $(".internal.toggle").change(function() {
+            if ($(this).prop("value") == "True") {
+              $(this).val("False");
+            } else {
+              $(this).val("True");
             }
           });
           $(".datepicker").change(function() {

@@ -2,6 +2,8 @@ from django.contrib.auth.admin import User
 from django.db import models
 from django.utils import timezone
 
+from datetime import timedelta
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
@@ -50,3 +52,6 @@ class Loan(models.Model):
     return_date = models.DateTimeField('return_date', default=timezone.now)
     date_returned = models.DateTimeField('date_returned', null=True)  # innleveringstidspunkt (når den faktisk ble
     # levert tilbake)
+
+    def is_past_return_date(self):
+        return self.return_date - timezone.now() < timedelta()

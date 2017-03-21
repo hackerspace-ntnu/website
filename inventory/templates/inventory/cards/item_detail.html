@@ -1,0 +1,56 @@
+<h2 class="header">{{ item.name }}</h2>
+<div class="card horizontal" style="background: var(--hs-gray-li3)">
+
+    <div class="card-stacked">
+        <div class="card-content">
+            {% if item.tags %}
+                {% for tag in item.tags.all %}
+                    <div class="chip">
+                        <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <br>
+            <br>
+            <p>{{ item.description }}</p>
+            <br>
+            <p>Antall: {{ item.quantity }}</p>
+            <br>
+            <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Plass: {{ item.place }}</p>
+            <br>
+
+
+            <!-- TODO skjekk at user har tilatelse til å se dette -->
+            {% if perms.inventory.can_delete %}
+
+                {% if item.loan_set.all %}
+                    <h5>Alle utlån</h5>
+                    {% for loan in item.loan_set.all %}
+                        <p>Låner: {{ loan.borrower.username }}</p>
+                        <a href="{% url 'inventory:loan_detail' loan.id %}">Detaljer</a>
+                        <br>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+        </div>
+        <div class="card-action">
+
+            <form type="submit" action="{% url 'inventory:detail' item.id %}" method="post">
+                {% csrf_token %}
+                {% if request.user.is_authenticated %}
+                    {% if perms.inventory.delete_item %}
+                        <button class="waves-effect waves-light btn" type="submit">
+                            Slett
+                        </button>
+                        <a href="{% url 'inventory:add_item' item.id %}"
+                           class="waves-effect waves-light btn">endre</a>
+                    {% endif %}
+                {% endif %}
+                <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til
+                    index</a>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% load cards %}
+
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}"/>
@@ -10,40 +12,9 @@
 {% block content %}
     <div class="content">
 
-        <h1>{{ item.name }}</h1>
-        {% if item.tags %}
-            {% for tag in item.tags.all %}
-                <div class="chip">
-                    <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-        <p>{{ item.description }}</p>
-        <p>Antall: {{ item.quantity }}</p>
-        <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Plass: {{ item.place }}</p>
-        <br>
-        <!-- TODO skjekk at user har tilatelse til å se dette -->
-        {% if item.loan_set.all %}
-            <p>Utlån</p>
-            {% for loan in item.loan_set.all %}
-                <p>Låner: {{ loan.borrower.username }}</p>
-                <a href="{% url 'inventory:loan_detail' loan.id %}">loand detail</a>
-                <br>
-            {% endfor %}
-        {% endif %}
-        <form type="submit" action="{% url 'inventory:detail' item.id %}" method="post">
-            {% csrf_token %}
-            {% if request.user.is_authenticated %}
-                {% if perms.inventory.delete_item %}
-                    <button class="waves-effect waves-light btn" type="submit">
-                        Slett
-                    </button>
-                    <a href="{% url 'inventory:add_item' item.id %}" class="waves-effect waves-light btn">endre</a>
-                {% endif %}
-            {% endif %}
-            <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
-
-        </form>
+        <div class="col s12 m7">
+            {% card_item_detail item request perms %}
+        </div>
 
     </div>
 {% endblock content %}

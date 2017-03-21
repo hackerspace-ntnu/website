@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
+{% load cards %}
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
@@ -12,41 +12,39 @@
 {% block content %}
     <div class="content">
 
-        <h2>Utlån av </h2>
-        {% for item in loan.items.all %}
-            <div class="chip">
-                <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
+        <div class="col s12 m7">
+            <div class="row">
+
+                <div class="col s9">
+                    <h3 class="header">Utlån: {{ loan.borrower.username }}</h3>
+                </div>
+
+                <div class="col s3">
+                    <br>
+                    <!-- TODO fiks denne jallagreia -->
+                    <div class="card horizontal" id="status-box" style="height: 55px;">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                {% if loan.date_returned %}
+                                    LEVERT
+                                {% else %}
+                                    <script>
+                                        $('#status-box').css('background-color', 'var(--hs-red)');
+                                    </script>
+                                    IKKE LEVERT
+                                    {% if loan.is_past_return_date %}
+                                        FOR SENT
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-
-        <p>Lånt ut av {{ loan.borrower.username }}</p>
-        <p>ansvarlig for utlånet {{ loan.lender.username }}</p>
-        <p>Beskrivelse {{ loan.comment }}</p>
-
-        {% if loan.date_returned %}
-            Status: ble levert {{ loan.date_returned }}
-        {% else %}
-            Status: ikke levert
-            <p>Skal returneres innen {{ loan.return_date }}</p>
-
-        {% endif %}
-        <br>
-        <br>
+        </div>
         <!-- TODO få til et eller annet fancy med farger her for å merke at den har gått over frist -->
 
-        <form id="registrer" action="{% url 'inventory:loan_detail' loan.id %}" method="post">
-            {% csrf_token %}
-            {% if loan.date_returned %}
-                <button type="submit" class="btn waves-effect waves-light">Omgjør innlevert
-                    <i class="material-icons right">send</i>
-                </button>
-
-            {% else %}
-                <button type="submit" class="btn waves-effect waves-light">Registrer innlevering
-                    <i class="material-icons right">send</i>
-                </button>
-            {% endif %}
-        </form>
+        {% card_loan_detail loan %}
 
     </div>
 {% endblock content %}

@@ -7,9 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="author" content="www.django-wiki.org">
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
 
     <!-- Le styles -->
     <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
+
+    <script src="{% static "js/jquery.js" %}"></script>
 
     {% render_block "css" %}
 
@@ -37,6 +40,7 @@
           {% block wiki_header_branding %}
           <a class="navbar-brand" href="/">
               <img id="logo" src="{% static "img/logo_header.png" %}"/>
+              <!--<font face="Hackerspace" style="float: left; margin-top: 5px; font-size: 30px;">HACKERSPACE</font>-->
           </a>
           {% endblock %}
         </div>

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from __future__ import absolute_import, unicode_literals
 
 from django.contrib.contenttypes.models import ContentType
@@ -206,6 +207,7 @@ class Article(models.Model):
             content = preview_content
         else:
             content = self.current_revision.content
+
         #return mark_safe(article_markdown(content, self,
         #                                  preview=preview_content is not None))
         return self.custom_markdown(content, preview_content)

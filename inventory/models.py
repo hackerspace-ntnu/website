@@ -1,8 +1,6 @@
-from django.contrib.auth.admin import User  # TODO dette kan være feil, kanskje heller
-# django.contrib.auth.models.User hva er isåfall forskjellen? de peker på samme modell
+from django.contrib.auth.admin import User
 from django.db import models
 from django.utils import timezone
-from datetime import timedelta
 
 
 class Tag(models.Model):
@@ -22,12 +20,12 @@ class Item(models.Model):
     tags = models.ManyToManyField(Tag)
 
     # Felt for plassering i rommet.
-    zone = models.CharField(max_length=50, default='ABC')
-    shelf = models.IntegerField(default=9001)
-    place = models.IntegerField(default=2718281828)
+    zone = models.CharField(max_length=50, null=True)
+    shelf = models.IntegerField(null=True)
+    place = models.IntegerField(null=True)
 
     # TODO legge til et felt for å telle popularitet i sidevisninger, kan bruke dette når man søker
-    # TODO antall lånt ut (må holde styr på antall man har tilgjengelig)??
+    # TODO antall lånt ut (må holde styr på antall man har tilgjengelig)?? finner via Loans
 
     def show_tags(self):
         all_tags = ", ".join(str(tag) for tag in self.tags.all())

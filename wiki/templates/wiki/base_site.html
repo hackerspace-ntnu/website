@@ -1,9 +1,7 @@
-{% load sekizai_tags i18n wiki_tags check_user_group %}<!DOCTYPE html>
-{% load staticfiles %}
+{% load sekizai_tags i18n wiki_tags static %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/img/favicon.ico"/>
     <title>{% block wiki_pagetitle %}{% endblock %}{% block wiki_site_title %} - wiki{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
 
     <!-- Le styles -->
-    <link href="{{ STATIC_URL }}wiki/bootstrap/css/wiki-bootstrap.min.css" rel="stylesheet">
+    <link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
 
     <script src="{% static "js/jquery.js" %}"></script>
 
@@ -44,13 +42,6 @@
               <img id="logo" src="{% static "img/logo_header.png" %}"/>
               <!--<font face="Hackerspace" style="float: left; margin-top: 5px; font-size: 30px;">HACKERSPACE</font>-->
           </a>
-          <style>
-              @font-face {
-                 font-family: Hackerspace;
-                 src: url({% static "fonts/ostrich-regular.woff" %});
-              }
-          </style>
-          <!--<a class="navbar-brand" style="margin-top: 5px; margin-left: 10px;" href="{% url 'wiki:root' %}">Wiki root</a>-->
           {% endblock %}
         </div>
         <div class="navbar-collapse collapse">
@@ -74,12 +65,20 @@
                   <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li>
+                  {% if "ACCOUNT_HANDLING"|wiki_settings %}
+                  <li>
+                    <a href="{% url 'wiki:profile_update' %}">
+                      <i class="fa fa-gear"></i>
+                      {% trans "Account Settings" %}
+                    </a>
+                  </li>
+                  <li>
                     <a href="{% url 'wiki:logout' %}">
                       <i class="fa fa-power-off"></i>
                       {% trans "Log out" %}
                     </a>
                   </li>
+                  {% endif %}
                   {% if user.is_superuser %}
                   <li>
                     <a href="{% url 'wiki:deleted_list' %}">
@@ -99,16 +98,21 @@
               <li>
                 <a href="{% login_url as wiki_login_url %}{{ wiki_login_url }}">{% trans "Log in" %}</a>
               </li>
-                <li>
-                  <a href="/authentication/signup/">{% trans "Signup" %}</a>
-                </li>
+              {% if "ACCOUNT_HANDLING"|wiki_settings %}
+              <li>
+                <a href="/authentication/signup/">{% trans "Sign up" %}</a>
+              </li>
+              {% endif %}
             </ul>
             {% endif %}
           </div>
+          {% block wiki_header_navlinks %}
+          {% endblock %}
         </div>
       </div>
     </div>
     <div style="height: 40px;"></div>
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
     <style>
       #logo {
@@ -122,8 +126,8 @@
       #navbar .navbar-collapse {
         margin-top: 25px;
       }
-      #navbar .container {
-        background-color: var(--hs-gray);
+      #navbar .collapse, #navbar .collapsing {
+        background-color: var(--hs-gray) !important;
       }
     </style>
     {% endblock %}
@@ -148,6 +152,9 @@
 
       <footer id="wiki-footer">
         <hr />
+        {% block wiki_footer_logo %}
+        <a href="https://github.com/django-wiki/django-wiki" class="pull-right"><img src="{% static "wiki/img/github_icon.png" %}" /></a>
+        {% endblock %}
         {% block wiki_footer_prepend %}
         {% endblock %}
         <p>{% blocktrans %}Powered by <a href="http://www.django-wiki.org">django-wiki</a>, an open source application under the <a href="http://www.gnu.org/licenses/quick-guide-gplv3.html">GPLv3</a> license. Let knowledge be the cure.{% endblocktrans %}</p>
@@ -159,11 +166,11 @@
 
     {% endblock %}
 
-    <script src="{{ STATIC_URL }}wiki/js/jquery.min.js"></script>
-    <script src="{{ STATIC_URL }}wiki/js/core.js"></script>
-    <script src="{{ STATIC_URL }}wiki/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{% static "wiki/js/jquery.min.js" %}"></script>
+    <script src="{% static "wiki/js/core.js" %}"></script>
+    <script src="{% static "wiki/bootstrap/js/bootstrap.min.js" %}"></script>
     <!-- Optionally enable responsive features in IE8 -->
-    <script src="{{ STATIC_URL }}wiki/js/respond.min.js"></script>
+    <script src="{% static "wiki/js/respond.min.js" %}"></script>
     {% render_block "js" %}
 
   </body>

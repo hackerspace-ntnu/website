@@ -1,46 +1,67 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
+
 import random
 import string
-
 from datetime import timedelta
-from django.utils import timezone
+from itertools import chain
 
 from django import forms
-from django.utils.translation import ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.apps import apps
+from django.contrib.auth.forms import UserCreationForm
+from django.core import validators
+from django.core.urlresolvers import Resolver404, resolve
+from django.core.validators import RegexValidator
+from django.forms.widgets import HiddenInput
+from django.utils import timezone
+from django.utils.html import conditional_escape, escape
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
 from six.moves import range
+from wiki import models
+from wiki.conf import settings
+from wiki.core import permissions
+from wiki.core.compat import get_user_model
+from wiki.core.diff import simple_merge
+from wiki.core.plugins.base import PluginSettingsFormMixin
+from wiki.editors import getEditor
+
 try:
     from django.utils.encoding import force_unicode
 except ImportError:
     def force_unicode(x):
         return(x)
-from django.utils.html import escape, conditional_escape
-from django.core.urlresolvers import resolve, Resolver404
 
-from itertools import chain
 
-from wiki import models
-from wiki.conf import settings
-from wiki.editors import getEditor
-from wiki.core.diff import simple_merge
-from django.forms.widgets import HiddenInput
-from wiki.core.plugins.base import PluginSettingsFormMixin
-from django.contrib.auth.forms import UserCreationForm
-from wiki.core import permissions
+validate_slug_numbers = RegexValidator(
+    r'^\d+$',
+    _("A 'slug' cannot consist solely of numbers."),
+    'invalid',
+    inverse_match=True
+)
 
-from wiki.core.compat import get_user_model
+
+class WikiSlugField(forms.SlugField):
+    """
+    In future versions of Django, we might be able to define this field as
+    the default field directly on the model. For now, it's used in CreateForm.
+    """
+
+    default_validators = [validators.validate_slug, validate_slug_numbers]
+
+    def __init__(self, *args, **kwargs):
+        self.allow_unicode = kwargs.pop('allow_unicode', False)
+        if self.allow_unicode:
+            self.default_validators = [
+                validators.validate_unicode_slug,
+                validate_slug_numbers
+            ]
+        super(forms.SlugField, self).__init__(*args, **kwargs)
+
+
 User = get_user_model()
-
-# Backwards compatibility with Django < 1.7
-try:
-    from django.apps import apps
-except ImportError:
-    from django.contrib.auth.models import Group
-else:
-    Group = apps.get_model(settings.GROUP_MODEL)
+Group = apps.get_model(settings.GROUP_MODEL)
 
 # Due to deprecation of django.forms.util in Django 1.9
 try:
@@ -55,7 +76,8 @@ class SpamProtectionMixin():
 
     revision_model = models.ArticleRevision
 
-    def check_spam(self):
+    # TODO: This method is too complex (C901)
+    def check_spam(self):  # noqa
         """Check that user or IP address does not perform content edits that
         are not allowed.
 
@@ -97,8 +119,7 @@ class SpamProtectionMixin():
         if request.user.has_perm('wiki.moderator'):
             return
 
-        from_time = timezone.now(
-        ) - timedelta(minutes=settings.REVISIONS_MINUTES_LOOKBACK)
+        from_time = timezone.now() - timedelta(minutes=settings.REVISIONS_MINUTES_LOOKBACK)
         if request.user.is_authenticated():
             per_minute = settings.REVISIONS_PER_MINUTES
         else:
@@ -204,7 +225,7 @@ class EditForm(forms.Form, SpamProtectionMixin):
 
     def clean(self):
         """Validates form data by checking for the following
-        No new revisions have been created since user attempted to edit 
+        No new revisions have been created since user attempted to edit
         Revision title or content has changed
         """
         cd = self.cleaned_data
@@ -260,9 +281,7 @@ class SelectWidgetBootstrap(forms.Select):
              'options': self.render_options(choices, [value]),
              'label': _('Select an option'),
              'name': name, 'disabled': ' disabled' if self.disabled else '',
-             'noscript': self.noscript_widget.render(
-                 name, value, {},
-                 choices)}]
+             'noscript': self.noscript_widget.render(name, value, {})}]
         return mark_safe('\n'.join(output))
 
     def render_option(self, selected_choices, option_value, option_label):
@@ -322,7 +341,7 @@ class CreateForm(forms.Form, SpamProtectionMixin):
         self.urlpath_parent = urlpath_parent
 
     title = forms.CharField(label=_('Title'),)
-    slug = forms.SlugField(
+    slug = WikiSlugField(
         label=_('Slug'),
         help_text=_(
             "This will be the address where your article can be found. Use only alphanumeric characters and - or _. Note that you cannot change the slug after creating the article."),
@@ -603,8 +622,6 @@ class SearchForm(forms.Form):
 
 class UserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    first_name = forms.CharField(required=True, max_length=50)
-    last_name = forms.CharField(required=True, max_length=50)
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
@@ -634,4 +651,21 @@ class UserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email")
+        fields = ("username", "email")
+
+class UserUpdateForm(forms.ModelForm):
+    password1 = forms.CharField(label="New password", widget=forms.PasswordInput(), required=False)
+    password2 = forms.CharField(label="Confirm password", widget=forms.PasswordInput(), required=False)
+
+    def clean(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 and password1 != password2:
+            raise forms.ValidationError(_("Passwords don't match"))
+
+        return self.cleaned_data
+
+    class Meta:
+        model = User
+        fields = ['email']

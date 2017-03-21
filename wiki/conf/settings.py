@@ -1,57 +1,102 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
-# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
+
+import bleach
+
 from django.conf import settings as django_settings
+from django.core.files.storage import default_storage
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-import django
-
-WIKI_ANONYMOUS_WRITE = False
-WIKI_ANONYMOUS_CREATE = False
 
 # Should urls be case sensitive?
 URL_CASE_SENSITIVE = getattr(django_settings, 'WIKI_URL_CASE_SENSITIVE', False)
 
 # Non-configurable (at the moment)
-APP_LABEL = 'wiki'
 WIKI_LANGUAGE = 'markdown'
 
 # The editor class to use -- maybe a 3rd party or your own...? You can always
 # extend the built-in editor and customize it....
 EDITOR = getattr(
-	django_settings,
-	'WIKI_EDITOR',
-	'wiki.editors.markitup.MarkItUp')
+    django_settings,
+    'WIKI_EDITOR',
+    'wiki.editors.markitup.MarkItUp')
 
 MARKDOWN_KWARGS = {
-	'extensions': [
-		'footnotes',
-		'attr_list',
-		'extra',
-		'codehilite',
-		'sane_lists',
-	],
-	'safe_mode': 'replace',
-	'extension_configs': {
-		'toc': {
-			'title': _('Table of Contents')}},
+    'extensions': [
+        'footnotes',
+        'attr_list',
+        'extra',
+        'sane_lists',
+    ],
+    'extension_configs': {
+        'toc': {
+            'title': _('Table of Contents')}},
 }
 MARKDOWN_KWARGS.update(getattr(django_settings, 'WIKI_MARKDOWN_KWARGS', {}))
+
+_default_tag_whitelists = bleach.ALLOWED_TAGS + [
+    'figure',
+    'figcaption',
+    'p',
+    'div',
+    'img',
+    'pre',
+    'span',
+    'table',
+    'thead',
+    'tbody',
+    'th',
+    'tr',
+    'td',
+    'dl',
+    'dt',
+    'dd',
+] + ['h{}'.format(n) for n in range(8)]
+
+
+# Allowed tags in Markdown article contents.
+MARKDOWN_HTML_WHITELIST = _default_tag_whitelists
+MARKDOWN_HTML_WHITELIST += (
+    getattr(
+        django_settings,
+        'WIKI_MARKDOWN_HTML_WHITELIST',
+        []
+    )
+)
+
+_default_attribute_whitelist = bleach.ALLOWED_ATTRIBUTES
+for tag in MARKDOWN_HTML_WHITELIST:
+    if tag not in _default_attribute_whitelist:
+        _default_attribute_whitelist[tag] = []
+    _default_attribute_whitelist[tag].append('class')
+    _default_attribute_whitelist[tag].append('id')
+
+_default_attribute_whitelist['img'].append('src')
+_default_attribute_whitelist['img'].append('alt')
+
+MARKDOWN_HTML_ATTRIBUTES = _default_attribute_whitelist
+MARKDOWN_HTML_ATTRIBUTES.update(
+    getattr(
+        django_settings,
+        'WIKI_MARKDOWN_HTML_ATTRIBUTE_WHITELIST',
+        {}
+    )
+)
+
 
 # This slug is used in URLPath if an article has been deleted. The children of the
 # URLPath of that article are moved to lost and found. They keep their permissions
 # and all their content.
 LOST_AND_FOUND_SLUG = getattr(
-	django_settings,
-	'WIKI_LOST_AND_FOUND_SLUG',
-	'lost-and-found')
+    django_settings,
+    'WIKI_LOST_AND_FOUND_SLUG',
+    'lost-and-found')
 
 # When True, this blocks new slugs that resolve to non-wiki views, stopping
 # users creating articles that conflict with overlapping URLs from other apps.
 CHECK_SLUG_URL_AVAILABLE = getattr(
-	django_settings,
-	'WIKI_CHECK_SLUG_URL_AVAILABLE',
-	True)
+    django_settings,
+    'WIKI_CHECK_SLUG_URL_AVAILABLE',
+    True)
 
 # Do we want to log IPs?
 LOG_IPS_ANONYMOUS = getattr(django_settings, 'WIKI_LOG_IPS_ANONYMOUS', True)
@@ -88,9 +133,9 @@ CAN_ASSIGN_OWNER = getattr(django_settings, 'WIKI_ASSIGN_OWNER', None)
 # A function returning True/False if a user has permission to change
 # read/write access for groups and others
 CAN_CHANGE_PERMISSIONS = getattr(
-	django_settings,
-	'WIKI_CAN_CHANGE_PERMISSIONS',
-	None)
+    django_settings,
+    'WIKI_CAN_CHANGE_PERMISSIONS',
+    None)
 
 # Specifies if a user has access to soft deletion of articles
 CAN_DELETE = getattr(django_settings, 'WIKI_CAN_DELETE', None)
@@ -113,9 +158,9 @@ ANONYMOUS_WRITE = getattr(django_settings, 'WIKI_ANONYMOUS_WRITE', False)
 # Globally enable create access for anonymous users
 # Defaults to ANONYMOUS_WRITE.
 ANONYMOUS_CREATE = getattr(
-	django_settings,
-	'WIKI_ANONYMOUS_CREATE',
-	ANONYMOUS_WRITE)
+    django_settings,
+    'WIKI_ANONYMOUS_CREATE',
+    ANONYMOUS_WRITE)
 
 # Default setting to allow anonymous users upload access (used in
 # plugins.attachments and plugins.images).
@@ -127,15 +172,17 @@ ACCOUNT_HANDLING = getattr(django_settings, 'WIKI_ACCOUNT_HANDLING', True)
 # Signup allowed? If it's not allowed, logged in superusers can still access
 # the signup page to create new users.
 ACCOUNT_SIGNUP_ALLOWED = ACCOUNT_HANDLING and getattr(
-	django_settings, 'WIKI_ACCOUNT_SIGNUP_ALLOWED', True
+    django_settings, 'WIKI_ACCOUNT_SIGNUP_ALLOWED', True
 )
 
 if ACCOUNT_HANDLING:
-	LOGIN_URL = reverse_lazy("wiki:login")
-	LOGOUT_URL = reverse_lazy("wiki:logout")
+    LOGIN_URL = reverse_lazy("wiki:login")
+    LOGOUT_URL = reverse_lazy("wiki:logout")
+    SIGNUP_URL = reverse_lazy("wiki:signup")
 else:
-	LOGIN_URL = getattr(django_settings, "LOGIN_URL", "/")
-	LOGOUT_URL = getattr(django_settings, "LOGOUT_URL", "/")
+    LOGIN_URL = getattr(django_settings, "LOGIN_URL", "/")
+    LOGOUT_URL = getattr(django_settings, "LOGOUT_URL", "/")
+    SIGNUP_URL = getattr(django_settings, "WIKI_SIGNUP_URL", "/")
 
 ##################
 # OTHER SETTINGS #
@@ -147,27 +194,27 @@ else:
 SHOW_MAX_CHILDREN = getattr(django_settings, 'WIKI_SHOW_MAX_CHILDREN', 20)
 
 USE_BOOTSTRAP_SELECT_WIDGET = getattr(
-	django_settings,
-	'WIKI_USE_BOOTSTRAP_SELECT_WIDGET',
-	True)
+    django_settings,
+    'WIKI_USE_BOOTSTRAP_SELECT_WIDGET',
+    True)
 
 #: dottedname of class used to construct urlpatterns for wiki.
 #:
 #: Default is wiki.urls.WikiURLPatterns. To customize urls or view handlers,
 #: you can derive from this.
 URL_CONFIG_CLASS = getattr(
-	django_settings,
-	'WIKI_URL_CONFIG_CLASS',
-	'wiki.urls.WikiURLPatterns')
+    django_settings,
+    'WIKI_URL_CONFIG_CLASS',
+    'wiki.urls.WikiURLPatterns')
 
 # Search view - dotted path denoting where the search view Class is located
 SEARCH_VIEW = getattr(
-	django_settings,
-	'WIKI_SEARCH_VIEW',
-	'wiki.views.article.SearchView'
-	if 'wiki.plugins.haystack' not in django_settings.INSTALLED_APPS
-	else
-	'wiki.plugins.haystack.views.HaystackSearchView'
+    django_settings,
+    'WIKI_SEARCH_VIEW',
+    'wiki.views.article.SearchView'
+    if 'wiki.plugins.haystack' not in django_settings.INSTALLED_APPS
+    else
+    'wiki.plugins.haystack.views.HaystackSearchView'
 )
 
 # Seconds of timeout before renewing article cache. Articles are automatically
@@ -176,11 +223,7 @@ SEARCH_VIEW = getattr(
 CACHE_TIMEOUT = getattr(django_settings, 'WIKI_CACHE_TIMEOUT', 600)
 
 # Choose the Group model to use. Defaults to django's auth.Group
-# This requires `django.apps` which was introduced in Django 1.7.
-if django.VERSION < (1, 7):
-	GROUP_MODEL = 'auth.Group'
-else:
-	GROUP_MODEL = getattr(django_settings, 'WIKI_GROUP_MODEL', 'auth.Group')
+GROUP_MODEL = getattr(django_settings, 'WIKI_GROUP_MODEL', 'auth.Group')
 
 ###################
 # SPAM PROTECTION #
@@ -191,39 +234,37 @@ REVISIONS_PER_HOUR = getattr(django_settings, 'WIKI_REVISIONS_PER_HOUR', 60)
 
 # Maximum allowed revisions per minute for any given user or IP
 REVISIONS_PER_MINUTES = getattr(
-	django_settings,
-	'WIKI_REVISIONS_PER_MINUTES',
-	5)
+    django_settings,
+    'WIKI_REVISIONS_PER_MINUTES',
+    5)
 
 # Maximum allowed revisions per hour for any given user or IP
 REVISIONS_PER_HOUR_ANONYMOUS = getattr(
-	django_settings,
-	'WIKI_REVISIONS_PER_HOUR_ANONYMOUS',
-	10)
+    django_settings,
+    'WIKI_REVISIONS_PER_HOUR_ANONYMOUS',
+    10)
 
 # Maximum allowed revisions per hour for any given user or IP
 REVISIONS_PER_MINUTES_ANONYMOUS = getattr(
-	django_settings,
-	'WIKI_REVISIONS_PER_MINUTES_ANONYMOUS',
-	2)
+    django_settings,
+    'WIKI_REVISIONS_PER_MINUTES_ANONYMOUS',
+    2)
 
 # Number of minutes for looking up REVISIONS_PER_MINUTES and
 # REVISIONS_PER_MINUTES_ANONYMOUS
 REVISIONS_MINUTES_LOOKBACK = getattr(
-	django_settings,
-	'WIKI_REVISIONS_MINUTES_LOOKBACK',
-	2)
+    django_settings,
+    'WIKI_REVISIONS_MINUTES_LOOKBACK',
+    2)
 
 ###########
 # STORAGE #
 ###########
 
-from django.core.files.storage import default_storage
-
 STORAGE_BACKEND = getattr(
-	django_settings,
-	'WIKI_STORAGE_BACKEND',
-	default_storage)
+    django_settings,
+    'WIKI_STORAGE_BACKEND',
+    default_storage)
 
 USE_SENDFILE = getattr(django_settings, 'WIKI_ATTACHMENTS_USE_SENDFILE', False)
 
@@ -236,6 +277,6 @@ MAX_REVISIONS = getattr(django_settings, 'WIKI_MAX_REVISIONS', 100)
 
 # Maximum age of revisions in days, 0=unlimited
 MAX_REVISION_AGE = getattr(
-	django_settings, 'WIKI_MAX_REVISION_AGE',
-	getattr(django_settings, 'MAX_REVISION_AGE', 365)
+    django_settings, 'WIKI_MAX_REVISION_AGE',
+    getattr(django_settings, 'MAX_REVISION_AGE', 365)
 )

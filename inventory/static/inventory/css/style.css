@@ -4,6 +4,15 @@ a {
 
 }
 
+.errorlist li {
+    color: var(--hs-red);
+}
+
+.collapsible-body {
+    background-color: #f1f8e9;
+    padding: 30px;
+}
+
 .content {
 
     max-width: 800px;

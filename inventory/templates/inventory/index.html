@@ -4,9 +4,9 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock header %}
 
-<!-- TODO sette link til inventory i headeren? -->
 
 {% block content %}
     <!-- For å vise eventuelle meldinger fra oppretting/endring av item eller tag. -->
@@ -21,12 +21,12 @@
     {% endif %}
 
     <div class="content">
-        <!-- TODO flytt dette søkefeltet og knappen til riktig sted -->
         <br>
         <form id="searchform" action="{% url 'inventory:search' %}" method="get">
             {% csrf_token %}
             <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Søk" autocomplete="off">
-            <button class="btn waves-effect waves-light" type="submit" name="action">søk</button>
+            <button class="btn waves-effect waves-light" type="submit" name="action">
+            </button>
         </form>
 
         <h1>Inventar</h1>
@@ -50,52 +50,56 @@
         <!-- TODO knapper man ikke kan bruke med mindre man er logget inn, kan enten linke til innloggingsside, eller
         være gråe, og ikke fungerende
         TODO endre fra "category" til "tag", for å være konsekvent
+        TODO endre dette når man får maaange tags.
+        TODO endre så kun brukere med endringstilgang kan se de som er slettet.
         -->
-        <ul class="collapsible" data-collapsible="accordion">
-            <!-- collapsible sorted by cateogry, items sorted alphabetically -->
-            {% for category, items in item_dict.items %}
-                <li>
-                    <div class="collapsible-header">{{ category }}</div>
-                    <div class="collapsible-body">
-                        <ul>
-                            <br>
-                            {% for item in items %}
+        {% if item_dict %}
+            <ul class="collapsible" data-collapsible="accordion">
+                <!-- collapsible sorted by cateogry, items sorted alphabetically -->
+                {% for category, items in item_dict.items %}
+                    <li>
+                        <div class="collapsible-header">{{ category }}</div>
+                        <div class="collapsible-body">
+                            <ul>
+                                {% for item in items %}
+                                    {% if item.visible %}
+                                        <li>
+                                            <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                <br>
                                 <li>
-                                    <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+                                    <a href="{% url 'inventory:tag_detail' category.id %}">Til kategoriside</a>
                                 </li>
-                            {% endfor %}
-                            <br>
-                            <li>
-                                <a href="{% url 'inventory:tag_detail' category.id %}">Til kategoriside</a>
-                            </li>
-                            <br>
-                        </ul>
-                    </div>
+                            </ul>
+                        </div>
 
-                </li>
-            {% endfor %}
+                    </li>
+                {% endfor %}
 
-            <!-- shows items without category -->
+                <!-- shows items without category -->
 
-            <!-- TODO lag bakgrunn i collaipsible -->
-            {% if no_category %}
-                <li>
-                    <div class="collapsible-header"><i class="material-icons"> </i>Ingen tag</div>
-                    <div class="collapsible-body">
-                        <ul>
-                            <br>
-                            {% for item in no_category %}
-                                <li>
-                                    <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
-                                </li>
-                            {% endfor %}
-                            <br>
-                        </ul>
-                    </div>
+                <!-- TODO lag bakgrunn i collaipsible -->
+                {% if no_category %}
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons"> </i>Ingen tag</div>
+                        <div class="collapsible-body">
+                            <ul>
+                                <br>
+                                {% for item in no_category %}
+                                    <li>
+                                        <a href={% url 'inventory:detail' item.id %}>{{ item.name }}</a>
+                                    </li>
+                                {% endfor %}
+                                <br>
+                            </ul>
+                        </div>
 
-                </li>
-            {% endif %}
-        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
 
     </div>
 {% endblock content %}

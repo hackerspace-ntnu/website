@@ -80,19 +80,17 @@
                     <p id="error-message">{{ form.shelf.errors }}</p>
                     <div class="input-field">
                         <label for="{{ form.shelf.id_for_label }}">{{ form.shelf.label }}</label>
-                        {{ form.shelf}}
+                        {{ form.shelf }}
                     </div>
                 </div>
                 <div class="col s4">
                     <p id="error-message">{{ form.place.errors }}</p>
                     <div class="input-field">
                         <label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
-                        {{ form.place}}
+                        {{ form.place }}
                     </div>
                 </div>
-
             </div>
-
 
             <br>
             <button class="btn waves-effect waves-light" type="button" onclick="postElements()">{{ button_message }}
@@ -100,6 +98,14 @@
 
             <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
         </form>
+
+        <style>
+            .chip {
+                background-color: var(--hs-green);
+            }
+        </style>
+        <!-- TODO flytt til style fil -->
+
     </div>
     <!-- TODO feltene viser ikke tags og description på transistorene som ble lagt inn av et script, man vil endre -->
 

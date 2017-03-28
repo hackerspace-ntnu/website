@@ -43,7 +43,7 @@ class DutyTime(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     image = models.ImageField(upload_to="profilepictures")
-    group = models.ManyToManyField(Group, related_name="members")
+    group = models.ManyToManyField(Group, related_name="groups")
     access_card = models.CharField(max_length=20, null=True, blank=True)
     skills = models.ManyToManyField(Skill)
     study = models.TextField(null=True, blank=True)

@@ -12,3 +12,7 @@ class ProfileModelForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['study', 'access_card']
+
+
+class NameSearchForm(forms.Form):
+   name = forms.CharField(max_length=200)

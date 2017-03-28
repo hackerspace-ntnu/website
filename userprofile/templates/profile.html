@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}">
+{% endblock head %}
+
+{% block content %}
+    <div class="section no-pad-bot">
+        <div class="container">
+            <h class="flow-text">Din profil</h>
+            <div class="row">
+                <div class="row col-10">
+                    <div>
+                        <p>{{ profile }}</p>
+                        <img class="profile-image" src="/media/{{ profile.image }}" height="300">
+                    </div>
+                    <div>
+                        <p>{{ profile.study }}</p>
+                        <p>{{ profile.access_card }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

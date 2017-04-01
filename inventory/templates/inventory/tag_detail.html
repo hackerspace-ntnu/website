@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load cards %}
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
@@ -15,29 +16,8 @@
 
         <ul>
             {% for item in related_items %}
-                <div class="card" style="background-color: var(--hs-gray-li2)">
-                    <div class="card-content white-text">
-                        <span class="card-title">
-                            <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
-                        </span>
-                        <br>
-                        {% if item.tags %}
-                            {% for tag in item.tags.all %}
-                                <div class="chip">
-                                    <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        <br>
-                        <br>
-                        <p>Antall: {{ item.quantity }}</p><br>
-                        <p>{{ item.description }}</p>
-                    </div>
-                    <div class="card-action">
-                        <a href="{% url 'inventory:add_item' item.id %}" style="color: var(--hs-green)">endre</a>
-                        <a href="{% url 'inventory:register_loan' item.id %}" style="color: var(--hs-green)">lån ut</a>
-                    </div>
-                </div>
+
+                {% card_item_detail item request perms False True %}
 
             {% endfor %}
         </ul>

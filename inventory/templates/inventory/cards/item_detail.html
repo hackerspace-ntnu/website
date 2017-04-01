@@ -1,25 +1,37 @@
-<h2 class="header">{{ item.name }}</h2>
-<div class="card horizontal" style="background: var(--hs-gray-li3)">
+{% if not loan %}
+    <div class="card horizontal" style="background: var(--hs-gray-li2)">
+{% else %}
+    <div class="card horizontal" style="background: var(--hs-gray-li3)">
 
-    <div class="card-stacked">
-        <div class="card-content">
-            {% if item.tags %}
-                {% for tag in item.tags.all %}
-                    <div class="chip">
-                        <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            <br>
-            <br>
-            <p>{{ item.description }}</p>
-            <br>
-            <p>Antall: {{ item.quantity }}</p>
-            <br>
-            <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Plass: {{ item.place }}</p>
-            <br>
+{% endif %}
 
+<div class="card-stacked">
+    <div class="card-content">
 
+        {% if not loan %}
+            <!-- Hvis kortet er lite, må det ha tittel i kortet, ellers skal headeren stå over. -->
+            <span class="card-title"><a
+                    href="{% url 'inventory:detail' item.id %}">{{ item.name }} {{ item.id }}</a></span>
+            <br>
+        {% endif %}
+
+        {% if item.tags %}
+            {% for tag in item.tags.all %}
+                <div class="chip">
+                    <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <br>
+        <br>
+        <p>{{ item.description }}</p>
+        <br>
+        <p>Antall: {{ item.quantity }}</p>
+        <br>
+        <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Plass: {{ item.place }}</p>
+        <br>
+
+        {% if loan %}
             <!-- TODO skjekk at user har tilatelse til å se dette -->
             {% if perms.inventory.can_delete %}
 
@@ -32,25 +44,31 @@
                     {% endfor %}
                 {% endif %}
             {% endif %}
+        {% endif %}
 
-        </div>
+    </div>
+
+    {% if buttons %}
         <div class="card-action">
 
             <form type="submit" action="{% url 'inventory:detail' item.id %}" method="post">
                 {% csrf_token %}
+                <a href="{% url 'inventory:register_loan' item.id %}" class="waves-effect waves-light btn">Lån
+                    ut</a>
+
                 {% if request.user.is_authenticated %}
                     {% if perms.inventory.delete_item %}
+                        <a href="{% url 'inventory:add_item' item.id %}"
+                           class="waves-effect waves-light btn">endre</a>
+
                         <button class="waves-effect waves-light btn" type="submit">
                             Slett
                         </button>
-                        <a href="{% url 'inventory:add_item' item.id %}"
-                           class="waves-effect waves-light btn">endre</a>
                     {% endif %}
                 {% endif %}
-                <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til
-                    index</a>
 
             </form>
         </div>
-    </div>
+    {% endif %}
+</div>
 </div>

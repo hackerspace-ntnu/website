@@ -42,7 +42,7 @@
                 <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
             {% endif %}
             {% if perms.inventory.add_loan %}
-                <a href="{% url 'inventory:register_loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
+                <a href="{% url 'inventory:register_loan' 0 %}" class="waves-effect waves-light btn">Registrer utlån</a>
                 <a href="{% url 'inventory:administrate_loans' %}" class="waves-effect waves-light btn">Administrer
                     utlån</a>
             {% endif %}
@@ -92,33 +92,10 @@
 
             <div class="col s9">
                 {% for item in items %}
-                    <div class="card horizontal item-card" style="background: var(--hs-gray-li2)"
-                         id="item-{{ item.id }}"
-                         about="{{ item|get_tags|safe }}">
 
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <span class="card-title"><a
-                                        href="{% url 'inventory:detail' item.id %}">{{ item.name }} {{ item.id }}</a></span>
-                                <br>
-                                {% if item.tags %}
-                                    {% for tag in item.tags.all %}
-                                        <div class="chip">
-                                            <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                                <br>
-                                <p>{{ item.description }}</p>
-                                <br>
-                                <p>Antall: {{ item.quantity }}</p>
-                                <br>
+                    {% card_item_detail item request perms False False %}
 
-                            </div>
-                        </div>
-                    </div>
                 {% endfor %}
-
             </div>
 
 

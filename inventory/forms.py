@@ -102,7 +102,23 @@ class ItemForm(forms.Form):
                 tag = Tag(name=new_tag)
                 tag.save()
                 item.tags.add(tag)
+
         item.save()
+        self.add_parent_tags(item)
+
+    @staticmethod
+    def add_parent_tags(item):
+
+        def get_parent_tags(tag):
+            if tag.parent_tag:
+                return [tag.parent_tag, *get_parent_tags(tag.parent_tag)]
+            else:
+                return []
+
+        for tag in item.tags.all()[:]:
+            for grand_tag in get_parent_tags(tag):
+                item.tags.add(grand_tag)
+                item.save()
 
 
 class TagForm(forms.Form):

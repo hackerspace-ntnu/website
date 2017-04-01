@@ -9,6 +9,9 @@ class Tag(models.Model):
     name = models.CharField(max_length=100)
     visible = models.BooleanField(default=True)
 
+    # TODO lag restriction så den ikke kan være seg selv
+    parent_tag = models.ForeignKey('Tag', null=True, related_name="children_tags")
+
     def __str__(self):
         return str(self.name)
 

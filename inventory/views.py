@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -6,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+
 import json
 
 from .forms import ItemForm, LoanForm, TagForm
@@ -17,36 +17,45 @@ from .models import Tag, Item, Loan
 # TODO mulig å bruke QR-kode for merking av gjenstander, må føre til item sin detail-side
 # TODO hvordan skal man gjøre det med gjenstander som er slettet (not visible)
 def index(request):
-    items = Item.objects.all().filter(visible=True)
-    no_category = []
-    all_tags = [tag for tag in Tag.objects.all() if tag.item_set.all() and tag.visible]
-    # TODO lag tilsvarende så man kan slette tags (sette visible=False)
-    all_tags.sort(key=lambda tag: tag.name.lower())
-    item_dict = OrderedDict()
-    # TODO flytt dette til et annet sted
-    # TODO noen av kategoriene ser tomme ut, men har items knyttet til seg.
-    for sorted_tag in all_tags:
-        item_dict[sorted_tag] = []
-    for item in items:
-        if not item.tags.all():
-            no_category.append(item)
+    items = Item.objects.filter(visible=True)
+    posted_tags = {}
 
-        for tag in item.tags.all():
-            try:
-                item_dict[tag].append(item)
-            except KeyError:
-                item_dict[tag] = [item]
-    for value in item_dict.values():
-        value.sort(key=lambda e: e.name.lower())
-    no_category.sort(key=lambda w: w.name.lower())
-    context = {
-        'item_dict': item_dict,
-        'no_category': no_category,
-    }
+    if request.method == 'POST':
+        result = json.loads(request.POST['check_json'])
+        posted_tags = json.dumps(result)
+
+        def parse_dict(tag_dict: dict, items: [Item]):
+            filtered_items = Item.objects.none()
+
+            for tag_id, children in tag_dict.items():
+                # Må legge til items for alle tags på samme nivå
+                related_items = Tag.objects.get(pk=tag_id).item_set.all()
+                if children:
+                    # Hvis tagen har barn, skal man bare ta med items som er taget med begge
+                    # TODO dette er problem, man kan ikke gå ut fra at ting blir riktig tagget med begge..
+                    # men det må kanskje være sånn, kan legge til foreldre tags automatisk når man oppretter.
+                    filtered_items |= related_items & parse_dict(children, related_items)
+                else:
+                    # legge til alle Items som hører til denne tagen tag_id
+                    filtered_items |= related_items
+            return filtered_items
+
+        if not result:
+            items = Item.objects.all()
+        else:
+            items = parse_dict(result, Item.objects.filter(visible=True))
+
+    context = {'items': items,
+               'tags': Tag.objects.filter(parent_tag=None),
+               'posted_tags': posted_tags
+               }
+
     return render(request, 'inventory/index.html', context)
 
 
 def search(request):
+    # TODO denne må oppdateres slik at den tar hensyn til subtags
+
     search_text = request.GET['q']
     if search_text.strip() == '/all':
         return render(request, 'inventory/search.html', show_all_items())

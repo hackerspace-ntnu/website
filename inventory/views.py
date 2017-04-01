@@ -29,7 +29,7 @@ def index(request):
 
             for tag_id, children in tag_dict.items():
                 # Må legge til items for alle tags på samme nivå
-                related_items = Tag.objects.get(pk=tag_id).item_set.all()
+                related_items = Tag.objects.get(pk=tag_id).item_set.filter(visible=True).all()
                 if children:
                     # Hvis tagen har barn, skal man bare ta med items som er taget med begge
                     # TODO dette er problem, man kan ikke gå ut fra at ting blir riktig tagget med begge..
@@ -252,9 +252,11 @@ def tag_detail(request, tag_id):
 
 
 @permission_required('inventory.add_loan')
-def register_loan(request):
+def register_loan(request, item_id=0):
     # TODO må ha en god måte å registrere ny bruker på hvis de ikke alderede har, evt link
     # TODO ha måte å opprette nytt item, evt link til sida
+    context = {'users': User.objects.all()}
+
     if request.method == 'POST':
         form = LoanForm(request.POST)
         if form.is_valid():
@@ -270,10 +272,11 @@ def register_loan(request):
             return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = LoanForm()
-    return HttpResponse(render(request, 'inventory/register_loan.html', {
-        'form': form,
-        'users': User.objects.all(),
-    }))
+        if int(item_id) > 0:
+            item = Item.objects.get(pk=item_id)
+            context['chosen_item'] = {'id': item.id, 'text': item.name}
+    context['form'] = form
+    return HttpResponse(render(request, 'inventory/register_loan.html', context))
 
 
 @permission_required('inventory.add_loan')

@@ -15,7 +15,7 @@
     <div class="content">
         <h3>Registrer nytt utlån</h3>
         <!-- TODO fiks at alle blir farge likt som comment-feltet, finn noe ala textarea -->
-        <form action="{% url 'inventory:register_loan' %}" method="post">
+        <form action="{% url 'inventory:register_loan' 0 %}" method="post">
             {% csrf_token %}
 
             <p id="error-message">{{ form.items.errors }}</p>
@@ -67,7 +67,7 @@
             <script>
                 $('.datepicker').pickadate({
                     selectMonths: true, // Creates a dropdown to control month
-                    selectYears: 15 // Creates a dropdown of 15 years to control year
+                    selectYears: 5 // Creates a dropdown of 15 years to control year
                 });
             </script>
 
@@ -77,6 +77,12 @@
         </form>
 
     </div>
+
+    <style>
+    .chip {
+        background-color: var(--hs-green);
+    }
+    </style>
 
 
     <script>
@@ -88,7 +94,7 @@
             for (var i = 0; i < items.length; i++) {
                 item_ids += items[i].getAttribute('data-id') + ",";
             }
-            // $('#multipleInput').val(item_ids);
+
             $('#{{ form.items.id_for_label }}').val(item_ids);
 
             // Henter inn dato fra datepicker og gir det til form-felt for dato.
@@ -123,6 +129,9 @@
             });
 
             multiple.resultCache = {{ form.get_autocomplete_dict|safe }};
+
+            var chosenItem = {{ chosen_item|safe }}
+            multiple.setValue(chosenItem);
 
         });
 

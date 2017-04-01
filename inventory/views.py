@@ -24,7 +24,7 @@ def index(request):
         result = json.loads(request.POST['check_json'])
         posted_tags = json.dumps(result)
 
-        def parse_dict(tag_dict: dict, items: [Item]):
+        def parse_dict(tag_dict: dict):
             filtered_items = Item.objects.none()
 
             for tag_id, children in tag_dict.items():
@@ -34,7 +34,7 @@ def index(request):
                     # Hvis tagen har barn, skal man bare ta med items som er taget med begge
                     # TODO dette er problem, man kan ikke gå ut fra at ting blir riktig tagget med begge..
                     # men det må kanskje være sånn, kan legge til foreldre tags automatisk når man oppretter.
-                    filtered_items |= related_items & parse_dict(children, related_items)
+                    filtered_items |= related_items & parse_dict(children)
                 else:
                     # legge til alle Items som hører til denne tagen tag_id
                     filtered_items |= related_items
@@ -43,7 +43,7 @@ def index(request):
         if not result:
             items = Item.objects.all()
         else:
-            items = parse_dict(result, Item.objects.filter(visible=True))
+            items = parse_dict(result)
 
     context = {'items': items,
                'tags': Tag.objects.filter(parent_tag=None),
@@ -217,13 +217,17 @@ def add_tag(request, tag_id=0):
                 tag = Tag.objects.get(pk=tag_id)
                 tag.name = form.cleaned_data['name']
                 tag.save()
-                messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
+
                 messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
             else:
                 name = form.cleaned_data['name']
                 tag = Tag(name=name)
                 tag.save()
                 messages.add_message(request, messages.SUCCESS, 'Taggen ble opprettet.')
+
+            parent_tag = form.cleaned_data['parent_tag_ids']
+            TagForm.add_parent_tag(tag.id, parent_tag)
+
             return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = TagForm()
@@ -238,7 +242,16 @@ def add_tag(request, tag_id=0):
         'message': message,
         'button_message': button_message,
         'tag_id': tag_id,
+        'parent_tags_autocomplete': ItemForm.get_autocomplete_dict(),
+        'parent_tag': {},
     }
+
+    if int(tag_id) > 0:
+        tag = Tag.objects.get(pk=tag_id)
+        if tag.parent_tag is not None:
+            parent_tag = {'id': tag.parent_tag.id, 'text': tag.parent_tag.name}
+            context['parent_tag'] = json.dumps(parent_tag)
+
     return render(request, 'inventory/add_tag.html', context)
 
 

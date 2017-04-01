@@ -108,22 +108,96 @@ class ItemForm(forms.Form):
 
     @staticmethod
     def add_parent_tags(item):
-
-        def get_parent_tags(tag):
-            if tag.parent_tag:
-                return [tag.parent_tag, *get_parent_tags(tag.parent_tag)]
-            else:
-                return []
-
+        """
+        Legger til alle tags som er foreldre til denne item sine tags, som tags på dette item objektet.
+        """
         for tag in item.tags.all()[:]:
-            for grand_tag in get_parent_tags(tag):
+            for grand_tag in ItemForm.get_parent_tags(tag):
                 item.tags.add(grand_tag)
                 item.save()
+
+    @staticmethod
+    def get_parent_tags(tag):
+        """
+        :param tag:
+        :return: liste med alle tags som ligger over tag i hierarkiet.
+        """
+        if tag.parent_tag is not None:
+            return [tag.parent_tag, *ItemForm.get_parent_tags(tag.parent_tag)]
+        else:
+            return []
 
 
 class TagForm(forms.Form):
     name = forms.CharField(label='Tag', max_length=100, strip=True,
                            widget=forms.TextInput(attrs={'autocomplete': 'off'}))
+
+    parent_tag = forms.CharField(label='Parent tag', max_length=100, strip=True, required=False,
+                                 widget=forms.TextInput(attrs={'autocomplete': 'off'}))
+
+    # For å sende inn id til chips automatisk ved post.
+    parent_tag_ids = forms.CharField(widget=forms.HiddenInput, max_length=100, strip=True, required=False)
+
+    @staticmethod
+    def add_parent_tag(tag_id, parent_tag_id):
+        """
+        Legger til parent_tag til tag, og flytter alle items som blir påvirket.
+
+        - Registerer så alle items som har tag som tag, til også å være registrert med
+          parent_tag som tag.
+
+        - Hvis tag har en parent_tag fra før:
+            -  Man skifter til en ny parent_tag
+                -  Alle items som var tagget med parent_tag OG tag, må fjerne parent_tag fra tagger.
+
+            -  Man fjerner parent tag (setter taggen øverst i treet).
+
+        """
+        def add_or_remove_tags_from_items(tag, method_str):
+            """
+            Legger til/fjerner alle tags som er over tag i hierarkiet fra alle items som er tagget med tag.
+            :param tag:
+            :param method_str: 'add' or 'remove'
+            """
+            for item in tag.item_set.all():
+                method = getattr(item.tags, method_str)
+                method(*ItemForm.get_parent_tags(tag))
+                item.save()
+
+        tag = Tag.objects.get(pk=tag_id)
+        if parent_tag_id == '':
+            # Man vil fjerne eksisterende parent_tag, eller bare fortsette å ikke ha noen.
+            if tag.parent_tag is None:
+                # Tag har INGEN parent_tag fra før, ingenting skal skje.
+                pass
+
+            else:
+                # Tag har en parent_tag fra før
+                # Alle items som har tag, må få fjernet parent_tag fra tagger.
+                # MÅ også fjerne parent_tag sin parent_tag osv fra item tagger.
+
+                add_or_remove_tags_from_items(tag, 'remove')
+                tag.parent_tag = None
+                tag.save()
+        else:
+            # Man skal sette ny parent tag
+            parent_tag = Tag.objects.get(pk=parent_tag_id)
+
+            if tag.parent_tag is None:
+                # Tag har INGEN parent_tag fra før
+                tag.parent_tag = parent_tag
+                tag.save()
+                parent_tag.item_set.add(*tag.item_set.all())
+
+                add_or_remove_tags_from_items(tag, 'add')
+
+            else:
+                # Tag har en parent_tag fra før. Må fjerne alle gamle tags som ligger over i hierarkiet, og legge til
+                # alle som ligger over i det nye.
+                add_or_remove_tags_from_items(tag, 'remove')
+                tag.parent_tag = parent_tag
+                tag.save()
+                add_or_remove_tags_from_items(tag, 'add')
 
 
 class LoanForm(forms.Form):

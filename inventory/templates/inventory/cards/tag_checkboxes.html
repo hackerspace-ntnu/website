@@ -11,7 +11,7 @@
                onclick="showChildren(this.id)"
                data-related-items="{{ tag|get_items }}"
                data-children-tags="{{ tag|get_tag_children }}">
-        <label for="{{ tag.id }}" style="color: black;">{{ tag.name }} {{ tag.id }}</label><br>
+        <label for="{{ tag.id }}" style="color: black;">{{ tag.name }}</label><br>
 
         {% if tag.children_tags.all %}
             <div class="input-level{{ next_level }} child-of-{{ tag.id }}" hidden="hidden">

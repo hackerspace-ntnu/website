@@ -19,10 +19,27 @@
             <script>
                 var $toastContent = $('<span>{{ message }}</span>');
                 Materialize.toast($toastContent, 5000);
-                <!-- TODO sette delay på disse hvis man har flere meldinger-->
             </script>
         {% endfor %}
     {% endif %}
+
+    <a class='dropdown-button btn' href='#' data-activates='dropdown1'
+       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg</a>
+    <ul id='dropdown1' class='dropdown-content'
+        style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
+        {% if perms.inventory.add_item %}
+            <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
+            {% endif %}
+            {% if perms.inventory.add_tag %}
+                <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
+            {% endif %}
+            {% if perms.inventory.add_loan %}
+                <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
+                <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
+                    utlån</a></li>
+            {% endif %}
+            <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
+    </ul>
 
     <div class="content">
         <br>
@@ -33,26 +50,7 @@
         </form>
 
         <h1>Inventar</h1>
-
-        {% if request.user.is_authenticated %}
-            {% if perms.inventory.add_item %}
-                <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
-            {% endif %}
-            {% if perms.inventory.add_tag %}
-                <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
-            {% endif %}
-            {% if perms.inventory.add_loan %}
-                <a href="{% url 'inventory:register_loan' 0 %}" class="waves-effect waves-light btn">Registrer utlån</a>
-                <a href="{% url 'inventory:administrate_loans' %}" class="waves-effect waves-light btn">Administrer
-                    utlån</a>
-            {% endif %}
-            <a href="{% url 'inventory:my_loans' %}" class="waves-effect waves-light btn">Mine lån</a>
-        {% endif %}
-
-
-        <!-- TODO knapper man ikke kan bruke med mindre man er logget inn, kan enten linke til innloggingsside, eller
-        være gråe, og ikke fungerende
-        TODO endre fra "category" til "tag", for å være konsekvent
+        <!--
         TODO endre dette når man får maaange tags.
         TODO endre så kun brukere med endringstilgang kan se de som er slettet.
         -->
@@ -67,9 +65,6 @@
                         <form id="check-form" action="{% url 'inventory:index' %}" method="post"
                               style="padding-left: 15px;">
                             {% csrf_token %}
-
-                            <!-- TODO printe ut alle tags som ligger under denne, kan implementeres senere. -->
-                            <!-- TODO kan printe rekursivt ved hjelp av en templatetag -->
 
                             <!-- recursive template tag -->
                             {% tag_hierarchy tags 0 20 %}
@@ -102,7 +97,6 @@
         </div>
 
         <script>
-            // TODO bør sette boksene tilbake dit de var før man poster.
             var postedTags = {{ posted_tags|safe }};
 
             $(function () {

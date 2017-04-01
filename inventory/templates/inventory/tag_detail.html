@@ -8,11 +8,21 @@
 
 
 {% block content %}
+
+    <a class='dropdown-button btn' href='#' data-activates='dropdown1'
+       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg</a>
+    <ul id='dropdown1' class='dropdown-content'
+        style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
+
+        {% if perms.inventory.add_tag %}
+            <li><a href="{% url 'inventory:add_tag' tag.id %}">Endre tag</a></li>
+        {% endif %}
+
+    </ul>
+
+
     <div class="content">
         <h1>{{ tag.name }}</h1>
-
-        <a href="{% url 'inventory:add_tag' tag.id %}" class="waves-effect waves-light btn">Endre tag</a>
-        <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
 
         <ul>
             {% for item in related_items %}

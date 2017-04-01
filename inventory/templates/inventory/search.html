@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load cards %}
 
 
 {% block header %}
@@ -15,6 +16,25 @@
 
 
 {% block content %}
+
+    <a class='dropdown-button btn' href='#' data-activates='dropdown1'
+       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg</a>
+    <ul id='dropdown1' class='dropdown-content'
+        style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
+        {% if perms.inventory.add_item %}
+            <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
+            {% endif %}
+            {% if perms.inventory.add_tag %}
+                <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
+            {% endif %}
+            {% if perms.inventory.add_loan %}
+                <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
+                <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
+                    utlån</a></li>
+            {% endif %}
+            <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
+    </ul>
+
     <div class="content">
 
         <div class="left-list" id="asdfjkd">
@@ -40,10 +60,11 @@
         </style>
         <script>
             // TODO kan denne flyttes? (for at knappen i margen skal forsvinne ved loading av sida)
+            // - senere: Hæ??
+            // TODO det for å kunne merke av og endre flere items, skal jeg støtte det?
             update();
         </script>
 
-        <!-- TODO flytt dette søkefeltet og knappen til riktig sted -->
         <br>
         <form id="searchform" action="{% url 'inventory:search' %}" method="get">
             {% csrf_token %}
@@ -53,58 +74,17 @@
         </form>
 
         <br>
-        {% if perms.inventory.add_item %}
-            <a href="{% url 'inventory:add_item' %}" class="waves-effect waves-light btn">Legg til gjenstand</a>
-        {% endif %}
-        {% if perms.inventory.add_tag %}
-            <a href="{% url 'inventory:add_tag' %}" class="waves-effect waves-light btn">Legg til tag</a>
-        {% endif %}
-        {% if perms.inventory.add_loan %}
-            <a href="{% url 'inventory:register_loan' %}" class="waves-effect waves-light btn">Registrer utlån</a>
-            <a href="{% url 'inventory:administrate_loans' %}" class="waves-effect waves-light btn">Administrer
-                utlån</a>
-        {% endif %}
 
-        <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
-        <br>
-        <br>
         {% for tag in tags %}
-            <div class="chip">
-                <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
+            <div class="chip" style="background-color: var(--hs-green)">
+                <a href="{% url 'inventory:tag_detail' tag.id %}" style="color: black">{{ tag.name }}</a>
             </div>
         {% endfor %}
         <br>
+
         {% for item in hits %}
 
-            <div class="card blue-grey darken-1" id="{{ item.name }}">
-
-                <div class="card-content white-text">
-                        <span class="card-title">
-                            <a href="{% url 'inventory:detail' item.id %}">{{ item.name }}</a>
-                        </span>
-                    <div class="checkbox">
-                        <input type="checkbox" id="{{ item.id }}" name="{{ item.name }}" onclick="update()"/>
-                        <label for="{{ item.id }}"></label>
-                    </div>
-                    <br>
-                    {% if item.tags %}
-                        {% for tag in item.tags.all %}
-                            <div class="chip">
-                                <a href="{% url 'inventory:tag_detail' tag.id %}">{{ tag.name }}</a>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    <br>
-                    <br>
-                    <p>Antall: {{ item.quantity }}</p><br>
-                    <p>{{ item.description }}</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'inventory:add_item' item.id %}">endre</a>
-                    <a href="#">lån ut</a>
-
-                </div>
-            </div>
+            {% card_item_detail item request perms False True %}
 
         {% endfor %}
 

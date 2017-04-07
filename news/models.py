@@ -78,6 +78,12 @@ class Event(models.Model):
     def registered_list(self):
         return sorted([("%s %s" % (er.user.first_name, er.user.last_name), er.username()) for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit])
 
+    def register_email(self):
+        return ''.join(sorted([er.user.email + '; ' if er.user.email else '' for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]))
+
+    def waitlist_email(self):
+        return ''.join(sorted([er.user.email + '; ' if er.user.email else '' for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:]))
+
     def attending_usernames(self):
         return [er.username() for er in EventRegistration.objects.filter(event=self, attended=True).order_by('date')]
 

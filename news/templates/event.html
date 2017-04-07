@@ -122,6 +122,37 @@
              });
             </script>
           </div>
+          <button class="btn waves-effect waves-light hsgreen emailcopyreg">Epost registrerte</button>
+          <button class="btn waves-effect waves-light hsgreen emailcopywait">Epost venteliste</button>
+          <div style="display: none;" class="emaillistreg">
+            {{ event.register_email }}
+          </div>
+          <div style="display: none;" class="emaillistwait">
+            {{ event.waitlist_email }}
+          </div>
+          <script>
+            function copyToClipboard(element) {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($(element).text()).select();
+                document.execCommand("copy");
+                $temp.remove();
+            }
+            $('.emailcopyreg').click(function () {
+               copyToClipboard($('.emaillistreg'));
+               Materialize.toast('Epostliste for registrerte kopiert til clipboard', 4000);
+            });
+            $('.emailcopywait').click(function () {
+               copyToClipboard($('.emaillistwait'));
+               Materialize.toast('Epostliste for venteliste kopiert til clipboard', 4000);
+            });
+          </script>
+          <style>
+            .emailcopyreg, .emailcopywait {
+              font-size: 10px;
+              width: 100%;
+            }
+          </style>
         {% endif %}
       {% endif %}
     {% endif %}

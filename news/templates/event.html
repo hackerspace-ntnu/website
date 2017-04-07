@@ -122,8 +122,12 @@
              });
             </script>
           </div>
-          <button class="btn waves-effect waves-light hsgreen emailcopyreg">Epost påmeldte</button>
-          <button class="btn waves-effect waves-light hsgreen emailcopywait">Epost venteliste</button>
+          {% if event.registered_list %}
+            <button class="btn waves-effect waves-light hsgreen emailcopyreg">Epost påmeldte</button>
+          {% endif %}
+          {% if event.wait_list %}
+            <button class="btn waves-effect waves-light hsgreen emailcopywait">Epost venteliste</button>
+          {% endif %}
           <div style="display: none;" class="emaillistreg">
             {{ event.register_email }}
           </div>

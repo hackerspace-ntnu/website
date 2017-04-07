@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load check_user_group %}
 
 {% block head %}
   <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
@@ -91,7 +92,7 @@
       </div>
 
       {% if event.registered_list or event.wait_list %}
-        {% if user.is_superuser %}
+        {% if user.is_superuser or user|has_group:"viewAttendees" %}
           <div class="registered_users">
             <ul class="collapsible" data-collapsible="accordion">
               {% if event.registered_list %}

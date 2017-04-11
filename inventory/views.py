@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.views.generic import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -12,10 +13,9 @@ from .forms import ItemForm, LoanForm, TagForm
 from .models import Tag, Item, Loan
 
 
-# TODO tekst på knapper må midtstilles
-# TODO knapper må flyttes til bestemt punkt på skjermen
 # TODO mulig å bruke QR-kode for merking av gjenstander, må føre til item sin detail-side
-# TODO hvordan skal man gjøre det med gjenstander som er slettet (not visible)
+# TODO hvordan skal man gjøre det med gjenstander som er slettet (not visible), skal de kunne gjenopprettes?
+# TODO DIGER BUG! Skjekk at tagen man prøver å sette som forelder ikke ligger under i treet.
 def index(request):
     items = Item.objects.filter(visible=True)
     posted_tags = {}
@@ -32,22 +32,18 @@ def index(request):
                 related_items = Tag.objects.get(pk=tag_id).item_set.filter(visible=True).all()
                 if children:
                     # Hvis tagen har barn, skal man bare ta med items som er taget med begge
-                    # TODO dette er problem, man kan ikke gå ut fra at ting blir riktig tagget med begge..
-                    # men det må kanskje være sånn, kan legge til foreldre tags automatisk når man oppretter.
                     filtered_items |= related_items & parse_dict(children)
                 else:
                     # legge til alle Items som hører til denne tagen tag_id
                     filtered_items |= related_items
             return filtered_items
 
-        if not result:
-            items = Item.objects.all()
-        else:
+        if result:
             items = parse_dict(result)
 
     context = {'items': items,
                'tags': Tag.objects.filter(parent_tag=None),
-               'posted_tags': posted_tags
+               'posted_tags': posted_tags  # For å checke av boksene som var checked når man refresher
                }
 
     return render(request, 'inventory/index.html', context)
@@ -106,7 +102,7 @@ def detail(request, item_id):
 
 @permission_required(['inventory.add_item', 'inventory.change_item', 'inventory.add_tag'])
 def add_item(request, item_id=0):
-    message = "Legg til en ny gjenstand"  # TODO se om denne og button_message kan settes med javascript,
+    message = "Legg til en ny gjenstand"
     button_message = "registrer"
     old_tags = []  # liste med alle tags en gjenstand har, for å fylle tags-feltet når man skal endre
     if request.method == 'POST':
@@ -205,6 +201,7 @@ def change_multiple_items(request):
 
 
 # TODO permission_required redirecter ikke til dit man kom fra når man må logge inn
+# TODO gjør så man kan sette sone og hylle for alle items med denne tagen.
 @permission_required(['inventory.add_tag', 'inventory.change_tag'])
 def add_tag(request, tag_id=0):
     message = "Legg til ny tag"
@@ -266,9 +263,27 @@ def tag_detail(request, tag_id):
 
 @permission_required('inventory.add_loan')
 def register_loan(request, item_id=0):
-    # TODO må ha en god måte å registrere ny bruker på hvis de ikke alderede har, evt link
-    # TODO ha måte å opprette nytt item, evt link til sida
-    context = {'users': User.objects.all()}
+    # TODO må finne en måte man kan registrere hvor mange man legger til av samme item.
+    """
+    Kan få til dette ved å lage en ny modeell LoanItem som har et item ot et integer felt for antall.
+    Kan da ha en mange til mange relasjon fra loan til LoanItem og en foreignkey til LoanItem til Item.
+    Må da skrive hele denne metoden på nytt.
+    """
+    # settes til 3, 4, eller 2 etter som hva tallet er delelig på.
+    items_pr_group = 2
+
+    context = {'users': User.objects.all(),
+               'MAX_ITEMS': Loan.MAX_ITEMS,
+               'items_pr_group': items_pr_group,
+               'number_of_item_form_groups': Loan.MAX_ITEMS // items_pr_group
+               }
+
+    """
+    MAX_ITEMS = 6
+    numer_of_item_form_groups = 3 => col3
+
+    """
+    context['chosen_item'] = {}
 
     if request.method == 'POST':
         form = LoanForm(request.POST)
@@ -288,8 +303,43 @@ def register_loan(request, item_id=0):
         if int(item_id) > 0:
             item = Item.objects.get(pk=item_id)
             context['chosen_item'] = {'id': item.id, 'text': item.name}
+
     context['form'] = form
     return HttpResponse(render(request, 'inventory/register_loan.html', context))
+
+
+class RegisterLoan(View):
+
+    context = {
+        'chosen_item': {}
+    }
+
+    def get(self, request, item_id=0):
+        self.context['form'] = LoanForm()
+
+        if int(item_id) > 0:
+            item = Item.objects.get(pk=item_id)
+            self.context['chosen_item'] = {'id': item.id, 'text': item.name}
+
+        return HttpResponse(render(request, 'inventory/register_loan.html', self.context))
+
+    def post(self, request, item_id=0):
+        form = LoanForm(data=request.POST)
+        if form.is_valid():
+            loanitems = form.cleaned_data['items']
+            del form.cleaned_data['items']
+
+            loan = Loan.objects.create(**form.cleaned_data)
+            loan.loanitem_set.add(*loanitems)
+            loan.lender = request.user
+            loan.loan_date = timezone.now()
+            loan.save()
+
+            messages.add_message(request, messages.SUCCESS, 'Lånet ble registrert')
+            return HttpResponseRedirect(reverse('inventory:index'))
+
+        self.context['form'] = form
+        return HttpResponse(render(request, 'inventory/register_loan.html', self.context))
 
 
 @permission_required('inventory.add_loan')

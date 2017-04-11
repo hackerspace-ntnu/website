@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^(?P<tag_id>[0-9]+)/add_tag/$', views.add_tag, name='add_tag'),
     url(r'^(?P<tag_id>[0-9]+)/tag_detail/$', views.tag_detail, name='tag_detail'),
 
-    url(r'^register_loan/(?P<item_id>[0-9]+)/$', views.register_loan, name='register_loan'),
+    url(r'^register_loan/(?P<item_id>[0-9]+)/$', views.RegisterLoan.as_view(), name='register_loan'),
     url(r'^administrate_loans/', views.administrate_loans, name='administrate_loans'),
     url(r'^loan_detail/(?P<loan_id>[0-9]+)/$', views.loan_detail, name='loan_detail'),
     url(r'^my_loans/', views.my_loans, name='my_loans'),

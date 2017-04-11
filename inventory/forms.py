@@ -4,7 +4,7 @@ from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext as _
 
-from .models import Tag, Item
+from .models import Tag, Item, LoanItem
 from datetime import datetime
 import json
 
@@ -15,6 +15,8 @@ def quantity_validator(number):
     else:
         raise ValidationError(_("Antall kan ikke være negativt."), code='Invalid')
 
+
+# TODO fyll form med det man hadde isted, når man gjør feil.
 
 class ItemForm(forms.Form):
     name = forms.CharField(label='Gjenstand', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'off'}))
@@ -153,6 +155,7 @@ class TagForm(forms.Form):
             -  Man fjerner parent tag (setter taggen øverst i treet).
 
         """
+
         def add_or_remove_tags_from_items(tag, method_str):
             """
             Legger til/fjerner alle tags som er over tag i hierarkiet fra alle items som er tagget med tag.
@@ -199,6 +202,10 @@ class TagForm(forms.Form):
                 tag.save()
                 add_or_remove_tags_from_items(tag, 'add')
 
+    def clean(self):
+        parent_tag = self.cleaned_data['parent_tag']
+        print("tag", parent_tag)
+
 
 class LoanForm(forms.Form):
     """
@@ -206,8 +213,8 @@ class LoanForm(forms.Form):
                             strip=True)
     """
     items = forms.CharField(label='Gjenstand', max_length=100, widget=forms.HiddenInput, strip=True)
-
-    borrower = forms.CharField(label='Brukernavn lånetaker', max_length=100, strip=True)  # username
+    quantity = forms.IntegerField(label="Antall", required=False)
+    borrower = forms.CharField(label='Brukernavn lånetaker', max_length=100, strip=True, required=True)  # username
     comment = forms.CharField(widget=forms.Textarea(attrs={'autocomplete': 'off'}), label='Beskrivelse',
                               max_length=300,
                               strip=True,
@@ -239,40 +246,36 @@ class LoanForm(forms.Form):
         cleaned_data = super(LoanForm, self).clean()
 
         # ITEM
-        delimiter = ','
-        try:
-            item_ids_string = cleaned_data['items']  # int
-        except KeyError:
-            raise ValidationError({'items': "Ingen items i feltet"})
-        else:
-            if item_ids_string[-1] == delimiter:
-                item_ids_string = item_ids_string[:-1]
+        items_dict = json.loads(cleaned_data['items'])
+        if not items_dict:
+            raise ValidationError({'items': 'Trykk på "legg til" for å registrere gjenstand.'}, code='Error')
 
-        try:
-            # skjekk at feltet består av tall separert av delimiter
-            item_ids = list(map(int, item_ids_string.split(delimiter)))
-        except ValueError:
-            raise ValidationError({'items': "MÅ RETURNERES SOM TALL ADSKILT MED {}".format(delimiter)})
-        else:
-            item_list = []
-            for item_id in item_ids:
-                try:
-                    item = Item.objects.get(pk=item_id)
-                except Item.DoesNotExist:
-                    raise ValidationError({'items': "En av item id'ene eksisterer ikke."}, code='Invalid')
-                else:
-                    item_list.append(item)
-            else:
-                cleaned_data['items'] = item_list
+        items = []
+
+        for item_id, quantity in items_dict.items():
+            item = Item.objects.get(pk=item_id)
+            loan_item = LoanItem.objects.create(item=item, quantity=quantity)
+            items.append(loan_item)
+
+            # TODO oppdatere antall feltet i item hvis det egentlig ikke er igjen noen
+            # antar altså databasen er feil, og at utlåneren har kontroll på det som skal lånes ut.
+
+        cleaned_data['items'] = items
+
+        # QUANTITY, sletter fra cleaned_data
+        del cleaned_data['quantity']
 
         # BORROWER
-        borrower_string = cleaned_data['borrower']  # String with only username.
-        user_query = User.objects.filter(username=borrower_string)
-        if len(user_query) != 1:
-            raise ValidationError({'borrower': "Feil med brukernavn upps."}, code='Error')
+        try:
+            borrower_string = cleaned_data['borrower']  # String with only username.
+        except KeyError:
+            raise ValidationError({'borrower': "Feltet er påkrevet."}, code='Error')
         else:
-            borrower = user_query[0]
-        cleaned_data['borrower'] = borrower
+            try:
+                user = User.objects.get(username=borrower_string)
+                cleaned_data['borrower'] = user
+            except User.DoesNotExist:
+                raise ValidationError({'borrower': "Brukernavnet eksisterer ikke."}, code='Error')
 
         # COMMENT
         comment = cleaned_data['comment']
@@ -281,8 +284,14 @@ class LoanForm(forms.Form):
 
         # RETURN_DATE
         # string format: DD Month, YYYY
-        return_date_string = cleaned_data['return_date'] + " 18:00"  # default time for return
-        return_date = datetime.strptime(return_date_string, "%d %B, %Y %H:%M")
-        cleaned_data['return_date'] = return_date
+        try:
+            return_date_string = cleaned_data['return_date'] + " 18:00"  # default time for return
+            return_date = datetime.strptime(return_date_string, "%d %B, %Y %H:%M")
+            cleaned_data['return_date'] = return_date
+        except KeyError:
+            raise ValidationError({'return_date': "Dato ikke satt."}, code='Error')
+        else:
+            if return_date < datetime.now():
+                raise ValidationError({'return_date': 'Dato må være frem i tid.'}, code='Error')
 
         return cleaned_data

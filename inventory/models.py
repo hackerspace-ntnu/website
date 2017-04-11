@@ -41,10 +41,8 @@ class Item(models.Model):
 
 
 class Loan(models.Model):
-    # TODO nødvendig med null=True på alle?
-    items = models.ManyToManyField(Item)
+    MAX_ITEMS = 6  # maks antall items som kan legges til via form, hold tallet delelig på 2    for at det skal bli smoothere å dele inn formsida
 
-    # TODO Sette on_delete=CASCADE ??
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='loan_set')  # lånetaker
     lender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='lender_set')  # utlåner
 
@@ -53,8 +51,13 @@ class Loan(models.Model):
 
     loan_date = models.DateTimeField('date_lent', default=timezone.now)
     return_date = models.DateTimeField('return_date', default=timezone.now)
-    date_returned = models.DateTimeField('date_returned', null=True)  # innleveringstidspunkt (når den faktisk ble
-    # levert tilbake)
+    date_returned = models.DateTimeField('date_returned', null=True)  # innleveringstidspunkt
 
     def is_past_return_date(self):
         return self.return_date - timezone.now() < timedelta()
+
+
+class LoanItem(models.Model):
+    item = models.ForeignKey(Item)
+    loan = models.ForeignKey(Loan, null=True)
+    quantity = models.IntegerField(default=1)  # Antall man har lånt av typen item.

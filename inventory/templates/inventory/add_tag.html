@@ -4,6 +4,7 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/general.css' %}">
     <script src={% static 'js/materialize-autocomplete.js' %}></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -19,12 +20,13 @@
             <div class="row">
                 <div class="col s6">
 
-                    <p id="error-message">{{ form.name.errors }}</p>
+                    <p class="error-message">{{ form.name.errors }}</p>
                     <div class="input-field">
                         <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
                         {{ form.name }}
                     </div>
-                    <div class="input-field">
+                    <div class="errorlist">
+                        <p class="error-message">{{ form.parent_tag.errors.0 }}</p>
                         <div class="autocomplete" id="multiple">
                             <div class="ac-users"></div>
                             <div class="ac-input">
@@ -40,15 +42,12 @@
                     </div>
                 </div>
 
-                <!--
-            <p id="error-message">{{ form.tags.errors }}</p>
-            -->
                 <div class="col s6">
-                    <br>
                     <h5>How to endre parent tag</h5>
                     Når parent tags endres, endres også tagen til alle items som er tagget med denne taggen. Det
-                    kan ses på som at man flytter et helt subtre til et annet sted, og all items som ligger i dette
-                    subtreet, følger med.
+                    kan ses på som at man flytter et helt subtre til et annet sted, og alle items som ligger i dette
+                    subtreet, følger med. Det vil si at items som er tagget med denne taggen, får slettet og lagt til
+                    tagger, sånn at de passer inn på det nye stedet i treet.
                 </div>
 
             </div>
@@ -106,7 +105,9 @@
 
         function postTag() {
             var parentTagID = $('#parent-chip').attr('data-id');
-            $('#{{ form.parent_tag_ids.id_for_label }}').val(parentTagID)
+            // info = [< this tag id >: < parent tag id >]  for å oppdage rekursivproblemer i clean
+            var parentTag = ['{{ tag_id }}', parentTagID];
+            $('#{{ form.parent_tag_ids.id_for_label }}').val(JSON.stringify(parentTag));
             $('form').submit();
         }
     </script>

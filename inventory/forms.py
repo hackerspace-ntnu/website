@@ -202,9 +202,41 @@ class TagForm(forms.Form):
                 tag.save()
                 add_or_remove_tags_from_items(tag, 'add')
 
+    @staticmethod
+    def is_valid_parent_tag(this_id, parent_id):
+        this_tag = Tag.objects.get(pk=this_id)
+        new_parent_tag = Tag.objects.get(pk=parent_id)
+
+        if this_tag in ItemForm.get_parent_tags(new_parent_tag):
+            return False
+        else:
+            return True
+
     def clean(self):
-        parent_tag = self.cleaned_data['parent_tag']
-        print("tag", parent_tag)
+        """
+        Må skjekke at man ikke legger til en child som parent.
+
+        :return:
+        """
+
+        this_id, parent_tag_id = json.loads(self.cleaned_data['parent_tag_ids'])
+        print(this_id, parent_tag_id)
+        if int(this_id) != 0:
+            if not TagForm.is_valid_parent_tag(this_id, parent_tag_id):
+                parent_tag_name = Tag.objects.get(pk=parent_tag_id).name
+                raise ValidationError({'parent_tag': '"{}" er har denne taggen som forelder, og kan ikke '
+                                                     'legges til.'.format(parent_tag_name)}, code='Error')
+        else:
+            # ny tag registeres
+            name = self.cleaned_data['name'].lower()
+            try:
+                tag = Tag.objects.get(name=name)
+                raise ValidationError(
+                    {'name': 'Tag med dette navnet er allerede registrert (alle tags må ha navn i lower-case)'},
+                    code='Error')
+            except Tag.DoesNotExist:
+                # Gjør om alle tags til små bokstaver.
+                self.cleaned_data['name'] = name
 
 
 class LoanForm(forms.Form):

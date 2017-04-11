@@ -2,10 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.views.generic import View
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.views.generic import View
 
 import json
 
@@ -202,6 +202,7 @@ def change_multiple_items(request):
 
 # TODO permission_required redirecter ikke til dit man kom fra når man må logge inn
 # TODO gjør så man kan sette sone og hylle for alle items med denne tagen.
+# TODO lag mulighet til å slette en tag. Da bør denne gjøres class-based, og bruke delete-metoden
 @permission_required(['inventory.add_tag', 'inventory.change_tag'])
 def add_tag(request, tag_id=0):
     message = "Legg til ny tag"
@@ -222,13 +223,15 @@ def add_tag(request, tag_id=0):
                 tag.save()
                 messages.add_message(request, messages.SUCCESS, 'Taggen ble opprettet.')
 
-            parent_tag = form.cleaned_data['parent_tag_ids']
-            TagForm.add_parent_tag(tag.id, parent_tag)
+            this_id, parent_tag_id = json.loads(form.cleaned_data['parent_tag_ids'])
+            parent_tag_id = 0 if parent_tag_id is None else parent_tag_id
+            if int(parent_tag_id) != 0:
+                TagForm.add_parent_tag(tag.id, parent_tag_id)
 
             return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = TagForm()
-        if tag_id:
+        if int(tag_id) != 0:
             message = "Endre tag"
             button_message = "Endre"
             tag = Tag.objects.get(pk=tag_id)
@@ -261,55 +264,9 @@ def tag_detail(request, tag_id):
     return render(request, 'inventory/tag_detail.html', context)
 
 
-@permission_required('inventory.add_loan')
-def register_loan(request, item_id=0):
-    # TODO må finne en måte man kan registrere hvor mange man legger til av samme item.
-    """
-    Kan få til dette ved å lage en ny modeell LoanItem som har et item ot et integer felt for antall.
-    Kan da ha en mange til mange relasjon fra loan til LoanItem og en foreignkey til LoanItem til Item.
-    Må da skrive hele denne metoden på nytt.
-    """
-    # settes til 3, 4, eller 2 etter som hva tallet er delelig på.
-    items_pr_group = 2
-
-    context = {'users': User.objects.all(),
-               'MAX_ITEMS': Loan.MAX_ITEMS,
-               'items_pr_group': items_pr_group,
-               'number_of_item_form_groups': Loan.MAX_ITEMS // items_pr_group
-               }
-
-    """
-    MAX_ITEMS = 6
-    numer_of_item_form_groups = 3 => col3
-
-    """
-    context['chosen_item'] = {}
-
-    if request.method == 'POST':
-        form = LoanForm(request.POST)
-        if form.is_valid():
-            items = form.cleaned_data['items']
-            del form.cleaned_data['items']
-            loan = Loan(**form.cleaned_data)
-            loan.save()
-            loan.items.add(*items)
-            loan.lender = request.user
-            loan.loan_date = timezone.now()
-            loan.save()
-            messages.add_message(request, messages.SUCCESS, 'Lånet ble registrert')
-            return HttpResponseRedirect(reverse('inventory:index'))
-    else:
-        form = LoanForm()
-        if int(item_id) > 0:
-            item = Item.objects.get(pk=item_id)
-            context['chosen_item'] = {'id': item.id, 'text': item.name}
-
-    context['form'] = form
-    return HttpResponse(render(request, 'inventory/register_loan.html', context))
-
-
 class RegisterLoan(View):
-
+    """ @permission_required('inventory.add_loan') er satt i urls.py """
+    
     context = {
         'chosen_item': {}
     }

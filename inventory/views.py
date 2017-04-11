@@ -225,8 +225,7 @@ def add_tag(request, tag_id=0):
 
             this_id, parent_tag_id = json.loads(form.cleaned_data['parent_tag_ids'])
             parent_tag_id = 0 if parent_tag_id is None else parent_tag_id
-            if int(parent_tag_id) != 0:
-                TagForm.add_parent_tag(tag.id, parent_tag_id)
+            TagForm.add_parent_tag(tag.id, parent_tag_id)
 
             return HttpResponseRedirect(reverse('inventory:index'))
     else:
@@ -266,7 +265,7 @@ def tag_detail(request, tag_id):
 
 class RegisterLoan(View):
     """ @permission_required('inventory.add_loan') er satt i urls.py """
-    
+
     context = {
         'chosen_item': {}
     }

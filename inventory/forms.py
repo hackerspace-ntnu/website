@@ -86,6 +86,7 @@ class ItemForm(forms.Form):
         return cleaned_data
 
     def add_new_tags(self, item_id):
+        # FIXME dette går for treigt, og brukes kun til å skjekke om en tag allerede eksisterer.
         tag_dict = dict((tag.name.lower(), tag) for tag in Tag.objects.all())
         item = Item.objects.get(pk=item_id)
         for old_tag in item.tags.all():
@@ -118,16 +119,41 @@ class ItemForm(forms.Form):
                 item.tags.add(grand_tag)
                 item.save()
 
+    """
     @staticmethod
-    def get_parent_tags(tag):
-        """
-        :param tag:
-        :return: liste med alle tags som ligger over tag i hierarkiet.
-        """
+    def get_parent_tagsd(tag):
+        # :param tag:
+        # :return: liste med alle tags som ligger over tag i hierarkiet.
+
+        # FIXME hvis man allerede har en sirkel med tags som er parents til hverandre, vil denne gi max recursion depth.
         if tag.parent_tag is not None:
             return [tag.parent_tag, *ItemForm.get_parent_tags(tag.parent_tag)]
         else:
             return []
+    """
+
+    @staticmethod
+    def get_parent_tags(tag: Tag, found_ancestors=list()):
+        """
+        Finner forgjengerne til gitt tag, og samtidig forhindre rekursive løkker for tags. Hvis den finner en løkke
+        blir denne slettet. Mulig dette er litt overflødig, siden dette ikke skal være mulig å sette i utgangspunktet
+        gjennom formen.
+
+        :param tag: den man vil finne forgjenger-tagger til.
+        :param found_ancestors: forgjengere funnet til nå.
+        :return: forgjengere.
+        """
+        if tag.parent_tag is not None:
+            # Skjekker at man ikke får en rekusjons-loop i arverekken (sletter loop hvis en eksisterer).
+            if tag.parent_tag in found_ancestors:
+                last_ancestor = found_ancestors[-1]
+                last_ancestor.parent_tag = None
+                last_ancestor.save()
+                return found_ancestors
+            else:
+                found_ancestors.append(tag.parent_tag)
+                return ItemForm.get_parent_tags(tag.parent_tag, found_ancestors)
+        return found_ancestors
 
 
 class TagForm(forms.Form):
@@ -168,7 +194,7 @@ class TagForm(forms.Form):
                 item.save()
 
         tag = Tag.objects.get(pk=tag_id)
-        if parent_tag_id == '':
+        if int(parent_tag_id) == 0:
             # Man vil fjerne eksisterende parent_tag, eller bare fortsette å ikke ha noen.
             if tag.parent_tag is None:
                 # Tag har INGEN parent_tag fra før, ingenting skal skje.
@@ -205,10 +231,13 @@ class TagForm(forms.Form):
     @staticmethod
     def is_valid_parent_tag(this_id, parent_id):
         this_tag = Tag.objects.get(pk=this_id)
-        new_parent_tag = Tag.objects.get(pk=parent_id)
 
-        if this_tag in ItemForm.get_parent_tags(new_parent_tag):
-            return False
+        if int(parent_id) != 0:
+            new_parent_tag = Tag.objects.get(pk=parent_id)
+            if this_tag in ItemForm.get_parent_tags(new_parent_tag):
+                return False
+            else:
+                return True
         else:
             return True
 

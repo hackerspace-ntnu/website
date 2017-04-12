@@ -17,3 +17,12 @@ def card_item_detail(item, request, perms, loan=True, buttons=True):
         'loan': loan,
         'buttons': buttons,
     }
+
+
+@register.inclusion_tag('inventory/cards/small_item_detail.html')
+def small_card_item_detail(item, request, perms):
+    return {
+        'item': item,
+        'perms': perms,
+        'request': request,
+    }

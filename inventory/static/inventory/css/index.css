@@ -1,0 +1,18 @@
+.item-box {
+    display: inline-block;
+    width: 180px;
+    height: 290px;
+    margin: 10px;
+}
+
+/*
+TODO fiks sånn at også horisontale bilder blir cuttet til et kvadrat
+ */
+div.items img {
+    height: 100%;
+    max-height: 180px;
+    width: 100%;
+    min-width: 180px;
+    object-fit: cover;
+    object-position: center;
+}

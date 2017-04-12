@@ -6,8 +6,11 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/index.css" %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+    <style> .content {
+        max-width: 70%;
+    }</style>
     <script src="{% static 'inventory/js/index.js' %}"></script>
 {% endblock header %}
 
@@ -23,24 +26,29 @@
         {% endfor %}
     {% endif %}
 
+    <!-- TODO gjøre denne alltid aktiv? Da blir den lettere å finne-->
+    <!-- TODO kan lage templatetag, så den blir lettere å legge til på flere sider -->
+    <!-- TODO kan legge til et ikon på knappen så det blir lettere å se at man har flere valg-->
     <a class='dropdown-button btn' href='#' data-activates='dropdown1'
-       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg</a>
+       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg
+    </a>
     <ul id='dropdown1' class='dropdown-content'
         style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
         {% if perms.inventory.add_item %}
             <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
-            {% endif %}
-            {% if perms.inventory.add_tag %}
-                <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
-            {% endif %}
-            {% if perms.inventory.add_loan %}
-                <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
-                <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
-                    utlån</a></li>
-            {% endif %}
-            <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
+        {% endif %}
+        {% if perms.inventory.add_tag %}
+            <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
+        {% endif %}
+        {% if perms.inventory.add_loan %}
+            <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
+            <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
+                utlån</a></li>
+        {% endif %}
+        <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
     </ul>
 
+    <!-- TODO flytt søkeknapp til riktig sted, så ting aligner i bredden. -->
     <div class="content">
         <br>
         <form id="searchform" action="{% url 'inventory:search' %}" method="get">
@@ -53,6 +61,7 @@
         <!--
         TODO endre dette når man får maaange tags.
         TODO endre så kun brukere med endringstilgang kan se de som er slettet.
+        TODO mellomrom mellom radene varierer, fiks så det ikke blir så mye.
         -->
 
         <div class="row">
@@ -85,10 +94,12 @@
                 </div>
             </div>
 
-            <div class="col s9">
+            <div class="items col s9">
                 {% for item in items %}
 
-                    {% card_item_detail item request perms False False %}
+                    <div class="item-box">
+                        {% small_card_item_detail item request perms %}
+                    </div>
 
                 {% endfor %}
             </div>
@@ -114,6 +125,6 @@
                 }
             }
         </script>
-
     </div>
+
 {% endblock content %}

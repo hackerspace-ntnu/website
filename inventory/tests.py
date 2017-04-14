@@ -4,17 +4,9 @@ from django.test import TestCase
 
 from json import dumps
 
-from inventory.models import Tag
+from inventory.models import Item, Tag
 from inventory.forms import TagForm
-
-"""
-TAG
-- skjekke at man ikke kan opprette en rekursiv løkke i formen.
-- skjekke at evt rekursive løkker oppløses ved å endre et item som har en av disse taggene.
-- skjekke at evt rekursive løkker oppløses ved å endre en tag i denne løkken.
-- skjekke at alle items beslektet til en tag får sine tags endret som forventet når man endrer parent tag .
-
-"""
+from inventory.views import AddTag
 
 
 def create_user(number):
@@ -46,8 +38,11 @@ class TagTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_anonymous_get(self):
-        response = self.client.get(reverse('inventory:add_tag'))
+        response = self.client.get(reverse('inventory:add_tag'), follow=True)
+        self.assertEqual(response.redirect_chain, [('/authentication/login/?next=/inventory/add_tag/', 302)])
         self.assertEqual(response.status_code, 200)
+
+        # TODO må skjekke at en bruker som ikke er logget inn blir redirectet til login.
 
     def test_unique_tag_name(self):
         """ Tester at man ikke kan lage en ny tag med samme navn som en eksisterende tag, og at man får en feilmelding """
@@ -63,21 +58,53 @@ class TagTest(TestCase):
         # Skjeker at man får riktig feilmelding i formen.
         self.assertFormError(response, 'form', "name", TagForm.EXISTING_NAME)
 
-    def test_set_parent_tag(self):
+    def test_set_parent_tag_new_tag(self):
         """ Tester at parent tag blir korrekt satt, og at siden redirecter riktig. """
         self.client.force_login(self.perm_user)
         tag1 = Tag.objects.create(name='tag1')
         response = self.client.post(reverse('inventory:add_tag', args=(0,)),
                                     {'name': 'tag2', 'parent_tag_ids': dumps(['0', tag1.id])}, follow=True)
 
-        self.assertEqual(response.status_code, 200)
-
         # Test that page redirects after post.
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.redirect_chain, [('/inventory/', 302)])
 
         # Test that parent tag is correctly set.
         new_tag = Tag.objects.get(name='tag2')
         self.assertEqual(tag1.id, new_tag.parent_tag.id)
+
+    def test_set_parent_tag_on_existing_tag(self):
+        """ Tester at parent tag blir registrert når man endrer en eksisterende tag. """
+        self.client.force_login(self.perm_user)
+        tag1 = Tag.objects.create(name='tag1')
+        tag2 = Tag.objects.create(name='tag2')
+        response = self.client.post(reverse('inventory:add_tag', args=(tag2.id,)),
+                                    {'name': 'tag2', 'parent_tag_ids': dumps([tag2.id, tag1.id])}, follow=True)
+
+        # Test that page redirects after post.
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.redirect_chain, [('/inventory/', 302)])
+
+        # Test that parent tag is correctly set.
+        changed_tag = Tag.objects.get(name='tag2')
+        self.assertEqual(tag1.id, changed_tag.parent_tag.id)
+
+    def test_change_parent_tag_on_existing_tag_affect_related_items(self):
+        """ Tester at items som har en tag, får endret tagger hvis man endrer parent_tag til denne taggen. """
+        self.client.force_login(self.perm_user)
+        tag1 = Tag.objects.create(name='tag1')
+        tag2 = Tag.objects.create(name='tag2')
+
+        item1 = Item.objects.create(name='item1')
+        item1.tags.add(tag2)
+
+        response = self.client.post(reverse('inventory:add_tag', args=(tag2.id,)),
+                                    {'name': 'tag2', 'parent_tag_ids': dumps([tag2.id, tag1.id])}, follow=True)
+
+        # Test that item1 get both tag1 and tag2 as tags, when tag1 is set as parent tag to tag2.
+        tags = item1.tags.all()
+        self.assertEqual(2, len(tags))
+        self.assertTrue(tag1 in tags and tag2 in tags)
 
     def test_recursive_tag_cirle_not_possible_1(self):
         """ Tester at man ikke kan lage en rekursiv løkke med tags i formen. """
@@ -87,6 +114,7 @@ class TagTest(TestCase):
 
         response = self.client.post(reverse('inventory:add_tag', args=(tag1.id,)),
                                     {'name': 'tag1', 'parent_tag_ids': dumps([tag1.id, tag2.id])})
+
         self.assertEqual(response.status_code, 200)
 
         # Skjekker at det ikke ble opprettet noen tag
@@ -127,8 +155,48 @@ class TagTest(TestCase):
         # Skjeker at man får riktig feilmelding i formen.
         self.assertFormError(response, 'form', "parent_tag", TagForm.SELF_AS_PARENT)
 
+    def test_context_new_tag_get(self):
+        """ Tester at overskrift og knappetekst er riktig når man oppretter en ny tag. """
+        self.client.force_login(self.perm_user)
+        response = self.client.get(reverse('inventory:add_tag'))
+        self.assertEqual(AddTag.message_new, response.context['message'])
+        self.assertEqual(AddTag.button_message_new, response.context['button_message'])
 
-    # Test message og button_message ved alle tilfellene.
+    def test_context_change_tag_get(self):
+        """ Tester at overskrift og knappetekst er riktig når man endrer en tag. """
+        self.client.force_login(self.perm_user)
+        tag = Tag.objects.create(name="tag")
+        response = self.client.get(reverse('inventory:add_tag', args=(tag.id,)))
+        self.assertEqual(AddTag.message_change, response.context['message'])
+        self.assertEqual(AddTag.button_message_change, response.context['button_message'])
+
+    def test_context_new_tag_post_error(self):
+        """ Tester context når man oppretter ny tag, og får feilmeldinger. """
+        self.client.force_login(self.perm_user)
+        tag = Tag.objects.create(name="tag")
+        response = self.client.get(reverse('inventory:add_tag'), {'name': 'tag'})
+        self.assertEqual(AddTag.message_new, response.context['message'])
+        self.assertEqual(AddTag.button_message_new, response.context['button_message'])
+
+    def test_context_change_tag_post_error(self):
+        """ Tester context når man endrer en tag, og får feilmeldinger. """
+        self.client.force_login(self.perm_user)
+        tag1 = Tag.objects.create(name="tag1")
+        tag2 = Tag.objects.create(name="tag2")
+        response = self.client.get(reverse('inventory:add_tag', args=(tag1.id,)), {'name': 'tag2'})
+        self.assertEqual(AddTag.message_change, response.context['message'])
+        self.assertEqual(AddTag.button_message_change, response.context['button_message'])
+
+    # TODO:
+    """
+    TAG
+    - skjekke at evt rekursive løkker oppløses ved å endre et item som har en av disse taggene.
+    - skjekke at evt rekursive løkker oppløses ved å endre en tag i denne løkken.
+    - skjekke at alle items beslektet til en tag får sine tags endret som forventet når man endrer parent tag.
+    - kan teste at eksisterende parent tag kommer opp i context.
+
+    """
+
 
 class ItemTest(TestCase):
     def setUp(self):

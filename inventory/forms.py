@@ -119,9 +119,8 @@ class ItemForm(forms.Form):
                 item.tags.add(grand_tag)
                 item.save()
 
-    """
     @staticmethod
-    def get_parent_tagsd(tag):
+    def get_parent_tags(tag):
         # :param tag:
         # :return: liste med alle tags som ligger over tag i hierarkiet.
 
@@ -130,30 +129,6 @@ class ItemForm(forms.Form):
             return [tag.parent_tag, *ItemForm.get_parent_tags(tag.parent_tag)]
         else:
             return []
-    """
-
-    @staticmethod
-    def get_parent_tags(tag: Tag, found_ancestors=list()):
-        """
-        Finner forgjengerne til gitt tag, og samtidig forhindre rekursive løkker for tags. Hvis den finner en løkke
-        blir denne slettet. Mulig dette er litt overflødig, siden dette ikke skal være mulig å sette i utgangspunktet
-        gjennom formen.
-
-        :param tag: den man vil finne forgjenger-tagger til.
-        :param found_ancestors: forgjengere funnet til nå.
-        :return: forgjengere.
-        """
-        if tag.parent_tag is not None:
-            # Skjekker at man ikke får en rekusjons-loop i arverekken (sletter loop hvis en eksisterer).
-            if tag.parent_tag in found_ancestors:
-                last_ancestor = found_ancestors[-1]
-                last_ancestor.parent_tag = None
-                last_ancestor.save()
-                return found_ancestors
-            else:
-                found_ancestors.append(tag.parent_tag)
-                return ItemForm.get_parent_tags(tag.parent_tag, found_ancestors)
-        return found_ancestors
 
 
 class TagForm(forms.Form):
@@ -165,6 +140,10 @@ class TagForm(forms.Form):
 
     # For å sende inn id til chips automatisk ved post.
     parent_tag_ids = forms.CharField(widget=forms.HiddenInput, max_length=100, strip=True, required=False)
+
+    RECURSIVE_PARENT = '"{}" er har denne taggen som forelder, og kan ikke legges til.'
+    SELF_AS_PARENT = 'Kan ikke legge til seg selv som forelder.'
+    EXISTING_NAME = 'Tag med dette navnet er allerede registrert (alle tags må ha navn i lower-case)'
 
     @staticmethod
     def add_parent_tag(tag_id, parent_tag_id):
@@ -244,24 +223,24 @@ class TagForm(forms.Form):
     def clean(self):
         """
         Må skjekke at man ikke legger til en child som parent.
-
-        :return:
         """
 
         this_id, parent_tag_id = json.loads(self.cleaned_data['parent_tag_ids'])
-        print(this_id, parent_tag_id)
+
         if int(this_id) != 0:
             if not TagForm.is_valid_parent_tag(this_id, parent_tag_id):
                 parent_tag_name = Tag.objects.get(pk=parent_tag_id).name
-                raise ValidationError({'parent_tag': '"{}" er har denne taggen som forelder, og kan ikke '
-                                                     'legges til.'.format(parent_tag_name)}, code='Error')
+                raise ValidationError({'parent_tag': self.RECURSIVE_PARENT.format(parent_tag_name)}, code='Error')
+
+            if int(this_id) == int(parent_tag_id):
+                raise ValidationError({'parent_tag': self.SELF_AS_PARENT}, code='Error')
         else:
-            # ny tag registeres
+            # skjekk at navnet ikke allerede er tatt
             name = self.cleaned_data['name'].lower()
             try:
                 tag = Tag.objects.get(name=name)
                 raise ValidationError(
-                    {'name': 'Tag med dette navnet er allerede registrert (alle tags må ha navn i lower-case)'},
+                    {'name': self.EXISTING_NAME},
                     code='Error')
             except Tag.DoesNotExist:
                 # Gjør om alle tags til små bokstaver.

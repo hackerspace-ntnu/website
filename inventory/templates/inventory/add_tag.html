@@ -27,6 +27,7 @@
                     </div>
                     <div class="errorlist">
                         <p class="error-message">{{ form.parent_tag.errors.0 }}</p>
+                        <label class="active" for="multipleInput">{{ form.parent_tag.label }}</label>
                         <div class="autocomplete" id="multiple">
                             <div class="ac-users"></div>
                             <div class="ac-input">
@@ -38,7 +39,7 @@
                             <ul id="multipleDropdown" class="dropdown-content ac-dropdown"></ul>
                             <input type="hidden" name="multipleHidden"/>
                         </div>
-                        <label class="active" for="multipleInput">{{ form.parent_tag.label }}</label>
+
                     </div>
                 </div>
 
@@ -99,6 +100,7 @@
             // Legger til parent tag i feltet hvis eksisterende tag har det.
             var parentTag = {{ parent_tag|safe }};
             if (Object.keys(parentTag).length > 0) {
+                console.log(parentTag);
                 multiple.setValue(parentTag);
             }
         });
@@ -106,6 +108,9 @@
         function postTag() {
             var parentTagID = $('#parent-chip').attr('data-id');
             // info = [< this tag id >: < parent tag id >]  for å oppdage rekursivproblemer i clean
+            if (parentTagID == undefined) {
+                parentTagID = 0;
+            }
             var parentTag = ['{{ tag_id }}', parentTagID];
             $('#{{ form.parent_tag_ids.id_for_label }}').val(JSON.stringify(parentTag));
             $('form').submit();

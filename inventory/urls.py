@@ -12,8 +12,8 @@ urlpatterns = [
     url(r'^(?P<item_id>[0-9]+)/$', views.detail, name='detail'),
     url(r'^change_multiple_items/', views.change_multiple_items, name='change_multiple_items'),
 
-    url(r'^add_tag/', views.add_tag, name='add_tag'),
-    url(r'^(?P<tag_id>[0-9]+)/add_tag/$', views.add_tag, name='add_tag'),
+    url(r'^add_tag/', views.AddTag.as_view(), name='add_tag'),
+    url(r'^(?P<tag_id>[0-9]+)/add_tag/$', views.AddTag.as_view(), name='add_tag'),
     url(r'^(?P<tag_id>[0-9]+)/tag_detail/$', views.tag_detail, name='tag_detail'),
 
     url(r'^register_loan/(?P<item_id>[0-9]+)/$',

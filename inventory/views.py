@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views.generic import View
 
 import json
@@ -22,7 +22,7 @@ def index(request):
 
     if request.method == 'POST':
         result = json.loads(request.POST['check_json'])
-        posted_tags = json.dumps(result)
+        posted_tags = request.POST['check_json']
 
         def parse_dict(tag_dict: dict):
             filtered_items = Item.objects.none()
@@ -42,7 +42,7 @@ def index(request):
             items = parse_dict(result)
 
     context = {'items': items,
-               'tags': Tag.objects.filter(parent_tag=None),
+               'tags': Tag.objects.filter(parent_tag=None, visible=True),
                'posted_tags': posted_tags  # For å checke av boksene som var checked når man refresher
                }
 
@@ -59,10 +59,10 @@ def search(request):
     return_set = []
     tags = []
     for word in search_words:
-        return_set += Item.objects.filter(visible=True).filter(tags__name__contains=word)
-        return_set += Item.objects.filter(visible=True).filter(name__contains=word)
-        return_set += Item.objects.filter(visible=True).filter(description__contains=word)
-        tags += Tag.objects.filter(name__contains=word)
+        return_set += Item.objects.filter(visible=True, tags__name__contains=word)
+        return_set += Item.objects.filter(visible=True, name__contains=word)
+        return_set += Item.objects.filter(visible=True, description__contains=word)
+        tags += Tag.objects.filter(name__contains=word, visible=True)
 
     for tag in tags:
         return_set += tag.item_set.all().filter(visible=True)
@@ -86,7 +86,7 @@ def show_all_items() -> dict:
     return {
         'hits': items,
         'search_text': '/all',
-        'tags': Tag.objects.all()
+        'tags': Tag.objects.all().filter(visible=True)
     }
 
 
@@ -202,20 +202,57 @@ def change_multiple_items(request):
 
 # TODO permission_required redirecter ikke til dit man kom fra når man må logge inn
 # TODO gjør så man kan sette sone og hylle for alle items med denne tagen.
-# TODO lag mulighet til å slette en tag. Da bør denne gjøres class-based, og bruke delete-metoden
-@permission_required(['inventory.add_tag', 'inventory.change_tag'])
-def add_tag(request, tag_id=0):
-    message = "Legg til ny tag"
-    button_message = "Legg til"
+@method_decorator(permission_required(['inventory.add_tag', 'inventory.change_tag']), name='dispatch')
+class AddTag(View):
+    message_change = 'Endre tag'
+    button_message_change = 'Endre'
+    message_new = 'Legg til ny tag'
+    button_message_new = 'Legg til'
 
-    if request.method == 'POST':
+    def show_parent_tag(self, tag_id, context):
+        if int(tag_id) != 0:
+            tag = Tag.objects.get(pk=tag_id)
+            if tag.parent_tag is not None:
+                parent_tag = {'id': tag.parent_tag.id, 'text': tag.parent_tag.name}
+                context['parent_tag'] = json.dumps(parent_tag)
+
+    def set_title_and_button_message(self, tag_id, context):
+        if int(tag_id) != 0:
+            message, button_message = self.message_change, self.button_message_change
+        else:
+            message, button_message = self.message_new, self.button_message_new
+        context['message'] = message
+        context['button_message'] = button_message
+
+    def get(self, request, tag_id=0):
+        form = TagForm()
+        if int(tag_id) != 0:
+            tag = Tag.objects.get(pk=tag_id)
+            form = TagForm(initial={'name': tag.name})
+
+        context = {
+            'parent_tags_autocomplete': ItemForm.get_autocomplete_dict(),
+            'parent_tag': json.dumps({}),
+            'tag_id': tag_id,
+            'form': form,
+        }
+        self.show_parent_tag(tag_id, context)
+        self.set_title_and_button_message(tag_id, context)
+        return render(request, 'inventory/add_tag.html', context)
+
+    def post(self, request, tag_id=0):
         form = TagForm(request.POST)
+        context = {
+            'parent_tags_autocomplete': ItemForm.get_autocomplete_dict(),
+            'parent_tag': json.dumps({}),
+            'tag_id': tag_id,
+        }
+        self.set_title_and_button_message(tag_id, context)
         if form.is_valid():
             if tag_id != '0':  # form sender streng tilbake, selv om den passes som inten 0 i context
                 tag = Tag.objects.get(pk=tag_id)
                 tag.name = form.cleaned_data['name']
                 tag.save()
-
                 messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
             else:
                 name = form.cleaned_data['name']
@@ -226,32 +263,25 @@ def add_tag(request, tag_id=0):
             this_id, parent_tag_id = json.loads(form.cleaned_data['parent_tag_ids'])
             parent_tag_id = 0 if parent_tag_id is None else parent_tag_id
             TagForm.add_parent_tag(tag.id, parent_tag_id)
-
             return HttpResponseRedirect(reverse('inventory:index'))
-    else:
-        form = TagForm()
-        if int(tag_id) != 0:
-            message = "Endre tag"
-            button_message = "Endre"
-            tag = Tag.objects.get(pk=tag_id)
-            form = TagForm(initial={'name': tag.name})
 
-    context = {
-        'form': form,
-        'message': message,
-        'button_message': button_message,
-        'tag_id': tag_id,
-        'parent_tags_autocomplete': ItemForm.get_autocomplete_dict(),
-        'parent_tag': {},
-    }
+        self.show_parent_tag(tag_id, context)
+        context['form'] = form
+        return render(request, 'inventory/add_tag.html', context)
 
-    if int(tag_id) > 0:
+    def delete(self, request, tag_id):
         tag = Tag.objects.get(pk=tag_id)
-        if tag.parent_tag is not None:
-            parent_tag = {'id': tag.parent_tag.id, 'text': tag.parent_tag.name}
-            context['parent_tag'] = json.dumps(parent_tag)
-
-    return render(request, 'inventory/add_tag.html', context)
+        for item in tag.item_set.all():
+            item.tags.remove(tag)
+            item.save()
+        for child in tag.children_tags.all():
+            child.parent_tag = None
+            child.save()
+        tag.visible = False
+        tag.parent_tag = None
+        tag.save()
+        messages.add_message(request, messages.SUCCESS, 'Taggen ble slettet.')
+        return HttpResponse("OK")
 
 
 def tag_detail(request, tag_id):
@@ -282,11 +312,11 @@ class RegisterLoan(View):
     def post(self, request, item_id=0):
         form = LoanForm(data=request.POST)
         if form.is_valid():
-            loanitems = form.cleaned_data['items']
+            loan_items = form.cleaned_data['items']
             del form.cleaned_data['items']
 
             loan = Loan.objects.create(**form.cleaned_data)
-            loan.loanitem_set.add(*loanitems)
+            loan.loanitem_set.add(*loan_items)
             loan.lender = request.user
             loan.loan_date = timezone.now()
             loan.save()

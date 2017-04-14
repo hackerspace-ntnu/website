@@ -7,7 +7,7 @@ from datetime import timedelta
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     visible = models.BooleanField(default=True)
 
     # TODO lag restriction så den ikke kan være seg selv
@@ -21,7 +21,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
     quantity = models.IntegerField(default=1)
-    image = ImageField(upload_to='inventory', null=True)
+    image = ImageField(upload_to='media/inventory', null=True)
     visible = models.BooleanField(default=True)
 
     tags = models.ManyToManyField(Tag)

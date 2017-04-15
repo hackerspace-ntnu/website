@@ -13,6 +13,9 @@ class Tag(models.Model):
     # TODO lag restriction så den ikke kan være seg selv
     parent_tag = models.ForeignKey('Tag', null=True, related_name="children_tags")
 
+    def get_visible_items(self):
+        return self.item_set.filter(visible=True)
+
     def __str__(self):
         return str(self.name)
 

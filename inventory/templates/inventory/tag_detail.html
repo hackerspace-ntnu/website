@@ -4,6 +4,7 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/index.css' %}">
     <script src="{% static 'inventory/js/utils.js' %}"></script>
 {% endblock header %}
 
@@ -26,24 +27,23 @@
         <h1>{{ tag.name }}</h1>
 
         <ul>
-            {% for item in related_items %}
-
-                {% card_item_detail item request perms False True %}
-
-
-            {% endfor %}
+            <div class="items">
+                {% for item in tag.get_visible_items %}
+                    <div class="item-box">
+                        {% small_card_item_detail item request perms %}
+                    </div>
+                {% endfor %}
+            </div>
         </ul>
     </div>
 
     {% csrf_token %}
     <script>
         var token = $('input[name="csrfmiddlewaretoken"]').attr('value');
-        console.log(token);
         ajaxSetup(token);
 
         function deleteTag(tagID) {
             // TODO bør spørre: "er du sikker på at du vil slette" modal?
-            console.log("hallspå dega");
             $.ajax({
                 url: '{% url 'inventory:add_tag' tag.id %}',
                 type: 'DELETE',

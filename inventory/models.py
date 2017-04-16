@@ -1,5 +1,6 @@
 from django.contrib.auth.admin import User
 from django.db import models
+from django.db.models import Sum
 from django.utils import timezone
 from sorl.thumbnail import ImageField
 
@@ -39,6 +40,23 @@ class Item(models.Model):
     def show_tags(self):
         all_tags = ", ".join(str(tag) for tag in self.tags.all())
         return "{} is tagged with {}".format(self.name, all_tags)
+
+    def quantity_left(self):
+        """ Returnerer antall items som ikke er lånt ut. """
+        if self.loanitem_set.all():
+            sum_lent_out = \
+            self.loanitem_set.filter(loan__visible=True, loan__date_returned=None).aggregate(Sum('quantity'))[
+                'quantity__sum']
+            return self.quantity - sum_lent_out
+        return self.quantity
+
+    def get_active_loans(self):
+        loans = []
+        for loan_item in self.loanitem_set.filter(loan__date_returned=None):
+            loan = loan_item.loan
+            if loan and loan.visible:
+                loans.append(loan)
+        return loans
 
     def __str__(self):
         return str("name: " + self.name)

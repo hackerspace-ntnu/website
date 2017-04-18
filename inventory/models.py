@@ -44,10 +44,9 @@ class Item(models.Model):
     def quantity_left(self):
         """ Returnerer antall items som ikke er lånt ut. """
         if self.loanitem_set.all():
-            sum_lent_out = \
-            self.loanitem_set.filter(loan__visible=True, loan__date_returned=None).aggregate(Sum('quantity'))[
-                'quantity__sum']
-            return self.quantity - sum_lent_out
+            sum_lent_out = self.loanitem_set.filter(
+                loan__visible=True, loan__date_returned=None).aggregate(Sum('quantity'))['quantity__sum']
+            return self.quantity - (0 if sum_lent_out is None else sum_lent_out)
         return self.quantity
 
     def get_active_loans(self):

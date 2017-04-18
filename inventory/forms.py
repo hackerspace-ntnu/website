@@ -294,6 +294,13 @@ class LoanForm(forms.Form):
 
         for item_id, quantity in items_dict.items():
             item = Item.objects.get(pk=item_id)
+            if quantity > item.quantity_left():
+                few_left_message = "Det er kun {} gjenstander tilgjengelig av {}".format(item.quantity_left(),
+                                                                                         item.name)
+                none_left_message = "Det er ingen gjenstander av {} igjen".format(item.name)
+                raise ValidationError(
+                    {'items': none_left_message if item.quantity_left() == 0 else few_left_message}, code='Error')
+
             loan_item = LoanItem.objects.create(item=item, quantity=quantity)
             items.append(loan_item)
 

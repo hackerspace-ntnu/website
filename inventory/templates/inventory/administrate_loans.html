@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load cards %}
 
 
 {% block header %}
@@ -9,90 +10,77 @@
 
 
 {% block content %}
-
+    <!--
+    <div class="content">
+-->
     <ul id="tabs-swipe-demo" class="tabs">
-            <li class="tab col s3"></li>
-
-            <li class="tab col s3"></li>
-        </ul>
-
+    </ul>
 
     <style>
         #tabs-swipe-demo {
             background-color: var(--hs-gray-li);
-
         }
     </style>
 
-
     <div class="content">
-    <div style="display: block; margin: 0 auto;">
+        <!--
+        <div style="display: block; margin: 0 auto; ">
+        -->
+        <div class="tab-container">
+            <ul id="tabs-swipe-demo" class="tabs">
+                <li class="tab col s3"><a class="active" href="#test-swipe-1"
+                                          style="color: var(--hs-green)">Aktive utlån</a>
+                </li>
+                <li class="tab col s3"><a href="#test-swipe-2" style="color: var(--hs-green)">For sene</a></li>
+                <li class="tab col s3"><a href="#test-swipe-3" style="color: var(--hs-green)">Tidligere lån</a></li>
+            </ul>
 
-        <ul id="tabs-swipe-demo" class="tabs">
-            <li class="tab col s3"><a class="active" href="#test-swipe-1">Utgåtte</a></li>
-            <li class="tab col s3"><a href="#test-swipe-2">Utlån</a></li>
-            <li class="tab col s3"><a href="#test-swipe-3">Tidligere lån</a></li>
-        </ul>
-    </div>
-        <div id="test-swipe-1" class="col s12">
-            {% if current_loans %}
+            <div id="test-swipe-1" class="col s12">
+                {% if active_loans %}
+                    <h2>Aktive lån</h2>
+                    {% for loan in active_loans %}
+
+                        {% small_card_loan_detail loan "Frist" loan.return_date %}
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div id="test-swipe-2" class="col s12">
                 <h2>For sene</h2>
-                {% for loan in late_loans %}
-                    {% with b=loan.borrower %}
-                        {{ b.username }} - {{ loan.return_date }} - {{ b.first_name }} {{ b.last_name }}
-                    {% endwith %}
-                    <a href="{% url 'inventory:loan_detail' loan.id %}">
-                        {% for item in loan.items.all %}
-                            <div class="chip">{{ item.name }}</div>
+                {% if late_loans %}
+                    <!-- TODO merk av for om hvor mange reminders personen har fått på mail -->
 
-                        {% endfor %}
-                        <br>
-                    </a>
-                {% endfor %}
-            {% endif %}
+                    {% for loan in late_loans %}
+
+                        {% small_card_loan_detail loan "Frist" loan.return_date %}
+
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div id="test-swipe-3" class="col s12">
+                {% if old_loans %}
+                    <h2>Tidligere lån</h2>
+                    {% for loan in old_loans %}
+                        {% small_card_loan_detail loan "Returnert" loan.date_returned %}
+                    {% endfor %}
+
+                {% endif %}
+            </div>
         </div>
-
-
-        <div id="test-swipe-2" class="col s12">
-            {% if late_loans %}
-                <!-- TODO merk av for om hvor mange reminders personen har fått på mail -->
-
-                <h2>Utlån</h2>
-                {% for loan in current_loans %}
-                    {% with b=loan.borrower %}
-                        {{ b.username }} - {{ loan.return_date }} - {{ b.first_name }} {{ b.last_name }}
-                    {% endwith %}
-                    <a href="{% url 'inventory:loan_detail' loan.id %}">
-                        {% for item in loan.items.all %}
-                            <div class="chip">{{ item.name }}</div>
-
-                        {% endfor %}
-                        <br>
-                    </a>
-                {% endfor %}
-            {% endif %}
-        </div>
-
-        <div id="test-swipe-3" class="col s12">
-            {% if old_loans %}
-                <h2>Tidligere lån</h2>
-                {% for loan in old_loans %}
-                    {% with b=loan.borrower %}
-                        {{ b.username }} - {{ loan.return_date }} - {{ b.first_name }} {{ b.last_name }}
-                    {% endwith %}
-                    <a href="{% url 'inventory:loan_detail' loan.id %}">
-                        {% for item in loan.items.all %}
-                            <div class="chip">{{ item.name }}</div>
-
-                        {% endfor %}
-                        <br>
-                    </a>
-                {% endfor %}
-
-            {% endif %}
-        </div>
-
     </div>
+
+
+    <style>
+        .chip {
+            background-color: var(--hs-green);
+        }
+
+        .tab-container {
+            margin-top: -48px;
+        }
+    </style>
 
 
 {% endblock content %}

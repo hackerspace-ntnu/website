@@ -24,3 +24,12 @@ def small_card_item_detail(item, request, perms):
         'perms': perms,
         'request': request,
     }
+
+
+@register.inclusion_tag('inventory/cards/small_loan_detail.html')
+def small_card_loan_detail(loan, date_description, date):
+    return {
+        'loan': loan,
+        'date_description': date_description,
+        'date': date
+    }

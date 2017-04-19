@@ -1,0 +1,15 @@
+<!-- TODO gi dato og argument for å vise som argument -->
+
+{% with b=loan.borrower %}
+    {{ date_description }}: {{ date }} | {{ b.username }} - {{ b.first_name }} {{ b.last_name }}
+{% endwith %}
+
+{% for loanitem in loan.loanitem_set.all %}
+    <div class="chip">{{ loanitem.quantity }} {{ loanitem.item.name }}</div>
+{% endfor %}
+
+<a href="{% url 'inventory:loan_detail' loan.id %}">
+    Detaljer
+</a>
+<br>
+<br>

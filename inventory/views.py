@@ -332,13 +332,13 @@ class RegisterLoan(View):
 def administrate_loans(request):
     """ return HttpResponse("liste over nåværende, for sene og gamle utlån") """
 
-    all_loans = Loan.objects.all().filter(date_returned__isnull=True)
-    current_loans = all_loans.filter(return_date__gte=timezone.now()).order_by('loan_date')
+    all_loans = Loan.objects.filter(date_returned__isnull=True)
+    active_loans = all_loans.filter(return_date__gte=timezone.now()).order_by('loan_date')
     late_loans = all_loans.filter(return_date__lte=timezone.now()).order_by('loan_date')
     old_loans = Loan.objects.all().filter(date_returned__isnull=False).order_by('date_returned')
 
     context = {
-        'current_loans': current_loans,
+        'active_loans': active_loans,
         'late_loans': late_loans,
         'old_loans': old_loans,
     }

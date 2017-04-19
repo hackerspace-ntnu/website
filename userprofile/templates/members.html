@@ -26,22 +26,22 @@
                         <div class="card-container">
                             <div class="card medium">
                                 <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href="profile/">
+                                    <a class="img-a" href={% url 'profile' profileID=profile.id %}>
                                         <img class="activator" src="/media/{{ profile.image }}">
                                     </a>
                                 </div>
                                 <div class="card-content">
-                                    <a class="profile-name" href="profile/">{{ profile }}</a>
+                                    <a class="profile-name" href={% url 'profile' profileID=profile.id %}>{{ profile }}</a>
                                     <div class="profile-groups-title">
                                         {% for group in profile.group.all %}
                                             {{ group.title|linebreaks }}
                                         {% endfor %}
                                     </div>
                                     {% for skill in profile.skills.all %}
-                                        <div class="chip">
-                                            <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+                                        <a class="chip" href="viewSkill/{{ skill.title }}" style="color: black">
                                             {{ skill.title }}
-                                        </div>
+                                            <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+                                        </a>
                                     {% endfor %}
                                 </div>
                             </div>

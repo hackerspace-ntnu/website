@@ -5,6 +5,7 @@ from django.contrib.auth.admin import User
 class Skill(models.Model):
     title = models.CharField(max_length=30)
     icon = models.ImageField(upload_to="skillicons")
+    description = models.TextField()
 
     def __str__(self):
         return self.title
@@ -45,7 +46,7 @@ class Profile(models.Model):
     image = models.ImageField(upload_to="profilepictures")
     group = models.ManyToManyField(Group, related_name="groups")
     access_card = models.CharField(max_length=20, null=True, blank=True)
-    skills = models.ManyToManyField(Skill)
+    skills = models.ManyToManyField(Skill, related_name="skills")
     study = models.TextField(null=True, blank=True)
     dutytime = models.ManyToManyField(DutyTime)
 

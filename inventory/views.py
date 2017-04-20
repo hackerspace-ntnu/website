@@ -11,6 +11,7 @@ import json
 
 from .forms import ItemForm, LoanForm, TagForm
 from .models import Tag, Item, Loan
+from files.models import Image
 
 
 # TODO mulig å bruke QR-kode for merking av gjenstander, må føre til item sin detail-side
@@ -40,6 +41,9 @@ def index(request):
 
         if result:
             items = parse_dict(result)
+
+    items = list(items)
+    items.sort(key=lambda i: i.name.lower())
 
     context = {'items': items,
                'tags': Tag.objects.filter(parent_tag=None, visible=True),
@@ -105,6 +109,8 @@ def add_item(request, item_id=0):
     message = "Legg til en ny gjenstand"
     button_message = "registrer"
     old_tags = []  # liste med alle tags en gjenstand har, for å fylle tags-feltet når man skal endre
+    item = None
+
     if request.method == 'POST':
         form = ItemForm(request.POST)
         if form.is_valid():
@@ -129,6 +135,15 @@ def add_item(request, item_id=0):
                 item_id = item.id
                 messages.add_message(request, messages.SUCCESS, 'Gjenstandet ble opprettet')
             form.add_new_tags(item_id)
+
+            thumbnail_raw = form.cleaned_data['thumbnail']
+            try:
+                thumb_id = int(thumbnail_raw)
+                item.thumbnail = Image.objects.get(id=thumb_id)
+            except (TypeError, ValueError, Image.DoesNotExist):
+                item.thumbnail = None
+            item.save()
+
             return HttpResponseRedirect(reverse('inventory:index'))
     else:
         form = ItemForm()
@@ -147,6 +162,7 @@ def add_item(request, item_id=0):
                 'zone': item.zone,
                 'shelf': item.shelf,
                 'place': item.place,
+                'thumbnail': item.thumbnail.id if item.thumbnail is not None else 0,
             }
             form = ItemForm(initial=initial)
     context = {
@@ -155,6 +171,7 @@ def add_item(request, item_id=0):
         'button_message': button_message,
         'item_id': item_id,
         'old_tags': json.dumps(old_tags),
+        'item': item,
     }
     return render(request, 'inventory/add_item.html', context)
 
@@ -333,9 +350,9 @@ def administrate_loans(request):
     """ return HttpResponse("liste over nåværende, for sene og gamle utlån") """
 
     all_loans = Loan.objects.filter(date_returned__isnull=True)
-    active_loans = all_loans.filter(return_date__gte=timezone.now()).order_by('loan_date')
-    late_loans = all_loans.filter(return_date__lte=timezone.now()).order_by('loan_date')
-    old_loans = Loan.objects.all().filter(date_returned__isnull=False).order_by('date_returned')
+    active_loans = all_loans.filter(return_date__gte=timezone.now()).order_by('return_date')
+    late_loans = all_loans.filter(return_date__lte=timezone.now()).order_by('return_date')
+    old_loans = Loan.objects.filter(date_returned__isnull=False).order_by('date_returned')
 
     context = {
         'active_loans': active_loans,
@@ -348,9 +365,16 @@ def administrate_loans(request):
 @login_required
 def my_loans(request):
     user = request.user
-    loans = user.loan_set.all()
+
+    all_loans = user.loan_set.filter(date_returned__isnull=True)
+    active_loans = all_loans.filter(return_date__gte=timezone.now()).order_by('return_date')
+    late_loans = all_loans.filter(return_date__lte=timezone.now()).order_by('return_date')
+    old_loans = user.loan_set.filter(date_returned__isnull=False).order_by('date_returned')
+
     context = {
-        'loans': loans,
+        'active_loans': active_loans,
+        'late_loans': late_loans,
+        'old_loans': old_loans,
     }
     return render(request, 'inventory/my_loans.html', context)
 

@@ -92,6 +92,28 @@
                 </div>
             </div>
 
+            <div style="display: none;">
+                {{ form.thumbnail.errors }}
+                <div class="input-field">
+                    <label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
+                    <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text"
+                           value="{{ form.thumbnail.value }}">
+                </div>
+            </div>
+
+            <label>Thumbnail</label><br>
+            <div class="imageItem card thumbnailPicker" style="background-color: white; border-radius: 3px;">
+
+                <p style="margin: 60px 40px; color: #999999; position: absolute;">
+                    Trykk her for<br>
+                    å velge bilde
+                </p>
+                <div class="card-image" style="background-image: url({{ item.thumbnail.url }});">
+                    {% if not item.thumbnail %}
+                    {% endif %}
+                </div>
+            </div>
+
             <br>
             <button class="btn waves-effect waves-light" type="button" onclick="postElements()">{{ button_message }}
             </button>
@@ -99,12 +121,36 @@
             <a href="{% url 'inventory:index' %}" class="waves-effect waves-light btn">Tilbake til index</a>
         </form>
 
+        <!-- TODO flytt til style fil -->
         <style>
             .chip {
                 background-color: var(--hs-green);
             }
+
+            .imageItem {
+                width: 180px;
+                height: 180px;
+                position: relative;
+                margin: 6px 8px;
+                margin-bottom: 20px;
+                border: 3px solid rgba(0, 0, 0, 0);
+            }
+
+            .card-image {
+                position: relative;
+                height: 170px;
+                width: 170px;
+                background-position: center center;
+                background-size: cover;
+                margin: 2px;
+            }
         </style>
-        <!-- TODO flytt til style fil -->
+
+        <script>
+            $(".thumbnailPicker").click(function () {
+                thumbWindow = window.open('/files/images');
+            });
+        </script>
 
     </div>
     <!-- TODO feltene viser ikke tags og description på transistorene som ble lagt inn av et script, man vil endre -->

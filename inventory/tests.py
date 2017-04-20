@@ -1,10 +1,12 @@
 from django.contrib.auth.models import User, Permission
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.utils import timezone
 
+from datetime import timedelta
 from json import dumps
 
-from inventory.models import Item, Tag
+from inventory.models import Item, Loan, Tag
 from inventory.forms import TagForm
 from inventory.views import AddTag
 
@@ -226,3 +228,34 @@ class IndexView(TestCase):
         self.client.force_login(self.perm_user)
         response = self.client.get(reverse('inventory:index'))
         self.assertEqual(response.status_code, 200)
+
+
+class LoanTest(TestCase):
+    def setUp(self):
+        # User with all permissions
+        self.perm_user = create_user(number=0)
+        give_permissions(self.perm_user)
+
+        # User without permissions
+        self.regular_user = create_user(number=1)
+
+    def test_all_loans_in_context(self):
+        # TODO lag fake database for å skjekke dette, her er det ingen Loan-objekter
+        past = timezone.now() - timedelta(days=1)
+        paster = timezone.now() - timedelta(days=2)
+        future = timezone.now() + timedelta(days=1)
+
+        Loan.objects.create(loan_date=past, return_date=future)
+        Loan.objects.create(loan_date=paster, return_date=past)
+        Loan.objects.create(loan_date=past, return_date=future, date_returned=future)
+        Loan.objects.create(loan_date=paster, return_date=future, date_returned=past)
+
+        self.client.force_login(self.perm_user)
+        response = self.client.get(reverse('inventory:administrate_loans'))
+
+        active_loans = response.context['active_loans']
+        late_loans = response.context['late_loans']
+        old_loans = response.context['old_loans']
+
+        self.assertEqual(len(Loan.objects.all()), len(active_loans | late_loans | old_loans),
+                         "Ikke alle lån-objekter sendes inn til template.")

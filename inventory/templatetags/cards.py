@@ -27,9 +27,11 @@ def small_card_item_detail(item, request, perms):
 
 
 @register.inclusion_tag('inventory/cards/small_loan_detail.html')
-def small_card_loan_detail(loan, date_description, date):
+def small_card_loan_detail(loan, date_description, date, show_username=True):
     return {
         'loan': loan,
         'date_description': date_description,
-        'date': date
+        'date': date,
+        'show_username': show_username,
+
     }

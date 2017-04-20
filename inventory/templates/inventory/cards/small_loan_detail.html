@@ -1,12 +1,18 @@
 <!-- TODO gi dato og argument for å vise som argument -->
 
 {% with b=loan.borrower %}
-    {{ date_description }}: {{ date }} | {{ b.username }} - {{ b.first_name }} {{ b.last_name }}
+    {% if date %}
+        {{ date_description }}: {{ date }} |
+    {% endif %}
+    {% if show_username %}{{ b.username }} - {{ b.first_name }} {{ b.last_name }}{% endif %}
 {% endwith %}
 
-{% for loanitem in loan.loanitem_set.all %}
+{% for loanitem in loan.loanitem_set.all|slice:":2" %}
     <div class="chip">{{ loanitem.quantity }} {{ loanitem.item.name }}</div>
 {% endfor %}
+{% if loan.loanitem_set.all|length > 2 %}
+    <div class="chip">...</div>
+{% endif %}
 
 <a href="{% url 'inventory:loan_detail' loan.id %}">
     Detaljer

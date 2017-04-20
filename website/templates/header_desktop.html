@@ -8,6 +8,7 @@
           <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
         </div>
         <div id="menu">
+            <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>
             <a class="waves-effect waves-grey btn-flat" href="/news/all">NYHETER</a>
             <a class="waves-effect waves-grey btn-flat" href="/wiki">WIKI</a>
             {% if request.user.is_authenticated %}

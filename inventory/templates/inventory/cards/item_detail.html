@@ -40,9 +40,9 @@
 
                 {% if True %}
                     <div class="card-image col s5">
-                        {% if item.image %}
-                            <a href="/media/{{ item.image }}">
-                                <img class="activator" src="/media/{{ item.image }}">
+                        {% if item.thumbnail %}
+                            <a href="{{ item.thumbnail.url }}">
+                                <img class="activator" src="{{ item.thumbnail.url }}">
                             </a>
                         {% else %}
                             <!-- default image -->

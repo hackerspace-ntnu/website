@@ -26,6 +26,8 @@ class ItemForm(forms.Form):
     tags = forms.CharField(required=False)
     tags_chips = forms.CharField(widget=forms.HiddenInput, required=False)
 
+    thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
+
     # Felt for plassering i rommet.
     zone = forms.CharField(required=False, label='Sone')
     shelf = forms.IntegerField(required=False, label='Hylle')

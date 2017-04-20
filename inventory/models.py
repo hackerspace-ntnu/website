@@ -6,6 +6,8 @@ from sorl.thumbnail import ImageField
 
 from datetime import timedelta
 
+from files.models import Image
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -25,7 +27,8 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
     quantity = models.IntegerField(default=1)
-    image = ImageField(upload_to='media/inventory', null=True)
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
+
     visible = models.BooleanField(default=True)
 
     tags = models.ManyToManyField(Tag)

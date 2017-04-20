@@ -4,13 +4,17 @@
     <div class="card-image waves-effect waves-block waves-light">
 
         <a href="{% url 'inventory:detail' item.id %}">
-            {% if item.image %}
-                <img class="activator" src="/media/{{ item.image }}">
+
+            {% if item.thumbnail %}
+                <div class="card-image-box" style="background-image: url({{ item.thumbnail.url }})">
+                </div>
             {% else %}
                 <!-- default image -->
-                <img class="activator" src="/static/img/Logo_round_green.png">
+                <div class="card-image-box" style="background-image: url(/static/img/Logo_round_green.png)">
+                </div>
             {% endif %}
         </a>
+
     </div>
 
     <div class="card-content" style="margin-top: -10px;">

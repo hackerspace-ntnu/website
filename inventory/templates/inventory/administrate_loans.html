@@ -10,9 +10,6 @@
 
 
 {% block content %}
-    <!--
-    <div class="content">
--->
     <ul id="tabs-swipe-demo" class="tabs">
     </ul>
 
@@ -23,26 +20,26 @@
     </style>
 
     <div class="content">
-        <!--
-        <div style="display: block; margin: 0 auto; ">
-        -->
+
         <div class="tab-container">
             <ul id="tabs-swipe-demo" class="tabs">
-                <li class="tab col s3"><a class="active" href="#test-swipe-1"
+                <li class="tab col s3"><a href="#test-swipe-1"
                                           style="color: var(--hs-green)">Aktive utlån</a>
                 </li>
-                <li class="tab col s3"><a href="#test-swipe-2" style="color: var(--hs-green)">For sene</a></li>
+                <li class="tab col s3"><a class="active" href="#test-swipe-2" style="color: var(--hs-green)">For sene</a></li>
                 <li class="tab col s3"><a href="#test-swipe-3" style="color: var(--hs-green)">Tidligere lån</a></li>
             </ul>
 
             <div id="test-swipe-1" class="col s12">
+                <h2>Aktive lån</h2>
                 {% if active_loans %}
-                    <h2>Aktive lån</h2>
                     {% for loan in active_loans %}
 
                         {% small_card_loan_detail loan "Frist" loan.return_date %}
 
                     {% endfor %}
+                {% else %}
+                    Du har ingen gamle utlån.
                 {% endif %}
             </div>
 
@@ -56,16 +53,20 @@
                         {% small_card_loan_detail loan "Frist" loan.return_date %}
 
                     {% endfor %}
+                {% else %}
+                    Du har ingen gamle utlån.
                 {% endif %}
             </div>
 
             <div id="test-swipe-3" class="col s12">
+                <h2>Tidligere lån</h2>
                 {% if old_loans %}
-                    <h2>Tidligere lån</h2>
                     {% for loan in old_loans %}
                         {% small_card_loan_detail loan "Returnert" loan.date_returned %}
                     {% endfor %}
 
+                {% else %}
+                    Du har ingen gamle utlån.
                 {% endif %}
             </div>
         </div>

@@ -4,7 +4,8 @@
 
 
 {% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/index.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/general.css" %}">
     <script src="{% static 'inventory/js/search.js' %}"></script>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -23,16 +24,16 @@
         style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
         {% if perms.inventory.add_item %}
             <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
-            {% endif %}
-            {% if perms.inventory.add_tag %}
-                <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
-            {% endif %}
-            {% if perms.inventory.add_loan %}
-                <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
-                <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
-                    utlån</a></li>
-            {% endif %}
-            <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
+        {% endif %}
+        {% if perms.inventory.add_tag %}
+            <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
+        {% endif %}
+        {% if perms.inventory.add_loan %}
+            <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
+            <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
+                utlån</a></li>
+        {% endif %}
+        <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
     </ul>
 
     <div class="content">
@@ -83,10 +84,21 @@
         <br>
 
         {% for item in hits %}
-
-            {% card_item_detail item request perms False True %}
+            <div class="item-box">
+                {% small_card_item_detail item request perms %}
+            </div>
 
         {% endfor %}
 
     </div>
+
+    <style>
+        .content {
+
+            max-width: 815px;
+            display: block;
+            margin: 0 auto;
+        }
+
+    </style>
 {% endblock content %}

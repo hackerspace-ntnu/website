@@ -8,7 +8,7 @@ from applications.validators import validate_phone_number
 class Application(models.Model):
 
     # CHANGE THIS DATE TO ALLOW APPLICATIONS
-    APPLICATION_DEADLINE = datetime(2017, 9, 4, 23, 59, 59)
+    APPLICATION_DEADLINE = datetime(2017, 9, 4, 1, 0, 0)
 
     YEAR_CHOICES = ((1, 1),
                     (2, 2),

@@ -21,7 +21,6 @@ class Application(models.Model):
                      ("PR", "PR"),
                      ("LABOPS", "LABOPS"),
                      ("ER", "ER"),
-                     ("VR", "VR"),
                      )
 
     name = models.CharField(max_length=50, verbose_name="Navn")

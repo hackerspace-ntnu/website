@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block head %}
+  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css" />
 {% endblock head %}
 
 {% block content %}
@@ -21,9 +22,9 @@
           });
       </script>
   </div>
-    <section id="about" class="about-section" style="width: 90%; max-width: 1000px; margin: 20px auto;">
-        <h1 class="center-align">Om Hackerspace NTNU</h1>
-        <div style="margin: 0 0 40px 0; display: inline-block; width: 40%;">
+    <section id="about" class="about-section row" style="width: 90%; max-width: 1000px; margin: 20px auto;">
+        <h1 class="center-align col s12">Om Hackerspace NTNU</h1>
+        <div style="margin: 0 0 40px 0;" class="col s12 m4 about-text">
           Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
           Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
           Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
@@ -34,7 +35,7 @@
           Kom innom for å se hva vi driver med og slå av en prat.
           Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.
         </div>
-        <div style="margin: 0 0 40px 0; display: inline-block; width: 59%; text-align: right;">
+        <div style="margin: 0 0 40px 0; text-align: right;" class="col s12 m8">
           <img src="#" style="width: 95%; height: auto;" />
         </div>
     </section>

@@ -16,6 +16,7 @@ WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
 LOGIN_REDIRECT_URL = '/authentication/login/'
+LOGIN_URL = '/authentication/login/'
 
 ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),
@@ -70,6 +71,7 @@ INSTALLED_APPS = [
     'dal_select2',
     'material',
     'rpi',
+    'inventory',
 ]
 
 

@@ -1,0 +1,73 @@
+
+Gjenstand
+- navn
+- manyToManyField(Tag)
+- 
+- antall man har av denne gjenstanden
+- legge til usynlig datofelt? (kun for å kunne se alder senere, unødvendig men kan være interessant om mange år)
+
+Tag
+- navn
+- ?? legge inn en counter for å telle popularitet mtp sortering i index?
+
+
+
+Utlån
+- ?? item, må gå an å legge til flere forskjellige item og antallet man låner av enkelt item
+
+- foreignKey(User)  #lånetaker
+    - slags drop down meny av alle brukere som minsker når man begynner å skrive
+- lender = models.ForeignKey(User)  # utlåner
+- foreignKey(Gjenstand)
+- date_time_field
+	- utlån dato
+	- innleveringsfrist
+	- innleveringstidpunkt (når det ble levert)
+
+- gjøre det mulig for brukere å holde av items i et par dager, slags måte å bestille et item på nett, så blir den holdt
+  av til du kommer å henter den
+
+QR-kode fra mobil
+- HTML 5 jquery
+- få hvem man låner ut til
+- scann object
+vise info
+
+
+Listener
+- send mail hvis over frist
+
+
+Views
+
+- forside / liste
+	- sorter på type
+		- status / antall
+
+
+	- søke på navn /tags /type
+		- status		
+
+		- 
+
+
+- side for å legge til (for hackerspace)
+	- legge til Gjenstand
+	    - må kunne endre verdier
+	- legge til Tag
+	    - må kunne endre navn
+
+
+- utlån (kun tilgjengelig for hackerspace medlemmer
+    - ?? knapper for å velge mellom, ledige/ til utlån + over tida / over tida
+	- lage Utlånsobjekt
+	- se om denne personen tidligere har levert for sent
+	- utstyr som ikke er blitt levert tilbake
+
+	- 
+
+
+
+
+
+

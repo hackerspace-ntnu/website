@@ -27,6 +27,7 @@ if os.environ.get('DEBUG') == 'False':
     DEBUG = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
     DOOR_KEY = os.environ.get('DOOR_KEY')
+    RPI_SECRET_KEY = os.environ.get('RPI_SECRET_KEY')
     ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 else:
     DEBUG = True

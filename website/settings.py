@@ -6,11 +6,18 @@ import os
 import sys
 
 #################################
-# General 						#
+# General                       #
 #################################
 
+
+SECRET_KEY = 'SECRET_KEY'
+DB = 'sqlite'
+DEBUG = True
+ALLOWED_HOSTS = ['*']
+DOOR_KEY = 'DOOR_KEY'
+RPI_SECRET_KEY = 'RPI_SECRET_KEY'
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = "DefaultSecretKey"
 ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
@@ -22,15 +29,10 @@ ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),
 )
 
-# Set some variables if DEBUG == False
-if os.environ.get('DEBUG') == 'False':
-    DEBUG = False
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    DOOR_KEY = os.environ.get('DOOR_KEY')
-    RPI_SECRET_KEY = os.environ.get('RPI_SECRET_KEY')
-    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
-else:
-    DEBUG = True
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 #################################
 # Installed apps                #
@@ -87,22 +89,22 @@ THUMBNAIL_PRESERVE_FORMAT = True
 # Database                      #
 #################################
 
-if DEBUG:
+if DB == 'postgres':
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'database',
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': DATABASE_NAME,
+            'USER': DATABASE_USER,
+            'PASSWORD': DATABASE_PASSWORD,
+            'HOST': 'localhost',
+            'PORT': '',
         }
     }
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ.get('POSTGRES_USER'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': 'database',
-            'PORT': '5432',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 
@@ -151,8 +153,8 @@ MIDDLEWARE_CLASSES = [
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 if not DEBUG:
-    STATIC_ROOT = '/code/static'
-    MEDIA_ROOT = '/code/media'
+    STATIC_ROOT = '../static'
+    MEDIA_ROOT = '../media'
 
 CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
 CKEDITOR_BROWSE_SHOW_DIRS = True

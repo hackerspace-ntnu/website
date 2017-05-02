@@ -2,55 +2,48 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <title>Hackerspace NTNU</title>
-  <link rel="shortcut icon" type="image/png" href="{% static "img/favicon.ico" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script-->
-  <script src="{% static "js/jquery.js" %}"></script>
-  <script src="{% static "materialize/js/materialize.min.js" %}"></script>
-  <script type="text/javascript" src="{% static 'js/ajax_requests.js' %}"></script>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% block head %}
-  {% endblock head %}
+    <title>Hackerspace NTNU</title>
+    <link rel="shortcut icon" type="image/png" href="{% static "img/favicon.ico" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script-->
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "materialize/js/materialize.min.js" %}"></script>
+    <script type="text/javascript" src="{% static 'js/ajax_requests.js' %}"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head %}
+    {% endblock head %}
 
-  {% block extra_js %}
-  {% endblock %}
+    {% block extra_js %}
+    {% endblock %}
 </head>
 <body>
 <div id="flex">
-  {% include "header_desktop.html" %}
-  {% include "header_mobile.html" %}
-  {% block header %}
-  {% endblock header %}
+    {% include "header_desktop.html" %}
+    {% include "header_mobile.html" %}
+    {% block header %}
+    {% endblock header %}
     {% if messages %}
-      <div class="row">
-        {% for message in messages %}
-          <div class="col s12 m4 l4 push-l4 push-m4">
-            <div class="card {{ message.level_tag }}-message darken-1">
-              <div class="card-content">
-                <span class="card-title black-text valign-wrapper" style="clear: both;">
-                    <i class="material-icons black-text" style="padding-right: 10px;">priority_high</i>
-                    <h5>{{ message.extra_tags }}</h5>
-                </span>
-                <p class="flow-text black-text">{{ message }}</p>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+        <div class="row">
+            {% for message in messages %}
+                <script>
+                    var $toastContent = $('<span>{{ message }}</span>');
+                    Materialize.toast($toastContent, 5000);
+                </script>
+            {% endfor %}
+        </div>
     {% endif %}
-  {% block content %}
-  {% endblock content %}
+    {% block content %}
+    {% endblock content %}
 </div>
 {% include "delete.html" %}
 </body>
 {% block footer %}
-  {% include "footer.html" %}
+    {% include "footer.html" %}
 {% endblock footer %}
 
 {% block footer_script %}

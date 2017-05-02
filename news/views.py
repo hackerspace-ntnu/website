@@ -270,7 +270,7 @@ def event_attendees(request, event_id):
     if request.method == 'POST':
         try:
             user_string = request.POST['name']
-            username = user_string.split("-")[1].strip()
+            username = user_string.split("-")[-1].strip()
             user = User.objects.get(username=username)
             event = Event.objects.get(pk=event_id)
             er = EventRegistration.objects.get(event=event, user=user)

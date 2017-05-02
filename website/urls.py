@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
 
-from website.views import index, test, calendar
+from website.views import index, test, calendar, about
 
 admin.autodiscover()
 
@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^chaining/', include('smart_selects.urls')),
     url(r'^rpi/', include('rpi.urls')),
     url(r'^kalender/', calendar, name='calendar'),
+    url(r'^about/$', about, name='about'),
     url(r'^s/', include('django.contrib.flatpages.urls')),
 ]
 

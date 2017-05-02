@@ -17,15 +17,6 @@
 
 
 {% block content %}
-    <!-- For å vise eventuelle meldinger fra oppretting/endring av item eller tag. -->
-    {% if messages %}
-        {% for message in messages %}
-            <script>
-                var $toastContent = $('<span>{{ message }}</span>');
-                Materialize.toast($toastContent, 5000);
-            </script>
-        {% endfor %}
-    {% endif %}
 
     <!-- TODO gjøre denne alltid aktiv? Da blir den lettere å finne-->
     <!-- TODO kan lage templatetag, så den blir lettere å legge til på flere sider -->

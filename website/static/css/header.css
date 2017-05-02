@@ -66,9 +66,8 @@
   font-size: 12px;
   /*animation-name: slidelarge;
   animation-duration: 1s;*/
-  position: absolute;
-  top: 45px;
-  left: 451px;
+  margin-top: 0px;
+  margin-left: -207px;
 }
 
 

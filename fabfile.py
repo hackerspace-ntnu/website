@@ -1,36 +1,49 @@
 from fabric.api import env, run, cd
+from fabric.context_managers import prefix
+from fabric.operations import sudo
 
 env.hosts = ['hackerspace-ntnu.no']
-root_folder = '/devops/docker-services/'
-projects = {
-        'potet': {
-            'repo_folder': 'website'
-        },
-        'prod': {
-            'repo_folder': 'website'
-        }
-}
-
-def pull():
-    with cd(root_folder):
-        run('git pull')
-
-def deploy(project, ref='master'):
-    with cd(root_folder + project + '/' + projects[project]['repo_folder'] + '/'):
-        run('git fetch --all')
-        run('git checkout {0}'.format(ref))
-        run('git reset --hard origin/{0}'.format(ref))
-    with cd(root_folder+project):
-        run('docker-compose stop website proxy')
-        run('docker-compose rm website proxy')
-        run('docker-compose build website proxy')
-        run('docker-compose up -d website proxy')
+root_folder = '/devops/'
+project_folder = '/website'
 
 
-def deploycommit(project, commit):
-    with cd(root_folder + project + '/' + projects[project]['repo_folder'] + '/'):
-        run('git fetch --all')
-        run('git checkout {0}'.format(commit))
-    with cd(root_folder+project):
-        run('docker-compose build website')
-        run('docker-compose up -d website proxy')
+def deploy(project='prod', branch='master'):
+    git(project, branch)
+    requirements(project)
+    django(project)
+    gunicorn(project)
+    nginx()
+
+
+def git(project='prod', branch='master'):
+    with cd(root_folder + project + project_folder):
+        sudo('git stash', user='git')
+        sudo('git fetch --all', user='git')
+        sudo('git checkout %s' % branch, user='git')
+        sudo('git reset --hard origin/%s' % branch, user='git')
+
+
+def requirements(project='prod'):
+    with cd(root_folder + project + project_folder), prefix('. ../%senv/bin/activate' % project):
+        run('pip install -r requirements.txt')
+        run('pip install -r prod_requirements.txt')
+
+
+def django(project='prod'):
+    with cd(root_folder + project + project_folder), prefix('. ../%senv/bin/activate' % project):
+        run('python manage.py makemigrations')
+        run('python manage.py migrate')
+        run('python manage.py collectstatic --no-input')
+
+
+def gunicorn(project='prod'):
+    sudo('systemctl restart %s' % project)
+
+
+def nginx():
+    sudo('systemctl restart nginx')
+
+
+def restart(project='prod'):
+    gunicorn(project)
+    nginx()

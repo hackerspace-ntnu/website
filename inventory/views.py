@@ -24,7 +24,7 @@ def index(request):
     if request.method == 'POST':
         result = json.loads(request.POST['check_json'])
         posted_tags = request.POST['check_json']
-
+        print(posted_tags)
         def parse_dict(tag_dict: dict):
             filtered_items = Item.objects.none()
 
@@ -40,7 +40,7 @@ def index(request):
             return filtered_items
 
         if result:
-            items = parse_dict(result)
+            items = parse_dict(result).distinct()
 
     items = list(items)
     items.sort(key=lambda i: i.name.lower())

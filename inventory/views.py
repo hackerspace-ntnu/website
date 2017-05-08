@@ -268,7 +268,7 @@ class AddTag(View):
         if form.is_valid():
             if tag_id != '0':  # form sender streng tilbake, selv om den passes som inten 0 i context
                 tag = Tag.objects.get(pk=tag_id)
-                tag.name = form.cleaned_data['name']
+                tag.name = form.cleaned_data['name'].lower()
                 tag.save()
                 messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
             else:

@@ -189,6 +189,44 @@ class TagTest(TestCase):
         self.assertEqual(AddTag.message_change, response.context['message'])
         self.assertEqual(AddTag.button_message_change, response.context['button_message'])
 
+    def test_create_tag(self):
+        self.client.force_login(self.perm_user)
+        response = self.client.post(reverse('inventory:add_tag', args=(0,)),
+                                    {'name': 'tag', 'parent_tag_ids': dumps(['0', 0])})
+        self.assertEqual(1, len(Tag.objects.all()), "En ny tag burde blitt opprettet.")
+
+    def test_change_tag(self):
+        self.client.force_login(self.perm_user)
+        tag = Tag.objects.create(name='tag')
+        response = self.client.post(reverse('inventory:add_tag', args=(tag.id,)),
+                                    {'name': 'tag1', 'parent_tag_ids': dumps(['0', 0])})
+        self.assertEqual('tag1', Tag.objects.get(pk=1).name, "En ny tag burde blitt opprettet.")
+
+    def test_only_lower_case_name_new_tag(self):
+        """ Tester at nylig opprettede tags blir lowercase uansett. """
+        self.client.force_login(self.perm_user)
+
+        response = self.client.post(reverse('inventory:add_tag', args=(0,)),
+                                    {'name': 'TAG', 'parent_tag_ids': dumps(['0', 0])})
+        new_tag = Tag.objects.get(pk=1)
+        self.assertEqual('tag', new_tag.name, "Navnet på nylig opprettede tags skal gjøres om til lower-case.")
+
+    def test_only_lower_case_name_change_tag(self):
+        self.client.force_login(self.perm_user)
+        tag = Tag.objects.create(name='tag')
+        response = self.client.post(reverse('inventory:add_tag', args=(tag.id,)),
+                                    {'name': 'TAG', 'parent_tag_ids': dumps([str(tag.id), 0])})
+        print(Tag.objects.all())
+        self.assertEqual('tag', Tag.objects.get(pk=1).name, "En ny tag burde blitt opprettet.")
+
+    def test_only_lower_case_name_change_tag_new_name(self):
+        self.client.force_login(self.perm_user)
+        tag = Tag.objects.create(name='tag')
+        response = self.client.post(reverse('inventory:add_tag', args=(tag.id,)),
+                                    {'name': 'TAGG', 'parent_tag_ids': dumps([str(tag.id), 0])})
+        print(Tag.objects.all())
+        self.assertEqual('tagg', Tag.objects.get(pk=1).name, "En ny tag burde blitt opprettet.")
+
     # TODO:
     """
     TAG

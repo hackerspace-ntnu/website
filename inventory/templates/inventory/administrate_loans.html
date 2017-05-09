@@ -5,21 +5,16 @@
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
-
 {% endblock header %}
 
 
 {% block content %}
-    <ul id="tabs-swipe-demo-outer" class="tabs tabs-swipe-demo">
-    </ul>
+    <ul id="tabs-swipe-demo-outer" class="tabs tabs-swipe-demo"></ul>
 
     <div class="content">
-
         <div class="tab-container">
             <ul id="tabs-swipe-demo-inner" class="tabs tabs-swipe-demo">
-                <li class="tab col s3"><a href="#test-swipe-1"
-                                          style="color: var(--hs-green)">Aktive utlån</a>
-                </li>
+                <li class="tab col s3"><a href="#test-swipe-1" style="color: var(--hs-green)">Aktive utlån</a></li>
                 <li class="tab col s3"><a class="active" href="#test-swipe-2" style="color: var(--hs-green)">For sene</a></li>
                 <li class="tab col s3"><a href="#test-swipe-3" style="color: var(--hs-green)">Tidligere lån</a></li>
             </ul>
@@ -28,9 +23,7 @@
                 <h2>Aktive lån</h2>
                 {% if active_loans %}
                     {% for loan in active_loans %}
-
                         {% small_card_loan_detail loan "Frist" loan.return_date %}
-
                     {% endfor %}
                 {% else %}
                     Du har ingen gamle utlån.
@@ -43,9 +36,7 @@
                     <!-- TODO merk av for om hvor mange reminders personen har fått på mail -->
 
                     {% for loan in late_loans %}
-
                         {% small_card_loan_detail loan "Frist" loan.return_date %}
-
                     {% endfor %}
                 {% else %}
                     Du har ingen gamle utlån.
@@ -58,14 +49,12 @@
                     {% for loan in old_loans %}
                         {% small_card_loan_detail loan "Returnert" loan.date_returned %}
                     {% endfor %}
-
                 {% else %}
                     Du har ingen gamle utlån.
                 {% endif %}
             </div>
         </div>
     </div>
-
 
     <style>
         .tabs-swipe-demo {
@@ -79,6 +68,4 @@
             margin-top: -48px;
         }
     </style>
-
-
 {% endblock content %}

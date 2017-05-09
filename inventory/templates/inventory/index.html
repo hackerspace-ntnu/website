@@ -35,7 +35,6 @@
         {% endif %}
         <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
     </ul>
-
     <div class="content">
         <br>
         <form id="searchform" action="{% url 'inventory:search' %}" method="get">
@@ -80,38 +79,32 @@
                     </div>
                 </div>
             </div>
-
             <div class="items col s9">
                 {% for item in items %}
-
                     <div class="item-box">
                         {% small_card_item_detail item request perms %}
                     </div>
-
                 {% endfor %}
             </div>
-
-
         </div>
-
-        <script>
-            var postedTags = {{ posted_tags|safe }};
-
-            $(function () {
-                showBoxes(postedTags);
-            });
-
-            function showBoxes(postedTags) {
-                // Viser og checker av bokser som var checked før man poster.
-                for (var key in postedTags) {
-                    $('#' + key).attr('checked', true);
-                    $('.child-of-' + key).show();
-                    if (Object.keys(postedTags[key]).length > 0) {
-                        showBoxes(postedTags[key]);
-                    }
-                }
-            }
-        </script>
     </div>
 
+    <script>
+        var postedTags = {{ posted_tags|safe }};
+
+        $(function () {
+            showBoxes(postedTags);
+        });
+
+        function showBoxes(postedTags) {
+            // Viser og checker av bokser som var checked før man poster.
+            for (var key in postedTags) {
+                $('#' + key).attr('checked', true);
+                $('.child-of-' + key).show();
+                if (Object.keys(postedTags[key]).length > 0) {
+                    showBoxes(postedTags[key]);
+                }
+            }
+        }
+    </script>
 {% endblock content %}

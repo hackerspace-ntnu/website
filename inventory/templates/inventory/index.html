@@ -8,10 +8,6 @@
     <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "inventory/css/index.css" %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        .content {
-            max-width: 850px;
-        }</style>
     <script src="{% static 'inventory/js/index.js' %}"></script>
 {% endblock header %}
 
@@ -49,7 +45,6 @@
         <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
     </ul>
 
-    <!-- TODO flytt søkeknapp til riktig sted, så ting aligner i bredden. -->
     <div class="content">
         <br>
         <form id="searchform" action="{% url 'inventory:search' %}" method="get">

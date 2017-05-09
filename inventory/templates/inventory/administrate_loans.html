@@ -10,19 +10,13 @@
 
 
 {% block content %}
-    <ul id="tabs-swipe-demo" class="tabs">
+    <ul id="tabs-swipe-demo-outer" class="tabs tabs-swipe-demo">
     </ul>
-
-    <style>
-        #tabs-swipe-demo {
-            background-color: var(--hs-gray-li);
-        }
-    </style>
 
     <div class="content">
 
         <div class="tab-container">
-            <ul id="tabs-swipe-demo" class="tabs">
+            <ul id="tabs-swipe-demo-inner" class="tabs tabs-swipe-demo">
                 <li class="tab col s3"><a href="#test-swipe-1"
                                           style="color: var(--hs-green)">Aktive utlån</a>
                 </li>
@@ -74,6 +68,9 @@
 
 
     <style>
+        .tabs-swipe-demo {
+            background-color: var(--hs-gray-li);
+        }
         .chip {
             background-color: var(--hs-green);
         }

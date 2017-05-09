@@ -24,7 +24,7 @@ def index(request):
     if request.method == 'POST':
         result = json.loads(request.POST['check_json'])
         posted_tags = request.POST['check_json']
-
+        print(posted_tags)
         def parse_dict(tag_dict: dict):
             filtered_items = Item.objects.none()
 
@@ -40,7 +40,7 @@ def index(request):
             return filtered_items
 
         if result:
-            items = parse_dict(result)
+            items = parse_dict(result).distinct()
 
     items = list(items)
     items.sort(key=lambda i: i.name.lower())
@@ -268,7 +268,7 @@ class AddTag(View):
         if form.is_valid():
             if tag_id != '0':  # form sender streng tilbake, selv om den passes som inten 0 i context
                 tag = Tag.objects.get(pk=tag_id)
-                tag.name = form.cleaned_data['name']
+                tag.name = form.cleaned_data['name'].lower()
                 tag.save()
                 messages.add_message(request, messages.SUCCESS, 'Taggen ble endret.')
             else:

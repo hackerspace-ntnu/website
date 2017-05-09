@@ -14,8 +14,7 @@ a {
 }
 
 .content {
-
-    max-width: 800px;
+    max-width: 1000px;
     display: block;
     margin: 0 auto;
 }
@@ -61,5 +60,5 @@ a {
 
 #searchbox {
     display: inline-block;
-    width: 85%;
+    width: 90%;
 }

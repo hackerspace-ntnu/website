@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^opptak/', include('applications.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
-    # url(r'^opptak/$', opptak, name='opptak'),
+    url(r'^opptak/', include('applications.urls'), name='opptak'),
     url(r'^test/$', test, name="500-test"),
     url(r'^files/', include('files.urls')),
     url(r'^inventory/', include('inventory.urls'), name='inventory'),

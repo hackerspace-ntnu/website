@@ -4,11 +4,21 @@ from applications.forms import ApplicationForm, ProjectApplicationForm
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.core.mail import send_mail
 from datetime import datetime
+
+from .models import Application
+
 import json
+
+APPLICATION_START_DATE = datetime(2017, 8, 1)
 
 
 # Application page
 def application_form(request):
+    # Check if not application time
+    current_date = datetime.now()
+    if current_date < APPLICATION_START_DATE or current_date > Application.APPLICATION_DEADLINE:
+        return render(request, 'no_application.html', {'APPLICATION_START_DATE': APPLICATION_START_DATE})
+
     if request.method == 'POST':
         form = ApplicationForm(request.POST)
         if form.is_valid():
@@ -28,6 +38,7 @@ def application_form(request):
     }
 
     return render(request, 'application_form.html', context)
+
 
 # Project group specific application page
 def project_application_form(request):
@@ -55,7 +66,6 @@ https://www.facebook.com/hackerspacentnu/?fref=ts
         else:
             return JsonResponse(json.dumps(form.errors), status=400, safe=False)
 
-
     form = ProjectApplicationForm()
 
     context = {
@@ -69,4 +79,4 @@ def application_sent(request):
 
 
 def no_application(request):
-    return render(request, 'no_application.html', {})
+    return render(request, 'no_application.html', {'APPLICATION_START_DATE': APPLICATION_START_DATE})

@@ -46,12 +46,12 @@
         <div class="col s12 m6 l4">
           <div class="card medium">
             <div class="card-image waves-effect waves-block waves-light">
-              <a class="img-a" href="/news/article/{{ news.id }}/">
+              <a class="img-a" href="/news/article/{{ news.redirect_id }}/">
                 <img class="activator" src="{{ news.thumbnail.url }}">
               </a>
             </div>
             <div class="card-content">
-              <a class="card-title truncate" href="/news/article/{{ news.id }}/">{{ news.title }}</a>
+              <a class="card-title truncate" href="/news/article/{{ news.redirect_id }}/">{{ news.title }}</a>
               <div class="article-ingress">
                 {% autoescape off %}
                 {{ news.ingress_content|truncatechars:255 }}
@@ -59,7 +59,7 @@
               </div>
             </div>
             <div class="card-action">
-              <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/">Les mer</a>
+              <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.redirect_id }}/">Les mer</a>
               {% if request.user|has_group:"member" %}
                 <a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/edit/">Edit</a>
                 <a class="delete waves-effect waves-grey btn-flat" url="/news/article/{{ news.id }}/delete/">Delete</a>

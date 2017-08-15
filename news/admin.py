@@ -61,7 +61,12 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': [
                 'thumbnail',
             ]
-        })
+        }),
+        ('Advanced', {
+            'fields': [
+                'redirect',
+            ]
+        }),
     ]
     search_fields = [
         'title'

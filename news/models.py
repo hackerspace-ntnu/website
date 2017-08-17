@@ -13,6 +13,7 @@ class Article(models.Model):
     internal = models.BooleanField(default=False, verbose_name='Intern')
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
+    redirect = models.IntegerField('Redirect', default=0)
 
     def __str__(self):
         return self.title
@@ -24,6 +25,11 @@ class Article(models.Model):
     class Meta:
         app_label = 'news'
         ordering = ('-pub_date',)
+
+    def redirect_id(self):
+        if self.redirect:
+            return self.redirect
+        return self.id
 
 
 class Event(models.Model):

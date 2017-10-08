@@ -43,6 +43,15 @@
         {{ form.time_end.errors }}
         {{ form.date.errors }}
 
+        <div class="">
+            <p>Ved ekstern påmeldig (f.eks. hoopla), skriv inn url her (husk http://) og IKKE velg påmelding nedenfor</p>
+          {{ form.external_registration.errors }}
+          <div class="input-field">
+            <label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
+            {{ form.external_registration }}
+          </div>
+        </div>
+
         <div id=registration>
           <div class="inline toggle">
             {{ form.registration.errors }}

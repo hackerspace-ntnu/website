@@ -123,6 +123,7 @@ def edit_event(request, event_id):
                 'time_start': datetime.strftime(event.time_start, '%H:%M'),
                 'time_end': datetime.strftime(event.time_end, '%H:%M'),
                 'date': datetime.strftime(event.time_start, '%d %B, %Y'),
+                'external_registration': event.external_registration,
                 'deregistration_end_date': datetime.strftime(event.deregistration_end, '%d %B, %Y'),
                 'deregistration_end_time': datetime.strftime(event.deregistration_end, '%H:%M'),
                 'registration_start_date': datetime.strftime(event.registration_start, '%d %B, %Y'),

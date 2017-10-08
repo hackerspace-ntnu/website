@@ -34,7 +34,10 @@
     <div>
       <p class="infoheader">Dato:</p><p class="info">{{ event.time_start|date:"d M Y" }}</p>
     </div>
-    {% if event.registration %}
+    {% if event.external_registration %}
+        <br>
+        <a class="btn waves-effect waves-light hsgreen" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
+    {% elif event.registration %}
       <p class="infoheader">Status:</p><p class="info">{{ userstatus }}</p>
       <div class="registration" style="text-align: center">
         <div class="progress">

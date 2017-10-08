@@ -19,6 +19,7 @@ class EventEditForm(forms.Form):
     registration_start_date = forms.CharField(label='Påmelding start dato', required=False)
     deregistration_end_time = forms.CharField(label='Avmelding slutt tidspunk', required=False)
     deregistration_end_date = forms.CharField(label='Avmelding slutt dato', required=False)
+    external_registration = forms.CharField(label='Ekstern påmeldig url', max_length=200, required=False)
     time_start = forms.CharField(label='Start klokkeslett')
     time_end = forms.CharField(label='Slutt klokkeslett')
     date = forms.CharField(label='Dato', error_messages=custom_error)

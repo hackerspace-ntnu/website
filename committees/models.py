@@ -10,21 +10,24 @@ from smart_selects.db_fields import ChainedForeignKey
 from sorl.thumbnail import ImageField
 
 
-class Committee(models.Model):
-    title = models.CharField(max_length=100, unique=True)
+class Committee(Group):
+    # Har name fra superklassen
     email = models.EmailField(null=True, blank=True)
     image = ImageField(upload_to='komiteer')
     slug = models.SlugField(null=True, blank=True)
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
+    parent = models.ForeignKey(Committee, blank=True, null=True)
+
+    # Har Many2ManyField til Permission i superklasse
 
     def __str__(self):
-        return self.title
+        return self.name
 
     def get_absolute_url(self):
         return reverse('verv:view', kwargs={'slug':self.slug})
 
-
+"""
 class Position(models.Model):
     title = models.CharField(max_length=100, verbose_name="Stillingsnavn")
     email = models.EmailField(null=True, blank=True, verbose_name="Epost")
@@ -33,7 +36,7 @@ class Position(models.Model):
 
     def __str__(self):
         return str(self.title)
-
+"""
 
 class Member(models.Model):
     committee = models.ForeignKey(Committee, related_name="members")

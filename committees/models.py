@@ -17,7 +17,7 @@ class Committee(Group):
     slug = models.SlugField(null=True, blank=True)
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
-    parent = models.ForeignKey(Committee, blank=True, null=True)
+    parent = models.ForeignKey(Committee, null=True, related_name="subcommittees")
 
     # Har Many2ManyField til Permission i superklasse
 
@@ -26,6 +26,18 @@ class Committee(Group):
 
     def get_absolute_url(self):
         return reverse('verv:view', kwargs={'slug':self.slug})
+
+    def add_user(self, user):
+        self.user_set.add(user)
+        self.save()
+        if self.parent is not None:
+            self.parent.add_user(user)
+
+    def remove_user(self, user):
+        self.user_set.remove(user)
+        self.save()
+        for subcommittee in self.subcommittees:
+            subcommittee.remove_user(user)
 
 """
 class Position(models.Model):
@@ -36,7 +48,7 @@ class Position(models.Model):
 
     def __str__(self):
         return str(self.title)
-"""
+
 
 class Member(models.Model):
     committee = models.ForeignKey(Committee, related_name="members")
@@ -74,15 +86,15 @@ class Member(models.Model):
         if new:
             self.add_to_group(self.user)
         super(Member, self).save()
-
+"""
 
 @receiver(pre_delete, sender=Member)
 def update_position_member_groups_on_save(sender, instance, *args, **kwargs):
-    instance.remove_from_group(instance.user)
+    instance.delete_member(instance.user)
 
 
 def pre_save_committee_receiver(sender, instance, *args, **kwargs):
-    slug = slugify(instance.title)
+    slug = slugify(instance.name)
     instance.slug = slug
 
 pre_save.connect(pre_save_committee_receiver, sender=Committee)

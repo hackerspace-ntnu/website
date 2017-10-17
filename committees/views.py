@@ -6,13 +6,13 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
 from .forms import EditCommittees, EditDescription
-from .models import Committee, Member
+from .models import Committee
 
 
 def index(request):
     # Fetch all members, who belong to a committee (Member -> Committee)
     # Group all these members by the committee type
-    committees = Committee.objects.prefetch_related('members')
+    committees = Committee.objects.prefetch_related('user_set')
 
     context = {
         'committees': committees,
@@ -25,6 +25,8 @@ def edit(request):
     form = EditCommittees(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
+            pass
+        """
             committee = form.cleaned_data.get('committee')
             position = form.cleaned_data.get('position')
             new_user = form.cleaned_data.get('user')
@@ -42,6 +44,7 @@ def edit(request):
             messages.add_message(request, messages.SUCCESS, 'Brukeren er lagt til i vervet og tidligere bruker er slettet!',
                                  extra_tags='Flott!',
                                 )
+                                """
     context = {
         'form': form,
     }
@@ -50,10 +53,10 @@ def edit(request):
 
 def view_committee(request, slug):
     committee = get_object_or_404(Committee, slug=slug)
-    members = Member.objects.filter(committee=committee)
+    #members = Member.objects.filter(committee=committee)
     context = {
         'committee': committee,
-        'members': members
+        'members': committee.user_set
     }
     return render(request, 'committees/view_committee.html', context)
 

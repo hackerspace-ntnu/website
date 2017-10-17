@@ -1,12 +1,12 @@
 from dal import autocomplete
 from django import forms
 
-from .models import Committee, Member
+from .models import Committee
 
 
 class EditCommittees(forms.ModelForm):
     class Meta:
-        model = Member
+        #model = Member
         fields = [
             'committee',
             'position',

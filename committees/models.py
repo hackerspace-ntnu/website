@@ -17,7 +17,7 @@ class Committee(Group):
     slug = models.SlugField(null=True, blank=True)
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
-    parent = models.ForeignKey(Committee, null=True, related_name="subcommittees")
+    parent = models.ForeignKey('Committee', null=True, blank=True, related_name="subcommittees")
 
     # Har Many2ManyField til Permission i superklasse
 
@@ -36,20 +36,20 @@ class Committee(Group):
     def remove_user(self, user):
         self.user_set.remove(user)
         self.save()
-        for subcommittee in self.subcommittees:
+        for subcommittee in self.subcommittees.all():
             subcommittee.remove_user(user)
 
-"""
-class Position(models.Model):
-    title = models.CharField(max_length=100, verbose_name="Stillingsnavn")
+
+class Position(Group):
+    title = models.CharField(max_length=100, verbose_name="Stillingstittel")
     email = models.EmailField(null=True, blank=True, verbose_name="Epost")
-    committee = models.ForeignKey(Committee)
-    permission_group = models.ForeignKey(Group)
+    pos_in_committee = models.ForeignKey(Committee, null=False)
+    # permission_group = models.ForeignKey(Group)
 
     def __str__(self):
         return str(self.title)
 
-
+"""
 class Member(models.Model):
     committee = models.ForeignKey(Committee, related_name="members")
     position = ChainedForeignKey(
@@ -88,6 +88,7 @@ class Member(models.Model):
         super(Member, self).save()
 """
 
+"""
 @receiver(pre_delete, sender=Member)
 def update_position_member_groups_on_save(sender, instance, *args, **kwargs):
     instance.delete_member(instance.user)
@@ -98,3 +99,4 @@ def pre_save_committee_receiver(sender, instance, *args, **kwargs):
     instance.slug = slug
 
 pre_save.connect(pre_save_committee_receiver, sender=Committee)
+"""

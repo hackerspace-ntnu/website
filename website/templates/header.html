@@ -1,0 +1,53 @@
+{% load staticfiles %}
+<nav>
+	<div class="nav-wrapper gray">
+		<a href="/" class="brand-logo">Hackerspace</a>
+		<a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
+		<ul class="right hide-on-med-and-down">
+			<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
+			<li><a href="/news/all">NYHETER</a></li>
+			<li><a href="/wiki">WIKI</a></li>
+			<li><a href="/about">OM OSS</a></li>
+			{% if request.user.is_authenticated %}
+			<li><a href="#" data-activates="userdropdown">PROFIL</a></li>
+			<li><a href="/authentication/change-password">BYTT PASSORD</a></li>
+			<li><a href="/authentication/logout">LOGG UT</a></li>
+			{% else %}
+			<li><a href="/authentication/signup">REGISTRER</a></li>
+			<li><a href="/authentication/login">LOGG INN</a></li>
+			{% endif %}
+		</ul>
+		<ul class="side-nav" id="mobile-sidebar">
+			<li><div class="user-view">-</div></li>
+			<li><a class="subheader">Meny</a></li>
+			<li><div class="divider"></div></li>
+			<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
+			<li><a href="/news/all">Nyheter</a></li>
+			<li><a href="/wiki">Wiki</a></li>
+			<li><a href="/about">Om Oss</a></li>
+			{% if request.user.is_authenticated %}
+			<li><a href="#" data-activates="userdropdown">Profil</a></li>
+			<li><a href="/authentication/change-password">Bytt Passord</a></li>
+			<li><a href="/authentication/logout">Logg Ut</a></li>
+			{% else %}
+			<li><a href="/authentication/signup">Registrer</a></li>
+			<li><a href="/authentication/login">Logg inn</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<script>
+$(function() {
+	$('.dd').dropdown({
+		inDuration: 300,
+		outDuration: 225,
+		constrain_width: false, // Does not change width of dropdown to that of the activator
+		hover: false, // Activate on hover
+		gutter: 0, // Spacing from edge
+		belowOrigin: true, // Displays dropdown below the button
+		alignment: 'left' // Displays dropdown with edge aligned to the left of button
+	})
+	$(".button-collapse").sideNav();
+});
+</script>

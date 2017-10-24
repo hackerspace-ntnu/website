@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^news/', include('news.urls')),
+    url(r'^committees/', include('committees.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),
     url(r'^opptak/', include('applications.urls')),

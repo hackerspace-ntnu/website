@@ -51,18 +51,18 @@ def edit(request):
     return render(request, 'committees/edit.html', context)
 
 
-def view_committee(request, slug):
-    committee = get_object_or_404(Committee, slug=slug)
+def view_committee(request, name):
+    committee = get_object_or_404(Committee, name=name)
     #members = Member.objects.filter(committee=committee)
     context = {
         'committee': committee,
-        'members': committee.user_set
+        'members': committee.user_set.all()
     }
     return render(request, 'committees/view_committee.html', context)
 
 
-def edit_description(request, slug):
-    committee = get_object_or_404(Committee, slug=slug)
+def edit_description(request, name):
+    committee = get_object_or_404(Committee, name=name)
     form = EditDescription(request.POST or None, instance=committee)
     if request.method == 'POST':
         if form.is_valid():

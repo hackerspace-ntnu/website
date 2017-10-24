@@ -44,7 +44,7 @@ class Event(models.Model):
     max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Max påmeldte')
     registration_start = models.DateTimeField(default=timezone.now, verbose_name='Registrering start')
     deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avregistrering slutt')
-    external_registration = models.CharField(max_length=200, default='', verbose_name='Ekstern påmelding url')
+    external_registration = models.CharField(max_length=200, default='', verbose_name='Ekstern påmelding url', blank=True, null=True)
 
     time_start = models.DateTimeField(verbose_name='Start tidspunkt')
     time_end = models.DateTimeField(verbose_name='Slutt tidspunkt')

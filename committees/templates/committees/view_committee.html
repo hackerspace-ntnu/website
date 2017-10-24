@@ -27,7 +27,7 @@
     <div class="section no-pad-bot" id="index-banner">
       <div class="container">
         <div class="row">
-          <h1 id="pageName">{{ committee.title }}</h1>
+          <h1 id="pageName">{{ committee.name }}</h1>
           <div class="col s12 m12 l8">
             {% thumbnail committee.image "1600" crop="center" as im %}
               <img class="responsive-img materialboxed" src="{{ im.url }}">
@@ -46,8 +46,7 @@
                         {% if member.position.email %}{{ member.position.email }}{% else %}{{ member.user.email }}{% endif %}">
                       <div class="valign-wrapper">
                         <i class="material-icons valign left tiny hs-green">email</i>
-                        <p class="black-text"> {{ member.position.title }}
-                          : {{ member.user.get_full_name }}</p>
+                        <p class="black-text">{{ member.username }}</p>
                       </div>
                     </a>
                   {% endfor %}

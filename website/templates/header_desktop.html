@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load check_user_group %}
 <div id="header-desktop">
     <div id="navbar">
         <a href="/">
@@ -8,6 +9,9 @@
           <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
         </div>
         <div id="menu">
+            {% if request.user|has_group:"DevOps" %}
+              <a class="waves-effect waves-grey btn-flat" href="/committees/index">COMMITTEES</a>
+            {% endif %}
             <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>
             <a class="waves-effect waves-grey btn-flat" href="/news/all">NYHETER</a>
             <a class="waves-effect waves-grey btn-flat" href="/wiki">WIKI</a>

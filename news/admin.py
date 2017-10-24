@@ -23,6 +23,11 @@ class Eventadmin(admin.ModelAdmin):
                 'time_end',
             ]
         }),
+        ('Internal', {
+            'fields': [
+                'internal'
+            ]
+        }),
         ('Place', {
             'fields': [
                 'place',

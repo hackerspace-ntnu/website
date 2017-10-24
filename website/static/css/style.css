@@ -30,3 +30,9 @@ body {
 main {
 	flex: 1 0 auto;
 }
+
+#about{
+  width: 90%;
+  max-width: 1000px;
+  margin: 20px auto;
+}

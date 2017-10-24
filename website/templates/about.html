@@ -6,6 +6,25 @@
 {% endblock head %}
 
 {% block content %}
+    <section id="about" class="about-section row">
+        <h1 class="center-align col s12">Om Hackerspace NTNU</h1>
+        <div class="col s12 m4">
+          Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
+          Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
+          Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
+          <br><br>
+          Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse.
+          Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.
+          <br><br>
+          Kom innom for å se hva vi driver med og slå av en prat.
+          Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.
+          <br><br>
+            <a href="/groups" class="waves-effect waves-light btn" style="width: 100%;">Våre grupper</a>
+        </div>
+        <div id="about-logo" class="col s12 m8">
+          <img src="/static/img/Logo_round_green.png" style="width: 95%; height: auto;" />
+        </div>
+    </section>
     <div id="map" style="position: relative;">
       <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
               src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
@@ -21,24 +40,5 @@
               $("#hideFrame").css("display", "none")
           });
       </script>
-  </div>
-    <section id="about" class="about-section row" style="width: 90%; max-width: 1000px; margin: 20px auto;">
-        <h1 class="center-align col s12">Om Hackerspace NTNU</h1>
-        <div style="margin: 0 0 40px 0;" class="col s12 m4 about-text">
-          Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
-          Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
-          Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
-          <br><br>
-          Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse.
-          Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.
-          <br><br>
-          Kom innom for å se hva vi driver med og slå av en prat.
-          Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.
-          <br><br>
-            <a href="/groups" class="waves-effect waves-light btn" style="width: 100%;">Våre grupper</a>
-        </div>
-        <div style="margin: 0 0 40px 0; text-align: right;" class="col s12 m8">
-          <img src="/static/img/Logo_round_green.png" style="width: 95%; height: auto;" />
-        </div>
-    </section>
+    </div>
 {% endblock content %}

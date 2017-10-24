@@ -1,60 +1,35 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
 {% endblock head %}
 
 {% block header %}
-    <div id="doorstatus"
-        style="
-        {% if door_status %}
-            background: var(--hs-green);
-        {% else %}
-            background: var(--hs-red);
-        {% endif %}
-        width: 100%; height: 28px; overflow: hidden; text-align: center; font-family: Roboto-Light; box-shadow: 0px 2px 20px #4e4b46;">
-        <p style="color: #fff; margin-top: 2px;">
-            {% if door_status %}
-                Hackerspace er åpent
-            {% else %}
-                Hackerspace er stengt
-            {% endif %}
-        </p>
-    </div>
-    <script type="text/javascript" src="{% static "js/door_status.js" %}"></script>
+<script type="text/javascript" src="{% static "js/door_status.js" %}"></script>
 {% endblock header %}
 
 {% block content %}
-    {% include "news.html" %}
-    <section id="about" class="about-section" style="width: 90%; max-width: 1000px; margin: 50px auto;">
-        <h1 class="center-align">Om Hackerspace NTNU</h1>
-            <p style="margin-top: 0; margin-bottom: 40px; columns: 2; column-gap: 70px;">
-              Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
-              Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
-              Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
-              <br><br>
-              Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse.
-              Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.
-              <br><br>
-              Kom innom for å se hva vi driver med og slå av en prat.
-              Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.
-            </p>
-        <div id="map" style="position: relative; margin-top: 20px;">
-            <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                    src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
-            <div id="hideFrame">
-              <div style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0; display: table;">
-                <div style="display: table-cell; vertical-align: middle; text-align: center; ">
-                  <p style="color: #fff; opacity: 0.5; z-index: 101; font-size:96px;"><strong>Trykk her</strong></p>
-                </div>
-              </div>
-            </div>
-            <script>
-                $("#hideFrame").click(function () {
-                    $("#hideFrame").css("display", "none")
-                });
-            </script>
-        </div>
-    </section>
-{% endblock content %}
+{% if door_status %}
+<div class="door green z-depth-1">
+		<p>Hackerspace er åpent</p>
+</div>
+{% else %}
+<div class="door yellow z-depth-1">
+		<p>Hackerspace er stengt for dagen</p>
+</div>
+{% endif %}
+<div class="container">
+	{% include "news.html" %}
+		<div class="row">
+					<div class="col s12">
+									<h1>Om Hackerspace NTNU</h1>
+											</div>
+												<div class="row">
+															<div class="col s6">
+																		    <blockquote>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</blockquote></div>
+																	<div class="col s6">
+																				<p>Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse. Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner. Kom innom for å se hva vi driver med og slå av en prat. Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy. </p>
+																						</div>
+																							</div>
+		</div>
+		{% endblock content %}

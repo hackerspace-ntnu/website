@@ -1,22 +1,31 @@
 {% load staticfiles %}
 <nav>
 	<div class="nav-wrapper gray">
-		<a href="/" class="brand-logo">Hackerspace</a>
+		<a href="/" class="brand-logo"><img src="../static/img/logo_header.png"/></a>
 		<a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
+		<!-- Dropdown user list for desktop-->
+		<ul id="userdropdown" class="dropdown-content">
+			{% if request.user.is_authenticated %}
+			<li><a href="#" data-activates="userdropdown">Profil</a></li>
+			<li><a href="/authentication/change-password">Bytt Passord</a></li>
+			<li><a href="/authentication/logout">Logg Ut</a></li>
+			{% else %}
+			<li><a href="/authentication/signup">Registrer</a></li>
+			<li><a href="/authentication/login">Logg inn</a></li>
+			{% endif %}
+		</ul>
+
+		<!-- Hovedmeny -->
 		<ul class="right hide-on-med-and-down">
 			<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
 			<li><a href="/news/all">NYHETER</a></li>
 			<li><a href="/wiki">WIKI</a></li>
 			<li><a href="/about">OM OSS</a></li>
-			{% if request.user.is_authenticated %}
-			<li><a href="#" data-activates="userdropdown">PROFIL</a></li>
-			<li><a href="/authentication/change-password">BYTT PASSORD</a></li>
-			<li><a href="/authentication/logout">LOGG UT</a></li>
-			{% else %}
-			<li><a href="/authentication/signup">REGISTRER</a></li>
-			<li><a href="/authentication/login">LOGG INN</a></li>
-			{% endif %}
+			<li><a class="user-drop-desktop" href="#" data-activates="userdropdown">
+					<i class="material-icons">account_circle</i></a>
+			</li>
 		</ul>
+		<!-- Mobil dynamisk meny -->
 		<ul class="side-nav" id="mobile-sidebar">
 			<li><div class="user-view">-</div></li>
 			<li><a class="subheader">Meny</a></li>
@@ -25,6 +34,7 @@
 			<li><a href="/news/all">Nyheter</a></li>
 			<li><a href="/wiki">Wiki</a></li>
 			<li><a href="/about">Om Oss</a></li>
+			<li><div class="divider"></div></li>
 			{% if request.user.is_authenticated %}
 			<li><a href="#" data-activates="userdropdown">Profil</a></li>
 			<li><a href="/authentication/change-password">Bytt Passord</a></li>
@@ -38,16 +48,17 @@
 </nav>
 
 <script>
-$(function() {
-	$('.dd').dropdown({
+$(document).ready(function() {
+	$('.user-drop-desktop').dropdown({
 		inDuration: 300,
 		outDuration: 225,
 		constrain_width: false, // Does not change width of dropdown to that of the activator
-		hover: false, // Activate on hover
+		hover: true, // Activate on hover
 		gutter: 0, // Spacing from edge
 		belowOrigin: true, // Displays dropdown below the button
 		alignment: 'left' // Displays dropdown with edge aligned to the left of button
 	})
+	$(".user-drop-mobile").dropdown();
 	$(".button-collapse").sideNav();
 });
 </script>

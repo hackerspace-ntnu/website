@@ -28,3 +28,12 @@ def view_committee(request, name):
         'members': committee.user_set.all()
     }
     return render(request, 'committees/view_committee.html', context)
+
+def edit_members(request, name):
+    committee = get_object_or_404(Committee, name=name)
+    context = {
+        'committee': committee,
+        'members': committee.user_set.all()
+    }
+
+    return render(request, 'committees/edit_members.html', context)

@@ -12,6 +12,9 @@
   --hs-red-li: #EA9989;
 }
 
+.brand-logo img {
+	width:200px !important;
+}
 /* Definer hackerspace farger som klasser */
 .gray {
   background-color: #4E4B46;

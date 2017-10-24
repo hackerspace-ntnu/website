@@ -2,27 +2,6 @@
 {% load thumbnail %}
 
 {% block content %}
-  {% if perms.committees %}
-    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-      <a class="btn-floating btn-large red">
-        <i class="large material-icons">menu</i>
-      </a>
-      <ul>
-        <li>
-          <a class="btn-floating blue" href="edit/"><i class="material-icons">edit</i></a>
-          <a class="btn-floating mobile-fab-tip">Endre beskrivelse</a>
-        </li>
-        {% if perms.member.can_edit %}
-          <li>
-            <a class="btn-floating blue" href="{% url "verv:edit" %}"><i
-                class="material-icons">person_add</i></a>
-            <a class="btn-floating mobile-fab-tip">Endre medlemmer</a>
-          </li>
-        {% endif %}
-      </ul>
-    </div>
-  {% endif %}
-
   <main>
     <div class="section no-pad-bot" id="index-banner">
       <div class="container">

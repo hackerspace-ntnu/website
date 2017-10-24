@@ -1,3 +1,5 @@
+@import 'colors.css';
+
 :root {
   --hs-green: #5BBA47;
   --hs-green-dk: #479438;
@@ -15,38 +17,6 @@
 .brand-logo img {
 	width:200px !important;
 }
-/* Definer hackerspace farger som klasser */
-.gray {
-  background-color: #4E4B46;
-}
-.gray-text {
-  color: #4E4B46;
-}
-.red {
-  background-color: #E25E48;
-}
-.red-text {
-  color: #E25E48;
-}
-.red {
-  background-color: #E25E48;
-}
-.red-text {
-  color: #E25E48;
-}
-.yellow {
-  background-color: #dfc12a;
-}
-.yellow-text {
-  color: #dfc12a;
-}
-.green {
-  background-color: #5BBA47;
-}
-.green-text {
-  color: #5BBA47;
-}
-
 @font-face {
   font-family: Roboto-Light;
   src: url("/static/materialize/font/roboto/Roboto-Light.woff");

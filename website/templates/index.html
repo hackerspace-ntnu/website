@@ -10,26 +10,27 @@
 
 {% block content %}
 {% if door_status %}
-<div class="door green z-depth-1">
-		<p>Hackerspace er åpent</p>
+<div class="door hs-green z-depth-1">
+	<p>Hackerspace er åpent</p>
 </div>
 {% else %}
-<div class="door yellow z-depth-1">
-		<p>Hackerspace er stengt for dagen</p>
+<div class="door hs-yellow z-depth-1">
+	<p>Hackerspace er stengt for dagen</p>
 </div>
 {% endif %}
 <div class="container">
 	{% include "news.html" %}
-		<div class="row">
-					<div class="col s12">
-									<h1>Om Hackerspace NTNU</h1>
-											</div>
-												<div class="row">
-															<div class="col s6">
-																		    <blockquote>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</blockquote></div>
-																	<div class="col s6">
-																				<p>Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse. Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner. Kom innom for å se hva vi driver med og slå av en prat. Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy. </p>
-																						</div>
-																							</div>
+	<div class="row">
+		<div class="col s12">
+			<h1>Om Hackerspace NTNU</h1>
 		</div>
-		{% endblock content %}
+		<div class="row">
+			<div class="col s6">
+				<blockquote>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</blockquote></div>
+			<div class="col s6">
+				<p>Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse. Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner. Kom innom for å se hva vi driver med og slå av en prat. Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy. </p>
+			</div>
+		</div>
+	</div>
+</div>
+	{% endblock content %}

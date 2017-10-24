@@ -1,0 +1,32 @@
+/* Definer hackerspace farger som klasser */
+.hs-gray {
+  background-color: #4E4B46 !important;
+}
+.hs-gray-text {
+  color: #4E4B46 !important;
+}
+.hs-red {
+  background-color: #E25E48 !important;
+}
+.hs-red-text {
+  color: #E25E48 !important;
+}
+.hs-red {
+  background-color: #E25E48 !important;
+}
+.hs-red-text {
+  color: #E25E48 !important;
+}
+.hs-yellow {
+  background-color: #F6BE00 !important;
+}
+.hs-yellow-text {
+  color: #F6BE00 !important;
+}
+.hs-green {
+  background-color: #5BBA47 !important;
+}
+.hs-green-text {
+  color: #5BBA47 !important;
+}
+

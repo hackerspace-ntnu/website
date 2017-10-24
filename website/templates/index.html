@@ -9,6 +9,7 @@
 {% endblock header %}
 
 {% block content %}
+<main>
 {% if door_status %}
 <div class="door hs-green z-depth-1">
 	<p>Hackerspace er åpent</p>
@@ -33,4 +34,5 @@
 		</div>
 	</div>
 </div>
-	{% endblock content %}
+</main>
+{% endblock content %}

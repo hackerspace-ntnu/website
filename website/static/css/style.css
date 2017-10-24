@@ -1,29 +1,14 @@
 @import 'colors.css';
 
-:root {
-  --hs-green: #5BBA47;
-  --hs-green-dk: #479438;
-  --hs-gray: #4E4B46;
-  --hs-gray-li: #5D5A54;
-  --hs-gray-li2: #868179;
-  --hs-gray-li3: #b6b3af;
-  --hs-gray-dk: #2E2C28;
-  --hs-blue: #36B5D1;
-  --hs-blue-li: #82CDDB;
-  --hs-red: #E25E48;
-  --hs-red-li: #EA9989;
-}
-
-.brand-logo img {
-	width:200px !important;
-}
+/* Importer font-style til Roboto-Light */
 @font-face {
   font-family: Roboto-Light;
   src: url("/static/materialize/font/roboto/Roboto-Light.woff");
 }
 
-#openinghours {
-	display:inline-block;
+/* Resize hackerspace-logoen */
+.brand-logo img {
+	width:200px !important;
 }
 
 /* "Hackerspace er stengt / åpent */
@@ -31,4 +16,17 @@
 	width:100%;
 	display:inline-block;
 	text-align:center;
+}
+
+
+/* Denne koden er nødvendig for å få footer som fixed. */
+
+body {
+	display:flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+main {
+	flex: 1 0 auto;
 }

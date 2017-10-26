@@ -62,7 +62,8 @@ INSTALLED_APPS = [
 	'wiki.plugins.notifications',
 	'mptt',
 	'authentication',
-    'userprofile'
+    'userprofile',
+    'vaktliste'
 ]
 
 #################################

@@ -1,9 +1,9 @@
 import os
 import json
 import requests
+import json
 
 from django.http import JsonResponse
-#TODO: Gjøre unpack som tupler i stedet
 def hent_vaktliste():
     """
     cur_dir = os.path.dirname(os.path.realpath(__file__))
@@ -11,7 +11,12 @@ def hent_vaktliste():
     with open(vaktliste,"r") as f:
         return json.loads(f.read())
     """
-    return requests.get("https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
+    vakt_data = requests.get("https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
+    vakt_data_tuples = []
+    for day in vakt_data:
+        for time in vakt_data[day]:
+            vakt_data_tuples.append((day,time,vakt_data[day][time]))
+    return vakt_data_tuples
 
 def vakt_filter(dager,tider):
     filter_data = {}
@@ -38,16 +43,13 @@ def vakt_filter(dager,tider):
                             filter_times.append(time_slots[(t-10)//2])
         #THE DRAGONS ARE GONE
     vakt_data = hent_vaktliste() 
-    for day in vakt_data:    
-        if len(filter_days)==0 or day in filter_days: # Dagen slipper gjennom filteret
-            if len(filter_times)==0: # what is time
-                filter_data[day] = vakt_data[day]
-            else:
-                vakter = {}
-                for time_slot in vakt_data[day]:
-                    if time_slot in filter_times: # Vakttiden slipper gjennom filteret
-                        vakter[time_slot] = vakt_data[day][time_slot]
-                filter_data[day] = vakter
+    for vakt in [v for v in vakt_data if (v[0] in filter_days or len(filter_days)==0) and (v[1] in filter_times or len(filter_times)==0)]:
+        day = vakt[0]
+        time_slot = vakt[1]
+        hackers = vakt[2]
+        if day not in filter_data:
+            filter_data[day] = {}
+        filter_data[day][time_slot] = hackers
 
     return filter_data
 
@@ -55,21 +57,21 @@ def finn_person(persons,full=True):
     filter_data = {}
     vakt_data = hent_vaktliste()
     for person in persons.split(","):
-        for day in vakt_data:
-            for time in vakt_data[day]:
-                for hacker in [p.lower() for p in vakt_data[day][time]]:
-                    if person.lower() in hacker: #TODO: Gjøre dette til fuzzy finding
-                        if full:
-                            if day in filter_data:
-                                filter_data[day][time]=vakt_data[day][time]
-                            else:
-                                filter_data[day] = {time: vakt_data[day][time]}
-                        else:
-                            if day in filter_data:
-                                filter_data[day][time]=[hacker.title()]
-                            else:
-                                filter_data[day] = {time: [hacker.title()]}
-                        break
+        for vakt in vakt_data:
+            day = vakt[0]
+            time_slot = vakt[1]
+            hackers = vakt[2]
+            for hacker in hackers:
+                if person.lower() in hacker.lower():
+                    if full:
+                        if day not in filter_data:
+                            filter_data[day] = {}
+                        filter_data[day][time_slot] = hackers
+                    else:
+                        if day not in filter_data:
+                            filter_data[day] = {}
+                        filter_data[day][time_slot] = [hacker]
+                    break
     if len(filter_data)==0:
         return {}
     else:

@@ -59,7 +59,13 @@ def vakt_filter(days="",times="",persons="",full=True):
         #HERE BE DRAGONS
         if time!='':
             time_slots = ["10:15 - 12:07","12:07 - 14:07", "14:07 - 16:07", "16:07 - 18:00"]
-            h,m = map(int,time.split(":"))
+            if ":" in time:
+                h,m = map(int,time.split(":"))
+            elif "." in time:
+                h,m = map(int,time.split("."))
+            else:
+                h=int(time)
+                m=0
             timeslot = ""
             #WHY ARE YOU STILL HERE
             if h>=18:

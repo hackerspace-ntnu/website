@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^test/$', test, name="500-test"),
     url(r'^files/', include('files.urls')),
     url(r'^members/', include('userprofile.urls')),
-    url(r'^vaktliste/', include('vaktliste.urls'))
+    url(r'^vaktliste/?', include('vaktliste.urls'))
 ]
 
 if settings.DEBUG:

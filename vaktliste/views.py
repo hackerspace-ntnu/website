@@ -2,21 +2,46 @@ import os
 import json
 import requests
 import json
+import datetime
 
 from django.http import JsonResponse
-def hent_vaktliste():
+from django.utils import timezone
+
+cache_time = "Never"
+vakt_cache_tuples = ""
+vakt_cache_json = ""
+def hent_vaktliste(output="json"):
     """
     cur_dir = os.path.dirname(os.path.realpath(__file__))
     vaktliste = os.path.join(cur_dir, "vaktliste.json")
     with open(vaktliste,"r") as f:
         return json.loads(f.read())
     """
-    vakt_data = requests.get("https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
-    vakt_data_tuples = []
-    for day in vakt_data:
-        for time in vakt_data[day]:
-            vakt_data_tuples.append((day,time,vakt_data[day][time]))
-    return vakt_data_tuples
+    global vakt_cache_tuples
+    global vakt_cache_json
+    global cache_time
+    if vakt_cache_json=="" or timezone.now()-cache_time>=datetime.timedelta(hours=12):
+        print("Cacher vaktliste")
+        vakt_data = requests.get("https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
+        
+        vakt_data_tuples = []
+        for day in vakt_data:
+            for time in vakt_data[day]:
+                vakt_data_tuples.append((day,time,vakt_data[day][time]))
+
+        cache_time = timezone.now()
+        vakt_cache_tuples = vakt_data_tuples
+        vakt_cache_json = vakt_data
+        if output=="tuples":
+            return vakt_data_tuples
+        else:
+            return vakt_data_json
+    else:
+        print("Bruker cachet vaktliste")
+        if output=="tuples":
+            return vakt_cache_tuples
+        else:
+            return vakt_cache_json
 
 def vakt_filter(dager,tider):
     filter_data = {}
@@ -42,7 +67,7 @@ def vakt_filter(dager,tider):
                         else:
                             filter_times.append(time_slots[(t-10)//2])
         #THE DRAGONS ARE GONE
-    vakt_data = hent_vaktliste() 
+    vakt_data = hent_vaktliste(output="tuples") 
     for vakt in [v for v in vakt_data if (v[0] in filter_days or len(filter_days)==0) and (v[1] in filter_times or len(filter_times)==0)]:
         day = vakt[0]
         time_slot = vakt[1]
@@ -55,7 +80,7 @@ def vakt_filter(dager,tider):
 
 def finn_person(persons,full=True):
     filter_data = {}
-    vakt_data = hent_vaktliste()
+    vakt_data = hent_vaktliste(output="tuples") 
     for person in persons.split(","):
         for vakt in vakt_data:
             day = vakt[0]

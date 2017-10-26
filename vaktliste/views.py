@@ -1,13 +1,17 @@
 import os
 import json
+import requests
 
 from django.http import JsonResponse
 #TODO: Gjøre unpack som tupler i stedet
 def hent_vaktliste():
+    """
     cur_dir = os.path.dirname(os.path.realpath(__file__))
     vaktliste = os.path.join(cur_dir, "vaktliste.json")
     with open(vaktliste,"r") as f:
         return json.loads(f.read())
+    """
+    return requests.get("https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
 
 def vakt_filter(dager,tider):
     filter_data = {}

@@ -16,8 +16,8 @@ def hent_vaktliste():
 def vakt_filter(dager,tider):
     filter_data = {}
     filter_times = []
-    filter_days = [d.title() for d in dager if d!='']
-    for tid in tider:
+    filter_days = [d.title() for d in dager.split(",") if d!='']
+    for tid in tider.split(","):
         #HERE BE DRAGONS
         if tid!='':
             time_slots = ["10:15 - 12:07","12:07 - 14:07", "14:07 - 16:07", "16:07 - 18:00"]
@@ -51,24 +51,25 @@ def vakt_filter(dager,tider):
 
     return filter_data
 
-def finn_person(person,full=True):
+def finn_person(persons,full=True):
     filter_data = {}
     vakt_data = hent_vaktliste()
-    for day in vakt_data:
-        for time in vakt_data[day]:
-            for hacker in [p.lower() for p in vakt_data[day][time]]:
-                if person.lower() in hacker: #TODO: Gjøre dette til fuzzy finding
-                    if full:
-                        if day in filter_data:
-                            filter_data[day][time]=vakt_data[day][time]
+    for person in persons.split(","):
+        for day in vakt_data:
+            for time in vakt_data[day]:
+                for hacker in [p.lower() for p in vakt_data[day][time]]:
+                    if person.lower() in hacker: #TODO: Gjøre dette til fuzzy finding
+                        if full:
+                            if day in filter_data:
+                                filter_data[day][time]=vakt_data[day][time]
+                            else:
+                                filter_data[day] = {time: vakt_data[day][time]}
                         else:
-                            filter_data[day] = {time: vakt_data[day][time]}
-                    else:
-                        if day in filter_data:
-                            filter_data[day][time]=[hacker.title()]
-                        else:
-                            filter_data[day] = {time: [hacker.title()]}
-                    break
+                            if day in filter_data:
+                                filter_data[day][time]=[hacker.title()]
+                            else:
+                                filter_data[day] = {time: [hacker.title()]}
+                        break
     if len(filter_data)==0:
         return {}
     else:
@@ -77,12 +78,11 @@ def finn_person(person,full=True):
 def vakter(request):
     dager = request.GET.get('dag','')
     tider = request.GET.get('tid','')
-    vakt_data = vakt_filter(dager.split(","),tider.split(","))
+    vakt_data = vakt_filter(dager,tider)
     return JsonResponse(vakt_data)
 
 def personsok(request):
-    person = request.GET.get('person','')
-    if person=='': person="FACK"
+    person = request.GET.get('person','FACK')
     full = request.GET.get('full','')
     if full in ['', 'True']:
         full = True

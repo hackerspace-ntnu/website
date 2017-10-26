@@ -43,15 +43,23 @@ def hent_vaktliste(output="json"):
         else:
             return vakt_cache_json
 
-def vakt_filter(dager,tider):
+def person_match(l,f):
+    s = "".join(l).lower()
+    for pf in f:
+        if pf in s:
+            return True
+    return False
+
+def vakt_filter(days="",times="",persons="",full=True):
     filter_data = {}
     filter_times = []
-    filter_days = [d.title() for d in dager.split(",") if d!='']
-    for tid in tider.split(","):
+    filter_days = [d.title() for d in days.split(",") if d!='']
+    filter_persons = [p.lower() for p in persons.split(",") if p!='']
+    for time in times.split(","):
         #HERE BE DRAGONS
-        if tid!='':
+        if time!='':
             time_slots = ["10:15 - 12:07","12:07 - 14:07", "14:07 - 16:07", "16:07 - 18:00"]
-            h,m = map(int,tid.split(":"))
+            h,m = map(int,time.split(":"))
             timeslot = ""
             #WHY ARE YOU STILL HERE
             if h>=18:
@@ -68,52 +76,30 @@ def vakt_filter(dager,tider):
                             filter_times.append(time_slots[(t-10)//2])
         #THE DRAGONS ARE GONE
     vakt_data = hent_vaktliste(output="tuples") 
-    for vakt in [v for v in vakt_data if (v[0] in filter_days or len(filter_days)==0) and (v[1] in filter_times or len(filter_times)==0)]:
+    for vakt in [v for v in vakt_data if (v[0] in filter_days or len(filter_days)==0) and (v[1] in filter_times or len(filter_times)==0) and (len(filter_persons)==0 or person_match(v[2],filter_persons))]:
         day = vakt[0]
         time_slot = vakt[1]
         hackers = vakt[2]
         if day not in filter_data:
-            filter_data[day] = {}
-        filter_data[day][time_slot] = hackers
+            filter_data[vakt[0]] = {}
+        if full:
+            filter_data[vakt[0]][vakt[1]] = vakt[2]
+        else:
+           for hacker in [pm for pm in vakt[2] for pf in filter_persons if pf in pm.lower()]:
+                if time_slot not in filter_data[vakt[0]]:
+                    filter_data[vakt[0]][vakt[1]] = []
+                filter_data[vakt[0]][vakt[1]].append(hacker)
 
     return filter_data
-
-def finn_person(persons,full=True):
-    filter_data = {}
-    vakt_data = hent_vaktliste(output="tuples") 
-    for person in persons.split(","):
-        for vakt in vakt_data:
-            day = vakt[0]
-            time_slot = vakt[1]
-            hackers = vakt[2]
-            for hacker in hackers:
-                if person.lower() in hacker.lower():
-                    if full:
-                        if day not in filter_data:
-                            filter_data[day] = {}
-                        filter_data[day][time_slot] = hackers
-                    else:
-                        if day not in filter_data:
-                            filter_data[day] = {}
-                        filter_data[day][time_slot] = [hacker]
-                    break
-    if len(filter_data)==0:
-        return {}
-    else:
-        return filter_data
 
 def vakter(request):
     dager = request.GET.get('dag','')
     tider = request.GET.get('tid','')
-    vakt_data = vakt_filter(dager,tider)
-    return JsonResponse(vakt_data)
-
-def personsok(request):
-    person = request.GET.get('person','FACK')
+    personer = request.GET.get('person','')
     full = request.GET.get('full','')
     if full in ['', 'True']:
         full = True
     elif full=="False":
         full = False
-    vakt_data = finn_person(person,full=full)
+    vakt_data = vakt_filter(days=dager,times=tider,persons=personer,full=full)
     return JsonResponse(vakt_data)

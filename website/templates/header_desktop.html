@@ -8,7 +8,9 @@
           <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
         </div>
         <div id="menu">
-            <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>
+            {% if perms.inventory.add_item %}
+                <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>
+            {% endif %}
             <a class="waves-effect waves-grey btn-flat" href="/news/all">NYHETER</a>
             <a class="waves-effect waves-grey btn-flat" href="/wiki">WIKI</a>
             <a class="waves-effect waves-grey btn-flat" href="/about">OM OSS</a>

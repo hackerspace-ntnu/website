@@ -9,7 +9,7 @@
           <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
         </div>
         <div id="menu">
-            {% if request.user|has_group:"DevOps" %}
+            {% if request.user|has_group:"member" %}
               <a class="waves-effect waves-grey btn-flat" href="/committees/index">COMMITTEES</a>
             {% endif %}
             <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>

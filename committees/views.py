@@ -34,6 +34,11 @@ def edit_check(user, c_name):
 def edit_members(request, name):
     if edit_check(request.user, name):
         if request.method == 'POST':
+
+            # Comment block below lifted from event_attendees stuff, should
+            # be written to fit the edit POSTs from the edit_members page,
+            # should also probably be written from scratch
+            """
             try:
                 user_string = request.POST['name']
                 username = user_string.split("-")[-1].strip()
@@ -53,6 +58,7 @@ def edit_members(request, name):
 
             except IndexError:
                 return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
+            """
         else:
             committee = get_object_or_404(Committee, name=name)
             context = {

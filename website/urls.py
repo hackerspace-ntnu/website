@@ -36,7 +36,8 @@ urlpatterns = [
     url(r'^about/$', about, name='about'),
     url(r'^s/', include('django.contrib.flatpages.urls')),
     url(r'^members/', include('userprofile.urls')),
-    url(r'^vaktliste/', include('vaktliste.urls'))
+    url(r'^vaktliste/', include('vaktliste.urls')),
+    url(r'^feide/', include('authentication_feide.urls'))
 ]
 
 if settings.DEBUG:

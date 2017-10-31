@@ -9,15 +9,12 @@
 {% block content %}
 <!--
 TODO: edit members
-<br>
-need frontendhalp pls
-<br>
-{{ committee.name }}
-<br>
+need frontendhalp
 Use AJAX and autocomplete search field to add/remove users
 -->
 
   <div class="content">
+      <h1> {{ committee.name }} </h1>
       <div class="card">
           <form action="toggle" method="post">
               {% csrf_token %}
@@ -25,8 +22,28 @@ Use AJAX and autocomplete search field to add/remove users
                   <input name="user" type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
                   <label for="autocomplete-input" id="autocomplete-text">Bruker</label>
               </div>
-              <a class="waves-effect waves-light btn submit" onclick="post();">Legg til</a>
+              <a class="waves-effect waves-light btn submit" onclick="add_person();">Legg til</a>
           </form>
+      </div>
+      <div class="registered_users">
+        <ul class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header">Påmeldte</div>
+            <div class="attendee-list collapsible-body people">
+              {% for member in members %}
+                <div>
+                  <i class="material-icons checkmark" id="check" onclick="delete_person();">check_box</i>
+                  <p class="inline user" username="{{ user.1 }}">{{ member.username }}</p>
+                </div>
+              {% endfor %}
+            </div>
+          </li>
+        </ul>
+        <script>
+          $(function(){
+           $('.collapsible').collapsible();
+         });
+        </script>
       </div>
   </div>
 
@@ -101,6 +118,46 @@ Use AJAX and autocomplete search field to add/remove users
               data: {
                   {% for user in all_users %}
                       "{{ user.first_name }} {{ user.last_name }} - {{ user.username }}": null,
+                  {% endfor %}
+              }
+          });
+      });
+
+      function add_person() {
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            }
+        });
+        $.ajax({
+          type: "POST",
+          url: '',
+          data: {'name': $("#autocomplete-input").val()},
+          success: function(data){
+            Materialize.toast(data['message'], 4000);
+            $("#autocomplete-input").val('');
+            if (data['success']) {
+              var par = $(".user[username=" + data["username"] + "]").parent();
+              par.find(".checkmark").html("check_box").css("color", "var(--hs-green)");
+            }
+          }
+        });
+      }
+
+      function toggle(user) {
+          $.ajax({
+              url: '/news/event/{{ id }}/attendees/toggle/',
+              data: user,
+          });
+      }
+      $(".toggle").click(function() {
+          toggle($(this).attr("user"));
+      });
+      $(function() {
+          $('input.autocomplete').autocomplete({
+              data: {
+                  {% for user in users %}
+                      "{{ user.name }} - {{ user.username }}": null,
                   {% endfor %}
               }
           });

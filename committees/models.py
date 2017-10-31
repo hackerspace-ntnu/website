@@ -18,11 +18,18 @@ class Committee(Group):
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
     parent = models.ForeignKey('Committee', null=True, blank=True, related_name="subcommittees")
-
+    admin = models.ManyToManyField(User)
     # Har Many2ManyField til Permission i superklasse
+
+    class Meta:
+        permissions = (
+            ('view_committees', 'Can view committee (individual and overview)'),
+            ('edit_committees', 'Can edit all committees'),
+        )
 
     def __str__(self):
         return self.name
+
 
     def get_absolute_url(self):
         return reverse('verv:view', kwargs={'slug':self.slug})

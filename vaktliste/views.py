@@ -83,13 +83,10 @@ def vakt_filter(days="",times="",persons="",full=True,compact=False):
         #THE DRAGONS ARE GONE
     vakt_data = hent_vaktliste(output="tuples") 
     for vakt in [v for v in vakt_data if (not filter_days or v[0] in filter_days or v[0][:3] in filter_days) and (not filter_times or v[1] in filter_times) and (not filter_persons or person_match(v[2],filter_persons))]:
+        day,time_slot,hackers = vakt
         if compact:
-            day = vakt[0][:3]
-            time_slot = "".join(vakt[1].split(" "))
-        else:
-            day = vakt[0]
-            time_slot = vakt[1]
-        hackers = vakt[2]
+            day = days[:3]
+            time_slot = "".join(time_slot.split(" "))
         if day not in filter_data:
             filter_data[day] = {}
         if full:

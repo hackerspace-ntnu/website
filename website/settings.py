@@ -25,6 +25,9 @@ APPEND_SLASH = True
 LOGIN_REDIRECT_URL = '/authentication/login/'
 LOGIN_URL = '/authentication/login/'
 
+DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
+DATAPORTEN_OAUTH_TOKEN_URL = "https://auth.dataporten.no/oauth/token"
+
 ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),
 )
@@ -68,6 +71,7 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
+    'authentication_feide',
     'smart_selects',
     'committees',
     'dal',

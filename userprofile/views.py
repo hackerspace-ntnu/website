@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import re
+
+"""
 from .models import Profile, Group, Skill
 from .forms import ProfileForm, ProfileModelForm
 
@@ -72,3 +74,5 @@ def edit_profile(request):
             profile.save()
             return redirect('/members/profile/')
     return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
+
+"""

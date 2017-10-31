@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
+from django.contrib.auth import get_user_model
 
 from .models import UserModel
 
@@ -56,6 +57,16 @@ def login_callback(request):
     response_json = token_request_response.json()
     session = make_requests_session(response_json['access_token'])
 
-    print(session.get("https://auth.dataporten.no/userinfo").json())
+    user_info = session.get("https://auth.dataporten.no/userinfo").json()
+    user_email = user_info.user.email
+
+    UserModel = get_user_model()
+    try:
+        user = UserModel.objects.get(email=user_email)
+    except Exception as e:
+        print(e)
+    print(user)
+
+
 
     return HttpResponse("success")

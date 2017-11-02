@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 from .models import UserModel
@@ -33,7 +34,7 @@ def login(request):
     context = {
         "auth_url": dataporten_auth_url,
     }
-    return render(request, 'login.html', context=context)
+    return render(request, 'feide_login.html', context=context)
 
 def login_callback(request):
     code = request.GET.get('code')
@@ -58,13 +59,13 @@ def login_callback(request):
     session = make_requests_session(response_json['access_token'])
 
     user_info = session.get("https://auth.dataporten.no/userinfo").json()
-    user_email = user_info.user.email
+    user_email = user_info['user']['email']
+    username = user_email.split("@")[0]
+    first_name = " ".join(user_info['user']['name'].split(" ")[0:-1])
+    last_name = user_info['user']['name'].split(" ")[-1]
 
     UserModel = get_user_model()
-    try:
-        user = UserModel.objects.get(email=user_email)
-    except Exception as e:
-        print(e)
+    user = User.objects.get_or_create(username=username,email=user_email,first_name=first_name,last_name=last_name)
     print(user)
 
 

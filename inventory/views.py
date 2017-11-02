@@ -116,7 +116,7 @@ def add_item(request, item_id=0):
         if form.is_valid():
             # skiller ikke på store/små bokstaver itags
             if item_id != '0':  # existing item to be changed
-                item = Item.objects.get(pk=item_id)
+                item = get_object_or_404(Item, pk=item_id)
                 basic_attributes = ['name', 'description', 'quantity', 'zone', 'shelf', 'place']
                 for attr in basic_attributes:
                     setattr(item, attr, form.cleaned_data[attr])
@@ -150,7 +150,7 @@ def add_item(request, item_id=0):
         if item_id:
             message = "Endre gjenstand"
             button_message = "endre"
-            item = Item.objects.get(pk=item_id)
+            item = get_object_or_404(Item, pk=item_id)
             old_tags = []
             for tag in item.tags.all():
                 auto_comp_dict = {'id': tag.id, 'text': tag.name}

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from django.contrib.auth import login as auth_login
 
 from .models import UserModel
 
@@ -64,10 +64,8 @@ def login_callback(request):
     first_name = " ".join(user_info['user']['name'].split(" ")[0:-1])
     last_name = user_info['user']['name'].split(" ")[-1]
 
-    UserModel = get_user_model()
     user = User.objects.get_or_create(username=username,email=user_email,first_name=first_name,last_name=last_name)
+    user[0].backend = 'django.contrib.auth.backends.ModelBackend'
     print(user)
-
-
-
-    return HttpResponse("success")
+    auth_login(request,user[0])
+    return HttpResponseRedirect('/')

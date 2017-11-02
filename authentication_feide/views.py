@@ -31,10 +31,7 @@ def login(request):
             settings.DATAPORTEN_OAUTH_AUTH_URL, 
             redirect_uri=get_callback_redirect_url(request))
 
-    context = {
-        "auth_url": dataporten_auth_url,
-    }
-    return render(request, 'feide_login.html', context=context)
+    return HttpResponseRedirect(dataporten_auth_url)
 
 def login_callback(request):
     code = request.GET.get('code')

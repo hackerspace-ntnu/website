@@ -63,10 +63,10 @@ def search(request):
     return_set = []
     tags = []
     for word in search_words:
-        return_set += Item.objects.filter(visible=True, tags__name__contains=word)
-        return_set += Item.objects.filter(visible=True, name__contains=word)
-        return_set += Item.objects.filter(visible=True, description__contains=word)
-        tags += Tag.objects.filter(name__contains=word, visible=True)
+        return_set += Item.objects.filter(visible=True, tags__name__icontains=word)
+        return_set += Item.objects.filter(visible=True, name__icontains=word)
+        return_set += Item.objects.filter(visible=True, description__icontains=word)
+        tags += Tag.objects.filter(name__icontains=word, visible=True)
 
     for tag in tags:
         return_set += tag.item_set.all().filter(visible=True)

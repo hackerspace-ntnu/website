@@ -36,7 +36,7 @@ class ItemForm(forms.Form):
     @staticmethod
     def get_autocomplete_dict():
         dic = {}
-        for tag in Tag.objects.all():
+        for tag in Tag.objects.filter(visible=True):
             tag_name = tag.name
             tag_dict = {
                 'id': tag.id,

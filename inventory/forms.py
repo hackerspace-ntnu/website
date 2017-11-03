@@ -81,7 +81,7 @@ class ItemForm(forms.Form):
         new_tags = cleaned_data['tags']
         all_tags = []
         if new_tags:
-            tags_list = new_tags.split(delimiter)
+            tags_list = new_tags.lower().split(delimiter)
             for new_tag in tags_list:
                 all_tags.append(new_tag.strip())
         cleaned_data['tags'] = all_tags

@@ -115,3 +115,8 @@ def vakter(request):
         compact = False
     vakt_data = vakt_filter(days=dager,times=tider,persons=personer,full=full,compact=compact)
     return JsonResponse(vakt_data)
+
+def current(request):
+    days = ["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"]
+    day,time = datetime.datetime.strftime(datetime.datetime.now(),"%w,%H:%M").split(",")
+    return JsonResponse(vakt_filter(days=days[int(day)],times=time))

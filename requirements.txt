@@ -15,3 +15,4 @@ django-smart-selects==1.5.1
 django-material==0.11.0
 bleach==2.0.0
 oauthlib==2.0.1
+requests

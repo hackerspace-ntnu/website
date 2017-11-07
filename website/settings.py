@@ -27,6 +27,8 @@ LOGIN_URL = '/authentication/login/'
 
 DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
 DATAPORTEN_OAUTH_TOKEN_URL = "https://auth.dataporten.no/oauth/token"
+DATAPORTEN_OAUTH_CLIENT_ID = "SetThis"
+DATAPORTEN_OAUTH_CLIENT_SECRET = "MagicSealsAndNarwalsDancingTogetherInRainbows"
 
 ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),

@@ -10,6 +10,15 @@
 .brand-logo img {
 	width:200px !important;
 }
+.brand-logo {
+	margin-left: 10px;
+}
+
+
+.material-icons {
+	  vertical-align: middle !important;
+	    padding-bottom: 3px;
+}
 
 /* "Hackerspace er stengt / åpent */
 .door {

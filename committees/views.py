@@ -75,6 +75,7 @@ def add_member(request, com_name):
 def delete_member(request, com_name):
     try:
         username = request.POST['name']
+        print(username)
         user = User.objects.get(username=username)
         committee = Committee.objects.get(name=com_name)
         name = username

@@ -32,7 +32,7 @@ Use AJAX and autocomplete search field to add/remove users
             <div class="collapsible-header">Påmeldte</div>
             <div class="attendee-list collapsible-body people" id="list_of_members">
               {% for username in usernames %}
-                <div>
+                <div id="{{ username }}_container">
                   <p class="inline user" id="{{ username }}" onclick="delete_person({{ username }});">{{ username }}</p>
                 </div>
               {% endfor %}
@@ -149,7 +149,7 @@ Use AJAX and autocomplete search field to add/remove users
 
       function delete_user_div(data) {
         var parent = document.getElementById("list_of_members");
-        var div = document.getElementById(data['name']);
+        var div = document.getElementById(data['username']+"_container");
         parent.removeChild(div);
       }
 
@@ -182,8 +182,9 @@ Use AJAX and autocomplete search field to add/remove users
           var usr = document.createTextNode(data['username']);
           p.appendChild(usr);
           p.setAttribute("class", "inline user");
-          p.setAttribute("username", "{{ user.1 }}");
-          p.setAttribute("onClick", "delete_person({{ username }});")
+          div.setAttribute("id", data['username']+"_container");
+          p.setAttribute("id", data["username"])
+          p.setAttribute("onClick", "delete_person(" + data['username'] + ");")
           div.appendChild(p);
 
           var element = document.getElementById("list_of_members");

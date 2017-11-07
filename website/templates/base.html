@@ -2,33 +2,63 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <title>Hackerspace NTNU</title>
-  <link rel="shortcut icon" type="image/png" href="{{ STATIC_URL }}/img/favicon.ico"/>
-  <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
-  <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script-->
-  <script src="{% static "js/jquery.js" %}"></script>
-  <script src="{% static "materialize/js/materialize.min.js" %}"></script>
-  <script type="text/javascript" src="{% static 'js/ajax_requests.js' %}"></script>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% block head %}
-  {% endblock head %}
+    <title>Hackerspace NTNU</title>
+    <link rel="shortcut icon" type="image/png" href="{% static "img/favicon.ico" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "materialize/css/materialize.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/header.css" %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script-->
+    <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "materialize/js/materialize.min.js" %}"></script>
+    <script type="text/javascript" src="{% static 'js/ajax_requests.js' %}"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block head %}
+    {% endblock head %}
+
+    {% block extra_js %}
+    {% endblock %}
+
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107702172-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-107702172-1');
+    </script>
+
 </head>
 <body>
 <div id="flex">
-  {% include "header_desktop.html" %}
-  {% include "header_mobile.html" %}
-  {% block header %}
-  {% endblock header %}
-  {% block content %}
-  {% endblock content %}
+    {% include "header_desktop.html" %}
+    {% include "header_mobile.html" %}
+    {% block header %}
+    {% endblock header %}
+    {% if messages %}
+        <div class="row">
+            {% for message in messages %}
+                <script>
+                    var $toastContent = $('<span>{{ message }}</span>');
+                    Materialize.toast($toastContent, 5000);
+                </script>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}
+    {% endblock content %}
 </div>
 {% include "delete.html" %}
 </body>
 {% block footer %}
-  {% include "footer.html" %}
+    {% include "footer.html" %}
 {% endblock footer %}
+
+{% block footer_script %}
+{% endblock %}
 </html>

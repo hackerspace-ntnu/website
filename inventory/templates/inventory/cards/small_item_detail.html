@@ -1,0 +1,50 @@
+{% load utils %}
+
+<div class="card sticky-action" style="background-color: var(--hs-gray-li2);">
+    <div class="card-image waves-effect waves-block waves-light">
+
+        <a href="{% url 'inventory:detail' item.id %}">
+
+            {% if item.thumbnail %}
+                <div class="card-image-box" style="background-image: url({{ item.thumbnail.url }})">
+                </div>
+            {% else %}
+                <!-- default image -->
+                <div class="card-image-box" style="background-image: url(/static/img/Logo_round_green.png)">
+                </div>
+            {% endif %}
+        </a>
+
+    </div>
+
+    <div class="card-content" style="margin-top: -10px;">
+
+        <p><span class="title activator" style="color: var(--hs-green);">
+            <a href="{% url 'inventory:detail' item.id %}">{% cut_text item.name 20 %}</a>
+        </span></p>
+
+        <div class="tags" style="padding-top: 5px">
+            {% if item.tags.all %}
+                <!-- viser maks to tags -->
+                <!-- TODO gjør chipsene litt mindre. -->
+                {% for tag in item.tags.all|slice:":2" %}
+                    <div class="chip">
+                        <a href="{% url 'inventory:tag_detail' tag.id %}">
+                            <!-- gjør at tagnavn ikke kuttes hvis det bare er én tag -->
+                            {% if item.tags.all|length > 1 %}
+                                {% cut_text tag.name 8 %}
+                            {% else %}
+                                {% cut_text tag.name 15 %}
+                            {% endif %}
+                        </a>
+                    </div>
+                    <small>
+                    </small>
+                {% endfor %}
+            {% else %}
+                <br>
+            {% endif %}
+        </div>
+
+    </div>
+</div>

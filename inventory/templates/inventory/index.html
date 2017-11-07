@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load cards %}
+{% load utils %}
+{% load divtags %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/index.css" %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="{% static 'inventory/js/index.js' %}"></script>
+{% endblock header %}
+
+
+{% block content %}
+
+    <!-- TODO gjøre denne alltid aktiv? Da blir den lettere å finne-->
+    <!-- TODO kan lage templatetag, så den blir lettere å legge til på flere sider -->
+    <!-- TODO kan legge til et ikon på knappen så det blir lettere å se at man har flere valg-->
+    <a class='dropdown-button btn' href='#' data-activates='dropdown1'
+       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg
+    </a>
+    <ul id='dropdown1' class='dropdown-content'
+        style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
+        {% if perms.inventory.add_item %}
+            <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
+        {% endif %}
+        {% if perms.inventory.add_tag %}
+            <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
+        {% endif %}
+        {% if perms.inventory.add_loan %}
+            <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
+            <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
+                utlån</a></li>
+        {% endif %}
+        <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
+    </ul>
+    <div class="content">
+        <br>
+        <form id="searchform" action="{% url 'inventory:search' %}" method="get">
+            {% csrf_token %}
+            <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Søk" autocomplete="off">
+            <button class="btn waves-effect waves-light" type="submit" name="action">søk</button>
+        </form>
+
+        <h1>Inventar</h1>
+        <!--
+        TODO endre dette når man får maaange tags.
+        TODO endre så kun brukere med endringstilgang kan se de som er slettet.
+        TODO mellomrom mellom radene varierer, fiks så det ikke blir så mye.
+        -->
+
+        <div class="row">
+            <div class="col s3">
+                <div class="card horizontal" style="background-color: var(--hs-gray-li3);">
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <p>Velg tagger du vil vise</p>
+                        </div>
+                        <form id="check-form" action="{% url 'inventory:index' %}" method="post"
+                              style="padding-left: 15px;">
+                            {% csrf_token %}
+
+                            <!-- recursive template tag -->
+                            {% tag_hierarchy tags 0 20 %}
+                            <br>
+
+                            <label for="check_json"></label>
+                            <input type="text" name="check_json" id="check_json" hidden="hidden">
+
+                        </form>
+
+                        <div class="card-action">
+                            <button class="btn waves-effect waves-light" type="button"
+                                    onclick="postCheckBoxes()">Refresh!
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="items col s9">
+                {% for item in items %}
+                    <div class="item-box">
+                        {% small_card_item_detail item request perms %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var postedTags = {{ posted_tags|safe }};
+
+        $(function () {
+            showBoxes(postedTags);
+        });
+
+        function showBoxes(postedTags) {
+            // Viser og checker av bokser som var checked før man poster.
+            for (var key in postedTags) {
+                $('#' + key).attr('checked', true);
+                $('.child-of-' + key).show();
+                if (Object.keys(postedTags[key]).length > 0) {
+                    showBoxes(postedTags[key]);
+                }
+            }
+        }
+    </script>
+{% endblock content %}

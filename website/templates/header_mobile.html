@@ -3,8 +3,12 @@
     <div id="navbar">
         <a href="/"><img id="logo" src="{% static "img/logo_header.png" %}"/></a>
         <ul id="slide-out" class="side-nav">
+            {% if perms.inventory.add_item %}
+                <li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
+            {% endif %}
             <li><a href="/news/all">NYHETER</a></li>
             <li><a href="/wiki">WIKI</a></li>
+            <li><a href="/about">OM OSS</a></li>
             {% if request.user.is_authenticated %}
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">

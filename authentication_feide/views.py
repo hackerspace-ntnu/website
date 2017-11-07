@@ -65,6 +65,5 @@ def login_callback(request):
 
     user = User.objects.get_or_create(username=username,email=user_email,first_name=first_name,last_name=last_name)
     user[0].backend = 'django.contrib.auth.backends.ModelBackend'
-    print(user)
     auth_login(request,user[0])
     return HttpResponseRedirect('/')

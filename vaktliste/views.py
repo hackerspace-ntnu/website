@@ -11,12 +11,6 @@ cache_time = "Never"
 vakt_cache_tuples = ""
 vakt_cache_json = ""
 def hent_vaktliste(output="json"):
-    """
-    cur_dir = os.path.dirname(os.path.realpath(__file__))
-    vaktliste = os.path.join(cur_dir, "vaktliste.json")
-    with open(vaktliste,"r") as f:
-        return json.loads(f.read())
-    """
     global vakt_cache_tuples
     global vakt_cache_json
     global cache_time
@@ -56,7 +50,6 @@ def vakt_filter(days="",times="",persons="",full=True,compact=False):
     filter_days = [d.title() for d in days.split(",") if d!='']
     filter_persons = [p.lower() for p in persons.split(",") if p!='']
     for time in times.split(","):
-        #HERE BE DRAGONS
         if time!='':
             time_slots = ["10:15 - 12:07","12:07 - 14:07", "14:07 - 16:07", "16:07 - 18:00"]
             if ":" in time:
@@ -67,7 +60,6 @@ def vakt_filter(days="",times="",persons="",full=True,compact=False):
                 h=int(time)
                 m=0
             timeslot = ""
-            #WHY ARE YOU STILL HERE
             if h>=18:
                 filter_times.append("16:07 - 18:00")
             elif h<10:
@@ -75,14 +67,15 @@ def vakt_filter(days="",times="",persons="",full=True,compact=False):
             else:
                 for t in range(10,18,2):
                     if h in range(t,t+2):
-                        #AAAAAAAAAAAAAAAAAAAAH
                         if h==t and m<7:
                             filter_times.append(time_slots[max(0,(t-10)//2-1)])
                         else:
                             filter_times.append(time_slots[(t-10)//2])
-        #THE DRAGONS ARE GONE
     vakt_data = hent_vaktliste(output="tuples") 
-    for vakt in [v for v in vakt_data if (not filter_days or v[0] in filter_days or v[0][:3] in filter_days) and (not filter_times or v[1] in filter_times) and (not filter_persons or person_match(v[2],filter_persons))]:
+    for vakt in [v for v in vakt_data
+                 if (not filter_days or v[0] in filter_days or v[0][:3] in filter_days) and
+                 (not filter_times or v[1] in filter_times) and
+                 (not filter_persons or person_match(v[2],filter_persons))]:
         day,time_slot,hackers = vakt
         if compact:
             day = days[:3]

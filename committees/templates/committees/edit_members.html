@@ -31,9 +31,9 @@ Use AJAX and autocomplete search field to add/remove users
           <li>
             <div class="collapsible-header">Påmeldte</div>
             <div class="attendee-list collapsible-body people" id="list_of_members">
-              {% for member in members %}
+              {% for username in usernames %}
                 <div>
-                  <p class="inline user" username="{{ user.1 }}" onclick="delete_person();">{{ member.username }}</p>
+                  <p class="inline user" id="{{ username }}" onclick="delete_person({{ username }});">{{ username }}</p>
                 </div>
               {% endfor %}
             </div>
@@ -125,6 +125,34 @@ Use AJAX and autocomplete search field to add/remove users
           });
       });
 
+      function delete_person(username) {
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+            }
+        });
+        $.ajax({
+          type: "POST",
+          url: '',
+          data: {'name': username.innerHTML, 'action': 'delete'},
+          success: function(data){
+            Materialize.toast(data['message'], 4000);
+            $("#autocomplete-input").val('');
+            if (data['success']) {
+              delete_user_div(data)
+              var par = $(".user[username=" + data["username"] + "]").parent();
+              par.find(".checkmark").html("check_box").css("color", "var(--hs-green)");
+            }
+          }
+        });
+      }
+
+      function delete_user_div(data) {
+        var parent = document.getElementById("list_of_members");
+        var div = document.getElementById(data['name']);
+        parent.removeChild(div);
+      }
+
       function add_person() {
         $.ajaxSetup({
             beforeSend: function(xhr, settings) {
@@ -134,12 +162,12 @@ Use AJAX and autocomplete search field to add/remove users
         $.ajax({
           type: "POST",
           url: '',
-          data: {'name': $("#autocomplete-input").val()},
+          data: {'name': $("#autocomplete-input").val(), 'action': 'add'},
           success: function(data){
             Materialize.toast(data['message'], 4000);
             $("#autocomplete-input").val('');
             if (data['success']) {
-              insert_user(data)
+              insert_user_div(data)
               var par = $(".user[username=" + data["username"] + "]").parent();
               par.find(".checkmark").html("check_box").css("color", "var(--hs-green)");
             }
@@ -147,7 +175,7 @@ Use AJAX and autocomplete search field to add/remove users
         });
       }
 
-      function insert_user(data) {
+      function insert_user_div(data) {
 
           var p = document.createElement("p");
           var div = document.createElement("div");
@@ -155,7 +183,7 @@ Use AJAX and autocomplete search field to add/remove users
           p.appendChild(usr);
           p.setAttribute("class", "inline user");
           p.setAttribute("username", "{{ user.1 }}");
-          p.setAttribute("onClick", "delete_person();")
+          p.setAttribute("onClick", "delete_person({{ username }});")
           div.appendChild(p);
 
           var element = document.getElementById("list_of_members");

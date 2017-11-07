@@ -31,7 +31,8 @@ class ItemForm(forms.Form):
     # Felt for plassering i rommet.
     zone = forms.CharField(required=False, label='Sone')
     shelf = forms.IntegerField(required=False, label='Hylle')
-    place = forms.IntegerField(required=False, label='Plass')
+    row = forms.IntegerField(required=False, label='Rad')
+    column = forms.IntegerField(required=False, label='Kolonne')
 
     @staticmethod
     def get_autocomplete_dict():

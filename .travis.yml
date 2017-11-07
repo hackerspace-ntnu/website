@@ -8,8 +8,9 @@ install: "pip install -r requirements.txt"
 
 # command to run tests
 before_script:
+  - rm -rf wiki/tests
   - python manage.py makemigrations
   - python manage.py migrate
 
 script:
-- python manage.py test
+- python manage.py test inventory

@@ -1,0 +1,16 @@
+language: python
+
+python:
+  - "3.5.2"
+
+# command to install dependencies
+install: "pip install -r requirements.txt"
+
+# command to run tests
+before_script:
+  - rm -rf wiki/tests
+  - python manage.py makemigrations
+  - python manage.py migrate
+
+script:
+- python manage.py test inventory

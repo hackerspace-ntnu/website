@@ -14,3 +14,4 @@ django-autocomplete-light==3.2.1
 django-smart-selects==1.5.1
 django-material==0.11.0
 bleach==2.0.0
+requests

@@ -30,6 +30,7 @@ def login(request):
     dataporten_auth_url = dataporten_oauth_client.prepare_request_uri(
             settings.DATAPORTEN_OAUTH_AUTH_URL, 
             redirect_uri=get_callback_redirect_url(request))
+    request.session['feided']=True
 
     return HttpResponseRedirect(dataporten_auth_url)
 
@@ -53,7 +54,8 @@ def login_callback(request):
         raise Exception("invalid code")
 
     response_json = token_request_response.json()
-    session = make_requests_session(response_json['access_token'])
+    access_token = response_json['access_token']
+    session = make_requests_session(access_token)
 
     user_info = session.get("https://auth.dataporten.no/userinfo").json()
     user_email = user_info['user']['email']

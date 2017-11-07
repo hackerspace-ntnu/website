@@ -1,11 +1,8 @@
-from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import login as auth_login
-
-from .models import UserModel
 
 from oauthlib.oauth2 import WebApplicationClient
 
@@ -13,18 +10,20 @@ import requests
 
 dataporten_oauth_client = WebApplicationClient(settings.DATAPORTEN_OAUTH_CLIENT_ID)
 
+
 def get_callback_redirect_url(request):
     return request.build_absolute_uri(reverse(login_callback))
+
 
 def make_requests_session(token):
     s = requests.Session()
     s.headers.update({'authorization': 'bearer {}'.format(token)})
     return s
 
-# Create your views here.
 
 def index(request):
     return HttpResponse("nothing")
+
 
 def login(request):
     dataporten_auth_url = dataporten_oauth_client.prepare_request_uri(
@@ -33,6 +32,7 @@ def login(request):
     request.session['feided']=True
 
     return HttpResponseRedirect(dataporten_auth_url)
+
 
 def login_callback(request):
     code = request.GET.get('code')

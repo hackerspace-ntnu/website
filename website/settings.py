@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     'material',
     'rpi',
     'inventory',
+    'userprofile',
+    'vaktliste'
 ]
 
 

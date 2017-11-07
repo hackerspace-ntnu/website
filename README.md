@@ -1,4 +1,5 @@
 # Hackerspace Website
+[![Build Status](https://travis-ci.org/hackerspace-ntnu/website.svg?branch=master)](https://travis-ci.org/hackerspace-ntnu/website)
 
 The code running [hackerspace-ntnu.no](http://hackerspace-ntnu.no).
 

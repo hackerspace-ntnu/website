@@ -1,4 +1,5 @@
 from dal import autocomplete
+from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
@@ -38,27 +39,26 @@ def edit_members(request, name):
             # Comment block below lifted from event_attendees stuff, should
             # be written to fit the edit POSTs from the edit_members page,
             # should also probably be written from scratch
-            """
+
             try:
                 user_string = request.POST['name']
                 username = user_string.split("-")[-1].strip()
                 user = User.objects.get(username=username)
-                event = Event.objects.get(pk=event_id)
-                er = EventRegistration.objects.get(event=event, user=user)
-                name = er.name() if er.name().strip() != '' else username
+                committee = Committee.objects.get(name=name)
+                name = username
 
-                if not er.attended:
-                    er.attended = True
-                    er.save()
-                    message = name + ' er nå registrert'
+                if not user in committee.user_set.all():
+                    committee.add_user(user)
+                    committee.save()
+                    message = name + ' er nå med i ' + committee.name
                 else:
-                    message = name + ' er allerede registrert'
+                    message = name + ' er allerede med i ' + committee.name
 
                 return JsonResponse({'success': True, 'message': message, 'username': username}, safe=False)
 
             except IndexError:
                 return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
-            """
+
         else:
             committee = get_object_or_404(Committee, name=name)
             context = {

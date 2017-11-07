@@ -30,11 +30,10 @@ Use AJAX and autocomplete search field to add/remove users
         <ul class="collapsible" data-collapsible="accordion">
           <li>
             <div class="collapsible-header">Påmeldte</div>
-            <div class="attendee-list collapsible-body people">
+            <div class="attendee-list collapsible-body people" id="list_of_members">
               {% for member in members %}
                 <div>
-                  <i class="material-icons checkmark" id="check" onclick="delete_person();">check_box</i>
-                  <p class="inline user" username="{{ user.1 }}">{{ member.username }}</p>
+                  <p class="inline user" username="{{ user.1 }}" onclick="delete_person();">{{ member.username }}</p>
                 </div>
               {% endfor %}
             </div>
@@ -140,6 +139,7 @@ Use AJAX and autocomplete search field to add/remove users
             Materialize.toast(data['message'], 4000);
             $("#autocomplete-input").val('');
             if (data['success']) {
+              insert_user(data)
               var par = $(".user[username=" + data["username"] + "]").parent();
               par.find(".checkmark").html("check_box").css("color", "var(--hs-green)");
             }
@@ -147,15 +147,34 @@ Use AJAX and autocomplete search field to add/remove users
         });
       }
 
+      function insert_user(data) {
+
+          var p = document.createElement("p");
+          var div = document.createElement("div");
+          var usr = document.createTextNode(data['username']);
+          p.appendChild(usr);
+          p.setAttribute("class", "inline user");
+          p.setAttribute("username", "{{ user.1 }}");
+          p.setAttribute("onClick", "delete_person();")
+          div.appendChild(p);
+
+          var element = document.getElementById("list_of_members");
+          element.appendChild(div);
+      }
+
+      //Vet ikke helt hva denne gjør
       function toggle(user) {
           $.ajax({
-              url: '/news/event/{{ id }}/attendees/toggle/',
+              url: '/committees/edit_members/{{ committee.name }}/toggle/',
               data: user,
           });
       }
+
+      // Ikke denne heller
       $(".toggle").click(function() {
           toggle($(this).attr("user"));
       });
+
       $(function() {
           $('input.autocomplete').autocomplete({
               data: {

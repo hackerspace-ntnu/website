@@ -34,14 +34,14 @@ class Committee(Group):
         return reverse('verv:view', kwargs={'slug':self.slug})
 
     def add_user(self, user):
-        if user not in self.user_set:
+        if user not in self.user_set.all():
             self.user_set.add(user)
             self.save()
             if self.parent is not None:
                 self.parent.add_user(user)
 
     def remove_user(self, user):
-        if user in self.user_set:
+        if user in self.user_set.all():
             self.user_set.remove(user)
             self.save()
             for subcommittee in self.subcommittees.all():

@@ -137,12 +137,14 @@ Use AJAX and autocomplete search field to add/remove users
           data: {'name': username.innerHTML, 'action': 'delete'},
           success: function(data){
             Materialize.toast(data['message'], 4000);
+            var temp = $("#autocomplete-input").val();
             $("#autocomplete-input").val('');
             if (data['success']) {
               delete_user_div(data)
               var par = $(".user[username=" + data["username"] + "]").parent();
               par.find(".checkmark").html("check_box").css("color", "var(--hs-green)");
             }
+            $("#autocomplete-input").val(temp);
           }
         });
       }

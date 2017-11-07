@@ -117,7 +117,7 @@ def add_item(request, item_id=0):
             # skiller ikke på store/små bokstaver itags
             if item_id != '0':  # existing item to be changed
                 item = get_object_or_404(Item, pk=item_id)
-                basic_attributes = ['name', 'description', 'quantity', 'zone', 'shelf', 'place']
+                basic_attributes = ['name', 'description', 'quantity', 'zone', 'shelf', 'row', 'column']
                 for attr in basic_attributes:
                     setattr(item, attr, form.cleaned_data[attr])
                 item.save()
@@ -128,7 +128,8 @@ def add_item(request, item_id=0):
                             quantity=form.cleaned_data['quantity'],
                             zone=form.cleaned_data['zone'],
                             shelf=form.cleaned_data['shelf'],
-                            place=form.cleaned_data['place'],
+                            row=form.cleaned_data['row'],
+                            column=form.cleaned_data['column'],
                             )
                 # item = Item(**form.cleaned_data)
                 item.save()
@@ -161,7 +162,8 @@ def add_item(request, item_id=0):
                 'quantity': item.quantity,
                 'zone': item.zone,
                 'shelf': item.shelf,
-                'place': item.place,
+                'row': item.row,
+                'column': item.column,
                 'thumbnail': item.thumbnail.id if item.thumbnail is not None else 0,
             }
             form = ItemForm(initial=initial)

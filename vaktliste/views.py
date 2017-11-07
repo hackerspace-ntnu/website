@@ -11,12 +11,6 @@ cache_time = "Never"
 vakt_cache_tuples = ""
 vakt_cache_json = ""
 def hent_vaktliste(output="json"):
-    """
-    cur_dir = os.path.dirname(os.path.realpath(__file__))
-    vaktliste = os.path.join(cur_dir, "vaktliste.json")
-    with open(vaktliste,"r") as f:
-        return json.loads(f.read())
-    """
     global vakt_cache_tuples
     global vakt_cache_json
     global cache_time
@@ -50,18 +44,22 @@ def person_match(l,f):
             return True
     return False
 
-def vakt_filter(days="",times="",persons="",full=True):
+def vakt_filter(days="",times="",persons="",full=True,compact=False):
     filter_data = {}
     filter_times = []
     filter_days = [d.title() for d in days.split(",") if d!='']
     filter_persons = [p.lower() for p in persons.split(",") if p!='']
     for time in times.split(","):
-        #HERE BE DRAGONS
         if time!='':
             time_slots = ["10:15 - 12:07","12:07 - 14:07", "14:07 - 16:07", "16:07 - 18:00"]
-            h,m = map(int,time.split(":"))
+            if ":" in time:
+                h,m = map(int,time.split(":"))
+            elif "." in time:
+                h,m = map(int,time.split("."))
+            else:
+                h=int(time)
+                m=0
             timeslot = ""
-            #WHY ARE YOU STILL HERE
             if h>=18:
                 filter_times.append("16:07 - 18:00")
             elif h<10:
@@ -69,26 +67,28 @@ def vakt_filter(days="",times="",persons="",full=True):
             else:
                 for t in range(10,18,2):
                     if h in range(t,t+2):
-                        #AAAAAAAAAAAAAAAAAAAAH
                         if h==t and m<7:
                             filter_times.append(time_slots[max(0,(t-10)//2-1)])
                         else:
                             filter_times.append(time_slots[(t-10)//2])
-        #THE DRAGONS ARE GONE
     vakt_data = hent_vaktliste(output="tuples") 
-    for vakt in [v for v in vakt_data if (v[0] in filter_days or len(filter_days)==0) and (v[1] in filter_times or len(filter_times)==0) and (len(filter_persons)==0 or person_match(v[2],filter_persons))]:
-        day = vakt[0]
-        time_slot = vakt[1]
-        hackers = vakt[2]
+    for vakt in [v for v in vakt_data
+                 if (not filter_days or v[0] in filter_days or v[0][:3] in filter_days) and
+                 (not filter_times or v[1] in filter_times) and
+                 (not filter_persons or person_match(v[2],filter_persons))]:
+        day,time_slot,hackers = vakt
+        if compact:
+            day = days[:3]
+            time_slot = "".join(time_slot.split(" "))
         if day not in filter_data:
-            filter_data[vakt[0]] = {}
+            filter_data[day] = {}
         if full:
-            filter_data[vakt[0]][vakt[1]] = vakt[2]
+            filter_data[day][time_slot] = hackers
         else:
-           for hacker in [pm for pm in vakt[2] for pf in filter_persons if pf in pm.lower()]:
-                if time_slot not in filter_data[vakt[0]]:
-                    filter_data[vakt[0]][vakt[1]] = []
-                filter_data[vakt[0]][vakt[1]].append(hacker)
+           for hacker in [pm for pm in hackers for pf in filter_persons if pf in pm.lower()]:
+                if time_slot not in filter_data[day]:
+                    filter_data[day][time_slot] = []
+                filter_data[day][time_slot].append(hacker)
 
     return filter_data
 
@@ -97,9 +97,19 @@ def vakter(request):
     tider = request.GET.get('tid','')
     personer = request.GET.get('person','')
     full = request.GET.get('full','')
-    if full in ['', 'True']:
-        full = True
-    elif full=="False":
+    compact = request.GET.get('compact','')
+    if full=="False": 
         full = False
-    vakt_data = vakt_filter(days=dager,times=tider,persons=personer,full=full)
+    else:
+        full = True
+    if compact=="True": 
+        compact = True
+    else:
+        compact = False
+    vakt_data = vakt_filter(days=dager,times=tider,persons=personer,full=full,compact=compact)
     return JsonResponse(vakt_data)
+
+def current(request):
+    days = ["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"]
+    day,time = datetime.datetime.strftime(datetime.datetime.now(),"%w,%H:%M").split(",")
+    return JsonResponse(vakt_filter(days=days[int(day)],times=time))

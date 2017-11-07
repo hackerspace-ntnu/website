@@ -63,10 +63,10 @@ def search(request):
     return_set = []
     tags = []
     for word in search_words:
-        return_set += Item.objects.filter(visible=True, tags__name__contains=word)
-        return_set += Item.objects.filter(visible=True, name__contains=word)
-        return_set += Item.objects.filter(visible=True, description__contains=word)
-        tags += Tag.objects.filter(name__contains=word, visible=True)
+        return_set += Item.objects.filter(visible=True, tags__name__icontains=word)
+        return_set += Item.objects.filter(visible=True, name__icontains=word)
+        return_set += Item.objects.filter(visible=True, description__icontains=word)
+        tags += Tag.objects.filter(name__icontains=word, visible=True)
 
     for tag in tags:
         return_set += tag.item_set.all().filter(visible=True)
@@ -116,7 +116,7 @@ def add_item(request, item_id=0):
         if form.is_valid():
             # skiller ikke på store/små bokstaver itags
             if item_id != '0':  # existing item to be changed
-                item = Item.objects.get(pk=item_id)
+                item = get_object_or_404(Item, pk=item_id)
                 basic_attributes = ['name', 'description', 'quantity', 'zone', 'shelf', 'row', 'column']
                 for attr in basic_attributes:
                     setattr(item, attr, form.cleaned_data[attr])
@@ -151,7 +151,7 @@ def add_item(request, item_id=0):
         if item_id:
             message = "Endre gjenstand"
             button_message = "endre"
-            item = Item.objects.get(pk=item_id)
+            item = get_object_or_404(Item, pk=item_id)
             old_tags = []
             for tag in item.tags.all():
                 auto_comp_dict = {'id': tag.id, 'text': tag.name}

@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
 
-from website.views import index, test, calendar, about
+from website.views import index, test, calendar, about, set_cookie
 
 admin.autodiscover()
 
@@ -38,6 +38,7 @@ urlpatterns = [
     # url(r'^members/', include('userprofile.urls')),
     url(r'^vaktliste/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls'))
+    url(r'^ajax/setcookie', set_cookie, name='set_cookie')
 ]
 
 if settings.DEBUG:

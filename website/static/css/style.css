@@ -31,6 +31,19 @@ main {
 	flex: 1 0 auto;
 }
 
+.tabs .indicator {
+    background-color: #366F2A;
+}
+.tabs .tab a {
+  color: #5BBA47;
+}
+.tabs .tab a.active {
+  color: #366F2A;
+}
+.tabs .tab a:hover {
+  color: #366F2A;
+}
+
 #about{
   width: 90%;
   max-width: 1000px;

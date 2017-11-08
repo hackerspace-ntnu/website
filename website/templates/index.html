@@ -57,4 +57,34 @@
             </script>
         </div>
     </section>
+
+
+
+    <div id="modal1" class="modal bottom-sheet">
+	    <div class="modal-content">
+		    <h4>Bruk av internett-kjeks</h4>
+		    <p>Grunnet krav fra Det europeiske regelverket om elektronisk kommunikasjon, krever vi at du samtykker til vår bruk av informasjonskapsler (cookies). Ved å fortsette bruk av nettsiden, samtykker du til at vi benytter cookies.</p>
+	    </div>
+	    <div class="modal-footer">
+		    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+	    </div>
+    </div>
+    {% if not cookie_accepted %}
+    <script>
+$(document).ready(function(){
+	$('.modal').modal({ 
+		opacity: .5,
+		complete: function() {
+			$.ajax({
+				url: "ajax/setcookie", 
+			});
+		}
+	});
+	$('#modal1').modal('open');
+});
+    </script>
+    {% endif %} 
+
+
+
 {% endblock content %}

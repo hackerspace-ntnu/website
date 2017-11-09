@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+<div id="filters">
+<form>
+    <div class="input-field">
+	<label for="filter_days">Dager</label>
+	<input id="filter_days" maxlength="100" name="dag" type="text" value="{{ dager }}"/>
+    </div>
+    <div class="input-field">
+	<label for="filter_times">Tider</label>
+	<input id="filter_times" maxlength="100" name="tid" type="text" value="{{ tider }}"/>
+    </div>
+    <div class="input-field">
+	<label for="filter_persons">Personer</label>
+	<input id="filter_persons" maxlength="100" name="person" type="text" value="{{ personer }}"/>
+    </div>
+    <label for="full_shift">Hele vakten?</label>
+    <div class="switch" id="full_shift">
+	<label>
+	    Nei
+	    {% if full %}
+	    <input name="full" type="checkbox" checked>
+	    {% else %}
+	    <input name="full" type="checkbox">
+	    {% endif %}
+	    <span class="lever"></span>
+	    Ja
+	</label>
+    </div>
+    <br>
+    <button id="filterButton" class="btn waves-effect waves-light" type="submit">Søk</button>
+    </form>
+</div>
+{% include "vakter.html" %}
+{% endblock content %}

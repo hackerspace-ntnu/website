@@ -2,6 +2,7 @@ import datetime
 
 import requests
 from django.http import JsonResponse
+from django.shortcuts import render
 
 cache_time = "Never"
 vakt_cache_tuples = ""
@@ -99,3 +100,24 @@ def vakter(request):
 
 def current(_):
     return JsonResponse(filter_current())
+
+def index(request):
+    dager = request.GET.get('dag', '')
+    tider = request.GET.get('tid', '')
+    personer = request.GET.get('person', '')
+    full = request.GET.get('full', '').lower() == "on"
+    context = {
+            "dager":dager,
+            "tider":tider,
+            "personer":personer,
+            "full":full,
+            }
+    if any([dager,tider,personer]):
+        guard_list = dict()
+        vakt_data = vakt_filter(days=dager, times=tider, persons=personer, full=full)
+        for day in vakt_data:
+            for time in vakt_data[day]:
+                for hacker in vakt_data[day][time]:
+                    guard_list[hacker]={}
+        context["guards"]=guard_list
+    return render(request, 'vakt_filter.html', context)

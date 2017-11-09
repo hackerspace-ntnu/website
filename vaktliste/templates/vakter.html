@@ -1,3 +1,4 @@
+{% load static %}
 <div class="news">
     <div class="row">
 	{% for guard,info in guards.items %}
@@ -9,7 +10,7 @@
 			    {% if info.picture %}
 			    <img class="activator" src="{{ info.picture }}">
 			    {% else %}
-			    <img class="activator" src="static/img/Logo_round_green.png">
+			    <img class="activator" src="/static/img/Logo_round_green.png">
 			    {%endif %}
 			</a>
 		    </div>

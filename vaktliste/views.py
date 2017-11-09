@@ -58,6 +58,12 @@ def get_time_slots(times):
     return filter_times
 
 
+def filter_current():
+    days = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"]
+    day, time = datetime.datetime.strftime(datetime.datetime.now(), "%w,%H:%M").split(",")
+    return vakt_filter(days=days[int(day)], times=time)
+
+
 def vakt_filter(days="", times="", persons="", full=True, compact=False):
     filter_times = get_time_slots(times)
     filter_data = {}
@@ -91,7 +97,5 @@ def vakter(request):
     return JsonResponse(vakt_data)
 
 
-def current(request):
-    days = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"]
-    day, time = datetime.datetime.strftime(datetime.datetime.now(), "%w,%H:%M").split(",")
-    return JsonResponse(vakt_filter(days=days[int(day)], times=time))
+def current(_):
+    return JsonResponse(filter_current())

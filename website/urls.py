@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^about/$', about, name='about'),
     url(r'^s/', include('django.contrib.flatpages.urls')),
     # url(r'^members/', include('userprofile.urls')),
-    url(r'^vaktliste/', include('vaktliste.urls', namespace='vaktliste')),
+    url(r'^vaktliste/?', include('vaktliste.urls', namespace='vaktliste')),
     # Ajax
     url(r'^ajax/setcookie', set_cookie, name='set_cookie')
 ]

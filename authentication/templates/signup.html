@@ -8,6 +8,7 @@
 {% block content %}
   <h1 id="pageName">Registering</h1>
   <div id="signupForm">
+    <div id="feide-login"><a href="{% url 'authentication_feide:login' %}"><button  class="btn waves-effect waves-light">Logg inn med FEIDE</button></a></div>
     <form action="/authentication/signup/" method="post">
       {% csrf_token %}
       <p id="error-message">{{ form.username.errors }}</p>

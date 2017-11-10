@@ -115,7 +115,6 @@ def index(request):
     if any([dager,tider,personer]):
         guard_list = dict()
         vakt_data = vakt_filter(days=dager, times=tider, persons=personer, full=full)
-        print(vakt_data)
         for day in vakt_data:
             for time in vakt_data[day]:
                 for hacker in vakt_data[day][time]:

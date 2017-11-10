@@ -12,7 +12,7 @@ dataporten_oauth_client = WebApplicationClient(settings.DATAPORTEN_OAUTH_CLIENT_
 
 
 def get_callback_redirect_url(request):
-    return request.build_absolute_uri(reverse(login_callback))
+    return request.build_absolute_uri(reverse('authentication_feide:login_callback'))
 
 
 def make_requests_session(token):

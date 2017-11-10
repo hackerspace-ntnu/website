@@ -2,6 +2,8 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'authentication_feide'
+
 urlpatterns = [
     url(r'^$', views.index, name='feide_index'),
     url(r'^login$', views.login, name='login'),

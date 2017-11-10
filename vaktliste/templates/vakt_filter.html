@@ -21,9 +21,9 @@
 	<label>
 	    Nei
 	    {% if full or personer == "" %}
-	    <input name="full" type="checkbox">
+	    <input id="full_shift_switch" name="full" type="checkbox">
 	    {% else %}
-	    <input name="full" type="checkbox" checked>
+	    <input id="full_shift_switch" name="full" type="checkbox" checked>
 	    {% endif %}
 	    <span class="lever"></span>
 	    Ja
@@ -41,6 +41,7 @@
 	    }
 	    else{
 		document.getElementById("full_shift").style.visibility="hidden";
+		document.getElementById("full_shift_switch").checked=false
 	    }
 	}
 	condOption()

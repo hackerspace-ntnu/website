@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-
 {% block content %}
 <div id="filters">
 <form>
@@ -15,24 +14,35 @@
     </div>
     <div class="input-field">
 	<label for="filter_persons">Personer</label>
-	<input id="filter_persons" maxlength="100" name="person" type="text" value="{{ personer }}"/>
+	<input id="filter_persons" maxlength="100" name="person" type="text" value="{{ personer }}" onchange="condOption()" onfocus="condOption()"/>
     </div>
-    <label for="full_shift">Hele vakten?</label>
-    <div class="switch" id="full_shift">
+    <div class="switch" id="full_shift" style="visibility:hidden">
+	<label for="full_shift">Kun matchende personer?</label>
 	<label>
 	    Nei
-	    {% if full %}
-	    <input name="full" type="checkbox" checked>
-	    {% else %}
+	    {% if full or personer == "" %}
 	    <input name="full" type="checkbox">
+	    {% else %}
+	    <input name="full" type="checkbox" checked>
 	    {% endif %}
 	    <span class="lever"></span>
 	    Ja
 	</label>
     </div>
-    <br>
     <button id="filterButton" class="btn waves-effect waves-light" type="submit">Søk</button>
     </form>
 </div>
 {% include "vakter.html" %}
+    <script>
+	function condOption(){
+	    var filter_person = document.getElementById("filter_persons").value;
+	    if(filter_person!=""){
+		document.getElementById("full_shift").style.visibility="visible";
+	    }
+	    else{
+		document.getElementById("full_shift").style.visibility="hidden";
+	    }
+	}
+	condOption()
+    </script>
 {% endblock content %}

@@ -105,7 +105,7 @@ def index(request):
     dager = request.GET.get('dag', '')
     tider = request.GET.get('tid', '')
     personer = request.GET.get('person', '')
-    full = request.GET.get('full', '').lower() == "on"
+    full = request.GET.get('full', '').lower() != "on"
     context = {
             "dager":dager,
             "tider":tider,

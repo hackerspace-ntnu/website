@@ -82,8 +82,8 @@ def vakt_filter(days="", times="", persons="", full=True, compact=False):
         else:
             for hacker in {pm for pm in hackers for pf in filter_persons if pf in pm.lower()}:
                 if time_slot not in filter_data[day]:
-                    filter_data[day][time_slot] = []
-                filter_data[day][time_slot].append(hacker)
+                    filter_data[day][time_slot] = {}
+                filter_data[day][time_slot][hacker]=hackers[hacker]
 
     return filter_data
 
@@ -115,9 +115,10 @@ def index(request):
     if any([dager,tider,personer]):
         guard_list = dict()
         vakt_data = vakt_filter(days=dager, times=tider, persons=personer, full=full)
+        print(vakt_data)
         for day in vakt_data:
             for time in vakt_data[day]:
                 for hacker in vakt_data[day][time]:
-                    guard_list[hacker]={}
+                    guard_list[hacker]=vakt_data[day][time][hacker]
         context["guards"]=guard_list
     return render(request, 'vakt_filter.html', context)

@@ -59,7 +59,6 @@ def group(request):
 def profile(request, profileID):
     profile = Profile.objects.get(pk=profileID)
     profile.update()
-    print(profile.duty.all()[0].dutytime())
     return render(request, 'profile.html', {'profile': profile})
 
 """

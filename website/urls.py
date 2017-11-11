@@ -1,12 +1,14 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
-from django.conf.urls import include, url
+
 from django.conf import settings
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import include, url
 from django.contrib import admin
-from django.http.response import HttpResponse
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
-from website.views import index, opptak, test
+
+from website.views import index, test, calendar, about, set_cookie
 
 admin.autodiscover()
 
@@ -16,17 +18,27 @@ handler500 = 'website.views.handler500'
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^robots.txt', lambda _: HttpResponse('User-agent: *\nDisallow: /')),
+    url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^news/', include('news.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),
-    url(r'^application/', include('applications.urls')),
+    url(r'^opptak/', include('applications.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
-    url(r'^opptak/$', opptak, name='opptak'),
+    url(r'^opptak/', include('applications.urls'), name='opptak'),
     url(r'^test/$', test, name="500-test"),
     url(r'^files/', include('files.urls')),
-    url(r'^members/', include('userprofile.urls')),
+    url(r'^inventory/', include('inventory.urls'), name='inventory'),
+    url(r'^groups/', include('committees.urls', namespace='verv')),
+    url(r'^chaining/', include('smart_selects.urls')),
+    url(r'^rpi/', include('rpi.urls')),
+    url(r'^kalender/', calendar, name='calendar'),
+    url(r'^about/$', about, name='about'),
+    url(r'^s/', include('django.contrib.flatpages.urls')),
+    # url(r'^members/', include('userprofile.urls')),
+    url(r'^vaktliste/?', include('vaktliste.urls', namespace='vaktliste')),
+    # Ajax
+    url(r'^ajax/setcookie', set_cookie, name='set_cookie')
 ]
 
 if settings.DEBUG:

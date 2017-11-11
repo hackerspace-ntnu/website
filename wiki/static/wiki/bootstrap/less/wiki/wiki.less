@@ -80,17 +80,21 @@ label { font-size: 16px; font-weight: normal; color: #777;}
 .wiki-article a.linknotfound {color: #C87;}
 
 .wiki-article pre {
-  max-width: 700px;
-  max-height: 150px;
-  overflow: auto;
-  word-wrap: normal;
-  white-space: pre;
+    max-width: 700px;
+    max-height: 150px;
+    overflow: auto;
+    word-wrap: normal;
+    white-space: pre;
 }
 
 .wiki-article table
 {
     .table;
     .table-bordered;
+}
+
+.table-responsive {
+  border: none;
 }
 
 .wiki-article h1,
@@ -214,12 +218,12 @@ input[type=file] {float: none; width: auto;}
     .nav-tabs li a,
     #article-breadcrumbs
     {display: none;}
-    
+
     #article-menu li
     {
       display: none;
     }
-    
+
     #article-title-li
     {
       display: block !important;
@@ -377,6 +381,25 @@ input[type=file] {float: none; width: auto;}
 /******************************
  CODEHILITE / PYGMENTS
 *******************************/
+
+.wiki-article .codehilite-wrap {
+    overflow: auto;
+    max-width: auto;
+    max-height: 250px;
+}
+
+.wiki-article .codehilitetable {
+    pre {
+        max-width: none;
+        max-height: none;
+        border: 0;
+        background-color: transparent;
+    }
+    .linenos {
+        width: 1%;
+        white-space: nowrap;
+    }
+}
 
 @import "codehilite.less";
 

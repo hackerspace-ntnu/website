@@ -1,20 +1,18 @@
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
+
 import os.path
 
 from django.conf import settings as django_settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import models
+from django.db.models import signals
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
+from six.moves import range
+from wiki.models.pluginbase import RevisionPlugin, RevisionPluginRevision
 
 from . import settings
-
-from wiki.models.pluginbase import RevisionPlugin, RevisionPluginRevision
-from django.db.models import signals
-from six.moves import range
-
 
 if "sorl.thumbnail" not in django_settings.INSTALLED_APPS:
     raise ImproperlyConfigured(
@@ -25,6 +23,11 @@ def upload_path(instance, filename):
     # Has to match original extension filename
 
     upload_path = settings.IMAGE_PATH
+    upload_path = upload_path.replace(
+        '%aid', str(instance.plugin.image.article.id))
+    if settings.IMAGE_PATH_OBSCURIFY:
+        import uuid
+        upload_path = os.path.join(upload_path, uuid.uuid4().hex)
     return os.path.join(upload_path, filename)
 
 
@@ -46,8 +49,6 @@ class Image(RevisionPlugin):
         verbose_name = _('image')
         verbose_name_plural = _('images')
         db_table = 'wiki_images_image'  # Matches label of upcoming 0.1 release
-        if settings.APP_LABEL:
-            app_label = settings.APP_LABEL
 
     def __str__(self):
         if self.current_revision:
@@ -88,8 +89,13 @@ class ImageRevision(RevisionPluginRevision):
         """
         Inherit certain properties from predecessor because it's very
         convenient. Remember to always call this method before
-        setting properties :)"""
+        setting properties :)
+
+        A revision may not have a predecessor if the property is unset, it may
+        be unset if it's the initial history entry.
+        """
         predecessor = image.current_revision.imagerevision
+        super(ImageRevision, self).inherit_predecessor(image)
         self.plugin = predecessor.plugin
         self.deleted = predecessor.deleted
         self.locked = predecessor.locked
@@ -106,8 +112,6 @@ class ImageRevision(RevisionPluginRevision):
         verbose_name_plural = _('image revisions')
         # Matches label of upcoming 0.1 release
         db_table = 'wiki_images_imagerevision'
-        if settings.APP_LABEL:
-            app_label = settings.APP_LABEL
         ordering = ('-created',)
 
     def __str__(self):

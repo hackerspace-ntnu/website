@@ -1,0 +1,64 @@
+
+a {
+    color: var(--hs-green);
+
+}
+
+.errorlist li {
+    color: var(--hs-red);
+}
+
+.collapsible-body {
+    background-color: #f1f8e9;
+    padding: 30px;
+}
+
+.content {
+    max-width: 1000px;
+    display: block;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: var(--hs-green);
+}
+
+.autocomplete {
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.autocomplete .ac-users {
+    padding-top: 10px;
+}
+
+.autocomplete .ac-users .chip {
+    -ms-flex: auto;
+    flex: auto;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.autocomplete .ac-users .chip:last-child {
+    margin-right: 5px;
+}
+
+.autocomplete .ac-dropdown .ac-hover {
+    background: #eee;
+}
+
+.autocomplete .ac-input {
+    -ms-flex: 1;
+    flex: 1;
+    min-width: 150px;
+    padding-top: 0.6rem;
+}
+
+.autocomplete .ac-input input {
+    height: 2.4rem;
+}
+
+#searchbox {
+    display: inline-block;
+    width: 90%;
+}

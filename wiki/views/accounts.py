@@ -10,24 +10,59 @@ SETTINGS.LOGIN_URL
 SETTINGS.LOGOUT_URL
 """
 
-from __future__ import unicode_literals
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
+
 from django.conf import settings as django_settings
 from django.contrib import messages
-from django.contrib.auth import logout as auth_logout, login as auth_login
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template.context import RequestContext
 from django.utils.translation import ugettext as _
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView, FormView
-
+from django.views.generic.edit import CreateView, FormView, UpdateView
 from wiki import forms
 from wiki.conf import settings
-
 from wiki.core.compat import get_user_model
+
 User = get_user_model()
+
+
+class Signup(CreateView):
+    model = User
+    form_class = forms.UserCreationForm
+    template_name = "wiki/accounts/signup.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        # Let logged in super users continue
+        if not request.user.is_anonymous() and not request.user.is_superuser:
+            return redirect('wiki:root')
+        # If account handling is disabled, don't go here
+        if not settings.ACCOUNT_HANDLING:
+            return redirect(settings.SIGNUP_URL)
+        # Allow superusers to use signup page...
+        if not request.user.is_superuser and not settings.ACCOUNT_SIGNUP_ALLOWED:
+            c = RequestContext(
+                request, {
+                    'error_msg': _('Account signup is only allowed for administrators.'), })
+            return render_to_response("wiki/error.html", context=c)
+
+        return super(Signup, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = CreateView.get_context_data(self, **kwargs)
+        context['honeypot_class'] = context['form'].honeypot_class
+        context['honeypot_jsfunction'] = context['form'].honeypot_jsfunction
+        return context
+
+    def get_success_url(self, *args):
+        messages.success(
+            self.request,
+            _('You are now signed up... and now you can sign in!'))
+        return reverse("wiki:login")
+
 
 class Logout(View):
 
@@ -80,3 +115,20 @@ class Login(FormView):
             if not self.referer:
                 return redirect("wiki:root")
             return redirect(self.referer)
+
+class Update(UpdateView):
+    model = User
+    form_class = forms.UserUpdateForm
+    template_name = "wiki/accounts/account_settings.html"
+    success_url = "/_accounts/settings/"
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(self.model, pk=self.request.user.pk)
+
+    def form_valid(self, form):
+        pw = form.cleaned_data["password1"]
+        if pw is not "":
+            self.object.set_password(pw)
+            self.object.save()
+        messages.info(self.request, _("Account info saved!"))
+        return super(Update, self).form_valid(form)

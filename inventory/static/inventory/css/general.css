@@ -1,0 +1,8 @@
+
+.error-message {
+    color: var(--hs-red);
+}
+
+a {
+    color: var(--hs-green);
+}

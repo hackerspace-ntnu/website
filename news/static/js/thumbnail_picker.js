@@ -1,15 +1,9 @@
-$('#thumbnail_picker').attr("src", $('#id_thumbnail').val());
-
-$("#thumbnail_picker").click(function() {
-    thumbWindow = window.open('/ckeditor_uploader/browse_thumbnail', 'Select Thumbnail', 'width=920,height=640,scrollbars=yes');
+$(".thumbnailPicker").click(function() {
+    thumbWindow = window.open('/files/images');
 });
 
-function getThumnail(thumb) {
-    $("#id_thumbnail").val(thumb);
-    $("#thumbnail_picker").attr("src", thumb);
-    $("label[for='id_thumbnail']").addClass("active");
+function selectThumnail(src, id) {
+  thumbWindow.close();
+  $("input[name^=thumbnail]").val(id);
+  $(".thumbnailPicker").find("div").css("background-image", "url("+src+")");
 }
-
-$("#id_thumbnail").change(function() {
-  $("#thumbnail_picker").attr("src", $("#id_thumbnail").val());
-});

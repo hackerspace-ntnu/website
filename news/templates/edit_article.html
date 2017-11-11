@@ -30,6 +30,18 @@
                 <label>{{ form.main_content.label }}</label>
                 {{ form.main_content }}
 
+                <div id=internal_event>
+                  <div class="inline toggle">
+                    {{ form.internal.errors }}
+                    <div class="input-field">
+                      <input type="checkbox" class="filled-in internal toggle" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
+                      <label for="internal-box">{{ form.internal.label }}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <br>
+
                 <div style="display: none;">
                   {{ form.thumbnail.errors }}
                   <div class="input-field">
@@ -44,17 +56,21 @@
                 </div>
 
                 <script>
-                  $(".thumbnailPicker").click(function() {
-                      thumbWindow = window.open('/files/images');
+                  $(function () {
+                    if ($(".internal.toggle").prop("value") == "True") {
+                      $(".internal.toggle").prop('checked', true);
+                    }
                   });
-
-                  function selectThumnail(src, id) {
-                      thumbWindow.close();
-                      $("input[name^=thumbnail]").val(id);
-                      $(".thumbnailPicker").find("div").css("background-image", "url("+src+")");
-                      console.log(src, id);
-                  }
+                  $(".internal.toggle").change(function() {
+                    if ($(this).prop("value") == "True") {
+                      $(this).val("False");
+                    } else {
+                      $(this).val("True");
+                    }
+                  });
                 </script>
+
+                <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 
                 <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
             </form>

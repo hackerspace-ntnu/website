@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import re
 
-"""
-from .models import Profile, Group, Skill
+from .models import Profile, Skill#,Group
 from .forms import ProfileForm, ProfileModelForm
 
 
+"""
 def members(request):
     profiles = Profile.objects.all()
     groups = Group.objects.prefetch_related('members')
@@ -55,12 +55,13 @@ def group(request):
     context = {'group': request.path.split("/")[-1]}
     return render(request, "group.html", context)
 
-
+"""
 def profile(request, profileID):
     profile = Profile.objects.get(pk=profileID)
+    profile.update()
     return render(request, 'profile.html', {'profile': profile})
 
-
+"""
 #TODO må fikse mulighet til å legge til skills, endre profil, sikre riktig brukertilgang, autocomplete...
 def edit_profile(request):
     user = request.user

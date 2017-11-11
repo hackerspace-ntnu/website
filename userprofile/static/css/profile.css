@@ -1,0 +1,28 @@
+.user-profile-info{
+    float:left;
+    background-color:var(--hs-gray-li3);
+    height:300px;
+    padding:20px;
+    text-align:left;
+}
+.user-profile-image{
+    float:left;
+    height:300px;
+}
+.user-profile-container{
+    display:block;
+    margin-right auto;
+    margin-left:auto;
+    text-align:center;
+    width:75%;
+}
+#shift_table td,th{
+    border: 1px gray solid;
+    padding: 5px;
+}
+#shift_table{
+    width:50%;
+    margin-right: auto;
+    margin-left: auto;
+}
+

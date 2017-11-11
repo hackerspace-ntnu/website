@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.admin import User
+from vaktliste.views import vakt_filter
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
@@ -46,13 +47,27 @@ class Profile(models.Model):
     #group = models.ManyToManyField(Group, related_name="groups")
     name = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(upload_to="website/static/img/profilepictures")
+    email = models.CharField(max_length=30, null=True, blank=True)
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.TextField(null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills")
     #dutytime = models.ManyToManyField(DutyTime)
-    # dutytime = models.ManyToManyField(DutyTime)
+    dutytime = "Never"
+    
+    def update(self):
+        self.name = self.user.first_name + " " + self.user.last_name
+        self.email = self.user.username+"@stud.ntnu.no"
+        self.get_dutytime()
+        self.save()
+
+    
+    def get_dutytime(self):
+        result = vakt_filter(persons=str(self))
+        for day in result:
+            for time in result[day]:
+                self.dutytime = (day,time)
+                break
 
     def __str__(self):
-        self.name = self.user.first_name + " " + self.user.last_name
         return self.name

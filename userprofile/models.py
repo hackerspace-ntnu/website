@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.admin import User
 from vaktliste.views import vakt_filter
+from datetime import datetime
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
@@ -20,11 +21,11 @@ class Group(models.Model):
 
 """
 class DutyTime(models.Model):
-    MONDAY = 'MO'
-    TUESDAY = 'TU'
-    WEDNESDAY = 'WE'
-    THURSDAY = 'TH'
-    FRIDAY = 'FR'
+    MONDAY = 'Mandag'
+    TUESDAY = 'Tirsdag'
+    WEDNESDAY = 'Onsdag'
+    THURSDAY = 'Torsdag'
+    FRIDAY = 'Fredag'
 
     DUTYDAYS_CHOICES = (
         (MONDAY, 'Mandag'),
@@ -34,14 +35,15 @@ class DutyTime(models.Model):
         (FRIDAY, 'Fredag')
     )
 
-    day = models.CharField(max_length=2, choices=DUTYDAYS_CHOICES, default=MONDAY)
+    day = models.CharField(max_length=7, choices=DUTYDAYS_CHOICES, default=MONDAY)
     start_time = models.TimeField()
     end_time = models.TimeField()
 
     def shorten_time(self,time):
         return ":".join(str(time).split(":")[:2])
+
     def dutyday(self):
-        return [duty[1] for duty in self.DUTYDAYS_CHOICES if duty[0]==self.day][0]
+        return [dutyday[1] for dutyday in self.DUTYDAYS_CHOICES if dutyday[0]==self.day][0]
 
     def dutytime(self):
         return self.shorten_time(self.start_time) + " - " + self.shorten_time(self.end_time)
@@ -55,26 +57,32 @@ class Profile(models.Model):
     #group = models.ManyToManyField(Group, related_name="groups")
     name = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(upload_to="website/static/img/profilepictures")
-    email = models.CharField(max_length=30, null=True, blank=True)
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.TextField(null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills")
     duty = models.ManyToManyField(DutyTime, related_name="duty")
+    
+    auto_duty = models.BooleanField(default=True)
+    auto_name = models.BooleanField(default=True)
 
     def update(self):
-        self.name = self.user.first_name + " " + self.user.last_name
-        self.email = self.user.username+"@stud.ntnu.no"
-       # self.get_dutytime()
+        if self.auto_name: self.name = self.user.first_name + " " + self.user.last_name
+        self.email = self.user.email
+        self.get_dutytime()
         self.save()
 
     
     def get_dutytime(self):
-        result = vakt_filter(persons=str(self))
-        for day in result:
-            for time in result[day]:
-                self.dutytime = (day,time)
-                break
+        if self.auto_duty:
+            result = vakt_filter(persons=str(self))
+            for day in result:
+                for time in result[day]:
+                    start_time,end_time = time.split(" - ")
+                    start_time= datetime.strptime(start_time,"%H:%M")
+                    end_time= datetime.strptime(end_time,"%H:%M")
+                    self.duty = DutyTime.objects.get_or_create(day=day,start_time=start_time,end_time=end_time)
+                    break
 
     def __str__(self):
         return self.name

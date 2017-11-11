@@ -58,7 +58,8 @@
 	var cell = cells[i]
 	if(cell.innerHTML=="{{ profile.duty.all.0.dutytime }}"){
 	    cells[i+day].style="background-color:var(--hs-green)";
-	    cells[i+day].innerHTML="Min vakt";
+	    var link = "<a href=\"/vaktliste?person={{ profile }}\">Min vakt</a>"
+	    cells[i+day].innerHTML=link;
 	    break;
 	}
     }

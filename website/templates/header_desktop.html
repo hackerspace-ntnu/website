@@ -17,6 +17,7 @@
             {% if request.user.is_authenticated %}
                 <a class='dd waves-effect waves-grey btn-flat' href='#' data-activates='userdropdown'>PROFIL</a>
                 <ul id='userdropdown' class='dropdown-content' style="margin-top: 9px;">
+		    <li><a href="/members/profile/{{ user.id }}">DIN PROFIL</a></li>
                     <li><a href="/authentication/change-password">BYTT PASSORD</a></li>
                     <li><a href="/authentication/logout">LOGG UT</a></li>
                 </ul>

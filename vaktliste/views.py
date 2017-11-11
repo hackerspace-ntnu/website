@@ -102,6 +102,7 @@ def current(_):
     return JsonResponse(filter_current())
 
 def index(request):
+    from userprofile.models import Profile
     dager = request.GET.get('dag', '')
     tider = request.GET.get('tid', '')
     personer = request.GET.get('person', '')
@@ -118,6 +119,9 @@ def index(request):
         for day in vakt_data:
             for time in vakt_data[day]:
                 for hacker in vakt_data[day][time]:
-                    guard_list[hacker]=vakt_data[day][time][hacker]
+                    try:
+                        guard_list[hacker]=Profile.objects.get(name=hacker)
+                    except:
+                        guard_list[hacker]=vakt_data[day][time][hacker]
         context["guards"]=guard_list
     return render(request, 'vakt_filter.html', context)

@@ -15,11 +15,15 @@
 			</a>
 		    </div>
 		    <div class="card-content">
-			<a class="card-title truncate" href="">{{ guard }}</a>
+			{% if info.id %}
+			<a class="card-title truncate" href="/members/profile/{{ info.id }}">{{ guard }}</a>
+			{% else %}
+			<p class="card-title truncate" >{{ guard }}</p>
+			{% endif %}
 			<div class="article-ingress">
 			    <p>Skills:</p>
 			    <ul>
-				{% for skill in info.skills %}
+				{% for skill in info.skills.all %}
 				<li>{{ skill }}</li>
 				{% empty %}
 				<li>Too many to count</li>

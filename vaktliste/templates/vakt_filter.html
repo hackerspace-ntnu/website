@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-<div id="filters">
+<div id="filters" style="width:75%; margin:auto;">
 <form>
     <div class="input-field">
 	<label for="filter_days">Dager</label>
@@ -32,7 +32,9 @@
     <button id="filterButton" class="btn waves-effect waves-light" type="submit">Søk</button>
     </form>
 </div>
-{% include "vakter.html" %}
+<div id="filter_results" style="width:90%; margin: 0 auto">
+    {% include "vakter.html" %}
+</div>
     <script>
 	function condOption(){
 	    var filter_person = document.getElementById("filter_persons").value;

@@ -1,9 +1,13 @@
+@font-face{
+    font-family: Roboto-Light;
+}
 .user-profile-info{
     float:left;
-    background-color:var(--hs-gray-li3);
+    background-color:var(--hs-gray);
     height:300px;
     padding:20px;
     text-align:left;
+    color: white;
 }
 .user-profile-image{
     float:left;
@@ -25,4 +29,6 @@
     margin-right: auto;
     margin-left: auto;
 }
-
+#shift_table a{
+    color:white;
+}

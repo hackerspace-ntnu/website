@@ -18,8 +18,9 @@ class Group(models.Model):
     def __str__(self):
         return self.title
 
+"""
 class DutyTime(models.Model):
-    MONDAY = 'MA'
+    MONDAY = 'MO'
     TUESDAY = 'TU'
     WEDNESDAY = 'WE'
     THURSDAY = 'TH'
@@ -37,9 +38,16 @@ class DutyTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    def shorten_time(self,time):
+        return ":".join(str(time).split(":")[:2])
+    def dutyday(self):
+        return [duty[1] for duty in self.DUTYDAYS_CHOICES if duty[0]==self.day][0]
+
+    def dutytime(self):
+        return self.shorten_time(self.start_time) + " - " + self.shorten_time(self.end_time)
+
     def __str__(self):
         return self.day + " " + str(self.start_time) + "-" + str(self.end_time)
-"""
 
 
 class Profile(models.Model):
@@ -52,13 +60,12 @@ class Profile(models.Model):
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.TextField(null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills")
-    #dutytime = models.ManyToManyField(DutyTime)
-    dutytime = "Never"
-    
+    duty = models.ManyToManyField(DutyTime, related_name="duty")
+
     def update(self):
         self.name = self.user.first_name + " " + self.user.last_name
         self.email = self.user.username+"@stud.ntnu.no"
-        self.get_dutytime()
+       # self.get_dutytime()
         self.save()
 
     

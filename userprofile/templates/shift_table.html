@@ -50,13 +50,13 @@
 	var cells = shift_table.getElementsByTagName("td");
 	var day = 0;
 	for(var i=0; i<heads.length; i++){
-	    if(heads[i].innerHTML=="{{ profile.dutytime.0 }}"){
+	    if(heads[i].innerHTML=="{{ profile.duty.all.0.dutyday }}"){
 		day=i;
 	    }
 	}
     for(var i=0; i<cells.length; i++){
 	var cell = cells[i]
-	if(cell.innerHTML=="{{ profile.dutytime.1 }}"){
+	if(cell.innerHTML=="{{ profile.duty.all.0.dutytime }}"){
 	    cells[i+day].style="background-color:var(--hs-green)";
 	    cells[i+day].innerHTML="Min vakt";
 	    break;

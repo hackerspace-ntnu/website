@@ -46,21 +46,23 @@
 </table>
 <script>
     var shift_table = document.getElementById("shift_table");
-	var heads = shift_table.getElementsByTagName("th");
-	var cells = shift_table.getElementsByTagName("td");
-	var day = 0;
-	for(var i=0; i<heads.length; i++){
-	    if(heads[i].innerHTML=="{{ profile.duty.all.0.dutyday }}"){
-		day=i;
-	    }
+    var heads = shift_table.getElementsByTagName("th");
+    var cells = shift_table.getElementsByTagName("td");
+    {% for duties in profile.duty.all %}
+    var day = 0;
+    for(var i=0; i<heads.length; i++){
+	if(heads[i].innerHTML=="{{ duties.dutyday }}"){
+	    day=i;
 	}
+    }
     for(var i=0; i<cells.length; i++){
 	var cell = cells[i]
-	if(cell.innerHTML=="{{ profile.duty.all.0.dutytime }}"){
+	if(cell.innerHTML=="{{ duties.dutytime }}"){
 	    cells[i+day].style="background-color:var(--hs-green)";
 	    var link = "<a href=\"/vaktliste?person={{ profile }}\">Min vakt</a>"
 	    cells[i+day].innerHTML=link;
 	    break;
 	}
     }
+    {% endfor %}
 </script>

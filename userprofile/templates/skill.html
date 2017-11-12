@@ -16,19 +16,19 @@
                         <div class="card-container">
                             <div class="card medium">
                                 <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href={% url 'profile' profileID=profile.id %}>
+                                    <a class="img-a" href={% url 'profile' profileID=profile.user_id %}>
                                         <img class="activator" src="/media/{{ profile.image }}">
                                     </a>
                                 </div>
                                 <div class="card-content">
-                                    <a class="profile-name" href={% url 'profile' profileID=profile.id %}>{{ profile }}</a>
+                                    <a class="profile-name" href={% url 'profile' profileID=profile.user_id %}>{{ profile }}</a>
                                     <div class="profile-groups-title">
                                         {% for group in profile.group.all %}
                                             {{ group.title|linebreaks }}
                                         {% endfor %}
                                     </div>
                                     {% for skill in profile.skills.all %}
-                                        <a class="chip" href="viewSkill/{{ skill.title }}" style="color: black">
+                                        <a class="chip" href="/members/viewSkill/{{ skill.title }}" style="color: black">
                                             {{ skill.title }}
                                             <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
                                         </a>

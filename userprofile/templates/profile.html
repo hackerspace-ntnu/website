@@ -12,7 +12,7 @@
 	{% include "profile_card.html" %}
 	{% include "shift_table.html" %}
 	{% if user.is_superuser or user = profile.user %}
-	<a href="/members/edit_profile/{{ profile.user_id }}" class="btn waves-effect waves-light">Edit</a>
+	<a href="/members/edit_profile/{{ profile.user_id }}" class="btn waves-effect waves-light">Rediger</a>
 	{% endif %}
     </div>
 </div>

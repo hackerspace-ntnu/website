@@ -18,6 +18,14 @@ class ProfileModelForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['image', 'duty', 'auto_duty', 'skills', 'study', 'access_card']
+        labels = {
+                'image': "Profilbilde",
+                'duty': "Vakttid",
+                'auto_duty': "Hent vakt(er) automatisk",
+                'skills': "Ferdigheter",
+                'study': "Studieprogram",
+                'access_card': "Adgangskort",
+            }
 
 class NameSearchForm(forms.Form):
    name = forms.CharField(max_length=200)

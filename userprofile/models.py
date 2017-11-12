@@ -59,7 +59,7 @@ class Profile(models.Model):
     image = models.ImageField(upload_to="website/static/img/profilepictures")
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
-    study = models.TextField(null=True, blank=True)
+    study = models.CharField(max_length=50, null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills")
     duty = models.ManyToManyField(DutyTime, related_name="duty")
     

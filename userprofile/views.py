@@ -57,11 +57,10 @@ def group(request):
 
 """
 def profile(request, profileID):
-    profile = Profile.objects.get(pk=profileID)
+    profile = Profile.objects.get(id=profileID)
     profile.update()
     return render(request, 'profile.html', {'profile': profile})
 
-"""
 #TODO må fikse mulighet til å legge til skills, endre profil, sikre riktig brukertilgang, autocomplete...
 def edit_profile(request):
     user = request.user
@@ -73,7 +72,6 @@ def edit_profile(request):
         # check whether it's valid:
         if form.is_valid():
             profile.save()
-            return redirect('/members/profile/')
+            return redirect('/members/profile/'+str(profile.id))
     return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
 
-"""

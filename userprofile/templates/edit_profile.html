@@ -11,21 +11,44 @@
         <div class="container">
             <div class="row">
                 <div class="col-10">
-                    <p class="flow-text">Endre profilen din her: {{ retning }}</p>
+		    <p class="flow-text">Endrer profilen til {{ profile.name }}: {{ retning }}</p>
                 </div>
             </div>
             <div class="row">
             </div>
             <div class="row">
                 <div class="row col-10">
-                    <form  method="post">
+                    <form  method="post" action="/members/edit_profile/" onchange="condOption()">
                         {% csrf_token %}
-                        {{ form }}
+			<table>
+			{{ form.as_table }}
+			</table>
                         <input type="submit" value="Submit"/>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+	$(document).ready(function(){
+	    $("select").material_select();
+	    var auto_duty = $("#id_auto_duty")
+	    var auto_duty_label= $("#id_auto_duty").parent().siblings("th").children("label");
+	    auto_duty_label.appendTo(auto_duty.parent())
+	    auto_duty.prependTo(auto_duty.parent())
+	    condOption();
+	});
+	function condOption(){
+	    var auto_duty = document.getElementById("id_auto_duty").checked;
+	    if(!auto_duty){
+		//$("#id_duty").parents("tr").css("visibility","visible");
+		$("#id_duty").parents("tr").fadeIn("fast");
+	    }
+	    else{
+		//$("#id_duty").parents("tr").css("visibility","collapse");
+		$("#id_duty").parents("tr").fadeOut("fast");
+	    }
+	}
+    </script>
 {% endblock %}
 

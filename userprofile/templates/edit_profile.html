@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="row col-10">
-                    <form  method="post" action="/members/edit_profile/" onchange="condOption()">
+		    <form  method="post" action="/members/edit_profile/{{ profile.user_id }}" onchange="condOption()">
                         {% csrf_token %}
 			<table>
 			{{ form.as_table }}

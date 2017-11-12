@@ -57,9 +57,9 @@ def group(request):
 
 """
 def profile(request, profileID):
-    profile = Profile.objects.get(id=profileID)
+    profile = Profile.objects.get(user_id=profileID)
     profile.update()
-    return render(request, 'profile.html', {'profile': profile})
+    return render(request, 'profile.html', {'profile': profile, 'user': request.user })
 
 #TODO må fikse mulighet til å legge til skills, endre profil, sikre riktig brukertilgang, autocomplete...
 def edit_profile(request):
@@ -72,6 +72,20 @@ def edit_profile(request):
         # check whether it's valid:
         if form.is_valid():
             form.save()
-            return redirect('/members/profile/'+str(profile.id))
+            return redirect('/members/profile/'+str(profile.user_id))
     return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
 
+def edit_profile_id(request,profileID):
+    user = request.user
+    profile = Profile.objects.get(user_id=profileID)
+    if user!=profile.user and not user.is_superuser:
+        return redirect('/members/profile/'+str(profileID))
+    # if this is a POST request we need to process the form data
+    form = ProfileModelForm(request.POST or None, instance=profile)
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        # check whether it's valid:
+        if form.is_valid():
+            form.save()
+            return redirect('/members/profile/'+str(profileID))
+    return render(request, 'edit_profile.html', {'form': form, 'profile': profile})

@@ -71,7 +71,7 @@ def edit_profile(request):
         # create a form instance and populate it with data from the request:
         # check whether it's valid:
         if form.is_valid():
-            profile.save()
+            form.save()
             return redirect('/members/profile/'+str(profile.id))
     return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
 

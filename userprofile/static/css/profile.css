@@ -5,7 +5,8 @@
     float:left;
     background-color:var(--hs-gray);
     height:300px;
-    padding:20px;
+    width:300px;
+    padding:15px;
     text-align:left;
     color: white;
 }
@@ -13,19 +14,25 @@
     float:left;
     height:300px;
 }
+.profile-image{
+    height:300px;
+    width:300px;
+    object-fit: cover;
+    object-position: center;
+}
 .user-profile-container{
-    display:block;
-    margin-right auto;
+    margin-right: auto;
     margin-left:auto;
     text-align:center;
-    width:75%;
+    width:-moz-fit-content;
+    height:-moz-fit-content;
 }
 #shift_table td,th{
     border: 1px gray solid;
     padding: 5px;
 }
 #shift_table{
-    width:50%;
+    width:600px;
     margin-right: auto;
     margin-left: auto;
 }

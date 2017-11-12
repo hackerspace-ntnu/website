@@ -15,6 +15,12 @@
                 </div>
             </div>
             <div class="row">
+		<div class="user-profile-image">
+		    <img class="profile-image" src="/media/{{ profile.image }}" height="300">
+		    <div class="image-overlay">
+			<p class="overlay-text" onclick="reveal('id_image')">Endre profilbilde</p>
+		    </div>
+		</div>
             </div>
             <div class="row">
                 <div class="row col-10">
@@ -33,9 +39,8 @@
 	$(document).ready(function(){
 	    $("select").material_select();
 	    var auto_duty = $("#id_auto_duty")
-	    var auto_duty_label= $("#id_auto_duty").parent().siblings("th").children("label");
-	    auto_duty_label.appendTo(auto_duty.parent())
-	    auto_duty.prependTo(auto_duty.parent())
+	    auto_duty.parent().append("<label for='id_auto_duty'></label>")
+	    $("#id_image").parents("tr").fadeOut("fast")
 	    condOption();
 	});
 	function condOption(){
@@ -48,6 +53,9 @@
 		//$("#id_duty").parents("tr").css("visibility","collapse");
 		$("#id_duty").parents("tr").fadeOut("fast");
 	    }
+	}
+	function reveal(field){
+	    $("#"+field).parents("tr").fadeIn("fast");
 	}
     </script>
 {% endblock %}

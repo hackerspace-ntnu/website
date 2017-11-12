@@ -1,3 +1,31 @@
 form {
     width: 75%;
 }
+.user-profile-image{
+    padding:auto;
+    position:relative;
+    width:-moz-fit-content;
+}
+.image-overlay{
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    width:100%;
+    opacity: 0;
+    transition: .5s ease;
+}
+.user-profile-image:hover .image-overlay{
+    opacity:0.5;
+}
+.overlay-text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  cursor:pointer;
+}

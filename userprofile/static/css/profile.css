@@ -39,3 +39,7 @@
 #shift_table a{
     color:white;
 }
+.skill.chip{
+    color:black;
+    background-color:var(--hs-gray-li3);
+}

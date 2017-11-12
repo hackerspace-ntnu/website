@@ -4,8 +4,8 @@
     </div>
     <div class="user-profile-info">
 	<h4>{{ profile }}</h4>
-	{% if profile.title %}
-	<p>{{ profile.title }}</p>
+	{% if profile.group %}
+	<p>{{ profile.group.all.0.title }}</p>
 	{% endif %}
 	{% if profile.study %}
 	<p>{{ profile.study }}</p>
@@ -14,15 +14,12 @@
 	<p>{{ profile.email }}</p>
 	{% endif %}
 	{% if profile.skills %}
-	<p>Skills:</p>
-	<ul class="skill-list">
-	    {% for skill in profile.skills.all %}
-	    <li>
-		<img class="skillicon" src="/media/{{ skill.icon }}" height=10px>
-		{{ skill }}
-	    </li>
-	    {% endfor %}
-	</ul>
+	{% for skill in profile.skills.all %}
+	<a class="skill chip" href="/members/viewSkill/{{ skill.title }}">
+	    {{ skill.title }}
+	    <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+	</a>
+	{% endfor %}
 	{% endif %}
     </div>
 </div>

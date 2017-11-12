@@ -53,6 +53,7 @@ def group(request):
 def profile(request, profileID):
     profile = Profile.objects.get(user_id=profileID)
     profile.update()
+    print(profile.__dict__)
     return render(request, 'profile.html', {'profile': profile, 'user': request.user })
 
 def edit_profile(request):

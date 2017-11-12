@@ -2,16 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 import re
 
-from .models import Profile, Skill#,Group
+from .models import Profile, Skill, Group
 from .forms import ProfileForm, ProfileModelForm
 
 
-"""
 def members(request):
     profiles = Profile.objects.all()
-    groups = Group.objects.prefetch_related('members')
+    #groups = Group.objects.prefetch_related('members')
     if request.method == 'POST':
-        #TODO Noe her...
         text = request.POST['searchBar'].lower()
         tokens = re.split('; |, |  |\n', text)
         result_profiles = []
@@ -34,12 +32,12 @@ def members(request):
             for group in profile.group.all():
                 if group in group_results and profile not in result_profiles:
                     result_profiles.append(profile)
-
         return render(request, "members.html", context={"profiles": result_profiles})
 
-    return render(request, "members.html", context={"profiles": profiles, "groups": groups})
+    return render(request, "members.html", context={"profiles": profiles})#, "groups": groups})
 
 
+"""
 def skill(request):
     skill = request.path.split('/')[-1]
     profiles = []
@@ -61,15 +59,11 @@ def profile(request, profileID):
     profile.update()
     return render(request, 'profile.html', {'profile': profile, 'user': request.user })
 
-#TODO må fikse mulighet til å legge til skills, endre profil, sikre riktig brukertilgang, autocomplete...
 def edit_profile(request):
     user = request.user
     profile = user.profile
-    # if this is a POST request we need to process the form data
     form = ProfileModelForm(request.POST or None, instance=profile)
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        # check whether it's valid:
         if form.is_valid():
             form.save()
             return redirect('/members/profile/'+str(profile.user_id))
@@ -80,11 +74,8 @@ def edit_profile_id(request,profileID):
     profile = Profile.objects.get(user_id=profileID)
     if user!=profile.user and not user.is_superuser:
         return redirect('/members/profile/'+str(profileID))
-    # if this is a POST request we need to process the form data
     form = ProfileModelForm(request.POST or None, instance=profile)
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        # check whether it's valid:
         if form.is_valid():
             form.save()
             return redirect('/members/profile/'+str(profileID))

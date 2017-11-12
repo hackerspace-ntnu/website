@@ -12,14 +12,12 @@ class Skill(models.Model):
         return self.title
 
 
-"""
 class Group(models.Model):
     title = models.CharField(max_length=50)
 
     def __str__(self):
         return self.title
 
-"""
 class DutyTime(models.Model):
     MONDAY = 'Mandag'
     TUESDAY = 'Tirsdag'
@@ -54,7 +52,7 @@ class DutyTime(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    #group = models.ManyToManyField(Group, related_name="groups")
+    group = models.ManyToManyField(Group, related_name="groups")
     name = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(upload_to="website/static/img/profilepictures")
     

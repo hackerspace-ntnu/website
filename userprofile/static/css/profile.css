@@ -43,3 +43,6 @@
     color:black;
     background-color:var(--hs-gray-li3);
 }
+#edit_profile{
+    float:right;
+}

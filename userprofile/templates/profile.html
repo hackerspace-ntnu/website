@@ -9,29 +9,7 @@
 {% block content %}
 <div class="section no-pad-bot">
     <div class="container">
-	<div class="user-profile-container">
-	    <div class="user-profile-image">
-		<img class="profile-image" src="/media/{{ profile.image }}" height="300">
-	    </div>
-	    <div class="user-profile-info">
-		<h4>{{ profile }}</h4>
-		<p>{{ profile.title }}</p>
-		<br>
-		<p>{{ profile.study }}</p>
-		<p>{{ profile.email }}</p>
-		{% if profile.skills %}
-		<p>Skills:</p>
-		<ul class="skill-list">
-		    {% for skill in profile.skills.all %}
-		    <li>
-			<img class="skillicon" src="/media/{{ skill.icon }}" height=10px>
-			{{ skill }}
-		    </li>
-		    {% endfor %}
-		</ul>
-		{% endif %}
-	    </div>
-	</div>
+	{% include "profile_card.html" %}
 	{% include "shift_table.html" %}
     </div>
 </div>

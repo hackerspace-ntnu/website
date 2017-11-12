@@ -1,0 +1,28 @@
+<div class="user-profile-container">
+    <div class="user-profile-image">
+	<img class="profile-image" src="/media/{{ profile.image }}" height="300">
+    </div>
+    <div class="user-profile-info">
+	<h4>{{ profile }}</h4>
+	{% if profile.title %}
+	<p>{{ profile.title }}</p>
+	{% endif %}
+	{% if profile.study %}
+	<p>{{ profile.study }}</p>
+	{% endif %}
+	{% if profile.email %}
+	<p>{{ profile.email }}</p>
+	{% endif %}
+	{% if profile.skills %}
+	<p>Skills:</p>
+	<ul class="skill-list">
+	    {% for skill in profile.skills.all %}
+	    <li>
+		<img class="skillicon" src="/media/{{ skill.icon }}" height=10px>
+		{{ skill }}
+	    </li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+    </div>
+</div>

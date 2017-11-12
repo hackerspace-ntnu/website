@@ -37,18 +37,14 @@ def members(request):
     return render(request, "members.html", context={"profiles": profiles})#, "groups": groups})
 
 
-"""
-def skill(request):
-    skill = request.path.split('/')[-1]
-    profiles = []
-    for profile in Profile.objects.all():
-        for s in profile.skills.all():
-            if str(s).lower() == str(skill).lower():
-                profiles.append(profile)
+def skill(request,skill_title):
+    skill = Skill.objects.get(title=skill_title)
+    profiles = Profile.objects.filter(skills__title__icontains=skill_title)
     context = {'skill': skill, 'profiles': profiles}
     return render(request, 'skill.html', context)
 
 
+"""
 def group(request):
     context = {'group': request.path.split("/")[-1]}
     return render(request, "group.html", context)

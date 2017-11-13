@@ -25,6 +25,7 @@ def login_user(request):
                 password = form.cleaned_data['password']
                 user = authenticate(username=username, password=password)
                 login(request, user)
+                request.session['feided']=False
                 return HttpResponseRedirect(reverse('index'))
 
     else:
@@ -39,9 +40,15 @@ def login_user(request):
 
 @login_required
 def logout_user(request):
+    feided = request.session.get('feided',False)
     if request.user.is_authenticated:
         logout(request)
-    return HttpResponseRedirect(reverse('index'))
+        resp = HttpResponseRedirect(reverse('index'))
+    if feided:
+        print("Logging out FEIDE-user")
+        resp = HttpResponseRedirect("https://auth.dataporten.no/logout")
+    return resp
+
 
 
 @login_required

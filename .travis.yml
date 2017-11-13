@@ -10,7 +10,7 @@ install: "pip install -r requirements.txt"
 before_script:
   - rm -rf wiki/tests
   - rm -rf wiki/*/*/tests
-  - rm -rf wiki/plugin/haystack
+  - rm -rf wiki/plugins/haystack
   - python manage.py makemigrations --no-input
   - python manage.py migrate --no-input
 

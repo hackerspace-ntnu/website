@@ -6,7 +6,7 @@ form {
     position:relative;
     width:-moz-fit-content;
 }
-.image-overlay{
+.image-overlay, .overlay-background{
     position:absolute;
     top:0;
     bottom:0;
@@ -16,10 +16,14 @@ form {
     height:300px;
     opacity: 0;
     transition: .5s ease;
-    background-color:var(--hs-gray)
 }
-.user-profile-image:hover .image-overlay{
+.user-profile-image:hover .overlay-text, .user-profile-image:hover .image-overlay{
+    transition: .5s ease;
+    opacity:1;
+}
+.user-profile-image:hover .overlay-background{
     opacity:0.5;
+    background-color:var(--hs-gray)
 }
 .overlay-text {
   color: white;

@@ -7,7 +7,7 @@
 		<div class="card large">
 		    <div class="card-image waves-effect waves-block waves-light">
 			{% if info.id %}
-			<a class="img-a" href="/members/profile/{{ info.id }}">
+			<a class="img-a" href="/members/profile/{{ info.user_id }}">
 			{% else %}
 			<a class="img-a">
 			{% endif %}
@@ -20,7 +20,7 @@
 		    </div>
 		    <div class="card-content">
 			{% if info.id %}
-			<a class="card-title truncate" href="/members/profile/{{ info.id }}">{{ guard }}</a>
+			<a class="card-title truncate" href="/members/profile/{{ info.user_id }}">{{ guard }}</a>
 			{% else %}
 			<p class="card-title truncate" >{{ guard }}</p>
 			{% endif %}

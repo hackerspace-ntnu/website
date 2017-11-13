@@ -120,3 +120,7 @@
     margin-top: 10vh;
   }
 }
+.user-chip{
+    color:white !important;
+    background-color:var(--hs-gray)
+}

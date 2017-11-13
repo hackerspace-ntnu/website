@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load userprofile %}
 <div id="header-desktop">
     <div id="navbar">
         <a href="/">
@@ -15,7 +16,10 @@
             <a class="waves-effect waves-grey btn-flat" href="/wiki">WIKI</a>
             <a class="waves-effect waves-grey btn-flat" href="/about">OM OSS</a>
             {% if request.user.is_authenticated %}
-                <a class='dd waves-effect waves-grey btn-flat' href='#' data-activates='userdropdown'>PROFIL</a>
+                <a class='chip user-chip dd waves-effect waves-grey btn-flat' href='#' data-activates='userdropdown'>
+		    <img class="chip-img" src="/media/{% get_profile request.user.id 'image' %}">
+		    {% get_profile request.user.id 'name' %}
+		</a>
                 <ul id='userdropdown' class='dropdown-content' style="margin-top: 9px;">
 		    <li><a href="/members/profile/{{ user.id }}">DIN PROFIL</a></li>
                     <li><a href="/authentication/change-password">BYTT PASSORD</a></li>

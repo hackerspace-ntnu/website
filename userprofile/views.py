@@ -43,17 +43,18 @@ def skill(request,skill_title):
     context = {'skill': skill, 'profiles': profiles}
     return render(request, 'skill.html', context)
 
-
 """
 def group(request):
     context = {'group': request.path.split("/")[-1]}
     return render(request, "group.html", context)
-
 """
 def profile(request, profileID):
-    profile = Profile.objects.get(user_id=profileID)
-    profile.update()
-    return render(request, 'profile.html', {'profile': profile, 'user': request.user })
+    try:
+        profile = Profile.objects.get(user_id=profileID)
+        profile.update()
+        return render(request, 'profile.html', {'profile': profile, 'user': request.user })
+    except Profile.DoesNotExist:
+        return render(request,'404.html')
 
 def edit_profile(request):
     user = request.user
@@ -66,13 +67,16 @@ def edit_profile(request):
     return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
 
 def edit_profile_id(request,profileID):
-    user = request.user
-    profile = Profile.objects.get(user_id=profileID)
-    if user!=profile.user and not user.is_superuser:
-        return redirect('/members/profile/'+str(profileID))
-    form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+    try:
+        user = request.user
+        profile = Profile.objects.get(user_id=profileID)
+        if user!=profile.user and not user.is_superuser:
             return redirect('/members/profile/'+str(profileID))
-    return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
+        form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
+        if request.method == 'POST':
+            if form.is_valid():
+                form.save()
+                return redirect('/members/profile/'+str(profileID))
+        return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
+    except Profile.DoesNotExist:
+        return render(request,'404.html')

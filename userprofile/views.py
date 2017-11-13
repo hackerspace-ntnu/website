@@ -58,7 +58,7 @@ def profile(request, profileID):
 def edit_profile(request):
     user = request.user
     profile = user.profile
-    form = ProfileModelForm(request.POST or None, instance=profile)
+    form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -70,7 +70,7 @@ def edit_profile_id(request,profileID):
     profile = Profile.objects.get(user_id=profileID)
     if user!=profile.user and not user.is_superuser:
         return redirect('/members/profile/'+str(profileID))
-    form = ProfileModelForm(request.POST or None, instance=profile)
+    form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
         if form.is_valid():
             form.save()

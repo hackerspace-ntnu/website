@@ -11,7 +11,7 @@
     <div class="container">
 	{% include "profile_card.html" %}
 	{% include "shift_table.html" %}
-	{% if user.is_superuser or user = profile.user %}
+	{% if user.is_superuser or user == profile.user %}
 	<a id="edit_profile" href="/members/edit_profile/{{ profile.user_id }}" class="btn waves-effect waves-light">Rediger</a>
 	{% endif %}
     </div>

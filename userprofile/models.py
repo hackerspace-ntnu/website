@@ -52,14 +52,14 @@ class DutyTime(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    group = models.ManyToManyField(Group, related_name="groups")
+    group = models.ManyToManyField(Group, related_name="groups",blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="website/static/img/profilepictures")
+    image = models.ImageField(upload_to="website/static/img/profilepictures",blank=True)
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
-    skills = models.ManyToManyField(Skill, related_name="skills")
-    duty = models.ManyToManyField(DutyTime, related_name="duty")
+    skills = models.ManyToManyField(Skill, related_name="skills",blank=True)
+    duty = models.ManyToManyField(DutyTime, related_name="duty",blank=True)
     
     auto_duty = models.BooleanField(default=True)
     auto_name = models.BooleanField(default=True)

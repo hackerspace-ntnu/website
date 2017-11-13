@@ -24,9 +24,11 @@
             </div>
             <div class="row">
                 <div class="row col-10">
-		    <form  method="post" action="/members/edit_profile/{{ profile.user_id }}" onchange="condOption()">
+		    <form  enctype="multipart/form-data" method="post" action="/members/edit_profile/{{ profile.user_id }}" onchange="condOption()">
                         {% csrf_token %}
-			{{ form.as_p }}
+			<table>
+			{{ form.as_table }}
+			</table>
                         <input type="submit" value="Submit"/>
                     </form>
                 </div>
@@ -38,22 +40,22 @@
 	    $("select").material_select();
 	    var auto_duty = $("#id_auto_duty")
 	    auto_duty.parent().append("<label for='id_auto_duty'></label>")
-	    $("#id_image").parents("p").fadeOut("fast")
+	    $("#id_image").parents("tr").fadeOut("fast")
 	    condOption();
 	});
 	function condOption(){
 	    var auto_duty = document.getElementById("id_auto_duty").checked;
 	    if(!auto_duty){
 		//$("#id_duty").parents("tr").css("visibility","visible");
-		$("#id_duty").parents("p").fadeIn("fast");
+		$("#id_duty").parents("tr").fadeIn("fast");
 	    }
 	    else{
 		//$("#id_duty").parents("tr").css("visibility","collapse");
-		$("#id_duty").parents("p").fadeOut("fast");
+		$("#id_duty").parents("tr").fadeOut("fast");
 	    }
 	}
 	function reveal(field){
-	    $("#"+field).parents("p").fadeIn("fast");
+	    $("#"+field).parents("tr").fadeIn("fast");
 	}
     </script>
 {% endblock %}

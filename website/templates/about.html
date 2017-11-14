@@ -3,49 +3,147 @@
 
 
 {% block head %}
-  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static './css/style.css' %}" rel="stylesheet" type="text/css" />
 {% endblock head %}
 
 {% block content %}
-    <section id="about" class="about-section row">
-        <h1 class="center-align col s12">Om Hackerspace NTNU</h1>
-        <div class="col s6 m7">
-          <div class="card">
-            <div class="card-image">
-              <img src="#" alt="firkanta logo bilde" style="width: 75%; height: auto;" />
-              <span class="card-title">Hackerspace</span>
-            </div>
-            <div class="card-content">
-              <p>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
-              Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
-              Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
-              <br><br>
-              Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse.
-              Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.
-              <br><br>
-              Kom innom for å se hva vi driver med og slå av en prat.
-              Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.</p>
-            </div>
-            <div class="card-action">
-              <a href="/groups" class="waves-effect waves-light btn" style="width: 100%;">Våre grupper</a>
-            </div>
+    <section id="about">
+        <div class="row">
+          <h1>Om Hackerspace NTNU</h1>
+        </div>
+        <div class="row">
+              <div class="col s6">
+                <p>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
+                Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
+                Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
+                <br><br>
+                Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse.
+                Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.
+                <br><br>
+                Kom innom for å se hva vi driver med og slå av en prat.
+                Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.</p>
+              </div>
+              <div class="col s6">
+                <img src="#" alt="firkanta logobilde" style="width: 100%; height: auto;" />
+              </div>
+        </div>
+        <div class="row">
+          <div class="col s12">
+            <ul id="tabs-swipe" class="tabs">
+              <li class="tab col s2"><a href="#devops-tab">devops</a></li>
+              <li class="tab col s2"><a href="#labops-tab">labops</a></li>
+              <li class="tab col s2"><a href="#PR-tab">PR</a></li>
+              <li class="tab col s2"><a href="#prosjektER-tab">Prosjekt ER</a></li>
+              <li class="tab col s2"><a href="#prosjektVR-tab">Prosjekt VR</a></li>
+            </ul>
           </div>
         </div>
-    </section>
-    <div id="map" style="position: relative;">
-      <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-              src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
-      <div id="hideFrame">
-        <div style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0; display: table;">
-          <div style="display: table-cell; vertical-align: middle; text-align: center; ">
-            <p style="color: #fff; opacity: 0.5; z-index: 101; font-size:96px;"><strong>Trykk her</strong></p>
+        <div class="row">
+          <div id="devops-tab">
+            <div class="col s6">
+                <h5>Developement Operatørene utvikler nettsiden, og andre interne systemer.</h5>
+                <p>
+                  Hovedoppgaven vår er å utvikle og drifte hackerspace sin nettside, men vi jobber også med
+                  ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.
+                  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en
+                  android widget.
+                </p>
+            </div>
+            <div class="col s6">
+                <img src="#" alt="firkanta devopsbilde" style="width: 100%; height: auto;" />
+            </div>
           </div>
-        </div>
-      </div>
-      <script>
-          $("#hideFrame").click(function () {
-              $("#hideFrame").css("display", "none")
-          });
-      </script>
-    </div>
+          <div id="labops-tab">
+            <div class="col s6">
+                  <h5>
+                    Lab Operatørene er gruppa som har ansvaret for daglig drift av selve verkstedet.
+                  </h5>
+                  <p>
+                    Vi har hovedansvaret for vaktlister og alt utstyret som står til rådighet for alle på drivhuset.
+                    I tillegg holder LabOps diverse kurs både på ønsker utenfra og innenfra.
+                    Det kan handle om alt fra hvordan man 3D printer og lager 3D modeller til Hololens og AI.
+                    De bli alle annonsert med tid, sted og påmelding her på våre hjemmesider.
+                    <br><br>
+                    Ellers organiserer Lab Operatørene de mange besøkene Hackerspace får i løpet av året.
+                    Vi ønsker velkommen alt fra ungdomsskoleklasser til høytstående dignitarer som ønsker å se hva slags
+                    magi som brygges på Hackerspace om dagen, Hackerspace er også med på en rekke stands gjennom semesteret,
+                    samt andre større arrangementer. Tidligere har vi deltatt med stands på både NTNU åpen dag, og Spill Expo
+                    i Lillestrøm.
+                    <br><br>
+                    Om du vil være med å bidra for at alle studenter ved IDI skal få tilgang til ny og spennende teknologi, kjører
+                    vi opptak hver høst og ønsker alle velkommen til å søke. Også de som ikke er IDI-studenter kan bli tatt opp og
+                    det kreves ingen forkunnskaper. Ved å være med i LabOps lærer du å arrangere kurs på en god måte, du vil lære
+                    om alt vi har på lab’en for å hjelpe andre og vil selvfølgelig ha tilgang på det selv. Vi prøver også å få alle
+                    nye igjennom HSGK så fort som mulig etter opptak og prioriterer at våre nye laboperatører har grunnleggende
+                    kunnskap om 3D printing, lodding, Arduino og Raspberry Pi. Som en bivirkning av nåværende foretrukne ukentlige
+                    møteavvikling eksisterer det også en mulighet for å bli god på å spise kake.
+                  </p>
+            </div>
+              <div class="col s6">
+                <img src="#" alt="firkanta labopsbilde" style="width: 100%; height: auto;" />
+              </div>
+            </div>
+            <div id="PR-tab">
+              <div class="col s6">
+                <h5>PR jobber for å synliggjøre hva Hackerspace er og gjør.</h5>
+                <p>
+                  Det er viktig for oss å dele med andre studenter og interesserte mulighetene og engasjementet
+                  som finnes i Hackerspace, enten det er kursing, nytt utstyr, spennende prosjekter eller sosiale
+                  eventer.
+                  <br><br>
+                  Arbeidsoppgavene våre er ofte knyttet til visuell kommunikasjon og mange av våre bidrag gjør seg for
+                  eksempel synlig i sosiale medier, på stands og på plakater på Gløshaugen. Våre medlemmer er dermed
+                  interesserte i design, fotografi og kommunikasjon for å nevne noe.
+                </p>
+              </div>
+              <div class="col s6">
+                <img src="#" alt="firkanta PR-bilde" style="width: 100%; height: auto;" />
+              </div>
+            </div>
+            <div id="prosjektER-tab">
+              <div class="col s6">
+                <h5>Vi gjør kule ting</h5>
+                <p>
+                  placeholder
+              </div>
+              <div class="col s6">
+                <img src="#" alt="firkanta prosjektER-bilde" style="width: 100%; height: auto;" />
+              </div>
+            </div>
+            <div id="prosjektVR-tab">
+              <div class="col s6">
+                <h5>Dette er årets VR-gruppe.</h5>
+                <p>
+                  Vi jobber på spreng for å ha et spill klart til Norwegian Game Awards. Spillet heter Defendy
+                  Pengy, og er et tower-defence inspirert spill med et hjemmekoselig dyretema. Vi har allerede en
+                  spillbar demo klar, så det er bare å komme innom om du vil prøve!
+                  <br><br>
+                  Sjekk tilbake senere for mer informasjon om spillet!
+              </p>
+              </div>
+              <div class="col s6">
+                <img src="#" alt="firkanta prosjektVR-bilde" style="width: 100%; height: auto;" />
+              </div>
+            </div>
+          </div>
+        </section>
+            <div class="responsive-img">
+              <div id="map" style="position: relative;">
+                <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                          src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
+                <div id="hideFrame">
+                  <div style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0; display: table;">
+                    <div style="display: table-cell; vertical-align: middle; text-align: center; ">
+                      <p style="color: #fff; opacity: 0.5; z-index: 101; font-size:96px;"><strong>Trykk her</strong></p>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                      $("#hideFrame").click(function () {
+                          $("#hideFrame").css("display", "none")
+                      });
+                </script>
+              </div>
+            </div>
+
 {% endblock content %}

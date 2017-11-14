@@ -38,7 +38,7 @@
                                         {% endfor %}
                                     </div>
                                     {% for skill in profile.skills.all %}
-                                        <a class="chip" href="/members/viewSkill/{{ skill.title }}" style="color: black">
+                                        <a class="chip" href="/members/skill/{{ skill.title }}" style="color: black">
                                             {{ skill.title }}
                                             <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
                                         </a>

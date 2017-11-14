@@ -15,7 +15,7 @@
 	{% endif %}
 	{% if profile.skills %}
 	{% for skill in profile.skills.all %}
-	<a class="skill chip" href="/members/viewSkill/{{ skill.title }}">
+	<a class="skill chip" href="/members/skill/{{ skill.title }}">
 	    {{ skill.title }}
 	    <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
 	</a>

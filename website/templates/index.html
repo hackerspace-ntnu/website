@@ -19,47 +19,95 @@
 	<p>Hackerspace er stengt for dagen</p>
 </div>
 {% endif %}
-<div class="section no-pad-bot hs-gray block">
+<div class="section hs-gray block">
 	<div class="container">
 		<div class="row">
-			<div class="col s12 center-align">
-				<img class="" style="width:500px; height:500px;" src="../static/img/Logo_round_white.png">
-				<h1 class="white-text">Hackerspace</h1>
-				<h4 class="white-text">En kreativ arena for å realisere dine ideer</h4>
+			<div class="col s12 center-align white-text">
+				<br>
+				<br>
+				<img class="" style="width:300; height:400px;" src="../static/img/Icon_green_transparent.png">
+				<h1>Hackerspace</h1>
+				<h4>En kreativ arena for å realisere dine ideer</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section block hs-green">
+	<div class="container">
+		<div class="row center-align">
+			<div class="col s12 white-text">
+				<h4>Åpent hverdager fra 10:15 til 18:00</h4>
+				<h5>Besøk oss på Drivhuset</h5>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section hs-gray white">
+	<div class="container">
+		<div class="row">
+			<div class="col s6">
+				<p class="flow-text">Har du en drøm om å lage noe kult, men vet ikke helt hvor du skal starte?</p>
+				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
+			</div>
+			<div class="col s6">
+				<p class="flow-text center-align">Noen av våre arrangementer</p>
+				<p class="flow-text center-align"><a href="#">Trykk her for å se alle</a></p>
+				<div class="slider">
+					<ul class="slides">
+						{% for event in event_list %}
+						<li>
+							<img class="activator" src="{{ event.thumbnail.url }}">
+							<div class="caption center-align caption-text">
+								<a class="white-text" href="/news/event/{{ event.id }}/"><h3>{{ event.title }}</h3></a>
+								<h4 class="white-text">Here's our small slogan.</h4>
+								<h5>{{ event.time_start|date:"H:i"|upper }} at
+									<a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></h5>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col s12">
-				<div class="card-panel white">
-					<p class="flow-text">Har du en drøm om å lage noe kult, men vet ikke helt hvor du skal starte?</p>
-					<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
-				</div>
+				<h3>Siste nytt</h3>
 			</div>
+		</div>
+		<div class="row">
+			{% for article in article_list %}
+			<ul class="collection">
+				<li class="collection-item">
+					<h5>{{ article.title }}</h5>
+					<p>
+					{% autoescape off %}
+						{{ article.ingress_content|truncatechars:255 }}
+					{% endautoescape %}
+					</p>
+					<a href="#!">Les mer</a>
+				</li>
+			</ul>
+			{% endfor %}
+		</div>
+		<div class="row">
+			<div class="col s12 white">
 		</div>
 	</div>
-	<div class="news">
-		<div class="row">
-			<div class="slider">
-				<ul class="slides">
-					{% for news in news_list %}
-					<li>
-						<img class="activator" src="{{ news.thumbnail.url }}">
-						<div class="caption center-align">
-							<a class="card-title" href="/news/event/{{ news.id }}/"><h3>{{ news.title }}</h3></a>
-							<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-							<p>{{ news.time_start|date:"H:i"|upper }} at
-							<a href="{{ news.place_href }}" target="_blank">{{ news.place }}</a>
-						</div>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-		</div>
-<script>
+
+
+
+
+
+
+
+
+			<script>
 $(document).ready(function(){
 	$('.slider').slider();
+	$('.collapsible').collapsible();
 });
-</script>
-</div>
+
+			</script>
+		</div>
 </main>
 {% endblock content %}

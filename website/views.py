@@ -7,14 +7,17 @@ from datetime import datetime
 from wiki.templatetags import check_user_group as groups
 
 
-def index(request, number_of_news=3):
+def index(request):
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
     can_access_internal = groups.has_group(request.user, 'member')
 
-    event_list = Event.objects.filter(time_end__gte=datetime.now(), internal__lte=can_access_internal).order_by('time_start')[:number_of_news]
-    article_list = Article.objects.filter(internal__lte=can_access_internal).order_by('-pub_date')[:number_of_news - len(event_list)]
+    event_list = Event.objects.filter(time_end__gte=datetime.now(), internal__lte=can_access_internal).order_by('time_start')[:3]
 
-    news_list = list(event_list) + list(article_list)
+    # Get three articles
+    article_list = Article.objects.filter(internal__lte=can_access_internal).order_by('-pub_date')[:3]
+
+    event_list = list(event_list)
+    artile_list = list(article_list)
 
     try:
         door_status = DoorStatus.objects.get(name='hackerspace').status
@@ -22,7 +25,8 @@ def index(request, number_of_news=3):
         door_status = True
 
     context = {
-        'news_list': news_list,
+        'article_list': article_list,
+        'event_list': event_list,
         'door_status': door_status,
     }
 

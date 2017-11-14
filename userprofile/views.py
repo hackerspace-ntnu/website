@@ -3,11 +3,11 @@ from django.contrib.auth.models import User
 import re
 
 from .models import Profile, Skill, Group
-from .forms import ProfileForm, ProfileModelForm
+from .forms import ProfileModelFormUser, ProfileModelFormMember, ProfileModelFormAdmin
 
 
 def members(request):
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.exclude(group__isnull=True)
     #groups = Group.objects.prefetch_related('members')
     if request.method == 'POST':
         text = request.POST['searchBar'].lower()
@@ -59,7 +59,13 @@ def profile(request, profileID):
 def edit_profile(request):
     user = request.user
     profile = user.profile
-    form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
+    print(profile.group)
+    if user.is_superuser:
+        form = ProfileModelFormAdmin(request.POST or None, request.FILES or None, instance=profile)
+    elif profile.group==None:
+        form = ProfileModelFormMember(request.POST or None, request.FILES or None, instance=profile)
+    else:
+        form = ProfileModelFormUser(request.POST or None, request.FILES or None, instance=profile)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -72,7 +78,12 @@ def edit_profile_id(request,profileID):
         profile = Profile.objects.get(user_id=profileID)
         if user!=profile.user and not user.is_superuser:
             return redirect('/members/profile/'+str(profileID))
-        form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
+        if user.is_superuser:
+            form = ProfileModelFormAdmin(request.POST or None, request.FILES or None, instance=profile)
+        elif Profile.objects.filter(user=user,group__isnull=False):
+            form = ProfileModelFormMember(request.POST or None, request.FILES or None, instance=profile)
+        else:
+            form = ProfileModelFormUser(request.POST or None, request.FILES or None, instance=profile)
         if request.method == 'POST':
             if form.is_valid():
                 form.save()

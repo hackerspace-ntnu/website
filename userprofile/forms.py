@@ -14,12 +14,38 @@ class ProfileForm(forms.Form):
 
 
 
-class ProfileModelForm(forms.ModelForm):
+class ProfileModelFormUser(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'duty', 'auto_duty', 'skills', 'study', 'access_card']
+        fields = ['image', 'study']
         labels = {
                 'image': "Profilbilde",
+                'study': "Studieprogram",
+            }
+
+class ProfileModelFormMember(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'group', 'duty', 'auto_duty', 'skills', 'study', 'access_card']
+        labels = {
+                'image': "Profilbilde",
+                'duty': "Vakttid",
+                'group': "Grupper",
+                'auto_duty': "Hent vakt(er) automatisk",
+                'skills': "Ferdigheter",
+                'study': "Studieprogram",
+                'access_card': "Adgangskort",
+            }
+        
+class ProfileModelFormAdmin(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'name', 'auto_name', 'group', 'duty', 'auto_duty', 'skills', 'study', 'access_card']
+        labels = {
+                'image': "Profilbilde",
+                'name': "Navn",
+                'auto_name': "Hent navn fra bruker",
+                'group': "Gruppe",
                 'duty': "Vakttid",
                 'auto_duty': "Hent vakt(er) automatisk",
                 'skills': "Ferdigheter",

@@ -39,20 +39,31 @@
     <script>
 	$(document).ready(function(){
 	    $("select").material_select();
+	    
 	    var auto_duty = $("#id_auto_duty")
 	    auto_duty.parent().append("<label for='id_auto_duty'></label>")
 	    $("#id_image").parents("tr").fadeOut("fast")
+	    
+	    var auto_name = $("#id_auto_name")
+	    auto_name.parent().append("<label for='id_auto_name'></label>")
+	    $("#id_image").parents("tr").fadeOut("fast")
+	    
 	    condOption();
 	});
 	function condOption(){
 	    var auto_duty = document.getElementById("id_auto_duty").checked;
 	    if(!auto_duty){
-		//$("#id_duty").parents("tr").css("visibility","visible");
 		$("#id_duty").parents("tr").fadeIn("fast");
 	    }
 	    else{
-		//$("#id_duty").parents("tr").css("visibility","collapse");
 		$("#id_duty").parents("tr").fadeOut("fast");
+	    }
+	    var auto_name = document.getElementById("id_auto_name").checked;
+	    if(!auto_name){
+		$("#id_name").parents("tr").fadeIn("fast");
+	    }
+	    else{
+		$("#id_name").parents("tr").fadeOut("fast");
 	    }
 	}
 	function reveal(field){

@@ -19,20 +19,47 @@
 	<p>Hackerspace er stengt for dagen</p>
 </div>
 {% endif %}
-<div class="container">
-	{% include "news.html" %}
-	<div class="row">
-		<div class="col s12">
-			<h1>Om Hackerspace NTNU</h1>
+<div class="section no-pad-bot hs-gray block">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 center-align">
+				<img class="" style="width:500px; height:500px;" src="../static/img/Logo_round_white.png">
+				<h1 class="white-text">Hackerspace</h1>
+				<h4 class="white-text">En kreativ arena for å realisere dine ideer</h4>
+			</div>
 		</div>
 		<div class="row">
-			<div class="col s6">
-				<blockquote>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</blockquote></div>
-			<div class="col s6">
-				<p>Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse. Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner. Kom innom for å se hva vi driver med og slå av en prat. Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy. </p>
+			<div class="col s12">
+				<div class="card-panel white">
+					<p class="flow-text">Har du en drøm om å lage noe kult, men vet ikke helt hvor du skal starte?</p>
+					<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="news">
+		<div class="row">
+			<div class="slider">
+				<ul class="slides">
+					{% for news in news_list %}
+					<li>
+						<img class="activator" src="{{ news.thumbnail.url }}">
+						<div class="caption center-align">
+							<a class="card-title" href="/news/event/{{ news.id }}/"><h3>{{ news.title }}</h3></a>
+							<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+							<p>{{ news.time_start|date:"H:i"|upper }} at
+							<a href="{{ news.place_href }}" target="_blank">{{ news.place }}</a>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+<script>
+$(document).ready(function(){
+	$('.slider').slider();
+});
+</script>
 </div>
 </main>
 {% endblock content %}

@@ -31,7 +31,7 @@ need frontendhalp
             <div class="attendee-list collapsible-body people" id="list_of_members">
               {% for username in usernames %}
                 <div id="{{ username }}_container">
-                  <p class="inline user" id="{{ username }}" onclick="delete_person({{ username }});">{{ username }}</p>
+                  <p class="inline user" id="{{ username }}" onclick="delete_person({{ username }});" style="cursor: default">{{ username }}</p>
                 </div>
               {% endfor %}
             </div>

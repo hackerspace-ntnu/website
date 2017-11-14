@@ -40,7 +40,9 @@
                                     {% for skill in profile.skills.all %}
                                         <a class="chip" href="/members/skill/{{ skill.title }}" style="color: black">
                                             {{ skill.title }}
+					    {% if skill.icon %}
                                             <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+					    {% endif %}
                                         </a>
                                     {% endfor %}
                                 </div>

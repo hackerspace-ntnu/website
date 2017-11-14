@@ -8,17 +8,7 @@
 
 {% block content %}
     <section id="groupview" style="width: 90%; max-width: 1000px; margin: 50px auto;">
-        <h1 class="center-align">Medlemmer i Hackerspace</h1>
-        <div class="row">
-            <form method="post">
-                {% csrf_token %}
-                <div id="searchform" class="input-field">
-                    <label for id="search">Hva leter du etter?</label>
-                    <input id="search" maxlength="100" name="searchBar" type="text">
-                </div>
-                <button id="searchButton" type="submit" name="action" class="waves-effect waves-light btn">SØK</button>
-            </form>
-        </div>
+	<h1 class="center-align">Medlemmer i Hackerspace som kan {{ skill.title }}</h1>
         <div class="members">
             <div class="row">
                 {% for profile in profiles %}

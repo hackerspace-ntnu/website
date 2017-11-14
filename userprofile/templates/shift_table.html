@@ -1,0 +1,68 @@
+<table id="shift_table" class="centered responsive-table">
+    <thead>
+	<tr>
+	    <th></th>
+	    <th>Mandag</th>
+	    <th>Tirsdag</th>
+	    <th>Onsdag</th>
+	    <th>Torsdag</th>
+	    <th>Fredag</th>
+	</tr>
+    </thead>
+    <tbody>
+	<tr>
+	    <td>10:15 - 12:07</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	</tr>
+	<tr>
+	    <td>12:07 - 14:07</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	</tr>
+	<tr>
+	    <td>14:07 - 16:07</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	</tr>
+	<tr>
+	    <td>16:07 - 18:00</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	</tr>
+    </tbody>
+</table>
+<script>
+    var shift_table = document.getElementById("shift_table");
+    var heads = shift_table.getElementsByTagName("th");
+    var cells = shift_table.getElementsByTagName("td");
+    {% for duties in profile.duty.all %}
+    var day = 0;
+    for(var i=0; i<heads.length; i++){
+	if(heads[i].innerHTML=="{{ duties.dutyday }}"){
+	    day=i;
+	}
+    }
+    for(var i=0; i<cells.length; i++){
+	var cell = cells[i]
+	if(cell.innerHTML=="{{ duties.dutytime }}"){
+	    cells[i+day].style="background-color:var(--hs-green)";
+	    var link = "<a href=\"/vaktliste?dag={{ duties.dutyday }}&tid="+(11+i/3)+"\">Se vakt</a>"
+	    cells[i+day].innerHTML=link;
+	    break;
+	}
+    }
+    {% endfor %}
+</script>

@@ -11,21 +11,64 @@
         <div class="container">
             <div class="row">
                 <div class="col-10">
-                    <p class="flow-text">Endre profilen din her: {{ retning }}</p>
+		    <p class="flow-text">Endrer profilen til {{ profile.name }}: {{ retning }}</p>
                 </div>
             </div>
             <div class="row">
+		<div class="user-profile-image">
+		    <img class="profile-image" src="/media/{{ profile.image }}" height="300">
+		    <div class="image-overlay">
+			<div class="overlay-background"></div>
+			<p class="overlay-text" onclick="reveal('id_image')">Endre profilbilde</p>
+		    </div>
+		</div>
             </div>
             <div class="row">
                 <div class="row col-10">
-                    <form  method="post">
+		    <form  enctype="multipart/form-data" method="post" action="/members/edit_profile/{{ profile.user_id }}" onchange="condOption()">
                         {% csrf_token %}
-                        {{ form }}
+			<table>
+			{{ form.as_table }}
+			</table>
                         <input type="submit" value="Submit"/>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+	$(document).ready(function(){
+	    $("select").material_select();
+	    
+	    var auto_duty = $("#id_auto_duty")
+	    auto_duty.parent().append("<label for='id_auto_duty'></label>")
+	    $("#id_image").parents("tr").fadeOut("fast")
+	    
+	    var auto_name = $("#id_auto_name")
+	    auto_name.parent().append("<label for='id_auto_name'></label>")
+	    $("#id_image").parents("tr").fadeOut("fast")
+	    
+	    condOption();
+	});
+	function condOption(){
+	    var auto_duty = document.getElementById("id_auto_duty").checked;
+	    if(!auto_duty){
+		$("#id_duty").parents("tr").fadeIn("fast");
+	    }
+	    else{
+		$("#id_duty").parents("tr").fadeOut("fast");
+	    }
+	    var auto_name = document.getElementById("id_auto_name").checked;
+	    if(!auto_name){
+		$("#id_name").parents("tr").fadeIn("fast");
+	    }
+	    else{
+		$("#id_name").parents("tr").fadeOut("fast");
+	    }
+	}
+	function reveal(field){
+	    $("#"+field).parents("tr").fadeIn("fast");
+	}
+    </script>
 {% endblock %}
 

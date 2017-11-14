@@ -54,17 +54,27 @@
 				<p class="flow-text center-align"><a href="#">Trykk her for å se alle</a></p>
 				<div class="slider">
 					<ul class="slides">
+						{% if event in event_list %}
 						{% for event in event_list %}
 						<li>
 							<img class="activator" src="{{ event.thumbnail.url }}">
 							<div class="caption center-align caption-text">
 								<a class="white-text" href="/news/event/{{ event.id }}/"><h3>{{ event.title }}</h3></a>
-								<h4 class="white-text">Here's our small slogan.</h4>
+								<h4 class="white-text">Ingress test</h4>
 								<h5>{{ event.time_start|date:"H:i"|upper }} at
 									<a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></h5>
 							</div>
 						</li>
 						{% endfor %}
+						{% else %}
+						<li>
+							<img class="activator" src="{{ event.thumbnail.url }}">
+							<div class="caption caption-text">
+								<a class="white-text" href="#"><h3>Det er for tiden ingen offentlige arrangementer</h3></a>
+							</div>
+						</li>
+						{% endif %}
+
 					</ul>
 				</div>
 			</div>

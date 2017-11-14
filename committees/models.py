@@ -23,7 +23,7 @@ class Committee(Group):
 
     class Meta:
         permissions = (
-            ("edit_committees", "Can edit all committees"),
+            ("can_edit_committees", "Can edit all committees"),
         )
 
     def __str__(self):

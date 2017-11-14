@@ -41,7 +41,7 @@ def view_committee(request, name):
 
 def edit_check(user, c_name):
     committee = get_object_or_404(Committee, name=c_name)
-    return user.has_perm('edit_committees') or user in committee.admins.all()
+    return user.has_perm('can_edit_committees') or user in committee.admins.all()
 
 def edit_members(request, committee_name):
     if edit_check(request.user, committee_name):

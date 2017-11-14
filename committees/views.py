@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 
 from .forms import EditCommittees, EditDescription
-from .models import Committee
+from .models import Committee, Position
 
 def index(request):
     committees = Committee.objects.prefetch_related('user_set')
@@ -21,10 +21,23 @@ def index(request):
 
 def view_committee(request, name):
     committee = get_object_or_404(Committee, name=name)
-    #members = Member.objects.filter(committee=committee)
+
+    members = list(committee.user_set.all())
+    members.sort(key= lambda user: user.first_name)
+
+    can_edit = edit_check(request.user, name)
+
+    positions = Position.objects.filter(pos_in_committee=committee)
+    pos_names = [p.usr.username for p in positions]
+    #usernames = [user for user in committee.user_set.all() if user.username not in pos_names]
+    usernames = filter(lambda user: user.username not in pos_names, committee.user_set.all())
+    print(usernames)
     context = {
         'committee': committee,
-        'members': committee.user_set.all()
+        'members': members,
+        'can_edit': can_edit,
+        'usernames': usernames,
+        'positions': positions,
     }
     return render(request, 'committees/view_committee.html', context)
 
@@ -42,9 +55,9 @@ def edit_members(request, committee_name):
             return json
         else:
             committee = get_object_or_404(Committee, name=committee_name)
+
             context = {
                 'committee': committee,
-                'usernames': [user.username for user in committee.user_set.all()],
                 'all_users': User.objects.all(),
             }
 

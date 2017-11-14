@@ -52,6 +52,7 @@ class Position(Group):
     title = models.CharField(max_length=100, verbose_name="Stillingstittel")
     email = models.EmailField(null=True, blank=True, verbose_name="Epost")
     pos_in_committee = models.ForeignKey(Committee, null=False)
+    usr = models.ForeignKey(User, null=False)
     # permission_group = models.ForeignKey(Group)
 
     def __str__(self):

@@ -54,7 +54,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     group = models.ManyToManyField(Group, related_name="groups",blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="website/static/img/profilepictures",blank=True)
+    image = models.ImageField(upload_to="website/static/img/profilepictures",default="website/static/img/profilepictures/default.jpg")
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)

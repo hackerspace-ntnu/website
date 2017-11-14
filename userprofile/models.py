@@ -54,7 +54,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     group = models.ManyToManyField(Group, related_name="groups",blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="website/static/img/profilepictures",default="website/static/img/profilepictures/default.jpg")
+    image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.jpg")
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
@@ -79,7 +79,11 @@ class Profile(models.Model):
                     start_time,end_time = time.split(" - ")
                     start_time= datetime.strptime(start_time,"%H:%M")
                     end_time= datetime.strptime(end_time,"%H:%M")
-                    self.duty = DutyTime.objects.get_or_create(day=day,start_time=start_time,end_time=end_time)
+                    try:
+                        self.duty = [DutyTime.objects.get(day=day,start_time=start_time,end_time=end_time)]
+                    except:
+                        duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
+                        self.duty = duty
                     break
 
     def __str__(self):

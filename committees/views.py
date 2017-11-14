@@ -22,21 +22,19 @@ def index(request):
 def view_committee(request, name):
     committee = get_object_or_404(Committee, name=name)
 
-    members = list(committee.user_set.all())
-    members.sort(key= lambda user: user.first_name)
-
     can_edit = edit_check(request.user, name)
 
     positions = Position.objects.filter(pos_in_committee=committee)
     pos_names = [p.usr.username for p in positions]
-    #usernames = [user for user in committee.user_set.all() if user.username not in pos_names]
-    usernames = filter(lambda user: user.username not in pos_names, committee.user_set.all())
-    print(usernames)
+
+    users = [user for user in committee.user_set.all() if user.username not in pos_names]
+    #users = filter(lambda user: user.username not in pos_names, committee.user_set.all())
+    users.sort(key=lambda user: user.first_name)
+
     context = {
         'committee': committee,
-        'members': members,
         'can_edit': can_edit,
-        'usernames': usernames,
+        'users': users,
         'positions': positions,
     }
     return render(request, 'committees/view_committee.html', context)
@@ -58,6 +56,7 @@ def edit_members(request, committee_name):
 
             context = {
                 'committee': committee,
+                'usernames': [user.username for user in committee.user_set.all()],
                 'all_users': User.objects.all(),
             }
 

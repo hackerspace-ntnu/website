@@ -10,8 +10,6 @@
 <!--
 TODO: edit members
 need frontendhalp
-Use AJAX and autocomplete search field to add/remove users
-  Existing scripts and autocomplete form lifted shamelessly from event attendees page
 -->
 
   <div class="content">
@@ -29,7 +27,7 @@ Use AJAX and autocomplete search field to add/remove users
       <div class="registered_users">
         <ul class="collapsible" data-collapsible="accordion">
           <li>
-            <div class="collapsible-header">Påmeldte</div>
+            <div class="collapsible-header">Medlemmer</div>
             <div class="attendee-list collapsible-body people" id="list_of_members">
               {% for username in usernames %}
                 <div id="{{ username }}_container">

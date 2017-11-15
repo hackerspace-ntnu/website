@@ -62,3 +62,7 @@ class RaspberryPi(models.Model):
             n += 1
 
         return next(iter(available_names))
+
+    @staticmethod
+    def get_names():
+        return Name.objects.values_list('name',flat=True)

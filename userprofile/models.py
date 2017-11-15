@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
-    icon = models.ImageField(upload_to="skillicons")
+    icon = models.ImageField(upload_to="skillicons",blank=True)
     description = models.TextField()
 
     def __str__(self):

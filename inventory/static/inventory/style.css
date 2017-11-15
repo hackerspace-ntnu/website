@@ -1,9 +1,12 @@
-li a {
-    color: green;
 
+/* Kode for farege på knappane*/
+
+.btn{
+  background-color: #5BBA47;
 }
-
-
-body {
-    background-color: darkgrey;
+.btn:hover {
+  background-color: #366F2A;
+}
+.btn:active{
+  background-color: #366F2A;
 }

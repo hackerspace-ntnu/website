@@ -5,89 +5,215 @@
 {% load divtags %}
 
 {% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/index.css" %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="{% static 'inventory/js/index.js' %}"></script>
+    <link href="{% static 'inventory/style.css' %}" rel="stylesheet" type="text/css" />
 {% endblock header %}
 
 
 {% block content %}
 
-    <!-- TODO gjøre denne alltid aktiv? Da blir den lettere å finne-->
-    <!-- TODO kan lage templatetag, så den blir lettere å legge til på flere sider -->
-    <!-- TODO kan legge til et ikon på knappen så det blir lettere å se at man har flere valg-->
-    <a class='dropdown-button btn' href='#' data-activates='dropdown1'
-       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg
-    </a>
-    <ul id='dropdown1' class='dropdown-content'
-        style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
-        {% if perms.inventory.add_item %}
-            <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
-        {% endif %}
-        {% if perms.inventory.add_tag %}
-            <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
-        {% endif %}
-        {% if perms.inventory.add_loan %}
-            <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
-            <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
-                utlån</a></li>
-        {% endif %}
-        <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
-    </ul>
-    <div class="content">
-        <br>
-        <form id="searchform" action="{% url 'inventory:search' %}" method="get">
-            {% csrf_token %}
-            <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Søk" autocomplete="off">
-            <button class="btn waves-effect waves-light" type="submit" name="action">søk</button>
-        </form>
+  <!-- TODO: Fikse modals og for loop til avatarmenyen -->
 
-        <h1>Inventar</h1>
-        <!--
-        TODO endre dette når man får maaange tags.
-        TODO endre så kun brukere med endringstilgang kan se de som er slettet.
-        TODO mellomrom mellom radene varierer, fiks så det ikke blir så mye.
-        -->
+        <div class="container">
+          <h1>Inventar</h1>
 
-        <div class="row">
-            <div class="col s3">
-                <div class="card horizontal" style="background-color: var(--hs-gray-li3);">
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Velg tagger du vil vise</p>
-                        </div>
-                        <form id="check-form" action="{% url 'inventory:index' %}" method="post"
-                              style="padding-left: 15px;">
-                            {% csrf_token %}
+          <!-- Start admin menu-->
+          {% if perms.inventory %}
+          <div class="row">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">Administrator meny</span>
+                </div>
+                <div class="card-action">
 
-                            <!-- recursive template tag -->
-                            {% tag_hierarchy tags 0 20 %}
-                            <br>
-
-                            <label for="check_json"></label>
-                            <input type="text" name="check_json" id="check_json" hidden="hidden">
-
-                        </form>
-
-                        <div class="card-action">
-                            <button class="btn waves-effect waves-light" type="button"
-                                    onclick="postCheckBoxes()">Refresh!
-                            </button>
-
-                        </div>
-                    </div>
+                  <!-- Modal Triggers -->
+                  {% if perms.inventory.add_item %}
+                      <a href="#add_item" class="btn modal-trigger">Legg til gjenstand</a>
+                  {% endif %}
+                  {% if perms.inventory.add_tag %}
+                      <a href="#add_tag" class="btn modal-trigger">Legg til tag</a>
+                  {% endif %}
+                  {% if perms.inventory.add_loan %}
+                      <a href="#reg_loan" class="btn modal-trigger">Registrer utlån</a>
+                      <a href="#adm_loan" class="btn modal-trigger">Administrerutlån</a>
+                  {% endif %}
                 </div>
             </div>
-            <div class="items col s9">
-                {% for item in items %}
-                    <div class="item-box">
-                        {% small_card_item_detail item request perms %}
-                    </div>
-                {% endfor %}
+            {% endif %}
+          </div>
+
+          <!-- Modal structures -->
+          <div id="add_item" class="modal">
+            <!-- add modal from add_item.html -->
+          </div>
+          <div id="add_tag" class="modal">
+            <!-- add modal from add_tag.html -->
+          </div>
+          <div id="reg_loan" class="modal">
+            <!-- add modal from register_loan.html -->
+          </div>
+          <div id="adm_loan" class="modal">
+            <!-- add modal from administrate_loan.html -->
+          </div>
+          <!-- End admin menu-->
+
+          <!-- start main content -->
+          {% if perms.inventory %}
+          <div class="row">
+            <div class="col">
+              <a href="{% url 'inventory:my_loans' %}"  class="btn">Mine lån</a>
             </div>
+          </div>
+          {% endif %}
+
+          <!-- Start avatar collapsable -->
+          <!-- TODO: Make for loop that runs through "tags/kategories" og items -->
+          <div class="row">
+            <ul class="collapsible" data-collapsible="accordion">
+              <li>
+                <div class="collapsible-header">First-kategori (example: Raspberry pi)</div>
+                <div class="collapsible-body">
+                  <ul class="collection">
+                    <li class="collection-item avatar">
+                      <img src="" alt="" class="">
+                      <span class="title">Item (example: Raspberry pi 1)</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle">folder</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle green">insert_chart</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle red">play_arrow</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+                <div class="collapsible-body">
+                  <ul class="collection">
+                    <li class="collection-item avatar">
+                      <img src="images/yuna.jpg" alt="" class="circle">
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle">folder</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle green">insert_chart</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle red">play_arrow</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li>
+                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+                <div class="collapsible-body">
+                  <ul class="collection">
+                    <li class="collection-item avatar">
+                      <img src="images/yuna.jpg" alt="" class="circle">
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle">folder</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle green">insert_chart</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                    <li class="collection-item avatar">
+                      <i class="material-icons circle red">play_arrow</i>
+                      <span class="title">Title</span>
+                      <p>First Line <br>
+                        Second Line
+                      </p>
+                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- Start avatar collapsable -->
+
+          <!-- Put this as items?
+
+                    <div class="row">
+                          <div class="col s3">
+                              <div class="card horizontal">
+                                  <div class="card-stacked">
+
+
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="items col s9">
+                              {% for item in items %}
+                                  <div class="item-box">
+                                      {% small_card_item_detail item request perms %}
+                                  </div>
+                              {% endfor %}
+                          </div>
+                      </div>
+            -->
+
         </div>
-    </div>
+        <!-- End main content -->
 
     <script>
         var postedTags = {{ posted_tags|safe }};

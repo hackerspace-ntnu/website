@@ -70,7 +70,6 @@ class Profile(models.Model):
         self.get_dutytime()
         self.save()
 
-    
     def get_dutytime(self):
         if self.auto_duty:
             result = vakt_filter(persons=str(self))
@@ -87,4 +86,4 @@ class Profile(models.Model):
                     break
 
     def __str__(self):
-        return self.name
+        return self.user.username

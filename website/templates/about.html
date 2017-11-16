@@ -7,13 +7,24 @@
 {% endblock head %}
 
 {% block content %}
+<div class="section hs-green no-pad-bot white-text">
     <div class="container">
-        <div class="row">
-          <h1>Om Hackerspace NTNU</h1>
+        <div class="row center-align">
+          <h3>Om Hackerspace NTNU</h3>
+	  <ul>
+		  <li> <a class="hs-gray-text" href="#om"><h5>Om oss</h5></a> </li>
+		  <li> <a class="hs-gray-text" href="#grupper"><h5>Våre grupper</h5></a> </li>
+		  <!-- IDEA: Tabs her for å bytte mellom "Generelt" og "våre grupper"? -->
+	  </ul>
         </div>
-        <div class="row">
+    </div>
+</div>
+<div class="section hs-gray white-text" id="om">
+	<div class="container">
+		<div class="row">
               <div class="col s6">
-                <p>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
+		<h3>Hva er Hackerspace?</h3>
+                <p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
                 Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
                 Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
                 <br><br>
@@ -24,9 +35,13 @@
                 Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.</p>
               </div>
               <div class="col s6">
-                <img src="#" alt="firkanta logobilde" style="width: 100%; height: auto;" />
+                <img class="responsive-img" src="../static/img/Icon_green_transparent.png" alt="firkanta logobilde" />
               </div>
         </div>
+    </div>
+</div>
+<div class="section white" id="grupper">
+    <div class="container">
         <div class="row">
           <div class="col s12">
             <ul id="tabs-swipe" class="tabs">
@@ -42,7 +57,7 @@
           <div id="devops-tab">
             <div class="col s6">
                 <h5>Developement Operatørene utvikler nettsiden, og andre interne systemer.</h5>
-                <p>
+                <p class="flow-text">
                   Hovedoppgaven vår er å utvikle og drifte hackerspace sin nettside, men vi jobber også med
                   ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.
                   Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en
@@ -58,7 +73,7 @@
                   <h5>
                     Lab Operatørene er gruppa som har ansvaret for daglig drift av selve verkstedet.
                   </h5>
-                  <p>
+                <p class="flow-text">
                     Vi har hovedansvaret for vaktlister og alt utstyret som står til rådighet for alle på drivhuset.
                     I tillegg holder LabOps diverse kurs både på ønsker utenfra og innenfra.
                     Det kan handle om alt fra hvordan man 3D printer og lager 3D modeller til Hololens og AI.
@@ -86,7 +101,7 @@
             <div id="PR-tab">
               <div class="col s6">
                 <h5>PR jobber for å synliggjøre hva Hackerspace er og gjør.</h5>
-                <p>
+                <p class="flow-text">
                   Det er viktig for oss å dele med andre studenter og interesserte mulighetene og engasjementet
                   som finnes i Hackerspace, enten det er kursing, nytt utstyr, spennende prosjekter eller sosiale
                   eventer.
@@ -103,8 +118,9 @@
             <div id="prosjektER-tab">
               <div class="col s6">
                 <h5>Vi gjør kule ting</h5>
-                <p>
+                <p class="flow-text">
                   placeholder
+		</p>
               </div>
               <div class="col s6">
                 <img src="#" alt="firkanta prosjektER-bilde" style="width: 100%; height: auto;" />
@@ -113,7 +129,7 @@
             <div id="prosjektVR-tab">
               <div class="col s6">
                 <h5>Dette er årets VR-gruppe.</h5>
-                <p>
+                <p class="flow-text">
                   Vi jobber på spreng for å ha et spill klart til Norwegian Game Awards. Spillet heter Defendy
                   Pengy, og er et tower-defence inspirert spill med et hjemmekoselig dyretema. Vi har allerede en
                   spillbar demo klar, så det er bare å komme innom om du vil prøve!
@@ -127,23 +143,24 @@
             </div>
           </div>
         </div>
-            <div class="responsive-img">
-              <div id="map" style="position: relative;">
-                <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                          src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
-                <div id="hideFrame">
-                  <div style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0; display: table;">
-                    <div style="display: table-cell; vertical-align: middle; text-align: center; ">
-                      <p style="color: #fff; opacity: 0.5; z-index: 101; font-size:96px;"><strong>Trykk her</strong></p>
-                    </div>
-                  </div>
-                </div>
-                <script>
-                      $("#hideFrame").click(function () {
-                          $("#hideFrame").css("display", "none")
-                      });
-                </script>
-              </div>
-            </div>
 
+<div class="section">
+	<div class="responsive-img" style="margin-bottom:-50px;">
+		<div id="map" style="position: relative;">
+			<iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
+			<div id="hideFrame">
+				<div style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0; display: table;">
+					<div style="display: table-cell; vertical-align: middle; text-align: center; ">
+						<p style="color: #fff; opacity: 0.5; z-index: 101; font-size:96px;"><strong>Trykk her</strong></p>
+					</div>
+				</div>
+			</div>
+			<script>
+$("#hideFrame").click(function () {
+	$("#hideFrame").css("display", "none")
+});
+			</script>
+		</div>
+	</div>
+</div>
 {% endblock content %}

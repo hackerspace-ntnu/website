@@ -55,6 +55,17 @@ main {
 
 .caption-text {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 
+/* Overstyr materialize farger */
+.secondary-content {
+	color:#4E4B46 !important;
+}
+a {
+	color:#5BBA47 !important;
+}
+.btn {
+	background-color:#5BBA47 !important;
+	color:#fff !important;
 
 }

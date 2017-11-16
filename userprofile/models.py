@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.admin import User
+from django.conf import settings
 from vaktliste.views import vakt_filter
 from datetime import datetime
+from PIL import Image, ImageOps
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
@@ -49,12 +51,11 @@ class DutyTime(models.Model):
     def __str__(self):
         return self.day + " " + str(self.start_time) + "-" + str(self.end_time)
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    group = models.ManyToManyField(Group, related_name="groups",blank=True)
+    group = models.ManyToManyField(Group, related_name='profile',blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.jpg")
+    image = models.ImageField(upload_to="profilepictures",default="website/static/img/profilepictures/default.jpg")
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
@@ -70,6 +71,13 @@ class Profile(models.Model):
         self.get_dutytime()
         self.save()
 
+    def save(self, force_insert=False, force_update=False, *args, **kwargs):
+        super(Profile, self).save(force_insert, force_update)
+        print(self.image.field.storage.base_url)
+        if self.image:
+            if self.image.width > 300 or self.image.height > 300:
+                filename = "/".join(self.image.url.split("/")[2:])
+                ImageOps.fit(Image.open(filename),(300,300),centering=(0.5,0.5)).save(filename,"PNG")
     
     def get_dutytime(self):
         if self.auto_duty:

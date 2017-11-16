@@ -69,10 +69,10 @@ class Profile(models.Model):
         if self.auto_name: self.name = self.user.first_name + " " + self.user.last_name
         self.email = self.user.email
         self.get_dutytime()
+        self.fix_profile_picture()
         self.save()
 
-    def save(self, force_insert=False, force_update=False, *args, **kwargs):
-        super(Profile, self).save(force_insert, force_update)
+    def fix_profile_picture(self):
         if self.image:
             if self.image.width > 300 or self.image.height > 300:
                 filename = "/".join(self.image.url.split("/")[2:])
@@ -80,7 +80,7 @@ class Profile(models.Model):
 
     def get_dutytime(self):
         if self.auto_duty:
-            result = vakt_filter(persons=str(self))
+            result = vakt_filter(persons=self.name)
             for day in result:
                 for time in result[day]:
                     start_time,end_time = time.split(" - ")
@@ -92,6 +92,7 @@ class Profile(models.Model):
                         duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
                         self.duty = duty
                     break
+                break
 
     def __str__(self):
         return self.user.username

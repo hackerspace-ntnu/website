@@ -53,7 +53,7 @@
 					{% for article in article_list %}
 					<li class="collection-item">
 						<a class="title">{{ article.title }}</a>
-						<span class="secondary-content" href="#!">{{ article.pub_date }}</span>
+						<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
 					</li>
 					{% endfor %}
 				</ul>

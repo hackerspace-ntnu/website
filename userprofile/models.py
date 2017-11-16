@@ -73,7 +73,6 @@ class Profile(models.Model):
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
         super(Profile, self).save(force_insert, force_update)
-        print(self.image.field.storage.base_url)
         if self.image:
             if self.image.width > 300 or self.image.height > 300:
                 filename = "/".join(self.image.url.split("/")[2:])

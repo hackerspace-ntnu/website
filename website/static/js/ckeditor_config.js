@@ -10,13 +10,3 @@ CKEDITOR.editorConfig = function( config ) {
     config.stylesSet = [];
     config.height = '100%'
 };
-
-
-CKEDITOR.on('instanceReady', function( ev ) {
-  ev.editor.dataProcessor.htmlFilter.addRules({
-    elements: {
-      p: function (e) { e.attributes.class = 'flow-text'; },
-      li: function (e) { e.attributes.class = 'flow-text'; }
-    },
-  });
-});

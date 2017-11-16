@@ -11,7 +11,7 @@ def index(request):
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
     can_access_internal = groups.has_group(request.user, 'member')
 
-    event_list = Event.objects.filter(internal__lte=can_access_internal).order_by('time_start')[:5]
+    event_list = Event.objects.filter(internal__lte=can_access_internal).order_by('-time_start')[:5]
 
     # Get three articles
     article_list = Article.objects.filter(internal__lte=can_access_internal).order_by('-pub_date')[:5]

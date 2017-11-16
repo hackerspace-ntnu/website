@@ -25,6 +25,11 @@ APPEND_SLASH = True
 LOGIN_REDIRECT_URL = '/authentication/login/'
 LOGIN_URL = '/authentication/login/'
 
+DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
+DATAPORTEN_OAUTH_TOKEN_URL = "https://auth.dataporten.no/oauth/token"
+DATAPORTEN_OAUTH_CLIENT_ID = "SetThis"
+DATAPORTEN_OAUTH_CLIENT_SECRET = "MagicSealsAndNarwalsDancingTogetherInRainbows"
+
 ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),
 )
@@ -68,6 +73,7 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications',
     'mptt',
     'authentication',
+    'authentication_feide',
     'smart_selects',
     'committees',
     'dal',
@@ -146,6 +152,9 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+
 ]
 
 #################################

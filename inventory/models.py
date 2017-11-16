@@ -36,7 +36,8 @@ class Item(models.Model):
     # Felt for plassering i rommet.
     zone = models.CharField(max_length=50, null=True)
     shelf = models.IntegerField(null=True)
-    place = models.IntegerField(null=True)
+    row = models.IntegerField(null=True)
+    column = models.IntegerField(null=True)
 
     # TODO legge til et felt for å telle popularitet i sidevisninger, kan bruke dette når man søker
 

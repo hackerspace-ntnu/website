@@ -3,26 +3,20 @@
 {% load check_user_group %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}">
 {% endblock head %}
 
 {% block content %}
-    <div class="section no-pad-bot">
-        <div class="container">
-            <h1>Din profil</h1>
-            <div class="row">
-                <div class="row col-10">
-                    <div>
-                        <p>{{ profile }}</p>
-                        <img class="profile-image" src="/media/{{ profile.image }}" height="300">
-                    </div>
-                    <div>
-                        <p>{{ profile.study }}</p>
-                        <p>{{ profile.access_card }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="section no-pad-bot">
+    <div class="container">
+	{% include "profile_card.html" %}
+	{% if profile.duty.all %}
+	{% include "shift_table.html" %}
+	{% endif %}
+	{% if user.is_superuser or user == profile.user %}
+	<a id="edit_profile" href="/members/edit_profile/{{ profile.user_id }}" class="btn waves-effect waves-light">Rediger</a>
+	{% endif %}
     </div>
+</div>
 {% endblock %}
 

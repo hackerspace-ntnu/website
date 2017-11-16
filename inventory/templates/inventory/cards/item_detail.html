@@ -19,7 +19,7 @@
                     <!-- TODO vise antall man har igjen i tillegg til totalt. -->
                     <p>Antall: {{ item.quantity_left }}/{{ item.quantity }}</p>
                     <br>
-                    <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Plass: {{ item.place }}</p>
+                    <p>Sone: {{ item.zone }}, Hylle: {{ item.shelf }}, Rad: {{ item.row }}, Kolonne: {{ item.column }}</p>
 
                     {% if perms.inventory.add_loan %}
                         {% if item.get_active_loans %}

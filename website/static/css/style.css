@@ -1,9 +1,10 @@
 @import 'colors.css';
 
-/* Importer font-style til Roboto-Light */
-@font-face {
-  font-family: Roboto-Light;
-  src: url("/static/materialize/font/roboto/Roboto-Light.woff");
+html {
+	font-family: Open Sans !important;
+}
+h1,h2,h3,h4,h5,a {
+	font-family: Montserrat !important;
 }
 
 /* Resize hackerspace-logoen */

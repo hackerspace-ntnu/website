@@ -3,7 +3,7 @@
 	<img class="profile-image" src="/media/{{ profile.image }}" height="300">
     </div>
     <div class="user-profile-info">
-	<h4>{{ profile }}</h4>
+	<h4>{{ profile.name }}</h4>
 	{% if profile.group %}
 	<p>{{ profile.group.all.0.title }}</p>
 	{% endif %}

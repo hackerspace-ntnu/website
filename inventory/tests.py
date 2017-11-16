@@ -216,7 +216,6 @@ class TagTest(TestCase):
         tag = Tag.objects.create(name='tag')
         response = self.client.post(reverse('inventory:add_tag', args=(tag.id,)),
                                     {'name': 'TAG', 'parent_tag_ids': dumps([str(tag.id), 0])})
-        print(Tag.objects.all())
         self.assertEqual('tag', Tag.objects.get(pk=1).name, "En tag som endres bør ha lower-case name.")
 
     def test_only_lower_case_name_change_tag_new_name(self):
@@ -224,7 +223,6 @@ class TagTest(TestCase):
         tag = Tag.objects.create(name='tag')
         response = self.client.post(reverse('inventory:add_tag', args=(tag.id,)),
                                     {'name': 'TAGG', 'parent_tag_ids': dumps([str(tag.id), 0])})
-        print(Tag.objects.all())
         self.assertEqual('tagg', Tag.objects.get(pk=1).name, "En tag som endres bør ha lower-case name.")
 
     # TODO:

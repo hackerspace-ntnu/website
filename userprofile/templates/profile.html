@@ -10,7 +10,9 @@
 <div class="section no-pad-bot">
     <div class="container">
 	{% include "profile_card.html" %}
+	{% if profile.duty.all %}
 	{% include "shift_table.html" %}
+	{% endif %}
 	{% if user.is_superuser or user == profile.user %}
 	<a id="edit_profile" href="/members/edit_profile/{{ profile.user_id }}" class="btn waves-effect waves-light">Rediger</a>
 	{% endif %}

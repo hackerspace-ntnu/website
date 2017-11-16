@@ -7,7 +7,7 @@ from PIL import Image, ImageOps
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
-    icon = models.ImageField(upload_to="skillicons")
+    icon = models.ImageField(upload_to="skillicons",blank=True)
     description = models.TextField()
 
     def __str__(self):
@@ -78,7 +78,7 @@ class Profile(models.Model):
             if self.image.width > 300 or self.image.height > 300:
                 filename = "/".join(self.image.url.split("/")[2:])
                 ImageOps.fit(Image.open(filename),(300,300),centering=(0.5,0.5)).save(filename,"PNG")
-    
+
     def get_dutytime(self):
         if self.auto_duty:
             result = vakt_filter(persons=str(self))
@@ -95,4 +95,4 @@ class Profile(models.Model):
                     break
 
     def __str__(self):
-        return self.name
+        return self.user.username

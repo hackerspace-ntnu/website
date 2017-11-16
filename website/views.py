@@ -18,9 +18,6 @@ def index(request):
     # Get five articles
     article_list = Article.objects.filter(internal__lte=can_access_internal).order_by('-pub_date')[:5]
 
-    # Get some images for slideshow
-    image_list = Image.objects.order_by('-time')[:7]
-
     event_list = list(event_list)
     artile_list = list(article_list)
 
@@ -31,7 +28,6 @@ def index(request):
 
     context = {
         'article_list': article_list,
-        'image_list': image_list,
         'event_list': event_list,
         'door_status': door_status,
     }

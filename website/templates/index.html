@@ -83,10 +83,12 @@
 				<h2 class="center-align">Bilder fra våre arrangementer</h2>
 				<div class="slider">
 					<ul class="slides">
-						{% for image in image_list %}
+						{% for event in event_list %}
+						{% if event.thumbnail %}
 						<li>
-							<img class="activator" src="{{ image.url }}">
+							<img class="activator" src="{{ event.thumbnail.url }}">
 						</li>
+						{% endif %}
 						{% endfor %}
 					</ul>
 				</div>

@@ -10,6 +10,9 @@ h1,h2,h3,h4,h5,a {
 /* Resize hackerspace-logoen */
 .brand-logo img {
 	width:200px !important;
+	height:64px;
+	padding-top:15px;
+	padding-bottom:15px;
 }
 .brand-logo {
 	margin-left: 10px;
@@ -69,4 +72,9 @@ a {
 	background-color:#5BBA47 !important;
 	color:#fff !important;
 
+}
+
+/* fix for static navbar */
+.navbar-fixed {
+	z-index: 9999 !important;
 }

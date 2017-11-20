@@ -1,53 +1,53 @@
 {% load staticfiles %}
 <header>
 	<div class="navbar-fixed">
-	<nav>
-		<div class="nav-wrapper hs-gray">
-			<a href="/" class="brand-logo"><img src="/static/img/logo_header.png"/></a>
-			<a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
-			<!-- Dropdown user list for desktop-->
-			<ul id="userdropdown" class="dropdown-content hs-gray-text">
-				{% if request.user.is_authenticated %}
-				<li><a href="#" data-activates="userdropdown">Profil</a></li>
-				<li><a href="/authentication/change-password">Bytt Passord</a></li>
-				<li><a href="/authentication/logout">Logg Ut</a></li>
-				{% else %}
-				<li><a href="/authentication/signup">Registrer</a></li>
-				<li><a href="/authentication/login">Logg Inn</a></li>
-				{% endif %}
-			</ul>
+		<nav>
+			<div class="nav-wrapper hs-gray">
+				<a href="/" class="brand-logo"><img src="../static/img/Hakcerspace_huge.png"/></a>
+				<a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
+				<!-- Dropdown user list for desktop-->
+				<ul id="userdropdown" class="dropdown-content hs-gray-text">
+					{% if request.user.is_authenticated %}
+					<li><a href="#" data-activates="userdropdown">Profil</a></li>
+					<li><a href="/authentication/change-password">Bytt Passord</a></li>
+					<li><a href="/authentication/logout">Logg Ut</a></li>
+					{% else %}
+					<li><a href="/authentication/signup">Registrer</a></li>
+					<li><a href="/authentication/login">Logg Inn</a></li>
+					{% endif %}
+				</ul>
 
-			<!-- Hovedmeny -->
-			<ul class="right hide-on-med-and-down">
-				<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
-				<li><a href="/news/all">NYHETER</a></li>
-				<li><a href="/wiki">WIKI</a></li>
-				<li><a href="/about">OM OSS</a></li>
-				<li><a class="user-drop-desktop" href="#" data-activates="userdropdown">
-						<i class="material-icons">account_circle</i></a>
-				</li>
-			</ul>
-			<!-- Mobil dynamisk meny -->
-			<ul class="side-nav" id="mobile-sidebar">
-				<li><div class="user-view">-</div></li>
-				<li><a class="subheader">Meny</a></li>
-				<li><div class="divider"></div></li>
-				<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
-				<li><a href="/news/all">Nyheter</a></li>
-				<li><a href="/wiki">Wiki</a></li>
-				<li><a href="/about">Om Oss</a></li>
-				<li><div class="divider"></div></li>
-				{% if request.user.is_authenticated %}
-				<li><a href="#" data-activates="userdropdown">Profil</a></li>
-				<li><a href="/authentication/change-password">Bytt Passord</a></li>
-				<li><a href="/authentication/logout">Logg Ut</a></li>
-				{% else %}
-				<li><a href="/authentication/signup">Registrer</a></li>
-				<li><a href="/authentication/login">Logg inn</a></li>
-				{% endif %}
-			</ul>
-		</div>
-	</nav>
+				<!-- Hovedmeny -->
+				<ul class="right hide-on-med-and-down">
+					<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
+					<li><a href="/news/all">NYHETER</a></li>
+					<li><a href="/wiki">WIKI</a></li>
+					<li><a href="/about">OM OSS</a></li>
+					<li><a class="user-drop-desktop" href="#" data-activates="userdropdown">
+							<i class="material-icons">account_circle</i></a>
+					</li>
+				</ul>
+				<!-- Mobil dynamisk meny -->
+				<ul class="side-nav" id="mobile-sidebar">
+					<li><div class="user-view">-</div></li>
+					<li><a class="subheader">Meny</a></li>
+					<li><div class="divider"></div></li>
+					<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
+					<li><a href="/news/all">Nyheter</a></li>
+					<li><a href="/wiki">Wiki</a></li>
+					<li><a href="/about">Om Oss</a></li>
+					<li><div class="divider"></div></li>
+					{% if request.user.is_authenticated %}
+					<li><a href="#" data-activates="userdropdown">Profil</a></li>
+					<li><a href="/authentication/change-password">Bytt Passord</a></li>
+					<li><a href="/authentication/logout">Logg Ut</a></li>
+					{% else %}
+					<li><a href="/authentication/signup">Registrer</a></li>
+					<li><a href="/authentication/login">Logg inn</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
 	</div>
 </header>
 

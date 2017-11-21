@@ -35,10 +35,12 @@
                       <img src="{{ im.url }}">
                     {% endthumbnail %}
                   </a>
-                  <span class="card-title card-event-title">
-                    <h4>{{ committee.name }}</h4>
-                  </span>
-                </div>
+                  <a href="/committees/{{ committee.name }}">
+                    <span class="card-title card-event-title">
+                      <h4>{{ committee.name }}</h4>
+                    </span>
+                  </a>
+                  </div>
                 <div class="card-content">
                   <p>
                     {{ committee.one_liner }}

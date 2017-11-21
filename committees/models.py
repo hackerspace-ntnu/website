@@ -15,6 +15,7 @@ class Committee(Group):
     email = models.EmailField(null=True, blank=True)
     image = ImageField(upload_to='komiteer')
     slug = models.SlugField(null=True, blank=True)
+    visible = models.BooleanField(default=True)
 
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     header = models.CharField(max_length=150, verbose_name="Overskrift", blank=True, null=True)

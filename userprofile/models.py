@@ -74,9 +74,9 @@ class Profile(models.Model):
 
     def fix_profile_picture(self):
         if self.image:
-            if self.image.width > 300 or self.image.height > 300:
+            if self.image.width > 400 or self.image.height > 400:
                 filename = "/".join(self.image.url.split("/")[2:])
-                ImageOps.fit(Image.open(filename),(300,300),centering=(0.5,0.5)).save(filename,"PNG")
+                ImageOps.fit(Image.open(filename),(400,400),Image.ANTIALIAS,centering=(0.5,0.5)).save(filename,"JPEG",quality=100)
 
     def get_dutytime(self):
         if self.auto_duty:

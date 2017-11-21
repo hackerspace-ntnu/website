@@ -1,0 +1,36 @@
+{% load check_user_group %}
+	<div class="divider"></div>
+	<ul class="collection">
+	{% for news in news_list %}
+	{% if news.get_class = "Event" %}
+	<li class="collection-item">
+		<div class="row">
+			<div class="col s8">
+				<a class="card-title" href="/news/event/{{ news.id }}/"><h5>{{ news.title }}</h5></a>
+				{% if news.place %}
+				<blockquote>
+				{% endif %}
+				{% autoescape off %}
+				{{ news.ingress_content|truncatechars:255 }}
+				{% endautoescape %}
+				</blockquote>
+				<a class="waves-effect waves-grey" href="/news/event/{{ news.id }}/">Les mer</a>
+				{% if request.user|has_group:"member" %}
+				<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown1"><i class="material-icons">more_vert</i></a>
+				<ul id="dropdown1" class="dropdown-content">
+					<li> <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ news.id }}/edit/">Edit</a></li>
+					<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ news.id }}/delete/">Delete</a></li>
+				</ul>
+				{% endif %}
+			</div>
+			<div class="col s4">
+				<div class="card-panel center-align hs-green secondary-content">
+					<h5>{{ news.time_start|date:"M" }}</h5>
+					<h5>{{ news.time_start|date:"d" }}</h5>
+				</div>
+			</div>
+		</div>
+	</li>
+	{% endif %}
+	{% endfor %}
+	</ul>

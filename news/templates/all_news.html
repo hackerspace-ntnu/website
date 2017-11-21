@@ -11,26 +11,40 @@
 {% endblock header %}
 
 {% block content %}
-  <div id="spacer" style="height:50px"></div>
-    {% if request.user|has_group:"member" %}
-        <a class='dropdown-button btn' href='#' data-activates='dropdown1' style="position: absolute; width: 100px; margin-left: 10px; margin-top: -40px;">New</a>
-        <ul id='dropdown1' class='dropdown-content'style="position: absolute; width: 100px; margin-left: 10px; margin-top: -4px;">
-            <li><a href="/news/article/0/edit">Artikkel</a></li>
-            <li><a href="/news/event/0/edit">Event</a></li>
-        </ul>
-        <script>
-          $('.dropdown-button').dropdown({
-              inDuration: 300,
-              outDuration: 225,
-              constrain_width: false, // Does not change width of dropdown to that of the activator
-              hover: false, // Activate on hover
-              gutter: 0, // Spacing from edge
-              belowOrigin: true, // Displays dropdown below the button
-              alignment: 'left' // Displays dropdown with edge aligned to the left of button
-            }
-          );
-        </script>
-    {% endif %}
-    
-    {% include "news.html" %}
+<div class="section hs-green block">
+	<div class="container">
+		<div class="row center-align">
+			<div class="col s12 white-text">
+				<h4>Artikler og Arrangementer</h4>
+			</div>
+		</div>
+	</div>
+</div>
+{% if request.user|has_group:"member" %}
+<div class="section block">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<ul class='collection with-header'>
+					<li class="collection-header"><h5>Administrator-meny</h5></li>
+					<li class="collection-item"><a href="/news/article/0/edit"><i class="material-icons">note_add</i>Ny Artikkel</a></li>
+					<li class="collection-item"><a href="/news/event/0/edit"><i class="material-icons">event</i>Ny Event</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+{% endif %}
+<div class="section block">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h3>Events</h3>
+				{% include "events.html" %}
+			</div>
+		</div>
+
+	</div>
+</div>
 {% endblock content %}

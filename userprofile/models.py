@@ -80,19 +80,17 @@ class Profile(models.Model):
 
     def get_dutytime(self):
         if self.auto_duty:
-            result = vakt_filter(persons=self.name)
-            for day in result:
-                for time in result[day]:
-                    start_time,end_time = time.split(" - ")
-                    start_time= datetime.strptime(start_time,"%H:%M")
-                    end_time= datetime.strptime(end_time,"%H:%M")
-                    try:
-                        self.duty = [DutyTime.objects.get(day=day,start_time=start_time,end_time=end_time)]
-                    except:
-                        duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
-                        self.duty = duty
-                    break
-                break
+            result = vakt_filter(persons=self.name,output="tuples")
+            if result:
+                day,time,hackers=result[0]
+                start_time,end_time = time.split(" - ")
+                start_time= datetime.strptime(start_time,"%H:%M")
+                end_time= datetime.strptime(end_time,"%H:%M")
+                try:
+                    self.duty = [DutyTime.objects.get(day=day,start_time=start_time,end_time=end_time)]
+                except:
+                    duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
+                    self.duty = duty
 
     def __str__(self):
         return self.user.username

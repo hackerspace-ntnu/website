@@ -65,9 +65,12 @@ def filter_current():
     return vakt_filter(days=days[int(day)], times=time)
 
 
-def vakt_filter(days="", times="", persons="", full=True, compact=False):
+def vakt_filter(days="", times="", persons="", full=True, compact=False,output="json"):
     filter_times = get_time_slots(times)
-    filter_data = {}
+    if output=="tuples":
+        filter_data = []
+    else:
+        filter_data = {}
     filter_days = [d.title() for d in days.split(",") if d]
     filter_persons = [p.lower() for p in persons.split(",") if p]
 
@@ -75,15 +78,23 @@ def vakt_filter(days="", times="", persons="", full=True, compact=False):
         if compact:
             day = day[:3]
             time_slot = "".join(time_slot.split(" "))
-        if day not in filter_data:
+        if day not in filter_data and output!="tuples":
             filter_data[day] = {}
         if full:
-            filter_data[day][time_slot] = hackers
+            if output=="tuples":
+                filter_data.append((day,time_slot,hackers))
+            else:
+                filter_data[day][time_slot] = hackers
         else:
+            hacker_list=[]
             for hacker in {pm for pm in hackers for pf in filter_persons if pf in pm.lower()}:
+                if output=="tuples":
+                    hacker_list.append({hacker:{}})
                 if time_slot not in filter_data[day]:
                     filter_data[day][time_slot] = {}
                 filter_data[day][time_slot][hacker]=hackers[hacker]
+            if output=="tuples":
+                filter_data.append((day,time_slot,hacker_list))
 
     return filter_data
 

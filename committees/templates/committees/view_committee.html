@@ -18,7 +18,7 @@
                 <div class="section" style="padding-top: 0;">
                   {% if can_edit %}
                     <div>
-                      <a class="waves-effect waves-grey btn-flat" href="/committees/edit_members/{{ committee.name }}/">Rediger medlemmer</a>
+                      <a class="waves-effect waves-grey btn-flat" href="/committees/{{ committee.name }}/edit_members/">Rediger medlemmer</a>
                     </div>
                   {% endif %}
                   <div class="valign-wrapper">
@@ -61,7 +61,7 @@
           </div>
         </div>
         <p class="flow-text">
-          <strong>{{ committee.one_liner|safe }}</strong>
+          <strong>{{ committee.header|safe }}</strong>
         </p>
         <p class="flow-text">
           {{ committee.description|safe }}

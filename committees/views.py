@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 
-from .forms import EditCommittees, EditDescription
+from .forms import EditDescription
 from .models import Committee, Position
 
 def index(request):
@@ -103,3 +103,18 @@ def delete_member(request, com_name):
 
     except IndexError:
         return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
+
+def edit_committee(request, committee_name):
+    committee = get_object_or_404(Committee, name=committee_name)
+    form = EditDescription(request.POST or None, instance=committee)
+    if request.method == 'POST':
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            messages.add_message(request, messages.SUCCESS, '{} har blitt endret!'.format(committee.name), extra_tags='Supert')
+            return HttpResponseRedirect('/committees')
+    context = {
+        'committee': committee,
+        'form': form,
+    }
+    return render(request, 'committees/edit_committee.html', context)

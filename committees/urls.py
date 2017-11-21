@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^(?P<name>[\w-]+)/', include([
         url(r'^$',  views.view_committee, name='view'),
     ])),
-    url(r'^edit_members/(?P<committee_name>[\w-]+)/', views.edit_members, name='edit_members')
+    url(r'^(?P<committee_name>[\w-]+)/edit_members/', views.edit_members, name='edit_members'),
+    url(r'^(?P<committee_name>[\w-]+)/edit/', views.edit_committee, name='edit_committee')
 ]

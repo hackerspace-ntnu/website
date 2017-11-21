@@ -15,8 +15,11 @@ class Committee(Group):
     email = models.EmailField(null=True, blank=True)
     image = ImageField(upload_to='komiteer')
     slug = models.SlugField(null=True, blank=True)
+
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
+    header = models.CharField(max_length=150, verbose_name="Overskrift", blank=True, null=True)
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
+
     parent = models.ForeignKey('Committee', null=True, blank=True, related_name="subcommittees")
     admins = models.ManyToManyField(User)
     # Har Many2ManyField til Permission i superklasse

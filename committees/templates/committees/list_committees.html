@@ -36,7 +36,7 @@
                     {% endthumbnail %}
                   </a>
                   <span class="card-title card-event-title">
-                    <h4>{{ committee.name }}</h4> 
+                    <h4>{{ committee.name }}</h4>
                   </span>
                 </div>
                 <div class="card-content">
@@ -50,6 +50,7 @@
                     <a href="mailto:{{ committee.email }}">
                       <i class="material-icons valign right small hs-green">email</i>
                     </a>
+                    <a href="/committees/{{ committee.name }}/edit" class="hs-green">Edit</a>
                   </div>
 
                 </div>

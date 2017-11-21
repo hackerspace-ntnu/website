@@ -9,11 +9,11 @@ vakt_cache_tuples = ""
 vakt_cache_json = ""
 
 
-def hent_vaktliste(output="json"):
+def hent_vaktliste(output="json",force_update=False):
     global vakt_cache_tuples
     global vakt_cache_json
     global cache_time
-    if not vakt_cache_json or datetime.datetime.now() - cache_time >= datetime.timedelta(hours=12):
+    if force_update or not vakt_cache_json or datetime.datetime.now() - cache_time >= datetime.timedelta(hours=12):
         vakt_data_json = requests.get(
             "https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
 
@@ -111,6 +111,10 @@ def vakter(request):
 
 def current(_):
     return JsonResponse(filter_current())
+
+def update(_):
+    hent_vaktliste(force_update=True)
+    return JsonResponse({"Cache time":cache_time})
 
 def index(request):
     from userprofile.models import Profile

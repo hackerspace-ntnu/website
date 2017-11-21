@@ -24,8 +24,10 @@
     margin-right: auto;
     margin-left:auto;
     text-align:center;
-    width:-moz-fit-content;
-    height:-moz-fit-content;
+    width:intrinsic; /*Safari-kjeks*/
+    width:-moz-fit-content; /*Mozzarella FoxFire */
+    width:-webkit-fit-content; /*Chrome*/
+    height:300px;
 }
 #shift_table td,th{
     border: 1px gray solid;

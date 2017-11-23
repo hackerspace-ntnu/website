@@ -57,18 +57,7 @@ def profile(request, profileID):
 
 
 def edit_profile(request):
-    user = request.user.profile
-    profile = user.profile
-    if user.is_superuser:
-        form = ProfileModelFormAdmin(request.POST or None, request.FILES or None, instance=profile)
-    elif Profile.objects.filter(user=user, group__isnull=False):
-        form = ProfileModelFormMember(request.POST or None, request.FILES or None, instance=profile)
-    else:
-        form = ProfileModelFormUser(request.POST or None, request.FILES or None, instance=profile)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('/members/profile/' + str(profile.user_id))
-    return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
+    return edit_profile_id(request, request.user.id)
 
 
 def edit_profile_id(request, profileID):

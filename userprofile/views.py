@@ -10,24 +10,24 @@ def members(request):
     profiles = Profile.objects.exclude(group__isnull=True)
     if request.method == 'POST':
         text = request.POST['searchBar'].lower()
-        tokens = re.split('; |, |  |\n', text)
-        result_profiles = []
+        tokens = re.split('; |, | |\n', text)
+
+        name_results = User.objects.none()
+        skill_results = Skill.objects.none()
+        group_results = Group.objects.none()
 
         for token in tokens:
-            first_name_results = User.objects.filter(first_name__icontains=token)
-            last_name_results = User.objects.filter(last_name__icontains=token)
-            skill_results = Skill.objects.filter(title__icontains=token)
-            group_results = Group.objects.filter(title__icontains=token)
+            name_results |= User.objects.filter(first_name__icontains=token) | User.objects.filter(
+                last_name__icontains=token)
+            skill_results |= Skill.objects.filter(title__icontains=token)
+            group_results |= Group.objects.filter(title__icontains=token)
 
-        for profile in profiles:
-            if profile.user in first_name_results or profile.user in last_name_results:
-                result_profiles.append(profile)
-            for skill in profile.skills.all():
-                if skill in skill_results and profile not in result_profiles:
-                    result_profiles.append(profile)
-            for group in profile.group.all():
-                if group in group_results and profile not in result_profiles:
-                    result_profiles.append(profile)
+        result_profiles = [user_profile for user_profile in profiles if
+                           user_profile.user in name_results or
+                           any(skill in skill_results for skill in user_profile.skills.all()) or
+                           any(group in group_results for group in user_profile.group.all())
+                           ]
+
         return render(request, "members.html", context={"profiles": result_profiles})
 
     return render(request, "members.html", context={"profiles": profiles})

@@ -31,7 +31,7 @@
                                     </a>
                                 </div>
                                 <div class="card-content">
-                                    <a class="profile-name" href={% url 'profile' profileID=profile.user_id %}>{{ profile }}</a>
+                                    <a class="profile-name" href={% url 'profile' profileID=profile.user_id %}>{{ profile.name }}</a>
                                     <div class="profile-groups-title">
                                         {% for group in profile.group.all %}
                                             {{ group.title|linebreaks }}

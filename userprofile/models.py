@@ -55,7 +55,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     group = models.ManyToManyField(Group, related_name='profile',blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="profilepictures",default="website/static/img/profilepictures/default.jpg")
+    image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.png")
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
@@ -75,8 +75,7 @@ class Profile(models.Model):
     def fix_profile_picture(self):
         if self.image:
             if self.image.width > 300 or self.image.height > 300:
-                filename = "/".join(self.image.url.split("/")[2:])
-                ImageOps.fit(Image.open(filename),(300,300),Image.ANTIALIAS,centering=(0.5,0.5)).save(filename,"PNG",quality=100)
+                ImageOps.fit(Image.open(self.image.path),(300,300),Image.ANTIALIAS,centering=(0.5,0.5)).save(self.image.path,"PNG",quality=100)
 
     def get_dutytime(self):
         if self.auto_duty:

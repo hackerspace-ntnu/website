@@ -2,7 +2,6 @@
 	<div class="divider"></div>
 	<ul class="collection">
 	{% for news in news_list %}
-	{% if news.get_class = "Article" %}
 	<li class="collection-item">
 		<a class="card-title" href="/news/event/{{ news.id }}/"><h5>{{ news.title }}</h5></a>
 		{% if news.place %}
@@ -22,6 +21,5 @@
 		</ul>
 		{% endif %}
 	</li>
-	{% endif %}
 	{% endfor %}
 	</ul>

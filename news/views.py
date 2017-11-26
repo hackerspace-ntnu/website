@@ -42,30 +42,26 @@ def event(request, event_id):
 def all_news(request):
     if groups.has_group(request.user, 'member'):
         article_list = list(Article.objects.order_by('pub_date'))
-        event_list = list(Event.objects.order_by('time_start'))
     else:
         article_list = list(Article.objects.filter(internal=False).order_by('pub_date'))
-        event_list = list(Event.objects.filter(internal=False).order_by('time_start'))
-    news_list = []
-    # Create a list mixed with both articles and events sorted after publication date
-    for i in range(len(article_list) + len(event_list)):
-        if len(article_list) == 0:
-            news_list.append(event_list.pop())
-            continue
-        elif len(event_list) == 0:
-            news_list.append(article_list.pop())
-            continue
-        if article_list[len(article_list) - 1].pub_date > event_list[len(event_list) - 1].time_start:
-            news_list.append(article_list.pop())
-        else:
-            news_list.append(event_list.pop())
 
     context = {
-        'news_list': news_list,
+        'news_list': article_list,
     }
 
     return render(request, 'all_news.html', context)
 
+def all_events(request):
+    if groups.has_group(request.user, 'member'):
+        event_list = list(Event.objects.order_by('time_start'))
+    else:
+        event_list = list(Event.objects.filter(internal=False).order_by('time_start'))
+
+    context = {
+        'event_list': event_list,
+    }
+
+    return render(request, 'all_events.html', context)
 
 def article(request, article_id):
     article_id = get_id_or_404(article_id)

@@ -41,9 +41,9 @@ def event(request, event_id):
 
 def all_news(request):
     if groups.has_group(request.user, 'member'):
-        article_list = list(Article.objects.order_by('pub_date'))
+        article_list = list(Article.objects.order_by('-pub_date'))
     else:
-        article_list = list(Article.objects.filter(internal=False).order_by('pub_date'))
+        article_list = list(Article.objects.filter(internal=False).order_by('-pub_date'))
 
     context = {
         'news_list': article_list,
@@ -51,11 +51,12 @@ def all_news(request):
 
     return render(request, 'all_news.html', context)
 
+
 def all_events(request):
     if groups.has_group(request.user, 'member'):
-        event_list = list(Event.objects.order_by('time_start'))
+        event_list = list(Event.objects.order_by('-time_start'))
     else:
-        event_list = list(Event.objects.filter(internal=False).order_by('time_start'))
+        event_list = list(Event.objects.filter(internal=False).order_by('-time_start'))
 
     context = {
         'event_list': event_list,

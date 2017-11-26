@@ -7,31 +7,51 @@
 {% endblock head %}
 
 {% block content %}
-<div id="spacer" style="height: 100px;"></div>
+<section class="hs-green">
+<nav>
+	<div class="nav-wrapper hs-green">
+		<div class="container">
+			<div class="col s12">
+				<a href="/" class="breadcrumb white-text ">Hjem</a>
+				<a href="/news/all/" class="breadcrumb white-text">Nyheter</a>
+				<a href="#!" class="breadcrumb white-text">Artikkel {{ article.id }}</a>
+			</div>
+		</div>
+	</div>
+</nav>
 
-<div id="content">
-  <div class="image-container">
-    <img class="news-image" src="{{ article.thumbnail.url }}">
-  </div>
-  <h3 id="page-title">{{ article.title }}</h3>
-
-  <hr class="news-hr">
-
-  <div id="ingress_and_article">
-    <div class="flow-text">
-      <div class="ingress_content">
-        {% autoescape off %}
-        {{ article.ingress_content }}
-        {% endautoescape %}
-      </div>
-
-      <div class="article_content">
-        {% autoescape off %}
-        {{ article.main_content }}
-        {% endautoescape %}
-      </div>
-    </div>
-  </div>
-
-</div>
+</section>
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4>{{ article.title }}</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<h5>{{ article.pub_date }}</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s8">
+				<blockquote>
+				<p class="flow-text">
+				{% autoescape off %}
+				{{ article.ingress_content }}
+				{% endautoescape %}
+				</p>
+				<p class="flow-text">
+				{% autoescape off %}
+				{{ article.main_content }}
+				{% endautoescape %}
+				</p>
+				</blockquote>
+			</div>
+			<div class="col s4 center-align">
+				<img class="responsive-img" src="{{ article.thumbnail.url }}">
+			</div>
+		</div>
+	</div>
+</section>
 {% endblock content %}

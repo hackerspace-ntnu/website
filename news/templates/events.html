@@ -1,17 +1,17 @@
 {% load check_user_group %}
-	<div class="divider"></div>
 	<ul class="collection">
 	{% for event in event_list %}
 	<li class="collection-item">
 		<div class="row">
 			<div class="col s8">
-				<a class="card-title" href="/news/event/{{ event.id }}/"><h5>{{ event.title }}</h5></a>
+				<a href="/news/event/{{ event.id }}/"><h5>{{ event.title }}</h5></a>
 				{% if event.place %}
-				<blockquote>
 				{% endif %}
-				{% autoescape off %}
-				{{ event.ingress_content|truncatechars:255 }}
-				{% endautoescape %}
+				<blockquote><p class="flow-text">
+					{% autoescape off %}
+					{{ event.ingress_content|truncatechars:255 }}
+					{% endautoescape %}
+					</p>
 				</blockquote>
 				<a class="waves-effect waves-grey" href="/news/event/{{ event.id }}/">Les mer</a>
 				{% if request.user|has_group:"member" %}

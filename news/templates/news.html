@@ -1,25 +1,35 @@
 {% load check_user_group %}
-	<div class="divider"></div>
 	<ul class="collection">
 	{% for news in news_list %}
 	<li class="collection-item">
-		<a class="card-title" href="/news/event/{{ news.id }}/"><h5>{{ news.title }}</h5></a>
-		{% if news.place %}
-		<p>Sted: {{ news.place }}</p>
-		<p>
-		{% endif %}
-		{% autoescape off %}
-		{{ news.ingress_content|truncatechars:255 }}
-		{% endautoescape %}
-		</p>
-		<a class="waves-effect waves-grey" href="/news/event/{{ news.id }}/">Les mer</a>
-		{% if request.user|has_group:"member" %}
-		<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown1"><i class="material-icons">more_vert</i></a>
-		<ul id="dropdown1" class="dropdown-content">
-			<li> <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ news.id }}/edit/">Edit</a></li>
-			<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ news.id }}/delete/">Delete</a></li>
-		</ul>
-		{% endif %}
+		<div class="row">
+			<div class="col s12">
+				<p class="right">Publisert {{ news.pub_date }}</p>
+				<a href="/news/article/{{ news.id }}/"><h5 class="left">{{ news.title }}</h5></a>
+			</div>
+			<div class="col s8">
+				<blockquote>
+					<p class="flow-text">
+						{% autoescape off %}
+						{{ news.ingress_content|truncatechars:255 }}
+						{% endautoescape %}
+					</p>
+				</blockquote>
+			</div>
+			<div class="col s4">
+				{% if news.thumbnail %}
+				<img class="right circle" style="width:100px; height:100px;" src="{{ news.thumbnail.url }}">
+				{% endif %}
+			</div>
+		</div>
+				<a class="waves-effect waves-grey" href="/news/article/{{ news.id }}/">Les mer</a>
+				{% if request.user|has_group:"member" %}
+				<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown1"><i class="material-icons">more_vert</i></a>
+				<ul id="dropdown1" class="dropdown-content">
+					<li><a class="waves-effect waves-grey btn-flat" href="/news/article/{{ news.id }}/edit/">Edit</a></li>
+					<li><a class="delete waves-effect waves-grey btn-flat" url="/news/article/{{ news.id }}/delete/">Delete</a></li>
+				</ul>
+				{% endif %}
 	</li>
 	{% endfor %}
 	</ul>

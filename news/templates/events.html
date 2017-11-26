@@ -15,9 +15,9 @@
 				</blockquote>
 				<a class="waves-effect waves-grey" href="/news/event/{{ event.id }}/">Les mer</a>
 				{% if request.user|has_group:"member" %}
-				<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown1"><i class="material-icons">more_vert</i></a>
-				<ul id="dropdown1" class="dropdown-content">
-					<li> <a class="waves-effect waves-grey btn-flat" href="/news/event/{{ event.id }}/edit/">Edit</a></li>
+				<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown{{ event.id }}"><i class="material-icons">more_vert</i></a>
+				<ul id="dropdown{{ event.id }}" class="dropdown-content">
+					<li><a class="waves-effect waves-grey btn-flat" href="/news/event/{{ event.id }}/edit/">Edit</a></li>
 					<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ event.id }}/delete/">Delete</a></li>
 				</ul>
 				{% endif %}

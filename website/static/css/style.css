@@ -32,17 +32,18 @@ h1,h2,h3,h4,h5,a {
 }
 
 
-/* Denne koden er nødvendig for å få footer som fixed. */
-
 body {
-	display:flex;
-	min-height: 100vh;
-	flex-direction: column;
+	display: flex !important;
+	min-height: 100vh !important;
+	flex-direction: column !important;
 }
 
 main {
-	flex: 1 0 auto;
+	flex: 1 0 auto !important;
 }
+
+/* Denne koden er nødvendig for å få footer som fixed. */
+
 
 .tabs .indicator {
     background-color: #366F2A;

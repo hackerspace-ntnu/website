@@ -74,7 +74,19 @@ a {
 
 }
 
+blockquote {
+	border-left: 5px solid #939084 !important;
+
+}
+
 /* fix for static navbar */
 .navbar-fixed {
 	z-index: 9999 !important;
+}
+
+/* Fix for different aspect ratio images on all news / event page */
+.card img {
+	max-width:250px !important;
+	height:100% !important;
+	object-fit: cover !important;
 }

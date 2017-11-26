@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from news.models import Article, Event
 from files.models import Image
+from authentication.forms import LoginForm
 from door.models import DoorStatus
 from datetime import datetime
 from wiki.templatetags import check_user_group as groups

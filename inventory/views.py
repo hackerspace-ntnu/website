@@ -20,6 +20,49 @@ from files.models import Image
 def index(request):
     items = Item.objects.filter(visible=True)
     posted_tags = {}
+    old_tags = []  # liste med alle tags en gjenstand har, for å fylle tags-feltet når man skal endre
+    item = None
+    form = None
+
+    # start add_item modal ->
+
+    if request.POST.get('testitest'): # fra add item btn
+        form = ItemForm(request.POST)
+        if form.is_valid():
+            # skiller ikke på store/små bokstaver itags
+            if item_id != '0':  # existing item to be changed
+                item = get_object_or_404(Item, pk=item_id)
+                basic_attributes = ['name', 'description', 'quantity', 'zone', 'shelf', 'row', 'column']
+                for attr in basic_attributes:
+                    setattr(item, attr, form.cleaned_data[attr])
+                item.save()
+                messages.add_message(request, messages.SUCCESS, 'Gjenstanden ble endret.')
+            else:  # create new item from form
+                item = Item(name=form.cleaned_data['name'],
+                            description=form.cleaned_data['description'],
+                            quantity=form.cleaned_data['quantity'],
+                            zone=form.cleaned_data['zone'],
+                            shelf=form.cleaned_data['shelf'],
+                            row=form.cleaned_data['row'],
+                            column=form.cleaned_data['column'],
+                            )
+                # item = Item(**form.cleaned_data)
+                item.save()
+                item_id = item.id
+                messages.add_message(request, messages.SUCCESS, 'Gjenstandet ble opprettet')
+            form.add_new_tags(item_id)
+
+            thumbnail_raw = form.cleaned_data['thumbnail']
+            try:
+                thumb_id = int(thumbnail_raw)
+                item.thumbnail = Image.objects.get(id=thumb_id)
+            except (TypeError, ValueError, Image.DoesNotExist):
+                item.thumbnail = None
+            item.save()
+            return HttpResponseRedirect(reverse('inventory:index'))
+
+    # end add item
+
 
     if request.method == 'POST':
         result = json.loads(request.POST['check_json'])
@@ -44,10 +87,19 @@ def index(request):
     items = list(items)
     items.sort(key=lambda i: i.name.lower())
 
+
+
     context = {'items': items,
                'tags': Tag.objects.filter(parent_tag=None, visible=True),
-               'posted_tags': posted_tags  # For å checke av boksene som var checked når man refresher
+               'posted_tags': posted_tags,  # For å checke av boksene som var checked når man refresher
+               'item_id': 0, #variablar for å få add_item modalen til å virke
+               'form': form,
+               'message': "Legg til gjenstand",
+               'button_message': "Legg til",
+               'old_tags': json.dumps(old_tags),
+               'item': item,
                }
+
 
     return render(request, 'inventory/index.html', context)
 

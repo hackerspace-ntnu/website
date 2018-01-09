@@ -72,7 +72,6 @@ a {
 .btn {
 	background-color:#5BBA47 !important;
 	color:#fff !important;
-
 }
 
 blockquote {
@@ -90,4 +89,11 @@ blockquote {
 	max-width:250px !important;
 	height:100% !important;
 	object-fit: cover !important;
+}
+
+nav ul a {
+	color:#fff !important;
+}
+.dropdown-content li > a {
+	color:#5BBA47 !important;
 }

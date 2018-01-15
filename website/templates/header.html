@@ -8,7 +8,7 @@
 				<!-- Dropdown user list for desktop-->
 				<ul id="userdropdown" class="dropdown-content hs-gray-text">
 					{% if request.user.is_authenticated %}
-					<li><a href="#" data-activates="userdropdown">Profil</a></li>
+					<li><a href="/user/{{ request.user.id }}" data-activates="userdropdown">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
 					<li><a href="/authentication/logout">Logg Ut</a></li>
 					{% else %}

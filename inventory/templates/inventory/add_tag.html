@@ -1,17 +1,3 @@
-{% extends 'base.html' %}
-{% load staticfiles %}
-
-
-{% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/general.css' %}">
-    <script src={% static 'js/materialize-autocomplete.js' %}></script>
-
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-{% endblock header %}
-
-
-{% block content %}
     <div class="content">
         <form action="{% url 'inventory:add_tag' tag_id %}" method="post">
             {% csrf_token %}
@@ -116,5 +102,3 @@
             $('form').submit();
         }
     </script>
-
-{% endblock content %}

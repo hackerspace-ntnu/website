@@ -4,7 +4,9 @@ form {
 .user-profile-image{
     padding:auto;
     position:relative;
-    width:-moz-fit-content;
+    width:intrinsic; /*Safari-kjeks*/
+    width:-moz-fit-content; /*Mozzarella FoxFire*/
+    width:-webkit-fit-content; /*Chrome*/
 }
 .image-overlay, .overlay-background{
     position:absolute;

@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^filter$', views.vakter, name="filter"),
     url(r'^current$', views.current, name="Nå"),
+    url(r'^update$', views.update, name="Update"),
 ]

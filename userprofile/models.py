@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.admin import User
+from django.conf import settings
 from vaktliste.views import vakt_filter
 from datetime import datetime
+from PIL import Image, ImageOps
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
@@ -49,12 +51,11 @@ class DutyTime(models.Model):
     def __str__(self):
         return self.day + " " + str(self.start_time) + "-" + str(self.end_time)
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    group = models.ManyToManyField(Group, related_name="groups",blank=True)
+    group = models.ManyToManyField(Group, related_name='profile',blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.jpg")
+    image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.png")
     
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
@@ -68,22 +69,27 @@ class Profile(models.Model):
         if self.auto_name: self.name = self.user.first_name + " " + self.user.last_name
         self.email = self.user.email
         self.get_dutytime()
+        self.fix_profile_picture()
         self.save()
+
+    def fix_profile_picture(self):
+        if self.image:
+            if self.image.width > 300 or self.image.height > 300:
+                ImageOps.fit(Image.open(self.image.path),(300,300),Image.ANTIALIAS,centering=(0.5,0.5)).save(self.image.path,"PNG",quality=100)
 
     def get_dutytime(self):
         if self.auto_duty:
-            result = vakt_filter(persons=str(self))
-            for day in result:
-                for time in result[day]:
-                    start_time,end_time = time.split(" - ")
-                    start_time= datetime.strptime(start_time,"%H:%M")
-                    end_time= datetime.strptime(end_time,"%H:%M")
-                    try:
-                        self.duty = [DutyTime.objects.get(day=day,start_time=start_time,end_time=end_time)]
-                    except:
-                        duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
-                        self.duty = duty
-                    break
+            result = vakt_filter(persons=self.name,output="tuples")
+            if result:
+                day,time,hackers=result[0]
+                start_time,end_time = time.split(" - ")
+                start_time= datetime.strptime(start_time,"%H:%M")
+                end_time= datetime.strptime(end_time,"%H:%M")
+                try:
+                    self.duty = [DutyTime.objects.get(day=day,start_time=start_time,end_time=end_time)]
+                except:
+                    duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
+                    self.duty = duty
 
     def __str__(self):
         return self.user.username

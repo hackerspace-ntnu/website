@@ -51,17 +51,16 @@ class DutyTime(models.Model):
     def __str__(self):
         return self.day + " " + str(self.start_time) + "-" + str(self.end_time)
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     group = models.ManyToManyField(Group, related_name='profile',blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
     image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.png")
-    
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills",blank=True)
     duty = models.ManyToManyField(DutyTime, related_name="duty",blank=True)
-    
     auto_duty = models.BooleanField(default=True)
     auto_name = models.BooleanField(default=True)
 

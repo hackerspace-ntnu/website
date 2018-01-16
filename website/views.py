@@ -5,6 +5,7 @@ from news.models import Article, Event
 from files.models import Image
 from authentication.forms import LoginForm
 from door.models import DoorStatus
+from authentication.forms import LoginForm
 from datetime import datetime
 from wiki.templatetags import check_user_group as groups
 
@@ -38,11 +39,14 @@ def index(request):
     except DoorStatus.DoesNotExist:
         door_status = True
 
+    form = LoginForm()
+
     context = {
         'article_list': article_list,
         'event_list': event_list,
         'door_status': door_status,
         'cookie_accepted': cookie_accepted,
+        'form': form,
     }
 
     return render(request, 'index.html', context)

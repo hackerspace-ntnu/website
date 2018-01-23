@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 
-from .forms import EditDescription
+from .forms import CommitteeEditForm
 from .models import Committee, Position
 
 def index(request):
@@ -118,3 +118,43 @@ def edit_committee(request, committee_name):
         'form': form,
     }
     return render(request, 'committees/edit_committee.html', context)
+
+def edit_committee(request, committee_name):
+    committee = get_object_or_404(Committee, name=committee_name)
+    if request.method == 'POST':  # Post form
+        form = CommitteeEditForm(request.POST)
+        if form.is_valid():
+
+            committee.header = form.cleaned_data['header']
+            committee.one_liner = form.cleaned_data['one_liner']
+            committee.description = form.cleaned_data['description']
+            image_raw = form.cleaned_data['image']
+
+            try:
+                img_id = int(image_raw)
+                committee.image = Image.objects.get(id=img_id)
+            except (TypeError, ValueError, Image.DoesNotExist):
+                committee.image = None
+
+            committee.save()
+            log_changes.change(request, committee)
+
+            return HttpResponseRedirect('/committees')
+    else:  # Request form
+        try:
+            thumb_id = committee.image.id
+        except AttributeError:
+            thumb_id = 0
+
+        # Set values for edit-form
+        form = CommitteeEditForm(initial={
+            'header': article.title,
+            'one_liner': article.ingress_content,
+            'description': article.main_content,
+            'image': thumb_id,
+        })
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'edit_committee.html', context)

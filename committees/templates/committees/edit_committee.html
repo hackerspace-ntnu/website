@@ -1,21 +1,55 @@
-{% extends "base.html" %}
-{% load material_form %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+
+{% block head %}
+
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+{% endblock head %}
 
 {% block content %}
-  <main>
-    <div class="section no-pad-bot" id="index-banner">
-      <div class="container">
-        <h4 id="heading">Endre kommitté: {{ committee.name }}</h4>
-        <div class="row">
-          <div class="col s10 m10 l10">
-            <form class="editContent" method='POST'>{% csrf_token %}
-              {{ form.media }}
-              {{ form.as_p }}
-              <input class="btn" type='submit' value='Endre innhold!'/>
+    {% if request.user|has_group:"member" %}
+        <div id="edit">
+            <h2>Rediger komité</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+
+                {{ form.header.errors }}
+                <div class="input-field">
+                  <label for="{{ form.header.id_for_label }}">{{ form.header.label }}</label>
+                  {{ form.header }}
+                </div>
+
+                {{ form.one_liner.errors }}
+                <label>{{ form.one_liner.label }}</label>
+                {{ form.one_liner }}
+
+                {{ form.description.errors }}
+                <label>{{ form.description.label }}</label>
+                {{ form.description }}
+
+                <br>
+
+                <div style="display: none;">
+                  {{ form.image.errors }}
+                  <div class="input-field">
+                    <label for="{{ form.image.id_for_label }}">Bilde</label>
+                    <input id="{{ form.image.id_for_label }}" name="thumbnail" type="text" value="{{ form.image.value }}">
+                  </div>
+                </div>
+
+                <label>Bilde</label><br>
+                <div class="imageItem card thumbnailPicker">
+                  <div class="card-image" style="background-image: url(/files/image/{{ form.image.value }}/view);"></div>
+                </div>
+
+
+                <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
+
+                <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
             </form>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
+    {% endif %}
 {% endblock content %}

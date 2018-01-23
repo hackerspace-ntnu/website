@@ -9,6 +9,8 @@ from django.shortcuts import render, get_object_or_404
 
 from .forms import CommitteeEditForm
 from .models import Committee, Position
+from files.models import Image
+
 
 def index(request):
     committees = Committee.objects.prefetch_related('user_set')
@@ -137,7 +139,7 @@ def edit_committee(request, committee_name):
                 committee.image = None
 
             committee.save()
-            log_changes.change(request, committee)
+            #log_changes.change(request, committee)
 
             return HttpResponseRedirect('/committees')
     else:  # Request form
@@ -148,13 +150,13 @@ def edit_committee(request, committee_name):
 
         # Set values for edit-form
         form = CommitteeEditForm(initial={
-            'header': article.title,
-            'one_liner': article.ingress_content,
-            'description': article.main_content,
+            'header': committee.header,
+            'one_liner': committee.one_liner,
+            'description': committee.description,
             'image': thumb_id,
         })
     context = {
         'form': form,
     }
 
-    return render(request, 'edit_committee.html', context)
+    return render(request, 'committees/edit_committee.html', context)

@@ -91,8 +91,12 @@ blockquote {
 	object-fit: cover !important;
 }
 
-nav ul a {
+nav ul a, nav i { 
 	color:#fff !important;
+}
+.side-nav li a {
+	color:#5BBA47 !important;
+
 }
 .dropdown-content li > a {
 	color:#5BBA47 !important;

@@ -103,7 +103,7 @@ def delete_member(request, com_name):
 
     except IndexError:
         return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
-
+"""
 def edit_committee(request, committee_name):
     committee = get_object_or_404(Committee, name=committee_name)
     form = EditDescription(request.POST or None, instance=committee)
@@ -118,7 +118,7 @@ def edit_committee(request, committee_name):
         'form': form,
     }
     return render(request, 'committees/edit_committee.html', context)
-
+"""
 def edit_committee(request, committee_name):
     committee = get_object_or_404(Committee, name=committee_name)
     if request.method == 'POST':  # Post form

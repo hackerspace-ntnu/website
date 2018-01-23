@@ -15,6 +15,7 @@
 		<div class="row">
 			<div class="col s12 center-align white-text">
 				<img style="width:100px; height:150px;" src="../static/img/Icon_green_transparent.png">
+
 			</div>
 		</div>
 	</div>
@@ -29,25 +30,30 @@
 		</div>
 	</div>
 </div>
-<div class="section hs-gray block hide-on-small-only">
-	<div class="container">
-		<div class="row">
-			<div class="col s12 center-align white-text">
-				<br>
-				<br>
-				<img style="width:300; height:400px;" src="../static/img/Icon_green_transparent.png">
-				<h1>Hackerspace</h1>
-				<h4>En kreativ arena for å realisere dine ideer</h4>
-			</div>
+<div class="section hs-gray no-pad hide-on-small-only"> 
+	<div class="slider full-width">
+		<ul class="slides full-width">
+			{% for event in event_list %}
+			{% if event.thumbnail %}
+			<li>
+				<img class="activator" style="height:400px; height:100%;" src="{{ event.thumbnail.url }}">
+				<div class="caption center-align">
+					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
+					<h1>Hackerspace</h1>
+					<h4>En kreativ arena for å realisere dine ideer</h4>
+					<br><br>
+				</div>
+			</li>
 		</div>
-	</div>
+		{% endif %}
+		{% endfor %}
+	</ul>
 </div>
 <div class="section block hs-green">
 	<div class="container">
 		<div class="row center-align">
 			<div class="col s12 white-text">
-				<p class="flow-text">
-				Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
+				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
 				<a class="hs-gray-text" href="/about/"><h5>Trykk her for å lese mer om oss</h5></a>
 			</div>
 		</div>
@@ -86,27 +92,18 @@
 		<div class="row">
 			<div class="col s12">
 				<h2 class="center-align">Bilder fra våre arrangementer</h2>
-				<div class="slider">
-					<ul class="slides">
-						{% for event in event_list %}
-						{% if event.thumbnail %}
-						<li>
-							<img class="activator" src="{{ event.thumbnail.url }}">
-						</li>
-						{% endif %}
-						{% endfor %}
-					</ul>
-				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-$(document).ready(function(){
-	$('.slider').slider();
-	$('.collapsible').collapsible();
-});
+		$(document).ready(function(){
+			$('.slider').slider({
+				indicators: false,
+			});
+			$('.collapsible').collapsible();
+		});
 
-			</script>
-		</div>
+	</script>
+</div>
 </main>
 {% endblock content %}

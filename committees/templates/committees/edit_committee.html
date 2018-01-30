@@ -36,11 +36,11 @@
                   {{ form.image.errors }}
                   <div class="input-field">
                     <label for="{{ form.image.id_for_label }}">Bilde</label>
-                    <input id="{{ form.image.id_for_label }}" name="thumbnail" type="text" value="{{ form.image.value }}">
+                    <input id="{{ form.image.id_for_label }}" name="image" type="text" value="{{ form.image.value }}">
                   </div>
                 </div>
 
-                <label>Bilde</label><br>
+                <label>Image</label><br>
                 <div class="imageItem card thumbnailPicker">
                   <div class="card-image" style="background-image: url(/files/image/{{ form.image.value }}/view);"></div>
                 </div>

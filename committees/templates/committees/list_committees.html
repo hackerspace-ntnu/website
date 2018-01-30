@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load thumbnail %}
+{% load access %}
+
 {% block nav_header %}
   Komiteer
 {% endblock nav_header %}
@@ -10,12 +12,12 @@
 
 {% block header %}
   <style>
-  .card-event-title {
-    padding: 0px 10px;
-    background-color: rgba(0, 0, 0, .2);
-    width: 100%;
-  }
-</style>
+    .card-event-title {
+      padding: 0px 10px;
+      background-color: rgba(0, 0, 0, .2);
+      width: 100%;
+    }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -27,37 +29,37 @@
         </div>
         <div class="row">
           {% for committee in committees %}
-              {% if committee.visible or perms.committees.can_edit_committees %}
-                <div class="col s6 m6 l4">
-                  <div class="card small">
-                    <div class="card-image">
-                      <a class="img-a" href="/committees/{{ committee.name }}/">
-                        <img class="activator" src="{{ committee.image.url }}">
-                      </a>
-                      <a href="/committees/{{ committee.name }}">
+            {% is_committee_admin request.user committee as admin_access %}
+            {% if committee.visible or admin_access %}
+              <div class="col s6 m6 l4">
+                <div class="card small">
+                  <div class="card-image">
+                    <a class="img-a" href="/committees/{{ committee.name }}/">
+                      <img class="activator" src="{{ committee.image.url }}">
+                    </a>
+                    <a href="/committees/{{ committee.name }}">
                         <span class="card-title card-event-title">
                           <h4>{{ committee.name }}</h4>
                         </span>
+                    </a>
+                  </div>
+                  <div class="card-content">
+                    <p>
+                      {{ committee.one_liner }}
+                    </p>
+                  </div>
+                  <div class="card-action">
+                    <div class="valign-wrapper">
+                      <a href="/committees/{{ committee.name }}" class="hs-green">Detaljer</a>
+                      <a href="mailto:{{ committee.email }}">
+                        <i class="material-icons valign right small hs-green">email</i>
                       </a>
-                      </div>
-                    <div class="card-content">
-                      <p>
-                        {{ committee.one_liner }}
-                      </p>
-                    </div>
-                    <div class="card-action">
-                      <div class="valign-wrapper">
-                        <a href="/committees/{{ committee.name }}" class="hs-green">Detaljer</a>
-                        <a href="mailto:{{ committee.email }}">
-                          <i class="material-icons valign right small hs-green">email</i>
-                        </a>
-                        <a href="/committees/{{ committee.name }}/edit" class="hs-green">Edit</a>
-                      </div>
-
+                      <a href="/committees/{{ committee.name }}/edit" class="hs-green">Edit</a>
                     </div>
                   </div>
                 </div>
-              {% endif %}
+              </div>
+            {% endif %}
           {% endfor %}
         </div>
       </div>

@@ -30,11 +30,11 @@ class Committee(Group):
     class Meta:
         permissions = (
             ("can_edit_committees", "Can edit all committees"),
+            ("committee_admin", "Can edit this committee and parent committee."),
         )
 
     def __str__(self):
         return self.name
-
 
     def get_absolute_url(self):
         return reverse('verv:view', kwargs={'slug':self.slug})
@@ -63,55 +63,3 @@ class Position(Group):
 
     def __str__(self):
         return str(self.title)
-
-"""
-class Member(models.Model):
-    committee = models.ForeignKey(Committee, related_name="members")
-    position = ChainedForeignKey(
-        Position,
-        chained_field="committee",
-        chained_model_field="committee",
-        show_all=False,
-        auto_choose=True
-    )
-    user = models.ForeignKey(User, blank=True, null=True)
-
-    def __str__(self):
-        if self.user:
-            return self.user.get_full_name()
-        else:
-            return "Ledig"
-
-    def remove_from_group(self, user):
-        self.position.permission_group.user_set.remove(user)
-
-    def add_to_group(self, user):
-        self.position.permission_group.user_set.add(user)
-
-    def __init__(self, *args, **kwargs):
-        super(Member, self).__init__(*args, **kwargs)
-        self.initial_user = self.user
-
-    def save(self, *args, **kwargs):
-        new = self.user
-        if self.pk:
-            #Member exists and is changed
-            old = Member.objects.get(pk=self.pk).user
-            self.remove_from_group(old)
-        if new:
-            self.add_to_group(self.user)
-        super(Member, self).save()
-"""
-
-"""
-@receiver(pre_delete, sender=Member)
-def update_position_member_groups_on_save(sender, instance, *args, **kwargs):
-    instance.delete_member(instance.user)
-
-
-def pre_save_committee_receiver(sender, instance, *args, **kwargs):
-    slug = slugify(instance.name)
-    instance.slug = slug
-
-pre_save.connect(pre_save_committee_receiver, sender=Committee)
-"""

@@ -33,10 +33,26 @@
 <div class="section hs-gray no-pad hide-on-small-only"> 
 	<div class="slider full-width">
 		<ul class="slides full-width">
-			{% for event in event_list %}
-			{% if event.thumbnail %}
 			<li>
-				<img class="activator" style="height:400px; height:100%;" src="{{ event.thumbnail.url }}">
+				<img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover1.jpg' %}">
+				<div class="caption center-align text-shadow">
+					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
+					<h1>Hackerspace</h1>
+					<h4>En kreativ arena for å realisere dine ideer</h4>
+					<br><br>
+				</div>
+			</li>
+			<li>
+				<img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover2.jpg' %}">
+				<div class="caption center-align text-shadow">
+					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
+					<h1>Hackerspace</h1>
+					<h4>En kreativ arena for å realisere dine ideer</h4>
+					<br><br>
+				</div>
+			</li>
+			<li>
+				<img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover3.jpg' %}">
 				<div class="caption center-align text-shadow">
 					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
 					<h1>Hackerspace</h1>
@@ -45,8 +61,6 @@
 				</div>
 			</li>
 		</div>
-		{% endif %}
-		{% endfor %}
 	</ul>
 </div>
 <div class="section block hs-green">

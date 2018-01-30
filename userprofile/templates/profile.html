@@ -7,16 +7,64 @@
 {% endblock head %}
 
 {% block content %}
-<div class="section no-pad-bot">
-    <div class="container">
-	{% include "profile_card.html" %}
-	{% if profile.duty.all %}
-	{% include "shift_table.html" %}
-	{% endif %}
-	{% if user.is_superuser or user == profile.user %}
-	<a id="edit_profile" href="/members/{{ profile.user_id }}/edit" class="btn waves-effect waves-light">Rediger</a>
-	{% endif %}
-    </div>
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 white-text center">
+				<h4>Brukerprofil for {{ profile.user }}</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section hs-gray white-text">
+	<div class="container">
+		<div class="row">
+			<div class="col s6">
+				<img src="/media/{{ profile.image }}" height="300">
+			</div>
+			<div class="col s6">
+				<h4>{{ profile.name }}</h4>
+				{% if profile.group %}
+				<p class="flow-text">{{ profile.group.all.0.title }}</p>
+				{% endif %}
+				{% if profile.study %}
+				<p class="flow-text">{{ profile.study }}</p>
+				{% endif %}
+				{% if profile.email %}
+				<p class="flow-text">{{ profile.email }}</p>
+				{% endif %}
+				{% if profile.skills %}
+				{% for skill in profile.skills.all %}
+				<a href="/members/skill/{{ skill.title }}">
+					{{ skill.title }}
+					{% if skill.icon %}
+					<img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+					{% endif %}
+				</a>
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="section hs-green white-text">
+	<div class="container">
+		<div class="row">
+			<div class="col s6">
+				{% if profile.duty.all %}
+				{% include "shift_table.html" %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+{% if user.is_superuser or user == profile.user %}
+<a id="edit_profile" href="/members/{{ profile.user_id }}/edit" class="btn waves-effect waves-light">Rediger</a>
+{% endif %}
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 

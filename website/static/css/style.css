@@ -104,12 +104,16 @@ nav ul a, nav i {
 
 /* Override for higher sections */
 .full-width {
-	height:100% !important;
-	min-height: 1000px !important;
+	height:100vh !important;
 }
 .text-shadow {
-	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .darken {
 	filter: brightness(40%);
+}
+.fixed-text {
+	padding-top:10% !important;
+	position:relative !important;
+	z-index:1000 !important;
 }

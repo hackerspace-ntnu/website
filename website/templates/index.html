@@ -20,46 +20,23 @@
 		</div>
 	</div>
 </div>
-<div class="section block hs-green hide-on-small-only">
-	<div class="container">
-		<div class="row center-align">
-			<div class="col s12 white-text">
-				<h4>Åpent hverdager fra 10:15 til 18:00</h4>
-				<h5>Besøk oss på <a class="hs-gray-text" href="map">Drivhuset</a></h5>
-			</div>
-		</div>
+<div class="section hs-green hide-on-small-only">
+	<div class="center-align white-text">
+		<h5>Åpent hverdager fra 10:15 til 18:00 - Besøk oss på <a class="hs-gray-text" href="map">Drivhuset</a></h5>
 	</div>
 </div>
 <div class="section hs-gray no-pad hide-on-small-only"> 
 	<div class="slider full-width">
 		<ul class="slides full-width">
-			<li>
-				<img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover1.jpg' %}">
-				<div class="caption center-align text-shadow">
-					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
-					<h1>Hackerspace</h1>
-					<h4>En kreativ arena for å realisere dine ideer</h4>
-					<br><br>
-				</div>
-			</li>
-			<li>
-				<img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover2.jpg' %}">
-				<div class="caption center-align text-shadow">
-					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
-					<h1>Hackerspace</h1>
-					<h4>En kreativ arena for å realisere dine ideer</h4>
-					<br><br>
-				</div>
-			</li>
-			<li>
-				<img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover3.jpg' %}">
-				<div class="caption center-align text-shadow">
-					<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
-					<h1>Hackerspace</h1>
-					<h4>En kreativ arena for å realisere dine ideer</h4>
-					<br><br>
-				</div>
-			</li>
+			<li><img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover1.jpg' %}"></li>
+			<li><img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover2.jpg' %}"></li>
+			<li><img class="activator darken" style="height:400px; height:100%;" src="{% static 'img/cover3.jpg' %}"></li>
+			<div class="caption center-align center text-shadow fixed-text white-text">
+				<img style="height:400px;width:280px;" src="../static/img/Icon_green_transparent.png">
+				<h1>Hackerspace</h1>
+				<h4>En kreativ arena for å realisere dine ideer</h4>
+				<br><br>
+			</div>
 		</div>
 	</ul>
 </div>
@@ -113,6 +90,7 @@
 		$(document).ready(function(){
 			$('.slider').slider({
 				indicators: false,
+				interval: 1000,
 			});
 			$('.collapsible').collapsible();
 		});

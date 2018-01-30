@@ -101,3 +101,12 @@ nav ul a, nav i {
 .dropdown-content li > a {
 	color:#5BBA47 !important;
 }
+
+/* Override for higher sections */
+.full-width {
+	height:100% !important;
+	min-height: 1000px !important;
+}
+.text-shadow {
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}

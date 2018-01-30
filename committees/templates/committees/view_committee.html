@@ -8,9 +8,9 @@
         <div class="row">
           <h1 id="pageName">{{ committee.name }}</h1>
           <div class="col s12 m12 l8">
-            {% thumbnail committee.image "1600" crop="center" as im %}
-              <img class="responsive-img materialboxed" src="{{ im.url }}">
-            {% endthumbnail %}
+            <div class="image-container">
+              <img class="news-image" src="{{ committee.image.url }}">
+            </div>
           </div>
           <div class="col s12 m12 l4">
             <div class="card card-event">

@@ -91,7 +91,7 @@ blockquote {
 	object-fit: cover !important;
 }
 
-nav ul a, nav i { 
+nav ul a, nav i {
 	color:#fff !important;
 }
 .side-nav li a {
@@ -109,6 +109,18 @@ nav ul a, nav i {
 .text-shadow {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+
+.rundt-bilde {
+	border-radius:8px !important;
+	width:100% !important;
+	height:100% !important;
+}
+.sosial-bilder a {
+	display:inline-block !important;
+	width:32px !important;
+	height:32px !important;
+}
+
 .darken {
 	filter: brightness(40%);
 }

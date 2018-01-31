@@ -5,6 +5,9 @@
 .hs-gray-text {
   color: #4E4B46 !important;
 }
+.hs-gray-text:visited {
+  color: #4E4B46 !important;
+}
 .hs-red {
   background-color: #E25E48 !important;
 }

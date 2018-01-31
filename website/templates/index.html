@@ -45,7 +45,7 @@
 		<div class="row center-align">
 			<div class="col s12 white-text">
 				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
-				<a class="hs-gray-text" href="/about/"><h5>Trykk her for å lese mer om oss</h5></a>
+				<a class="btn-large white hs-gray-text" href="/about/">Trykk her for å lese mer om oss</p></a>
 			</div>
 		</div>
 	</div>
@@ -53,8 +53,8 @@
 <div class="section white">
 	<div class="container">
 		<div class="row">
-			<div class="col s12 m6">
-				<ul class="collection with-header">
+			<div class="col s12 m12 xl6">
+				<ul class="collection with-header z-depth-1">
 					<li class="collection-header"><h4>Siste nytt</h4></li>
 					{% for article in article_list %}
 					<li class="collection-item">
@@ -64,8 +64,8 @@
 					{% endfor %}
 				</ul>
 			</div>
-			<div class="col s12 m6">
-				<ul class="collection with-header">
+			<div class="col s12 m12 xl6">
+				<ul class="collection with-header z-depth-1">
 					<li class="collection-header"><h4>Siste arrangementer</h4></li>
 					{% for event in event_list reversed %}
 					<li class="collection-item">
@@ -78,24 +78,15 @@
 		</div>
 	</div>
 </div>
-<div class="section white">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h2 class="center-align">Bilder fra våre arrangementer</h2>
-			</div>
-		</div>
-	</div>
-	<script>
-		$(document).ready(function(){
-			$('.slider').slider({
-				indicators: false,
-				interval: 1000,
-			});
-			$('.collapsible').collapsible();
+<script>
+	$(document).ready(function(){
+		$('.slider').slider({
+			indicators: false,
+			interval: 4000,
 		});
+		$('.collapsible').collapsible();
+	});
 
-	</script>
-</div>
+</script>
 </main>
 {% endblock content %}

@@ -141,3 +141,9 @@ nav ul a, nav i {
 	height:400px !important;
 	min-height:400px !important;
 }
+
+.date-box {
+	width:15%;
+	height:100%;
+	min-height:100%;
+}

@@ -1,18 +1,69 @@
-{% load check_user_group %}
-	<ul class="collection">
-	{% for event in event_list %}
-	<li class="collection-item">
+<div class="row">
+	<div class="col s12">
+		<h2 class="hs-green-text">Kommende Arrangementer</h2>
+		<div class="divider"></div>
+		{% load check_user_group %}
+		{% if new_events %} 
+		<ul class="collection">
+			{% for event in new_events %}
+			<li class="collection-item">
+				<div class="row">
+					<div class="col s8">
+						<a href="/news/event/{{ event.id }}/"><h5>{{ event.title }}</h5></a>
+						{% if event.place %}
+						{% endif %}
+						<blockquote><p class="flow-text">
+								{% autoescape off %}
+								{{ event.ingress_content|truncatechars:255 }}
+								{% endautoescape %}
+							</p>
+						</blockquote>
+						<a class="waves-effect waves-grey" href="/news/event/{{ event.id }}/">Les mer</a>
+						{% if request.user|has_group:"member" %}
+						<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown{{ event.id }}"><i class="material-icons">more_vert</i></a>
+						<ul id="dropdown{{ event.id }}" class="dropdown-content">
+							<li><a class="waves-effect waves-grey btn-flat" href="/news/event/{{ event.id }}/edit/">Edit</a></li>
+							<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ event.id }}/delete/">Delete</a></li>
+						</ul>
+						{% endif %}
+					</div>
+					<div class="col s4">
+						<div class="card-panel center-align hs-green secondary-content">
+							<h5>{{ event.time_start|date:"M" }}</h5>
+							<h5>{{ event.time_start|date:"d" }}</h5>
+						</div>
+					</div>
+				</div>
+			</li>
+			{% endfor %}
+		</ul>
+		{% else %}
 		<div class="row">
-			<div class="col s8">
-				<a href="/news/event/{{ event.id }}/"><h5>{{ event.title }}</h5></a>
-				{% if event.place %}
-				{% endif %}
-				<blockquote><p class="flow-text">
+			<div class="col s12">
+				<h5>Det er foreløpig ingen kommende arrangementer.</h5>
+				<p>(men husk å logge på din konto for å se interne arrangementer)</p>
+
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<h2 class="hs-green-text">Tidligere Arrangementer</h2>
+		<div class="divider"></div>
+		{% load check_user_group %}
+		{% for event in old_events %}
+		<div class="section">
+			<a href="/news/event/{{ event.id }}/"><h5 class="hs-gray-text">{{ event.title }}</h5></a>
+					<div class="hs-green right z-depth-1 date-box white-text">
+						<h5 class="center-align">{{ event.time_start|date:"d" }} {{ event.time_start|date:"M" }}</h5>
+					</div>
+			<blockquote><p class="flow-text">
 					{% autoescape off %}
 					{{ event.ingress_content|truncatechars:255 }}
 					{% endautoescape %}
-					</p>
-				</blockquote>
+				</p>
 				<a class="waves-effect waves-grey" href="/news/event/{{ event.id }}/">Les mer</a>
 				{% if request.user|has_group:"member" %}
 				<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown{{ event.id }}"><i class="material-icons">more_vert</i></a>
@@ -21,14 +72,9 @@
 					<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ event.id }}/delete/">Delete</a></li>
 				</ul>
 				{% endif %}
-			</div>
-			<div class="col s4">
-				<div class="card-panel center-align hs-green secondary-content">
-					<h5>{{ event.time_start|date:"M" }}</h5>
-					<h5>{{ event.time_start|date:"d" }}</h5>
-				</div>
-			</div>
-		</div>
-	</li>
+			</blockquote>
+	</div>
+	<div class="divider"></div>
 	{% endfor %}
-	</ul>
+</ul>
+</div>

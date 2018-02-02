@@ -55,14 +55,23 @@ def all_news(request):
 def all_events(request):
     if groups.has_group(request.user, 'member'):
         event_list = list(Event.objects.order_by('-time_start'))
+        old_events = list(Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start'))
+        new_events = list(Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start'))
     else:
         event_list = list(Event.objects.filter(internal=False).order_by('-time_start'))
+        old_events = list(Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start'))
+        new_events = list(Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start'))
+
 
     context = {
         'event_list': event_list,
+        'old_events': old_events,
+        'new_events': new_events,
+        'time_now': datetime.now(),
     }
 
     return render(request, 'all_events.html', context)
+
 
 def article(request, article_id):
     article_id = get_id_or_404(article_id)

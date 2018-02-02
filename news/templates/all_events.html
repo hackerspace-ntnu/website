@@ -2,14 +2,6 @@
 {% load staticfiles %}
 {% load check_user_group %}
 
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/card.css" %}">
-{% endblock head %}
-
-{% block header %}
-
-{% endblock header %}
-
 {% block content %}
 <div class="section hs-green block">
 	<div class="container">
@@ -27,7 +19,7 @@
 			<div class="col s12">
 				<ul class='collection with-header'>
 					<li class="collection-header"><h5>Administrator-meny</h5></li>
-					<li class="collection-item"><a href="/news/event/0/edit"><i class="material-icons">Arrangement</i>Ny Event</a></li>
+					<li class="collection-item"><a href="/news/event/0/edit"><i class="material-icons">create</i>Ny Event</a></li>
 				</ul>
 			</div>
 		</div>
@@ -37,13 +29,7 @@
 {% endif %}
 <div class="section block">
 	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h3>Arrangement</h3>
-				{% include "events.html" %}
-			</div>
-		</div>
-
+		{% include "events.html" %}
 	</div>
 </div>
 {% endblock content %}

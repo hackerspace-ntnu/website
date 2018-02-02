@@ -104,7 +104,15 @@ nav ul a, nav i {
 
 /* Override for higher sections */
 .full-width {
-	height:100vh !important;
+	height:70vh !important;
+	min-height:50vh !important;
+}
+.full-width li {
+	height:100% !important;
+	min-height:50vh !important;
+}
+.full-width img {
+	height:100% !important;
 }
 .text-shadow {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
@@ -128,4 +136,8 @@ nav ul a, nav i {
 	padding-top:10% !important;
 	position:relative !important;
 	z-index:1000 !important;
+}
+#indexLogo {
+	height:400px !important;
+	min-height:400px !important;
 }

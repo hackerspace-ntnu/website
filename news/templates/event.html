@@ -31,115 +31,110 @@
 			</div>
 			<div class="col s4">
 				<div class="card-panel"> {% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
-			  {% if event.internal %} <p>Dette er et internt arrangement.</p> {% endif %}
-			  <p>Tid: {{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
-			  <p>Dato: {{ event.time_start|date:"d M Y" }}</p>
-			  {% if event.external_registration %}
-			  <a class="btn waves-effect waves-light" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
-			  {% elif event.registration %}
-			  <p>Status: {{ userstatus }}</p>
-			  <div class="progress">
-				  <div class="determinate" style="width: {{ event.registered_percentage }}%"></div>
-				  <p>{{ event.registered_count }} / {{ event.max_limit }}</p>
-			  </div>
-		  </div>
-		  <div class="card-panel">
-			  {% if event.registration and request.user.is_authenticated and registration_visible %}
-			  {% if registered %}
-			  <button class="btn waves-effect waves-light hs-red" data-target="registrationModal">Meld deg av</button>
-			  {% else %}
-			  <button class="btn waves-effect waves-light hs-green" data-target="registrationModal">Meld deg på</button>
-			  {% endif %}
-			  <div id="registrationModal" class="modal">
-				  <div class="modal-content">
-					  <h4>Bekreft handling</h4>
-					  <p>Eventen starter {{ event.time_start|date:"d M Y, H:i" }}</p>
-					  <p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_end|date:"d M Y, H:i" }}</p>
-					  <p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end|date:"d M Y, H:i" }}</p>
-				  </div>
-				  <div class="modal-footer">
-					  <form method="post" action="/news/register/{{ event.id }}/">
-						  {% csrf_token %}
-						  {% if registered %}
-						  <button class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
-						  {% else %}
-						  <button class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
-						  {% endif %}
-					  </form>
-				<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
+					{% if event.internal %} <p>Dette er et internt arrangement.</p> {% endif %}
+					<p>Tid: {{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
+					<p>Dato: {{ event.time_start|date:"d M Y" }}</p>
+					{% if event.external_registration %}
+					<a class="btn waves-effect waves-light" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
+					{% elif event.registration %}
+					<p>Status: {{ userstatus }}</p>
+					<div class="progress">
+						<div class="determinate" style="width: {{ event.registered_percentage }}%"></div>
+						<p>{{ event.registered_count }} / {{ event.max_limit }}</p>
+					</div>
+				</div>
+				<div class="card-panel">
+					{% if event.registration and request.user.is_authenticated and registration_visible %}
+					{% if registered %}
+					<button class="btn waves-effect waves-light hs-red" data-target="registrationModal">Meld deg av</button>
+					{% else %}
+					<button class="btn waves-effect waves-light hs-green" data-target="registrationModal">Meld deg på</button>
+					{% endif %}
+					<div id="registrationModal" class="modal">
+						<div class="modal-content">
+							<h4>Bekreft handling</h4>
+							<p>Eventen starter {{ event.time_start|date:"d M Y, H:i" }}</p>
+							<p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_end|date:"d M Y, H:i" }}</p>
+							<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end|date:"d M Y, H:i" }}</p>
+						</div>
+						<div class="modal-footer">
+							<form method="post" action="/news/register/{{ event.id }}/">
+								{% csrf_token %}
+								{% if registered %}
+								<button class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
+								{% else %}
+								<button class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
+								{% endif %}
+							</form>
+							<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
+						</div>
+					</div>
+					{% endif %}
+				</div>
 			</div>
+			{% if event.registered_list or event.wait_list %}
+			{% if user.is_superuser or user|has_group:"viewAttendees" %}
+			<ul class="collapsible" data-collapsible="accordion">
+				{% if event.registered_list %}
+				<li>
+					<div class="collapsible-header">Påmeldte</div>
+					<div class="collapsible-body">
+						{% for user in event.registered_list %}
+						<p>{{ user.0 }}</p>
+						{% endfor %}
+					</div>
+				</li>
+				{% endif %}
+				{% if event.wait_list %}
+				<li>
+					<div class="collapsible-header">Venteliste</div>
+					<div class="collapsible-body">
+						{% for user in event.wait_list %}
+						<p>{{ user.0 }}. {{ user.1 }}</p>
+						{% endfor %}
+					</div>
+				</li>
+				{% endif %}
+			</ul>
+			<script>
+			</script>
 		</div>
+		{% if event.registered_list %}
+		<button class="btn waves-effect waves-light hs-green ">Epost påmeldte</button>
+		{% endif %}
+		{% if event.wait_list %}
+		<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
+		{% endif %}
+		<div style="display: none;" class="emaillistreg">
+			{{ event.register_email }}
+		</div>
+		<div style="display: none;" class="emaillistwait">
+			{{ event.waitlist_email }}
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('.collapsible').collapsible();
+
+				$('.emailcopyreg').click(function () {
+					copyToClipboard($('.emaillistreg'));
+					Materialize.toast('Epostliste for påmeldte kopiert til clipboard', 4000);
+				});
+				$('.emailcopywait').click(function () {
+					copyToClipboard($('.emaillistwait'));
+					Materialize.toast('Epostliste for venteliste kopiert til clipboard', 4000);
+				});
+			});
+function copyToClipboard(element) {
+	var $temp = $("<input>");
+	$("body").append($temp);
+	$temp.val($(element).text()).select();
+	document.execCommand("copy");
+	$temp.remove();
+}
+		</script>
+		{% endif %}
+		{% endif %}
 		{% endif %}
 	</div>
 </div>
-	{% if event.registered_list or event.wait_list %}
-	{% if user.is_superuser or user|has_group:"viewAttendees" %}
-	<ul class="collapsible" data-collapsible="accordion">
-		      {% if event.registered_list %}
-		      <li>
-			      <div class="collapsible-header">Påmeldte</div>
-			      <div class="collapsible-body">
-				      {% for user in event.registered_list %}
-				      <p>{{ user.0 }}</p>
-				      {% endfor %}
-			      </div>
-		      </li>
-		      {% endif %}
-		      {% if event.wait_list %}
-		      <li>
-			      <div class="collapsible-header">Venteliste</div>
-			      <div class="collapsible-body">
-				      {% for user in event.wait_list %}
-				      <p>{{ user.0 }}. {{ user.1 }}</p>
-				      {% endfor %}
-			      </div>
-		      </li>
-		      {% endif %}
-	      </ul>
-	      <script>
-		      $(function(){
-			      $('.collapsible').collapsible();
-		      });
-	      </script>
-      </div>
-      {% if event.registered_list %}
-      <button class="btn waves-effect waves-light hs-green ">Epost påmeldte</button>
-      {% endif %}
-      {% if event.wait_list %}
-      <button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
-      {% endif %}
-      <div style="display: none;" class="emaillistreg">
-	      {{ event.register_email }}
-      </div>
-      <div style="display: none;" class="emaillistwait">
-	      {{ event.waitlist_email }}
-      </div>
-      <script>
-	      function copyToClipboard(element) {
-		      var $temp = $("<input>");
-		      $("body").append($temp);
-		      $temp.val($(element).text()).select();
-		      document.execCommand("copy");
-		      $temp.remove();
-	      }
-$('.emailcopyreg').click(function () {
-	copyToClipboard($('.emaillistreg'));
-	Materialize.toast('Epostliste for påmeldte kopiert til clipboard', 4000);
-});
-$('.emailcopywait').click(function () {
-	copyToClipboard($('.emaillistwait'));
-	Materialize.toast('Epostliste for venteliste kopiert til clipboard', 4000);
-});
-      </script>
-      <style>
-	      .emailcopyreg, .emailcopywait {
-		      font-size: 10px;
-		      width: 100%;
-	      }
-      </style>
-      {% endif %}
-      {% endif %}
-      {% endif %}
-  </div>
-  </div>
 {% endblock content %}

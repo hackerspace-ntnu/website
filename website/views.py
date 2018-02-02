@@ -46,7 +46,7 @@ def index(request):
         'event_list': event_list,
         'door_status': door_status,
         'cookie_accepted': cookie_accepted,
-        'form': form,
+        'login_form': form,
     }
 
     return render(request, 'index.html', context)

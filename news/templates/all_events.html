@@ -3,15 +3,6 @@
 {% load check_user_group %}
 
 {% block content %}
-<div class="section hs-green block">
-	<div class="container">
-		<div class="row center-align">
-			<div class="col s12 white-text">
-				<h4>Arrangementer</h4>
-			</div>
-		</div>
-	</div>
-</div>
 {% if request.user|has_group:"member" %}
 <div class="section block">
 	<div class="container">
@@ -27,9 +18,6 @@
 </div>
 <div class="divider"></div>
 {% endif %}
-<div class="section block">
-	<div class="container">
-		{% include "events.html" %}
-	</div>
-</div>
+{% include "events.html" %}
+
 {% endblock content %}

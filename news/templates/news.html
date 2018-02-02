@@ -1,7 +1,6 @@
 {% load check_user_group %}
-	<ul class="collection">
 	{% for news in news_list %}
-	<li class="collection-item">
+	<div class="section">
 		<div class="row">
 			<div class="col s12">
 				<p class="right">Publisert {{ news.pub_date }}</p>
@@ -28,6 +27,6 @@
 				{% endif %}
 			</div>
 		</div>
-	</li>
+	</div>
+	<div class="divider"></div>
 	{% endfor %}
-	</ul>

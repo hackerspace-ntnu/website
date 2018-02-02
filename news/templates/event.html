@@ -71,7 +71,6 @@
 					</div>
 					{% endif %}
 				</div>
-			</div>
 			{% if event.registered_list or event.wait_list %}
 			{% if user.is_superuser or user|has_group:"viewAttendees" %}
 			<ul class="collapsible" data-collapsible="accordion">

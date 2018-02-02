@@ -3,39 +3,39 @@
 {% load check_user_group %}
 
 {% block head %}
-  <link rel="stylesheet" type="text/css" href="{% static "css/news.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "css/event.css" %}">
 {% endblock head %}
 
 {% block content %}
 
-<div class="section block hs-green">
+<div class="section block">
 	<div class="container">
 		<div class="row">
 			<img class="responsive-img" src="{{ event.thumbnail.url }}">
-			<h1 class="white-text">{{ event.title }}</h1>
+			<h1 class="hs-green-text">{{ event.title }}</h1>
+			<div class="divider"></div>
 		</div>
 	</div>
 </div>
 <div class="section block">
 	<div class="container">
 		<div class="row">
-  <div class="col s8">
-		  {% autoescape off %}
-		  {{ event.ingress_content }}
-		  {% endautoescape %}
-		  {% autoescape off %}
-		  {{ event.main_content }}
-		  {% endautoescape %}
-	  </div>
-	  <div class="col s4">
-		  <div class="card-panel">
-			  {% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
+			<div class="col s8">
+				<div class="card-panel">
+					{% autoescape off %}
+					<p class="flow-text">{{ event.ingress_content }}</p>
+					{% endautoescape %}
+					{% autoescape off %}
+					<p class="flow-text">{{ event.main_content }}</p>
+					{% endautoescape %}
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="card-panel"> {% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
 			  {% if event.internal %} <p>Dette er et internt arrangement.</p> {% endif %}
 			  <p>Tid: {{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
 			  <p>Dato: {{ event.time_start|date:"d M Y" }}</p>
 			  {% if event.external_registration %}
-			  <a class="btn waves-effect waves-light hs-green-text" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
+			  <a class="btn waves-effect waves-light" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
 			  {% elif event.registration %}
 			  <p>Status: {{ userstatus }}</p>
 			  <div class="progress">
@@ -71,10 +71,10 @@
 		</div>
 		{% endif %}
 	</div>
+</div>
 	{% if event.registered_list or event.wait_list %}
 	{% if user.is_superuser or user|has_group:"viewAttendees" %}
-	<div>
-		<ul class="collapsible" data-collapsible="accordion">
+	<ul class="collapsible" data-collapsible="accordion">
 		      {% if event.registered_list %}
 		      <li>
 			      <div class="collapsible-header">Påmeldte</div>

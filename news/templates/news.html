@@ -16,13 +16,11 @@
 				<h5></a>
 			</div>
 			<div class="col s8">
-				<blockquote>
 					<p class="flow-text">
 						{% autoescape off %}
 						{{ news.ingress_content|truncatechars:255 }}
 						{% endautoescape %}
 					</p>
-				</blockquote>
 			</div>
 			<div class="col s4">
 				{% if news.thumbnail %}

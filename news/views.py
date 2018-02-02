@@ -70,7 +70,7 @@ def all_events(request):
         'time_now': datetime.now(),
     }
 
-    return render(request, 'all_events.html', context)
+    return render(request, 'events.html', context)
 
 
 def article(request, article_id):

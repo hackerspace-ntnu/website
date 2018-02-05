@@ -59,8 +59,8 @@ def all_events(request):
         new_events = list(Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start'))
     else:
         event_list = list(Event.objects.filter(internal=False).order_by('-time_start'))
-        old_events = list(Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start'))
-        new_events = list(Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start'))
+        old_events = list(Event.objects.filter(internal=False, time_start__lte=datetime.now()).order_by('-time_start'))
+        new_events = list(Event.objects.filter(internal=False, time_start__gte=datetime.now()).order_by('-time_start'))
 
 
     context = {

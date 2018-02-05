@@ -26,13 +26,13 @@
 			<div class="row">
 				<div class="col s12">
 					<p class="right">Starter {{ event.time_start }}</p>
-					<a href="/news/event/{{ event.id }}/">
+					<a href="/events/{{ event.id }}/">
 						<h5 class="left">{{ event.title }}
 							{% if request.user|has_group:"member" %}
 							<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown{{ event.id }}"><i class="material-icons">more_vert</i></a>
 							<ul id="dropdown{{ event.id }}" class="dropdown-content">
-								<li><a class="waves-effect waves-grey btn-flat" href="/news/event/{{ event.id }}/edit/">Edit</a></li>
-								<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ event.id }}/delete/">Delete</a></li>
+								<li><a class="waves-effect waves-grey btn-flat" href="/events/{{ event.id }}/edit/">Edit</a></li>
+								<li><a class="delete waves-effect waves-grey btn-flat" url="/events/{{ event.id }}/delete/">Delete</a></li>
 							</ul>
 							{% endif %}
 						<h5>
@@ -81,12 +81,12 @@
 			<div class="row">
 				<div class="col s12">
 					<p class="right">Avsluttet {{ event.time_end }}</p>
-					<a href="/news/event/{{ event.id }}/"><h5 class="left">{{ event.title }}
+					<a href="/events/{{ event.id }}/"><h5 class="left">{{ event.title }}
 							{% if request.user|has_group:"member" %}
 							<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown{{ event.id }}"><i class="material-icons">more_vert</i></a>
 							<ul id="dropdown{{ event.id }}" class="dropdown-content">
-								<li><a class="waves-effect waves-grey btn-flat" href="/news/event/{{ event.id }}/edit/">Edit</a></li>
-								<li><a class="delete waves-effect waves-grey btn-flat" url="/news/event/{{ event.id }}/delete/">Delete</a></li>
+								<li><a class="waves-effect waves-grey btn-flat" href="/events/{{ event.id }}/edit/">Edit</a></li>
+								<li><a class="delete waves-effect waves-grey btn-flat" url="/events/{{ event.id }}/delete/">Delete</a></li>
 							</ul>
 							{% endif %}
 							<h5></a>

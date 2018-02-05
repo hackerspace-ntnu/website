@@ -25,8 +25,8 @@
 
 				<!-- Hovedmeny -->
 				<ul class="right hide-on-med-and-down">
-					<li><a href="/news/all">NYHETER</a></li>
-					<li><a href="/news/events">ARRANGEMENTER</a></li>
+					<li id="news"><a href="/news/">NYHETER</a></li>
+					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
 					<li><a class="user-drop-desktop" href="#" data-activates="resourcedropdown">RESSURSER</a>
 					</li>
 					<li><a class="user-drop-desktop" href="#" data-activates="userdropdown">
@@ -77,5 +77,14 @@ $(document).ready(function() {
 	$(".user-drop-mobile").dropdown();
 	$(".button-collapse").sideNav();
 	$('.modal').modal();
+	switch(window.location.pathname) {
+		case '/news/':
+			$('#news').addClass('active')
+			break;
+		case '/events/':
+			$('#events').addClass('active')
+			break;
+	}
+
 });
 </script>

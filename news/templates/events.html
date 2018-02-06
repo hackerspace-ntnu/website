@@ -16,11 +16,11 @@
 	<div class="container">
 		{% if request.user|has_group:"member" %}
 		<ul class='collection z-depth-1'>
-			<li class="collection-item"><a href="/news/event/0/edit"><i class="material-icons">create</i>Ny Event</a></li>
+			<li class="collection-item"><a href="/events/0/edit"><i class="material-icons">create</i>Ny Event</a></li>
 		</ul>
 		{% endif %}
 		{% load check_user_group %}
-		{% if new_events %} 
+		{% if new_events %}
 		{% for event in new_events %}
 		<div class="section">
 			<div class="row">

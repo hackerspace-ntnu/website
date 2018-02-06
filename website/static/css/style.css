@@ -17,7 +17,9 @@ h1,h2,h3,h4,h5,a {
 .brand-logo {
 	margin-left: 16px;
 }
-
+.mobile-img {
+	margin-left:0px !important;
+}
 
 .material-icons {
 	  vertical-align: middle !important;

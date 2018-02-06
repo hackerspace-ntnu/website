@@ -1,14 +1,15 @@
-from dal import autocomplete
-from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import user_passes_test
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import JsonResponse, Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import View
+
+import json
 
 from .forms import CommitteeEditForm
-from .models import Committee, Position
+from .models import Committee
+from .templatetags.access import is_committee_admin
 from files.models import Image
 
 
@@ -21,25 +22,37 @@ def index(request):
 
     return render(request, 'committees/list_committees.html', context)
 
-def view_committee(request, name):
-    committee = get_object_or_404(Committee, name=name)
 
-    can_edit = edit_check(request.user, name)
+class ViewCommittee(View):
+    @staticmethod
+    def get(request, name):
+        committee = get_object_or_404(Committee, name=name)
 
-    positions = Position.objects.filter(pos_in_committee=committee)
-    pos_names = [p.usr.username for p in positions]
+        if not (committee.visible or is_committee_admin(request.user, committee)):
+            raise Http404
 
-    users = [user for user in committee.user_set.all() if user.username not in pos_names]
-    #users = filter(lambda user: user.username not in pos_names, committee.user_set.all())
-    users.sort(key=lambda user: user.first_name)
+        # positions = Position.objects.filter(pos_in_committee=committee)
+        # pos_names = [p.usr.username for p in positions]
 
-    context = {
-        'committee': committee,
-        'can_edit': can_edit,
-        'users': users,
-        'positions': positions,
-    }
-    return render(request, 'committees/view_committee.html', context)
+        # users = [user for user in committee.user_set.all() if user.username not in pos_names]
+        # users = filter(lambda user: user.username not in pos_names, committee.user_set.all())
+        users = list(committee.user_set.all())
+        users.sort(key=lambda user: user.first_name)
+        context = {
+            'committee': committee,
+            'can_edit': is_committee_admin(request.user, committee),
+            'users': users,
+        }
+        return render(request, 'committees/view_committee.html', context)
+
+    @staticmethod
+    def put(request, name):
+        """ Method to remove user from team.
+            DELETE workshop:setup_workshop <code> data={"maker_id": "<id>"}
+        """
+        data = json.loads(request.body.decode())
+        committee = Committee.objects.get(name=name)
+
 
 def edit_check(user, c_name):
     committee = get_object_or_404(Committee, name=c_name)

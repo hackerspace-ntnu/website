@@ -101,6 +101,7 @@ def edit_event(request, event_id):
             for attr in form.cleaned_data:
                 setattr(event, attr, form.cleaned_data[attr])
 
+
             event.save()
 
             log_changes.change(request, event)
@@ -270,7 +271,7 @@ def register_on_event(request, event_id):
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
-    return HttpResponseRedirect("/news/event/%i" % event_object.id)
+    return HttpResponseRedirect("/events/%i" % event_object.id)
 
 
 def event_attendees(request, event_id):

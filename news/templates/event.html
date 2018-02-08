@@ -40,15 +40,15 @@
 					<p>Status: {{ userstatus }}</p>
 					<div class="progress">
 						<div class="determinate" style="width: {{ event.registered_percentage }}%"></div>
-						<p>{{ event.registered_count }} / {{ event.max_limit }}</p>
+						<p class="counter center">{{ event.registered_count }} / {{ event.max_limit }}</p>
 					</div>
 				</div>
 				<div class="card-panel">
 					{% if event.registration and request.user.is_authenticated and registration_visible %}
 					{% if registered %}
-					<button class="btn waves-effect waves-light hs-red" data-target="registrationModal">Meld deg av</button>
+					<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button>
 					{% else %}
-					<button class="btn waves-effect waves-light hs-green" data-target="registrationModal">Meld deg på</button>
+					<a class="btn waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a>
 					{% endif %}
 					<div id="registrationModal" class="modal">
 						<div class="modal-content">
@@ -113,6 +113,7 @@
 		<script>
 			$(document).ready(function() {
 				$('.collapsible').collapsible();
+				$('.modal').modal();
 
 				$('.emailcopyreg').click(function () {
 					copyToClipboard($('.emaillistreg'));
@@ -136,4 +137,28 @@ function copyToClipboard(element) {
 		{% endif %}
 	</div>
 </div>
+<style>
+
+	.progress {
+		    height: 30px;
+		        width: 95%;
+			    display: block;
+			        margin: auto;
+				    margin-bottom: 5px;
+				        margin-top: 10px;
+					    z-index: 50;
+				    }
+
+				    .counter {
+						    margin: 5px;
+						        display: block;
+							    margin-left: auto;
+							        margin-right: auto;
+							}
+							.determinate {
+								    z-index: 70;
+							    }
+
+			    </style>
 {% endblock content %}
+

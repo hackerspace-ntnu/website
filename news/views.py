@@ -105,7 +105,7 @@ def edit_event(request, event_id):
 
             log_changes.change(request, event)
 
-            return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
+            return HttpResponseRedirect('/events/' + str(event.id) + '/')
     else:
         if event_id:
             event = get_object_or_404(Event, pk=event_id)

@@ -9,27 +9,36 @@
 
 {% block content %}
   {% if request.user|has_group:"member" %}
-  <div class="section">
+  <div class="section hs-green white-text">
 	  <div class="container">
-		  <div class="col s12">
+		  <div class="row">
+			  <div class="col s12">
 				  <h2>Rediger event</h2>
-				  <form action="" method="post" style="width: 835px;">
-					  {% csrf_token %}
-					  {{ form.non_field_errors }}
-					  {{ form.title.errors }}
+			  </div>
+		  </div>
+	  </div>
+  </div>
+  <div class="section">
+	  <form action="" method="post">
+		  {% csrf_token %}
+		  {{ form.non_field_errors }}
+		  {{ form.title.errors }}
+		  <div class="container">
 			  <div class="row">
 				  <div class="input-field col s12">
-					  <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
 					  {{ form.title }}
+					  <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
 				  </div>
-				  {{ form.ingress_content.errors }}
-				  <label>{{ form.ingress_content.label }}</label>
-				  {{ form.ingress_content }}
-
-				  {{ form.main_content.errors }}
-				  <label>{{ form.main_content.label }}</label>
-				  {{ form.main_content }}
-
+				  <div class="input-field col s12">
+					  <p>{{ form.ingress_content.label }}</p>
+					  {{ form.ingress_content.errors }}
+					  {{ form.ingress_content }}
+				  </div>
+				  <div class="input-field col s12">
+					  <p>{{ form.main_content.label }}</p>
+					  {{ form.main_content.errors }}
+					  {{ form.main_content }}
+				  </div>
 				  {{ form.max_limit.errors }}
 				  {{ form.registration_start_time.errors }}
 				  {{ form.registration_start_date.errors }}
@@ -38,92 +47,108 @@
 				  {{ form.time_start.errors }}
 				  {{ form.time_end.errors }}
 				  {{ form.date.errors }}
-				  <p>Ved ekstern påmelding (f.eks. hoopla), skriv inn url her (husk http://) og IKKE velg påmelding nedenfor</p>
-				  {{ form.external_registration.errors }}
+			  </div>
+			  <div class="row">
 				  <div class="input-field col s12">
-					  <label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
+					  <p>Ved ekstern påmelding (f.eks. hoopla), skriv inn url her (husk http://) og IKKE velg påmelding nedenfor</p>
+					  {{ form.external_registration.errors }}
 					  {{ form.external_registration }}
+					  <label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
 				  </div>
-				  {{ form.registration.errors }}
-				  <div class="input-field col s12">
-					  <input type="checkbox" name="registration" value="{{ form.registration.value }}"/>
-					  <label for="registration-box">{{ form.registration.label }}</label>
+				  <div class="col s12">
+					  {{ form.registration.errors }}
+					  <p>
+						  <i class="material-icons prefix">group_add</i>
+						  <input type="checkbox" id="registration-box" name="registration-box" value="{{ form.registration.value }}"/>
+						  <label for="registration-box">{{ form.registration.label }}</label>
+					  </p>
 				  </div>
+			  </div>
+			  <div class="row">
 				  <div class="input-field col s12">
-					  <label for="{{ form.registration_start_date.id_for_label }}">{{ form.registration_start_date.label }}</label>
-					  <input id="{{ form.registration_start_date.id_for_label }}" class="datepicker" name="registration_start_date" value="{{ form.registration_start_date.value }}">
-				  </div>
-				  <div class="input-field col s12">
-					  <label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
-					  {{ form.registration_start_time }}
-				  </div>
-				  <div class="input-field col s12">
+					  <i class="material-icons prefix">event_seat</i>
 					  <label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
 					  {{ form.max_limit }}
 				  </div>
-				  <div class="input-field col s12">
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">event_available</i>
+					  <input id="{{ form.registration_start_date.id_for_label }}" class="datepicker" name="registration_start_date" value="{{ form.registration_start_date.value }}">
+					  <label class="active" for="{{ form.registration_start_date.id_for_label }}">{{ form.registration_start_date.label }}</label>
+				  </div>
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">hourglass_empty</i>
+					  <label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
+					  {{ form.registration_start_time }}
+				  </div>
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">event_busy</i>
 					  <label for="{{ form.deregistration_end_date.id_for_label }}">{{ form.deregistration_end_date.label }}</label>
 					  <input type="text" id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker" name="deregistration_end_date" value="{{ form.deregistration_end_date.value }}" />
 				  </div>
-				  <div class="input-field col s12">
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">hourglass_full</i>
 					  <label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
 					  {{ form.deregistration_end_time }}
 				  </div>
 
 				  {{ form.internal.errors }}
-				  <div class="input-field col s12">
-					  <input type="checkbox" class="filled-in internal toggle" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
+				  <div class="col s12">
+					  <i class="material-icons prefix">card_membership</i>
+					  <input type="checkbox" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
 					  <label for="internal-box">{{ form.internal.label }}</label>
+				  <br><br><br>
 				  </div>
-
-				  <div class="input-field col s12">
-					  <label for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">access_time</i>
 					  {{ form.time_start }}
+					  <label for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
 				  </div>
-				  <div class="input-field col s12">
-					  <label for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">weekend</i>
 					  {{ form.time_end }}
+					  <label for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
 				  </div>
 				  <div class="input-field col s12">
-
-					  <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
+					  <i class="material-icons prefix">date_range</i>
 					  <input type="text" id="{{ form.date.id_for_label }}" class="datepicker" name="date" value="{{ form.date.value }}">
+					  <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
 				  </div>
-				  {{ form.thumbnail.errors }}
 				  <div class="input-field col s12">
-					  <label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
+					  <i class="material-icons prefix">photo_library</i>
+					  {{ form.thumbnail.errors }}
 					  <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
+					  <label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
+					  <div class="card">
+						  <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
+					  </div>
 				  </div>
-
-				  <label>Thumbnail</label><br>
-				  <div class="card">
-					  <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
-				  </div>
-				  {{ form.place.errors }}
-				  <div class="input-field col s12">
-					  <label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">location_on</i>
+					  {{ form.place.errors }}
 					  {{ form.place }}
+					  <label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
 				  </div>
-
-				  {{ form.place_href.errors }}
-				  <div class="input-field col s12">
-					  <label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
+				  <div class="input-field col s6">
+					  <i class="material-icons prefix">link</i>
+					  {{ form.place_href.errors }}
 					  {{ form.place_href }}
+					  <label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
 				  </div>
-				  <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 
 				  <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
 			  </form>
 		  </div>
 
-				  <script>
-					  $(document).ready(function() {
-						  Materialize.updateTextFields();
-						  $('.datepicker').pickadate({
-							  selectMonths: true, // Creates a dropdown to control month
-							  selectYears: 15 // Creates a dropdown of 15 years to control year
-						  });
-					  });
-				  </script>
 		  {% endif %}
+
+		  <script>
+			  $(document).ready(function() {
+				  Materialize.updateTextFields();
+				  $('.datepicker').pickadate({
+					  selectMonths: true, // Creates a dropdown to control month
+					  selectYears: 15 // Creates a dropdown of 15 years to control year
+				  });
+			  });
+		  </script>
+		  <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 		  {% endblock content %}

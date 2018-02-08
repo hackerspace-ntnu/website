@@ -149,3 +149,11 @@ nav ul a, nav i {
 	display:inline-block;
 	height:100% !important;
 }
+
+.archive {
+	opacity: 0.2;
+}
+.archive.active {
+	opacity: 1 !important;
+	transition:1s;
+}

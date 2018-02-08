@@ -49,22 +49,24 @@
 				  {{ form.date.errors }}
 			  </div>
 			  <div class="row">
-				  <div class="input-field col s12">
+				  <div class="col s12">
 					  <p>Ved ekstern påmelding (f.eks. hoopla), skriv inn url her (husk http://) og IKKE velg påmelding nedenfor</p>
+					  <div class="input-field">
 					  {{ form.external_registration.errors }}
 					  {{ form.external_registration }}
 					  <label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
+				  </div>
 				  </div>
 				  <div class="col s12">
 					  {{ form.registration.errors }}
 					  <p>
 						  <i class="material-icons prefix">group_add</i>
-						  <input type="checkbox" id="registration-box" name="registration-box" value="{{ form.registration.value }}"/>
+						  <input type="checkbox" id="registration-box" name="registration" value="{{ form.registration.value }}"/>
 						  <label for="registration-box">{{ form.registration.label }}</label>
 					  </p>
 				  </div>
 			  </div>
-			  <div class="row">
+			  <div class="row" id="reg-section">
 				  <div class="input-field col s12">
 					  <i class="material-icons prefix">event_seat</i>
 					  <label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
@@ -90,6 +92,8 @@
 					  <label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
 					  {{ form.deregistration_end_time }}
 				  </div>
+			  </div>
+			  <div class="row">
 
 				  {{ form.internal.errors }}
 				  <div class="col s12">
@@ -113,15 +117,22 @@
 					  <input type="text" id="{{ form.date.id_for_label }}" class="datepicker" name="date" value="{{ form.date.value }}">
 					  <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
 				  </div>
-				  <div class="input-field col s12">
+			  </div>
+			  <div class="row">
+				  <div class="input-field col s6">
 					  <i class="material-icons prefix">photo_library</i>
 					  {{ form.thumbnail.errors }}
-					  <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
+					  <input class="thumbnailPicker" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
 					  <label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
-					  <div class="card">
-						  <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
-					  </div>
 				  </div>
+				  <div class="col s6">
+					  <p>Preview</p>
+					  <div id="thumb-preview" class="card small thumb-preview" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
+					  <label for="thumb-preview">Thumbnail</label>
+				  </div>
+				  </div>
+			  </div>
+			  <div class="row">
 				  <div class="input-field col s6">
 					  <i class="material-icons prefix">location_on</i>
 					  {{ form.place.errors }}
@@ -134,6 +145,7 @@
 					  {{ form.place_href }}
 					  <label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
 				  </div>
+			  </div>
 
 				  <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
 			  </form>
@@ -148,7 +160,53 @@
 					  selectMonths: true, // Creates a dropdown to control month
 					  selectYears: 15 // Creates a dropdown of 15 years to control year
 				  });
+
+				  if($('#registration-box').val() == "True") {
+					  $('#registration-box').attr("checked", true);
+				  } else {
+					  $('#reg-section').hide();
+				  }
+
+				  if($('#internal-box').val() == "True") {
+					  $('#internal-box').attr("checked", true);
+				  }
+
+				  // Sett registreringsbox til standard-verdi
+				  $("#registration-box").change(function() {
+					  if (this.checked) {
+						  $(this).val("true");
+						  $('#reg-section').show();
+					  } else {
+						  $(this).val("false");
+						  $('#reg-section').hide();
+					  }
+				  });
+				  $("#internal-box").change(function() {
+					  if (this.checked) {
+						  $(this).val("true");
+					  } else {
+						  $(this).val("false");
+					  }
+				  });
 			  });
 		  </script>
-		  <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
+		  <style>
+
+			  /* Thumbnail and place */
+		  #thumbplace .tumb {
+			    width: 20%;
+			      float: left;
+		      }
+
+		      #thumbplace .places {
+			        width: 74.6%;
+				  float: right;
+			  }
+
+			  #thumbplace .place, #thumbplace .href {
+				    width: 100%;
+			    }
+			    /* end */
+		  </style>
+  <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 		  {% endblock content %}

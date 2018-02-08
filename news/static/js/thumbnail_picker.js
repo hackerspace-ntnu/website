@@ -5,5 +5,6 @@ $(".thumbnailPicker").click(function() {
 function selectThumnail(src, id) {
   thumbWindow.close();
   $("input[name^=thumbnail]").val(id);
-  $(".thumbnailPicker").find("div").css("background-image", "url("+src+")");
+	console.log("try to set bgimg");
+  $(".thumb-preview").css("background-image", "url("+src+")");
 }

@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load userprofile %}
 <header>
 	<div class="navbar-fixed">
 		<nav>
@@ -26,14 +27,15 @@
 				</ul>
 
 				<!-- Hovedmeny -->
-				<ul class="right hide-on-med-and-down">
+				<ul class="right hide-on-med-and-down valign-wrapper">
 					<li id="news"><a href="/news/">NYHETER</a></li>
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
 					<li><a class="user-drop-desktop" href="#" data-activates="resourcedropdown">RESSURSER</a>
 					</li>
 					{% if request.user.is_authenticated %}
-					<li><a class="user-drop-desktop" href="/user/{{ request.user.id }}" data-activates="userdropdown">
-							<i class="material-icons">account_circle</i></a>
+					<li><a class="user-drop-desktop valign-wrapper" href="/user/{{ request.user.id }}" data-activates="userdropdown">
+							<img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" >
+							</a>
 					{% else %}
 					<li><a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown">
 							<i class="material-icons">account_circle</i></a>

@@ -33,6 +33,8 @@
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
 					<li><a class="user-drop-desktop" href="#" data-activates="resourcedropdown">RESSURSER</a>
 					</li>
+					<li class="tooltipped" data-tooltip="Trykk meg for å se hvor vi befinner oss"><a class="modal-trigger " href="#mapModal">
+							<i class="material-icons">map</i></a>
 					{% if request.user.is_authenticated %}
 					<li><a class="user-drop-desktop valign-wrapper" href="/user/{{ request.user.id }}" data-activates="userdropdown">
 							<img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" >
@@ -72,7 +74,11 @@
 		{% LoginModal %}
 	</div>
 </div>
-
+<div id="mapModal" class="modal bottom-sheet hide-on-med-and-down">
+	<div class="modal-content">
+		<iframe width="100%" height="40vh" style="width:100%; height:40vh;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://use.mazemap.com/embed.html#v=1&zlevel=1&sharepoitype=poi&sharepoi=71922&campusid=1&left=10.4025634&right=10.4034720&top=63.4164831&bottom=63.4160984&utm_medium=iframe" style="border: 1px solid grey"></iframe>
+	</div>
+</div>
 <script>
 $(document).ready(function() {
 	$('.user-drop-desktop').dropdown({

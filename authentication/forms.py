@@ -1,8 +1,10 @@
 from django import forms
+from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
 from django.contrib.auth.admin import User
 
 
+# Todo: Sett lambda funksjon for å oppdatere invalid klasse
 default_error_messages = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
 
 class LoginForm(forms.Form):
@@ -83,7 +85,6 @@ class SignUpForm(forms.Form):
                              error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
-                                 widget=forms.TextInput(attrs={'class' : 'validate' }),
                                  error_messages=default_error_messages)
     last_name = forms.CharField(max_length=50,
                                 label="Last name",

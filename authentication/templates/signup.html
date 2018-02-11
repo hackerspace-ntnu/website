@@ -5,7 +5,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h1>Registering</h1>
+				<h3>Registering av brukerkonto</h3>
 				<div><a href="{% url 'authentication_feide:login' %}"><button  class="btn waves-effect waves-light white grey-text">Logg inn med FEIDE</button></a></div>
 			</div>
 		</div>
@@ -16,15 +16,34 @@
 		<form action="/authentication/signup/" method="post">
 		{% csrf_token %}
 		<div class="row">
-			{% for field in form %}
 			<div class="input-field col s12">
-				{{ field }}
-				<label for="{{ field.id_for_label }}" data-error="{{ field.errors | striptags }}">
-					{{ field.label }}
-				</label>
-
+				<i class="material-icons prefix">account_circle</i>
+				{{ form.username }}
+				<label for="{{ form.username.id_for_label }}" data-error="{{ form.username.errors | striptags }}"> {{ form.username.label }} </label>
 			</div>
-			{% endfor %}
+			<div class="input-field col s6">
+				<i class="material-icons prefix">perm_identity</i>
+				{{ form.first_name }}
+				<label for="{{ form.first_name.id_for_label }}" data-error="{{ form.first_name.errors | striptags }}"> {{ form.first_name.label }} </label>
+			</div>
+			<div class="input-field col s6">
+				{{ form.last_name }}
+				<label for="{{ form.last_name.id_for_label }}" data-error="{{ form.last_name.errors | striptags }}"> {{ form.last_name.label }} </label>
+			</div>
+			<div class="input-field col s12">
+				<i class="material-icons prefix">email</i>
+				{{ form.email }}
+				<label for="{{ form.email.id_for_label }}" data-error="{{ form.email.errors | striptags }}"> {{ form.email.label }} </label>
+			</div>
+			<div class="input-field col s6">
+				<i class="material-icons prefix">vpn_key</i>
+				{{ form.new_password }}
+				<label for="{{ form.new_password.id_for_label }}" data-error="{{ form.new_password.errors | striptags }}"> {{ form.new_password.label }} </label>
+			</div>
+			<div class="input-field col s6">
+				{{ form.confirm_new_password }}
+				<label for="{{ form.confirm_new_password.id_for_label }}" data-error="{{ form.confirm_new_password.errors | striptags }}"> {{ form.confirm_new_password.label }} </label>
+			</div>
 			<button id="signUpButton" class="btn waves-effect waves-light" type="submit" name="action">Registrer</button>
 		</form>
 	</div>
@@ -35,4 +54,4 @@ $(document).ready(function() {
       Materialize.updateTextFields();
 	});
 </style>
-	{% endblock content %}
+{% endblock content %}

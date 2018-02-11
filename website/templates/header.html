@@ -4,11 +4,13 @@
 <header>
 	<div class="navbar-fixed">
 		<nav>
-			<div class="nav-wrapper hs-gray">
+			<div class="nav-wrapper hs-gray white-text">
+				<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
 				<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "/static/img/Hakcerspace_huge.png" %}"/></a>
 				<a href="/" class="brand-logo mobile-img hide-on-large-only"> <img src="{% static "/static/img/Hakcerspace_huge.png" %}"/></a>
-
+				<!-- Hamburger -->
 				<a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
+
 				<!-- Dropdown user list for desktop-->
 				<ul id="userdropdown" class="dropdown-content hs-gray-text">
 					{% if request.user.is_authenticated %}
@@ -21,41 +23,53 @@
 					{% endif %}
 				</ul>
 
-				<ul id="resourcedropdown" class="dropdown-content hs-gray-text">
-					<li><a href="/wiki">WIKI</a></li>
-					<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
-					<li><a href="/about">OM OSS</a></li>
-				</ul>
-
 				<!-- Hovedmeny -->
 				<ul class="right hide-on-med-and-down valign-wrapper">
 					<li id="news"><a href="/news/">NYHETER</a></li>
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
 					<li><a class="user-drop-desktop" href="#" data-activates="resourcedropdown">RESSURSER</a>
+						<!-- Dropdown for resurser -->
+						<ul id="resourcedropdown" class="dropdown-content hs-gray-text">
+							<li><a href="/wiki">WIKI</a></li>
+							<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
+							<li><a href="/about">OM OSS</a></li>
+						</ul>
 					</li>
-					<li class="tooltipped" data-tooltip="Trykk meg for å se hvor vi befinner oss"><a class="modal-trigger " href="#mapModal">
-							<i class="material-icons">map</i></a>
+					<li class="tooltipped" data-tooltip="Trykk meg for å se hvor vi befinner oss">
+						<a class="modal-trigger " href="#mapModal"><i class="material-icons">map</i></a>
+					</li>
 					{% if request.user.is_authenticated %}
-					<li><a class="user-drop-desktop valign-wrapper" href="/user/{{ request.user.id }}" data-activates="userdropdown">
-							<img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" >
-							</a>
-					{% else %}
-					<li><a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown">
-							<i class="material-icons">account_circle</i></a>
-					{% endif %}
+					<li> <a class="user-drop-desktop valign-wrapper" href="/user/{{ request.user.id }}" data-activates="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a>
 					</li>
+					{% else %}
+					<li> <a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown"> <i class="material-icons">account_circle</i> </a> 
+					</li>
+					{% endif %}
 				</ul>
 				<!-- Mobil dynamisk meny -->
-				<ul class="side-nav" id="mobile-sidebar">
-					<li><div class="user-view">-</div></li>
-					<li><a class="subheader">Meny</a></li>
-					<li><div class="divider"></div></li>
+				<ul class="side-nav hs-grey-text" id="mobile-sidebar">
+					<li>
+						<div class="user-view center no-pad-bot">
+							<div class="background hs-gray"> </div>
+							<!-- TODO: Make centered while respecting circle class -->
+							{% if request.user.is_authenticated %}
+							<a class="center" href="/user/{{ request.user.id }}"><img class="" src="/media/{% get_profile request.user.id 'image' %}"></a>
+							<a href="#"><span class="white-text name">{% get_profile request.user.id 'name' %}</span></a>
+							<br>
+							{% else %}
+							<!-- TODO: Fix styling of image -->
+							<a href="/" class="center"><img class="" style="width:128px; height:164" src="{% static "img/Icon_green_transparent.png" %}"></a>
+							<br>
+							{% endif %}
+						</div>
+					</li>
+					<li class="no-pad-bot"><a class="subheader hs-green white-text">Meny</a></li>
 					<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
-					<li><a href="/news/all">Nyheter</a></li>
-					<li><a href="/news/events">Arrangementer</a></li>
+					<li><a href="/news/">Nyheter</a></li>
+					<li><a href="/events/">Arrangementer</a></li>
 					<li><a href="/wiki">Wiki</a></li>
 					<li><a href="/about">Om Oss</a></li>
-					<li><div class="divider"></div></li>
+					<li class="no-pad-bot"><a class="subheader hs-green white-text">Konto</a></li>
 					{% if request.user.is_authenticated %}
 					<li><a href="#" data-activates="userdropdown">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
@@ -80,27 +94,27 @@
 	</div>
 </div>
 <script>
-$(document).ready(function() {
-	$('.user-drop-desktop').dropdown({
-		inDuration: 300,
-		outDuration: 225,
-		constrain_width: false, // Does not change width of dropdown to that of the activator
-		hover: true, // Activate on hover
-		gutter: 0, // Spacing from edge
-		belowOrigin: true, // Displays dropdown below the button
-		alignment: 'left' // Displays dropdown with edge aligned to the left of button
-	})
-	$(".user-drop-mobile").dropdown();
-	$(".button-collapse").sideNav();
-	$('.modal').modal();
-	switch(window.location.pathname) {
-		case '/news/':
-			$('#news').addClass('active')
-			break;
-		case '/events/':
-			$('#events').addClass('active')
-			break;
-	}
+	$(document).ready(function() {
+		$('.user-drop-desktop').dropdown({
+			inDuration: 300,
+			outDuration: 225,
+			constrain_width: false, // Does not change width of dropdown to that of the activator
+			hover: true, // Activate on hover
+			gutter: 0, // Spacing from edge
+			belowOrigin: true, // Displays dropdown below the button
+					alignment: 'left' // Displays dropdown with edge aligned to the left of button
+				})
+				$(".user-drop-mobile").dropdown();
+				$(".button-collapse").sideNav();
+				$('.modal').modal();
+				switch(window.location.pathname) {
+					case '/news/':
+						$('#news').addClass('active')
+						break;
+					case '/events/':
+						$('#events').addClass('active')
+						break;
+				}
 
-});
-</script>
+			});
+		</script>

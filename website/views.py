@@ -3,9 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from news.models import Article, Event
 from files.models import Image
-from authentication.forms import LoginForm
 from door.models import DoorStatus
-from authentication.forms import LoginForm
 from datetime import datetime
 from wiki.templatetags import check_user_group as groups
 
@@ -16,6 +14,7 @@ def set_cookie(request):
     return response
 
 def index(request):
+
 
     # Sjekk om bruker har cookie
     cookie_accepted = False
@@ -39,14 +38,12 @@ def index(request):
     except DoorStatus.DoesNotExist:
         door_status = True
 
-    form = LoginForm()
 
     context = {
         'article_list': article_list,
         'event_list': event_list,
         'door_status': door_status,
         'cookie_accepted': cookie_accepted,
-        'login_form': form,
     }
 
     return render(request, 'index.html', context)

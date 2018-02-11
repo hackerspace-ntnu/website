@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load userprofile %}
+{% load loginmodal %}
 <header>
 	<div class="navbar-fixed">
 		<nav>
@@ -68,7 +69,7 @@
 </header>
 <div id="loginModal" class="modal">
 	<div class="modal-content">
-		{% include "login_modal.html" %}
+		{% LoginModal %}
 	</div>
 </div>
 

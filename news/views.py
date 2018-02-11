@@ -180,7 +180,7 @@ def edit_article(request, article_id):
             article.save()
             log_changes.change(request, article)
 
-            return HttpResponseRedirect('/news/article/' + str(article.id) + '/')
+            return HttpResponseRedirect('/news/' + str(article.id) + '/')
     else:  # Request form
         if article_id == 0:
             form = ArticleEditForm()

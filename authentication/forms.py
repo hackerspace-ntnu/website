@@ -5,7 +5,6 @@ from django.contrib.auth.admin import User
 
 default_error_messages = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
 
-
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100,
                                label="Username",
@@ -72,9 +71,11 @@ class ChangePasswordForm(forms.Form):
 
 
 class SignUpForm(forms.Form):
+    error_css_class = 'invalid'
+
     username = forms.CharField(max_length=100,
                                label="Username",
-                               widget=forms.TextInput(),
+                               widget=forms.TextInput(attrs={'class' : 'validate' }),
                                error_messages=default_error_messages)
     email = forms.EmailField(max_length=100,
                              label="Email",
@@ -82,11 +83,11 @@ class SignUpForm(forms.Form):
                              error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
-                                 widget=forms.TextInput(),
+                                 widget=forms.TextInput(attrs={'class' : 'validate' }),
                                  error_messages=default_error_messages)
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
-                                widget=forms.TextInput(),
+                                widget=forms.TextInput(attrs={'class' : 'validate' }),
                                 error_messages=default_error_messages)
     new_password = forms.CharField(max_length=100,
                                    label="New password",
@@ -109,6 +110,7 @@ class SignUpForm(forms.Form):
             User.objects.get(username=username)
             message = 'Brukernavnet eksisterer allerede'
             self.add_error('username', message)
+            self.fields['username'].widget=forms.TextInput(attrs={'class' : 'invalid' })
             return False
         except User.DoesNotExist:
             pass
@@ -118,6 +120,7 @@ class SignUpForm(forms.Form):
             User.objects.get(email=email)
             message = 'Mailen er allerede registrert'
             self.add_error('email', message)
+            self.fields['email'].widget=forms.TextInput(attrs={'class' : 'invalid' })
             return False
         except User.DoesNotExist:
             pass
@@ -127,6 +130,7 @@ class SignUpForm(forms.Form):
                 '@ntnu.edu')):
             message = 'Mailen er ikke fra NTNU'
             self.add_error('email', message)
+            self.fields['email'].widget=forms.TextInput(attrs={'class' : 'invalid' })
             return False
 
         # Checks if the new password and confirm new password doesn't match
@@ -134,9 +138,11 @@ class SignUpForm(forms.Form):
             message = 'Passordene er ikke like'
             self.add_error('new_password', message)
             self.add_error('confirm_new_password', message)
+            self.fields['new_password'].widget=forms.TextInput(attrs={'class' : 'invalid' })
             return False
 
         return True
+
 
 
 class ForgotPasswordForm(forms.Form):

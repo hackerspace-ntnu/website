@@ -116,6 +116,7 @@ def signup(request):
     return render(request, 'signup.html', context)
 
 
+
 def forgot_password(request):
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)

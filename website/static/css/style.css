@@ -78,7 +78,6 @@ a {
 
 blockquote {
 	border-left: 5px solid #939084 !important;
-
 }
 
 /* fix for static navbar */
@@ -121,21 +120,28 @@ nav ul a, nav i {
 	width:100% !important;
 	height:100% !important;
 }
+
+/* Footer images */
 .sosial-bilder a {
 	display:inline-block !important;
 	width:32px !important;
 	height:32px !important;
 }
 
+/* For darkening images (for better contrast with text on top) */
 .darken {
 	filter: brightness(40%);
 }
+
+/* For the fixed text on top of slider on main index page */
 .fixed-text {
 	padding-top:50px;
 	position:relative !important;
 	z-index:1000 !important;
 	padding-bottom:50px;
 }
+
+/* Main center cog image in green with transparent bg */
 #indexLogo {
 	height:400px !important;
 }
@@ -145,15 +151,23 @@ nav ul a, nav i {
 	height:100%;
 	min-height:100%;
 }
+
+/* Fontpage slider */
 .slider {
 	display:inline-block;
 	height:100% !important;
 }
 
+/* For scrolling effect on old event list */
 .archive {
 	opacity: 0.2;
 }
 .archive.active {
 	opacity: 1 !important;
 	transition:1s;
+}
+
+/* Hiding stuff */
+.hidden {
+	display:none !important;
 }

@@ -22,7 +22,7 @@
 					<label for="{{ form.username.id_for_label }}">Brukernavn</label>
 				</div>
 				<div class="input-field col s12">
-					<p id="error-message">{{ form.password.errors }}</p>
+					<p>{{ form.password.errors }}</p>
 					{{ form.password }}
 					<label for="{{ form.password.id_for_label }}">Passord</label>
 				</div>
@@ -39,4 +39,4 @@
 		</div>
 	</div>
 </div>
-		{% endblock content %}
+{% endblock content %}

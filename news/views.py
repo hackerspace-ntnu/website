@@ -49,7 +49,7 @@ def all_news(request):
         'news_list': article_list,
     }
 
-    return render(request, 'all_news.html', context)
+    return render(request, 'news.html', context)
 
 
 def all_events(request):

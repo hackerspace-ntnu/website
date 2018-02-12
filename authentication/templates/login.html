@@ -1,26 +1,42 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block header %}
-  <link rel="stylesheet" type="text/css" href="{% static "css/authentication.css" %}">
-{% endblock header %}
-
 {% block content %}
-  <h1 id="pageName">Logg inn</h1>
-  <form action="/authentication/login/" method="post">
-    {% csrf_token %}
-    <p id="error-message">{{ form.username.errors }}</p>
-    <div class="input-field">
-      <label for="{{ form.username.id_for_label }}">Brukernavn</label>
-      {{ form.username }}
-    </div>
-    <p id="error-message">{{ form.password.errors }}</p>
-    <div class="input-field">
-      <label for="{{ form.password.id_for_label }}">Passord</label>
-      {{ form.password }}
-    </div>
-    <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Logg inn</button>
-    <a id="forgotPasswordLink" href="/authentication/forgot-password">Glemt passord?</a>
-  </form>
-  <div id="feide-login"><a href="{% url 'authentication_feide:login' %}"><button  class="btn waves-effect waves-light">Logg inn med FEIDE</button></a></div>
-{% endblock content %}
+<div class="section block hs-green white-text">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h3>Logg inn</h3>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section block">
+	<div class="container">
+		<form action="/authentication/login/" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="input-field col s12">
+					<p>{{ form.username.errors }}</p>
+					{{ form.username }}
+					<label for="{{ form.username.id_for_label }}">Brukernavn</label>
+				</div>
+				<div class="input-field col s12">
+					<p id="error-message">{{ form.password.errors }}</p>
+					{{ form.password }}
+					<label for="{{ form.password.id_for_label }}">Passord</label>
+				</div>
+				<div class="col s12">
+					<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Logg inn</button>
+					<a href="/authentication/forgot-password">Glemt passord?</a>
+				</div>
+			</div>
+		</form>
+		<div class="row">
+			<div class="col s12">
+				<a class="btn waves-effect waves-light" href="{% url 'authentication_feide:login' %}">Logg inn med FEIDE</a>
+			</div>
+		</div>
+	</div>
+</div>
+		{% endblock content %}

@@ -24,9 +24,10 @@ class CoffeePot(models.Model):
         verbose_name_plural = "Coffee Pots"
 
 
-class OpenData(models.Model):
-    opened = models.DateTimeField()
+class CoffeeData(models.Model):
+    brewed = models.DateTimeField()
+    pot = models.CharField(max_length=20,blank=True,null=True)
 
     def __str__(self):
-        return str(self.opened)
+        return "{}: {}".format(str(self.pot),str(self.brewed))
 

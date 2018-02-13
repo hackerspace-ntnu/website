@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime,timedelta
 
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from website import settings
-from .models import CoffeePot, OpenData
+from .models import CoffeePot, CoffeeData
 import html.parser
 
 @csrf_exempt
@@ -18,7 +18,6 @@ def coffee_pot(request):
         # Decode data
         unico = request.body.decode('utf-8')
         data = json.loads(unico)
-        print(data)
 
         # Authenticate message
         if 'key' in data and 'pot' in data:
@@ -26,10 +25,15 @@ def coffee_pot(request):
                 coffee_status_object = CoffeePot.get_coffee_by_name(data['pot'])
 
                 # Coffee brewed
+                open_data=CoffeeData(brewed=timezone.now(),pot=data['pot'])
+                open_data.save()
                 coffee_status_object.datetime = timezone.now()
                 coffee_status_object.save()
-    return HttpResponse(" ")
-
+                return HttpResponse("Thanks for filling me up ;)\n-{}\n".format(data['pot']))
+            else:
+                return HttpResponse("Wrong key :C\n")
+        else:
+            return HttpResponse("Malformed request\n")
 
 def get_json(request):
     coffee_json = {}
@@ -48,61 +52,87 @@ def get_coffee(request,pot):
 
 
 def coffee_data(request):
-    open_coffee_list = OpenData.objects.all()
-    open_coffee_list = list(reversed(open_coffee_list))
-    for data in open_coffee_list:
-        data.deltaTime = data.closed - data.opened
-    status = CoffeePot.get_coffee_by_name(COFFEE_NAME)
+    coffee_data_list = CoffeeData.objects.all()
+    coffee_data_list = list(reversed(coffee_data_list))
 
     context = {
-        'open_data_list': open_coffee_list,
-        'status': status,
+        'coffee_data_list': open_coffee_list,
     }
 
     return render(request, 'coffee_data.html', context)
 
 
 def coffee_chart(request):
-    coffee_obj = CoffeePot.get_coffee_by_name(COFFEE_NAME)
+    finn = ""
+    mathias = ""
 
-    s = ""
+    for coffee_data in CoffeeData.objects.all():
+        if coffee_data.pot == "Finn":
+            finn += '{"column-1": 0, "date": "'
+            finn += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
+            finn += '","name": "'
+            finn += coffee_data.pot
+            finn += '"},\n'
+            finn += '{"column-1": 1, "date": "'
+            finn += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
+            finn += '","name": "'
+            finn += coffee_data.pot
+            finn += '"},\n'
+            finn += '{"column-1": 1, "date": "'
+            finn += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
+            finn += '","name": "'
+            finn += coffee_data.pot
+            finn += '"},\n'
+            finn += '{"column-1": 0, "date": "'
+            finn += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
+            finn += '","name": "'
+            finn += coffee_data.pot
+            finn += '"},\n'
+        elif coffee_data.pot == "Mathias":
+            mathias += '{"column-1": 0, "date": "'
+            mathias += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
+            mathias += '","name": "'
+            mathias += coffee_data.pot
+            mathias += '"},\n'
+            mathias += '{"column-1": 1, "date": "'
+            mathias += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
+            mathias += '","name": "'
+            mathias += coffee_data.pot
+            mathias += '"},\n'
+            mathias += '{"column-1": 1, "date": "'
+            mathias += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
+            mathias += '","name": "'
+            mathias += coffee_data.pot
+            mathias += '"},\n'
+            mathias += '{"column-1": 0, "date": "'
+            mathias += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
+            mathias += '","name": "'
+            mathias += coffee_data.pot
+            mathias += '"},\n'
 
-    # Plot graphs for all open periods (OpenDatas)
-    for open_data in OpenData.objects.all():
-        s += '{"column-1": 0, "date": "'
-        s += open_data.opened.strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
-        s += '{"column-1": 1, "date": "'
-        s += open_data.opened.strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
-        s += '{"column-1": 1, "date": "'
-        s += open_data.closed.strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
-        s += '{"column-1": 0, "date": "'
-        s += open_data.closed.strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
 
-    # Plot current status
-    if coffee_obj.status:
-        s += '{"column-1": 0, "date": "'
-        s += door_obj.datetime.strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
-        s += '{"column-1": 1, "date": "'
-        s += door_obj.datetime.strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
-        s += '{"column-1": 1, "date": "'
-        s += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
-    else:
-        s += '{"column-1": 0, "date": "'
-        s += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-        s += '"},\n'
+    finn += '{"column-1": 0, "date": "'
+    finn += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    finn += '"},\n'
+    finn += '{"column-1": 0, "date": "'
+    finn += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    finn += '"},\n'
+    
+    mathias += '{"column-1": 0, "date": "'
+    mathias += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    mathias += '"},\n'
+    mathias += '{"column-1": 0, "date": "'
+    mathias += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
+    mathias += '"},\n'
+
 
     html_parser = html.parser.HTMLParser()
-    s = html_parser.unescape(s)
+    finn = html_parser.unescape(finn)
+    mathias = html_parser.unescape(mathias)
 
     context = {
-        'open_data': s,
+        'coffee_data_finn': finn,
+        'coffee_data_mathias': mathias,
     }
 
-    return render(request, 'chart.html', context)
+    return render(request, 'coffee_chart.html', context)

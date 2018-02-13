@@ -6,18 +6,8 @@ from door.models import DoorStatus
 from datetime import datetime
 from wiki.templatetags import check_user_group as groups
 
-def set_cookie(request):
-    response = HttpResponse('Setting cookie...')
-    # Lag ny cookie og expiration ca 6 mnd
-    response.set_cookie('cookiesAccepted', 'yes', max_age=15000000)
-    return response
 
 def index(request, number_of_news=3):
-
-    # Sjekk om bruker har cookie
-    cookie_accepted = False
-    if 'cookiesAccepted' in request.COOKIES:
-        cookie_accepted = True
 
 
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
@@ -36,7 +26,6 @@ def index(request, number_of_news=3):
     context = {
         'news_list': news_list,
         'door_status': door_status,
-        'cookie_accepted': cookie_accepted,
     }
 
     return render(request, 'index.html', context)

@@ -9,4 +9,4 @@ class CommitteeEditForm(forms.Form):
     header = forms.CharField(max_length=100, label='Overskrift')
     one_liner = forms.CharField(widget=CKEditorUploadingWidget(), label='Lynbeskrivelse', required=False)
     description = forms.CharField(widget=CKEditorUploadingWidget(), label='Beskrivelse', required=False)
-    image = forms.CharField(max_length=100, label='Bilde', required=False)
+    thumbnail = forms.CharField(max_length=100, label='Bilde', required=False)

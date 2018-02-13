@@ -33,16 +33,16 @@
                 <br>
 
                 <div style="display: none;">
-                  {{ form.image.errors }}
+                  {{ form.thumbnail.errors }}
                   <div class="input-field">
-                    <label for="{{ form.image.id_for_label }}">Bilde</label>
-                    <input id="{{ form.image.id_for_label }}" name="image" type="text" value="{{ form.image.value }}">
+                    <label for="{{ form.thumbnail.id_for_label }}">Bilde</label>
+                    <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
                   </div>
                 </div>
 
-                <label>Image</label><br>
+                <label>Thumbnail</label><br>
                 <div class="imageItem card thumbnailPicker">
-                  <div class="card-image" style="background-image: url(/files/image/{{ form.image.value }}/view);"></div>
+                  <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
                 </div>
 
 

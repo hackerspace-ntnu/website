@@ -15,7 +15,7 @@ from files.models import Image
 class Committee(Group):
     # Har name fra superklassen
     email = models.EmailField(null=True, blank=True)
-    image = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
     slug = models.SlugField(null=True, blank=True)
     visible = models.BooleanField(default=True)
 

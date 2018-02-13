@@ -143,14 +143,14 @@ def edit_committee(request, committee_name):
             committee.header = form.cleaned_data['header']
             committee.one_liner = form.cleaned_data['one_liner']
             committee.description = form.cleaned_data['description']
-            image_raw = form.cleaned_data['image']
-            print(">", image_raw)
+            thumb_raw = form.cleaned_data['thumbnail']
+            print(">", thumb_raw)
             #image_raw = "1"
             try:
-                img_id = int(image_raw)
-                committee.image = Image.objects.get(id=img_id)
+                thumb_id = int(thumb_raw)
+                committee.thumbnail = Image.objects.get(id=thumb_id)
             except (TypeError, ValueError, Image.DoesNotExist):
-                committee.image = None
+                committee.thumbnail = None
 
             committee.save()
             #log_changes.change(request, committee)
@@ -158,7 +158,7 @@ def edit_committee(request, committee_name):
             return HttpResponseRedirect('/committees')
     else:  # Request form
         try:
-            thumb_id = committee.image.id
+            thumb_id = committee.thumbnail.id
         except AttributeError:
             thumb_id = 0
 
@@ -167,7 +167,7 @@ def edit_committee(request, committee_name):
             'header': committee.header,
             'one_liner': committee.one_liner,
             'description': committee.description,
-            'image': thumb_id,
+            'thumbnail': thumb_id,
         })
     context = {
         'form': form,

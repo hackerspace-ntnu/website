@@ -66,7 +66,7 @@
 					<li class="collection-header"><h4>Siste nytt</h4></li>
 					{% for article in article_list %}
 					<li class="collection-item">
-						<a href="/news/article/{{ article.id }}" class="title">{{ article.title }}</a>
+						<a href="/news/{{ article.id }}" class="title">{{ article.title }}</a>
 						<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
 					</li>
 					{% endfor %}
@@ -77,7 +77,7 @@
 					<li class="collection-header"><h4>Siste arrangementer</h4></li>
 					{% for event in event_list reversed %}
 					<li class="collection-item">
-						<a href="/news/event/{{ event.id}}" class="title">{{ event.title }}</a>
+						<a href="/events/{{ event.id}}" class="title">{{ event.title }}</a>
 						<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
 					</li>
 					{% endfor %}

@@ -2,14 +2,7 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import Group, User
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils.text import slugify
-from smart_selects.db_fields import ChainedForeignKey
-from sorl.thumbnail import ImageField
 from files.models import Image
-
 
 
 class Committee(Group):
@@ -24,7 +17,6 @@ class Committee(Group):
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
 
     parent = models.ForeignKey('Committee', null=True, blank=True, related_name="subcommittees")
-    admins = models.ManyToManyField(User)  # fjerne?
     # Har Many2ManyField til Permission i superklasse
 
     class Meta:

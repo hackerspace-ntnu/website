@@ -72,100 +72,167 @@
           <!-- End admin menu-->
 
           <!-- start main content -->
-          {% if perms.inventory %}
           <div class="row">
+          {% if perms.inventory %}
             <div class="col">
               <a href="{% url 'inventory:my_loans' %}"  class="btn">Mine lån</a>
             </div>
-          </div>
+            <!-- TODO: knytte søkefelt til items -->
           {% endif %}
+            <div class="col valign-wrapper">
+              <i class="material-icons">search</i>
+            </div>
+            <div class="col s5">
+              <input type="text" name="search" placeholder="Søk">
+            </div>
+          </div>
 
           <!-- Start avatar collapsable -->
           <!-- TODO: Make for loop that runs through "tags/kategories" og items -->
+          <!-- TODO: Make modals for all item cards -->
           <div class="row">
 
+            <!-- Rabperry Pi category skeleton-->
             <div class="col s9">
             <ul class="collapsible" data-collapsible="accordion">
               <li>
-                <div class="collapsible-header">First-kategori (example: Raspberry pi)</div>
+                <div class="collapsible-header valign-wrapper">
+                  <div class="col s1">
+                    <img src="{% static 'inventory/img/raspberry-pi-logo.png' %}" alt="rasppi" class="responsive-img">
+                  </div>
+                  <div class="col s11 valign-wrapper">
+                    <span>Raspberry Pi</span>
+                  </div>
+                </div>
                 <div class="collapsible-body">
                   <ul class="collection">
                     <li class="collection-item avatar">
-                      <img src="" alt="" class="">
-                      <span class="title">Item (example: Raspberry pi 1)</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <div class="col s2">
+                        <img src="{% static 'inventory/img/raspberrypiitem.jpg' %}" alt="" class="responsive-img">
+                      </div>
+                      <div class="col s3">
+                        <span class="title">Raspberry Pi 1</span>
+                        <p>Model number <br>
+                          Antall: 4/4
+                        </p>
+                      </div>
+                      <div class="col s7">
+                        <p>
+                          Here we can write up a short description of the item.
+                        </p>
+                      </div>
                     </li>
                     <li class="collection-item avatar">
-                      <i class="material-icons circle">folder</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <div class="col s2">
+                        <img src="{% static 'inventory/img/raspberrypiitem.jpg' %}" alt="" class="responsive-img">
+                      </div>
+                      <div class="col s3">
+                        <span class="title">Raspberry Pi 2</span>
+                        <p>Model number <br>
+                          Antall: 4/4
+                        </p>
+                      </div>
+                      <div class="col s7">
+                        <p>
+                          Here we can write up a short description of the item.
+                        </p>
+                      </div>
                     </li>
                     <li class="collection-item avatar">
-                      <i class="material-icons circle green">insert_chart</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                    <li class="collection-item avatar">
-                      <i class="material-icons circle red">play_arrow</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <div class="col s2">
+                        <img src="{% static 'inventory/img/raspberrypiitem.jpg' %}" alt="" class="responsive-img">
+                      </div>
+                      <div class="col s3">
+                        <span class="title">Raspberry Pi 3</span>
+                        <p>Model number <br>
+                          Antall: 4/4
+                        </p>
+                      </div>
+                      <div class="col s7">
+                        <p>
+                          Here we can write up a short description of the item.
+                        </p>
+                      </div>
                     </li>
                   </ul>
                 </div>
               </li>
+
               <li>
-                <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+                <!-- Microcontroller category skeleton-->
+                <div class="collapsible-header valign-wrapper">
+                  <div class="col s1">
+                    <img src="{% static 'inventory/img/Arduino-logo.jpeg' %}" alt="Arduino" class="responsive-img">
+                  </div>
+                  <div class="col s11 valign-wrapper">
+                    <span>Mikrokontroller</span>
+                  </div>
+                </div>
                 <div class="collapsible-body">
                   <ul class="collection">
                     <li class="collection-item avatar">
-                      <img src="images/yuna.jpg" alt="" class="circle">
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <div class="col s2">
+                        <img src="{% static 'inventory/img/arduinoitem.jpeg' %}" alt="" class="responsive-img">
+                      </div>
+                      <div class="col s3">
+                        <span class="title">Arduino 1</span>
+                        <p>Model number <br>
+                          Antall: 4/4
+                        </p>
+                      </div>
+                      <div class="col s7">
+                        <p>
+                          Here we can write up a short description of the item.
+                        </p>
+                      </div>
                     </li>
                     <li class="collection-item avatar">
-                      <i class="material-icons circle">folder</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <div class="col s2">
+                        <img src="{% static 'inventory/img/arduinoitem.jpeg' %}" alt="" class="responsive-img">
+                      </div>
+                      <div class="col s3">
+                        <span class="title">Arduino 2</span>
+                        <p>Model number <br>
+                          Antall: 4/4
+                        </p>
+                      </div>
+                      <div class="col s7">
+                        <p>
+                          Here we can write up a short description of the item.
+                        </p>
+                      </div>
                     </li>
                     <li class="collection-item avatar">
-                      <i class="material-icons circle green">insert_chart</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                    <li class="collection-item avatar">
-                      <i class="material-icons circle red">play_arrow</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                      <div class="col s2">
+                        <img src="{% static 'inventory/img/geckoitem.jpg' %}" alt="" class="responsive-img">
+                      </div>
+                      <div class="col s3">
+                        <span class="title">Gecko ting</span>
+                        <p>Model number <br>
+                          Antall: 4/4
+                        </p>
+                      </div>
+                      <div class="col s7">
+                        <p>
+                          Here we can write up a short description of the item.
+                        </p>
+                      </div>
                     </li>
                   </ul>
                 </div>
               </li>
+
               <li>
-                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+                <!-- Minnekort category skeleton-->
+                <div class="collapsible-header valign-wrapper">
+                  <div class="col s1">
+                    <img src="{% static 'inventory/img/minnekort.jpg' %}" alt="Minnekort" class="responsive-img">
+                  </div>
+                  <div class="col s11 valign-wrapper">
+                    <span>Minnekort</span>
+                  </div>
+                </div>
+
                 <div class="collapsible-body">
                   <ul class="collection">
                     <li class="collection-item avatar">

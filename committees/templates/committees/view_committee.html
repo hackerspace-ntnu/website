@@ -18,7 +18,11 @@
                 <div class="section" style="padding-top: 0;">
                   {% if can_edit %}
                     <div>
-                      <a class="waves-effect waves-light btn" href="/committees/{{ committee.name }}/edit_members/">Rediger medlemmer</a>
+                      <a class="waves-effect waves-light btn" href="/committees/{{ committee.name }}/edit_members/">Rediger
+                        medlemmer</a>
+                      <!-- Modal Trigger -->
+                      <button data-target="modal1" class="btn modal-trigger">Legg til undergruppe</button>
+
                     </div>
                   {% endif %}
                   <div class="valign-wrapper">
@@ -67,6 +71,46 @@
           {{ committee.description|safe }}
         </p>
       </div>
+
+      <!-- Modal Structure -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4>Legg til undergruppe</h4>
+          <form id="group-form" action="" method="post">
+            <div class="hidden" id="csrf">{% csrf_token %}</div>
+
+            <label for="group-name">{{ form.name.label }}</label>
+            <input placeholder="Gi gruppen et navn" id="group-name" type="text" class="validate">
+            <div class="input-field">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-action waves-effect waves-green btn-flat" onclick="createGroup()">Legg til</a>
+        </div>
+      </div>
+
+      <script>
+          ajaxSetup();
+          $('.modal').modal();
+
+          function createGroup() {
+              var groupName = $('#group-name').val().trim();
+              console.log(groupName.length);
+              if (groupName.length > 0) {
+                  $.ajax({
+                      url: '{% url 'committees:view_committee' committee.slug %}',
+                      method: 'PUT',
+                      data: {
+                          name: groupName
+                      },
+                      success: function(result) {
+                          $('.modal').modal('close');
+                      }
+                  })
+              }
+          }
+      </script>
     </div>
   </main>
 

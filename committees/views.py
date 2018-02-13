@@ -25,8 +25,8 @@ def index(request):
 
 class ViewCommittee(View):
     @staticmethod
-    def get(request, name):
-        committee = get_object_or_404(Committee, name=name)
+    def get(request, slug):
+        committee = get_object_or_404(Committee, slug=slug)
 
         if not (committee.visible or is_committee_admin(request.user, committee)):
             raise Http404
@@ -46,12 +46,16 @@ class ViewCommittee(View):
         return render(request, 'committees/view_committee.html', context)
 
     @staticmethod
-    def put(request, name):
+    def put(request, slug):
         """ Method to remove user from team.
             DELETE workshop:setup_workshop <code> data={"maker_id": "<id>"}
         """
-        data = json.loads(request.body.decode())
-        committee = Committee.objects.get(name=name)
+        committee = Committee.objects.get(slug=slug)
+        group_name = request.body.decode()[5:]
+        sub_slug = committee.slug + "-" + group_name
+        # TODO nekt å opprette subcommittee hvis denne har en som eksisterer fra før, siden slug må være unik
+        Committee.objects.create(name=group_name, slug=sub_slug, parent=committee)
+        return JsonResponse({'success': 1})
 
 
 def edit_check(user, c_name):
@@ -84,7 +88,7 @@ def add_member(request, com_name):
         user_string = request.POST['name']
         username = user_string.split("-")[-1].strip()
         user = User.objects.get(username=username)
-        committee = Committee.objects.get(name=com_name)
+        committee = Committee.objects.get(slug=com_name)
         name = username
 
         if not user in committee.user_set.all():
@@ -104,7 +108,7 @@ def delete_member(request, com_name):
         username = request.POST['name']
         print(username)
         user = User.objects.get(username=username)
-        committee = Committee.objects.get(name=com_name)
+        committee = Committee.objects.get(slug=com_name)
         name = username
 
         if user in committee.user_set.all():

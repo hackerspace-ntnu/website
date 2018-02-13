@@ -42,7 +42,7 @@
 					<li> <a class="user-drop-desktop valign-wrapper" href="/user/{{ request.user.id }}" data-activates="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a>
 					</li>
 					{% else %}
-					<li> <a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown"> <i class="material-icons">account_circle</i> </a> 
+					<li> <a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown"> <i class="material-icons">account_circle</i> </a>
 					</li>
 					{% endif %}
 				</ul>

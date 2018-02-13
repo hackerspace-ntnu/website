@@ -144,8 +144,7 @@ def edit_committee(request, committee_name):
             committee.one_liner = form.cleaned_data['one_liner']
             committee.description = form.cleaned_data['description']
             thumb_raw = form.cleaned_data['thumbnail']
-            print(">", thumb_raw)
-            #image_raw = "1"
+
             try:
                 thumb_id = int(thumb_raw)
                 committee.thumbnail = Image.objects.get(id=thumb_id)

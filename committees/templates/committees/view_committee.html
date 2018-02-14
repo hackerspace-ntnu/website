@@ -18,7 +18,7 @@
                 <div class="section" style="padding-top: 0;">
                   {% if can_edit %}
                     <div>
-                      <a class="waves-effect waves-light btn" href="/committees/{{ committee.name }}/edit_members/">Rediger
+                      <a class="waves-effect waves-light btn" href="{% url 'committees:edit_members' committee.slug %}">Rediger
                         medlemmer</a>
                       <!-- Modal Trigger -->
                       <button data-target="modal1" class="btn modal-trigger">Legg til undergruppe</button>

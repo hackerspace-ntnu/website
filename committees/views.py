@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse, Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
-
 import json
 
 from .forms import CommitteeEditForm
@@ -58,20 +57,18 @@ class ViewCommittee(View):
         return JsonResponse({'success': 1})
 
 
-def edit_check(user, c_name):
-    committee = get_object_or_404(Committee, name=c_name)
-    return user.has_perm('can_edit_committees') or user in committee.admins.all()
-
-def edit_members(request, committee_name):
-    if edit_check(request.user, committee_name):
+def edit_members(request, slug):
+    committee = get_object_or_404(Committee, slug=slug)
+    if is_committee_admin(request.user, committee):
         if request.method == 'POST':
             if request.POST['action'] == 'add':
-                json = add_member(request, committee_name)
+                json = add_member(request, slug)
             elif request.POST['action'] == 'delete':
-                json = delete_member(request, committee_name)
+                json = delete_member(request, slug)
             return json
         else:
-            committee = get_object_or_404(Committee, name=committee_name)
+            print(slug)
+            committee = get_object_or_404(Committee, slug=slug)
 
             context = {
                 'committee': committee,
@@ -83,12 +80,13 @@ def edit_members(request, committee_name):
     else:
         return HttpResponseForbidden()
 
-def add_member(request, com_name):
+
+def add_member(request, slug):
     try:
         user_string = request.POST['name']
         username = user_string.split("-")[-1].strip()
         user = User.objects.get(username=username)
-        committee = Committee.objects.get(slug=com_name)
+        committee = Committee.objects.get(slug=slug)
         name = username
 
         if not user in committee.user_set.all():
@@ -103,12 +101,13 @@ def add_member(request, com_name):
     except IndexError:
         return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
 
-def delete_member(request, com_name):
+
+def delete_member(request, slug):
     try:
         username = request.POST['name']
         print(username)
         user = User.objects.get(username=username)
-        committee = Committee.objects.get(slug=com_name)
+        committee = Committee.objects.get(slug=slug)
         name = username
 
         if user in committee.user_set.all():
@@ -122,6 +121,7 @@ def delete_member(request, com_name):
 
     except IndexError:
         return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
+
 """
 def edit_committee(request, committee_name):
     committee = get_object_or_404(Committee, name=committee_name)
@@ -138,8 +138,10 @@ def edit_committee(request, committee_name):
     }
     return render(request, 'committees/edit_committee.html', context)
 """
-def edit_committee(request, committee_name):
-    committee = get_object_or_404(Committee, name=committee_name)
+
+
+def edit_committee(request, slug):
+    committee = get_object_or_404(Committee, slug=slug)
     if request.method == 'POST':  # Post form
         form = CommitteeEditForm(request.POST)
         if form.is_valid():
@@ -175,5 +177,4 @@ def edit_committee(request, committee_name):
     context = {
         'form': form,
     }
-
     return render(request, 'committees/edit_committee.html', context)

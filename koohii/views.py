@@ -63,76 +63,24 @@ def coffee_data(request):
 
 
 def coffee_chart(request):
-    finn = ""
-    mathias = ""
+    coffee_data_list = []
 
     for coffee_data in CoffeeData.objects.all():
-        if coffee_data.pot == "Finn":
-            finn += '{"column-1": 0, "date": "'
-            finn += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
-            finn += '","name": "'
-            finn += coffee_data.pot
-            finn += '"},\n'
-            finn += '{"column-1": 1, "date": "'
-            finn += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
-            finn += '","name": "'
-            finn += coffee_data.pot
-            finn += '"},\n'
-            finn += '{"column-1": 1, "date": "'
-            finn += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
-            finn += '","name": "'
-            finn += coffee_data.pot
-            finn += '"},\n'
-            finn += '{"column-1": 0, "date": "'
-            finn += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
-            finn += '","name": "'
-            finn += coffee_data.pot
-            finn += '"},\n'
-        elif coffee_data.pot == "Mathias":
-            mathias += '{"column-1": 0, "date": "'
-            mathias += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
-            mathias += '","name": "'
-            mathias += coffee_data.pot
-            mathias += '"},\n'
-            mathias += '{"column-1": 1, "date": "'
-            mathias += coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
-            mathias += '","name": "'
-            mathias += coffee_data.pot
-            mathias += '"},\n'
-            mathias += '{"column-1": 1, "date": "'
-            mathias += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
-            mathias += '","name": "'
-            mathias += coffee_data.pot
-            mathias += '"},\n'
-            mathias += '{"column-1": 0, "date": "'
-            mathias += (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
-            mathias += '","name": "'
-            mathias += coffee_data.pot
-            mathias += '"},\n'
+        name = coffee_data.pot
+        time_brewed = coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
+        offset = (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
 
+        coffee_data_list.append({"column-1":0, "date": time_brewed,"name": name})
+        coffee_data_list.append({"column-1":1, "date": time_brewed,"name": name})
+        coffee_data_list.append({"column-1":1, "date": offset,"name": name})
+        coffee_data_list.append({"column-1":0, "date": offset,"name": name})
 
-    finn += '{"column-1": 0, "date": "'
-    finn += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-    finn += '"},\n'
-    finn += '{"column-1": 0, "date": "'
-    finn += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-    finn += '"},\n'
-    
-    mathias += '{"column-1": 0, "date": "'
-    mathias += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-    mathias += '"},\n'
-    mathias += '{"column-1": 0, "date": "'
-    mathias += timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-    mathias += '"},\n'
+    coffee_data_list.append({"column-1":0, "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),"name": "Now"})
+    coffee_data_list.append({"column-1":1, "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),"name": "Now"})
 
-
-    html_parser = html.parser.HTMLParser()
-    finn = html_parser.unescape(finn)
-    mathias = html_parser.unescape(mathias)
 
     context = {
-        'coffee_data_finn': finn,
-        'coffee_data_mathias': mathias,
+            'coffee_data': json.dumps(coffee_data_list)[1:-1]
     }
 
     return render(request, 'coffee_chart.html', context)

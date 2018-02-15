@@ -9,8 +9,7 @@
 				<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "/static/img/Hakcerspace_huge.png" %}"/></a>
 				<a href="/" class="brand-logo mobile-img hide-on-large-only"> <img src="{% static "/static/img/Hakcerspace_huge.png" %}"/></a>
 				<!-- Hamburger -->
-				<a href="#" data-activates="mobile-sidebar" class="button-collapse"><i class="material-icons">menu</i></a>
-
+				<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 				<!-- Dropdown user list for desktop-->
 				<ul id="userdropdown" class="dropdown-content hs-gray-text">
 					{% if request.user.is_authenticated %}
@@ -22,12 +21,11 @@
 					<li><a class="modal-trigger" href="#loginModal">Logg Inn</a></li>
 					{% endif %}
 				</ul>
-
 				<!-- Hovedmeny -->
 				<ul class="right hide-on-med-and-down valign-wrapper">
 					<li id="news"><a href="/news/">NYHETER</a></li>
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
-					<li><a class="user-drop-desktop" href="#" data-activates="resourcedropdown">RESSURSER</a>
+					<li><a class="dropdown-trigger" href="#" data-target="resourcedropdown">RESSURSER</a>
 						<!-- Dropdown for resurser -->
 						<ul id="resourcedropdown" class="dropdown-content hs-gray-text">
 							<li><a href="/wiki">WIKI</a></li>
@@ -39,7 +37,7 @@
 						<a class="modal-trigger " href="#mapModal"><i class="material-icons">map</i></a>
 					</li>
 					{% if request.user.is_authenticated %}
-					<li> <a class="user-drop-desktop valign-wrapper" href="/user/{{ request.user.id }}" data-activates="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a>
+					<li> <a class="dropdown-trigger valign-wrapper" href="/user/{{ request.user.id }}" data-target="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a>
 					</li>
 					{% else %}
 					<li> <a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown"> <i class="material-icons">account_circle</i> </a> 
@@ -47,7 +45,7 @@
 					{% endif %}
 				</ul>
 				<!-- Mobil dynamisk meny -->
-				<ul class="side-nav hs-grey-text" id="mobile-sidebar">
+				<ul class="sidenav hs-grey-text" id="mobile-sidebar">
 					<li>
 						<div class="user-view center no-pad-bot">
 							<div class="background hs-gray"> </div>
@@ -94,27 +92,21 @@
 	</div>
 </div>
 <script>
+	$('.dropdown-trigger').dropdown({ 
+		hover: true,
+		coverTrigger: false,
+	});
 	$(document).ready(function() {
-		$('.user-drop-desktop').dropdown({
-			inDuration: 300,
-			outDuration: 225,
-			constrain_width: false, // Does not change width of dropdown to that of the activator
-			hover: true, // Activate on hover
-			gutter: 0, // Spacing from edge
-			belowOrigin: true, // Displays dropdown below the button
-					alignment: 'left' // Displays dropdown with edge aligned to the left of button
-				})
-				$(".user-drop-mobile").dropdown();
-				$(".button-collapse").sideNav();
-				$('.modal').modal();
-				switch(window.location.pathname) {
-					case '/news/':
-						$('#news').addClass('active')
-						break;
-					case '/events/':
-						$('#events').addClass('active')
-						break;
-				}
+	$(".sidenav").sidenav();
+		$('.modal').modal();
+		switch(window.location.pathname) {
+			case '/news/':
+				$('#news').addClass('active')
+				break;
+			case '/events/':
+				$('#events').addClass('active')
+				break;
+		}
 
-			});
-		</script>
+	});
+</script>

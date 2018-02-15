@@ -26,14 +26,15 @@ a {
 nav ul a, nav i {
 	color:#fff !important;
 }
-.side-nav li a {
+
+.sidenav li a {
 	color:#5BBA47 !important;
 }
 .dropdown-content li > a {
 	color:#5BBA47 !important;
 }
 
-.side-nav .subheader {
+.sidenav .subheader {
 	color:#fff !important;
 }
 

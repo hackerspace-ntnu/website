@@ -10,14 +10,14 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans:300" rel="stylesheet">
 		<!-- Materialize CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/css/materialize.min.css">
 
-		  <script type="text/javascript" src="{% static 'js/ajax_requests.js' %}"></script>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="{% static 'js/ajax_requests.js' %}"></script>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- Legg til Materialize -->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+		<!-- Legg til Materialize JS og Jquery -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.3/js/materialize.min.js"></script>
 		{% block head %}
 		{% endblock head %}
 		{% block extra_js %}
@@ -26,34 +26,34 @@
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107702172-1"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', 'UA-107702172-1');
+function gtag() {
+	dataLayer.push(arguments);
+}
+gtag('js', new Date());
+gtag('config', 'UA-107702172-1');
 		</script>
-
 	</head>
 	<body>
-	{% include "header.html" %}
-	{% block header %}
-	{% endblock header %}
-	{% if messages %}
-	<div class="row">
-	{% for message in messages %}
-		<script>
-			var $toastContent = $('<span>{{ message }}</span>');
-			Materialize.toast($toastContent, 5000);
-		</script>
-	{% endfor %}
-	</div>
-	{% endif %}
-	<main>
-	{% block content %}
-	{% endblock content %}
-	</main>
-	{% include "delete.html" %}
-	{% block footer %}
-	{% include "footer.html" %}
-	{% endblock footer %}
+		{% include "header.html" %}
+		{% block header %}
+		{% endblock header %}
+		{% if messages %}
+		<div class="row">
+			{% for message in messages %}
+			<script>
+				var $toastContent = $('<span>{{ message }}</span>');
+Materialize.toast($toastContent, 5000);
+			</script>
+			{% endfor %}
+		</div>
+		{% endif %}
+		<main>
+			{% block content %}
+			{% endblock content %}
+		</main>
+		{% include "delete.html" %}
+		{% block footer %}
+		{% include "footer.html" %}
+		{% endblock footer %}
+	</body>
 </html>

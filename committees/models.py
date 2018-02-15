@@ -1,7 +1,9 @@
-from ckeditor.fields import RichTextField
 from django.contrib.auth.models import Group, User
 from django.core.urlresolvers import reverse
 from django.db import models
+
+from ckeditor.fields import RichTextField
+
 from files.models import Image
 
 
@@ -17,6 +19,7 @@ class Committee(Group):
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
 
     parent = models.ForeignKey('Committee', null=True, blank=True, related_name="subcommittees")
+
     # Har Many2ManyField til Permission i superklasse
 
     class Meta:
@@ -29,7 +32,7 @@ class Committee(Group):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('verv:view', kwargs={'slug':self.slug})
+        return reverse('verv:view', kwargs={'slug': self.slug})
 
     def add_user(self, user):
         if user not in self.user_set.all():

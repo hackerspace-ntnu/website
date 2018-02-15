@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load thumbnail %}
+{% load access %}
 
 {% block content %}
   <main>
@@ -22,28 +23,43 @@
                         medlemmer</a>
                       <!-- Modal Trigger -->
                       <button data-target="modal1" class="btn modal-trigger">Legg til undergruppe</button>
-
                     </div>
+
                   {% endif %}
                   <div class="valign-wrapper">
                     <i class="material-icons valign left hs-green">people</i>
                     <h5 class="left-align">Medlemmer</h5>
                   </div>
-                  {% for pos in positions %}
-                    <a href="mailto:
-                        {% if pos.usr.position.email %}{{ pos.usr.position.email }}{% else %}{{ pos.usr.user.email }}{% endif %}">
-                      <div class="valign-wrapper">
-                        <i class="material-icons valign left tiny hs-green">email</i>
-                        <p class="black-text">{{ pos.title }}: {{ pos.usr.username }}</p>
-                      </div>
-                    </a>
-                  {% endfor %}
+
+                  <div>
+                    {% for subcommittee in committee.subcommittees.all %}
+                      <!-- Hide committee link if user is not admin, or committee is not visible -->
+                      {% is_committee_admin request.user subcommittee as admin_access %}
+                      {% if subcommittee.visible or admin_access %}
+                        <a href="{% url 'committees:view_committee' subcommittee.slug %}" class="hs-green"><b>{{ subcommittee.name|title }}</b></a>
+                      {% else %}
+                        <b>{{ subcommittee.name|title }}</b>
+                      {% endif %}
+
+                      {% for member in subcommittee.user_set.all %}
+                        <a href="mailto:{{ member.email }}">
+                          <div class="valign-wrapper">
+                            <i class="material-icons valign left tiny hs-green">email</i>
+                            <p class="black-text">{{ member.get_full_name }}</p>
+                          </div>
+                        </a>
+                      {% endfor %}
+                    {% endfor %}
+                  </div>
+
+                  {% if users %}
+                    <b>Øvrige medlemmer</b>
+                  {% endif %}
                   {% for user in users %}
-                    <a href="mailto:
-                        {% if user.position.email %}{{ user.position.email }}{% else %}{{ user.user.email }}{% endif %}">
+                    <a href="mailto:{{ user.email }}">
                       <div class="valign-wrapper">
                         <i class="material-icons valign left tiny hs-green">email</i>
-                        <p class="black-text">{{ user.username }}</p>
+                        <p class="black-text">{{ user.get_full_name }}</p>
                       </div>
                     </a>
                   {% endfor %}

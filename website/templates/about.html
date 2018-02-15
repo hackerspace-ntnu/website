@@ -82,9 +82,7 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function() {
-		$('.parallax').parallax();
-		$('.modal').modal();
-	});
+	var parallax = document.querySelector('.parallax');
+	var instance = M.Parallax.init(parallax);
 </script>
 {% endblock content %}

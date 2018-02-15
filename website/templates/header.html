@@ -13,7 +13,7 @@
 				<!-- Dropdown user list for desktop-->
 				<ul id="userdropdown" class="dropdown-content hs-gray-text">
 					{% if request.user.is_authenticated %}
-					<li><a href="/user/{{ request.user.id }}" data-activates="userdropdown">Profil</a></li>
+					<li><a href="/user/{{ request.user.id }}">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
 					<li><a href="/authentication/logout">Logg Ut</a></li>
 					{% else %}
@@ -25,7 +25,7 @@
 				<ul class="right hide-on-med-and-down valign-wrapper">
 					<li id="news"><a href="/news/">NYHETER</a></li>
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
-					<li><a class="dropdown-trigger" href="#" data-target="resourcedropdown">RESSURSER</a>
+					<li><a class="dropdown-trigger-resources" href="#" data-target="resourcedropdown">RESSURSER</a>
 						<!-- Dropdown for resurser -->
 						<ul id="resourcedropdown" class="dropdown-content hs-gray-text">
 							<li><a href="/wiki">WIKI</a></li>
@@ -37,11 +37,9 @@
 						<a class="modal-trigger " href="#mapModal"><i class="material-icons">map</i></a>
 					</li>
 					{% if request.user.is_authenticated %}
-					<li> <a class="dropdown-trigger valign-wrapper" href="/user/{{ request.user.id }}" data-target="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a>
-					</li>
+					<li><a class="dropdown-trigger-user valign-wrapper" href="/user/{{ request.user.id }}" data-target="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a> </li>
 					{% else %}
-					<li> <a class="user-drop-desktop" href="/authentication/login/" data-activates="userdropdown"> <i class="material-icons">account_circle</i> </a> 
-					</li>
+					<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
 					{% endif %}
 				</ul>
 				<!-- Mobil dynamisk meny -->
@@ -69,7 +67,7 @@
 					<li><a href="/about">Om Oss</a></li>
 					<li class="no-pad-bot"><a class="subheader hs-green white-text">Konto</a></li>
 					{% if request.user.is_authenticated %}
-					<li><a href="#" data-activates="userdropdown">Profil</a></li>
+					<li><a href="#">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
 					<li><a href="/authentication/logout">Logg Ut</a></li>
 					{% else %}
@@ -92,21 +90,35 @@
 	</div>
 </div>
 <script>
-	$('.dropdown-trigger').dropdown({ 
-		hover: true,
-		coverTrigger: false,
-	});
-	$(document).ready(function() {
-	$(".sidenav").sidenav();
-		$('.modal').modal();
-		switch(window.location.pathname) {
-			case '/news/':
-				$('#news').addClass('active')
-				break;
-			case '/events/':
-				$('#events').addClass('active')
-				break;
-		}
+	var sideNavElem = document.querySelector('.sidenav');
+	var instance = M.Sidenav.init(sideNavElem);
 
+	var dropdown_resources = document.querySelector('.dropdown-trigger-resources');
+	var dropdown_user = document.querySelector('.dropdown-trigger-user');
+
+	var instance = M.Dropdown.init(dropdown_resources, {
+		hover: true,
+		coverTrigger: false
 	});
+	var instance = M.Dropdown.init(dropdown_user, {
+		hover: true,
+		coverTrigger: false
+	});
+
+	var loginModal = document.querySelector('#loginModal');
+	var instance = M.Modal.init(loginModal);
+
+	var mapModal = document.querySelector('#mapModal');
+	var instance = M.Modal.init(mapModal);
+
+	switch(window.location.pathname) {
+		case '/news/':
+			var element = document.getElementById("news");
+			element.classList.add("active");
+			break;
+		case '/events/':
+			var element = document.getElementById("events");
+			element.classList.add("active");
+			break;
+	}
 </script>

@@ -104,33 +104,9 @@
 		{% if event.wait_list %}
 		<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
 		{% endif %}
-		<div style="display: none;" class="emaillistreg">
-			{{ event.register_email }}
-		</div>
-		<div style="display: none;" class="emaillistwait">
-			{{ event.waitlist_email }}
-		</div>
 		<script>
-			$(document).ready(function() {
-				$('.collapsible').collapsible();
-				$('.modal').modal();
-
-				$('.emailcopyreg').click(function () {
-					copyToClipboard($('.emaillistreg'));
-					Materialize.toast('Epostliste for påmeldte kopiert til clipboard', 4000);
-				});
-				$('.emailcopywait').click(function () {
-					copyToClipboard($('.emaillistwait'));
-					Materialize.toast('Epostliste for venteliste kopiert til clipboard', 4000);
-				});
-			});
-function copyToClipboard(element) {
-	var $temp = $("<input>");
-	$("body").append($temp);
-	$temp.val($(element).text()).select();
-	document.execCommand("copy");
-	$temp.remove();
-}
+		var collapsible = document.querySelector('.collapsible');
+		var instance = M.Collapsible.init(collapsible);
 		</script>
 		{% endif %}
 		{% endif %}

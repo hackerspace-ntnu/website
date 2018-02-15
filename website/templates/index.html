@@ -21,19 +21,32 @@
 	</div>
 </div>
 <div class="section hs-gray no-pad hide-on-small-only">
-	<div class="slider full-width">
-		<ul class="slides">
-	<div class="caption center-align center text-shadow fixed-text white-text">
-		<img id="indexLogo" src="../static/img/Icon_green_transparent.png">
-		<h1>Hackerspace</h1>
-		<h4>En kreativ arena for å realisere dine ideer</h4>
-	</div>
-			<li><img class="activator darken-25" src="{% static 'img/cover1.jpg' %}"></li>
-			<li><img class="activator darken-25" src="{% static 'img/briller.jpg' %}"></li>
-			<li><img class="activator darken-25" src="{% static 'img/cover2.jpg' %}"></li>
-			<li><img class="activator darken-25" src="{% static 'img/cover3.jpg' %}"></li>
-			<li><img class="activator darken-25" src="{% static 'img/cover5.jpg' %}"></li>
-			<li><img class="activator darken-25" src="{% static 'img/cover7.jpg' %}"></li>
+	<div class="carousel carousel-slider center">
+		<div class="carousel-fixed-item center">
+			<div class="center text-shadow white-text">
+				<img id="indexLogo" src="../static/img/Icon_green_transparent.png">
+				<h1>Hackerspace</h1>
+				<h4>En kreativ arena for å realisere dine ideer</h4>
+			</div>
+		</div>
+		<div class="carousel-item">
+			<img class="activator darken-25" src="{% static 'img/cover1.jpg' %}">
+		</div>
+		<div class="carousel-item">
+			<img class="activator darken-25" src="{% static 'img/briller.jpg' %}">
+		</div>
+		<div class="carousel-item">
+			<img class="activator darken-25" src="{% static 'img/cover2.jpg' %}">
+		</div>
+		<div class="carousel-item">
+			<img class="activator darken-25" src="{% static 'img/cover3.jpg' %}">
+		</div>
+		<div class="carousel-item">
+			<img class="activator darken-25" src="{% static 'img/cover5.jpg' %}">
+		</div>
+		<div class="carousel-item">
+			<img class="activator darken-25" src="{% static 'img/cover7.jpg' %}">
+		</div>
 		</ul>
 	</div>
 </div>
@@ -76,13 +89,14 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function(){
-		$('.slider').slider({
-			indicators: false,
-			interval: 4000,
-		});
-		$('.collapsible').collapsible();
-	});
+	var elem = document.querySelector('.carousel');
+	var slideshow = M.Carousel.init(elem, {
+		fullWidth:true,
+		indicators: false
+	})
+
+setInterval(function(){
+	slideshow.next(1)}, 6000)
 
 </script>
 {% endblock content %}

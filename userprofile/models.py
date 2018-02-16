@@ -97,3 +97,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+# Import receiver (for creating profiles when a user is created) into namespace.
+from userprofile.triggers import *

@@ -1,12 +1,10 @@
-from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import user_passes_test
+from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
-import json
 
-from .forms import CommitteeEditForm
+from .forms import CommitteeCreateForm, CommitteeEditForm
 from .models import Committee
 from .templatetags.access import is_committee_admin
 from files.models import Image
@@ -28,33 +26,42 @@ class ViewCommittee(View):
         committee = get_object_or_404(Committee, slug=slug)
 
         if not (committee.visible or is_committee_admin(request.user, committee)):
-            raise Http404
+            raise Http404()
 
-        # positions = Position.objects.filter(pos_in_committee=committee)
-        # pos_names = [p.usr.username for p in positions]
+        # Id to all subcommittees
+        sub_ids = committee.subcommittees.values_list('id', flat=True)
 
-        # users = [user for user in committee.user_set.all() if user.username not in pos_names]
-        # users = filter(lambda user: user.username not in pos_names, committee.user_set.all())
-        users = list(committee.user_set.all())
-        users.sort(key=lambda user: user.first_name)
+        # Id to all members of subcommittees
+        subgroup_members = []
+        for sub_id in sub_ids:
+            sub_members_ids = Committee.objects.get(pk=sub_id).user_set.all().values_list('id', flat=True)
+            subgroup_members.extend(sub_members_ids)
+
+        # Get members of committee who isn't in any subcommittee.
+        users = committee.user_set.exclude(id__in=subgroup_members).order_by('first_name')
+
         context = {
-            'committee': committee,
             'can_edit': is_committee_admin(request.user, committee),
+            'committee': committee,
+            'form': CommitteeCreateForm(),
             'users': users,
         }
         return render(request, 'committees/view_committee.html', context)
 
     @staticmethod
-    def put(request, slug):
-        """ Method to remove user from team.
-            DELETE workshop:setup_workshop <code> data={"maker_id": "<id>"}
-        """
+    def post(request, slug):
+        """ View for creating subcommittees. """
         committee = Committee.objects.get(slug=slug)
-        group_name = request.body.decode()[5:]
-        sub_slug = committee.slug + "-" + group_name
-        # TODO nekt å opprette subcommittee hvis denne har en som eksisterer fra før, siden slug må være unik
-        Committee.objects.create(name=group_name, slug=sub_slug, parent=committee)
-        return JsonResponse({'success': 1})
+        form = CommitteeCreateForm(request.POST, parent_committee=committee)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            sub_slug = committee.slug + "-" + name
+            Committee.objects.create(name=name, slug=sub_slug, parent=committee)
+            return JsonResponse({'success': 1, 'name': name, 'slug': sub_slug,
+                                 'committee_url': reverse('committees:view_committee', args=(sub_slug,))})
+        else:
+            return JsonResponse({'errors': form.errors})
 
 
 def edit_members(request, slug):
@@ -89,7 +96,7 @@ def add_member(request, slug):
         committee = Committee.objects.get(slug=slug)
         name = username
 
-        if not user in committee.user_set.all():
+        if user not in committee.user_set.all():
             committee.add_user(user)
             committee.save()
             message = name + ' er nå med i ' + committee.name
@@ -141,6 +148,7 @@ def edit_committee(request, committee_name):
 
 
 def edit_committee(request, slug):
+    # TODO for endring av parent, må slug endres til at den stemmer med treet.
     committee = get_object_or_404(Committee, slug=slug)
     if request.method == 'POST':  # Post form
         form = CommitteeEditForm(request.POST)

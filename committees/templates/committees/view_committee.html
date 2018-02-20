@@ -31,15 +31,16 @@
                     <h5 class="left-align">Medlemmer</h5>
                   </div>
 
-                  <div>
+                  <div id="subcommittees">
                     {% for subcommittee in committee.subcommittees.all %}
                       <!-- Hide committee link if user is not admin, or committee is not visible -->
                       {% is_committee_admin request.user subcommittee as admin_access %}
                       {% if subcommittee.visible or admin_access %}
-                        <a href="{% url 'committees:view_committee' subcommittee.slug %}" class="hs-green"><b>{{ subcommittee.name|title }}</b></a>
+                        <a href="{% url 'committees:view_committee' subcommittee.slug %}" class="hs-green"><b>{{ subcommittee.name }}</b></a>
                       {% else %}
-                        <b>{{ subcommittee.name|title }}</b>
+                        <b>{{ subcommittee.name }}</b>
                       {% endif %}
+                      <br>
 
                       {% for member in subcommittee.user_set.all %}
                         <a href="mailto:{{ member.email }}">
@@ -92,39 +93,45 @@
       <div id="modal1" class="modal">
         <div class="modal-content">
           <h4>Legg til undergruppe</h4>
-          <form id="group-form" action="" method="post">
+          <form id="group-form">
             <div class="hidden" id="csrf">{% csrf_token %}</div>
-
-            <label for="group-name">{{ form.name.label }}</label>
-            <input placeholder="Gi gruppen et navn" id="group-name" type="text" class="validate">
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            <div id="subcommittee-errors"></div>
+            <input placeholder="Gi gruppen et navn" id="{{ form.name.id_for_label }}" type="text" class="validate">
             <div class="input-field">
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <a href="#!" class="modal-action waves-effect waves-green btn-flat" onclick="createGroup()">Legg til</a>
+          <a class="modal-action waves-effect waves-green btn-flat" onclick="createGroup()">Legg til</a>
         </div>
       </div>
 
       <script>
+          // Fixes csrf token for ajax post.
           ajaxSetup();
+
           $('.modal').modal();
 
           function createGroup() {
-              var groupName = $('#group-name').val().trim();
-              console.log(groupName.length);
-              if (groupName.length > 0) {
-                  $.ajax({
-                      url: '{% url 'committees:view_committee' committee.slug %}',
-                      method: 'PUT',
-                      data: {
-                          name: groupName
-                      },
-                      success: function(result) {
-                          $('.modal').modal('close');
+              var groupName = $('#{{ form.name.id_for_label }}').val().trim();
+              $.ajax({
+                  url: '{% url 'committees:view_committee' committee.slug %}',
+                  method: 'POST',
+                  data: {
+                      name: groupName
+                  },
+                  success: function(result) {
+                      if (result.errors) {
+                          console.log(result.errors);
+                          $('#subcommittee-errors').html('<p>'+ result.errors.name[0] + '</p>')
                       }
-                  })
-              }
+                      else {
+                          $('.modal').modal('close');
+                          $('#subcommittees').append('<a href="' + result.committee_url + '" class="hs-green"><b>'+ result.name + '</b></a>')
+                      }
+                  }
+              })
           }
       </script>
     </div>

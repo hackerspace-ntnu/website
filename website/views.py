@@ -15,7 +15,7 @@ def set_cookie(request):
 
 def showcase(request):
     context = {
-        
+
     }
     return render(request, 'showcase.html', context)
 
@@ -49,8 +49,6 @@ def index(request):
         'door_status': door_status,
         'cookie_accepted': cookie_accepted,
     }
-
-    {{ article_list }}
     return render(request, 'index.html', context)
 
 

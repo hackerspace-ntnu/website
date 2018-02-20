@@ -29,19 +29,16 @@ def coffee_pot(request):
                 open_data.save()
                 coffee_status_object.datetime = timezone.now()
                 coffee_status_object.save()
-                return HttpResponse("Thanks for filling me up ;)\n-{}\n".format(data['pot']))
+                return HttpResponse("Thanks for filling me up ;)\n-{}\n".format(data['pot']),status=201)
             else:
-                return HttpResponse("Wrong key :C\n")
+                return HttpResponse("Wrong key :C\n",status=451)
         else:
-            return HttpResponse("Malformed request\n")
+            return HttpResponse("Malformed request\n",status=418)
 
 def get_json(request):
     coffee_json = {}
     for pot in CoffeePot.objects.all():
-        try:
-            coffee_json[pot.name]=pot.datetime.strftime("%a %b %d %H:%M")
-        except AttributeError:
-            coffee_json[pot.name]=""
+        coffee_json[pot.name]=pot.datetime.strftime("%a %b %d %H:%M")
     return JsonResponse(coffee_json)
 
 @csrf_exempt
@@ -71,14 +68,9 @@ def coffee_chart(request):
     for coffee_data in CoffeeData.objects.order_by('brewed'):
         name = coffee_data.pot
         time_brewed = coffee_data.brewed.strftime('%Y-%m-%d %H:%M')
-        offset = (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M')
-        #coffee_data_list.append({"column-1":0, "date": time_brewed,"name": name})
         coffee_data_list.append({"column-1":1, "date": time_brewed,"name": name})
-        #coffee_data_list.append({"column-1":1, "date": offset,"name": name})
-        #coffee_data_list.append({"column-1":0, "date": offset,"name": name})
 
     coffee_data_list.append({"column-1":0, "date": datetime.now().strftime('%Y-%m-%d %H:%M'),"name": "Nå"})
-    #coffee_data_list.append({"column-1":0, "date": datetime.now().strftime('%Y-%m-%d %H:%M'),"name": name})
 
 
     context = {

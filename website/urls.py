@@ -40,7 +40,6 @@ urlpatterns = [
     url(r'^vaktliste/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
     url(r'^kaffi/', include('koohii.urls')),
-    url(r'^ajax/setcookie', set_cookie, name='set_cookie')
 ]
 
 if settings.DEBUG:

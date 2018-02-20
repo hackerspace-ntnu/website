@@ -13,12 +13,7 @@ class CoffeePot(models.Model):
     def get_coffee_by_name(name):
 
         # Creates the object if it does not exist
-        try:
-            coffee = CoffeePot.objects.get(name=name)
-            return coffee
-        except CoffeePot.DoesNotExist:
-            coffee = CoffeePot.objects.create(name=name, datetime=timezone.now())
-            return coffee
+        return CoffeePot.objects.get_or_create(name=name, defaults={'datetime':timezone.now()})[0]
 
     class Meta:
         verbose_name_plural = "Coffee Pots"
@@ -29,5 +24,5 @@ class CoffeeData(models.Model):
     pot = models.CharField(max_length=20,blank=True,null=True)
 
     def __str__(self):
-        return "{}: {}".format(str(self.pot),str(self.brewed))
+        return "{}: {}".format(str(self.pot),str(self.brewed.strftime("%a %b %d %H:%M")))
 

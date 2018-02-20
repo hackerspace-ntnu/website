@@ -56,6 +56,7 @@ class ViewCommittee(View):
 
         if form.is_valid():
             name = form.cleaned_data['name']
+            # Create new slug based on parents slug and new name.
             sub_slug = committee.slug + "-" + name
             Committee.objects.create(name=name, slug=sub_slug, parent=committee)
             return JsonResponse({'success': 1, 'name': name, 'slug': sub_slug,
@@ -129,27 +130,15 @@ def delete_member(request, slug):
     except IndexError:
         return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
 
-"""
-def edit_committee(request, committee_name):
-    committee = get_object_or_404(Committee, name=committee_name)
-    form = EditDescription(request.POST or None, instance=committee)
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            messages.add_message(request, messages.SUCCESS, '{} har blitt endret!'.format(committee.name), extra_tags='Supert')
-            return HttpResponseRedirect('/committees')
-    context = {
-        'committee': committee,
-        'form': form,
-    }
-    return render(request, 'committees/edit_committee.html', context)
-"""
-
 
 def edit_committee(request, slug):
     # TODO for endring av parent, må slug endres til at den stemmer med treet.
     committee = get_object_or_404(Committee, slug=slug)
+
+    # Only admins for this committee can edit it.
+    if not is_committee_admin(request.user, committee):
+        raise Http404()
+
     if request.method == 'POST':  # Post form
         form = CommitteeEditForm(request.POST)
         if form.is_valid():
@@ -157,8 +146,9 @@ def edit_committee(request, slug):
             committee.header = form.cleaned_data['header']
             committee.one_liner = form.cleaned_data['one_liner']
             committee.description = form.cleaned_data['description']
-            thumb_raw = form.cleaned_data['thumbnail']
 
+            # Setting picture.
+            thumb_raw = form.cleaned_data['thumbnail']
             try:
                 thumb_id = int(thumb_raw)
                 committee.thumbnail = Image.objects.get(id=thumb_id)
@@ -166,9 +156,8 @@ def edit_committee(request, slug):
                 committee.thumbnail = None
 
             committee.save()
-            #log_changes.change(request, committee)
+            return HttpResponseRedirect(reverse('committees:edit_committee', args=(committee.slug,)))
 
-            return HttpResponseRedirect('/committees')
     else:  # Request form
         try:
             thumb_id = committee.thumbnail.id
@@ -182,7 +171,8 @@ def edit_committee(request, slug):
             'description': committee.description,
             'thumbnail': thumb_id,
         })
-    context = {
+
+    return render(request, 'committees/edit_committee.html', {
+        'committee': committee,
         'form': form,
-    }
-    return render(request, 'committees/edit_committee.html', context)
+    })

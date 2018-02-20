@@ -1,55 +1,52 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load check_user_group %}
 
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
-    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 {% endblock head %}
 
 {% block content %}
-    {% if request.user|has_group:"member" %}
-        <div id="edit">
-            <h2>Rediger komité</h2>
-            <form action="" method="post">
-                {% csrf_token %}
+  <div id="edit">
+    <h2>Rediger komité: {{ committee.name }}</h2>
+    <form action="{% url 'committees:edit_committee' committee.slug %}" method="post">
+      {% csrf_token %}
 
-                {{ form.header.errors }}
-                <div class="input-field">
-                  <label for="{{ form.header.id_for_label }}">{{ form.header.label }}</label>
-                  {{ form.header }}
-                </div>
+      {{ form.header.errors }}
+      <div class="input-field">
+        <label for="{{ form.header.id_for_label }}">{{ form.header.label }}</label>
+        {{ form.header }}
+      </div>
 
-                {{ form.one_liner.errors }}
-                <label>{{ form.one_liner.label }}</label>
-                {{ form.one_liner }}
+      {{ form.one_liner.errors }}
+      <label>{{ form.one_liner.label }}</label>
+      {{ form.one_liner }}
 
-                {{ form.description.errors }}
-                <label>{{ form.description.label }}</label>
-                {{ form.description }}
+      {{ form.description.errors }}
+      <label>{{ form.description.label }}</label>
+      {{ form.description }}
 
-                <br>
+      <br>
 
-                <div style="display: none;">
-                  {{ form.thumbnail.errors }}
-                  <div class="input-field">
-                    <label for="{{ form.thumbnail.id_for_label }}">Bilde</label>
-                    <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
-                  </div>
-                </div>
-
-                <label>Thumbnail</label><br>
-                <div class="imageItem card thumbnailPicker">
-                  <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
-                </div>
-
-
-                <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
-
-                <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
-            </form>
+      <div style="display: none;">
+        {{ form.thumbnail.errors }}
+        <div class="input-field">
+          <label for="{{ form.thumbnail.id_for_label }}">Bilde</label>
+          <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
         </div>
-    {% endif %}
+      </div>
+
+      <label>Thumbnail</label><br>
+      <div class="imageItem card thumbnailPicker">
+        <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
+      </div>
+
+      <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
+
+      <button class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
+    </form>
+  </div>
+
 {% endblock content %}

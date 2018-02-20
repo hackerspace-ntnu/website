@@ -59,8 +59,7 @@ class ViewCommittee(View):
             # Create new slug based on parents slug and new name.
             sub_slug = committee.slug + "-" + name
             Committee.objects.create(name=name, slug=sub_slug, parent=committee)
-            return JsonResponse({'success': 1, 'name': name, 'slug': sub_slug,
-                                 'committee_url': reverse('committees:view_committee', args=(sub_slug,))})
+            return JsonResponse({'redirect_url': reverse('committees:edit_committee', args=(sub_slug,))})
         else:
             return JsonResponse({'errors': form.errors})
 

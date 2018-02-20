@@ -129,8 +129,7 @@
                           $('#subcommittee-errors').html('<p>'+ result.errors.name[0] + '</p>')
                       }
                       else {
-                          $('.modal').modal('close');
-                          $('#subcommittees').append('<a href="' + result.committee_url + '" class="hs-green"><b>'+ result.name + '</b></a>')
+                          window.location.replace(result.redirect_url)
                       }
                   }
               })

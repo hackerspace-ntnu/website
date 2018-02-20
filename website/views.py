@@ -13,9 +13,13 @@ def set_cookie(request):
     response.set_cookie('cookiesAccepted', 'yes', max_age=15000000)
     return response
 
+def showcase(request):
+    context = {
+        
+    }
+    return render(request, 'showcase.html', context)
+
 def index(request):
-
-
     # Sjekk om bruker har cookie
     cookie_accepted = False
     if 'cookiesAccepted' in request.COOKIES:
@@ -46,6 +50,7 @@ def index(request):
         'cookie_accepted': cookie_accepted,
     }
 
+    {{ article_list }}
     return render(request, 'index.html', context)
 
 

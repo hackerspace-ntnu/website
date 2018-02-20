@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
 
-from website.views import index, test, calendar, about, set_cookie
+from website.views import index, test, calendar, about, set_cookie, showcase
 
 admin.autodiscover()
 
@@ -17,6 +17,7 @@ handler500 = 'website.views.handler500'
 
 urlpatterns = [
     url(r'^$', index, name='index'),
+    url(r'^showcase/', showcase, name='showcase'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     url(r'^news/', include('news.urls')),

@@ -39,7 +39,7 @@ def get_json(request):
     coffee_json = {}
     for pot in CoffeePot.objects.all():
         try:
-            coffee_json[pot.name]=pot.datetime.strftime("%a %b %d %H:%M:%S")
+            coffee_json[pot.name]=pot.datetime.strftime("%a %b %d %H:%M")
         except AttributeError:
             coffee_json[pot.name]=""
     return JsonResponse(coffee_json)
@@ -47,16 +47,19 @@ def get_json(request):
 @csrf_exempt
 def get_coffee(request,pot):
     coffee = CoffeePot.get_coffee_by_name(pot)
-    last_changed = str(coffee.datetime)
+    last_changed = str(coffee.datetime.strftime("%a %b %d %H:%M"))
     return HttpResponse(last_changed)
 
 
 def coffee_data(request):
-    coffee_data_list = CoffeeData.objects.all()
-    coffee_data_list = list(reversed(coffee_data_list))
+    finn = CoffeePot.get_coffee_by_name("Finn")
+    mathias = CoffeePot.get_coffee_by_name("Mathias")
+    coffee_data_list = list(CoffeeData.objects.order_by('-brewed'))
 
     context = {
-        'coffee_data_list': open_coffee_list,
+        'coffee_data_list': coffee_data_list,
+        'finn': finn,
+        'mathias': mathias
     }
 
     return render(request, 'coffee_data.html', context)
@@ -65,18 +68,17 @@ def coffee_data(request):
 def coffee_chart(request):
     coffee_data_list = []
 
-    for coffee_data in CoffeeData.objects.all():
+    for coffee_data in CoffeeData.objects.order_by('brewed'):
         name = coffee_data.pot
-        time_brewed = coffee_data.brewed.strftime('%Y-%m-%d %H:%M:%S')
-        offset = (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M:%S')
-
-        coffee_data_list.append({"column-1":0, "date": time_brewed,"name": name})
+        time_brewed = coffee_data.brewed.strftime('%Y-%m-%d %H:%M')
+        offset = (coffee_data.brewed+timedelta(seconds=10)).strftime('%Y-%m-%d %H:%M')
+        #coffee_data_list.append({"column-1":0, "date": time_brewed,"name": name})
         coffee_data_list.append({"column-1":1, "date": time_brewed,"name": name})
-        coffee_data_list.append({"column-1":1, "date": offset,"name": name})
-        coffee_data_list.append({"column-1":0, "date": offset,"name": name})
+        #coffee_data_list.append({"column-1":1, "date": offset,"name": name})
+        #coffee_data_list.append({"column-1":0, "date": offset,"name": name})
 
-    coffee_data_list.append({"column-1":0, "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),"name": "Now"})
-    coffee_data_list.append({"column-1":1, "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),"name": "Now"})
+    coffee_data_list.append({"column-1":0, "date": datetime.now().strftime('%Y-%m-%d %H:%M'),"name": "Nå"})
+    #coffee_data_list.append({"column-1":0, "date": datetime.now().strftime('%Y-%m-%d %H:%M'),"name": name})
 
 
     context = {

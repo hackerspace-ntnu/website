@@ -17,7 +17,7 @@ class CoffeePot(models.Model):
             coffee = CoffeePot.objects.get(name=name)
             return coffee
         except CoffeePot.DoesNotExist:
-            coffee = CoffeePot.objects.create(name=name, datetime=timezone.now().strftime("%a %b %d %H:%M:%S %Z %Y"))
+            coffee = CoffeePot.objects.create(name=name, datetime=timezone.now())
             return coffee
 
     class Meta:

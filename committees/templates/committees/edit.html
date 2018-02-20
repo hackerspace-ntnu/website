@@ -11,7 +11,7 @@
 {% endblock nav_sub_header %}
 
 {% block head %}
-  <link href="/static/autocomplete_light/vendor/select2/dist/css/select2.css" type="text/css" media="all"
+  <link href=" {% static '/autocomplete_light/vendor/select2/dist/css/select2.css' %}" type="text/css" media="all"
         rel="stylesheet"/>
   <link href="/static/autocomplete_light/select2.css" type="text/css" media="all" rel="stylesheet"/>
   <script type="text/javascript" src="/static/smart-selects/admin/js/chainedfk.js"></script>
@@ -51,7 +51,3 @@
       });
   </script>
 {% endblock footer %}
-
-
-
-

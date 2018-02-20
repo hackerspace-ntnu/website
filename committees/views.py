@@ -156,7 +156,7 @@ def edit_committee(request, slug):
                 committee.thumbnail = None
 
             committee.save()
-            return HttpResponseRedirect(reverse('committees:edit_committee', args=(committee.slug,)))
+            return HttpResponseRedirect(reverse('committees:list_all'))
 
     else:  # Request form
         try:

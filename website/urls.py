@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
 
-from website.views import index, test, calendar, about, set_cookie
+from website.views import index, test, calendar, about
 
 admin.autodiscover()
 

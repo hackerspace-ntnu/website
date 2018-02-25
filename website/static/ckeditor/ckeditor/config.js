@@ -16,11 +16,9 @@ CKEDITOR.on('instanceReady', function( ev ) {
 	ev.editor.dataProcessor.htmlFilter.addRules({
 		elements: {
 			p: function (e) { 
-					e.attributes.class = 'flow-text';
+					e.attributes.class = 'test';
 			},
-			strong: function (e) { e.attributes.class = 'flow-text'; },
-			ul: function (e) { e.attributes.class = 'article-ul'; },
-			li: function (e) { e.attributes.class = 'flow-text'; }
+			ul: function (e) { e.attributes.class = 'article-ul'; }
 		},
 	});
 });

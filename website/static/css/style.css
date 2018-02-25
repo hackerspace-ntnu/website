@@ -2,10 +2,10 @@
 @import 'material_override.css';
 
 html {
-	font-family: Open Sans !important;
+	font-family: 'Open Sans', sans-serif !important;
 }
 h1,h2,h3,h4,h5,a {
-	font-family: Montserrat !important;
+	font-family: 'Montserrat', sans-serif !important;
 }
 
 /* Resize hackerspace-logoen */

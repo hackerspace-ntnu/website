@@ -1,33 +1,37 @@
 {% load static %}
-<div class="guard-cards">
-    <div class="row">
-	{% for guard,info in guards.items %}
-	<div class="card-container">
-	    <div class="col s12 m4 l3">
-		<div class="card large">
-		    <div class="card-image waves-effect waves-block waves-light">
-			{% if info.id %}
-			<a class="img-a" href="/members/profile/{{ info.user_id }}">
-			{% else %}
-			<a class="img-a">
-			{% endif %}
-			    {% if info.image %}
-			    <img class="activator" src="/media/{{ info.image }}">
-			    {% else %}
-			    <img class="activator" src=" {% static 'img/Logo_round_green.png' %} ">
-			    {%endif %}
-			</a>
-		    </div>
-		    <div class="card-content">
-			{% if info.id %}
-			<a class="card-title truncate" href="/members/profile/{{ info.user_id }}">{{ guard }}</a>
-			{% else %}
-			<p class="card-title truncate" >{{ guard }}</p>
-			{% endif %}
-		    </div>
+{% for guard,info in guards.items %}
+<div class="card-container">
+	<div class="col s12">
+		<div class="card horizontal">
+			<div class="card-image">
+				{% if info.id %}
+					<a href="/members/profile/{{ info.user_id }}">
+					{% if info.image %}
+						<img src="/media/{{ info.image }}">
+						{% else %}
+						<img src="{% static 'img/misc/default.png' %}">
+					{% endif %}
+					</a>
+				{% else %}
+					<a class="img-a">
+					{% if info.image %}
+						<img class="activator" src="/media/{{ info.image }}">
+						{% else %}
+						<img src="{% static 'img/misc/default.png' %}">
+					{% endif %}
+					</a>
+				{% endif %}
+			</div>
+			<div class="card-stacked">
+				<div class="card-content">
+					{% if info.id %}
+						<a class="card-title truncate" href="/members/profile/{{ info.user_id }}">{{ guard }}</a>
+					{% else %}
+						<p class="card-title truncate" >{{ guard }}</p>
+					{% endif %}
+				</div>
+			</div>
 		</div>
-	    </div>
 	</div>
-	{% endfor %}
-    </div>
 </div>
+{% endfor %}

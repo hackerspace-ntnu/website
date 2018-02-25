@@ -36,7 +36,7 @@ class ProfileModelFormMember(forms.ModelForm):
                 'study': "Studieprogram",
                 'access_card': "Adgangskort",
             }
-        
+
 class ProfileModelFormAdmin(forms.ModelForm):
     class Meta:
         model = Profile

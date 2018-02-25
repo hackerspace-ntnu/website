@@ -92,21 +92,7 @@ blockquote {
 	filter: brightness(70%);
 }
 .darken-60 {
-	filter: brightness(60%) blur(2px);
-}
-.tinter {
-	position: relative;
-	margin:0px;
-}
-.tinter:before {
-	content: "";
-	display:block;
-	position:absolute;
-	top:0;
-	bottom:0;
-	left:0;
-	right:0;
-	background: rgba(0, 1, 128, 0.66);
+	filter: brightness(60%);
 }
 .darken-50 {
 	filter: brightness(50%);
@@ -117,21 +103,44 @@ blockquote {
 .darken-25 {
 	filter: brightness(25%);
 }
+.darken-20 {
+	filter: brightness(20%);
+}
+.darken-10 {
+	filter: brightness(10%);
+}
+.tinter {
+	position: relative;
+	width:100%;
+	height:80vh;
+	margin:0px;
+	filter: brightness(70%);
+}
+.tinter:before {
+	content: "";
+	display:block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background: rgba(0, 65, 128, 0.60);
+}
 
 /* For the fixed text on top of slider on main index page */
 .fixed-text {
 	position:absolute !important;
-	padding-top:7%;
 	z-index:10 !important;
 	width:100%;
-	height:100%;
+	height:100vh;
+	margin-top:15vh;
 }
 
 /* Main center cog image in green with transparent bg */
 #indexLogo {
 	height:400px !important;
-	-webkit-filter: drop-shadow(5px 5px 5px #222);
-	filter: drop-shadow(5px 5px 5px #222);
+	-webkit-filter: drop-shadow(5px 5px 5px #000);
+	filter: drop-shadow(5px 5px 5px #000);
 }
 .fixed-text .text-shadow {
 	text-shadow: 5px 5px 5px black !important;
@@ -146,11 +155,11 @@ blockquote {
 
 /* Fontpage slider */
 .slider {
-	height:60vh !important;
+	height:80vh !important;
 	overflow:hidden;
 }
 .slides {
-	height:60vh !important;
+	height:80vh !important;
 }
 
 /* Hiding stuff */

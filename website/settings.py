@@ -172,25 +172,31 @@ CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
 CKEDITOR_BROWSE_SHOW_DIRS = False
+
 CKEDITOR_CONFIGS = {
     'default': {
+        'skin': 'material-design',
+        'width': '100%',
         'toolbar': 'Custom',
         'toolbar_Custom': [
-            ['Undo', 'Redo'],
-            ['Format', 'Styles', 'Font', 'FontSize'],
-            ['Bold', 'Italic', 'Underline'],
-            ['HorizontalRule', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['TextColor', 'BGColor', 'Smiley'],
-            ['RemoveFormat', 'ShowBlocks', 'Maximize'],
-            ['Source']
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['Maximize', 'Find', 'Replace']
         ],
-        'width': 840,
-        'height': 300,
-        'toolbarCanCollapse': False,
-    }
+    },
+    'committees': {
+        'skin': 'material-design',
+        'width': '100%',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['Maximize', 'Find', 'Replace']
+        ],
+    },
 }
+
+DEFAULT_CONFIG = CKEDITOR_CONFIGS
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -239,28 +245,3 @@ LOGGING = {
 }
 
 
-CKEDITOR_CONFIGS = {
-    'default': {
-        'skin': 'bootstrapck',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
-        'customConfig': '/static/js/ckeditor_config.js',
-    },
-
-    'committees': {
-        'skin': 'bootstrapck',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
-        'customConfig': '/static/js/ckeditor_config.js',
-    },
-}
-
-DEFAULT_CONFIG = CKEDITOR_CONFIGS

@@ -99,9 +99,11 @@ blockquote {
 /* For the fixed text on top of slider on main index page */
 .fixed-text {
 	padding-top:50px;
-	position:relative !important;
+	position:absolute !important;
 	z-index:10 !important;
 	padding-bottom:50px;
+	width:100%;
+	height:100%;
 }
 
 /* Main center cog image in green with transparent bg */
@@ -117,8 +119,11 @@ blockquote {
 
 /* Fontpage slider */
 .slider {
-	display:inline-block;
-	height:100% !important;
+	height:60vh !important;
+	overflow:hidden;
+}
+.slides {
+	height:60vh !important;
 }
 
 /* For scrolling effect on old event list */
@@ -145,4 +150,14 @@ blockquote {
 /* Fjern stygg border rundt linker */
 a {
 	outline : none;
+}
+
+.flow-text {
+	word-wrap:break-word !important;
+}
+
+/* CKEditor override */
+.django-ckeditor-widget {
+	width:100%;
+
 }

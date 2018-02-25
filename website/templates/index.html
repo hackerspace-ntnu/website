@@ -17,36 +17,32 @@
 </div>
 <div class="section hs-green hide-on-small-only">
 	<div class="center-align white-text">
-		<h5>Åpent hverdager fra 10:15 til 18:00 - Besøk oss på <a class="hs-gray-text modal-trigger" href="#mapModal">Drivhuset</a></h5>
+		<h5>Sjekk vår vaktliste for å se når vi holder åpent <a class="hs-gray-text modal-trigger" href="#mapModal">Drivhuset</a></h5>
 	</div>
 </div>
 <div class="section hs-gray no-pad hide-on-small-only">
-	<div class="carousel carousel-slider center">
-		<div class="carousel-fixed-item center">
+	<div class="slider center">
+		<div class="fixed-text center">
 			<div class="center text-shadow white-text">
 				<img id="indexLogo" src="../static/img/logo/Icon_green_transparent.png">
 				<h1>Hackerspace</h1>
 				<h4>En kreativ arena for å realisere dine ideer</h4>
 			</div>
 		</div>
-		<div class="carousel-item">
-			<img class="activator darken-25" src="{% static 'img/people_and_tech/cover1.jpg' %}">
-		</div>
-		<div class="carousel-item">
-			<img class="activator darken-25" src="{% static 'img/people_and_tech/logo/briller.jpg' %}">
-		</div>
-		<div class="carousel-item">
-			<img class="activator darken-25" src="{% static 'img/people_and_tech/cover2.jpg' %}">
-		</div>
-		<div class="carousel-item">
-			<img class="activator darken-25" src="{% static 'img/people_and_tech/cover3.jpg' %}">
-		</div>
-		<div class="carousel-item">
-			<img class="activator darken-25" src="{% static 'img/people_and_tech/cover5.jpg' %}">
-		</div>
-		<div class="carousel-item">
-			<img class="activator darken-25" src="{% static 'img/people_and_tech/cover7.jpg' %}">
-		</div>
+		<ul class="slides">
+			<li>
+				<img class="activator darken-25" src="{% static 'img/people_and_tech/cover1.jpg' %}">
+			</li>
+			<li>
+				<img class="activator darken-25" src="{% static 'img/people_and_tech/cover2.jpg' %}">
+			</li>
+			<li>
+				<img class="activator darken-25" src="{% static 'img/people_and_tech/cover3.jpg' %}">
+			</li>
+			<li>
+				<img class="activator darken-25" src="{% static 'img/people_and_tech/cover7.jpg' %}">
+			</li>
+		</ul>
 	</div>
 </div>
 <div class="section block hs-green">
@@ -88,14 +84,15 @@
 	</div>
 </div>
 <script>
-	var elem = document.querySelector('.carousel');
-	var slideshow = M.Carousel.init(elem, {
-		fullWidth:true,
-		indicators: false
+	var elem = document.querySelector('.slider');
+	var slideshow = M.Slider.init(elem, {
+		indicators: false,
+		height: 600,
+		duration:1000
 	})
 
 	setInterval(function(){
-		slideshow.next(1)}, 6000)
+		slideshow.next()}, 6000)
 
 </script>
 {% endblock content %}

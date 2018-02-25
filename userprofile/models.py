@@ -5,9 +5,10 @@ from vaktliste.views import vakt_filter
 from datetime import datetime
 from PIL import Image, ImageOps
 
+
 class Skill(models.Model):
     title = models.CharField(max_length=30)
-    icon = models.ImageField(upload_to="skillicons",blank=True)
+    icon = models.ImageField(upload_to="skillicons", blank=True)
     description = models.TextField()
 
     def __str__(self):
@@ -19,6 +20,7 @@ class Group(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class DutyTime(models.Model):
     MONDAY = 'Mandag'
@@ -39,11 +41,11 @@ class DutyTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
-    def shorten_time(self,time):
+    def shorten_time(self, time):
         return ":".join(str(time).split(":")[:2])
 
     def dutyday(self):
-        return [dutyday[1] for dutyday in self.DUTYDAYS_CHOICES if dutyday[0]==self.day][0]
+        return [dutyday[1] for dutyday in self.DUTYDAYS_CHOICES if dutyday[0] == self.day][0]
 
     def dutytime(self):
         return self.shorten_time(self.start_time) + " - " + self.shorten_time(self.end_time)
@@ -54,13 +56,14 @@ class DutyTime(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    group = models.ManyToManyField(Group, related_name='profile',blank=True)
+    group = models.ManyToManyField(Group, related_name='profile', blank=True)
     name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="profilepictures",default="profilepictures/default.png")
+    image = models.ImageField(upload_to="profilepictures", default="profilepictures/default.png")
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
-    skills = models.ManyToManyField(Skill, related_name="skills",blank=True)
-    duty = models.ManyToManyField(DutyTime, related_name="duty",blank=True)
+    skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
+    duty = models.ManyToManyField(DutyTime, related_name="duty", blank=True)
+
     auto_duty = models.BooleanField(default=True)
     auto_name = models.BooleanField(default=True)
 
@@ -74,21 +77,26 @@ class Profile(models.Model):
     def fix_profile_picture(self):
         if self.image:
             if self.image.width > 300 or self.image.height > 300:
-                ImageOps.fit(Image.open(self.image.path),(300,300),Image.ANTIALIAS,centering=(0.5,0.5)).save(self.image.path,"PNG",quality=100)
+                ImageOps.fit(Image.open(self.image.path), (300, 300), Image.ANTIALIAS, centering=(0.5, 0.5)).save(
+                    self.image.path, "PNG", quality=100)
 
     def get_dutytime(self):
         if self.auto_duty:
-            result = vakt_filter(persons=self.name,output="tuples")
+            result = vakt_filter(persons=self.name, output="tuples")
             if result:
-                day,time,hackers=result[0]
-                start_time,end_time = time.split(" - ")
-                start_time= datetime.strptime(start_time,"%H:%M")
-                end_time= datetime.strptime(end_time,"%H:%M")
+                day, time, hackers = result[0]
+                start_time, end_time = time.split(" - ")
+                start_time = datetime.strptime(start_time, "%H:%M")
+                end_time = datetime.strptime(end_time, "%H:%M")
                 try:
-                    self.duty = [DutyTime.objects.get(day=day,start_time=start_time,end_time=end_time)]
+                    self.duty = [DutyTime.objects.get(day=day, start_time=start_time, end_time=end_time)]
                 except:
                     duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
                     self.duty = duty
 
     def __str__(self):
         return self.user.username
+
+
+# Import receiver (for creating profiles when a user is created) into namespace.
+from userprofile.triggers import *

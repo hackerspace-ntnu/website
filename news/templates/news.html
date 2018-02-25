@@ -43,13 +43,6 @@
 						<div class="col s12">
 							<p class="right">Publisert {{ news.pub_date }}</p>
 							<a href="/news/{{ news.id }}/"><h5 class="left">{{ news.title }}
-									{% if request.user|has_group:"member" %}
-									<a class="dropdown-button btn-flat" href="#/" data-activates="dropdown{{ news.id }}"><i class="material-icons">more_vert</i></a>
-									<ul id="dropdown{{ news.id }}" class="dropdown-content">
-										<li><a class="waves-effect waves-grey btn-flat" href="/news/{{ news.id }}/edit/">Edit</a></li>
-										<li><a class="delete waves-effect waves-grey btn-flat" url="/news/{{ news.id }}/delete/">Delete</a></li>
-									</ul>
-									{% endif %}
 									<h5></a>
 								</div>
 								<div class="col s8">
@@ -75,4 +68,8 @@
 		</div>
 	</div>
 </div>
-		{% endblock content %}
+<script>
+	var dropdown = document.querySelector('.dropdown-trigger');
+	var instance = M.Dropdown.init(dropdown);
+</script>
+{% endblock content %}

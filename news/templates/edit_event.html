@@ -3,8 +3,10 @@
 {% load check_user_group %}
 
 {% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+
 {% endblock head %}
 
 {% block content %}
@@ -30,9 +32,9 @@
 					<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
 				</div>
 				<div class="input-field col s12">
-					<p>{{ form.ingress_content.label }}</p>
-					{{ form.ingress_content.errors }}
+					{{ form.ingress_content.errors }}</textarea>
 					{{ form.ingress_content }}
+					<label for="{{ form.ingress_content.id_from_label }}">{{ form.ingress_content.label }}</label>
 				</div>
 				<div class="input-field col s12">
 					<p>{{ form.main_content.label }}</p>
@@ -61,12 +63,14 @@
 					{{ form.registration.errors }}
 					<p>
 						<i class="material-icons prefix">group_add</i>
-						<input type="checkbox" id="registration-box" name="registration" value="{{ form.registration.value }}"/>
-						<label for="registration-box">{{ form.registration.label }}</label>
+						<label>
+							<input type="checkbox" id="registration-check" name="registration" value="{{ form.registration.value }}"/>
+							<span for="registration-check">{{ form.registration.label }}</span>
+						</label>
 					</p>
 				</div>
 			</div>
-			<div class="row" id="reg-section">
+			<div class="row" id="registration-box">
 				<div class="input-field col s12">
 					<i class="material-icons prefix">event_seat</i>
 					<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
@@ -74,7 +78,7 @@
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">event_available</i>
-					<input id="{{ form.registration_start_date.id_for_label }}" class="datepicker" name="registration_start_date" value="{{ form.registration_start_date.value }}">
+					<input id="{{ form.registration_start_date.id_for_label }}" class="datepicker-start" name="registration_start_date" value="{{ form.registration_start_date.value }}">
 					<label class="active" for="{{ form.registration_start_date.id_for_label }}">{{ form.registration_start_date.label }}</label>
 				</div>
 				<div class="input-field col s6">
@@ -85,7 +89,7 @@
 				<div class="input-field col s6">
 					<i class="material-icons prefix">event_busy</i>
 					<label for="{{ form.deregistration_end_date.id_for_label }}">{{ form.deregistration_end_date.label }}</label>
-					<input type="text" id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker" name="deregistration_end_date" value="{{ form.deregistration_end_date.value }}" />
+					<input type="text" id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker-end" name="deregistration_end_date" value="{{ form.deregistration_end_date.value }}" />
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">hourglass_full</i>
@@ -152,41 +156,35 @@
 {% endif %}
 
 <script>
-	$(document).ready(function() {
-		Materialize.updateTextFields();
-		$('.datepicker').pickadate({
-			selectMonths: true, // Creates a dropdown to control month
-			selectYears: 15 // Creates a dropdown of 15 years to control year
-		});
+	var startDate = document.querySelector('.datepicker-start');
+	var endDate = document.querySelector('.datepicker-end');
+	var select = document.querySelector('.datepicker-end');
+	var instance = M.Datepicker.init(endDate);
+	var instance = M.Datepicker.init(startDate);
+	var instance = M.Datepicker.init(select);
 
-		if($('#registration-box').val() == "True") {
-			$('#registration-box').attr("checked", true);
+	var registrationCheck = document.getElementById('registration-check');
+	var registrationBox = document.getElementById('registration-box');
+
+	registrationCheck.addEventListener("change", function() {
+		if(registrationCheck.checked == true) {
+			registrationCheck.checked = true;
+			registrationCheck.value = "True";
+			registrationBox.style.display = "block";
 		} else {
-			$('#reg-section').hide();
+			registrationCheck.checked = false;
+			registrationCheck.value = "False";
+			registrationBox.style.display = "none";
 		}
-
-		if($('#internal-box').val() == "True") {
-			$('#internal-box').attr("checked", true);
-		}
-
-		// Sett registreringsbox til standard-verdi
-		$("#registration-box").change(function() {
-			if (this.checked) {
-				$(this).val("true");
-				$('#reg-section').show();
-			} else {
-				$(this).val("false");
-				$('#reg-section').hide();
-			}
-		});
-		$("#internal-box").change(function() {
-			if (this.checked) {
-				$(this).val("true");
-			} else {
-				$(this).val("false");
-			}
-		});
 	});
+
+	if(registrationCheck.value == "True") {
+		registrationCheck.checked = true;
+		registrationBox.style.display = "block";
+	} else {
+		registrationBox.checked = false;
+		registrationBox.style.display = "none";
+	}
+
 </script>
-<script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 {% endblock content %}

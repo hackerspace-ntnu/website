@@ -4,6 +4,7 @@
 
 
 {% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
 {% endblock head %}
@@ -54,18 +55,6 @@
 					<div class="thumbnailPicker card small thumb-preview" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
 					</div>
 					<script>
-					$(document).ready(function() {
-						if($("#internal-box").val() == "True") {
-							$(".internal.toggle").attr('checked', true);
-						}
-						$("#internal-box").change(function() {
-							if(this.checked) {
-								$(this).val("True");
-							} else {
-								$(this).val("False");
-							}
-						});
-					});
 					</script>
 
 					<script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>

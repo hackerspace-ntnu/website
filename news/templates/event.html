@@ -6,28 +6,52 @@
 {% endblock head %}
 
 {% block content %}
-
-<div class="section block">
-	<div class="container">
-		<div class="row">
-			<img class="responsive-img" src="{{ event.thumbnail.url }}">
-			<h1 class="hs-green-text">{{ event.title }}</h1>
-			<div class="divider"></div>
+<nav>
+	<div class="nav-wrapper hs-green">
+		<div class="container">
+			<div class="col s12">
+				<a href="/" class="breadcrumb white-text ">Hjem</a>
+				<a href="/events/" class="breadcrumb white-text">Arrangement</a>
+				<a href="#!" class="breadcrumb white-text">{{ event.title }}</a>
+			</div>
 		</div>
 	</div>
+</nav>
+<div class="parallax-container" style="height:200px">
+	<div class="parallax">
+		<img class="responsive-img" src="{{ event.thumbnail.url }}" />
+	</div>
 </div>
-<div class="section block">
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h2>{{ event.title }}</h2>
+				<div class="divider"></div>
+			</div>
+		</div>
+		{% if request.user|has_group:"member" %}
+		<div class="row">
+			<div class="col s12">
+				<ul class='collection'>
+					<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
+					<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Event</a></li>
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+<div class="section white">
 	<div class="container">
 		<div class="row">
 			<div class="col s8">
-				<div class="section">
-					{% autoescape off %}
-					<p class="flow-text">{{ event.ingress_content }}</p>
-					{% endautoescape %}
-					{% autoescape off %}
-					<p class="flow-text">{{ event.main_content }}</p>
-					{% endautoescape %}
-				</div>
+				{% autoescape off %}
+				{{ event.ingress_content }}
+				{% endautoescape %}</p>
+				{% autoescape off %}
+				{{ event.main_content }}
+				{% endautoescape %}
 			</div>
 			<div class="col s4">
 				<div class="card-panel"> {% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
@@ -71,33 +95,31 @@
 					</div>
 					{% endif %}
 				</div>
-			{% if event.registered_list or event.wait_list %}
-			{% if user.is_superuser or user|has_group:"viewAttendees" %}
-			<ul class="collapsible" data-collapsible="accordion">
-				{% if event.registered_list %}
-				<li>
-					<div class="collapsible-header">Påmeldte</div>
-					<div class="collapsible-body">
-						{% for user in event.registered_list %}
-						<p>{{ user.0 }}</p>
-						{% endfor %}
-					</div>
-				</li>
-				{% endif %}
-				{% if event.wait_list %}
-				<li>
-					<div class="collapsible-header">Venteliste</div>
-					<div class="collapsible-body">
-						{% for user in event.wait_list %}
-						<p>{{ user.0 }}. {{ user.1 }}</p>
-						{% endfor %}
-					</div>
-				</li>
-				{% endif %}
-			</ul>
-			<script>
-			</script>
-		</div>
+				{% if event.registered_list or event.wait_list %}
+				{% if user.is_superuser or user|has_group:"viewAttendees" %}
+				<ul class="collapsible" data-collapsible="accordion">
+					{% if event.registered_list %}
+					<li>
+						<div class="collapsible-header">Påmeldte</div>
+						<div class="collapsible-body">
+							{% for user in event.registered_list %}
+							<p>{{ user.0 }}</p>
+							{% endfor %}
+						</div>
+					</li>
+					{% endif %}
+					{% if event.wait_list %}
+					<li>
+						<div class="collapsible-header">Venteliste</div>
+						<div class="collapsible-body">
+							{% for user in event.wait_list %}
+							<p>{{ user.0 }}. {{ user.1 }}</p>
+							{% endfor %}
+						</div>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
 		{% if event.registered_list %}
 		<button class="btn waves-effect waves-light hs-green ">Epost påmeldte</button>
 		{% endif %}
@@ -105,8 +127,11 @@
 		<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
 		{% endif %}
 		<script>
-		var collapsible = document.querySelector('.collapsible');
-		var instance = M.Collapsible.init(collapsible);
+			var collapsible = document.querySelector('.collapsible');
+			var instance = M.Collapsible.init(collapsible);
+
+			var parallax = document.querySelector('.parallax');
+			var instance = M.Parallax.init(parallax);
 		</script>
 		{% endif %}
 		{% endif %}
@@ -114,27 +139,26 @@
 	</div>
 </div>
 <style>
-
 	.progress {
-		    height: 30px;
-		        width: 95%;
-			    display: block;
-			        margin: auto;
-				    margin-bottom: 5px;
-				        margin-top: 10px;
-					    z-index: 50;
-				    }
+		height: 30px;
+		width: 95%;
+		display: block;
+		margin: auto;
+		margin-bottom: 5px;
+		margin-top: 10px;
+		z-index: 50;
+	}
 
-				    .counter {
-						    margin: 5px;
-						        display: block;
-							    margin-left: auto;
-							        margin-right: auto;
-							}
-							.determinate {
-								    z-index: 70;
-							    }
+	.counter {
+		margin: 5px;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.determinate {
+		z-index: 70;
+	}
 
-			    </style>
+</style>
 {% endblock content %}
 

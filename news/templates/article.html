@@ -23,28 +23,31 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h4>{{ article.title }}</h4>
+				<h2>{{ article.title }}</h2>
+				<p class="flow-text">{{ article.pub_date }}</p>
+				<div class="divider"></div>
 			</div>
 		</div>
+		{% if request.user|has_group:"member" %}
 		<div class="row">
 			<div class="col s12">
-				<h5>{{ article.pub_date }}</h5>
+				<ul class='collection'>
+					<li class="collection-item"><a href="/news/{{ article.id }}/edit"><i class="material-icons">edit</i>Rediger artikkel</a></li>
+					<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Artikkel</a></li>
+				</ul>
 			</div>
 		</div>
+		{% endif %}
 		<div class="row">
-			<div class="col s8">
-				<blockquote>
-					<p class="flow-text">
-						{% autoescape off %}
-						{{ article.ingress_content }}
-						{% endautoescape %}
-					</p>
-					<p class="flow-text">
-						{% autoescape off %}
-						{{ article.main_content }}
-						{% endautoescape %}
-					</p>
-				</blockquote>
+			<div class="col s12">
+				<div class="card-panel">
+					{% autoescape off %}
+					{{ article.ingress_content }}
+					{% endautoescape %}
+					{% autoescape off %}
+					{{ article.main_content }}
+					{% endautoescape %}
+				</div>
 			</div>
 		</div>
 	</div>

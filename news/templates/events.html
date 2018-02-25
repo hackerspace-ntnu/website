@@ -3,7 +3,7 @@
 {% load check_user_group %}
 
 {% block content %}
-<div class="section hs-green block ">
+<div class="section hs-green block scrollspy">
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
@@ -121,18 +121,12 @@
 		</div>
 	</div>
 </div>
+
 <script>  
-	$(document).ready(function(){
-		$('.scrollspy').scrollSpy({
-			scrollOffset:500,
-			activeClass: 'active',
-		});
-		var options = [
-			{selector: '.archive', offset: 700, callback: function() {
-				$('.archive').addClass('active');
-			} },
-		];
-		Materialize.scrollFire(options);
+	var spy = document.querySelector('.scrollspy');
+	var instance = M.ScrollSpy.init(spy, {
+		scrollOffset:200,
+		activeClass: 'active'
 	});
 </script>
 {% endblock content %}

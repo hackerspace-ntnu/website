@@ -7,6 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
 {% endblock head %}
 
 {% block content %}
@@ -27,9 +28,9 @@
 					{{ form.title }}
 				</div>
 				<div class="input-field col s12">
-					<p>{{ form.ingress_content.label }}</p>
 					{{ form.ingress_content.errors }}
 					{{ form.ingress_content }}
+					<label for="id_ingress_content">{{ form.ingress_content.label }}</label>
 				</div>
 
 				<div class="input-field col s12">
@@ -63,4 +64,9 @@
 			</form>
 		</div>
 		{% endif %}
+<script>
+  $(document).ready(function() {
+	    $('#id_ingress_content').characterCounter();
+  });
+</script>
 		{% endblock content %}

@@ -46,12 +46,12 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s8">
-				{% autoescape off %}
-				{{ event.ingress_content }}
-				{% endautoescape %}</p>
-				{% autoescape off %}
-				{{ event.main_content }}
-				{% endautoescape %}
+				<div class="card-panel">
+					<p class="flow-text"><b>{{ event.ingress_content }}</b></p>
+					{% autoescape off %}
+					{{ event.main_content }}
+					{% endautoescape %}
+				</div>
 			</div>
 			<div class="col s4">
 				<div class="card-panel"> {% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
@@ -119,13 +119,13 @@
 					</li>
 					{% endif %}
 				</ul>
-			</div>
 		{% if event.registered_list %}
 		<button class="btn waves-effect waves-light hs-green ">Epost påmeldte</button>
 		{% endif %}
 		{% if event.wait_list %}
 		<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
 		{% endif %}
+			</div>
 		<script>
 			var collapsible = document.querySelector('.collapsible');
 			var instance = M.Collapsible.init(collapsible);

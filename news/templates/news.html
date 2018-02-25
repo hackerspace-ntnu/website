@@ -45,10 +45,10 @@
 							<a href="/news/{{ news.id }}/"><h5 class="left">{{ news.title }}
 									<h5></a>
 								</div>
-								<div class="col s8">
-									<p class="flow-text">
+								<div class="col s8 preview-text">
+									<p>
 										{% autoescape off %}
-										{{ news.ingress_content|truncatechars:255 }}
+										{{ news.ingress_content|truncatechars:200 }}
 										{% endautoescape %}
 									</p>
 								</div>

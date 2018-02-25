@@ -41,9 +41,7 @@
 		<div class="row">
 			<div class="col s12">
 				<div class="card-panel">
-					{% autoescape off %}
-					{{ article.ingress_content }}
-					{% endautoescape %}
+					<p class="flow-text"><b>{{ article.ingress_content }}</b></p>
 					{% autoescape off %}
 					{{ article.main_content }}
 					{% endautoescape %}

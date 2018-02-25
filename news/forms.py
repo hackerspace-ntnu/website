@@ -11,7 +11,7 @@ custom_error = {
 
 class EventEditForm(forms.Form):
     title = forms.CharField(max_length=100, label='Tittel')
-    ingress_content = forms.CharField(widget=CKEditorWidget(), label='Ingress', required=False)
+    ingress_content = forms.CharField(widget=forms.Textarea(attrs={'class': 'materialize-textarea', 'data-length':'200'}),label='Ingress', required=False)
     main_content = forms.CharField(widget=CKEditorWidget(), label='Beskrivelse', required=False)
     registration = forms.BooleanField(label="Påmelding", required=False)
     internal = forms.BooleanField(label="Intern", required=False)
@@ -99,9 +99,10 @@ class EventEditForm(forms.Form):
 
         return form_data
 
+
 class ArticleEditForm(forms.Form):
     title = forms.CharField(max_length=100, label='Tittel')
-    ingress_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Ingress', required=False)
+    ingress_content = forms.CharField(widget=forms.Textarea(attrs={'class': 'materialize-textarea', 'data-length':'200'}),label='Ingress', required=False)
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Artikkel', required=False)
     thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
     internal = forms.BooleanField(label="Intern", required=False)

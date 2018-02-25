@@ -45,9 +45,6 @@ body {
 main {
 	flex: 1 0 auto !important;
 }
-
-
-
 .caption-text {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
@@ -88,9 +85,34 @@ blockquote {
 .darken-90 {
 	filter: brightness(90%);
 }
-.darken-40 {
-
+.darken-80 {
+	filter: brightness(80%);
+}
+.darken-70 {
+	filter: brightness(70%);
+}
+.darken-60 {
+	filter: brightness(60%) blur(2px);
+}
+.tinter {
+	position: relative;
+	margin:0px;
+}
+.tinter:before {
+	content: "";
+	display:block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background: rgba(0, 1, 128, 0.66);
+}
+.darken-50 {
 	filter: brightness(50%);
+}
+.darken-40 {
+	filter: brightness(40%);
 }
 .darken-25 {
 	filter: brightness(25%);
@@ -98,10 +120,9 @@ blockquote {
 
 /* For the fixed text on top of slider on main index page */
 .fixed-text {
-	padding-top:50px;
 	position:absolute !important;
+	padding-top:7%;
 	z-index:10 !important;
-	padding-bottom:50px;
 	width:100%;
 	height:100%;
 }
@@ -109,6 +130,12 @@ blockquote {
 /* Main center cog image in green with transparent bg */
 #indexLogo {
 	height:400px !important;
+	-webkit-filter: drop-shadow(5px 5px 5px #222);
+	filter: drop-shadow(5px 5px 5px #222);
+}
+.fixed-text .text-shadow {
+	text-shadow: 5px 5px 5px black !important;
+
 }
 
 .date-box {

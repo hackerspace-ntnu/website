@@ -126,15 +126,6 @@ blockquote {
 	height:60vh !important;
 }
 
-/* For scrolling effect on old event list */
-.archive {
-	opacity: 0.2;
-}
-.archive.active {
-	opacity: 1 !important;
-	transition:1s;
-}
-
 /* Hiding stuff */
 .hidden {
 	display:none !important;
@@ -161,3 +152,20 @@ a {
 	width:100%;
 
 }
+
+.article-ul {
+	padding-left: inherit !important;
+
+}
+.article-ul li {
+	list-style-type: initial !important;
+
+}
+.preview-text p {
+	font-size: 14px !important;
+	word-break: break-all;
+}
+.preview-text b {
+	font-weight:normal;
+}
+

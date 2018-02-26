@@ -199,4 +199,44 @@ a {
 	font-size: 14px !important;
 	word-break: break-all;
 }
+.show-row {
+	height:30vh;
+	padding:0px !important;
+	margin:0px !important;
+}
+.show-row .col {
+	padding:0px !important;
+	margin:0px !important;
+}
+.show-row img {
+	width:100%;
+	height:30vh;
+	margin:0px;
+}
+.show-row h4 {
+	position:absolute !important;
+	text-align:center;
+	width:100%;
+	z-index:5 !important;
+}
+.alt-tinter:hover:before { background: none; }
+.alt-tinter {
+	position: relative;
+	width:100%;
+	height:100%;
+	margin:0px;
+	transition: all .3s linear;
 
+}
+.alt-tinter:before {
+	content: "";
+	display:block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background: rgba(0, 65, 128, 0.60);
+	transition: all .2s linear;
+	filter: brightness(50%);
+}

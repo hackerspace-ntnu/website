@@ -112,7 +112,7 @@ blockquote {
 .tinter {
 	position: relative;
 	width:100%;
-	height:80vh;
+	height:100%;
 	margin:0px;
 	filter: brightness(70%);
 }
@@ -132,13 +132,13 @@ blockquote {
 	position:absolute !important;
 	z-index:10 !important;
 	width:100%;
-	height:100vh;
+	height:100%;
 	margin-top:15vh;
 }
 
 /* Main center cog image in green with transparent bg */
 #indexLogo {
-	height:400px !important;
+	height:400px;
 	-webkit-filter: drop-shadow(5px 5px 5px #000);
 	filter: drop-shadow(5px 5px 5px #000);
 }
@@ -155,11 +155,9 @@ blockquote {
 
 /* Fontpage slider */
 .slider {
-	height:80vh !important;
 	overflow:hidden;
 }
 .slides {
-	height:80vh !important;
 }
 
 /* Hiding stuff */

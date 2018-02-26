@@ -15,14 +15,6 @@
 .secondary-content {
 	color:#4E4B46 !important;
 }
-a {
-	color:#5BBA47 !important;
-}
-.btn {
-	background-color:#5BBA47 !important;
-	color:#fff !important;
-}
-
 nav ul a, nav i {
 	color:#fff !important;
 }
@@ -80,4 +72,8 @@ nav ul a, nav i {
 
 label.active::after {
 	width:999px !important;
+}
+a {
+	color: #5BBA47 !important;
+
 }

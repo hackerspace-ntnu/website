@@ -2,90 +2,68 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="section hs-gray block hide-on-med-and-up">
-	<div class="container">
-		<div class="row">
-			<div class="col s12 center-align white-text">
-				<img style="width:100px; height:150px;" src=" {% static 'img/logo/Icon_green_transparent.png' %} ">
-
-			</div>
-		</div>
+<div class="section hs-gray hide-on-med-and-up">
+	<div class="row center">
+		<br>
+		<img style="width:100px; height:150px;" src=" {% static 'img/logo/Icon_green_transparent.png' %} ">
 	</div>
 </div>
-<div class="section hs-gray hide-on-small-only no-pad">
-	<div class="slider center">
+<div class="section hide-on-small-only no-pad">
+	<div class="slider">
 		<div class="fixed-text center">
-				<img id="indexLogo" src="../static/img/logo/Icon_green_transparent.png">
-			<div class="center text-shadow white-text">
+			<img id="indexLogo" src="../static/img/logo/Icon_green_transparent.png">
+			<div class="text-shadow white-text">
 				<h1>Hackerspace</h1>
 				<h4>En kreativ arena for å realisere dine ideer</h4>
 			</div>
 		</div>
 		<ul class="slides">
-			<li>
-				<figure class="tinter">
-				<img class="activator" src="{% static 'img/people_and_tech/spill2.jpg' %}">
-			</figure>
+			<li class="tinter">
+				<img src="{% static 'img/people_and_tech/spill2.jpg' %}">
 			</li>
-			<li>
-				<figure class="tinter">
-				<img class="activator" src="{% static 'img/people_and_tech/briller.jpg' %}">
-			</figure>
+			<li class="tinter">
+				<img src="{% static 'img/people_and_tech/briller.jpg' %}">
 			</li>
-			<li>
-				<figure class="tinter">
-				<img class="activator" src="{% static 'img/people_and_tech/cover7.jpg' %}">
-			</figure>
+			<li class="tinter">
+				<img src="{% static 'img/people_and_tech/cover7.jpg' %}">
 			</li>
 		</ul>
 	</div>
 </div>
-<div class="section block hs-green">
+<div class="section hs-green">
 	<div class="container">
 		<div class="row center">
 			<div class="col s12 white-text">
 				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
 				<a class="btn btn-large white hs-gray-text" href="/about/">Trykk her for å lese mer om oss</p></a>
-			</div>
 		</div>
 	</div>
 </div>
 <div class="section no-pad">
-		<div class="row show-row">
-			<div class="col s4 valign-wrapper alt-tinter">
-				<h4>
-					<a class="white-text" href="/showcase/">Virtual Reality</a>
-				</h4>
-					<img class="clean-img" src="{% static 'img/people_and_tech/spill2.jpg' %}">
-			</div>
-			<div class="col s4 valign-wrapper alt-tinter">
-				<h4>
-					<a class="white-text" href="/showcase/">Escape Room</a>
-				</h4>
-				<img src="{% static 'img/people_and_tech/cover7.jpg' %}">
-			</div>
-			<div class="col s4 valign-wrapper alt-tinter">
-				<h4>
-					<a class="white-text" href="/showcase/projects/">Prosjekter</a>
-				</h4>
-				<img src="{% static 'img/people_and_tech/briller.jpg' %}">
-			</div>
+	<div class="row show-row">
+		<div class="col s4 valign-wrapper alt-tinter">
+			<h4><a class="white-text" href="/showcase/">Virtual Reality</a></h4> 
+			<img src="{% static 'img/people_and_tech/spill2.jpg' %}">
 		</div>
-	</div>
-</div>
-<div class="section block hs-green">
-	<div class="container">
-		<div class="row">
-			<div class="col s12 center white-text">
-				<h4>Hva skjer på Hackerspace?</h4>
-			</div>
+		<div class="col s4 valign-wrapper alt-tinter">
+			<h4><a class="white-text" href="/showcase/">Escape Room</a></h4>
+			<img src="{% static 'img/people_and_tech/cover7.jpg' %}">
+		</div>
+		<div class="col s4 valign-wrapper alt-tinter">
+			<h4><a class="white-text" href="/showcase/projects/">Prosjekter</a></h4>
+			<img src="{% static 'img/people_and_tech/briller.jpg' %}">
 		</div>
 	</div>
 </div>
 <div class="section hs-green">
 	<div class="container">
 		<div class="row">
-			<div class="col s12 m12 l12 xl6">
+			<div class="col s12 center white-text">
+				<h4>Hva skjer på Hackerspace?</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 xl6">
 				<ul class="collection with-header z-depth-1">
 					<li class="collection-header">
 						<div>
@@ -94,13 +72,13 @@
 					</li>
 					{% for article in article_list %}
 					<li class="collection-item">
-						<a href="/news/{{ article.id }}" class="title">{{ article.title }}</a>
+						<a href="/news/{{ article.id }}">{{ article.title }}</a>
 						<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
 					</li>
 					{% endfor %}
 				</ul>
 			</div>
-			<div class="col s12 m12 l12 xl6">
+			<div class="col s12 xl6">
 				<ul class="collection with-header z-depth-1">
 					<li class="collection-header">
 						<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
@@ -117,25 +95,25 @@
 	</div>
 </div>
 
-<div class="section block hs-green">
+<div class="section hs-green">
 	<div class="container">
 		<div class="row">
 			<div class="col s12 center white-text">
 				<h4>Ønsker du å komme i kontakt med oss?</h4>
 				<p class="flow-text">Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="modal-trigger hs-gray-text" href="#mapModal">vårt kontor</a> og slack-kanal. Du kan også følge vår aktivitet på sosiale medier.</p>
 				<ul class="sosial-bilder">
-					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/slack_icon.png' %}" title="Slack"></a>
-					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
-					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/if_github_253591.svg' %}" title="GitHub"></a>
-					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
+					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'img/icon/slack_icon.png' %}" title="Slack"></a>
+					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img src="{% static 'img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
+					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img src="{% static 'img/icon/if_github_253591.svg' %}" title="GitHub"></a>
+					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img src="{% static 'img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
 				</ul>
-				<p class="flow-text">For øvrige henvendelser kan du også ta kontakt via <a class="white-text"  href="mailto:hackerspace-styret@idi.ntnu.no">hackerspace-styret@idi.ntnu.no</a>
+				<p class="flow-text">For øvrige henvendelser kan du også ta kontakt via <a class="white-text" href="mailto:hackerspace-styret@idi.ntnu.no">hackerspace-styret@idi.ntnu.no</a>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
-	var elem = document.querySelector('.slider');
+var elem = document.querySelector('.slider');
 var slideshow = M.Slider.init(elem, {
 	indicators: false,
 	height: 1000,

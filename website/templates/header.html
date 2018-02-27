@@ -4,14 +4,14 @@
 <header>
 	<div class="navbar-fixed">
 		<nav>
-			<div class="nav-wrapper hs-gray white-text">
+			<div class="nav-wrapper hs-gray">
 				<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
 				<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "/static/img/logo/Hakcerspace_huge.png" %}"/></a>
-				<a href="/" class="brand-logo mobile-img hide-on-large-only"> <img src="{% static "/static/img/logo/Hakcerspace_huge.png" %}"/></a>
+				<a href="/" class="brand-logo mobile-img hide-on-large-only"><img src="{% static "/static/img/logo/Hakcerspace_huge.png" %}"/></a>
 				<!-- Hamburger -->
 				<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 				<!-- Dropdown user list for desktop-->
-				<ul id="userdropdown" class="dropdown-content hs-gray-text">
+				<ul id="userdropdown" class="dropdown-content">
 					{% if request.user.is_authenticated %}
 					<li><a href="/user/{{ request.user.id }}">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
@@ -22,51 +22,50 @@
 					{% endif %}
 				</ul>
 				<!-- Hovedmeny -->
-				<ul class="right hide-on-med-and-down valign-wrapper">
+				<ul class="right hide-on-med-and-down">
 					<li id="news"><a href="/news/">NYHETER</a></li>
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
-					<li id="events"><a href="/showcase/">PROSJEKTER</a></li>
-					<li><a class="dropdown-trigger-resources" href="#" data-target="resourcedropdown">RESSURSER</a>
+					<li><a class="dropdown-trigger-resources" href="#" data-target="resourcedropdown">RESSURSER<i class="material-icons right">arrow_drop_down</i></a>
 						<!-- Dropdown for resurser -->
-						<ul id="resourcedropdown" class="dropdown-content hs-gray-text">
+						<ul id="resourcedropdown" class="dropdown-content">
 							<li><a href="/wiki">WIKI</a></li>
 							<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
 							<li><a href="/about">OM OSS</a></li>
+							<li><a href="/showcase/">SHOWCASE</a></li>
 						</ul>
 					</li>
 					<li class="tooltipped" data-tooltip="Trykk meg for å se hvor vi befinner oss">
-						<a class="modal-trigger " href="#mapModal"><i class="material-icons">map</i></a>
+						<a class="modal-trigger" href="#mapModal"><i class="material-icons">map</i></a>
 					</li>
 					{% if request.user.is_authenticated %}
-					<li><a class="dropdown-trigger-user valign-wrapper" href="/user/{{ request.user.id }}" data-target="userdropdown"> <img class="center circle" style="height:64px; padding-bottom:16px; padding-top:16px;" src="/media/{% get_profile request.user.id 'image' %}" ></a> </li>
+					<li><a class="dropdown-trigger-user valign-wrapper" href="/user/{{ request.user.id }}" data-target="userdropdown"> <img class="center circle" src="/media/{% get_profile request.user.id 'image' %}"></a></li>
 					{% else %}
 					<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
 					{% endif %}
 				</ul>
 				<!-- Mobil dynamisk meny -->
-				<ul class="sidenav hs-grey-text" id="mobile-sidebar">
+				<ul class="sidenav" id="mobile-sidebar">
 					<li>
 						<div class="user-view center no-pad-bot">
 							<div class="background hs-gray"> </div>
 							<!-- TODO: Make centered while respecting circle class -->
 							{% if request.user.is_authenticated %}
 							<a class="center" href="/user/{{ request.user.id }}"><img class="" src="/media/{% get_profile request.user.id 'image' %}"></a>
-							<a href="#"><span class="white-text name">{% get_profile request.user.id 'name' %}</span></a>
-							<br>
+							<a href="#"><span class="white-text">{% get_profile request.user.id 'name' %}</span></a>
 							{% else %}
 							<!-- TODO: Fix styling of image -->
-							<a href="/" class="center"><img class="" style="width:128px; height:164" src="{% static "img/logo/Icon_green_transparent.png" %}"></a>
-							<br>
+							<a href="/"><img style="width:128px; height:164" src="{% static "img/logo/Icon_green_transparent.png" %}"></a>
 							{% endif %}
 						</div>
 					</li>
-					<li class="no-pad-bot"><a class="subheader hs-green white-text">Meny</a></li>
-					<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
+					<li class="no-pad-bot"><a class="subheader hs-green">Meny</a></li>
 					<li><a href="/news/">Nyheter</a></li>
 					<li><a href="/events/">Arrangementer</a></li>
+					<li class="no-pad-bot"><a class="subheader hs-green"></a></li>
 					<li><a href="/wiki">Wiki</a></li>
 					<li><a href="/about">Om Oss</a></li>
-					<li class="no-pad-bot"><a class="subheader hs-green white-text">Konto</a></li>
+					<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
+					<li class="no-pad-bot"><a class="subheader hs-green"></a></li>
 					{% if request.user.is_authenticated %}
 					<li><a href="#">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
@@ -85,12 +84,15 @@
 		{% LoginModal %}
 	</div>
 </div>
-<div id="mapModal" class="modal bottom-sheet hide-on-med-and-down">
+<div id="mapModal" class="modal bottom-sheet">
 	<div class="modal-content">
 		<iframe width="100%" height="40vh" style="width:100%; height:40vh;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://use.mazemap.com/embed.html#v=1&zlevel=1&campusid=1&sharepoitype=poi&sharepoi=71922&left=10.4021256&right=10.4039428&top=63.4166499&bottom=63.4158793&utm_medium=iframe" style="border: 1px solid grey"></iframe><br/><small><a href="https://www.mazemap.com/">Map by MazeMap</a></small>
 	</div>
 </div>
 <script>
+	var elem = document.querySelector('.tooltipped');
+	var instance = M.Tooltip.init(elem);
+
 	var sideNavElem = document.querySelector('.sidenav');
 	var instance = M.Sidenav.init(sideNavElem);
 

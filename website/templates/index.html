@@ -56,7 +56,7 @@
 				<h4>
 					<a class="white-text" href="/showcase/">Virtual Reality</a>
 				</h4>
-					<img  src="{% static 'img/people_and_tech/spill2.jpg' %}">
+					<img class="clean-img" src="{% static 'img/people_and_tech/spill2.jpg' %}">
 			</div>
 			<div class="col s4 valign-wrapper alt-tinter">
 				<h4>
@@ -76,8 +76,9 @@
 <div class="section block hs-green">
 	<div class="container">
 		<div class="row">
-		<div class="col s12 center white-text">
-			<h4>Hva skjer på Hackerspace?</h4>
+			<div class="col s12 center white-text">
+				<h4>Hva skjer på Hackerspace?</h4>
+			</div>
 		</div>
 	</div>
 </div>
@@ -121,19 +122,20 @@
 		<div class="row">
 			<div class="col s12 center white-text">
 				<h4>Ønsker du å komme i kontakt med oss?</h4>
-				<p class="flow-text">Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi varmt imot deg på vår slack-kanal. Du kan også følge vår aktivitet på sosiale medier.</p>
+				<p class="flow-text">Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="modal-trigger hs-gray-text" href="#mapModal">vårt kontor</a> og slack-kanal. Du kan også følge vår aktivitet på sosiale medier.</p>
 				<ul class="sosial-bilder">
 					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/slack_icon.png' %}" title="Slack"></a>
 					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
 					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/if_github_253591.svg' %}" title="GitHub"></a>
 					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img class="rundt-bilde" src="{% static 'img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
 				</ul>
+				<p class="flow-text">For øvrige henvendelser kan du også ta kontakt via <a class="white-text"  href="mailto:hackerspace-styret@idi.ntnu.no">hackerspace-styret@idi.ntnu.no</a>
 			</div>
 		</div>
 	</div>
 </div>
-		<script>
-			var elem = document.querySelector('.slider');
+<script>
+	var elem = document.querySelector('.slider');
 var slideshow = M.Slider.init(elem, {
 	indicators: false,
 	height: 1000,

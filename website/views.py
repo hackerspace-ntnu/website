@@ -14,6 +14,15 @@ def showcase(request):
     }
     return render(request, 'showcase.html', context)
 
+def virtualreality(request):
+
+    context = {
+
+    }
+    return render(request, 'vr.html', context)
+
+
+
 def index(request):
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
     can_access_internal = groups.has_group(request.user, 'member')

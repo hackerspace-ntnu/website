@@ -3,17 +3,13 @@
 {% load check_user_group %}
 
 {% block content %}
-<div class="section hs-green block scrollspy">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h4 class="white-text">Kommende Arrangementer</h4>
-			</div>
-		</div>
+<div class="section hs-green">
+	<div class="row center white-text">
+		<h4>Kommende Arrangementer</h4>
 	</div>
 </div>
 {% if request.user|has_group:"member" %}
-<div class="section block">
+<div class="section">
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
@@ -35,11 +31,11 @@
 		<div class="section">
 			<div class="row">
 				<div class="col s12">
-					<p class="right">Starter {{ event.time_start }}</p>
 					<h5 class="left">
 						<a href="/events/{{ event.id }}/">
 							{{ event.title }}</a>
 					</h5> 
+					<p class="right">Starter {{ event.time_start }}</p>
 				</div>
 			</div>
 			<div class="row">
@@ -55,66 +51,53 @@
 				</div>
 			</div>
 		</div>
-				<div class="divider"></div>
-				{% endfor %}
-				{% else %}
-				<div class="section">
-					<div class="row">
-						<div class="col s12">
-							<h5>Det er foreløpig ingen kommende arrangementer.</h5>
-							<p>Husk å logge inn på din konto for å se interne arrangementer.</p>
-						</div>
-					</div>
-				</div>
-				{% endif %}
-			</div>
-		</div>
-		<div class="section hs-gray block">
-			<div class="container">
-				<div class="row">
-					<div class="col s12">
-						<h4 class="white-text">Tidligere Arrangementer</h4>
-					</div>
+		<div class="divider"></div>
+		{% endfor %}
+		{% else %}
+		<div class="section">
+			<div class="row">
+				<div class="col s12">
+					<h5>Det er foreløpig ingen kommende arrangementer.</h5>
+					<p>Husk å logge inn på din konto for å se interne arrangementer.</p>
 				</div>
 			</div>
 		</div>
-		<div class="section block archive scrollspy">
-			<div class="container">
-				{% load check_user_group %}
-				{% for event in old_events %}
-				<div class="section">
-					<div class="row">
-						<div class="col s12">
-							<p class="right">Avsluttet {{ event.time_end }}</p>
-							<h5 class="left">
-								<a href="/events/{{ event.id }}/">{{ event.title }}</a>
-							</h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col s8">
-							<p class="flow-text">
-								{% autoescape off %}
-								{{ event.ingress_content|truncatechars:255 }}
-								{% endautoescape %}
-							</p>
-						</div>
-						<div class="col s4">
-							<img class="right circle" style="width:120px; height:120px;" src="{{ event.thumbnail.url }}">
-						</div>
-					</div>
-				</div>
-				<div class="divider"></div>
-				{% endfor %}
-			</div>
-		</div>
+		{% endif %}
 	</div>
 </div>
-<script>  
-	var spy = document.querySelector('.scrollspy');
-var instance = M.ScrollSpy.init(spy, {
-	scrollOffset:200,
-	activeClass: 'active'
-});
-</script>
+<div class="section hs-gray">
+	<div class="row center white-text">
+		<h4>Tidligere Arrangementer</h4>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		{% load check_user_group %}
+		{% for event in old_events %}
+		<div class="section">
+			<div class="row">
+				<div class="col s12">
+					<h5 class="left">
+						<a href="/events/{{ event.id }}/">{{ event.title }}</a>
+					</h5>
+					<p class="right">Avsluttet {{ event.time_end }}</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s8">
+					<p>
+						{% autoescape off %}
+						{{ event.ingress_content|truncatechars:255 }}
+						{% endautoescape %}
+					</p>
+				</div>
+				<div class="col s4">
+					<img class="right circle" style="width:120px; height:120px;" src="{{ event.thumbnail.url }}">
+				</div>
+			</div>
+		</div>
+		<div class="divider"></div>
+		{% endfor %}
+	</div>
+</div>
 {% endblock content %}

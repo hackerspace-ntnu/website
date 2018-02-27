@@ -12,7 +12,7 @@ class Committee(Group):
     email = models.EmailField(null=True, blank=True)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
     slug = models.SlugField(null=True, blank=True)
-    internal = models.BooleanField(default=True)
+    visible = models.BooleanField(default=True)
 
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     header = models.CharField(max_length=150, verbose_name="Overskrift", blank=True, null=True)

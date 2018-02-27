@@ -25,7 +25,7 @@ class ViewCommittee(View):
     def get(request, slug):
         committee = get_object_or_404(Committee, slug=slug)
 
-        if committee.visible or not is_committee_admin(request.user, committee):
+        if not (committee.visible or is_committee_admin(request.user, committee)):
             raise Http404()
 
         # Id to all subcommittees
@@ -145,7 +145,7 @@ def edit_committee(request, slug):
             committee.header = form.cleaned_data['header']
             committee.one_liner = form.cleaned_data['one_liner']
             committee.description = form.cleaned_data['description']
-            committee.internal = form.cleaned_data['internal']
+            committee.visible = form.cleaned_data['visible']
 
             # Setting picture.
             thumb_raw = form.cleaned_data['thumbnail']
@@ -170,7 +170,7 @@ def edit_committee(request, slug):
             'one_liner': committee.one_liner,
             'description': committee.description,
             'thumbnail': thumb_id,
-            'internal': committee.internal,
+            'visible': committee.visible,
         })
 
     return render(request, 'committees/edit_committee.html', {

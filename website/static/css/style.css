@@ -203,6 +203,9 @@ a {
 	padding:0px !important;
 	margin:0px !important;
 }
+.show-row.large {
+	height: 55vh;
+}
 .show-row .col {
 	padding:0px !important;
 	margin:0px !important;
@@ -211,6 +214,9 @@ a {
 	width:100%;
 	height:30vh;
 	margin:0px;
+}
+.show-row.large img{
+	height:55vh;
 }
 .show-row h4 {
 	position:absolute !important;
@@ -243,4 +249,9 @@ a {
 .sponsor-img img {
 	-webkit-filter: drop-shadow(2px 2px 2px #000);
 	filter: drop-shadow(2px 2px 2px #000);
+}
+/* Project cards in showcase*/
+.card-content.project {
+	height: 20vh;
+	overflow: hidden;
 }

@@ -28,6 +28,16 @@
       <label>{{ form.description.label }}</label>
       {{ form.description }}
 
+      <div id=internal_event>
+        <div class="inline toggle">
+          {{ form.internal.errors }}
+          <div class="input-field">
+            <input type="checkbox" class="filled-in internal toggle" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
+            <label for="internal-box">{{ form.internal.label }}</label>
+          </div>
+        </div>
+      </div>
+
       <br>
 
       <div style="display: none;">
@@ -42,6 +52,21 @@
       <div class="imageItem card thumbnailPicker">
         <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
       </div>
+
+      <script>
+        $(function () {
+          if ($(".internal.toggle").prop("value") == "True") {
+            $(".internal.toggle").prop('checked', true);
+          }
+        });
+        $(".internal.toggle").change(function() {
+          if ($(this).prop("value") == "True") {
+            $(this).val("False");
+          } else {
+            $(this).val("True");
+          }
+        });
+      </script>
 
       <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 

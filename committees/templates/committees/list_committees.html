@@ -30,7 +30,7 @@
         <div class="row">
           {% for committee in committees %}
             {% is_committee_admin request.user committee as admin_access %}
-            {% if committee.visible or admin_access %}
+            {% if committee.internal != True or admin_access %}
               <div class="col s6 m6 l4">
                 <div class="card small">
                   <div class="card-image">

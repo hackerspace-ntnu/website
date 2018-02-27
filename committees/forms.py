@@ -10,6 +10,7 @@ class CommitteeEditForm(forms.Form):
     one_liner = forms.CharField(widget=CKEditorUploadingWidget(), label='Lynbeskrivelse', required=False)
     description = forms.CharField(widget=CKEditorUploadingWidget(), label='Beskrivelse', required=False)
     thumbnail = forms.CharField(max_length=100, label='Bilde', required=False)
+    internal = forms.BooleanField(label="Intern", required=False)
 
 
 class CommitteeCreateForm(forms.Form):

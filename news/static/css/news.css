@@ -1,5 +1,6 @@
 #content {
-  width: 70%;
+  width: 95%;
+  max-width: 1000px;
   min-height: 100vh;
   margin: -45px auto 100px auto;
 }
@@ -32,20 +33,19 @@
   word-wrap: break-word;
 }
 
-#content p {
+#ingress_and_article .article_content p {
   word-wrap: break-word;
   font-size: 15pt;
   color: var(--hs-gray-dk);
   width: 95%;
-  margin: 2.5% auto;
 }
 
-#content p:first-of-type {
+#ingress_and_article .ingress_content p {
   color: var(--hs-gray-li2);
   font-size: 18pt;
 }
 
-#content a {
+#ingress_and_article a {
   color: var(--hs-gray-li2);
 }
 

@@ -4,6 +4,7 @@
 
 {% block head %}
   <link rel="stylesheet" type="text/css" href="{% static "css/edit_news.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "css/edit_event.css" %}">
   <link rel="stylesheet" type="text/css" href="{% static "css/lolliclocks.css" %}">
   <script src="{% static "js/lolliclocks.js" %}"></script>
   <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
@@ -16,6 +17,8 @@
       <h2>Rediger event</h2>
       <form action="" method="post" style="width: 835px;">
         {% csrf_token %}
+
+        {{ form.non_field_errors }}
 
         {{ form.title.errors }}
         <div class="input-field">
@@ -31,48 +34,108 @@
         <label>{{ form.main_content.label }}</label>
         {{ form.main_content }}
 
-        {{ form.registration.errors }}
-        <div class="input-field">
-          <input type="checkbox" class="filled-in" id="filled-in-box" name="registration" value="{{ form.registration.value }}"/>
-          <label for="filled-in-box">{{ form.registration.label }}</label>
-        </div>
-        <br>
-
         {{ form.max_limit.errors }}
-        <div class="input-field">
-          <label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
-          {{ form.max_limit }}
-        </div>
-
-        {{ form.place.errors }}
-        <div class="input-field">
-          <label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
-          {{ form.place }}
-        </div>
-
-        {{ form.place_href.errors }}
-        <div class="input-field">
-          <label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
-          {{ form.place_href }}
-        </div>
-
-        {{ form.date.errors }}
-        <div class="input-field">
-          <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
-          <input id="{{ form.date.id_for_label }}" class="datepicker" name="date" type="date"
-                 value="{{ form.date.value }}">
-        </div>
-
+        {{ form.registration_start_time.errors }}
+        {{ form.registration_start_date.errors }}
+        {{ form.deregistration_end_time.errors }}
+        {{ form.deregistration_end_date.errors }}
         {{ form.time_start.errors }}
-        <div class="input-field">
-          <label for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
-          {{ form.time_start }}
+        {{ form.time_end.errors }}
+        {{ form.date.errors }}
+
+        <div class="">
+            <p>Ved ekstern påmelding (f.eks. hoopla), skriv inn url her (husk http://) og IKKE velg påmelding nedenfor</p>
+          {{ form.external_registration.errors }}
+          <div class="input-field">
+            <label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
+            {{ form.external_registration }}
+          </div>
         </div>
 
-        {{ form.time_end.errors }}
-        <div class="input-field">
-          <label for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
-          {{ form.time_end }}
+        <div id=registration>
+          <div class="inline toggle">
+            {{ form.registration.errors }}
+            <div class="input-field">
+              <input type="checkbox" class="filled-in registration toggle" id="registration-box" name="registration" value="{{ form.registration.value }}"/>
+              <label for="registration-box">{{ form.registration.label }}</label>
+            </div>
+          </div>
+
+          <div class="extra inline">
+            <div class="date inline">
+              <div class="input-field">
+                <label for="{{ form.registration_start_date.id_for_label }}">{{ form.registration_start_date.label }}</label>
+                <input id="{{ form.registration_start_date.id_for_label }}" class="datepicker" name="registration_start_date"
+                       value="{{ form.registration_start_date.value }}">
+              </div>
+            </div>
+
+            <div class="time inline">
+              <div class="input-field">
+                <label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
+                {{ form.registration_start_time }}
+              </div>
+            </div>
+
+            <div class="inline max">
+              <div class="input-field">
+                <label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
+                {{ form.max_limit }}
+              </div>
+            </div>
+          </div>
+          <div class="extra inline">
+            <div class="date inline">
+              <div class="input-field">
+                <label for="{{ form.deregistration_end_date.id_for_label }}">{{ form.deregistration_end_date.label }}</label>
+                <input id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker" name="deregistration_end_date"
+                       value="{{ form.deregistration_end_date.value }}">
+              </div>
+            </div>
+
+            <div class="time inline">
+              <div class="input-field">
+                <label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
+                {{ form.deregistration_end_time }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id=internal_event>
+          <div class="inline toggle">
+            {{ form.internal.errors }}
+            <div class="input-field">
+              <input type="checkbox" class="filled-in internal toggle" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
+              <label for="internal-box">{{ form.internal.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <br><br>
+
+        <div id="time">
+          <div class="time start inline">
+            <div class="input-field">
+              <label for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
+              {{ form.time_start }}
+            </div>
+          </div>
+
+          <div class="time end inline">
+            <div class="input-field">
+              <label for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
+              {{ form.time_end }}
+            </div>
+          </div>
+
+          <div class="date inline">
+            <div class="input-field">
+              <label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
+              <input id="{{ form.date.id_for_label }}" class="datepicker" name="date"
+                     value="{{ form.date.value }}">
+            </div>
+          </div>
         </div>
 
         <div style="display: none;">
@@ -83,23 +146,32 @@
           </div>
         </div>
 
-        <label>Thumbnail</label><br>
-        <div class="imageItem card thumbnailPicker">
-          <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
+        <div id="thumbplace">
+          <div class="inline thumb">
+            <label>Thumbnail</label><br>
+            <div class="imageItem card thumbnailPicker">
+              <div class="card-image" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);"></div>
+            </div>
+          </div>
+
+          <div class="inline places">
+            <div class="place">
+              {{ form.place.errors }}
+              <div class="input-field">
+                <label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
+                {{ form.place }}
+              </div>
+            </div>
+
+            <div class="href">
+              {{ form.place_href.errors }}
+              <div class="input-field">
+                <label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
+                {{ form.place_href }}
+              </div>
+            </div>
+          </div>
         </div>
-
-        <script>
-          $(".thumbnailPicker").click(function() {
-              thumbWindow = window.open('/files/images');
-          });
-
-          function selectThumnail(src, id) {
-              thumbWindow.close();
-              $("input[name^=thumbnail]").val(id);
-              $(".thumbnailPicker").find("div").css("background-image", "url("+src+")");
-              console.log(src, id);
-          }
-        </script>
 
         <script>
           $('.datepicker').pickadate({
@@ -108,21 +180,49 @@
           });
           $('#{{ form.time_start.id_for_label }}').lolliclock({autoclose: true, hour24: true});
           $('#{{ form.time_end.id_for_label }}').lolliclock({autoclose: true, hour24: true});
+          $('#{{ form.registration_start_time.id_for_label }}').lolliclock({autoclose: true, hour24: true});
+          $('#{{ form.deregistration_end_time.id_for_label }}').lolliclock({autoclose: true, hour24: true});
 
           $(function () {
-            if ($("#filled-in-box").prop("value") == "True") {
-              $("#filled-in-box").prop("checked", true);
-            }
-          });
-          $("#filled-in-box").change(function() {
-            if ($("#filled-in-box").prop("value") == "True") {
-              $("#filled-in-box").val("False");
-
+            if ($(".registration.toggle").prop("value") == "True") {
+              $(".registration.toggle").prop('checked', true);
+              $("#registration .extra").fadeIn();
             } else {
-              $("#filled-in-box").val("True");
+              $("#registration .extra").fadeOut();
+            }
+            if ($(".internal.toggle").prop("value") == "True") {
+              $(".internal.toggle").prop('checked', true);
+            }
+            $(".datepicker").each(function() {
+              $(this).updateDatePickerLabel();
+            });
+          });
+          $(".registration.toggle").change(function() {
+            if ($(this).prop("value") == "True") {
+              $(this).val("False");
+              $("#registration .extra").fadeOut();
+            } else {
+              $(this).val("True");
+              $("#registration .extra").fadeIn();
             }
           });
-
+          $(".internal.toggle").change(function() {
+            if ($(this).prop("value") == "True") {
+              $(this).val("False");
+            } else {
+              $(this).val("True");
+            }
+          });
+          $(".datepicker").change(function() {
+            $(this).updateDatePickerLabel();
+          });
+          $.fn.updateDatePickerLabel = function() {
+            if ($(this).val() != "") {
+              $(this).parent().find("label").addClass("active");
+            } else {
+              $(this).parent().find("label").removeClass("active");
+            }
+          }
         </script>
         <script type="text/javascript" src="{% static "js/thumbnail_picker.js" %}"></script>
 

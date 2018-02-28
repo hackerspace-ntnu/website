@@ -7,4 +7,5 @@
 *.pyc
 *.env
 media/*
-
+*local_settings.py
+profilepictures/

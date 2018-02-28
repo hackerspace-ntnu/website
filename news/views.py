@@ -1,10 +1,10 @@
-from django.http import HttpResponseRedirect, Http404, HttpResponse
+from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils import formats
 from django.utils import timezone
 from datetime import datetime, timedelta
 from . import log_changes
-from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm
+from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm
 from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
 from wiki.templatetags import check_user_group as groups
@@ -18,21 +18,34 @@ def event(request, event_id):
     requested_event = get_object_or_404(Event, pk=event_id)
     context = {
         'event': requested_event,
+        'user': request.user,
     }
 
+    if requested_event.internal and not groups.has_group(request.user, 'member'):
+        return HttpResponseRedirect('/')
+
+    context['registration_visible'] = False
     if request.user.is_authenticated():
+        now = timezone.now()
 
-        event_reg = EventRegistration.objects.filter(user=request.user, event=requested_event)
-
-        if event_reg:
-            context['registered'] = True
+    if request.user.is_authenticated():
+        context['registered'], context['registration_visible'] = requested_event.registration_button_status(request.user)
+        context['userstatus'] = requested_event.userstatus(request.user)
+    else:
+        context['registered'] = False
+        context['registration_visible'] = False
+        context['userstatus'] = 'Ikke pålogget'
 
     return render(request, 'event.html', context)
 
 
 def all_news(request):
-    article_list = list(Article.objects.order_by('pub_date'))
-    event_list = list(Event.objects.order_by('time_start'))
+    if groups.has_group(request.user, 'member'):
+        article_list = list(Article.objects.order_by('pub_date'))
+        event_list = list(Event.objects.order_by('time_start'))
+    else:
+        article_list = list(Article.objects.filter(internal=False).order_by('pub_date'))
+        event_list = list(Event.objects.filter(internal=False).order_by('time_start'))
     news_list = []
     # Create a list mixed with both articles and events sorted after publication date
     for i in range(len(article_list) + len(event_list)):
@@ -61,6 +74,9 @@ def article(request, article_id):
         'article': article,
     }
 
+    if article.internal and not groups.has_group(request.user, 'member'):
+        return HttpResponseRedirect('/')
+
     return render(request, 'article.html', context)
 
 
@@ -69,44 +85,23 @@ def edit_event(request, event_id):
     if request.method == 'POST':  # Post form
         form = EventEditForm(request.POST)
         if form.is_valid():
+
             # Create new event (ID = 0) or update existing event (ID != 0)
-            if event_id == 0:
-                event = Event(time_start=timezone.now(), time_end=timezone.now())
-            else:
+            if event_id:
                 event = get_object_or_404(Event, pk=event_id)
-            event.title = form.cleaned_data['title']
-            event.ingress_content = form.cleaned_data['ingress_content']
-            event.main_content = form.cleaned_data['main_content']
-            event.registration = form.cleaned_data['registration']
-            event.max_limit = form.cleaned_data['max_limit']
-            thumbnail_raw = form.cleaned_data['thumbnail']
-            try:
-                thumb_id = int(thumbnail_raw)
-                event.thumbnail = Image.objects.get(id=thumb_id)
-            except (TypeError, ValueError, Image.DoesNotExist):
-                event.thumbnail = None
-            event.place = form.cleaned_data['place']
-            event.place_href = form.cleaned_data['place_href']
-            # Create date from string input
-            event.date = datetime.strptime(form.cleaned_data['date'], '%d %B, %Y').date()
-            # Create datetime from string input
-            event.time_start = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_start'],
-                                                 '%d %B, %Y %H:%M')
-            event.time_end = datetime.strptime(form.cleaned_data['date'] + ' ' + form.cleaned_data['time_end'],
-                                               '%d %B, %Y %H:%M')
+            else:
+                event = Event()
+
+            for attr in form.cleaned_data:
+                setattr(event, attr, form.cleaned_data[attr])
+
             event.save()
+
             log_changes.change(request, event)
+
             return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
-    else:  # Request form
-        # Create new event if ID is 0
-        if int(event_id) == 0:
-            # Set initial values
-            form = EventEditForm(initial={
-                'time_start': '00:00',
-                'time_end': '00:00',
-                'date': formats.date_format(timezone.now(), 'd F, Y'),
-            })
-        else:
+    else:
+        if event_id:
             event = get_object_or_404(Event, pk=event_id)
 
             try:
@@ -122,11 +117,30 @@ def edit_event(request, event_id):
                 'thumbnail': thumb_id,
                 'max_limit': event.max_limit,
                 'registration': event.registration,
+                'internal': event.internal,
                 'place': event.place,
                 'place_href': event.place_href,
-                'time_start': formats.date_format(event.time_start, 'H:i'),
-                'time_end': formats.date_format(event.time_end, 'H:i'),
-                'date': datetime.strftime(event.time_start, '%-d %B, %Y'),
+                'time_start': datetime.strftime(event.time_start, '%H:%M'),
+                'time_end': datetime.strftime(event.time_end, '%H:%M'),
+                'date': datetime.strftime(event.time_start, '%d %B, %Y'),
+                'external_registration': event.external_registration,
+                'deregistration_end_date': datetime.strftime(event.deregistration_end, '%d %B, %Y'),
+                'deregistration_end_time': datetime.strftime(event.deregistration_end, '%H:%M'),
+                'registration_start_date': datetime.strftime(event.registration_start, '%d %B, %Y'),
+                'registration_start_time': datetime.strftime(event.registration_start, '%H:%M'),
+            })
+        else:
+            # No event to edit, set data to default
+            # Set initial values
+            today = datetime.strftime(timezone.now(), '%d %B, %Y')
+            form = EventEditForm(initial={
+                'time_start': '00:00',
+                'time_end': '00:00',
+                'date': today,
+                'registration_start_time': '00:00',
+                'registration_start_date': today,
+                'deregistration_end_time': '00:00',
+                'deregistration_end_date': today,
             })
 
     context = {
@@ -145,10 +159,12 @@ def edit_article(request, article_id):
                 article = Article()
             else:
                 article = get_object_or_404(Article, pk=article_id)
+
             article.title = form.cleaned_data['title']
             article.ingress_content = form.cleaned_data['ingress_content']
             article.main_content = form.cleaned_data['main_content']
             thumbnail_raw = form.cleaned_data['thumbnail']
+            article.internal = form.cleaned_data['internal']
             try:
                 thumb_id = int(thumbnail_raw)
                 article.thumbnail = Image.objects.get(id=thumb_id)
@@ -175,6 +191,7 @@ def edit_article(request, article_id):
                 'ingress_content': article.ingress_content,
                 'main_content': article.main_content,
                 'thumbnail': thumb_id,
+                'internal': article.internal,
             })
     context = {
         'form': form,
@@ -189,7 +206,7 @@ def delete_article(request, article_id):
         article = get_object_or_404(Article, pk=article_id)
         article.delete()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/news/all')
 
 
 def delete_event(request, event_id):
@@ -198,7 +215,7 @@ def delete_event(request, event_id):
         event = get_object_or_404(Event, pk=event_id)
         event.delete()
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/news/all')
 
 
 def upload_file(request):
@@ -237,20 +254,54 @@ def upload_done(request):
 
 @login_required
 def register_on_event(request, event_id):
-
     event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
-    event_reg = EventRegistration.objects.filter(user=request.user, event=event_object)
-    if event_reg:
-        for ev in event_reg:
-            ev.delete()
-            event_object.registered_users -= 1
-    else:
-        if event_object.registered_users < event_object.max_limit:
+    now = timezone.now()
+    try:
+        er = EventRegistration.objects.get(user=request.user, event=event_object)
+        if event_object.deregistration_end > now:
+            er.delete()
+    except EventRegistration.DoesNotExist:
+        if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
-            event_object.registered_users += 1
 
-    event_object.save()
-    return HttpResponseRedirect("/news/event/" + str(event_object.id))
+    return HttpResponseRedirect("/news/event/%i" % event_object.id)
+
+
+def event_attendees(request, event_id):
+    if request.method == 'POST':
+        try:
+            user_string = request.POST['name']
+            username = user_string.split("-")[-1].strip()
+            user = User.objects.get(username=username)
+            event = Event.objects.get(pk=event_id)
+            er = EventRegistration.objects.get(event=event, user=user)
+            name = er.name() if er.name().strip() != '' else username
+
+            if not er.attended:
+                er.attended = True
+                er.save()
+                message = name + ' er nå registrert'
+            else:
+                message = name + ' er allerede registrert'
+
+            return JsonResponse({'success': True, 'message': message, 'username': username}, safe=False)
+
+        except IndexError:
+            return JsonResponse({'success': False, 'message': 'Fant ikke bruker'}, safe=False)
+    else:
+        event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
+
+        form = AttendeeForm()
+
+        context = {
+            'id': event_id,
+            'form': form,
+            'event': event_object,
+            'users': EventRegistration.objects.filter(event=event_object),
+            'attending_usernames': event_object.attending_usernames(),
+        }
+
+        return render(request, 'event_attendees.html', context)
 
 
 def get_id_or_404(object_id):

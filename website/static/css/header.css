@@ -1,20 +1,30 @@
-#navbar {
+#header-desktop {
   height: 80px;
   background-color: #4e4b46;
   box-shadow: 0px 2px 20px #4e4b46;
-  max-width: 100%;
+  max-width: 100%;;
+  width: 100%;
+}
+
+#navbar {
+  height: 80px;
+  background-color: #4e4b46;
+  max-width: 1000px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #logo {
   height: 60px;
   margin-top: 10px;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 
 #menu {
   float: right;
   margin-top: 35px;
-  margin-right: 10px;
+  margin-right: 0px;
 }
 
 #menu a {
@@ -48,15 +58,15 @@
   display: block;
 }
 
+
 #openinghours {
   font-family: Roboto-Light;
   color: var(--hs-gray-li3);
   font-size: 12px;
   /*animation-name: slidelarge;
   animation-duration: 1s;*/
-  position: absolute;
-  top: 45px;
-  left: 20px;
+  margin-top: 0px;
+  margin-left: -207px;
 }
 
 
@@ -109,4 +119,12 @@
   #openbar, #closedbar {
     margin-top: 10vh;
   }
+}
+.user-chip{
+    color:white !important;
+    background-color:var(--hs-gray)
+}
+.user-chip > .chip-img{
+    object-fit:cover;
+    object-position:center;
 }

@@ -1,5 +1,5 @@
 /*!
- * Materialize v0.97.5 (http://materializecss.com)
+ * Materialize v0.97.8 (http://materializecss.com)
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
@@ -8,12 +8,13 @@ if (typeof(jQuery) === 'undefined') {
   var jQuery;
   // Check if require is a defined function.
   if (typeof(require) === 'function') {
-    jQuery = $ = require('jQuery');
+    jQuery = $ = require('jquery');
   // Else use the dollar sign alias.
   } else {
     jQuery = $;
   }
-};/*
+}
+;/*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
  * Uses the built in easing capabilities added In jQuery 1.1
@@ -274,6 +275,49 @@ m.isFunction(t)&&t(null,!0)}),f.queue(a,m.isString(v)?v:"",[])),"stop"===y?(i(a)
 })(window);
 
 
+/*
+ * raf.js
+ * https://github.com/ngryman/raf.js
+ *
+ * original requestAnimationFrame polyfill by Erik Möller
+ * inspired from paul_irish gist and post
+ *
+ * Copyright (c) 2013 ngryman
+ * Licensed under the MIT license.
+ */
+(function(window) {
+  var lastTime = 0,
+    vendors = ['webkit', 'moz'],
+    requestAnimationFrame = window.requestAnimationFrame,
+    cancelAnimationFrame = window.cancelAnimationFrame,
+    i = vendors.length;
+
+  // try to un-prefix existing raf
+  while (--i >= 0 && !requestAnimationFrame) {
+    requestAnimationFrame = window[vendors[i] + 'RequestAnimationFrame'];
+    cancelAnimationFrame = window[vendors[i] + 'CancelRequestAnimationFrame'];
+  }
+
+  // polyfill with setTimeout fallback
+  // heavily inspired from @darius gist mod: https://gist.github.com/paulirish/1579671#comment-837945
+  if (!requestAnimationFrame || !cancelAnimationFrame) {
+    requestAnimationFrame = function(callback) {
+      var now = +Date.now(),
+        nextTime = Math.max(lastTime + 16, now);
+      return setTimeout(function() {
+        callback(lastTime = nextTime);
+      }, nextTime - now);
+    };
+
+    cancelAnimationFrame = clearTimeout;
+  }
+
+  // export to window
+  window.requestAnimationFrame = requestAnimationFrame;
+  window.cancelAnimationFrame = cancelAnimationFrame;
+}(window));
+
+
 // Unique ID
 Materialize.guid = (function() {
   function s4() {
@@ -286,6 +330,15 @@ Materialize.guid = (function() {
            s4() + '-' + s4() + s4() + s4();
   };
 })();
+
+/**
+ * Escapes hash from special characters
+ * @param {string} hash  String returned from this.hash
+ * @returns {string}
+ */
+Materialize.escapeHash = function(hash) {
+  return hash.replace( /(:|\.|\[|\]|,|=)/g, "\\$1" );
+};
 
 Materialize.elementOrParentIsFixed = function(element) {
     var $element = $(element);
@@ -301,18 +354,21 @@ Materialize.elementOrParentIsFixed = function(element) {
 };
 
 // Velocity has conflicts when loaded with jQuery, this will check for it
+// First, check if in noConflict mode
 var Vel;
-if ($) {
-  Vel = $.Velocity;
-} else if (jQuery) {
+if (jQuery) {
   Vel = jQuery.Velocity;
+} else if ($) {
+  Vel = $.Velocity;
 } else {
   Vel = Velocity;
 }
-;  (function ($) {
+;(function ($) {
   $.fn.collapsible = function(options) {
     var defaults = {
-        accordion: undefined
+      accordion: undefined,
+      onOpen: undefined,
+      onClose: undefined
     };
 
     options = $.extend(defaults, options);
@@ -327,22 +383,22 @@ if ($) {
       var collapsible_type = $this.data("collapsible");
 
       // Turn off any existing event handlers
-       $this.off('click.collapse', '> li > .collapsible-header');
-       $panel_headers.off('click.collapse');
+      $this.off('click.collapse', '> li > .collapsible-header');
+      $panel_headers.off('click.collapse');
 
 
-       /****************
-       Helper Functions
-       ****************/
+      /****************
+      Helper Functions
+      ****************/
 
       // Accordion Open
       function accordionOpen(object) {
         $panel_headers = $this.find('> li > .collapsible-header');
         if (object.hasClass('active')) {
-            object.parent().addClass('active');
+          object.parent().addClass('active');
         }
         else {
-            object.parent().removeClass('active');
+          object.parent().removeClass('active');
         }
         if (object.parent().hasClass('active')){
           object.siblings('.collapsible-body').stop(true,false).slideDown({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
@@ -352,31 +408,61 @@ if ($) {
         }
 
         $panel_headers.not(object).removeClass('active').parent().removeClass('active');
-        $panel_headers.not(object).parent().children('.collapsible-body').stop(true,false).slideUp(
-          {
-            duration: 350,
-            easing: "easeOutQuart",
-            queue: false,
-            complete:
-              function() {
-                $(this).css('height', '');
-              }
-          });
+
+        // Close previously open accordion elements.
+        $panel_headers.not(object).parent().children('.collapsible-body').stop(true,false).each(function() {
+          if ($(this).is(':visible')) {
+            $(this).slideUp({
+              duration: 350,
+              easing: "easeOutQuart",
+              queue: false,
+              complete:
+                function() {
+                  $(this).css('height', '');
+                  execCallbacks($(this).siblings('.collapsible-header'));
+                }
+            });
+          }
+        });
       }
 
       // Expandable Open
       function expandableOpen(object) {
         if (object.hasClass('active')) {
-            object.parent().addClass('active');
+          object.parent().addClass('active');
         }
         else {
-            object.parent().removeClass('active');
+          object.parent().removeClass('active');
         }
         if (object.parent().hasClass('active')){
           object.siblings('.collapsible-body').stop(true,false).slideDown({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
         }
-        else{
+        else {
           object.siblings('.collapsible-body').stop(true,false).slideUp({ duration: 350, easing: "easeOutQuart", queue: false, complete: function() {$(this).css('height', '');}});
+        }
+      }
+
+      // Open collapsible. object: .collapsible-header
+      function collapsibleOpen(object) {
+        if (options.accordion || collapsible_type === "accordion" || collapsible_type === undefined) { // Handle Accordion
+          accordionOpen(object);
+        } else { // Handle Expandables
+          expandableOpen(object);
+        }
+
+        execCallbacks(object);
+      }
+
+      // Handle callbacks
+      function execCallbacks(object) {
+        if (object.hasClass('active')) {
+          if (typeof(options.onOpen) === "function") {
+            options.onOpen.call(this, object.parent());
+          }
+        } else {
+          if (typeof(options.onClose) === "function") {
+            options.onClose.call(this, object.parent());
+          }
         }
       }
 
@@ -408,8 +494,7 @@ if ($) {
 
       // Add click handler to only direct collapsible header children
       $this.on('click.collapse', '> li > .collapsible-header', function(e) {
-        var $header = $(this),
-            element = $(e.target);
+        var element = $(e.target);
 
         if (isChildrenOfPanelHeader(element)) {
           element = getPanelHeader(element);
@@ -417,25 +502,17 @@ if ($) {
 
         element.toggleClass('active');
 
-        if (options.accordion || collapsible_type === "accordion" || collapsible_type === undefined) { // Handle Accordion
-          accordionOpen(element);
-        } else { // Handle Expandables
-          expandableOpen(element);
-
-          if ($header.hasClass('active')) {
-            expandableOpen($header);
-          }
-        }
+        collapsibleOpen(element);
       });
 
+
       // Open first active
-      var $panel_headers = $this.find('> li > .collapsible-header');
       if (options.accordion || collapsible_type === "accordion" || collapsible_type === undefined) { // Handle Accordion
-        accordionOpen($panel_headers.filter('.active').first());
-      }
-      else { // Handle Expandables
+        collapsibleOpen($panel_headers.filter('.active').first());
+
+      } else { // Handle Expandables
         $panel_headers.filter('.active').each(function() {
-          expandableOpen($(this));
+          collapsibleOpen($(this));
         });
       }
 
@@ -454,7 +531,7 @@ if ($) {
     return this;
   };
 
-  $.fn.dropdown = function (option) {
+  $.fn.dropdown = function (options) {
     var defaults = {
       inDuration: 300,
       outDuration: 225,
@@ -462,229 +539,264 @@ if ($) {
       hover: false,
       gutter: 0, // Spacing from edge
       belowOrigin: false,
-      alignment: 'left'
+      alignment: 'left',
+      stopPropagation: false
     };
 
-    this.each(function(){
-    var origin = $(this);
-    var options = $.extend({}, defaults, option);
-    var isFocused = false;
-
-    // Dropdown menu
-    var activates = $("#"+ origin.attr('data-activates'));
-
-    function updateOptions() {
-      if (origin.data('induration') !== undefined)
-        options.inDuration = origin.data('inDuration');
-      if (origin.data('outduration') !== undefined)
-        options.outDuration = origin.data('outDuration');
-      if (origin.data('constrainwidth') !== undefined)
-        options.constrain_width = origin.data('constrainwidth');
-      if (origin.data('hover') !== undefined)
-        options.hover = origin.data('hover');
-      if (origin.data('gutter') !== undefined)
-        options.gutter = origin.data('gutter');
-      if (origin.data('beloworigin') !== undefined)
-        options.belowOrigin = origin.data('beloworigin');
-      if (origin.data('alignment') !== undefined)
-        options.alignment = origin.data('alignment');
+    // Open dropdown.
+    if (options === "open") {
+      this.each(function() {
+        $(this).trigger('open');
+      });
+      return false;
     }
 
-    updateOptions();
+    // Close dropdown.
+    if (options === "close") {
+      this.each(function() {
+        $(this).trigger('close');
+      });
+      return false;
+    }
 
-    // Attach dropdown to its activator
-    origin.after(activates);
+    this.each(function(){
+      var origin = $(this);
+      var curr_options = $.extend({}, defaults, options);
+      var isFocused = false;
 
-    /*
-      Helper function to position and resize dropdown.
-      Used in hover and click handler.
-    */
-    function placeDropdown(eventType) {
-      // Check for simultaneous focus and click events.
-      if (eventType === 'focus') {
-        isFocused = true;
+      // Dropdown menu
+      var activates = $("#"+ origin.attr('data-activates'));
+
+      function updateOptions() {
+        if (origin.data('induration') !== undefined)
+          curr_options.inDuration = origin.data('induration');
+        if (origin.data('outduration') !== undefined)
+          curr_options.outDuration = origin.data('outduration');
+        if (origin.data('constrainwidth') !== undefined)
+          curr_options.constrain_width = origin.data('constrainwidth');
+        if (origin.data('hover') !== undefined)
+          curr_options.hover = origin.data('hover');
+        if (origin.data('gutter') !== undefined)
+          curr_options.gutter = origin.data('gutter');
+        if (origin.data('beloworigin') !== undefined)
+          curr_options.belowOrigin = origin.data('beloworigin');
+        if (origin.data('alignment') !== undefined)
+          curr_options.alignment = origin.data('alignment');
+        if (origin.data('stoppropagation') !== undefined)
+          curr_options.stopPropagation = origin.data('stoppropagation');
       }
 
-      // Check html data attributes
       updateOptions();
 
-      // Set Dropdown state
-      activates.addClass('active');
-      origin.addClass('active');
+      // Attach dropdown to its activator
+      origin.after(activates);
 
-      // Constrain width
-      if (options.constrain_width === true) {
-        activates.css('width', origin.outerWidth());
+      /*
+        Helper function to position and resize dropdown.
+        Used in hover and click handler.
+      */
+      function placeDropdown(eventType) {
+        // Check for simultaneous focus and click events.
+        if (eventType === 'focus') {
+          isFocused = true;
+        }
 
-      } else {
-        activates.css('white-space', 'nowrap');
-      }
+        // Check html data attributes
+        updateOptions();
 
-      // Offscreen detection
-      var windowHeight = window.innerHeight;
-      var originHeight = origin.innerHeight();
-      var offsetLeft = origin.offset().left;
-      var offsetTop = origin.offset().top - $(window).scrollTop();
-      var currAlignment = options.alignment;
-      var activatesLeft, gutterSpacing;
+        // Set Dropdown state
+        activates.addClass('active');
+        origin.addClass('active');
 
-      // Below Origin
-      var verticalOffset = 0;
-      if (options.belowOrigin === true) {
-        verticalOffset = originHeight;
-      }
+        // Constrain width
+        if (curr_options.constrain_width === true) {
+          activates.css('width', origin.outerWidth());
 
-      if (offsetLeft + activates.innerWidth() > $(window).width()) {
-        // Dropdown goes past screen on right, force right alignment
-        currAlignment = 'right';
-
-      } else if (offsetLeft - activates.innerWidth() + origin.innerWidth() < 0) {
-        // Dropdown goes past screen on left, force left alignment
-        currAlignment = 'left';
-      }
-      // Vertical bottom offscreen detection
-      if (offsetTop + activates.innerHeight() > windowHeight) {
-        // If going upwards still goes offscreen, just crop height of dropdown.
-        if (offsetTop + originHeight - activates.innerHeight() < 0) {
-          var adjustedHeight = windowHeight - offsetTop - verticalOffset;
-          activates.css('max-height', adjustedHeight);
         } else {
-          // Flow upwards.
-          if (!verticalOffset) {
-            verticalOffset += originHeight;
+          activates.css('white-space', 'nowrap');
+        }
+
+        // Offscreen detection
+        var windowHeight = window.innerHeight;
+        var originHeight = origin.innerHeight();
+        var offsetLeft = origin.offset().left;
+        var offsetTop = origin.offset().top - $(window).scrollTop();
+        var currAlignment = curr_options.alignment;
+        var gutterSpacing = 0;
+        var leftPosition = 0;
+
+        // Below Origin
+        var verticalOffset = 0;
+        if (curr_options.belowOrigin === true) {
+          verticalOffset = originHeight;
+        }
+
+        // Check for scrolling positioned container.
+        var scrollYOffset = 0;
+        var scrollXOffset = 0;
+        var wrapper = origin.parent();
+        if (!wrapper.is('body')) {
+          if (wrapper[0].scrollHeight > wrapper[0].clientHeight) {
+            scrollYOffset = wrapper[0].scrollTop;
           }
-          verticalOffset -= activates.innerHeight();
-        }
-      }
-
-      // Handle edge alignment
-      if (currAlignment === 'left') {
-        gutterSpacing = options.gutter;
-        leftPosition = origin.position().left + gutterSpacing;
-      }
-      else if (currAlignment === 'right') {
-        var offsetRight = origin.position().left + origin.outerWidth() - activates.outerWidth();
-        gutterSpacing = -options.gutter;
-        leftPosition =  offsetRight + gutterSpacing;
-      }
-
-      // Position dropdown
-      activates.css({
-        position: 'absolute',
-        top: origin.position().top + verticalOffset,
-        left: leftPosition
-      });
-
-
-      // Show dropdown
-      activates.stop(true, true).css('opacity', 0)
-        .slideDown({
-        queue: false,
-        duration: options.inDuration,
-        easing: 'easeOutCubic',
-        complete: function() {
-          $(this).css('height', '');
-        }
-      })
-        .animate( {opacity: 1}, {queue: false, duration: options.inDuration, easing: 'easeOutSine'});
-    }
-
-    function hideDropdown() {
-      // Check for simultaneous focus and click events.
-      isFocused = false;
-      activates.fadeOut(options.outDuration);
-      activates.removeClass('active');
-      origin.removeClass('active');
-      setTimeout(function() { activates.css('max-height', ''); }, options.outDuration);
-    }
-
-    // Hover
-    if (options.hover) {
-      var open = false;
-      origin.unbind('click.' + origin.attr('id'));
-      // Hover handler to show dropdown
-      origin.on('mouseenter', function(e){ // Mouse over
-        if (open === false) {
-          placeDropdown();
-          open = true;
-        }
-      });
-      origin.on('mouseleave', function(e){
-        // If hover on origin then to something other than dropdown content, then close
-        var toEl = e.toElement || e.relatedTarget; // added browser compatibility for target element
-        if(!$(toEl).closest('.dropdown-content').is(activates)) {
-          activates.stop(true, true);
-          hideDropdown();
-          open = false;
-        }
-      });
-
-      activates.on('mouseleave', function(e){ // Mouse out
-        var toEl = e.toElement || e.relatedTarget;
-        if(!$(toEl).closest('.dropdown-button').is(origin)) {
-          activates.stop(true, true);
-          hideDropdown();
-          open = false;
-        }
-      });
-
-    // Click
-    } else {
-      // Click handler to show dropdown
-      origin.unbind('click.' + origin.attr('id'));
-      origin.bind('click.'+origin.attr('id'), function(e){
-        if (!isFocused) {
-          if ( origin[0] == e.currentTarget &&
-               !origin.hasClass('active') &&
-               ($(e.target).closest('.dropdown-content').length === 0)) {
-            e.preventDefault(); // Prevents button click from moving window
-            placeDropdown('click');
+          if (wrapper[0].scrollWidth > wrapper[0].clientWidth) {
+            scrollXOffset = wrapper[0].scrollLeft;
           }
-          // If origin is clicked and menu is open, close menu
-          else if (origin.hasClass('active')) {
+        }
+
+
+        if (offsetLeft + activates.innerWidth() > $(window).width()) {
+          // Dropdown goes past screen on right, force right alignment
+          currAlignment = 'right';
+
+        } else if (offsetLeft - activates.innerWidth() + origin.innerWidth() < 0) {
+          // Dropdown goes past screen on left, force left alignment
+          currAlignment = 'left';
+        }
+        // Vertical bottom offscreen detection
+        if (offsetTop + activates.innerHeight() > windowHeight) {
+          // If going upwards still goes offscreen, just crop height of dropdown.
+          if (offsetTop + originHeight - activates.innerHeight() < 0) {
+            var adjustedHeight = windowHeight - offsetTop - verticalOffset;
+            activates.css('max-height', adjustedHeight);
+          } else {
+            // Flow upwards.
+            if (!verticalOffset) {
+              verticalOffset += originHeight;
+            }
+            verticalOffset -= activates.innerHeight();
+          }
+        }
+
+        // Handle edge alignment
+        if (currAlignment === 'left') {
+          gutterSpacing = curr_options.gutter;
+          leftPosition = origin.position().left + gutterSpacing;
+        }
+        else if (currAlignment === 'right') {
+          var offsetRight = origin.position().left + origin.outerWidth() - activates.outerWidth();
+          gutterSpacing = -curr_options.gutter;
+          leftPosition =  offsetRight + gutterSpacing;
+        }
+
+        // Position dropdown
+        activates.css({
+          position: 'absolute',
+          top: origin.position().top + verticalOffset + scrollYOffset,
+          left: leftPosition + scrollXOffset
+        });
+
+
+        // Show dropdown
+        activates.stop(true, true).css('opacity', 0)
+          .slideDown({
+            queue: false,
+            duration: curr_options.inDuration,
+            easing: 'easeOutCubic',
+            complete: function() {
+              $(this).css('height', '');
+            }
+          })
+          .animate( {opacity: 1}, {queue: false, duration: curr_options.inDuration, easing: 'easeOutSine'});
+      }
+
+      function hideDropdown() {
+        // Check for simultaneous focus and click events.
+        isFocused = false;
+        activates.fadeOut(curr_options.outDuration);
+        activates.removeClass('active');
+        origin.removeClass('active');
+        setTimeout(function() { activates.css('max-height', ''); }, curr_options.outDuration);
+      }
+
+      // Hover
+      if (curr_options.hover) {
+        var open = false;
+        origin.unbind('click.' + origin.attr('id'));
+        // Hover handler to show dropdown
+        origin.on('mouseenter', function(e){ // Mouse over
+          if (open === false) {
+            placeDropdown();
+            open = true;
+          }
+        });
+        origin.on('mouseleave', function(e){
+          // If hover on origin then to something other than dropdown content, then close
+          var toEl = e.toElement || e.relatedTarget; // added browser compatibility for target element
+          if(!$(toEl).closest('.dropdown-content').is(activates)) {
+            activates.stop(true, true);
             hideDropdown();
-            $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+            open = false;
           }
-          // If menu open, add click close handler to document
-          if (activates.hasClass('active')) {
-            $(document).bind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'), function (e) {
-              if (!activates.is(e.target) && !origin.is(e.target) && (!origin.find(e.target).length) ) {
-                hideDropdown();
-                $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+        });
+
+        activates.on('mouseleave', function(e){ // Mouse out
+          var toEl = e.toElement || e.relatedTarget;
+          if(!$(toEl).closest('.dropdown-button').is(origin)) {
+            activates.stop(true, true);
+            hideDropdown();
+            open = false;
+          }
+        });
+
+        // Click
+      } else {
+        // Click handler to show dropdown
+        origin.unbind('click.' + origin.attr('id'));
+        origin.bind('click.'+origin.attr('id'), function(e){
+          if (!isFocused) {
+            if ( origin[0] == e.currentTarget &&
+                 !origin.hasClass('active') &&
+                 ($(e.target).closest('.dropdown-content').length === 0)) {
+              e.preventDefault(); // Prevents button click from moving window
+              if (curr_options.stopPropagation) {
+                e.stopPropagation();
               }
-            });
+              placeDropdown('click');
+            }
+            // If origin is clicked and menu is open, close menu
+            else if (origin.hasClass('active')) {
+              hideDropdown();
+              $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+            }
+            // If menu open, add click close handler to document
+            if (activates.hasClass('active')) {
+              $(document).bind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'), function (e) {
+                if (!activates.is(e.target) && !origin.is(e.target) && (!origin.find(e.target).length) ) {
+                  hideDropdown();
+                  $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+                }
+              });
+            }
           }
-        }
+        });
+
+      } // End else
+
+      // Listen to open and close event - useful for select component
+      origin.on('open', function(e, eventType) {
+        placeDropdown(eventType);
       });
+      origin.on('close', hideDropdown);
 
-    } // End else
 
-    // Listen to open and close event - useful for select component
-    origin.on('open', function(e, eventType) {
-      placeDropdown(eventType);
     });
-    origin.on('close', hideDropdown);
-
-
-   });
   }; // End dropdown plugin
 
   $(document).ready(function(){
     $('.dropdown-button').dropdown();
   });
-}( jQuery ));;(function($) {
-    var _stack = 0,
-    _lastID = 0,
-    _generateID = function() {
-      _lastID++;
-      return 'materialize-lean-overlay-' + _lastID;
-    };
+}( jQuery ));
+;(function($) {
+  var _stack = 0,
+  _lastID = 0,
+  _generateID = function() {
+    _lastID++;
+    return 'materialize-modal-overlay-' + _lastID;
+  };
 
-  $.fn.extend({
-    openModal: function(options) {
-
-      $('body').css('overflow', 'hidden');
-
+  var methods = {
+    init : function(options) {
       var defaults = {
         opacity: 0.5,
         in_duration: 350,
@@ -692,163 +804,172 @@ if ($) {
         ready: undefined,
         complete: undefined,
         dismissible: true,
-        starting_top: '4%'
-      },
-      overlayID = _generateID(),
-      $modal = $(this),
-      $overlay = $('<div class="lean-overlay"></div>'),
-      lStack = (++_stack);
-
-      // Store a reference of the overlay
-      $overlay.attr('id', overlayID).css('z-index', 1000 + lStack * 2);
-      $modal.data('overlay-id', overlayID).css('z-index', 1000 + lStack * 2 + 1);
-
-      $("body").append($overlay);
+        starting_top: '4%',
+        ending_top: '10%'
+      };
 
       // Override defaults
       options = $.extend(defaults, options);
 
-      if (options.dismissible) {
-        $overlay.click(function() {
-          $modal.closeModal(options);
-        });
-        // Return on ESC
-        $(document).on('keyup.leanModal' + overlayID, function(e) {
-          if (e.keyCode === 27) {   // ESC key
-            $modal.closeModal(options);
-          }
-        });
-      }
+      return this.each(function() {
+        var $modal = $(this);
+        var modal_id = $(this).attr("id") || '#' + $(this).data('target');
 
-      $modal.find(".modal-close").on('click.close', function(e) {
-        $modal.closeModal(options);
-      });
+        var closeModal = function() {
+          var overlayID = $modal.data('overlay-id');
+          var $overlay = $('#' + overlayID);
+          $modal.removeClass('open');
 
-      $overlay.css({ display : "block", opacity : 0 });
+          // Enable scrolling
+          $('body').css({
+            overflow: '',
+            width: ''
+          });
 
-      $modal.css({
-        display : "block",
-        opacity: 0
-      });
+          $modal.find('.modal-close').off('click.close');
+          $(document).off('keyup.modal' + overlayID);
 
-      $overlay.velocity({opacity: options.opacity}, {duration: options.in_duration, queue: false, ease: "easeOutCubic"});
-      $modal.data('associated-overlay', $overlay[0]);
-
-      // Define Bottom Sheet animation
-      if ($modal.hasClass('bottom-sheet')) {
-        $modal.velocity({bottom: "0", opacity: 1}, {
-          duration: options.in_duration,
-          queue: false,
-          ease: "easeOutCubic",
-          // Handle modal ready callback
-          complete: function() {
-            if (typeof(options.ready) === "function") {
-              options.ready();
-            }
-          }
-        });
-      }
-      else {
-        $.Velocity.hook($modal, "scaleX", 0.7);
-        $modal.css({ top: options.starting_top });
-        $modal.velocity({top: "10%", opacity: 1, scaleX: '1'}, {
-          duration: options.in_duration,
-          queue: false,
-          ease: "easeOutCubic",
-          // Handle modal ready callback
-          complete: function() {
-            if (typeof(options.ready) === "function") {
-              options.ready();
-            }
-          }
-        });
-      }
+          $overlay.velocity( { opacity: 0}, {duration: options.out_duration, queue: false, ease: "easeOutQuart"});
 
 
-    }
-  });
+          // Define Bottom Sheet animation
+          var exitVelocityOptions = {
+            duration: options.out_duration,
+            queue: false,
+            ease: "easeOutCubic",
+            // Handle modal ready callback
+            complete: function() {
+              $(this).css({display:"none"});
 
-  $.fn.extend({
-    closeModal: function(options) {
-      var defaults = {
-        out_duration: 250,
-        complete: undefined
-      },
-      $modal = $(this),
-      overlayID = $modal.data('overlay-id'),
-      $overlay = $('#' + overlayID);
-
-      options = $.extend(defaults, options);
-
-      // Disable scrolling
-      $('body').css('overflow', '');
-
-      $modal.find('.modal-close').off('click.close');
-      $(document).off('keyup.leanModal' + overlayID);
-
-      $overlay.velocity( { opacity: 0}, {duration: options.out_duration, queue: false, ease: "easeOutQuart"});
-
-
-      // Define Bottom Sheet animation
-      if ($modal.hasClass('bottom-sheet')) {
-        $modal.velocity({bottom: "-100%", opacity: 0}, {
-          duration: options.out_duration,
-          queue: false,
-          ease: "easeOutCubic",
-          // Handle modal ready callback
-          complete: function() {
-            $overlay.css({display:"none"});
-
-            // Call complete callback
-            if (typeof(options.complete) === "function") {
-              options.complete();
-            }
-            $overlay.remove();
-            _stack--;
-          }
-        });
-      }
-      else {
-        $modal.velocity(
-          { top: options.starting_top, opacity: 0, scaleX: 0.7}, {
-          duration: options.out_duration,
-          complete:
-            function() {
-
-              $(this).css('display', 'none');
               // Call complete callback
               if (typeof(options.complete) === "function") {
-                options.complete();
+                options.complete.call(this, $modal);
               }
               $overlay.remove();
               _stack--;
             }
+          };
+          if ($modal.hasClass('bottom-sheet')) {
+            $modal.velocity({bottom: "-100%", opacity: 0}, exitVelocityOptions);
           }
-        );
-      }
-    }
-  });
+          else {
+            $modal.velocity(
+              { top: options.starting_top, opacity: 0, scaleX: 0.7},
+              exitVelocityOptions
+            );
+          }
+        };
 
-  $.fn.extend({
-    leanModal: function(option) {
-      return this.each(function() {
+        var openModal = function($trigger) {
+          var $body = $('body');
+          var oldWidth = $body.innerWidth();
+          $body.css('overflow', 'hidden');
+          $body.width(oldWidth);
 
-        var defaults = {
-          starting_top: '4%'
-        },
-        // Override defaults
-        options = $.extend(defaults, option);
+          if ($modal.hasClass('open')) {
+            return;
+          }
+
+          var overlayID = _generateID();
+          var $overlay = $('<div class="modal-overlay"></div>');
+          lStack = (++_stack);
+
+          // Store a reference of the overlay
+          $overlay.attr('id', overlayID).css('z-index', 1000 + lStack * 2);
+          $modal.data('overlay-id', overlayID).css('z-index', 1000 + lStack * 2 + 1);
+          $modal.addClass('open');
+
+          $("body").append($overlay);
+
+          if (options.dismissible) {
+            $overlay.click(function() {
+              closeModal();
+            });
+            // Return on ESC
+            $(document).on('keyup.modal' + overlayID, function(e) {
+              if (e.keyCode === 27) {   // ESC key
+                closeModal();
+              }
+            });
+          }
+
+          $modal.find(".modal-close").on('click.close', function(e) {
+            closeModal();
+          });
+
+          $overlay.css({ display : "block", opacity : 0 });
+
+          $modal.css({
+            display : "block",
+            opacity: 0
+          });
+
+          $overlay.velocity({opacity: options.opacity}, {duration: options.in_duration, queue: false, ease: "easeOutCubic"});
+          $modal.data('associated-overlay', $overlay[0]);
+
+          // Define Bottom Sheet animation
+          var enterVelocityOptions = {
+            duration: options.in_duration,
+            queue: false,
+            ease: "easeOutCubic",
+            // Handle modal ready callback
+            complete: function() {
+              if (typeof(options.ready) === "function") {
+                options.ready.call(this, $modal, $trigger);
+              }
+            }
+          };
+          if ($modal.hasClass('bottom-sheet')) {
+            $modal.velocity({bottom: "0", opacity: 1}, enterVelocityOptions);
+          }
+          else {
+            $.Velocity.hook($modal, "scaleX", 0.7);
+            $modal.css({ top: options.starting_top });
+            $modal.velocity({top: options.ending_top, opacity: 1, scaleX: '1'}, enterVelocityOptions);
+          }
+
+        };
+
+        // Reset handlers
+        $(document).off('click.modalTrigger', 'a[href="#' + modal_id + '"], [data-target="' + modal_id + '"]');
+        $(this).off('openModal');
+        $(this).off('closeModal');
 
         // Close Handlers
-        $(this).click(function(e) {
+        $(document).on('click.modalTrigger', 'a[href="#' + modal_id + '"], [data-target="' + modal_id + '"]', function(e) {
           options.starting_top = ($(this).offset().top - $(window).scrollTop()) /1.15;
-          var modal_id = $(this).attr("href") || '#' + $(this).data('target');
-          $(modal_id).openModal(options);
+          openModal($(this));
           e.preventDefault();
         }); // done set on click
+
+        $(this).on('openModal', function() {
+          var modal_id = $(this).attr("href") || '#' + $(this).data('target');
+          openModal();
+        });
+
+        $(this).on('closeModal', function() {
+          closeModal();
+        });
       }); // done return
+    },
+    open : function() {
+      $(this).trigger('openModal');
+    },
+    close : function() {
+      $(this).trigger('closeModal');
     }
-  });
+  };
+
+  $.fn.modal = function(methodOrOptions) {
+    if ( methods[methodOrOptions] ) {
+      return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+    } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+      // Default to "init"
+      return methods.init.apply( this, arguments );
+    } else {
+      $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.modal' );
+    }
+  };
 })(jQuery);
 ;(function ($) {
 
@@ -914,7 +1035,7 @@ if ($) {
         var count = 0;
         while (ancestor !== null && !$(ancestor).is(document)) {
           var curr = $(ancestor);
-          if (curr.css('overflow') === 'hidden') {
+          if (curr.css('overflow') !== 'visible') {
             curr.css('overflow', 'visible');
             if (ancestorsChanged === undefined) {
               ancestorsChanged = curr;
@@ -941,10 +1062,10 @@ if ($) {
             returnToOriginal();
           });
           // Animate Overlay
-          $('body').append(overlay);
-          overlay.velocity({opacity: 1}, {duration: inDuration, queue: false, easing: 'easeOutQuad'}
-            );
-
+          // Put before in origin image to preserve z-index layering.
+          origin.before(overlay);
+          overlay.velocity({opacity: 1},
+                           {duration: inDuration, queue: false, easing: 'easeOutQuad'} );
 
         // Add and animate caption if it exists
         if (origin.data('caption') !== "") {
@@ -954,8 +1075,6 @@ if ($) {
           $photo_caption.css({ "display": "inline" });
           $photo_caption.velocity({opacity: 1}, {duration: inDuration, queue: false, easing: 'easeOutQuad'});
         }
-
-
 
         // Resize Image
         var ratio = 0;
@@ -1021,7 +1140,7 @@ if ($) {
 
       // Return on scroll
       $(window).scroll(function() {
-        if (overlayActive ) {
+        if (overlayActive) {
           returnToOriginal();
         }
       });
@@ -1106,7 +1225,9 @@ if ($) {
               $(this).remove();
 
               // Remove overflow overrides on ancestors
-              ancestorsChanged.css('overflow', '');
+              if (ancestorsChanged) {
+                ancestorsChanged.css('overflow', '');
+              }
             }
           });
 
@@ -1160,7 +1281,7 @@ $(document).ready(function(){
         $this.children("img").one("load", function() {
           updateParallax(true);
         }).each(function() {
-          if(this.complete) $(this).load();
+          if (this.complete) $(this).trigger("load");
         });
 
         $(window).scroll(function() {
@@ -1176,10 +1297,16 @@ $(document).ready(function(){
       });
 
     };
-}( jQuery ));;(function ($) {
+}( jQuery ));
+;(function ($) {
 
   var methods = {
-    init : function() {
+    init : function(options) {
+      var defaults = {
+        onShow: null
+      };
+      options = $.extend(defaults, options);
+
       return this.each(function() {
 
       // For each set of tabs, we want to keep track of
@@ -1187,18 +1314,29 @@ $(document).ready(function(){
       var $this = $(this),
           window_width = $(window).width();
 
-      $this.width('100%');
       var $active, $content, $links = $this.find('li.tab a'),
           $tabs_width = $this.width(),
-          $tab_width = $this.find('li').first().outerWidth(),
+          $tab_width = Math.max($tabs_width, $this[0].scrollWidth) / $links.length,
           $index = 0;
+
+      // Finds right attribute for indicator based on active tab.
+      // el: jQuery Object
+      var calcRightPos = function(el) {
+        return $tabs_width - el.position().left - el.outerWidth() - $this.scrollLeft();
+      };
+
+      // Finds left attribute for indicator based on active tab.
+      // el: jQuery Object
+      var calcLeftPos = function(el) {
+        return el.position().left + $this.scrollLeft();
+      };
 
       // If the location.hash matches one of the links, use that as the active tab.
       $active = $($links.filter('[href="'+location.hash+'"]'));
 
       // If no match is found, use the first link or any with class 'active' as the initial active tab.
       if ($active.length === 0) {
-          $active = $(this).find('li.tab a.active').first();
+        $active = $(this).find('li.tab a.active').first();
       }
       if ($active.length === 0) {
         $active = $(this).find('li.tab a').first();
@@ -1210,30 +1348,36 @@ $(document).ready(function(){
         $index = 0;
       }
 
-      $content = $($active[0].hash);
+      if ($active[0] !== undefined) {
+        $content = $($active[0].hash);
+      }
 
       // append indicator then set indicator width to tab width
       $this.append('<div class="indicator"></div>');
       var $indicator = $this.find('.indicator');
       if ($this.is(":visible")) {
-        $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
-        $indicator.css({"left": $index * $tab_width});
+        // $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
+        // $indicator.css({"left": $index * $tab_width});
+        setTimeout(function() {
+          $indicator.css({"right": calcRightPos($active) });
+          $indicator.css({"left": calcLeftPos($active) });
+        }, 0);
       }
       $(window).resize(function () {
         $tabs_width = $this.width();
-        $tab_width = $this.find('li').first().outerWidth();
+        $tab_width = Math.max($tabs_width, $this[0].scrollWidth) / $links.length;
         if ($index < 0) {
           $index = 0;
         }
         if ($tab_width !== 0 && $tabs_width !== 0) {
-          $indicator.css({"right": $tabs_width - (($index + 1) * $tab_width)});
-          $indicator.css({"left": $index * $tab_width});
+          $indicator.css({"right": calcRightPos($active) });
+          $indicator.css({"left": calcLeftPos($active) });
         }
       });
 
       // Hide the remaining content
       $links.not($active).each(function () {
-        $(this.hash).hide();
+        $(Materialize.escapeHash(this.hash)).hide();
       });
 
 
@@ -1244,17 +1388,25 @@ $(document).ready(function(){
           return;
         }
 
+        // Act as regular link if target attribute is specified.
+        if (!!$(this).attr("target")) {
+          return;
+        }
+
         $tabs_width = $this.width();
-        $tab_width = $this.find('li').first().outerWidth();
+        $tab_width = Math.max($tabs_width, $this[0].scrollWidth) / $links.length;
 
         // Make the old tab inactive.
         $active.removeClass('active');
-        $content.hide();
+        if ($content !== undefined) {
+          $content.hide();
+        }
 
         // Update the variables with the new link and content
         $active = $(this);
-        $content = $(this.hash);
+        $content = $(Materialize.escapeHash(this.hash));
         $links = $this.find('li.tab a');
+        var activeRect = $active.position();
 
         // Make the tab active.
         $active.addClass('active');
@@ -1266,17 +1418,22 @@ $(document).ready(function(){
         // Change url to current tab
         // window.location.hash = $active.attr('href');
 
-        $content.show();
+        if ($content !== undefined) {
+          $content.show();
+          if (typeof(options.onShow) === "function") {
+            options.onShow.call(this, $content);
+          }
+        }
 
         // Update indicator
-        if (($index - $prev_index) >= 0) {
-          $indicator.velocity({"right": $tabs_width - (($index + 1) * $tab_width)}, { duration: 300, queue: false, easing: 'easeOutQuad'});
-          $indicator.velocity({"left": $index * $tab_width}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
 
-        }
-        else {
-          $indicator.velocity({"left": $index * $tab_width}, { duration: 300, queue: false, easing: 'easeOutQuad'});
-          $indicator.velocity({"right": $tabs_width - (($index + 1) * $tab_width)}, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
+        if (($index - $prev_index) >= 0) {
+          $indicator.velocity({"right": calcRightPos($active) }, { duration: 300, queue: false, easing: 'easeOutQuad'});
+          $indicator.velocity({"left": calcLeftPos($active) }, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
+
+        } else {
+          $indicator.velocity({"left": calcLeftPos($active) }, { duration: 300, queue: false, easing: 'easeOutQuad'});
+          $indicator.velocity({"right": calcRightPos($active) }, {duration: 300, queue: false, easing: 'easeOutQuad', delay: 90});
         }
 
         // Prevent the anchor's default click action
@@ -1297,7 +1454,7 @@ $(document).ready(function(){
       // Default to "init"
       return methods.init.apply( this, arguments );
     } else {
-      $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.tooltip' );
+      $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.tabs' );
     }
   };
 
@@ -1307,17 +1464,20 @@ $(document).ready(function(){
 }( jQuery ));
 ;(function ($) {
     $.fn.tooltip = function (options) {
-        var timeout = null,
-        margin = 5;
+      var timeout = null,
+      margin = 5;
 
       // Defaults
       var defaults = {
-        delay: 350
+        delay: 350,
+        tooltip: '',
+        position: 'bottom',
+        html: false
       };
 
       // Remove tooltip from the activator
       if (options === "remove") {
-        this.each(function(){
+        this.each(function() {
           $('#' + $(this).attr('data-tooltip-id')).remove();
           $(this).off('mouseenter.tooltip mouseleave.tooltip');
         });
@@ -1326,53 +1486,82 @@ $(document).ready(function(){
 
       options = $.extend(defaults, options);
 
-
-      return this.each(function(){
+      return this.each(function() {
         var tooltipId = Materialize.guid();
         var origin = $(this);
+
+        // Destroy old tooltip
+        if (origin.attr('data-tooltip-id')) {
+          $('#' + origin.attr('data-tooltip-id')).remove();
+        }
+
         origin.attr('data-tooltip-id', tooltipId);
 
-        // Create Text span
-        var tooltip_text = $('<span></span>').text(origin.attr('data-tooltip'));
+        // Get attributes.
+        var allowHtml,
+            tooltipDelay,
+            tooltipPosition,
+            tooltipText,
+            tooltipEl,
+            backdrop;
+        var setAttributes = function() {
+          allowHtml = origin.attr('data-html') ? origin.attr('data-html') === 'true' : options.html;
+          tooltipDelay = origin.attr('data-delay');
+          tooltipDelay = (tooltipDelay === undefined || tooltipDelay === '') ?
+              options.delay : tooltipDelay;
+          tooltipPosition = origin.attr('data-position');
+          tooltipPosition = (tooltipPosition === undefined || tooltipPosition === '') ?
+              options.position : tooltipPosition;
+          tooltipText = origin.attr('data-tooltip');
+          tooltipText = (tooltipText === undefined || tooltipText === '') ?
+              options.tooltip : tooltipText;
+        };
+        setAttributes();
 
-        // Create tooltip
-        var newTooltip = $('<div></div>');
-        newTooltip.addClass('material-tooltip').append(tooltip_text)
-          .appendTo($('body'))
-          .attr('id', tooltipId);
+        var renderTooltipEl = function() {
+          var tooltip = $('<div class="material-tooltip"></div>');
 
-        var backdrop = $('<div></div>').addClass('backdrop');
-        backdrop.appendTo(newTooltip);
-        backdrop.css({ top: 0, left:0 });
+          // Create Text span
+          if (allowHtml) {
+            tooltipText = $('<span></span>').html(tooltipText);
+          } else{
+            tooltipText = $('<span></span>').text(tooltipText);
+          }
 
+          // Create tooltip
+          tooltip.append(tooltipText)
+            .appendTo($('body'))
+            .attr('id', tooltipId);
 
-      //Destroy previously binded events
-      origin.off('mouseenter.tooltip mouseleave.tooltip');
-      // Mouse In
-      var started = false, timeoutRef;
-      origin.on({
-        'mouseenter.tooltip': function(e) {
-          var tooltip_delay = origin.attr('data-delay');
-          tooltip_delay = (tooltip_delay === undefined || tooltip_delay === '') ?
-              options.delay : tooltip_delay;
-          timeoutRef = setTimeout(function(){
+          // Create backdrop
+          backdrop = $('<div class="backdrop"></div>');
+          backdrop.appendTo(tooltip);
+          return tooltip;
+        };
+        tooltipEl = renderTooltipEl();
+
+        // Destroy previously binded events
+        origin.off('mouseenter.tooltip mouseleave.tooltip');
+        // Mouse In
+        var started = false, timeoutRef;
+        origin.on({'mouseenter.tooltip': function(e) {
+          var showTooltip = function() {
+            setAttributes();
             started = true;
-            newTooltip.velocity('stop');
+            tooltipEl.velocity('stop');
             backdrop.velocity('stop');
-            newTooltip.css({ display: 'block', left: '0px', top: '0px' });
-
-            // Set Tooltip text
-            newTooltip.children('span').text(origin.attr('data-tooltip'));
+            tooltipEl.css({ display: 'block', left: '0px', top: '0px' });
 
             // Tooltip positioning
             var originWidth = origin.outerWidth();
             var originHeight = origin.outerHeight();
-            var tooltipPosition =  origin.attr('data-position');
-            var tooltipHeight = newTooltip.outerHeight();
-            var tooltipWidth = newTooltip.outerWidth();
+
+            var tooltipHeight = tooltipEl.outerHeight();
+            var tooltipWidth = tooltipEl.outerWidth();
             var tooltipVerticalMovement = '0px';
             var tooltipHorizontalMovement = '0px';
-            var scale_factor = 8;
+            var scaleXFactor = 8;
+            var scaleYFactor = 8;
             var targetTop, targetLeft, newCoordinates;
 
             if (tooltipPosition === "top") {
@@ -1383,8 +1572,10 @@ $(document).ready(function(){
 
               tooltipVerticalMovement = '-10px';
               backdrop.css({
+                bottom: 0,
+                left: 0,
                 borderRadius: '14px 14px 0 0',
-                transformOrigin: '50% 90%',
+                transformOrigin: '50% 100%',
                 marginTop: tooltipHeight,
                 marginLeft: (tooltipWidth/2) - (backdrop.width()/2)
               });
@@ -1397,6 +1588,8 @@ $(document).ready(function(){
 
               tooltipHorizontalMovement = '-10px';
               backdrop.css({
+                top: '-7px',
+                right: 0,
                 width: '14px',
                 height: '14px',
                 borderRadius: '14px 0 0 14px',
@@ -1413,6 +1606,8 @@ $(document).ready(function(){
 
               tooltipHorizontalMovement = '+10px';
               backdrop.css({
+                top: '-7px',
+                left: 0,
                 width: '14px',
                 height: '14px',
                 borderRadius: '0 14px 14px 0',
@@ -1428,35 +1623,30 @@ $(document).ready(function(){
               newCoordinates = repositionWithinScreen(targetLeft, targetTop, tooltipWidth, tooltipHeight);
               tooltipVerticalMovement = '+10px';
               backdrop.css({
+                top: 0,
+                left: 0,
                 marginLeft: (tooltipWidth/2) - (backdrop.width()/2)
               });
             }
 
             // Set tooptip css placement
-            newTooltip.css({
+            tooltipEl.css({
               top: newCoordinates.y,
               left: newCoordinates.x
             });
 
             // Calculate Scale to fill
-            scale_factor = tooltipWidth / 8;
-            if (scale_factor < 8) {
-              scale_factor = 8;
-            }
-            if (tooltipPosition === "right" || tooltipPosition === "left") {
-              scale_factor = tooltipWidth / 10;
-              if (scale_factor < 6)
-                scale_factor = 6;
-            }
+            scaleXFactor = Math.SQRT2 * tooltipWidth / parseInt(backdrop.css('width'));
+            scaleYFactor = Math.SQRT2 * tooltipHeight / parseInt(backdrop.css('height'));
 
-            newTooltip.velocity({ marginTop: tooltipVerticalMovement, marginLeft: tooltipHorizontalMovement}, { duration: 350, queue: false })
+            tooltipEl.velocity({ marginTop: tooltipVerticalMovement, marginLeft: tooltipHorizontalMovement}, { duration: 350, queue: false })
               .velocity({opacity: 1}, {duration: 300, delay: 50, queue: false});
             backdrop.css({ display: 'block' })
               .velocity({opacity:1},{duration: 55, delay: 0, queue: false})
-              .velocity({scale: scale_factor}, {duration: 300, delay: 0, queue: false, easing: 'easeInOutQuad'});
+              .velocity({scaleX: scaleXFactor, scaleY: scaleYFactor}, {duration: 300, delay: 0, queue: false, easing: 'easeInOutQuad'});
+          };
 
-
-          }, tooltip_delay); // End Interval
+          timeoutRef = setTimeout(showTooltip, tooltipDelay); // End Interval
 
         // Mouse Out
         },
@@ -1467,15 +1657,15 @@ $(document).ready(function(){
 
           // Animate back
           setTimeout(function() {
-            if (started != true) {
-              newTooltip.velocity({
+            if (started !== true) {
+              tooltipEl.velocity({
                 opacity: 0, marginTop: 0, marginLeft: 0}, { duration: 225, queue: false});
-              backdrop.velocity({opacity: 0, scale: 1}, {
+              backdrop.velocity({opacity: 0, scaleX: 1, scaleY: 1}, {
                 duration:225,
                 queue: false,
                 complete: function(){
                   backdrop.css('display', 'none');
-                  newTooltip.css('display', 'none');
+                  tooltipEl.css('display', 'none');
                   started = false;}
               });
             }
@@ -1486,7 +1676,7 @@ $(document).ready(function(){
   };
 
   var repositionWithinScreen = function(x, y, width, height) {
-    var newX = x
+    var newX = x;
     var newY = y;
 
     if (newX < 0) {
@@ -1877,33 +2067,34 @@ $(document).ready(function(){
 
     // Allows timer to be pause while being panned
     var timeLeft = displayLength;
-    var counterInterval = setInterval (function(){
+    var counterInterval;
+    if (timeLeft != null)  {
+      counterInterval = setInterval (function(){
+        if (newToast.parentNode === null)
+          window.clearInterval(counterInterval);
 
+        // If toast is not being dragged, decrease its time remaining
+        if (!newToast.classList.contains('panning')) {
+          timeLeft -= 20;
+        }
 
-      if (newToast.parentNode === null)
-        window.clearInterval(counterInterval);
-
-      // If toast is not being dragged, decrease its time remaining
-      if (!newToast.classList.contains('panning')) {
-        timeLeft -= 20;
-      }
-
-      if (timeLeft <= 0) {
-        // Animate toast out
-        Vel(newToast, {"opacity": 0, marginTop: '-40px'}, { duration: 375,
-            easing: 'easeOutExpo',
-            queue: false,
-            complete: function(){
-              // Call the optional callback
-              if(typeof(completeCallback) === "function")
-                completeCallback();
-              // Remove toast after it times out
-              this[0].parentNode.removeChild(this[0]);
-            }
-          });
-        window.clearInterval(counterInterval);
-      }
-    }, 20);
+        if (timeLeft <= 0) {
+          // Animate toast out
+          Vel(newToast, {"opacity": 0, marginTop: '-40px'}, { duration: 375,
+              easing: 'easeOutExpo',
+              queue: false,
+              complete: function(){
+                // Call the optional callback
+                if(typeof(completeCallback) === "function")
+                  completeCallback();
+                // Remove toast after it times out
+                this[0].parentNode.removeChild(this[0]);
+              }
+            });
+          window.clearInterval(counterInterval);
+        }
+      }, 20);
+    }
 
 
 
@@ -1930,7 +2121,7 @@ $(document).ready(function(){
         }
         else {
           // Insert as text;
-          toast.innerHTML = html; 
+          toast.innerHTML = html;
         }
         // Bind hammer
         var hammerHandler = new Hammer(toast, {prevent_default: false});
@@ -1987,9 +2178,10 @@ $(document).ready(function(){
   var methods = {
     init : function(options) {
       var defaults = {
-        menuWidth: 240,
+        menuWidth: 300,
         edge: 'left',
-        closeOnClick: false
+        closeOnClick: false,
+        draggable: true
       };
       options = $.extend(defaults, options);
 
@@ -1998,29 +2190,33 @@ $(document).ready(function(){
         var menu_id = $("#"+ $this.attr('data-activates'));
 
         // Set to width
-        if (options.menuWidth != 240) {
+        if (options.menuWidth != 300) {
           menu_id.css('width', options.menuWidth);
         }
 
         // Add Touch Area
-        var dragTarget = $('<div class="drag-target"></div>');
-        $('body').append(dragTarget);
+        var $dragTarget;
+        if (options.draggable) {
+          $dragTarget = $('<div class="drag-target"></div>').attr('data-sidenav', $this.attr('data-activates'));
+          $('body').append($dragTarget);
+        } else {
+          $dragTarget = $();
+        }
 
         if (options.edge == 'left') {
-          menu_id.css('left', -1 * (options.menuWidth + 10));
-          dragTarget.css({'left': 0}); // Add Touch Area
+          menu_id.css('transform', 'translateX(-100%)');
+          $dragTarget.css({'left': 0}); // Add Touch Area
         }
         else {
           menu_id.addClass('right-aligned') // Change text-alignment to right
-            .css('right', -1 * (options.menuWidth + 10))
-            .css('left', '');
-          dragTarget.css({'right': 0}); // Add Touch Area
+            .css('transform', 'translateX(100%)');
+          $dragTarget.css({'right': 0}); // Add Touch Area
         }
 
         // If fixed sidenav, bring menu out
         if (menu_id.hasClass('fixed')) {
             if (window.innerWidth > 992) {
-              menu_id.css('left', 0);
+              menu_id.css('transform', 'translateX(0)');
             }
           }
 
@@ -2029,19 +2225,22 @@ $(document).ready(function(){
           $(window).resize( function() {
             if (window.innerWidth > 992) {
               // Close menu if window is resized bigger than 992 and user has fixed sidenav
-              if ($('#sidenav-overlay').css('opacity') !== 0 && menuOut) {
+              if ($('#sidenav-overlay').length !== 0 && menuOut) {
                 removeMenu(true);
               }
               else {
-                menu_id.removeAttr('style');
-                menu_id.css('width', options.menuWidth);
+                // menu_id.removeAttr('style');
+                menu_id.css('transform', 'translateX(0%)');
+                // menu_id.css('width', options.menuWidth);
               }
             }
             else if (menuOut === false){
-              if (options.edge === 'left')
-                menu_id.css('left', -1 * (options.menuWidth + 10));
-              else
-                menu_id.css('right', -1 * (options.menuWidth + 10));
+              if (options.edge === 'left') {
+                menu_id.css('transform', 'translateX(-100%)');
+              } else {
+                menu_id.css('transform', 'translateX(100%)');
+              }
+
             }
 
           });
@@ -2054,22 +2253,25 @@ $(document).ready(function(){
           });
         }
 
-        function removeMenu(restoreNav) {
+        var removeMenu = function(restoreNav) {
           panning = false;
           menuOut = false;
-
           // Reenable scrolling
-          $('body').css('overflow', '');
+          $('body').css({
+            overflow: '',
+            width: ''
+          });
 
-          $('#sidenav-overlay').velocity({opacity: 0}, {duration: 200, queue: false, easing: 'easeOutQuad',
+          $('#sidenav-overlay').velocity({opacity: 0}, {duration: 200,
+              queue: false, easing: 'easeOutQuad',
             complete: function() {
               $(this).remove();
             } });
           if (options.edge === 'left') {
             // Reset phantom div
-            dragTarget.css({width: '', right: '', left: '0'});
+            $dragTarget.css({width: '', right: '', left: '0'});
             menu_id.velocity(
-              {left: -1 * (options.menuWidth + 10)},
+              {'translateX': '-100%'},
               { duration: 200,
                 queue: false,
                 easing: 'easeOutCubic',
@@ -2085,9 +2287,9 @@ $(document).ready(function(){
           }
           else {
             // Reset phantom div
-            dragTarget.css({width: '', right: '0', left: ''});
+            $dragTarget.css({width: '', right: '0', left: ''});
             menu_id.velocity(
-              {right: -1 * (options.menuWidth + 10)},
+              {'translateX': '100%'},
               { duration: 200,
                 queue: false,
                 easing: 'easeOutCubic',
@@ -2100,7 +2302,7 @@ $(document).ready(function(){
                 }
               });
           }
-        }
+        };
 
 
 
@@ -2108,174 +2310,218 @@ $(document).ready(function(){
         var panning = false;
         var menuOut = false;
 
-        dragTarget.on('click', function(){
-          removeMenu();
-        });
-
-        dragTarget.hammer({
-          prevent_default: false
-        }).bind('pan', function(e) {
-
-          if (e.gesture.pointerType == "touch") {
-
-            var direction = e.gesture.direction;
-            var x = e.gesture.center.x;
-            var y = e.gesture.center.y;
-            var velocityX = e.gesture.velocityX;
-
-            // Disable Scrolling
-            $('body').css('overflow', 'hidden');
-
-            // If overlay does not exist, create one and if it is clicked, close menu
-            if ($('#sidenav-overlay').length === 0) {
-              var overlay = $('<div id="sidenav-overlay"></div>');
-              overlay.css('opacity', 0).click( function(){
-                removeMenu();
-              });
-              $('body').append(overlay);
+        if (options.draggable) {
+          $dragTarget.on('click', function(){
+            if (menuOut) {
+              removeMenu();
             }
+          });
 
-            // Keep within boundaries
-            if (options.edge === 'left') {
-              if (x > options.menuWidth) { x = options.menuWidth; }
-              else if (x < 0) { x = 0; }
-            }
+          $dragTarget.hammer({
+            prevent_default: false
+          }).bind('pan', function(e) {
 
-            if (options.edge === 'left') {
-              // Left Direction
-              if (x < (options.menuWidth / 2)) { menuOut = false; }
-              // Right Direction
-              else if (x >= (options.menuWidth / 2)) { menuOut = true; }
+            if (e.gesture.pointerType == "touch") {
 
-              menu_id.css('left', (x - options.menuWidth));
-            }
-            else {
-              // Left Direction
-              if (x < (window.innerWidth - options.menuWidth / 2)) {
-                menuOut = true;
+              var direction = e.gesture.direction;
+              var x = e.gesture.center.x;
+              var y = e.gesture.center.y;
+              var velocityX = e.gesture.velocityX;
+
+              // Disable Scrolling
+              var $body = $('body');
+              var $overlay = $('#sidenav-overlay');
+              var oldWidth = $body.innerWidth();
+              $body.css('overflow', 'hidden');
+              $body.width(oldWidth);
+
+              // If overlay does not exist, create one and if it is clicked, close menu
+              if ($overlay.length === 0) {
+                $overlay = $('<div id="sidenav-overlay"></div>');
+                $overlay.css('opacity', 0).click( function(){
+                  removeMenu();
+                });
+                $('body').append($overlay);
               }
-              // Right Direction
-              else if (x >= (window.innerWidth - options.menuWidth / 2)) {
-               menuOut = false;
-             }
-              var rightPos = -1 *(x - options.menuWidth / 2);
-              if (rightPos > 0) {
+
+              // Keep within boundaries
+              if (options.edge === 'left') {
+                if (x > options.menuWidth) { x = options.menuWidth; }
+                else if (x < 0) { x = 0; }
+              }
+
+              if (options.edge === 'left') {
+                // Left Direction
+                if (x < (options.menuWidth / 2)) { menuOut = false; }
+                // Right Direction
+                else if (x >= (options.menuWidth / 2)) { menuOut = true; }
+                menu_id.css('transform', 'translateX(' + (x - options.menuWidth) + 'px)');
+              }
+              else {
+                // Left Direction
+                if (x < (window.innerWidth - options.menuWidth / 2)) {
+                  menuOut = true;
+                }
+                // Right Direction
+                else if (x >= (window.innerWidth - options.menuWidth / 2)) {
+                 menuOut = false;
+               }
+                var rightPos = (x - options.menuWidth / 2);
+                if (rightPos < 0) {
+                  rightPos = 0;
+                }
+
+                menu_id.css('transform', 'translateX(' + rightPos + 'px)');
+              }
+
+
+              // Percentage overlay
+              var overlayPerc;
+              if (options.edge === 'left') {
+                overlayPerc = x / options.menuWidth;
+                $overlay.velocity({opacity: overlayPerc }, {duration: 10, queue: false, easing: 'easeOutQuad'});
+              }
+              else {
+                overlayPerc = Math.abs((x - window.innerWidth) / options.menuWidth);
+                $overlay.velocity({opacity: overlayPerc }, {duration: 10, queue: false, easing: 'easeOutQuad'});
+              }
+            }
+
+          }).bind('panend', function(e) {
+
+            if (e.gesture.pointerType == "touch") {
+              var $overlay = $('<div id="sidenav-overlay"></div>');
+              var velocityX = e.gesture.velocityX;
+              var x = e.gesture.center.x;
+              var leftPos = x - options.menuWidth;
+              var rightPos = x - options.menuWidth / 2;
+              if (leftPos > 0 ) {
+                leftPos = 0;
+              }
+              if (rightPos < 0) {
                 rightPos = 0;
               }
+              panning = false;
 
-              menu_id.css('right', rightPos);
+              if (options.edge === 'left') {
+                // If velocityX <= 0.3 then the user is flinging the menu closed so ignore menuOut
+                if ((menuOut && velocityX <= 0.3) || velocityX < -0.5) {
+                  // Return menu to open
+                  if (leftPos !== 0) {
+                    menu_id.velocity({'translateX': [0, leftPos]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
+                  }
+
+                  $overlay.velocity({opacity: 1 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
+                  $dragTarget.css({width: '50%', right: 0, left: ''});
+                  menuOut = true;
+                }
+                else if (!menuOut || velocityX > 0.3) {
+                  // Enable Scrolling
+                  $('body').css({
+                    overflow: '',
+                    width: ''
+                  });
+                  // Slide menu closed
+                  menu_id.velocity({'translateX': [-1 * options.menuWidth - 10, leftPos]}, {duration: 200, queue: false, easing: 'easeOutQuad'});
+                  $overlay.velocity({opacity: 0 }, {duration: 200, queue: false, easing: 'easeOutQuad',
+                    complete: function () {
+                      $(this).remove();
+                    }});
+                  $dragTarget.css({width: '10px', right: '', left: 0});
+                }
+              }
+              else {
+                if ((menuOut && velocityX >= -0.3) || velocityX > 0.5) {
+                  // Return menu to open
+                  if (rightPos !== 0) {
+                    menu_id.velocity({'translateX': [0, rightPos]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
+                  }
+
+                  $overlay.velocity({opacity: 1 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
+                  $dragTarget.css({width: '50%', right: '', left: 0});
+                  menuOut = true;
+                }
+                else if (!menuOut || velocityX < -0.3) {
+                  // Enable Scrolling
+                  $('body').css({
+                    overflow: '',
+                    width: ''
+                  });
+
+                  // Slide menu closed
+                  menu_id.velocity({'translateX': [options.menuWidth + 10, rightPos]}, {duration: 200, queue: false, easing: 'easeOutQuad'});
+                  $overlay.velocity({opacity: 0 }, {duration: 200, queue: false, easing: 'easeOutQuad',
+                    complete: function () {
+                      $(this).remove();
+                    }});
+                  $dragTarget.css({width: '10px', right: 0, left: ''});
+                }
+              }
+
             }
+          });
+        }
 
-
-
-
-            // Percentage overlay
-            var overlayPerc;
-            if (options.edge === 'left') {
-              overlayPerc = x / options.menuWidth;
-              $('#sidenav-overlay').velocity({opacity: overlayPerc }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-            }
-            else {
-              overlayPerc = Math.abs((x - window.innerWidth) / options.menuWidth);
-              $('#sidenav-overlay').velocity({opacity: overlayPerc }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-            }
-          }
-
-        }).bind('panend', function(e) {
-
-          if (e.gesture.pointerType == "touch") {
-            var velocityX = e.gesture.velocityX;
+        $this.click(function() {
+          if (menuOut === true) {
+            menuOut = false;
             panning = false;
+            removeMenu();
+          }
+          else {
+
+            // Disable Scrolling
+            var $body = $('body');
+            var $overlay = $('<div id="sidenav-overlay"></div>');
+            var oldWidth = $body.innerWidth();
+            $body.css('overflow', 'hidden');
+            $body.width(oldWidth);
+
+            // Push current drag target on top of DOM tree
+            $('body').append($dragTarget);
+
             if (options.edge === 'left') {
-              // If velocityX <= 0.3 then the user is flinging the menu closed so ignore menuOut
-              if ((menuOut && velocityX <= 0.3) || velocityX < -0.5) {
-                menu_id.velocity({left: 0}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-                $('#sidenav-overlay').velocity({opacity: 1 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-                dragTarget.css({width: '50%', right: 0, left: ''});
-              }
-              else if (!menuOut || velocityX > 0.3) {
-                // Enable Scrolling
-                $('body').css('overflow', '');
-                // Slide menu closed
-                menu_id.velocity({left: -1 * (options.menuWidth + 10)}, {duration: 200, queue: false, easing: 'easeOutQuad'});
-                $('#sidenav-overlay').velocity({opacity: 0 }, {duration: 200, queue: false, easing: 'easeOutQuad',
-                  complete: function () {
-                    $(this).remove();
-                  }});
-                dragTarget.css({width: '10px', right: '', left: 0});
-              }
+              $dragTarget.css({width: '50%', right: 0, left: ''});
+              menu_id.velocity({'translateX': [0, -1 * options.menuWidth]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
             }
             else {
-              if ((menuOut && velocityX >= -0.3) || velocityX > 0.5) {
-                menu_id.velocity({right: 0}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-                $('#sidenav-overlay').velocity({opacity: 1 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-                dragTarget.css({width: '50%', right: '', left: 0});
-              }
-              else if (!menuOut || velocityX < -0.3) {
-                // Enable Scrolling
-                $('body').css('overflow', '');
-                // Slide menu closed
-                menu_id.velocity({right: -1 * (options.menuWidth + 10)}, {duration: 200, queue: false, easing: 'easeOutQuad'});
-                $('#sidenav-overlay').velocity({opacity: 0 }, {duration: 200, queue: false, easing: 'easeOutQuad',
-                  complete: function () {
-                    $(this).remove();
-                  }});
-                dragTarget.css({width: '10px', right: 0, left: ''});
-              }
+              $dragTarget.css({width: '50%', right: '', left: 0});
+              menu_id.velocity({'translateX': [0, options.menuWidth]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
             }
 
-          }
-        });
-
-          $this.click(function() {
-            if (menuOut === true) {
+            $overlay.css('opacity', 0)
+            .click(function(){
               menuOut = false;
               panning = false;
               removeMenu();
-            }
-            else {
+              $overlay.velocity({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad',
+                complete: function() {
+                  $(this).remove();
+                } });
 
-              // Disable Scrolling
-              $('body').css('overflow', 'hidden');
-              // Push current drag target on top of DOM tree
-              $('body').append(dragTarget);
-              
-              if (options.edge === 'left') {
-                dragTarget.css({width: '50%', right: 0, left: ''});
-                menu_id.velocity({left: 0}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-              }
-              else {
-                dragTarget.css({width: '50%', right: '', left: 0});
-                menu_id.velocity({right: 0}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-                menu_id.css('left','');
-              }
-
-              var overlay = $('<div id="sidenav-overlay"></div>');
-              overlay.css('opacity', 0)
-              .click(function(){
-                menuOut = false;
+            });
+            $('body').append($overlay);
+            $overlay.velocity({opacity: 1}, {duration: 300, queue: false, easing: 'easeOutQuad',
+              complete: function () {
+                menuOut = true;
                 panning = false;
-                removeMenu();
-                overlay.velocity({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad',
-                  complete: function() {
-                    $(this).remove();
-                  } });
+              }
+            });
+          }
 
-              });
-              $('body').append(overlay);
-              overlay.velocity({opacity: 1}, {duration: 300, queue: false, easing: 'easeOutQuad',
-                complete: function () {
-                  menuOut = true;
-                  panning = false;
-                }
-              });
-            }
-
-            return false;
-          });
+          return false;
+        });
       });
 
 
+    },
+    destroy: function () {
+      var $overlay = $('#sidenav-overlay');
+      var $dragTarget = $('.drag-target[data-sidenav="' + $(this).attr('data-activates') + '"]');
+      $overlay.trigger('click');
+      $dragTarget.remove();
+      $(this).off('click');
+      $overlay.remove();
     },
     show : function() {
       this.trigger('click');
@@ -2359,7 +2605,7 @@ $(document).ready(function(){
 	/**
 	 * Called when the user scrolls the window
 	 */
-	function onScroll() {
+	function onScroll(scrollOffset) {
 		// unique tick id
 		++ticks;
 
@@ -2370,8 +2616,7 @@ $(document).ready(function(){
 			bottom = top + jWindow.height();
 
 		// determine which elements are in view
-//        + 60 accounts for fixed nav
-		var intersections = findElements(top+offset.top + 200, right+offset.right, bottom+offset.bottom, left+offset.left);
+		var intersections = findElements(top+offset.top + scrollOffset || 200, right+offset.right, bottom+offset.bottom, left+offset.left);
 		$.each(intersections, function(i, element) {
 
 			var lastTick = element.data('scrollSpy:ticks');
@@ -2469,32 +2714,33 @@ $(document).ready(function(){
 	 * @returns {jQuery}
 	 */
 	$.scrollSpy = function(selector, options) {
+	  var defaults = {
+			throttle: 100,
+			scrollOffset: 200 // offset - 200 allows elements near bottom of page to scroll
+    };
+    options = $.extend(defaults, options);
+
 		var visible = [];
 		selector = $(selector);
 		selector.each(function(i, element) {
 			elements.push($(element));
 			$(element).data("scrollSpy:id", i);
 			// Smooth scroll to section
-		  $('a[href=#' + $(element).attr('id') + ']').click(function(e) {
+		  $('a[href="#' + $(element).attr('id') + '"]').click(function(e) {
 		    e.preventDefault();
-		    var offset = $(this.hash).offset().top + 1;
-
-//          offset - 200 allows elements near bottom of page to scroll
-			
-	    	$('html, body').animate({ scrollTop: offset - 200 }, {duration: 400, queue: false, easing: 'easeOutCubic'});
-			
+		    var offset = $(Materialize.escapeHash(this.hash)).offset().top + 1;
+	    	$('html, body').animate({ scrollTop: offset - options.scrollOffset }, {duration: 400, queue: false, easing: 'easeOutCubic'});
 		  });
 		});
-		options = options || {
-			throttle: 100
-		};
 
 		offset.top = options.offsetTop || 0;
 		offset.right = options.offsetRight || 0;
 		offset.bottom = options.offsetBottom || 0;
 		offset.left = options.offsetLeft || 0;
 
-		var throttledScroll = throttle(onScroll, options.throttle || 100);
+		var throttledScroll = throttle(function() {
+			onScroll(options.scrollOffset);
+		}, options.throttle || 100);
 		var readyScroll = function(){
 			$(document).ready(throttledScroll);
 		};
@@ -2517,7 +2763,7 @@ $(document).ready(function(){
 			var $this = $(this);
 
 			if (visible[0]) {
-				$('a[href=#' + visible[0].attr('id') + ']').removeClass('active');
+				$('a[href="#' + visible[0].attr('id') + '"]').removeClass('active');
 				if ($this.data('scrollSpy:id') < visible[0].data('scrollSpy:id')) {
 					visible.unshift($(this));
 				}
@@ -2530,7 +2776,7 @@ $(document).ready(function(){
 			}
 
 
-			$('a[href=#' + visible[0].attr('id') + ']').addClass('active');
+			$('a[href="#' + visible[0].attr('id') + '"]').addClass('active');
 		});
 		selector.on('scrollSpy:exit', function() {
 			visible = $.grep(visible, function(value) {
@@ -2538,13 +2784,13 @@ $(document).ready(function(){
 	    });
 
 			if (visible[0]) {
-				$('a[href=#' + visible[0].attr('id') + ']').removeClass('active');
+				$('a[href="#' + visible[0].attr('id') + '"]').removeClass('active');
 				var $this = $(this);
 				visible = $.grep(visible, function(value) {
 	        return value.attr('id') != $this.attr('id');
 	      });
 	      if (visible[0]) { // Check if empty
-					$('a[href=#' + visible[0].attr('id') + ']').addClass('active');
+					$('a[href="#' + visible[0].attr('id') + '"]').addClass('active');
 	      }
 			}
 		});
@@ -2580,7 +2826,8 @@ $(document).ready(function(){
 		return $.scrollSpy($(this), options);
 	};
 
-})(jQuery);;(function ($) {
+})(jQuery);
+;(function ($) {
   $(document).ready(function() {
 
     // Function to update labels of text fields
@@ -2588,10 +2835,10 @@ $(document).ready(function(){
       var input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea';
       $(input_selector).each(function(index, element) {
         if ($(element).val().length > 0 || element.autofocus ||$(this).attr('placeholder') !== undefined || $(element)[0].validity.badInput === true) {
-          $(this).siblings('label, i').addClass('active');
+          $(this).siblings('label').addClass('active');
         }
         else {
-          $(this).siblings('label, i').removeClass('active');
+          $(this).siblings('label').removeClass('active');
         }
       });
     };
@@ -2619,7 +2866,7 @@ $(document).ready(function(){
         formReset.find(input_selector).removeClass('valid').removeClass('invalid');
         formReset.find(input_selector).each(function () {
           if ($(this).attr('value') === '') {
-            $(this).siblings('label, i').removeClass('active');
+            $(this).siblings('label').removeClass('active');
           }
         });
 
@@ -2633,18 +2880,19 @@ $(document).ready(function(){
 
     // Add active when element has focus
     $(document).on('focus', input_selector, function () {
-      $(this).siblings('label, i').addClass('active');
+      $(this).siblings('label, .prefix').addClass('active');
     });
 
     $(document).on('blur', input_selector, function () {
       var $inputElement = $(this);
+      var selector = ".prefix";
+
       if ($inputElement.val().length === 0 && $inputElement[0].validity.badInput !== true && $inputElement.attr('placeholder') === undefined) {
-        $inputElement.siblings('label, i').removeClass('active');
+        selector += ", label";
       }
 
-      if ($inputElement.val().length === 0 && $inputElement[0].validity.badInput !== true && $inputElement.attr('placeholder') !== undefined) {
-        $inputElement.siblings('i').removeClass('active');
-      }
+      $inputElement.siblings(selector).removeClass('active');
+
       validate_field($inputElement);
     });
 
@@ -2674,6 +2922,20 @@ $(document).ready(function(){
       }
     };
 
+    // Radio and Checkbox focus class
+    var radio_checkbox = 'input[type=radio], input[type=checkbox]';
+    $(document).on('keyup.radio', radio_checkbox, function(e) {
+      // TAB, check if tabbing to radio or checkbox.
+      if (e.which === 9) {
+        $(this).addClass('tabbed');
+        var $this = $(this);
+        $this.one('blur', function(e) {
+
+          $(this).removeClass('tabbed');
+        });
+        return;
+      }
+    });
 
     // Textarea Auto Resize
     var hiddenDiv = $('.hiddendiv').first();
@@ -2688,9 +2950,11 @@ $(document).ready(function(){
 
       var fontFamily = $textarea.css('font-family');
       var fontSize = $textarea.css('font-size');
+      var lineHeight = $textarea.css('line-height');
 
       if (fontSize) { hiddenDiv.css('font-size', fontSize); }
       if (fontFamily) { hiddenDiv.css('font-family', fontFamily); }
+      if (lineHeight) { hiddenDiv.css('line-height', lineHeight); }
 
       if ($textarea.attr('wrap') === "off") {
         hiddenDiv.css('overflow-wrap', "normal")
@@ -2839,6 +3103,89 @@ $(document).ready(function(){
         thumb.removeClass('active');
       }
     });
+
+    /**************************
+     * Auto complete plugin  *
+     *************************/
+    $.fn.autocomplete = function (options) {
+      // Defaults
+      var defaults = {
+        data: {}
+      };
+
+      options = $.extend(defaults, options);
+
+      return this.each(function() {
+        var $input = $(this);
+        var data = options.data,
+            $inputDiv = $input.closest('.input-field'); // Div to append on
+
+        // Check if data isn't empty
+        if (!$.isEmptyObject(data)) {
+          // Create autocomplete element
+          var $autocomplete = $('<ul class="autocomplete-content dropdown-content"></ul>');
+
+          // Append autocomplete element
+          if ($inputDiv.length) {
+            $inputDiv.append($autocomplete); // Set ul in body
+          } else {
+            $input.after($autocomplete);
+          }
+
+          var highlight = function(string, $el) {
+            var img = $el.find('img');
+            var matchStart = $el.text().toLowerCase().indexOf("" + string.toLowerCase() + ""),
+                matchEnd = matchStart + string.length - 1,
+                beforeMatch = $el.text().slice(0, matchStart),
+                matchText = $el.text().slice(matchStart, matchEnd + 1),
+                afterMatch = $el.text().slice(matchEnd + 1);
+            $el.html("<span>" + beforeMatch + "<span class='highlight'>" + matchText + "</span>" + afterMatch + "</span>");
+            if (img.length) {
+              $el.prepend(img);
+            }
+          };
+
+          // Perform search
+          $input.on('keyup', function (e) {
+            // Capture Enter
+            if (e.which === 13) {
+              $autocomplete.find('li').first().click();
+              return;
+            }
+
+            var val = $input.val().toLowerCase();
+            $autocomplete.empty();
+
+            // Check if the input isn't empty
+            if (val !== '') {
+              for(var key in data) {
+                if (data.hasOwnProperty(key) &&
+                    key.toLowerCase().indexOf(val) !== -1 &&
+                    key.toLowerCase() !== val) {
+                  var autocompleteOption = $('<li></li>');
+                  if(!!data[key]) {
+                    autocompleteOption.append('<img src="'+ data[key] +'" class="right circle"><span>'+ key +'</span>');
+                  } else {
+                    autocompleteOption.append('<span>'+ key +'</span>');
+                  }
+                  $autocomplete.append(autocompleteOption);
+
+                  highlight(val, autocompleteOption);
+                }
+              }
+            }
+          });
+
+          // Set input value
+          $autocomplete.on('click', 'li', function () {
+            $input.val($(this).text().trim());
+            $input.trigger('change');
+            $autocomplete.empty();
+          });
+        }
+      });
+    };
+
   }); // End of $(document).ready
 
   /*******************
@@ -2885,6 +3232,7 @@ $(document).ready(function(){
       var appendOptionWithIcon = function(select, option, type) {
         // Add disabled attr if disabled
         var disabledClass = (option.is(':disabled')) ? 'disabled ' : '';
+        var optgroupClass = (type === 'optgroup-option') ? 'optgroup-option ' : '';
 
         // add icons
         var icon_url = option.data('icon');
@@ -2895,9 +3243,9 @@ $(document).ready(function(){
 
           // Check for multiple type.
           if (type === 'multiple') {
-            options.append($('<li class="' + disabledClass + '"><img src="' + icon_url + '"' + classString + '><span><input type="checkbox"' + disabledClass + '/><label></label>' + option.html() + '</span></li>'));
+            options.append($('<li class="' + disabledClass + '"><img alt="" src="' + icon_url + '"' + classString + '><span><input type="checkbox"' + disabledClass + '/><label></label>' + option.html() + '</span></li>'));
           } else {
-            options.append($('<li class="' + disabledClass + '"><img src="' + icon_url + '"' + classString + '><span>' + option.html() + '</span></li>'));
+            options.append($('<li class="' + disabledClass + optgroupClass + '"><img alt="" src="' + icon_url + '"' + classString + '><span>' + option.html() + '</span></li>'));
           }
           return true;
         }
@@ -2906,7 +3254,7 @@ $(document).ready(function(){
         if (type === 'multiple') {
           options.append($('<li class="' + disabledClass + '"><span><input type="checkbox"' + disabledClass + '/><label></label>' + option.html() + '</span></li>'));
         } else {
-          options.append($('<li class="' + disabledClass + '"><span>' + option.html() + '</span></li>'));
+          options.append($('<li class="' + disabledClass + optgroupClass + '"><span>' + option.html() + '</span></li>'));
         }
       };
 
@@ -2927,7 +3275,7 @@ $(document).ready(function(){
             options.append($('<li class="optgroup"><span>' + $(this).attr('label') + '</span></li>'));
 
             selectOptions.each(function() {
-              appendOptionWithIcon($select, $(this));
+              appendOptionWithIcon($select, $(this), 'optgroup-option');
             });
           }
         });
@@ -3036,7 +3384,7 @@ $(document).ready(function(){
       }
 
       // Make option as selected and scroll to selected position
-      activateOption = function(collection, newOption) {
+      var activateOption = function(collection, newOption) {
         if (newOption) {
           collection.find('li.selected').removeClass('selected');
           var option = $(newOption);
@@ -3180,7 +3528,7 @@ $(document).ready(function(){
         // which slide is active and its associated content
         var $this = $(this);
         var $slider = $this.find('ul.slides').first();
-        var $slides = $slider.find('li');
+        var $slides = $slider.find('> li');
         var $active_index = $slider.find('.active').index();
         var $active, $indicators, $interval;
         if ($active_index != -1) { $active = $slides.eq($active_index); }
@@ -3386,7 +3734,7 @@ $(document).ready(function(){
             panning = false;
             curr_index = $slider.find('.active').index();
 
-            if (!swipeRight && !swipeLeft) {
+            if (!swipeRight && !swipeLeft || $slides.length <=1) {
               // Return to original spot
               $curr_slide.velocity({ translateX: 0
                   }, {duration: 300, queue: false, easing: 'easeOutQuad'});
@@ -3481,7 +3829,8 @@ $(document).ready(function(){
         $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.tooltip' );
       }
     }; // Plugin end
-}( jQuery ));;(function ($) {
+}( jQuery ));
+;(function ($) {
   $(document).ready(function() {
 
     $(document).on('click.card', '.card', function (e) {
@@ -3503,81 +3852,367 @@ $(document).ready(function(){
           $(this).find('.card-reveal').css({ display: 'block'}).velocity("stop", false).velocity({translateY: '-100%'}, {duration: 300, queue: false, easing: 'easeInOutQuad'});
         }
       }
-
-      $('.card-reveal').closest('.card').css('overflow', 'hidden');
-
     });
 
   });
 }( jQuery ));;(function ($) {
+  var chipsHandleEvents = false;
+  var materialChipsDefaults = {
+    data: [],
+    placeholder: '',
+    secondaryPlaceholder: '',
+  };
+
   $(document).ready(function() {
-
-    $(document).on('click.chip', '.chip .material-icons', function (e) {
-      $(this).parent().remove();
-    });
-
-  });
-}( jQuery ));;(function ($) {
-  $(document).ready(function() {
-
-    $.fn.pushpin = function (options) {
-
-      var defaults = {
-        top: 0,
-        bottom: Infinity,
-        offset: 0
+    // Handle removal of static chips.
+    $(document).on('click', '.chip .close', function(e){
+      var $chips = $(this).closest('.chips');
+      if ($chips.attr('data-initialized')) {
+        return;
       }
-      options = $.extend(defaults, options);
+      $(this).closest('.chip').remove();
+    });
+  });
 
-      $index = 0;
-      return this.each(function() {
-        var $uniqueId = Materialize.guid(),
-            $this = $(this),
-            $original_offset = $(this).offset().top;
-
-        function removePinClasses(object) {
-          object.removeClass('pin-top');
-          object.removeClass('pinned');
-          object.removeClass('pin-bottom');
-        }
-
-        function updateElements(objects, scrolled) {
-          objects.each(function () {
-            // Add position fixed (because its between top and bottom)
-            if (options.top <= scrolled && options.bottom >= scrolled && !$(this).hasClass('pinned')) {
-              removePinClasses($(this));
-              $(this).css('top', options.offset);
-              $(this).addClass('pinned');
-            }
-
-            // Add pin-top (when scrolled position is above top)
-            if (scrolled < options.top && !$(this).hasClass('pin-top')) {
-              removePinClasses($(this));
-              $(this).css('top', 0);
-              $(this).addClass('pin-top');
-            }
-
-            // Add pin-bottom (when scrolled position is below bottom)
-            if (scrolled > options.bottom && !$(this).hasClass('pin-bottom')) {
-              removePinClasses($(this));
-              $(this).addClass('pin-bottom');
-              $(this).css('top', options.bottom - $original_offset);
-            }
-          });
-        }
-
-        updateElements($this, $(window).scrollTop());
-        $(window).on('scroll.' + $uniqueId, function () {
-          var $scrolled = $(window).scrollTop() + options.offset;
-          updateElements($this, $scrolled);
-        });
-
-      });
-
+  $.fn.material_chip = function (options) {
+    var self = this;
+    this.$el = $(this);
+    this.$document = $(document);
+    this.SELS = {
+      CHIPS: '.chips',
+      CHIP: '.chip',
+      INPUT: 'input',
+      DELETE: '.material-icons',
+      SELECTED_CHIP: '.selected',
     };
 
+    if ('data' === options) {
+      return this.$el.data('chips');
+    }
 
-  });
+    var curr_options = $.extend({}, materialChipsDefaults, options);
+
+
+    // Initialize
+    this.init = function() {
+      var i = 0;
+      var chips;
+      self.$el.each(function(){
+        var $chips = $(this);
+        var chipId = Materialize.guid();
+
+        if (!curr_options.data || !(curr_options.data instanceof Array)) {
+          curr_options.data = [];
+        }
+        $chips.data('chips', curr_options.data);
+        $chips.attr('data-index', i);
+        $chips.attr('data-initialized', true);
+
+        if (!$chips.hasClass(self.SELS.CHIPS)) {
+          $chips.addClass('chips');
+        }
+
+        self.chips($chips, chipId);
+        i++;
+      });
+    };
+
+    this.handleEvents = function(){
+      var SELS = self.SELS;
+
+      self.$document.off('click.chips-focus', SELS.CHIPS).on('click.chips-focus', SELS.CHIPS, function(e){
+        $(e.target).find(SELS.INPUT).focus();
+      });
+
+      self.$document.off('click.chips-select', SELS.CHIP).on('click.chips-select', SELS.CHIP, function(e){
+        $(SELS.CHIP).removeClass('selected');
+        $(this).toggleClass('selected');
+      });
+
+      self.$document.off('keydown.chips').on('keydown.chips', function(e){
+        if ($(e.target).is('input, textarea')) {
+          return;
+        }
+
+        // delete
+        var $chip = self.$document.find(SELS.CHIP + SELS.SELECTED_CHIP);
+        var $chips = $chip.closest(SELS.CHIPS);
+        var length = $chip.siblings(SELS.CHIP).length;
+        var index;
+
+        if (!$chip.length) {
+          return;
+        }
+
+        if (e.which === 8 || e.which === 46) {
+          e.preventDefault();
+
+          index = $chip.index();
+          self.deleteChip(index, $chips);
+
+          var selectIndex = null;
+          if ((index + 1) < length) {
+            selectIndex = index;
+          } else if (index === length || (index + 1) === length) {
+            selectIndex = length - 1;
+          }
+
+          if (selectIndex < 0) selectIndex = null;
+
+          if (null !== selectIndex) {
+            self.selectChip(selectIndex, $chips);
+          }
+          if (!length) $chips.find('input').focus();
+
+        // left
+        } else if (e.which === 37) {
+          index = $chip.index() - 1;
+          if (index < 0) {
+            return;
+          }
+          $(SELS.CHIP).removeClass('selected');
+          self.selectChip(index, $chips);
+
+        // right
+        } else if (e.which === 39) {
+          index = $chip.index() + 1;
+          $(SELS.CHIP).removeClass('selected');
+          if (index > length) {
+            $chips.find('input').focus();
+            return;
+          }
+          self.selectChip(index, $chips);
+        }
+      });
+
+      self.$document.off('focusin.chips', SELS.CHIPS + ' ' + SELS.INPUT).on('focusin.chips', SELS.CHIPS + ' ' + SELS.INPUT, function(e){
+        var $currChips = $(e.target).closest(SELS.CHIPS);
+        $currChips.addClass('focus');
+        $currChips.siblings('label, .prefix').addClass('active');
+        $(SELS.CHIP).removeClass('selected');
+      });
+
+      self.$document.off('focusout.chips', SELS.CHIPS + ' ' + SELS.INPUT).on('focusout.chips', SELS.CHIPS + ' ' + SELS.INPUT, function(e){
+        var $currChips = $(e.target).closest(SELS.CHIPS);
+        $currChips.removeClass('focus');
+
+        // Remove active if empty
+        if (!$currChips.data('chips').length) {
+          $currChips.siblings('label').removeClass('active');
+        }
+        $currChips.siblings('.prefix').removeClass('active');
+      });
+
+      self.$document.off('keydown.chips-add', SELS.CHIPS + ' ' + SELS.INPUT).on('keydown.chips-add', SELS.CHIPS + ' ' + SELS.INPUT, function(e){
+        var $target = $(e.target);
+        var $chips = $target.closest(SELS.CHIPS);
+        var chipsLength = $chips.children(SELS.CHIP).length;
+
+        // enter
+        if (13 === e.which) {
+          e.preventDefault();
+          self.addChip({tag: $target.val()}, $chips);
+          $target.val('');
+          return;
+        }
+
+        // delete or left
+         if ((8 === e.keyCode || 37 === e.keyCode) && '' === $target.val() && chipsLength) {
+          self.selectChip(chipsLength - 1, $chips);
+          $target.blur();
+          return;
+        }
+      });
+
+      // Click on delete icon in chip.
+      self.$document.off('click.chips-delete', SELS.CHIPS + ' ' + SELS.DELETE).on('click.chips-delete', SELS.CHIPS + ' ' + SELS.DELETE, function(e) {
+        var $target = $(e.target);
+        var $chips = $target.closest(SELS.CHIPS);
+        var $chip = $target.closest(SELS.CHIP);
+        e.stopPropagation();
+        self.deleteChip($chip.index(), $chips);
+        $chips.find('input').focus();
+      });
+    };
+
+    this.chips = function($chips, chipId) {
+      var html = '';
+      $chips.data('chips').forEach(function(elem){
+        html += self.renderChip(elem);
+      });
+      html += '<input id="' + chipId +'" class="input" placeholder="">';
+      $chips.html(html);
+      self.setPlaceholder($chips);
+
+      // Set for attribute for label
+      var label = $chips.next('label');
+      if (label.length) {
+        label.attr('for', chipId);
+
+        if ($chips.data('chips').length) {
+          label.addClass('active');
+        }
+      }
+    };
+
+    this.renderChip = function(elem) {
+      if (!elem.tag) return;
+
+      var html = '<div class="chip">' + elem.tag;
+      if (elem.image) {
+        html += ' <img src="' + elem.image + '"> ';
+      }
+      html += '<i class="material-icons close">close</i>';
+      html += '</div>';
+      return html;
+    };
+
+    this.setPlaceholder = function($chips) {
+      if ($chips.data('chips').length && curr_options.placeholder) {
+        $chips.find('input').prop('placeholder', curr_options.placeholder);
+
+      } else if (!$chips.data('chips').length && curr_options.secondaryPlaceholder) {
+        $chips.find('input').prop('placeholder', curr_options.secondaryPlaceholder);
+      }
+    };
+
+    this.isValid = function($chips, elem) {
+      var chips = $chips.data('chips');
+      var exists = false;
+      for (var i=0; i < chips.length; i++) {
+        if (chips[i].tag === elem.tag) {
+            exists = true;
+            return;
+        }
+      }
+      return '' !== elem.tag && !exists;
+    };
+
+    this.addChip = function(elem, $chips) {
+      if (!self.isValid($chips, elem)) {
+        return;
+      }
+      var chipHtml = self.renderChip(elem);
+      var newData = [];
+      var oldData = $chips.data('chips');
+      for (var i = 0; i < oldData.length; i++) {
+        newData.push(oldData[i]);
+      }
+      newData.push(elem);
+
+      $chips.data('chips', newData);
+      $(chipHtml).insertBefore($chips.find('input'));
+      $chips.trigger('chip.add', elem);
+      self.setPlaceholder($chips);
+    };
+
+    this.deleteChip = function(chipIndex, $chips) {
+      var chip = $chips.data('chips')[chipIndex];
+      $chips.find('.chip').eq(chipIndex).remove();
+
+      var newData = [];
+      var oldData = $chips.data('chips');
+      for (var i = 0; i < oldData.length; i++) {
+        if (i !== chipIndex) {
+          newData.push(oldData[i]);
+        }
+      }
+
+      $chips.data('chips', newData);
+      $chips.trigger('chip.delete', chip);
+      self.setPlaceholder($chips);
+    };
+
+    this.selectChip = function(chipIndex, $chips) {
+      var $chip = $chips.find('.chip').eq(chipIndex);
+      if ($chip && false === $chip.hasClass('selected')) {
+        $chip.addClass('selected');
+        $chips.trigger('chip.select', $chips.data('chips')[chipIndex]);
+      }
+    };
+
+    this.getChipsElement = function(index, $chips) {
+      return $chips.eq(index);
+    };
+
+    // init
+    this.init();
+
+    if (!chipsHandleEvents) {
+      this.handleEvents();
+      chipsHandleEvents = true;
+    }
+  };
+}( jQuery ));;(function ($) {
+  $.fn.pushpin = function (options) {
+    // Defaults
+    var defaults = {
+      top: 0,
+      bottom: Infinity,
+      offset: 0
+    };
+
+    // Remove pushpin event and classes
+    if (options === "remove") {
+      this.each(function () {
+        if (id = $(this).data('pushpin-id')) {
+          $(window).off('scroll.' + id);
+          $(this).removeData('pushpin-id').removeClass('pin-top pinned pin-bottom').removeAttr('style');
+        }
+      });
+      return false;
+    }
+
+    options = $.extend(defaults, options);
+
+
+    $index = 0;
+    return this.each(function() {
+      var $uniqueId = Materialize.guid(),
+          $this = $(this),
+          $original_offset = $(this).offset().top;
+
+      function removePinClasses(object) {
+        object.removeClass('pin-top');
+        object.removeClass('pinned');
+        object.removeClass('pin-bottom');
+      }
+
+      function updateElements(objects, scrolled) {
+        objects.each(function () {
+          // Add position fixed (because its between top and bottom)
+          if (options.top <= scrolled && options.bottom >= scrolled && !$(this).hasClass('pinned')) {
+            removePinClasses($(this));
+            $(this).css('top', options.offset);
+            $(this).addClass('pinned');
+          }
+
+          // Add pin-top (when scrolled position is above top)
+          if (scrolled < options.top && !$(this).hasClass('pin-top')) {
+            removePinClasses($(this));
+            $(this).css('top', 0);
+            $(this).addClass('pin-top');
+          }
+
+          // Add pin-bottom (when scrolled position is below bottom)
+          if (scrolled > options.bottom && !$(this).hasClass('pin-bottom')) {
+            removePinClasses($(this));
+            $(this).addClass('pin-bottom');
+            $(this).css('top', options.bottom - $original_offset);
+          }
+        });
+      }
+
+      $(this).data('pushpin-id', $uniqueId);
+      updateElements($this, $(window).scrollTop());
+      $(window).on('scroll.' + $uniqueId, function () {
+        var $scrolled = $(window).scrollTop() + options.offset;
+        updateElements($this, $scrolled);
+      });
+
+    });
+
+  };
 }( jQuery ));;(function ($) {
   $(document).ready(function() {
 
@@ -3585,17 +4220,17 @@ $(document).ready(function(){
     $.fn.reverse = [].reverse;
 
     // Hover behaviour: make sure this doesn't work on .click-to-toggle FABs!
-    $(document).on('mouseenter.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle)', function(e) {
+    $(document).on('mouseenter.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle):not(.toolbar)', function(e) {
       var $this = $(this);
       openFABMenu($this);
     });
-    $(document).on('mouseleave.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle)', function(e) {
+    $(document).on('mouseleave.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle):not(.toolbar)', function(e) {
       var $this = $(this);
       closeFABMenu($this);
     });
 
     // Toggle-on-click behaviour.
-    $(document).on('click.fixedActionBtn', '.fixed-action-btn.click-to-toggle > a', function(e) {
+    $(document).on('click.fabClickToggle', '.fixed-action-btn.click-to-toggle > a', function(e) {
       var $this = $(this);
       var $menu = $this.parent();
       if ($menu.hasClass('active')) {
@@ -3603,6 +4238,13 @@ $(document).ready(function(){
       } else {
         openFABMenu($menu);
       }
+    });
+
+    // Toolbar transition behaviour.
+    $(document).on('click.fabToolbar', '.fixed-action-btn.toolbar > a', function(e) {
+      var $this = $(this);
+      var $menu = $this.parent();
+      FABtoToolbar($menu);
     });
 
   });
@@ -3613,12 +4255,18 @@ $(document).ready(function(){
     },
     closeFAB: function() {
       closeFABMenu($(this));
+    },
+    openToolbar: function() {
+      FABtoToolbar($(this));
+    },
+    closeToolbar: function() {
+      toolbarToFAB($(this));
     }
   });
 
 
   var openFABMenu = function (btn) {
-    $this = btn;
+    var $this = btn;
     if ($this.hasClass('active') === false) {
 
       // Get direction option
@@ -3647,7 +4295,7 @@ $(document).ready(function(){
   };
 
   var closeFABMenu = function (btn) {
-    $this = btn;
+    var $this = btn;
     // Get direction option
     var horizontal = $this.hasClass('horizontal');
     var offsetY, offsetX;
@@ -3668,11 +4316,181 @@ $(document).ready(function(){
   };
 
 
+  /**
+   * Transform FAB into toolbar
+   * @param  {Object}  object jQuery object
+   */
+  var FABtoToolbar = function(btn) {
+    if (btn.attr('data-open') === "true") {
+      return;
+    }
+
+    var offsetX, offsetY, scaleFactor;
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    var btnRect = btn[0].getBoundingClientRect();
+    var anchor = btn.find('> a').first();
+    var menu = btn.find('> ul').first();
+    var backdrop = $('<div class="fab-backdrop"></div>');
+    var fabColor = anchor.css('background-color');
+    anchor.append(backdrop);
+
+    offsetX = btnRect.left - (windowWidth / 2) + (btnRect.width / 2);
+    offsetY = windowHeight - btnRect.bottom;
+    scaleFactor = windowWidth / backdrop.width();
+    btn.attr('data-origin-bottom', btnRect.bottom);
+    btn.attr('data-origin-left', btnRect.left);
+    btn.attr('data-origin-width', btnRect.width);
+
+    // Set initial state
+    btn.addClass('active');
+    btn.attr('data-open', true);
+    btn.css({
+      'text-align': 'center',
+      width: '100%',
+      bottom: 0,
+      left: 0,
+      transform: 'translateX(' + offsetX + 'px)',
+      transition: 'none'
+    });
+    anchor.css({
+      transform: 'translateY(' + -offsetY + 'px)',
+      transition: 'none'
+    });
+    backdrop.css({
+      'background-color': fabColor
+    });
+
+
+    setTimeout(function() {
+      btn.css({
+        transform: '',
+        transition: 'transform .2s cubic-bezier(0.550, 0.085, 0.680, 0.530), background-color 0s linear .2s'
+      });
+      anchor.css({
+        overflow: 'visible',
+        transform: '',
+        transition: 'transform .2s'
+      });
+
+      setTimeout(function() {
+        btn.css({
+          overflow: 'hidden',
+          'background-color': fabColor
+        });
+        backdrop.css({
+          transform: 'scale(' + scaleFactor + ')',
+          transition: 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)'
+        });
+        menu.find('> li > a').css({
+          opacity: 1
+        });
+
+        // Scroll to close.
+        $(window).on('scroll.fabToolbarClose', function() {
+          toolbarToFAB(btn);
+          $(window).off('scroll.fabToolbarClose');
+          $(document).off('click.fabToolbarClose');
+        });
+
+        $(document).on('click.fabToolbarClose', function(e) {
+          if (!$(e.target).closest(menu).length) {
+            toolbarToFAB(btn);
+            $(window).off('scroll.fabToolbarClose');
+            $(document).off('click.fabToolbarClose');
+          }
+        });
+      }, 100);
+    }, 0);
+  };
+
+  /**
+   * Transform toolbar back into FAB
+   * @param  {Object}  object jQuery object
+   */
+  var toolbarToFAB = function(btn) {
+    if (btn.attr('data-open') !== "true") {
+      return;
+    }
+
+    var offsetX, offsetY, scaleFactor;
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    var btnWidth = btn.attr('data-origin-width');
+    var btnBottom = btn.attr('data-origin-bottom');
+    var btnLeft = btn.attr('data-origin-left');
+    var anchor = btn.find('> .btn-floating').first();
+    var menu = btn.find('> ul').first();
+    var backdrop = btn.find('.fab-backdrop');
+    var fabColor = anchor.css('background-color');
+
+    offsetX = btnLeft - (windowWidth / 2) + (btnWidth / 2);
+    offsetY = windowHeight - btnBottom;
+    scaleFactor = windowWidth / backdrop.width();
+
+
+    // Hide backdrop
+    btn.removeClass('active');
+    btn.attr('data-open', false);
+    btn.css({
+      'background-color': 'transparent',
+      transition: 'none'
+    });
+    anchor.css({
+      transition: 'none'
+    });
+    backdrop.css({
+      transform: 'scale(0)',
+      'background-color': fabColor
+    });
+    menu.find('> li > a').css({
+      opacity: ''
+    });
+
+    setTimeout(function() {
+      backdrop.remove();
+
+      // Set initial state.
+      btn.css({
+        'text-align': '',
+        width: '',
+        bottom: '',
+        left: '',
+        overflow: '',
+        'background-color': '',
+        transform: 'translate3d(' + -offsetX + 'px,0,0)'
+      });
+      anchor.css({
+        overflow: '',
+        transform: 'translate3d(0,' + offsetY + 'px,0)'
+      });
+
+      setTimeout(function() {
+        btn.css({
+          transform: 'translate3d(0,0,0)',
+          transition: 'transform .2s'
+        });
+        anchor.css({
+          transform: 'translate3d(0,0,0)',
+          transition: 'transform .2s cubic-bezier(0.550, 0.055, 0.675, 0.190)'
+        });
+      }, 20);
+    }, 200);
+  };
+
+
 }( jQuery ));
 ;(function ($) {
   // Image transition function
-  Materialize.fadeInImage =  function(selector){
-    var element = $(selector);
+  Materialize.fadeInImage =  function(selectorOrEl) {
+    var element;
+    if (typeof(selectorOrEl) === 'string') {
+      element = $(selectorOrEl);
+    } else if (typeof(selectorOrEl) === 'object') {
+      element = selectorOrEl;
+    } else {
+      return;
+    }
     element.css({opacity: 0});
     $(element).velocity({opacity: 1}, {
         duration: 650,
@@ -3702,13 +4520,21 @@ $(document).ready(function(){
   };
 
   // Horizontal staggered list
-  Materialize.showStaggeredList = function(selector) {
+  Materialize.showStaggeredList = function(selectorOrEl) {
+    var element;
+    if (typeof(selectorOrEl) === 'string') {
+      element = $(selectorOrEl);
+    } else if (typeof(selectorOrEl) === 'object') {
+      element = selectorOrEl;
+    } else {
+      return;
+    }
     var time = 0;
-    $(selector).find('li').velocity(
+    element.find('li').velocity(
         { translateX: "-100px"},
         { duration: 0 });
 
-    $(selector).find('li').each(function() {
+    element.find('li').each(function() {
       $(this).velocity(
         { opacity: "1", translateX: "0"},
         { duration: 800, delay: time, easing: [60, 10] });
@@ -3855,8 +4681,12 @@ $(document).ready(function(){
 
               if (windowScroll > (elementOffset + offset)) {
                 if (value.done !== true) {
-                  var callbackFunc = new Function(callback);
-                  callbackFunc();
+                  if (typeof(callback) === 'function') {
+                    callback.call(this, currentElement);
+                  } else if (typeof(callback) === 'string') {
+                    var callbackFunc = new Function(callback);
+                    callbackFunc(currentElement);
+                  }
                   value.done = true;
                 }
               }
@@ -3866,7 +4696,8 @@ $(document).ready(function(){
     }, 100);
   };
 
-})(jQuery);;/*!
+})(jQuery);
+;/*!
  * pickadate.js v3.5.0, 2014/04/13
  * By Amsul, http://amsul.ca
  * Hosted on http://amsul.github.io/pickadate.js
@@ -4114,7 +4945,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
                     // Pass focus to the root element’s jQuery object.
                     // * Workaround for iOS8 to bring the picker’s root into view.
-                    P.$root[0].focus()
+                    P.$root.eq(0).focus()
 
                     // Bind the document events.
                     $document.on( 'click.' + STATE.id + ' focusin.' + STATE.id, function( event ) {
@@ -4196,7 +5027,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
                     // ....ah yes! It would’ve been incomplete without a crazy workaround for IE :|
                     // The focus is triggered *after* the close has completed - causing it
                     // to open again. So unbind and rebind the event at the next tick.
-                    P.$root.off( 'focus.toOpen' )[0].focus()
+                    P.$root.off( 'focus.toOpen' ).eq(0).focus()
                     setTimeout( function() {
                         P.$root.on( 'focus.toOpen', handleFocusToOpenEvent )
                     }, 0 )
@@ -4482,7 +5313,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
                 // On focus/click, focus onto the root to open it up.
                 on( 'focus.' + STATE.id + ' click.' + STATE.id, function( event ) {
                     event.preventDefault()
-                    P.$root[0].focus()
+                    P.$root.eq(0).focus()
                 }).
 
                 // Handle keyboard event based on the picker being opened or not.
@@ -4540,7 +5371,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
                             // Re-focus onto the root so that users can click away
                             // from elements focused within the picker.
-                            P.$root[0].focus()
+                            P.$root.eq(0).focus()
                         }
                     }
                 }
@@ -4573,7 +5404,7 @@ function PickerConstructor( ELEMENT, NAME, COMPONENT, OPTIONS ) {
 
                 // If it’s disabled or nothing inside is actively focused, re-focus the element.
                 if ( targetDisabled || activeElement && !$.contains( P.$root[0], activeElement ) ) {
-                    P.$root[0].focus()
+                    P.$root.eq(0).focus()
                 }
 
                 // If something is superficially changed, update the `highlight` based on the `nav`.
@@ -6423,15 +7254,22 @@ Picker.extend( 'pickadate', DatePicker )
 
   $.fn.characterCounter = function(){
     return this.each(function(){
+      var $input = $(this);
+      var $counterElement = $input.parent().find('span[class="character-counter"]');
 
-      var itHasLengthAttribute = $(this).attr('length') !== undefined;
+      // character counter has already been added appended to the parent container
+      if ($counterElement.length) {
+        return;
+      }
+
+      var itHasLengthAttribute = $input.attr('length') !== undefined;
 
       if(itHasLengthAttribute){
-        $(this).on('input', updateCounter);
-        $(this).on('focus', updateCounter);
-        $(this).on('blur', removeCounterElement);
+        $input.on('input', updateCounter);
+        $input.on('focus', updateCounter);
+        $input.on('blur', removeCounterElement);
 
-        addCounterElement($(this));
+        addCounterElement($input);
       }
 
     });
@@ -6448,8 +7286,14 @@ Picker.extend( 'pickadate', DatePicker )
     addInputStyle(isValidLength, $(this));
   }
 
-  function addCounterElement($input){
-    var $counterElement = $('<span/>')
+  function addCounterElement($input) {
+    var $counterElement = $input.parent().find('span[class="character-counter"]');
+
+    if ($counterElement.length) {
+      return;
+    }
+
+    $counterElement = $('<span/>')
                         .addClass('character-counter')
                         .css('float','right')
                         .css('font-size','12px')
@@ -6488,7 +7332,9 @@ Picker.extend( 'pickadate', DatePicker )
         dist: -100, // zoom scale TODO: make this more intuitive as an option
         shift: 0, // spacing for center image
         padding: 0, // Padding between non center items
-        full_width: false // Change to full width styles
+        full_width: false, // Change to full width styles
+        indicators: false, // Toggle indicators
+        no_wrap: false // Don't wrap around and cycle through items.
       };
       options = $.extend(defaults, options);
 
@@ -6497,21 +7343,40 @@ Picker.extend( 'pickadate', DatePicker )
         var images, offset, center, pressed, dim, count,
             reference, referenceY, amplitude, target, velocity,
             xform, frame, timestamp, ticker, dragged, vertical_dragged;
+        var $indicators = $('<ul class="indicators"></ul>');
+
 
         // Initialize
         var view = $(this);
+        var showIndicators = view.attr('data-indicators') || options.indicators;
+
         // Don't double initialize.
         if (view.hasClass('initialized')) {
+          // Redraw carousel.
+          $(this).trigger('carouselNext', [0.000001]);
           return true;
         }
+
 
         // Options
         if (options.full_width) {
           options.dist = 0;
-          imageHeight = view.find('.carousel-item img').first().load(function(){
-            view.css('height', $(this).height());
-          });
+          var firstImage = view.find('.carousel-item img').first();
+          if (firstImage.length) {
+            imageHeight = firstImage.on('load', function(){
+              view.css('height', $(this).height());
+            });
+          } else {
+            imageHeight = view.find('.carousel-item').first().height();
+            view.css('height', imageHeight);
+          }
+
+          // Offset fixed items when indicators.
+          if (showIndicators) {
+            view.find('.carousel-fixed-item').addClass('with-indicators');
+          }
         }
+
 
         view.addClass('initialized');
         pressed = false;
@@ -6520,10 +7385,28 @@ Picker.extend( 'pickadate', DatePicker )
         item_width = view.find('.carousel-item').first().innerWidth();
         dim = item_width * 2 + options.padding;
 
-        view.find('.carousel-item').each(function () {
+        view.find('.carousel-item').each(function (i) {
           images.push($(this)[0]);
+          if (showIndicators) {
+            var $indicator = $('<li class="indicator-item"></li>');
+
+            // Add active to first by default.
+            if (i === 0) {
+              $indicator.addClass('active');
+            }
+
+            // Handle clicks on indicators.
+            $indicator.click(function () {
+              var index = $(this).index();
+              cycleTo(index);
+            });
+            $indicators.append($indicator);
+          }
         });
 
+        if (showIndicators) {
+          view.append($indicators);
+        }
         count = images.length;
 
 
@@ -6536,6 +7419,7 @@ Picker.extend( 'pickadate', DatePicker )
           view[0].addEventListener('mousedown', tap);
           view[0].addEventListener('mousemove', drag);
           view[0].addEventListener('mouseup', release);
+          view[0].addEventListener('mouseleave', release);
           view[0].addEventListener('click', click);
         }
 
@@ -6571,6 +7455,7 @@ Picker.extend( 'pickadate', DatePicker )
           delta = offset - center * dim;
           dir = (delta < 0) ? 1 : -1;
           tween = -dir * delta * 2 / dim;
+          half = count >> 1;
 
           if (!options.full_width) {
             alignment = 'translateX(' + (view[0].clientWidth - item_width) / 2 + 'px) ';
@@ -6579,17 +7464,30 @@ Picker.extend( 'pickadate', DatePicker )
             alignment = 'translateX(0)';
           }
 
+          // Set indicator active
+          if (showIndicators) {
+            var diff = (center % count);
+            var activeIndicator = $indicators.find('.indicator-item.active');
+            if (activeIndicator.index() !== diff) {
+              activeIndicator.removeClass('active');
+              $indicators.find('.indicator-item').eq(diff).addClass('active');
+            }
+          }
+
           // center
-          el = images[wrap(center)];
-          el.style[xform] = alignment +
-            ' translateX(' + (-delta / 2) + 'px)' +
-            ' translateX(' + (dir * options.shift * tween * i) + 'px)' +
-            ' translateZ(' + (options.dist * tween) + 'px)';
-          el.style.zIndex = 0;
-          if (options.full_width) { tweenedOpacity = 1; }
-          else { tweenedOpacity = 1 - 0.2 * tween; }
-          el.style.opacity = tweenedOpacity;
-          half = count >> 1;
+          // Don't show wrapped items.
+          if (!options.no_wrap || (center >= 0 && center < count)) {
+            el = images[wrap(center)];
+            el.style[xform] = alignment +
+              ' translateX(' + (-delta / 2) + 'px)' +
+              ' translateX(' + (dir * options.shift * tween * i) + 'px)' +
+              ' translateZ(' + (options.dist * tween) + 'px)';
+            el.style.zIndex = 0;
+            if (options.full_width) { tweenedOpacity = 1; }
+            else { tweenedOpacity = 1 - 0.2 * tween; }
+            el.style.opacity = tweenedOpacity;
+            el.style.display = 'block';
+          }
 
           for (i = 1; i <= half; ++i) {
             // right side
@@ -6600,12 +7498,16 @@ Picker.extend( 'pickadate', DatePicker )
               zTranslation = options.dist * (i * 2 + tween * dir);
               tweenedOpacity = 1 - 0.2 * (i * 2 + tween * dir);
             }
-            el = images[wrap(center + i)];
-            el.style[xform] = alignment +
-              ' translateX(' + (options.shift + (dim * i - delta) / 2) + 'px)' +
-              ' translateZ(' + zTranslation + 'px)';
-            el.style.zIndex = -i;
-            el.style.opacity = tweenedOpacity;
+            // Don't show wrapped items.
+            if (!options.no_wrap || center + i < count) {
+              el = images[wrap(center + i)];
+              el.style[xform] = alignment +
+                ' translateX(' + (options.shift + (dim * i - delta) / 2) + 'px)' +
+                ' translateZ(' + zTranslation + 'px)';
+              el.style.zIndex = -i;
+              el.style.opacity = tweenedOpacity;
+              el.style.display = 'block';
+            }
 
 
             // left side
@@ -6616,24 +7518,32 @@ Picker.extend( 'pickadate', DatePicker )
               zTranslation = options.dist * (i * 2 - tween * dir);
               tweenedOpacity = 1 - 0.2 * (i * 2 - tween * dir);
             }
-            el = images[wrap(center - i)];
-            el.style[xform] = alignment +
-              ' translateX(' + (-options.shift + (-dim * i - delta) / 2) + 'px)' +
-              ' translateZ(' + zTranslation + 'px)';
-            el.style.zIndex = -i;
-            el.style.opacity = tweenedOpacity;
+            // Don't show wrapped items.
+            if (!options.no_wrap || center - i >= 0) {
+              el = images[wrap(center - i)];
+              el.style[xform] = alignment +
+                ' translateX(' + (-options.shift + (-dim * i - delta) / 2) + 'px)' +
+                ' translateZ(' + zTranslation + 'px)';
+              el.style.zIndex = -i;
+              el.style.opacity = tweenedOpacity;
+              el.style.display = 'block';
+            }
           }
 
           // center
-          el = images[wrap(center)];
-          el.style[xform] = alignment +
-            ' translateX(' + (-delta / 2) + 'px)' +
-            ' translateX(' + (dir * options.shift * tween) + 'px)' +
-            ' translateZ(' + (options.dist * tween) + 'px)';
-          el.style.zIndex = 0;
-          if (options.full_width) { tweenedOpacity = 1; }
-          else { tweenedOpacity = 1 - 0.2 * tween; }
-          el.style.opacity = tweenedOpacity;
+          // Don't show wrapped items.
+          if (!options.no_wrap || (center >= 0 && center < count)) {
+            el = images[wrap(center)];
+            el.style[xform] = alignment +
+              ' translateX(' + (-delta / 2) + 'px)' +
+              ' translateX(' + (dir * options.shift * tween) + 'px)' +
+              ' translateZ(' + (options.dist * tween) + 'px)';
+            el.style.zIndex = 0;
+            if (options.full_width) { tweenedOpacity = 1; }
+            else { tweenedOpacity = 1 - 0.2 * tween; }
+            el.style.opacity = tweenedOpacity;
+            el.style.display = 'block';
+          }
         }
 
         function track() {
@@ -6675,21 +7585,34 @@ Picker.extend( 'pickadate', DatePicker )
             var clickedIndex = $(e.target).closest('.carousel-item').index();
             var diff = (center % count) - clickedIndex;
 
-            // Account for wraparound.
+            // Disable clicks if carousel was shifted by click
+            if (diff !== 0) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+            cycleTo(clickedIndex);
+          }
+        }
+
+        function cycleTo(n) {
+          var diff = (center % count) - n;
+
+          // Account for wraparound.
+          if (!options.no_wrap) {
             if (diff < 0) {
               if (Math.abs(diff + count) < Math.abs(diff)) { diff += count; }
 
             } else if (diff > 0) {
               if (Math.abs(diff - count) < diff) { diff -= count; }
             }
+          }
 
-            // Call prev or next accordingly.
-            if (diff < 0) {
-              $(this).trigger('carouselNext', [Math.abs(diff)]);
+          // Call prev or next accordingly.
+          if (diff < 0) {
+            view.trigger('carouselNext', [Math.abs(diff)]);
 
-            } else if (diff > 0) {
-              $(this).trigger('carouselPrev', [diff]);
-            }
+          } else if (diff > 0) {
+            view.trigger('carouselPrev', [diff]);
           }
         }
 
@@ -6744,7 +7667,11 @@ Picker.extend( 'pickadate', DatePicker )
         }
 
         function release(e) {
-          pressed = false;
+          if (pressed) {
+            pressed = false;
+          } else {
+            return;
+          }
 
           clearInterval(ticker);
           target = offset;
@@ -6753,12 +7680,23 @@ Picker.extend( 'pickadate', DatePicker )
             target = offset + amplitude;
           }
           target = Math.round(target / dim) * dim;
+
+          // No wrap of items.
+          if (options.no_wrap) {
+            if (target >= dim * (count - 1)) {
+              target = dim * (count - 1);
+            } else if (target < 0) {
+              target = 0;
+            }
+          }
           amplitude = target - offset;
           timestamp = Date.now();
           requestAnimationFrame(autoScroll);
 
-          e.preventDefault();
-          e.stopPropagation();
+          if (dragged) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
           return false;
         }
 
@@ -6803,6 +7741,13 @@ Picker.extend( 'pickadate', DatePicker )
           }
         });
 
+        $(this).on('carouselSet', function(e, n) {
+          if (n === undefined) {
+            n = 0;
+          }
+          cycleTo(n);
+        });
+
       });
 
 
@@ -6814,6 +7759,9 @@ Picker.extend( 'pickadate', DatePicker )
     prev : function(n) {
       $(this).trigger('carouselPrev', [n]);
     },
+    set : function(n) {
+      $(this).trigger('carouselSet', [n]);
+    }
   };
 
 

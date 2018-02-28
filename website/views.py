@@ -1,24 +1,28 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
 from datetime import datetime
-from itertools import chain
+from wiki.templatetags import check_user_group as groups
 
 
-def index(request):
-    number_of_news = 3
+def index(request, number_of_news=3):
+
 
     # Sorts the news to show the events nearest in future and then fill in with the newest articles
-    event_list = Event.objects.filter(time_end__gte=datetime.now())[0:number_of_news:-1]
-    article_list = Article.objects.order_by('-pub_date')[0:number_of_news - len(event_list)]
-    news_list = list(chain(event_list, article_list))
+    can_access_internal = groups.has_group(request.user, 'member')
+
+    event_list = Event.objects.filter(time_end__gte=datetime.now(), internal__lte=can_access_internal).order_by('time_start')[:number_of_news]
+    article_list = Article.objects.filter(internal__lte=can_access_internal).order_by('-pub_date')[:number_of_news - len(event_list)]
+
+    news_list = list(event_list) + list(article_list)
 
     try:
         door_status = DoorStatus.objects.get(name='hackerspace').status
     except DoorStatus.DoesNotExist:
         door_status = True
+
     context = {
         'news_list': news_list,
         'door_status': door_status,
@@ -44,3 +48,11 @@ def handler404(request):
 
 def handler500(request):
     return render(request, '500.html', status=500)
+
+
+def calendar(request):
+    return render(request, 'calendar.html')
+
+
+def about(request):
+    return render(request, 'about.html')

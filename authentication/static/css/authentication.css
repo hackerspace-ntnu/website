@@ -32,3 +32,8 @@ form button {
 ul.errorlist {
   color: var(--hs-red);
 }
+
+#feide-login{
+    text-align:center;
+    margin: 0 auto;
+}

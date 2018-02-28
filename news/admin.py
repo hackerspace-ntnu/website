@@ -29,6 +29,15 @@ class Eventadmin(admin.ModelAdmin):
                 'place_href'
             ]
         }),
+        ('Registration', {
+            'fields': [
+                'external_registration',
+                'registration',
+                'max_limit',
+                'registration_start',
+                'deregistration_end',
+            ]
+        }),
     ]
     search_fields = [
         'title'
@@ -53,7 +62,12 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': [
                 'thumbnail',
             ]
-        })
+        }),
+        ('Advanced', {
+            'fields': [
+                'redirect',
+            ]
+        }),
     ]
     search_fields = [
         'title'
@@ -74,4 +88,12 @@ class UploadModelAdmin(admin.ModelAdmin):
         'title'
     ]
 
-admin.site.register(EventRegistration)
+class EventRegistrationAdmin(admin.ModelAdmin):
+    list_display = [
+        '__str__',
+        'username',
+        'event',
+        'date',
+    ]
+
+admin.site.register(EventRegistration, EventRegistrationAdmin)

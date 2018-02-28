@@ -12,6 +12,10 @@
   --hs-red-li: #EA9989;
 }
 
+.hsred {
+  background-color: var(--hs-red) !important;
+}
+
 @font-face {
   font-family: Roboto-Light;
   src: url("/static/materialize/font/roboto/Roboto-Light.woff");
@@ -40,4 +44,20 @@ html {
   #about h1 {
     font-size: 10vw;
   }
+}
+
+.success-message {
+    background-color: var(--hs-green) !important;
+}
+
+.info-message {
+    background-color: var(--hs-blue) !important;
+}
+
+.warning-message {
+    background-color: #F8DC4D !important;
+}
+
+.error-message {
+    background-color: #f44336 !important;
 }

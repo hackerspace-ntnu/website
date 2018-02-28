@@ -11,7 +11,6 @@ function get_data() {
         },
     });
     setTimeout(function(){get_data()}, 30000);
-
 }
 
 function change_status(status) {

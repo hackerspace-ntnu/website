@@ -6,8 +6,8 @@
     <p>It will be permanently deleted!</p>
   </div>
   <div class="modal-footer">
-    <a id="deleteButton" href="" class=" modal-action modal-close waves-effect waves-green btn-flat">Delete</a>
-    <a id="cancelButton" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+    <a id="deleteButton" href="" class="modal-action modal-close waves-effect btn waves-light hsred">Delete</a>
+    <a id="cancelButton" class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
   </div>
 </div>
 
@@ -16,7 +16,23 @@
     $('#deleteModal').closeModal();
   });
   $(".delete").click(function() {
-    $('#deleteModal').openModal();
+    $('#deleteModal').modal("open");
     $("#deleteButton").attr("href", $(this).attr("url"));
   });
+
+  $('#deleteModal').modal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      in_duration: 300, // Transition in duration
+      out_duration: 200, // Transition out duration
+      starting_top: '4%', // Starting top style attribute
+      ending_top: '10%', // Ending top style attribute
+      ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+
+      },
+      complete: function() { // Callback for Modal close
+
+      }
+    }
+  );
 </script>

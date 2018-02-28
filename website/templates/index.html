@@ -29,42 +29,27 @@
     {% include "news.html" %}
     <section id="about" class="about-section" style="width: 90%; max-width: 1000px; margin: 50px auto;">
         <h1 class="center-align">Om Hackerspace NTNU</h1>
-        <div style="columns: 2;">
-            <p style="margin-top: 0;">Hackerspace NTNU er et pilotprosjekt for å fremme interessen for ny teknologi. Målet er å alltid ha
-                det kuleste og nyeste. Vi har droner, 3D-printere, leap motion, robot-kit og HTC Vive for å nevne
-                noe.
+            <p style="margin-top: 0; margin-bottom: 40px; columns: 2; column-gap: 70px;">
+              Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.
+              Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø.
+              Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.
+              <br><br>
+              Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse.
+              Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.
+              <br><br>
+              Kom innom for å se hva vi driver med og slå av en prat.
+              Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.
             </p>
-            <p>
-                Vi ønsker å være et lavterskeltilbud og stiller derfor også opp og hjelper etter beste evne med
-                utvikling av ny teknologi.
-            </p>
-            <p>
-                Det holdes regelmessig kurs for både nybegynnere og viderekomne for å supplementere dette.
-                Nybegynnerkurs i Arduino og 3D-printing har vært svært populære tidligere, og noe vi tenker å holde
-                igjen.
-            </p>
-            <p>
-                Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller er en
-                fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og
-                kompetanse. Dersom vi ikke kan svare på spørsmål, vil vi etter beste evne finne noen som kan hjelpe.
-            </p>
-            <p class="lead">
-                Kom gjerne innom for å se hva vi driver med!
-            </p>
-            <p>
-                Vår visjon er å skape en kreativ arena der studenter kan få hjelp til å realisere ideene sine. Vi er
-                for deg som ønsker å prøve ut ny teknologi, utvikle morgendagens løsninger eller sosialisere med
-                andre teknologiinteresserte.
-            </p>
-            <p>
-                Vi befinner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.
-            </p>
-        </div>
         <div id="map" style="position: relative; margin-top: 20px;">
             <iframe width="100%" height="420" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                     src="https://use.mazemap.com/embed.html?v=1&amp;left=10.4026&amp;right=10.4036&amp;top=63.4164&amp;bottom=63.4162&amp;campusid=1&amp;zlevel=1&amp;sharepoitype=point&amp;sharepoi=10.40304%2C63.41629%2C0&amp;utm_medium=iframe"></iframe>
-            <div id="hideFrame"
-                 style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0;"></div>
+            <div id="hideFrame">
+              <div style="opacity: 0.3; background: #000; width: 100%; height: 393px; z-index: 100; position: absolute; top: 0; left: 0; display: table;">
+                <div style="display: table-cell; vertical-align: middle; text-align: center; ">
+                  <p style="color: #fff; opacity: 0.5; z-index: 101; font-size:96px;"><strong>Trykk her</strong></p>
+                </div>
+              </div>
+            </div>
             <script>
                 $("#hideFrame").click(function () {
                     $("#hideFrame").css("display", "none")
@@ -72,4 +57,7 @@
             </script>
         </div>
     </section>
+
+
+
 {% endblock content %}

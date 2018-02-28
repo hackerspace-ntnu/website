@@ -17,14 +17,20 @@
 
   <hr class="news-hr">
 
-  <div class="flow-text">
-    {% autoescape off %}
-    {{ article.ingress_content }}
-    {% endautoescape %}
+  <div id="ingress_and_article">
+    <div class="flow-text">
+      <div class="ingress_content">
+        {% autoescape off %}
+        {{ article.ingress_content }}
+        {% endautoescape %}
+      </div>
 
-    {% autoescape off %}
-    {{ article.main_content }}
-    {% endautoescape %}
+      <div class="article_content">
+        {% autoescape off %}
+        {{ article.main_content }}
+        {% endautoescape %}
+      </div>
+    </div>
   </div>
 
 </div>

@@ -1,12 +1,12 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
-from django import VERSION
-from django.conf import settings as django_settings
-from wiki.conf import settings as wiki_settings
-from django.core.exceptions import ImproperlyConfigured
+from __future__ import absolute_import, unicode_literals
 
-# This is not used in django 1.7+
-APP_LABEL = 'attachments' if VERSION < (1, 7) else None
+from django.conf import settings as django_settings
+from django.core.exceptions import ImproperlyConfigured
+from wiki.conf import settings as wiki_settings
+
+# Deprecated
+APP_LABEL = None
+
 SLUG = "attachments"
 
 # Please see this note about support for UTF-8 files on django/apache:

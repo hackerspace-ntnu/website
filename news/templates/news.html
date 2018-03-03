@@ -35,22 +35,31 @@
 				<h3>Siste artikkler</h3>
 				{% for news in news_list %}
 				<div class="section">
-					<div class="row">
-						<div class="col s12">
-							<a href="/news/{{ news.id }}/"><h5 class="left">{{ news.title }}</h5></a>
-							<p class="right">Publisert {{ news.pub_date }}</p>
+					<div class="row no-pad-bot">
+						<div class="col s2 center hide-on-med-and-down">
+							{% if news.thumbnail %}
+							<img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.url }}">
+							{% else %}
+							<img class="circle" style="width:100px; height:100px;" src="">
+							{% endif %}
 						</div>
-						<div class="col s8 preview-text">
+						<div class="col s10 preview-text hide-on-med-and-down">
+							<span class="right badge">Publisert {{ news.pub_date }}</span>
+							<a href="/news/{{ news.id }}/"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
 							<p>
 								{% autoescape off %}
 								{{ news.ingress_content|truncatechars:200 }}
 								{% endautoescape %}
 							</p>
 						</div>
-						<div class="col s4">
-							{% if news.thumbnail %}
-							<img class="right circle" style="width:100px; height:100px;" src="{{ news.thumbnail.url }}">
-							{% endif %}
+						<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
+							<a href="/news/{{ news.id }}/"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+							<p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
+							<p>
+								{% autoescape off %}
+								{{ news.ingress_content|truncatechars:200 }}
+								{% endautoescape %}
+							</p>
 						</div>
 					</div>
 				</div>

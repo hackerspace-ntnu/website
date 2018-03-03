@@ -17,44 +17,38 @@
 		</div>
 	</div>
 </nav>
-<div class="parallax-container" style="height:200px">
+<div class="parallax-container" style="height:400px">
 	<div class="parallax">
 		<img class="responsive-img" src="{{ event.thumbnail.url }}" />
 	</div>
 </div>
-<div class="section white">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h2>{{ event.title }}</h2>
-				<div class="divider"></div>
-			</div>
-		</div>
-		{% if request.user|has_group:"member" %}
-		<div class="row">
-			<div class="col s12">
-				<ul class='collection'>
-					<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-					<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Event</a></li>
-				</ul>
-			</div>
-		</div>
-		{% endif %}
+{% if request.user|has_group:"member" %}
+<div class="row">
+	<div class="col s12">
+		<ul class='collection'>
+			<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
+			<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Event</a></li>
+		</ul>
 	</div>
 </div>
-<div class="section white">
+{% endif %}
+<div class="section hs-green">
 	<div class="container">
-		<div class="row">
-			<div class="col s8 preview-text">
-				<div class="card-panel">
-					<p><b>{{ event.ingress_content }}</b></p>
-					{% autoescape off %}
-					{{ event.main_content }}
-					{% endautoescape %}
+		<div class="article-container white">
+			<div class="row article-title">
+				<div class="col s12 center">
+					<h2>{{ event.title }}</h2>
 				</div>
 			</div>
-			<div class="col s4">
-				<div class="card-panel"> {% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
+			<div class="row article-content white">
+				<div class="col s8 preview-text">
+						<p><b>{{ event.ingress_content }}</b></p>
+						{% autoescape off %}
+						{{ event.main_content }}
+						{% endautoescape %}
+				</div>
+				<div class="col s4">
+				{% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
 					{% if event.internal %} <p>Dette er et internt arrangement.</p> {% endif %}
 					<p>Tid: {{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
 					<p>Dato: {{ event.time_start|date:"d M Y" }}</p>
@@ -65,8 +59,6 @@
 						<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
 						<p class="counter center white-text">{{ event.registered_count }} / {{ event.max_limit }}</p>
 					</div>
-				</div>
-				<div class="card-panel">
 					<p>Status: {{ userstatus }}</p>
 					{% if event.registration and request.user.is_authenticated and registration_visible %}
 					{% if registered %}
@@ -94,7 +86,6 @@
 						</div>
 					</div>
 					{% endif %}
-				</div>
 				{% if event.registered_list or event.wait_list %}
 				{% if user.is_superuser or user|has_group:"viewAttendees" %}
 				<ul class="collapsible" data-collapsible="accordion">
@@ -126,6 +117,11 @@
 		<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
 		{% endif %}
 			</div>
+		{% endif %}
+		{% endif %}
+		{% endif %}
+	</div>
+</div>
 		<script>
 			var collapsible = document.querySelector('.collapsible');
 			var instance = M.Collapsible.init(collapsible);
@@ -133,11 +129,6 @@
 			var parallax = document.querySelector('.parallax');
 			var instance = M.Parallax.init(parallax);
 		</script>
-		{% endif %}
-		{% endif %}
-		{% endif %}
-	</div>
-</div>
 <style>
 	.progress {
 		height: 30px;

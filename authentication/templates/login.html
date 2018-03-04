@@ -13,30 +13,37 @@
 </div>
 <div class="section">
 	<div class="container">
-		<form action="/authentication/login/" method="post">
-			{% csrf_token %}
-			<div class="row">
-				<div class="input-field col s12">
-					<p>{{ form.username.errors }}</p>
-					{{ form.username }}
-					<label for="{{ form.username.id_for_label }}">Brukernavn</label>
-				</div>
-				<div class="input-field col s12">
-					<p>{{ form.password.errors }}</p>
-					{{ form.password }}
-					<label for="{{ form.password.id_for_label }}">Passord</label>
-				</div>
-				<div class="col s12">
-					<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Logg inn</button>
-					<a href="/authentication/forgot-password">Glemt passord?</a>
-				</div>
+		<div class="card-panel">
+			<div class="row center">
+				<i class="material-icons large hs-gray-text">account_circle</i>
 			</div>
-		</form>
-		<div class="row">
-			<div class="col s12">
-				<a class="btn waves-effect waves-light" href="{% url 'authentication_feide:login' %}">Logg inn med FEIDE</a>
-			</div>
+			<form action="/authentication/login/" method="post">
+				{% csrf_token %}
+				<div class="row">
+					<div class="input-field col push-s2 pull-s2 s8">
+						<p>{{ form.username.errors }}</p>
+						{{ form.username }}
+						<label for="{{ form.username.id_for_label }}">Brukernavn</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col push-s2 pull-s2 s8">
+						<p>{{ form.password.errors }}</p>
+						{{ form.password }}
+						<label for="{{ form.password.id_for_label }}">Passord</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col push-s2 pull-s2 s8">
+						<button id="submit" class="btn btn-large waves-effect waves-light hs-green" type="submit" name="action">Logg inn</button>
+						<a class="right" href="/authentication/forgot-password">Glemt passord?</a>
+					</div>
+					<div class="col push-s2 pull-s2 s8">
+						<a class="btn btn-large waves-effect waves-light white-text hs-green" href="{% url 'authentication_feide:login' %}">Logg inn med FEIDE</a>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
-</div>
-{% endblock content %}
+	</div>
+	{% endblock content %}

@@ -8,13 +8,13 @@
 		<img style="width:100px; height:150px;" src=" {% static 'img/logo/Icon_green_transparent.png' %} ">
 	</div>
 </div>
-<div class="section hide-on-small-only no-pad">
+<div class="section hide-on-small-only no-pad hs-green">
 	<div class="slider">
 		<div class="fixed-text center">
 			<img id="indexLogo" src="../static/img/logo/Icon_green_transparent.png">
-			<div class="text-shadow white-text">
-				<h1>Hackerspace</h1>
-				<h4>En kreativ arena for å realisere dine ideer</h4>
+			<div class=" white-text">
+				<h1 class="text-shadow">Hackerspace</h1>
+				<h4 class="text-shadow">En kreativ arena for å realisere dine ideer</h4>
 			</div>
 		</div>
 		<ul class="slides">
@@ -31,34 +31,86 @@
 	</div>
 </div>
 <div class="section hs-green">
+	<div class="row valign-wrapper no-pad-bot no-pad center">
+		<div class="col s4">
+			<i class="material-icons white-text small">free_breakfast</i>
+			<span class="white-text">420 kanner kaffe drukket</span>
+		</div>
+		<div class="col s4">
+			<i class="material-icons white-text small">mood</i>
+			<span class="white-text">10 personer har ringt på vår dørklokke</span>
+		</div>
+		<div class="col s4">
+			<i class="material-icons white-text small">event</i>
+			<span class="white-text">5 arrangementer arrangert</span>
+		</div>
+	</div>
+</div>
+<div class="section hs-gray">
 	<div class="container">
 		<div class="row center">
 			<div class="col s12 white-text">
 				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
 				<a class="btn btn-large white hs-gray-text" href="/about/">Trykk her for å lese mer om oss</p></a>
+			<br>
+			<br>
 		</div>
 	</div>
 </div>
-<div class="section no-pad">
-	<div class="row show-row center">
-		<div class="col s4 valign-wrapper alt-tinter">
-			<h4><a class="white-text" href="/showcase/">Virtual Reality</a></h4> 
-			<img src="{% static 'img/people_and_tech/spill2.jpg' %}">
-		</div>
-		<div class="col s4 valign-wrapper alt-tinter">
-			<h4><a class="white-text" href="/showcase/">Escape Room</a></h4>
-			<img src="{% static 'img/people_and_tech/cover7.jpg' %}">
-		</div>
-		<div class="col s4 valign-wrapper alt-tinter">
-			<h4><a class="white-text" href="/showcase/projects/">Prosjekter</a></h4>
-			<img src="{% static 'img/people_and_tech/briller.jpg' %}">
+<div class="section hs-green">
+	<div class="container">
+		<h4 class="white-text">Våre prosjekter</h4>
+		<br>
+		<div class="row valign-wrapper">
+			<div class="col s4">
+				<div class="card large hoverable">
+					<div class="card-image">
+						<img src="{% static 'img/people_and_tech/briller.jpg' %}">
+						<span class="card-title">Prosjekter</span>
+					</div>
+					<div class="card-content">
+						<p>Har du en kul idé? Ta en titt på vår prosjektside for å se hva våre medlemmer holder på med!</p>
+					</div>
+					<div class="card-action">
+						<a href="#">Les mer</a>
+					</div>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="card large hoverable">
+					<div class="card-image">
+						<img src="{% static 'img/people_and_tech/cover7.jpg' %}">
+						<span class="card-title">Escape Room</span>
+					</div>
+					<div class="card-content">
+						<p>Er du lei av at de kule eventyrene kun eksisterer i digital form? Dersom du vil dra på eventyr i virkeligheten, kan du komme innom vårt Escape Room</p>
+					</div>
+					<div class="card-action">
+						<a href="#">Les mer</a>
+					</div>
+				</div>
+			</div>
+			<div class="col s4">
+				<div class="card large hoverable">
+					<div class="card-image">
+						<img src="{% static 'img/people_and_tech/spill2.jpg' %}">
+						<span class="card-title">Virtual Reality</span>
+					</div>
+					<div class="card-content">
+						<p>Hackerspace har utviklet et eget Virtual Reality spill! Prosjektgruppa for VR driver med dette.</p>
+					</div>
+					<div class="card-action">
+						<a href="#">This is a link</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 <div class="section hs-green">
 	<div class="container">
 		<div class="row">
-			<div class="col s12 center white-text">
+			<div class="col s12 white-text">
 				<h4>Hva skjer på Hackerspace?</h4>
 			</div>
 		</div>
@@ -98,7 +150,7 @@
 <div class="section hs-green">
 	<div class="container">
 		<div class="row">
-			<div class="col s12 center white-text">
+			<div class="col s12  white-text">
 				<h4>Ønsker du å komme i kontakt med oss?</h4>
 				<p class="flow-text">Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="modal-trigger hs-gray-text" href="#mapModal">vårt kontor</a> og slack-kanal. Du kan også følge vår aktivitet på sosiale medier.</p>
 				<ul class="sosial-bilder">

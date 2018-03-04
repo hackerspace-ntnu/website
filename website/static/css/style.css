@@ -66,9 +66,7 @@ blockquote {
 
 /* Fix for different aspect ratio images on all news / event page */
 .card img {
-	max-width:250px !important;
-	height:100% !important;
-	object-fit: cover !important;
+	height:200px;
 }
 
 /* Footer images */
@@ -155,8 +153,6 @@ blockquote {
 /* Fontpage slider */
 .slider {
 	overflow:hidden;
-}
-.slides {
 }
 
 /* Hiding stuff */
@@ -258,7 +254,11 @@ a {
 	overflow: hidden;
 }
 .no-margin {
-	margin:0px;
+	margin:0px !important;
+}
+.no-pad {
+	padding:0px !important;
+
 }
 .article-container {
 	margin-top:-200px !important;
@@ -271,6 +271,8 @@ a {
 }
 .article-content {
 	word-break:break-all;
-
+}
+.card-image {
+	height:20
 
 }

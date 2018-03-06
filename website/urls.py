@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^news/', include('news.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'^authentication/', include('authentication.urls')),
-    url(r'^opptak/', include('applications.urls')),
     url(r'^door/', include('door.urls')),
     url(r'^ckeditor_uploader/', include('ckeditor_uploader.urls')),
     url(r'^opptak/', include('applications.urls'), name='opptak'),
@@ -39,6 +38,7 @@ urlpatterns = [
     url(r'^user/', include('userprofile.urls')),
     url(r'^vaktliste/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
+    url(r'^kaffi/', include('koohii.urls')),
 ]
 
 if settings.DEBUG:

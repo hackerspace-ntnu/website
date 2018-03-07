@@ -35,6 +35,14 @@
 		</div>
 	</div>
 </div>
+<div class="parallax-container">
+	<div class="parallax vrp">
+		<img class="darken-40 responsive-img" src="{% static './img/group_photos/Dev.jpg' %}" alt="Hackerspace Logo" />
+        </div>
+	<div class="opaque-footer">
+		<span class="white-text img-span-par parall-text-shadow caption">DevOps (V til H): Navn, Navn, Navn, Navn, Navn, Navn</span>
+	</div>
+</div>
 <div class="section white">
 	<div class="container">
 		<div class="row">
@@ -43,26 +51,64 @@
 					<h4>DevOps</h4>
 					<p class="flow-text">Hovedoppgaven til DevOps er å utvikle og drifte hackerspace sin nettside, men vi jobber også med ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en android widget.</p>
 				</div>
-				<div class="divider"></div>
-				<div class="section">
-					<h4>LabOps</h4>
-					<p class="flow-text">Vi har hovedansvaret for vaktlister og alt utstyret som står til rådighet for alle på drivhuset. I tillegg holder LabOps diverse kurs både på ønsker utenfra og innenfra. Det kan handle om alt fra hvordan man 3D printer og lager 3D modeller til Hololens og AI. De bli alle annonsert med tid, sted og påmelding her på våre hjemmesider. </p>
-				</div>
-				<div class="divider"></div>
-				<div class="section">
-					<h4>PR</h4>
-					<p class="flow-text">Det er viktig for oss å dele med andre studenter og interesserte mulighetene og engasjementet som finnes i Hackerspace, enten det er kursing, nytt utstyr, spennende prosjekter eller sosiale eventer.
-
-						Arbeidsoppgavene våre er ofte knyttet til visuell kommunikasjon og mange av våre bidrag gjør seg for eksempel synlig i sosiale medier, på stands og på plakater på Gløshaugen. Våre medlemmer er dermed interesserte i design, fotografi og kommunikasjon for å nevne noe.</p>
-				</div>
-				<div class="divider"></div>
-				<div class="section">
-					<h4>Prosjekt ER</h4>
-					<p class="flow-text">Hovedoppgaven til DevOps er å utvikle og drifte hackerspace sin nettside, men vi jobber også med ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en android widget.</p>
-				</div>
-				<div class="divider"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="parallax-container">
+	<div class="parallax erp">
+		<img class="responsive-img darken-40"src="{% static './img/group_photos/VR.jpg' %}">
+        </div>
+	<div class="opaque-footer valign-wrapper">
+		<span class="white-text img-span-par parall-text-shadow caption">VR (V til H): Navn, Navn, Navn, Navn, Navn, Navn</span>
+	</div>
+</div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
 				<div class="section">
 					<h4>Prosjekt VR</h4>
+					<p class="flow-text">Hovedoppgaven til DevOps er å utvikle og drifte hackerspace sin nettside, men vi jobber også med ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en android widget.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="parallax-container">
+	<div class="parallax labp">
+		<img class="responsive-img darken-40"src="{% static './img/group_photos/VR.jpg' %}">
+        </div>
+	<div class="opaque-footer valign-wrapper">
+		<span class="white-text img-span-par parall-text-shadow caption">VR (V til H): Navn, Navn, Navn, Navn, Navn, Navn</span>
+	</div>
+</div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>Prosjekt VR</h4>
+					<p class="flow-text">Hovedoppgaven til DevOps er å utvikle og drifte hackerspace sin nettside, men vi jobber også med ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en android widget.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="parallax-container">
+	<div class="parallax prp">
+		<img class="responsive-img darken-40"src="{% static './img/group_photos/VR.jpg' %}">
+        </div>
+	<div class="opaque-footer valign-wrapper">
+		<span class="white-text img-span-par parall-text-shadow caption">VR (V til H): Navn, Navn, Navn, Navn, Navn, Navn</span>
+	</div>
+</div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>LabOps</h4>
 					<p class="flow-text">Hovedoppgaven til DevOps er å utvikle og drifte hackerspace sin nettside, men vi jobber også med ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en android widget.</p>
 				</div>
 			</div>
@@ -83,6 +129,16 @@
 </div>
 <script>
 	var parallax = document.querySelector('.parallax');
+	var devp = document.querySelector('.devp');
+	var vrp = document.querySelector('.vrp');
+	var labp = document.querySelector('.labp');
+	var erp = document.querySelector('.erp');
+	var prp = document.querySelector('.prp');
 	var instance = M.Parallax.init(parallax);
+	var instance = M.Parallax.init(devp);
+	var instance = M.Parallax.init(vrp);
+	var instance = M.Parallax.init(labp);
+	var instance = M.Parallax.init(erp);
+	var instance = M.Parallax.init(prp);
 </script>
 {% endblock content %}

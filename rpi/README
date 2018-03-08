@@ -1,0 +1,4 @@
+1. get_hostname.py legges i /usr/sbin/hs_get_hostname.py
+2. Legg hs_config i /etc/init.d/hs_config
+3. Start servicen: sudo update-rc.d hs_config defaults
+4. Legg til i crontab-en til root: "0 8,12 * * * python3 /usr/sbin/hs_get_hostname.py"

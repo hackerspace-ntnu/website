@@ -78,7 +78,6 @@ INSTALLED_APPS = [
     'committees',
     'dal',
     'dal_select2',
-    'material',
     'rpi',
     'inventory',
     'userprofile',

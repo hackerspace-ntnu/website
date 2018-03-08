@@ -17,6 +17,7 @@ h1,h2,h3,h4,h5,a {
 }
 .brand-logo {
 	margin-left: 16px;
+	height:64px;
 }
 .dropdown-trigger-user img {
 	height:64px;
@@ -24,6 +25,19 @@ h1,h2,h3,h4,h5,a {
 	padding-top:16px; 
 }
 .mobile-img {
+	margin-left:0px !important;
+	width:180px;
+	height:56px;
+}
+.mobile-img img {
+	width:180px;
+	height:56px;
+}
+.tab-img {
+	margin-left:0px !important;
+	height:64px;
+}
+.tab-img img {
 	margin-left:0px !important;
 }
 

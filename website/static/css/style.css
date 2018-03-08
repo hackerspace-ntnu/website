@@ -64,9 +64,6 @@ body {
 main {
 	flex: 1 0 auto !important;
 }
-.caption-text {
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
 
 
 blockquote {
@@ -158,23 +155,10 @@ blockquote {
 
 }
 
-.date-box {
-	width:15%;
-	height:100%;
-	min-height:100%;
-}
-
 /* Fontpage slider */
 .slider {
 	overflow:hidden;
 }
-
-/* Hiding stuff */
-.hidden {
-	display:none !important;
-}
-
-
 
 .no-pad-bot {
 	margin-bottom:0px !important;
@@ -193,17 +177,8 @@ a {
 /* CKEditor override */
 .django-ckeditor-widget {
 	width:100%;
-
 }
 
-.article-ul {
-	padding-left: inherit !important;
-
-}
-.article-ul li {
-	list-style-type: initial !important;
-
-}
 .preview-text p {
 	font-size: 14px !important;
 	word-break: break-all;
@@ -257,7 +232,6 @@ a {
 	background: #4E4B46;
 	transition: all .5s linear;
 }
-
 .sponsor-img img {
 	-webkit-filter: drop-shadow(2px 2px 2px #000);
 	filter: drop-shadow(2px 2px 2px #000);
@@ -274,23 +248,13 @@ a {
 	padding:0px !important;
 
 }
-.article-container {
-	margin-top:-200px !important;
-	padding-top:64px !important;
-	z-index:50 !important;
-	position:relative;
-}
-.article-title {
-	padding-bottom:64px;
-}
-.article-content {
-	word-break:break-all;
-}
+
 .search-wrapper i.material-icons{
 	cursor:pointer;
 	position:relative;
 	right:24px;
 }
+/* footer for parallax on about */
 .opaque-footer {
 	background-color:#000;
 	position:absolute;

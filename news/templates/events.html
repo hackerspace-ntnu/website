@@ -33,10 +33,23 @@
 		{% for event in new_events %}
 		<div class="section">
 			<div class="row no-pad-bot">
-				<div class="col s2 center valign-wrapper">
+				<div class="col s2 center hide-on-med-and-down">
+					{% if event.thumbnail %}
 					<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.url }}">
+					{% else %}
+					<img class="circle" style="width:100px; height:100px;" src="">
+					{% endif %}
 				</div>
-				<div class="col s10 preview-text">
+				<div class="col s10 preview-text hide-on-med-and-down">
+					<span class="right badge">Starter {{ event.time_start }}</span>
+					<a href="/news/{{ event.id }}/"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+					<p>
+						{% autoescape off %}
+						{{ event.ingress_content|truncatechars:200 }}
+						{% endautoescape %}
+					</p>
+				</div>
+				<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
 						<span class="right badge">Starter {{ event.time_start }}</span>
 						<a href="/events/{{ event.id }}/">
 							<h5 class="no-margin truncate">
@@ -77,10 +90,25 @@
 		{% for event in old_events %}
 		<div class="section">
 			<div class="row no-pad-bot">
-				<div class="col s2 center valign-wrapper">
+				<div class="col s2 center hide-on-med-and-down">
+					{% if event.thumbnail %}
 					<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.url }}">
+					{% else %}
+					<img class="circle" style="width:100px; height:100px;" src="">
+					{% endif %}
 				</div>
-				<div class="col s10 preview-text">
+				<div class="col s10 preview-text hide-on-med-and-down">
+						<span class="right badge">Avsluttet {{ event.time_end }}</span>
+						<a href="/events/{{ event.id }}/">
+							<h5 class="no-margin truncate">
+								{{ event.title }}</h5></a>
+						<p>
+						{% autoescape off %}
+						{{ event.ingress_content|truncatechars:200 }}
+						{% endautoescape %}
+					</p>
+				</div>
+				<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
 						<span class="right badge">Avsluttet {{ event.time_end }}</span>
 						<a href="/events/{{ event.id }}/">
 							<h5 class="no-margin truncate">

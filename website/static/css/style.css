@@ -144,7 +144,7 @@ blockquote {
 	z-index:10 !important;
 	width:100%;
 	height:100%;
-	margin-top:15vh;
+	margin-top:8vh;
 }
 
 /* Main center cog image in green with transparent bg */
@@ -286,17 +286,10 @@ a {
 .article-content {
 	word-break:break-all;
 }
-.card-image {
-	height:20
-
-}
 .search-wrapper i.material-icons{
 	cursor:pointer;
 	position:relative;
 	right:24px;
-}
-.parall-text-shadow {
-	text-shadow: -1px 5 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .opaque-footer {
 	background-color:#000;

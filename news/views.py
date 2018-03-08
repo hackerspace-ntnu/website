@@ -7,7 +7,7 @@ from . import log_changes
 from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm
 from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
-from wiki.templatetags import check_user_group as groups
+from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.admin import User
 from django.contrib.auth.decorators import login_required
 from files.models import Image

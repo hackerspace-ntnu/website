@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 #from x import admin_history
 import os
 from django.conf import settings
-from news.templatetags import check_user_group as groups
+from authentication.templatetags import check_user_group as groups
 
 def findId(title):
     number = 1

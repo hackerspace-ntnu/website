@@ -2,14 +2,17 @@ django==1.11
 gunicorn
 django-bower==5.1.0
 django-ckeditor==5.4
-django-sekizai==0.9.0
 django_nyt==0.9.8
-django-mptt==0.9.0
-sorl-thumbnail
-Pillow==4.1.1
 Fabric3==1.12.post1
 django-autocomplete-light==3.2.1
 django-smart-selects==1.5.1
 bleach==2.0.0
 oauthlib
 requests
+
+# Packages required by django-wiki: https://github.com/django-wiki/django-wiki
+markdown
+django-sekizai==0.9.0
+django-mptt==0.9.0
+sorl-thumbnail
+Pillow==4.1.1

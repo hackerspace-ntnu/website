@@ -42,7 +42,7 @@
 				</div>
 				<div class="col s10 preview-text hide-on-med-and-down">
 					<span class="right badge">Starter {{ event.time_start }}</span>
-					<a href="/news/{{ event.id }}/"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+					<a href="/events/{{ event.id }}/"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
 					<p>
 						{% autoescape off %}
 						{{ event.ingress_content|truncatechars:200 }}

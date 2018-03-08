@@ -3,28 +3,27 @@
 {% load check_user_group %}
 
 {% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/news_style.css' %}">
 {% endblock head %}
 
 {% block content %}
-<nav>
-	<div class="nav-wrapper hs-green">
-		<div class="container">
-			<div class="col s12">
-				<a href="/" class="breadcrumb white-text ">Hjem</a>
-				<a href="/events/" class="breadcrumb white-text">Arrangement</a>
-				<a href="#!" class="breadcrumb white-text">{{ event.title }}</a>
-			</div>
-		</div>
-	</div>
-</nav>
 <div class="parallax-container" style="height:400px">
 	<div class="parallax">
 		<img class="responsive-img" src="{{ event.thumbnail.url }}" />
 	</div>
 </div>
-{% if request.user|has_group:"member" %}
-<div class="row">
-	<div class="col s12">
+<div class="section hs-green">
+	<div class="container">
+		<div class="article-container white z-depth-2">
+		<div class="container">
+			<div class="row article-title">
+				<div class="col s12">
+					<h2>{{ event.title }}</h2>
+				</div>
+			</div>
+			{% if request.user|has_group:"member" %}
+			<div class="row">
+				<div class="col s12">
 		<ul class='collection'>
 			<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
 			<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Event</a></li>
@@ -32,14 +31,6 @@
 	</div>
 </div>
 {% endif %}
-<div class="section hs-green">
-	<div class="container">
-		<div class="article-container white">
-			<div class="row article-title">
-				<div class="col s12 center">
-					<h2>{{ event.title }}</h2>
-				</div>
-			</div>
 			<div class="row article-content white">
 				<div class="col s8 preview-text">
 						<p><b>{{ event.ingress_content }}</b></p>

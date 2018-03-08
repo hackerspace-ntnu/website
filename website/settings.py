@@ -35,7 +35,7 @@ ADMINS = (
 )
 
 try:
-    from .local_settings import *
+    from website.local_settings import *
 except ImportError:
     pass
 

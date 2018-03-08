@@ -19,31 +19,29 @@ h1,h2,h3,h4,h5,a {
 	margin-left: 16px;
 	height:64px;
 }
+
+/* Resize og posisjonering av header bilder */
+.mobile-img {
+	margin-left:0px !important;
+}
+.mobile-img img {
+	height:56px;
+}
+.tab-img {
+	margin-left:0px !important;
+}
+
+
+/* Fix personlig profilbilde i navbaren */
 .dropdown-trigger-user img {
 	height:64px;
 	padding-bottom:16px;
 	padding-top:16px; 
 }
-.mobile-img {
-	margin-left:0px !important;
-	width:180px;
-	height:56px;
-}
-.mobile-img img {
-	width:180px;
-	height:56px;
-}
-.tab-img {
-	margin-left:0px !important;
-	height:64px;
-}
-.tab-img img {
-	margin-left:0px !important;
-}
-
+/* Få material icons til å vertikalt aligne med teksten */
 .material-icons {
-	  vertical-align: middle !important;
-	    padding-bottom: 3px;
+	vertical-align: middle !important;
+	padding-bottom: 3px;
 }
 
 /* "Hackerspace er stengt / åpent */
@@ -54,69 +52,20 @@ h1,h2,h3,h4,h5,a {
 }
 
 
-body {
-	display: flex !important;
-	min-height: 100vh !important;
-	flex-direction: column !important;
-}
-
 /* Denne koden er nødvendig for å få footer som fixed. */
 main {
 	flex: 1 0 auto !important;
 }
 
-
-blockquote {
-	border-left: 5px solid #939084 !important;
-}
-
-/* fix for static navbar */
-.navbar-fixed {
-	z-index: 9999 !important;
-}
-
-/* Fix for different aspect ratio images on all news / event page */
-.card img {
-	height:200px;
-}
-
-/* Footer images */
+/* Social media icons */
 .sosial-bilder a img {
 	width:42px !important;
 	height:42px !important;
-	margin-left:16px;
 	margin-right:16px;
 	border-radius:8px !important;
 }
 
-/* For darkening images (for better contrast with text on top) */
-.darken-90 {
-	filter: brightness(90%);
-}
-.darken-80 {
-	filter: brightness(80%);
-}
-.darken-70 {
-	filter: brightness(70%);
-}
-.darken-60 {
-	filter: brightness(60%);
-}
-.darken-50 {
-	filter: brightness(50%);
-}
-.darken-40 {
-	filter: brightness(40%);
-}
-.darken-25 {
-	filter: brightness(25%);
-}
-.darken-20 {
-	filter: brightness(20%);
-}
-.darken-10 {
-	filter: brightness(10%);
-}
+/* For darkening images on front page (for better contrast with text on top) */
 .tinter {
 	position: relative;
 	width:100%;
@@ -140,114 +89,24 @@ blockquote {
 	position:absolute !important;
 	z-index:10 !important;
 	width:100%;
-	height:100%;
 	margin-top:8vh;
 }
 
-/* Main center cog image in green with transparent bg */
-#indexLogo {
+/* Drop text shadow on tinted image center cog image in green with transparent bg, text */
+.fixed-text .text-shadow {
+	text-shadow: 5px 5px 5px black !important;
+}
+.fixed-text #indexLogo {
 	height:400px;
 	-webkit-filter: drop-shadow(5px 5px 5px #000);
 	filter: drop-shadow(5px 5px 5px #000);
 }
-.fixed-text .text-shadow {
-	text-shadow: 5px 5px 5px black !important;
 
-}
-
-/* Fontpage slider */
-.slider {
-	overflow:hidden;
-}
-
-.no-pad-bot {
-	margin-bottom:0px !important;
-	padding-bottom:0px !important;
-}
-
-/* Fjern stygg border rundt linker */
-a {
-	outline : none;
-}
-
-.flow-text {
-	word-wrap:break-word !important;
-}
-
-/* CKEditor override */
-.django-ckeditor-widget {
-	width:100%;
-}
-
+/* Prevent text in articles not formatted properly from looking ugly and clipping outside its container */
 .preview-text p {
-	font-size: 14px !important;
 	word-break: break-all;
 }
-.show-row {
-	height:10vh;
-	padding:0px !important;
-	margin:0px !important;
-}
-.show-row.large {
-	height: 55vh;
-}
-.show-row .col {
-	padding:0px !important;
-	margin:0px !important;
-	overflow:hidden;
-}
-.show-row img {
-	width:100%;
-	height:20vh;
-	margin:0px;
-}
-.show-row.large img{
-	height:55vh;
-}
-.show-row h4 {
-	position:absolute !important;
-	text-align:center;
-	width:100%;
-	z-index:5 !important;
-	padding:0px !important;
-	margin:0px !important;
-}
-.alt-tinter:hover:before { background: rgba(0, 65, 128, 0.60); }
-.alt-tinter {
-	position: relative;
-	width:100%;
-	height:100%;
-	margin:0px;
-	transition: all .5s linear;
 
-}
-.alt-tinter:before {
-	content: "";
-	display:block;
-	position:absolute;
-	top:0;
-	bottom:0;
-	left:0;
-	right:0;
-	background: #4E4B46;
-	transition: all .5s linear;
-}
-.sponsor-img img {
-	-webkit-filter: drop-shadow(2px 2px 2px #000);
-	filter: drop-shadow(2px 2px 2px #000);
-}
-/* Project cards in showcase*/
-.card-content.project {
-	height: 20vh;
-	overflow: hidden;
-}
-.no-margin {
-	margin:0px !important;
-}
-.no-pad {
-	padding:0px !important;
-
-}
 
 .search-wrapper i.material-icons{
 	cursor:pointer;

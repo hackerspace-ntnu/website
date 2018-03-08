@@ -11,6 +11,10 @@
   color: #366F2A;
 }
 
+blockquote {
+	border-left: 5px solid #939084 !important;
+}
+
 /* Overstyr materialize farger */
 .secondary-content {
 	color:#4E4B46 !important;
@@ -75,5 +79,25 @@ label.active::after {
 }
 a {
 	color: #5BBA47 !important;
-
+	/* Fjerner stygg outline etter å ha trykket på noe */
+	outline: none;
+}
+/* CKEditor override */
+.django-ckeditor-widget {
+	width:100%;
+}
+.no-margin {
+	margin:0px !important;
+}
+.no-pad {
+	padding:0px !important;
+}
+/* Required for sidenav + static navbar. Makes sure sidenav always on top */
+.navbar-fixed {
+	z-index: 9999 !important;
+}
+/* Remove padding from bottom. Handy for section blocks */
+.no-pad-bot {
+	margin-bottom:0px !important;
+	padding-bottom:0px !important;
 }

@@ -1,0 +1,55 @@
+.show-row {
+	height:10vh;
+	padding:0px !important;
+	margin:0px !important;
+}
+.show-row.large {
+	height: 55vh;
+}
+.show-row .col {
+	padding:0px !important;
+	margin:0px !important;
+	overflow:hidden;
+}
+.show-row img {
+	width:100%;
+	height:20vh;
+	margin:0px;
+}
+.show-row.large img{
+	height:55vh;
+}
+.show-row h4 {
+	position:absolute !important;
+	text-align:center;
+	width:100%;
+	z-index:5 !important;
+	padding:0px !important;
+	margin:0px !important;
+}
+.alt-tinter:hover:before { background: rgba(0, 65, 128, 0.60); }
+.alt-tinter {
+	position: relative;
+	width:100%;
+	height:100%;
+	margin:0px;
+	transition: all .5s linear;
+
+}
+.alt-tinter:before {
+	content: "";
+	display:block;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background: #4E4B46;
+	transition: all .5s linear;
+}
+
+/* Project cards in showcase*/
+.card-content.project {
+	height: 20vh;
+	overflow: hidden;
+}

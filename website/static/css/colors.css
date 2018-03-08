@@ -33,3 +33,30 @@
   color: #5BBA47 !important;
 }
 
+.darken-90 {
+	filter: brightness(90%);
+}
+.darken-80 {
+	filter: brightness(80%);
+}
+.darken-70 {
+	filter: brightness(70%);
+}
+.darken-60 {
+	filter: brightness(60%);
+}
+.darken-50 {
+	filter: brightness(50%);
+}
+.darken-40 {
+	filter: brightness(40%);
+}
+.darken-25 {
+	filter: brightness(25%);
+}
+.darken-20 {
+	filter: brightness(20%);
+}
+.darken-10 {
+	filter: brightness(10%);
+}

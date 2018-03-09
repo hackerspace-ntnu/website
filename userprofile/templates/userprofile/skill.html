@@ -3,12 +3,12 @@
 {% load check_user_group %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/members.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "userprofile/css/members.css" %}">
 {% endblock head %}
 
 {% block content %}
     <section id="groupview" style="width: 90%; max-width: 1000px; margin: 50px auto;">
-	<h1 class="center-align">Medlemmer i Hackerspace som kan {{ skill.title }}</h1>
+        <h1 class="center-align">Medlemmer i Hackerspace som kan {{ skill.title }}</h1>
         <div class="members">
             <div class="row">
                 {% for profile in profiles %}
@@ -16,7 +16,7 @@
                         <div class="card-container">
                             <div class="card medium">
                                 <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href={% url 'userprofile:profile' profileID=profile.user_id %}>
+                                    <a class="img-a" href={% url 'userprofile:profile' profile.user_id %}>
                                         {% if profile.image %}
                                             {# profile has image, show picture #}
                                             <img class="activator" src="{{ profile.image.url }}">
@@ -27,18 +27,20 @@
                                     </a>
                                 </div>
                                 <div class="card-content">
-                                    <a class="profile-name" href={% url 'userprofile:profile' profileID=profile.user_id %}>{{ profile }}</a>
+                                    <a class="profile-name"
+                                       href={% url 'userprofile:profile' profile.user_id %}>{{ profile }}</a>
                                     <div class="profile-groups-title">
                                         {% for group in profile.group.all %}
                                             {{ group.title|linebreaks }}
                                         {% endfor %}
                                     </div>
                                     {% for skill in profile.skills.all %}
-                                        <a class="chip" href="/members/skill/{{ skill.title }}" style="color: black">
+                                        <a class="chip" href="{% url 'userprofile:skill' skill.title %}"
+                                           style="color: black">
                                             {{ skill.title }}
-					    {% if skill.icon %}
-                                            <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
-					    {% endif %}
+                                            {% if skill.icon %}
+                                                <img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
+                                            {% endif %}
                                         </a>
                                     {% endfor %}
                                 </div>
@@ -48,45 +50,5 @@
                 {% endfor %}
             </div>
         </div>
-        {% comment %}
-        <!--
-        <div class="groups">
-            {% for group in groups %}
-                <div class="row">
-                    <div  align="center">
-                        <a class="group-title" href="viewGroup/{{ group.title }}" style="color: black">{{ group.title }}</a>
-                    </div>
-                {% for profile in group.members.all %}
-                    <div class="card-container">
-                        <div class="col s12 m6 l4">
-                            <div class="card medium">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href="profile/">
-                                        <img class="activator" src="/media/{{ profile.image }}">
-                                    </a>
-                                </div>
-                                <div class="card-content">
-                                    <a class="profile-name" href="profile/">{{ profile }}</a>
-                                    <div class="profile-groups-title">
-                                        {% for group in profile.group.all %}
-                                            {{ group.title|linebreaks }}
-                                        {% endfor %}
-                                    </div>
-                                    {% for skill in profile.skills.all %}
-                                        <div class="chip">
-                                            <img src="/media/{{ skill.icon }}" alt="Skill tag">
-                                            {{ skill.title }}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-        -->
-        {% endcomment %}
     </section>
 {% endblock %}

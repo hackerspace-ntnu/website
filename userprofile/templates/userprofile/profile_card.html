@@ -1,4 +1,3 @@
-{% load userprofile %}
 {% load staticfiles %}
 
 <div class="user-profile-container">
@@ -24,10 +23,10 @@
 	{% endif %}
 	{% if profile.skills %}
 	{% for skill in profile.skills.all %}
-	<a class="skill chip" href="/members/skill/{{ skill.title }}">
+	<a class="skill chip" href="{% url 'userprofile:skill' skill.title %}">
 	    {{ skill.title }}
 	    {% if skill.icon %}
-	    <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+	    <img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
 	    {% endif %}
 	</a>
 	{% endfor %}

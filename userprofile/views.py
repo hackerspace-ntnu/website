@@ -40,16 +40,9 @@ def skill(request, skill_title):
     return render(request, 'userprofile/skill.html', context)
 
 
-"""
-def group(request):
-    context = {'group': request.path.split("/")[-1]}
-    return render(request, "group.html", context)
-"""
-
-
-def profile(request, profileID):
+def profile(request, profile_id):
     try:
-        profile = Profile.objects.get(user_id=profileID)
+        profile = Profile.objects.get(user_id=profile_id)
         profile.update()
         return render(request, 'userprofile/profile.html', {'profile': profile, 'user': request.user})
     except Profile.DoesNotExist:
@@ -60,12 +53,12 @@ def edit_profile(request):
     return edit_profile_id(request, request.user.id)
 
 
-def edit_profile_id(request, profileID):
+def edit_profile_id(request, profile_id):
     try:
         user = request.user
-        profile = Profile.objects.get(user_id=profileID)
+        profile = Profile.objects.get(user_id=profile_id)
         if user != profile.user and not user.is_superuser:
-            return redirect('/members/profile/' + str(profileID))
+            return redirect('/members/profile/' + str(profile_id))
         if user.is_superuser:
             form = ProfileModelFormAdmin(request.POST or None, request.FILES or None, instance=profile)
         elif Profile.objects.filter(user=user, group__isnull=False):
@@ -74,7 +67,7 @@ def edit_profile_id(request, profileID):
             form = ProfileModelFormUser(request.POST or None, request.FILES or None, instance=profile)
         if request.method == 'POST' and form.is_valid():
             form.save()
-            return redirect('/members/profile/' + str(profileID))
+            return redirect('/members/profile/' + str(profile_id))
         return render(request, 'userprofile/edit_profile.html', {'form': form, 'profile': profile})
     except Profile.DoesNotExist:
         return render(request, '404.html')

@@ -3,15 +3,15 @@
 {% load check_user_group %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "userprofile/css/profile.css" %}">
 {% endblock head %}
 
 {% block content %}
 <div class="section no-pad-bot">
     <div class="container">
-	{% include "profile_card.html" %}
+	{% include "userprofile/profile_card.html" %}
 	{% if profile.duty.all %}
-	{% include "shift_table.html" %}
+	{% include "userprofile/shift_table.html" %}
 	{% endif %}
 	{% if user.is_superuser or user == profile.user %}
 	<a id="edit_profile" href="/members/{{ profile.user_id }}/edit" class="btn waves-effect waves-light">Rediger</a>

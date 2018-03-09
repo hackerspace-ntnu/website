@@ -28,16 +28,16 @@ def members(request):
                            any(group in group_results for group in user_profile.group.all())
                            ]
 
-        return render(request, "members.html", context={"profiles": result_profiles})
+        return render(request, "userprofile/members.html", context={"profiles": result_profiles})
 
-    return render(request, "members.html", context={"profiles": profiles})
+    return render(request, "userprofile/members.html", context={"profiles": profiles})
 
 
 def skill(request, skill_title):
     skill = Skill.objects.get(title=skill_title)
     profiles = Profile.objects.filter(skills__title__icontains=skill_title, group__isnull=False).distinct()
     context = {'skill': skill, 'profiles': profiles}
-    return render(request, 'skill.html', context)
+    return render(request, 'userprofile/skill.html', context)
 
 
 """
@@ -51,7 +51,7 @@ def profile(request, profileID):
     try:
         profile = Profile.objects.get(user_id=profileID)
         profile.update()
-        return render(request, 'profile.html', {'profile': profile, 'user': request.user})
+        return render(request, 'userprofile/profile.html', {'profile': profile, 'user': request.user})
     except Profile.DoesNotExist:
         return render(request, '404.html')
 
@@ -75,6 +75,6 @@ def edit_profile_id(request, profileID):
         if request.method == 'POST' and form.is_valid():
             form.save()
             return redirect('/members/profile/' + str(profileID))
-        return render(request, 'edit_profile.html', {'form': form, 'profile': profile})
+        return render(request, 'userprofile/edit_profile.html', {'form': form, 'profile': profile})
     except Profile.DoesNotExist:
         return render(request, '404.html')

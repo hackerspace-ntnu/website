@@ -5,7 +5,6 @@
 	<head>
 		<title>Hackerspace NTNU</title>
 		<link rel="shortcut icon" type="image/png" href="{% static "img/favicon.ico" %}">
-		<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
 		<!-- Google Icons -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
@@ -18,6 +17,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- Legg til Materialize JS -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+		<!-- Lokale stylesheets etter materialize, for å override -->
+		<link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+		<link rel="stylesheet" type="text/css" href="{% static "css/material_override.css" %}">
+		<link rel="stylesheet" type="text/css" href="{% static "css/colors.css" %}">
 		{% block head %}
 		{% endblock head %}
 		{% block extra_js %}

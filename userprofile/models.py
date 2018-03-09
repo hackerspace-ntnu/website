@@ -72,14 +72,14 @@ class Profile(models.Model):
         if self.auto_name: self.name = self.user.first_name + " " + self.user.last_name
         self.email = self.user.email
         self.get_dutytime()
-        self.fix_profile_picture()
+        #self.fix_profile_picture()
         self.save()
 
-    def fix_profile_picture(self):
-        if self.image:
-            if self.image.width > 300 or self.image.height > 300:
-                ImageOps.fit(Image.open(self.image.path), (300, 300), Image.ANTIALIAS, centering=(0.5, 0.5)).save(
-                    self.image.path, "PNG", quality=100)
+    #def fix_profile_picture(self):
+    #    if self.image:
+    #        if self.image.width > 300 or self.image.height > 300:
+    #            ImageOps.fit(Image.open(self.image.path), (300, 300), Image.ANTIALIAS, centering=(0.5, 0.5)).save(
+    #                self.image.path, "PNG", quality=100)
 
     def get_dutytime(self):
         if self.auto_duty:

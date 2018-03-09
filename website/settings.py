@@ -163,6 +163,7 @@ MIDDLEWARE_CLASSES = [
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 if not DEBUG:
     STATIC_ROOT = '../static'
     MEDIA_ROOT = '../media'

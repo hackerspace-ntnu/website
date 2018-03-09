@@ -1,6 +1,7 @@
+{% load staticfiles %}
 <div class="user-profile-container">
     <div class="user-profile-image">
-	<img class="profile-image" src="/media/{{ profile.image }}" height="300">
+	    <img class="profile-image" src="/media/{{ profile.image }}" height="300">
     </div>
     <div class="user-profile-info">
 	<h4>{{ profile.name }}</h4>

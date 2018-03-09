@@ -16,12 +16,18 @@
                         <div class="card-container">
                             <div class="card medium">
                                 <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href={% url 'profile' profileID=profile.user_id %}>
-                                        <img class="activator" src="/media/{{ profile.image }}">
+                                    <a class="img-a" href={% url 'userprofile:profile' profileID=profile.user_id %}>
+                                        {% if profile.image %}
+                                            {# profile has image, show picture #}
+                                            <img class="activator" src="{{ profile.image.url }}">
+                                        {% else %}
+                                            {# profile.images is None, show default.png #}
+                                            <img class="activator" src="{% static "userprofile/img/default.png" %}">
+                                        {% endif %}
                                     </a>
                                 </div>
                                 <div class="card-content">
-                                    <a class="profile-name" href={% url 'profile' profileID=profile.user_id %}>{{ profile }}</a>
+                                    <a class="profile-name" href={% url 'userprofile:profile' profileID=profile.user_id %}>{{ profile }}</a>
                                     <div class="profile-groups-title">
                                         {% for group in profile.group.all %}
                                             {{ group.title|linebreaks }}

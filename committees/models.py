@@ -13,7 +13,7 @@ from sorl.thumbnail import ImageField
 class Committee(models.Model):
     title = models.CharField(max_length=100, unique=True)
     email = models.EmailField(null=True, blank=True)
-    image = ImageField(upload_to='komiteer')
+    image = ImageField(upload_to='committees/static/img/committee_images/')
     slug = models.SlugField(null=True, blank=True)
     one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
     description = RichTextField(verbose_name='Beskrivelse', config_name='committees')

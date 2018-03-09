@@ -4,7 +4,7 @@
 	    {% if profile.image.url == "/media/profilepictures/default.png" %}
 	    <img class="profile-image" src="{% static 'img/default.png' %}" height="300">
 	    {% else %}
-	    <img class="profile-image" src="/media/{{ profile.image }}" height="300">
+	    <img class="profile-image" src="{{ profile.image.url }}" height="300">
 	    {% endif %}
     </div>
     <div class="user-profile-info">

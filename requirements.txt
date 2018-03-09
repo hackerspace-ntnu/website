@@ -1,5 +1,4 @@
 django==1.11
-gunicorn
 django-bower==5.1.0
 django-ckeditor==5.4
 django_nyt==0.9.8

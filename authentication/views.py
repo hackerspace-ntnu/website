@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from django.utils.http import urlsafe_base64_decode
 from authentication.forms import SignUpForm
+from django.contrib.auth.tokens import default_token_generator
+from django.http import HttpResponseRedirect
 
 
 
@@ -35,12 +37,22 @@ def get_user(uidb64):
 
 def SignUpConfirmView(request, token, uidb64):
     # Get user based on base64 encoded ID
-    account = get_user(uidb64)
-    account.is_active = True
-    account.save()
+    user = get_user(uidb64)
+    if user != None:
+        if not user.is_active:
+            if default_token_generator.check_token(user, token):
+                user.is_active = True
+                user.save()
+                message = "Din konto er aktivert!"
+            else:
+                message = "Linken du forsøker å bruke har utløpt."
+        else:
+            message = "Din konto er allerede aktivert!"
+    else:
+        return HttpResponseRedirect(reverse('index'))
 
     context = {
-        'title': "Du har fått aktivert din konto"
+        'title': message
     }
     return render(request, 'redirection_page.html', context)
 

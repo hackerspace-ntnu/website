@@ -1,4 +1,3 @@
 {{ message }}
 
-
-Link: http://hackerspace-ntnu.no/authentication/reset/{{ uid }}/{{ token }}/"
+Link: http://hackerspace-ntnu.no/authentication/signup-confirm/{{ uid }}/{{ token }}/

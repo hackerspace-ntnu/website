@@ -6,6 +6,9 @@ from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import redirect
 
+def isFeide(request):
+    return request.user.get('feided', False)
+
 
 def SignUpView(request):
     if request.method == 'POST':

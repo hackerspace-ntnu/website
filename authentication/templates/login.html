@@ -7,7 +7,7 @@
 
 {% block content %}
   <h1 id="pageName">Logg inn</h1>
-  <form action="/authentication/login/" method="post">
+  <form action="" method="post">
     {% csrf_token %}
     <p id="error-message">{{ form.username.errors }}</p>
     <div class="input-field">

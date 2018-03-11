@@ -18,10 +18,10 @@ class SignUpForm(UserCreationForm):
                                label="Username",
                                widget=forms.TextInput(),
                                error_messages=default_error_messages)
-    email = forms.CharField(max_length=50,
-                            label="Email",
-                            widget=forms.TextInput(),
-                            error_messages=default_error_messages)
+    email = forms.EmailField(max_length=50,
+                             label="Email",
+                             widget=forms.TextInput(),
+                             error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
                                  widget=forms.TextInput(),

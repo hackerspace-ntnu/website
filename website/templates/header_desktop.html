@@ -27,7 +27,7 @@
 		            </a>
                 <ul id='userdropdown' class='dropdown-content' style="margin-top: 9px;">
                     {% if request.user.is_superuser %}
-		            <li><a href="/members/profile/{{ user.id }}">MIN PROFIL</a></li>
+		            <li><a href="{% url 'userprofile:profile' user.profile.pk %}">MIN PROFIL</a></li>
                     {% endif %}
                     <li><a href="/authentication/change-password">BYTT PASSORD</a></li>
                     <li><a href="/authentication/logout">LOGG UT</a></li>

@@ -1,9 +1,11 @@
-from django.db import models
 from django.contrib.auth.admin import User
-from django.conf import settings
-from vaktliste.views import vakt_filter
+from django.db import models
+from django.shortcuts import reverse
+
 from datetime import datetime
 from PIL import Image, ImageOps
+
+from vaktliste.views import vakt_filter
 
 
 class Skill(models.Model):
@@ -97,6 +99,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def get_absolute_url(self):
+        return reverse('userprofile:profile', args=(self.pk,))
 
 
 # Import receiver (for creating profiles when a user is created) into namespace.

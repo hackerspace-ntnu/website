@@ -1,28 +1,30 @@
 {% load static %}
 <div class="guard-cards">
     <div class="row">
-	{% for guard,info in guards.items %}
+	{% for name, profile in guards.items %}
 	<div class="card-container">
 	    <div class="col s12 m4 l3">
 		<div class="card large">
 		    <div class="card-image waves-effect waves-block waves-light">
-			{% if info.id %}
-			<a class="img-a" href="/members/profile/{{ info.user_id }}">
+			{% if profile.id %}
+			  <a class="img-a" href="{% url 'userprofile:profile' profile.pk %}">
 			{% else %}
-			<a class="img-a">
+			  <a class="img-a">
 			{% endif %}
-			    {% if info.image %}
-			    <img class="activator" src="/media/{{ info.image }}">
-			    {% else %}
-			    <img class="activator" src="/static/img/Logo_round_green.png">
-			    {%endif %}
+        {% if profile.image  %}
+          {# profile has image, show picture #}
+          <img class="activator" src="{{ profile.image.url }}">
+        {% else %}
+          {# profile.images is None, show logo #}
+			    <img class="activator" src="{% static 'img/Logo_round_green.png' %}">
+        {% endif %}
 			</a>
 		    </div>
 		    <div class="card-content">
-			{% if info.id %}
-			<a class="card-title truncate" href="/members/profile/{{ info.user_id }}">{{ guard }}</a>
+			{% if profile.id %}
+			<a class="card-title truncate" href="{% url 'userprofile:profile' profile.pk %}">{{ name }}</a>
 			{% else %}
-			<p class="card-title truncate" >{{ guard }}</p>
+			<p class="card-title truncate" >{{ name }}</p>
 			{% endif %}
 		    </div>
 		</div>

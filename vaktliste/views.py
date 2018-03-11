@@ -9,7 +9,7 @@ vakt_cache_tuples = ""
 vakt_cache_json = ""
 
 
-def hent_vaktliste(output="json",force_update=False):
+def hent_vaktliste(output="json", force_update=False):
     global vakt_cache_tuples
     global vakt_cache_json
     global cache_time
@@ -54,7 +54,7 @@ def get_time_slots(times):
 
             h, m = map(int, time.split(":"))
 
-            filter_times.append(min(time_slots, key=lambda x: abs(time_slots.index(x) * 2 + 11.11 - h - m/60)))
+            filter_times.append(min(time_slots, key=lambda x: abs(time_slots.index(x) * 2 + 11.11 - h - m / 60)))
 
     return filter_times
 
@@ -65,9 +65,9 @@ def filter_current():
     return vakt_filter(days=days[int(day)], times=time)
 
 
-def vakt_filter(days="", times="", persons="", full=True, compact=False,output="json"):
+def vakt_filter(days="", times="", persons="", full=True, compact=False, output="json"):
     filter_times = get_time_slots(times)
-    if output=="tuples":
+    if output == "tuples":
         filter_data = []
     else:
         filter_data = {}
@@ -78,23 +78,23 @@ def vakt_filter(days="", times="", persons="", full=True, compact=False,output="
         if compact:
             day = day[:3]
             time_slot = "".join(time_slot.split(" "))
-        if day not in filter_data and output!="tuples":
+        if day not in filter_data and output != "tuples":
             filter_data[day] = {}
         if full:
-            if output=="tuples":
-                filter_data.append((day,time_slot,hackers))
+            if output == "tuples":
+                filter_data.append((day, time_slot, hackers))
             else:
                 filter_data[day][time_slot] = hackers
         else:
-            hacker_list=[]
+            hacker_list = []
             for hacker in {pm for pm in hackers for pf in filter_persons if pf in pm.lower()}:
-                if output=="tuples":
-                    hacker_list.append({hacker:{}})
+                if output == "tuples":
+                    hacker_list.append({hacker: {}})
                 if time_slot not in filter_data[day]:
                     filter_data[day][time_slot] = {}
-                filter_data[day][time_slot][hacker]=hackers[hacker]
-            if output=="tuples":
-                filter_data.append((day,time_slot,hacker_list))
+                filter_data[day][time_slot][hacker] = hackers[hacker]
+            if output == "tuples":
+                filter_data.append((day, time_slot, hacker_list))
 
     return filter_data
 
@@ -112,9 +112,11 @@ def vakter(request):
 def current(_):
     return JsonResponse(filter_current())
 
+
 def update(_):
     hent_vaktliste(force_update=True)
-    return JsonResponse({"Cache time":cache_time})
+    return JsonResponse({"Cache time": cache_time})
+
 
 def index(request):
     from userprofile.models import Profile
@@ -123,20 +125,20 @@ def index(request):
     personer = request.GET.get('person', '')
     full = request.GET.get('full', '').lower() != "on"
     context = {
-            "dager":dager,
-            "tider":tider,
-            "personer":personer,
-            "full":full,
-            }
-    if any([dager,tider,personer]):
+        "dager": dager,
+        "tider": tider,
+        "personer": personer,
+        "full": full,
+    }
+    if any([dager, tider, personer]):
         guard_list = dict()
         vakt_data = vakt_filter(days=dager, times=tider, persons=personer, full=full)
         for day in vakt_data:
             for time in vakt_data[day]:
-                for hacker in vakt_data[day][time]:
+                for name in vakt_data[day][time]:
                     try:
-                        guard_list[hacker]=Profile.objects.get(name=hacker)
+                        guard_list[name] = Profile.objects.get(name=name)
                     except:
-                        guard_list[hacker]=vakt_data[day][time][hacker]
-        context["guards"]=guard_list
+                        guard_list[name] = vakt_data[day][time][name]
+        context["guards"] = guard_list
     return render(request, 'vakt_filter.html', context)

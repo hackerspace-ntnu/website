@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.utils.http import urlsafe_base64_decode
 from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 
 
 def SignUpView(request):
@@ -13,7 +13,7 @@ def SignUpView(request):
         if form.is_valid():
                 # Send mail about activation
                 form.save()
-                return HttpResponseRedirect(reverse('signup_done'))
+                return redirect(reverse('signup_done'))
     else:
         form = SignUpForm()
 
@@ -51,7 +51,7 @@ def SignUpConfirmView(request, token, uidb64):
         else:
             message = "Din konto er allerede aktivert!"
     else:
-        return HttpResponseRedirect(reverse('index'))
+        return redirect('/')
 
     context = {
         'title': message

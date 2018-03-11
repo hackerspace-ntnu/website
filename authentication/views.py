@@ -7,7 +7,6 @@ from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponseRedirect
 
 
-
 def SignUpView(request):
     if request.method == 'POST':
         form = SignUpForm(data=request.POST)
@@ -25,6 +24,8 @@ def SignUpView(request):
 
 # Aumatically get the user model that is being used by django from its engine
 UserModel = get_user_model()
+
+
 def get_user(uidb64):
     try:
         # urlsafe_base64_decode() decodes to bytestring
@@ -35,10 +36,11 @@ def get_user(uidb64):
         user = None
         return user
 
+
 def SignUpConfirmView(request, token, uidb64):
     # Get user based on base64 encoded ID
     user = get_user(uidb64)
-    if user != None:
+    if user is not None:
         if not user.is_active:
             if default_token_generator.check_token(user, token):
                 user.is_active = True
@@ -56,8 +58,10 @@ def SignUpConfirmView(request, token, uidb64):
     }
     return render(request, 'redirection_page.html', context)
 
+
 def SignUpDoneView(request):
     context = {
-        'title': "Registreringen var vellykket og du vil snart motta en mail med videre instruksjoner."
+        'title': "Registreringen var vellykket og du vil snart motta\
+        en mail med videre instruksjoner."
     }
     return render(request, 'redirection_page.html', context)

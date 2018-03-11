@@ -9,17 +9,19 @@ from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
 from website.settings import DEFAULT_FROM_MAIL
 
-default_error_messages = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
+default_error_messages = {'required': 'Feltet må fylles ut',
+                          'invalid_choice': 'Verdien er ikke gyldig'}
+
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=50,
-                                 label="Username",
-                                 widget=forms.TextInput(),
-                                 error_messages=default_error_messages)
+                               label="Username",
+                               widget=forms.TextInput(),
+                               error_messages=default_error_messages)
     email = forms.CharField(max_length=50,
-                                 label="Email",
-                                 widget=forms.TextInput(),
-                                 error_messages=default_error_messages)
+                            label="Email",
+                            widget=forms.TextInput(),
+                            error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
                                  widget=forms.TextInput(),
@@ -28,6 +30,7 @@ class SignUpForm(UserCreationForm):
                                 label="Last name",
                                 widget=forms.TextInput(),
                                 error_messages=default_error_messages)
+
     def clean_email(self):
         email = self.cleaned_data.get("email")
         # Checks if the email is already registered
@@ -39,8 +42,9 @@ class SignUpForm(UserCreationForm):
             pass
 
         # Checks if the email is not from NTNU
-        if not (str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith(
-                '@ntnu.edu')):
+        if not (str(email).endswith('@stud.ntnu.no') or
+                str(email).endswith('@ntnu.no') or
+                str(email).endswith('@ntnu.edu')):
             message = 'Mailen er ikke fra NTNU'
             self.add_error('email', message)
 
@@ -85,4 +89,3 @@ class SignUpForm(UserCreationForm):
             html_message=html_message
         )
         return user
-

@@ -1,14 +1,22 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.http import urlsafe_base64_decode
 from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
-from django.shortcuts import redirect
 
-def isFeide(request):
-    return request.user.get('feided', False)
 
+@login_required
+def logout_user(request):
+    feided = request.session.get('feided',False)
+    if request.user.is_authenticated:
+        logout(request)
+        resp = redirect(reverse('index'))
+    if feided:
+        print("Logging out FEIDE-user")
+        resp = redirect("https://auth.dataporten.no/logout")
+    return resp
 
 def SignUpView(request):
     if request.method == 'POST':

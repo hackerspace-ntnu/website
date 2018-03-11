@@ -1,0 +1,4 @@
+{{ message }}
+
+
+Link: http://hackerspace-ntnu.no/authentication/reset/{{ uid }}/{{ token }}/"

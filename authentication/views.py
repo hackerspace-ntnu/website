@@ -10,14 +10,11 @@ from django.contrib.auth.tokens import default_token_generator
 
 @login_required
 def logout_user(request):
-    feided = request.session.get('feided', False)
-    if request.user.is_authenticated:
-        logout(request)
-        resp = redirect(reverse('index'))
-    if feided:
-        print("Logging out FEIDE-user")
-        resp = redirect("https://auth.dataporten.no/logout")
-    return resp
+    is_feide_login = request.session.get('feided', False)
+    logout(request)
+    if is_feide_login:
+        return redirect("https://auth.dataporten.no/logout")
+    return redirect(reverse('index'))
 
 
 def SignUpView(request):

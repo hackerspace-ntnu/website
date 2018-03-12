@@ -34,19 +34,14 @@ class SignUpForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get("email")
         # Checks if the email is already registered
-        try:
-            User.objects.get(email=email)
-            message = 'Mailen er allerede registrert'
-            self.add_error('email', message)
-        except User.DoesNotExist:
-            pass
+        if User.objects.filter(email=email).exists():
+            self.add_error('email', 'Mailen er allerede registrert')
 
         # Checks if the email is not from NTNU
         if not (str(email).endswith('@stud.ntnu.no') or
                 str(email).endswith('@ntnu.no') or
                 str(email).endswith('@ntnu.edu')):
-            message = 'Mailen er ikke fra NTNU'
-            self.add_error('email', message)
+            self.add_error('email', 'Mailen er ikke fra NTNU')
 
         return email
 
@@ -54,12 +49,8 @@ class SignUpForm(UserCreationForm):
         username = self.cleaned_data.get("username")
 
         # Checks if user already exists
-        try:
-            User.objects.get(username=username)
-            message = 'Brukernavnet eksisterer allerede'
-            self.add_error('username', message)
-        except User.DoesNotExist:
-            pass
+        if User.objects.filter(username=username).exists():
+            self.add_error('username', 'Brukernavnet eksisterer allerede')
 
         return username
 

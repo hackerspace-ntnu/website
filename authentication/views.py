@@ -3,13 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.utils.http import urlsafe_base64_decode
+from django.views.generic import TemplateView
 from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
 
 
 @login_required
 def logout_user(request):
-    feided = request.session.get('feided',False)
+    feided = request.session.get('feided', False)
     if request.user.is_authenticated:
         logout(request)
         resp = redirect(reverse('index'))
@@ -18,13 +19,14 @@ def logout_user(request):
         resp = redirect("https://auth.dataporten.no/logout")
     return resp
 
+
 def SignUpView(request):
     if request.method == 'POST':
         form = SignUpForm(data=request.POST)
         if form.is_valid():
-                # Send mail about activation
-                form.save()
-                return redirect(reverse('signup_done'))
+            # Send mail about activation
+            form.save()
+            return redirect(reverse('signup_done'))
     else:
         form = SignUpForm()
 
@@ -70,9 +72,9 @@ def SignUpConfirmView(request, token, uidb64):
     return render(request, 'redirection_page.html', context)
 
 
-def SignUpDoneView(request):
-    context = {
-        'title': "Registreringen var vellykket og du vil snart motta\
-        en mail med videre instruksjoner."
-    }
-    return render(request, 'redirection_page.html', context)
+class SignUpDoneView(TemplateView):
+    template = 'redirection_page.html'
+
+    def get_context_data(self):
+        return {'title': "Registreringen var vellykket og du vil snart motta en"
+                         " mail med videre instruksjoner."}

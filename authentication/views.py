@@ -32,7 +32,7 @@ def SignUpView(request):
     return render(request, 'signup.html', context)
 
 
-# Aumatically get the user model that is being used by django from its engine
+# Automatically get the user model that is being used by django from its engine
 UserModel = get_user_model()
 
 
@@ -40,11 +40,9 @@ def get_user(uidb64):
     try:
         # urlsafe_base64_decode() decodes to bytestring
         uid = urlsafe_base64_decode(uidb64).decode()
-        user = UserModel._default_manager.get(pk=uid)
-        return user
+        return UserModel._default_manager.get(pk=uid)
     except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
-        user = None
-        return user
+        return None
 
 
 class SignUpConfirmView(TemplateView):

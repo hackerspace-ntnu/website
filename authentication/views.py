@@ -47,26 +47,24 @@ def get_user(uidb64):
         return user
 
 
-def SignUpConfirmView(request, token, uidb64):
-    # Get user based on base64 encoded ID
-    user = get_user(uidb64)
-    if user is not None:
-        if not user.is_active:
-            if default_token_generator.check_token(user, token):
-                user.is_active = True
-                user.save()
-                message = "Din konto er aktivert!"
-            else:
-                message = "Linken du forsøker å bruke har utløpt."
-        else:
-            message = "Din konto er allerede aktivert!"
-    else:
-        return redirect('/')
+class SignUpConfirmView(TemplateView):
+    template = 'redirection_page.html'
 
-    context = {
-        'title': message
-    }
-    return render(request, 'redirection_page.html', context)
+    def dispatch(self, *args, **kwargs):
+        # If the user id is does not exist redirect to the main page
+        if get_user(kwargs['uidb64']) is None:
+            return redirect('/')
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        user = get_user(kwargs['uidb64'])
+        if user.is_active:
+            return {'title': 'Din konto er allerede aktivert!'}
+        if default_token_generator.check_token(user, kwargs["token"]):
+            user.is_active = True
+            user.save()
+            return {'title': 'Din kont er aktivert!'}
+        return {'title': "Linken du forsøker å bruker har utløpt"}
 
 
 class SignUpDoneView(TemplateView):

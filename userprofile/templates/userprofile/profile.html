@@ -8,8 +8,10 @@
 		<div class="row">
 			<div class="col s12 white-text center">
 				<h4>Brukerprofil for {{ profile.name }}</h4>
-				{% if user.is_superuser or user == profile.user %}
-				<a id="edit_profile" href="/members/{{ profile.user_id }}/edit" class="btn btn-large waves-effect waves-light white hs-gray-text">Rediger</a>
+				{% if user == profile.user %}
+				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-large waves-effect waves-light white hs-gray-text">Rediger</a>
+				{% elif user.is_superuser %}
+				<a id="edit_profile" href="{% url 'userprofile:profile_edit_by_id' profile.id %}" class="btn btn-large waves-effect waves-light white hs-gray-text">Rediger</a>
 				{% endif %}
 			</div>
 		</div>
@@ -19,7 +21,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s6">
-				<img class="circle" src="/media/{{ profile.image }}" height="300">
+				{% if profile.image %}
+				<img class="circle" src="{{ profile.image.url }}" height="300">
+				{% else %}
+				<img class="circle" src="{% static 'img/misc/default.png' %}" height="300">
+				{% endif %}
 			</div>
 			<div class="col s6">
 				<h4>{{ profile.name }}</h4>
@@ -54,10 +60,6 @@
 				{% if profile.duty.all %}
 				{% include "shift_table.html" %}
 				{% endif %}
-			</div>
-		</div>
-	</div>
-</div>
 			</div>
 		</div>
 	</div>

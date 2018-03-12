@@ -78,7 +78,6 @@ INSTALLED_APPS = [
     'committees',
     'dal',
     'dal_select2',
-    'material',
     'rpi',
     'inventory',
     'userprofile',
@@ -161,6 +160,10 @@ MIDDLEWARE_CLASSES = [
 #################################
 # Static                        #
 #################################
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'

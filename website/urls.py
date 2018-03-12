@@ -37,7 +37,6 @@ urlpatterns = [
     url(r'^about/$', about, name='about'),
     url(r'^s/', include('django.contrib.flatpages.urls')),
     url(r'^members/', include('userprofile.urls')),
-    url(r'^user/', include('userprofile.urls')),
     url(r'^vaktliste/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
     url(r'^kaffi/', include('koohii.urls')),

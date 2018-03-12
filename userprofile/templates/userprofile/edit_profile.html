@@ -15,24 +15,28 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<img class="circle" src="/media/{{ profile.image }}" height="300">
+				{% if profile.image %}
+				<img class="circle" src="{{ profile.image.url }}" height="300">
+				{% else %}
+				<img class="circle" src="{% static 'img/misc/default.png' %}" height="300">
+				{% endif %}
 			</div>
 		</div>
 		<div class="row">
-			<form  enctype="multipart/form-data" method="post" action="/members/{{ profile.user_id }}/edit" onchange="condOption()">
+			<form  enctype="multipart/form-data" method="post" action="" onchange="condOption()">
 				{% csrf_token %}
 				{% for field in form %}
-				{% if field.label == "Profilbilde" %}
-				<div class="col s12">
-					{{ field }}
-				</div>
-				<div class="divider"></div>
-				{% else %}
-				<div class="col s12 input-field">
-					{{ field }}
-					<label for="{{field.id_for_label }}">{{ field.label }}</input>
-				</div>
-				{% endif %}
+					{% if field.label == "Profilbilde" %}
+						<div class="col s12">
+							{{ field }}
+						</div>
+						<div class="divider"></div>
+					{% else %}
+						<div class="col s12 input-field">
+						{{ field }}
+						<label for="{{field.id_for_label }}">{{ field.label }}</input>
+						</div>
+					{% endif %}
 				{% endfor %}
 				<input type="submit" value="Submit"/>
 			</form>
@@ -50,7 +54,6 @@
 	var instance = M.FormSelect.init(vaktGetter);
 	var instance = M.FormSelect.init(skillGetter);
 	var instance = M.FormSelect.init(autoDutyGetter);
-
 	
 	autoDutyGetter.addEventListener('click', function() {
 		vaktGetter.hide();

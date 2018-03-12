@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "userprofile/css/members.css" %}">
+{% endblock head %}
+
+{% block content %}
+    <section id="groupview" style="width: 90%; max-width: 1000px; margin: 50px auto;">
+        <h1 class="center-align">Medlemmer i Hackerspace</h1>
+        <div class="row">
+            <form method="post">
+                {% csrf_token %}
+                <div id="searchform" class="input-field">
+                    <label for id="search">Hva leter du etter?</label>
+                    <input id="search" maxlength="100" name="searchBar" type="text">
+                </div>
+                <button id="searchButton" type="submit" name="action" class="waves-effect waves-light btn">SØK</button>
+            </form>
+        </div>
+        <div class="members">
+            <div class="row">
+                {% for profile in profiles %}
+                    <div class="col s12 m6 l4">
+                        <div class="card-container">
+                            <div class="card medium">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <a class="img-a" href={% url 'userprofile:profile' profile.pk %}>
+                                        {% if profile.image %}
+                                            {# profile has image, show picture #}
+                                            <img class="activator" src="{{ profile.image.url }}">
+                                        {% else %}
+                                            {# profile.images is None, show default.png #}
+                                            <img class="activator" src="{% static "userprofile/img/default.png" %}">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="card-content">
+                                    <a class="profile-name"
+                                       href={% url 'userprofile:profile' profile.pk %}>{{ profile.name }}</a>
+                                    <div class="profile-groups-title">
+                                        {% for group in profile.group.all %}
+                                            {{ group.title|linebreaks }}
+                                        {% endfor %}
+                                    </div>
+                                    {% for skill in profile.skills.all %}
+                                        <a class="chip" href="{% url 'userprofile:skill' skill.title %}" style="color: black">
+                                            {{ skill.title }}
+                                            {% if skill.icon %}
+                                                <img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
+                                            {% endif %}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

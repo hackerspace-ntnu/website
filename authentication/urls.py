@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^logout/$', logout_user, name='logout'),
     url(r'^change-password/$', auth_views.PasswordChangeView.as_view(template_name="change_password.html"), name='password_change'),
     url(r'^change-password-done/$', auth_views.PasswordChangeDoneView.as_view(template_name="redirection_page.html"), name='password_change_done'),
-    url(r'^signup/$', SignUpView, name='signup'),
+    url(r'^signup/$', SignUpView.as_view(), name='signup'),
     url(r'^signup-done/$', SignUpDoneView.as_view(), name='signup_done'),
     url(r'^signup-confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', SignUpConfirmView.as_view(), name='signup_confirm'),
     url(r'^forgot-password/$', auth_views.PasswordResetView.as_view(

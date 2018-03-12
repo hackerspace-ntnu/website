@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from django.utils.http import urlsafe_base64_decode
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
 
@@ -17,19 +17,14 @@ def logout_user(request):
     return redirect(reverse('index'))
 
 
-def SignUpView(request):
-    if request.method == 'POST':
-        form = SignUpForm(data=request.POST)
-        if form.is_valid():
-            # Send mail about activation
-            form.save()
-            return redirect(reverse('signup_done'))
-    else:
-        form = SignUpForm()
+class SignUpView(FormView):
+    template_name = 'signup.html'
+    form_class = SignUpForm
+    success_url = reverse_lazy('signup_done')
 
-    context = {'form': form}
-
-    return render(request, 'signup.html', context)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
 # Automatically get the user model that is being used by django from its engine
@@ -46,7 +41,7 @@ def get_user(uidb64):
 
 
 class SignUpConfirmView(TemplateView):
-    template = 'redirection_page.html'
+    template_name = 'redirection_page.html'
 
     def dispatch(self, *args, **kwargs):
         # If the user id is does not exist redirect to the main page
@@ -61,12 +56,12 @@ class SignUpConfirmView(TemplateView):
         if default_token_generator.check_token(user, kwargs["token"]):
             user.is_active = True
             user.save()
-            return {'title': 'Din kont er aktivert!'}
+            return {'title': 'Din konto er aktivert!'}
         return {'title': "Linken du forsøker å bruker har utløpt"}
 
 
 class SignUpDoneView(TemplateView):
-    template = 'redirection_page.html'
+    template_name = 'redirection_page.html'
 
     def get_context_data(self):
         return {'title': "Registreringen var vellykket og du vil snart motta en"

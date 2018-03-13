@@ -1,20 +1,19 @@
 {% load staticfiles %}
-{% load userprofile %}
 {% load loginmodal %}
 <header>
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper hs-gray">
 				<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
-				<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "/static/img/logo/Hakcerspace_huge.png" %}"/></a>
-				<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{% static "/static/img/logo/Hakcerspace_huge.png" %}"/></a>
-				<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{% static "/static/img/logo/Hakcerspace_huge.png" %}"/></a>
+				<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "/img/logo/Hakcerspace_huge.png" %}"/></a>
+				<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{% static "/img/logo/Hakcerspace_huge.png" %}"/></a>
+				<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{% static "/img/logo/Hakcerspace_huge.png" %}"/></a>
 				<!-- Hamburger -->
 				<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 				<!-- Dropdown user list for desktop-->
 				<ul id="userdropdown" class="dropdown-content">
 					{% if request.user.is_authenticated %}
-					<li><a href="/user/{{ request.user.id }}">Profil</a></li>
+					<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
 					<li><a href="/authentication/logout">Logg Ut</a></li>
 					{% else %}
@@ -39,7 +38,7 @@
 						<a class="modal-trigger" href="#mapModal"><i class="material-icons">map</i></a>
 					</li>
 					{% if request.user.is_authenticated %}
-					<li><a class="dropdown-trigger-user valign-wrapper" href="/user/{{ request.user.id }}" data-target="userdropdown"> <img class="center circle" src="/media/{% get_profile request.user.id 'image' %}"></a></li>
+					<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{{ request.user.profile.image.url }}"></a></li>
 					{% else %}
 					<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
 					{% endif %}
@@ -51,8 +50,8 @@
 							<div class="background hs-gray"> </div>
 							<!-- TODO: Make centered while respecting circle class -->
 							{% if request.user.is_authenticated %}
-							<a class="center" href="/user/{{ request.user.id }}"><img class="" src="/media/{% get_profile request.user.id 'image' %}"></a>
-							<a href="#"><span class="white-text">{% get_profile request.user.id 'name' %}</span></a>
+							<a class="center" href="{% url 'userprofile:profile' %}"><img class="circle" src="{{ request.user.profile.image.url }}"/></a>
+							<a href="#"><span class="white-text"></span></a>
 							{% else %}
 							<!-- TODO: Fix styling of image -->
 							<a href="/"><img style="width:128px; height:164" src="{% static "img/logo/Icon_green_transparent.png" %}"></a>

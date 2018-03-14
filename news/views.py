@@ -36,7 +36,7 @@ def event(request, event_id):
         context['registration_visible'] = False
         context['userstatus'] = 'Ikke pålogget'
 
-    return render(request, 'event.html', context)
+    return render(request, 'news/event.html', context)
 
 
 def all_news(request):
@@ -49,7 +49,7 @@ def all_news(request):
         'news_list': article_list,
     }
 
-    return render(request, 'news.html', context)
+    return render(request, 'news/news.html', context)
 
 
 def all_events(request):
@@ -70,7 +70,7 @@ def all_events(request):
         'time_now': datetime.now(),
     }
 
-    return render(request, 'events.html', context)
+    return render(request, 'news/events.html', context)
 
 
 def article(request, article_id):
@@ -83,7 +83,7 @@ def article(request, article_id):
     if article.internal and not groups.has_group(request.user, 'member'):
         return HttpResponseRedirect('/')
 
-    return render(request, 'article.html', context)
+    return render(request, 'news/article.html', context)
 
 
 def edit_event(request, event_id):
@@ -154,7 +154,7 @@ def edit_event(request, event_id):
         'form': form,
     }
 
-    return render(request, 'edit_event.html', context)
+    return render(request, 'news/edit_event.html', context)
 
 
 def edit_article(request, article_id):
@@ -204,7 +204,7 @@ def edit_article(request, article_id):
         'form': form,
     }
 
-    return render(request, 'edit_article.html', context)
+    return render(request, 'news/edit_article.html', context)
 
 
 def delete_article(request, article_id):
@@ -252,11 +252,11 @@ def upload_file(request):
     context = {
         'form': form,
     }
-    return render(request, 'upload.html', context)
+    return render(request, 'news/upload.html', context)
 
 
 def upload_done(request):
-    return render(request, 'upload_done.html')
+    return render(request, 'news/upload_done.html')
 
 
 @login_required
@@ -308,7 +308,7 @@ def event_attendees(request, event_id):
             'attending_usernames': event_object.attending_usernames(),
         }
 
-        return render(request, 'event_attendees.html', context)
+        return render(request, 'news/event_attendees.html', context)
 
 
 def get_id_or_404(object_id):

@@ -9,6 +9,7 @@
 	</div>
 </div>
 <div class="section hide-on-small-only no-pad hs-green">
+	<div class="container">
 	<div class="slider">
 		<div class="fixed-text center">
 			<img id="indexLogo" src="../static/img/logo/Icon_green_transparent.png">
@@ -30,9 +31,10 @@
 		</ul>
 	</div>
 </div>
+</div>
 <div class="section hs-green">
 	<div class="container">
-	<div class="row valign-wrapper no-pad-bot no-pad center">
+	<div class="row valign-wrapper no-pad-bot no-pad">
 		<div class="col s4">
 			<i class="material-icons white-text small">free_breakfast</i>
 			<span class="white-text">420 kanner kaffe drukket</span>
@@ -50,12 +52,52 @@
 </div>
 <div class="section hs-gray">
 	<div class="container">
-		<div class="row center">
-			<div class="col s12 white-text">
-				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
-				<a class="btn btn-large white hs-gray-text" href="/about/">Trykk her for å lese mer om oss</p></a>
-			<br>
-			<br>
+		<div class="row">
+			<div class="col s6 white-text">
+				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.</p>
+				<p class="flow-text">Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
+				<a class="btn-flat btn-large hs-green white-text" href="/about/">Les mer her</a>
+				<p class="flow-text">Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="modal-trigger hs-green-text" href="#mapModal">vårt kontor</a> og slack-kanal.</p>
+				<ul class="sosial-bilder">
+					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'img/icon/slack_icon.png' %}" title="Slack"></a>
+					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img src="{% static 'img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
+					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img src="{% static 'img/icon/if_github_253591.svg' %}" title="GitHub"></a>
+					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img src="{% static 'img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
+				</ul>
+
+			</div>
+			<div class="col s6">
+				<div class="row">
+					<div class="col s12 x12">
+						<ul class="collection with-header z-depth-1">
+							<li class="collection-header">
+								<div>
+									<p class="flow-text">Siste nytt <i class="material-icons hs-green-text">new_releases</i></p>
+								</div>
+							</li>
+							{% for article in article_list %}
+							<li class="collection-item">
+								<a href="/news/{{ article.id }}">{{ article.title }}</a>
+								<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="col s12 xl12">
+						<ul class="collection with-header z-depth-1">
+							<li class="collection-header">
+								<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
+							</li>
+							{% for event in event_list reversed %}
+							<li class="collection-item">
+								<a href="/events/{{ event.id}}" class="title">{{ event.title }}</a>
+								<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -111,41 +153,6 @@
 </div>
 <div class="section hs-green">
 	<div class="container">
-		<div class="row">
-			<div class="col s12 white-text">
-				<h4>Hva skjer på Hackerspace?</h4>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12 xl6">
-				<ul class="collection with-header z-depth-1">
-					<li class="collection-header">
-						<div>
-							<p class="flow-text">Siste nytt <i class="material-icons hs-green-text">new_releases</i></p>
-						</div>
-					</li>
-					{% for article in article_list %}
-					<li class="collection-item">
-						<a href="/news/{{ article.id }}">{{ article.title }}</a>
-						<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-			<div class="col s12 xl6">
-				<ul class="collection with-header z-depth-1">
-					<li class="collection-header">
-						<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
-					</li>
-					{% for event in event_list reversed %}
-					<li class="collection-item">
-						<a href="/events/{{ event.id}}" class="title">{{ event.title }}</a>
-						<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
-					</li>
-					{% endfor %}
-				</ul>
-			</div>
-		</div>
 	</div>
 </div>
 

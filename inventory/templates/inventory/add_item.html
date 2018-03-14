@@ -69,25 +69,32 @@
 
             <!-- Felter for plassering av gjenstand på hackerspace. -->
             <div class="row">
-                <div class="col s4">
+                <div class="col s3">
                     <p id="error-message">{{ form.zone.errors }}</p>
                     <div class="input-field">
                         <label for="{{ form.zone.id_for_label }}">{{ form.zone.label }}</label>
                         {{ form.zone }}
                     </div>
                 </div>
-                <div class="col s4">
+                <div class="col s3">
                     <p id="error-message">{{ form.shelf.errors }}</p>
                     <div class="input-field">
                         <label for="{{ form.shelf.id_for_label }}">{{ form.shelf.label }}</label>
                         {{ form.shelf }}
                     </div>
                 </div>
-                <div class="col s4">
-                    <p id="error-message">{{ form.place.errors }}</p>
+                <div class="col s3">
+                    <p id="error-message">{{ form.row.errors }}</p>
                     <div class="input-field">
-                        <label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
-                        {{ form.place }}
+                        <label for="{{ form.row.id_for_label }}">{{ form.row.label }}</label>
+                        {{ form.row }}
+                    </div>
+                </div>
+                <div class="col s3">
+                    <p id="error-message">{{ form.column.errors }}</p>
+                    <div class="input-field">
+                        <label for="{{ form.column.id_for_label }}">{{ form.column.label }}</label>
+                        {{ form.column }}
                     </div>
                 </div>
             </div>

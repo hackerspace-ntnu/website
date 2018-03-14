@@ -1,3 +1,6 @@
+from dal import autocomplete
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404, HttpResponseRedirect, HttpResponseForbidden

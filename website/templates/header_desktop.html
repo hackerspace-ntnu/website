@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{% load check_user_group %}
+
 <div id="header-desktop">
     <div id="navbar">
         <a href="/">
@@ -9,13 +9,26 @@
           <p id="openinghours">Åpent hverdager 10:15 - 18:00</p>
         </div>
         <div id="menu">
-            <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>
+            {% if perms.inventory.add_item %}
+                <a class="waves-effect waves-grey btn-flat" href="{% url 'inventory:index' %}">INVENTAR</a>
+            {% endif %}
             <a class="waves-effect waves-grey btn-flat" href="/news/all">NYHETER</a>
             <a class="waves-effect waves-grey btn-flat" href="/wiki">WIKI</a>
             <a class="waves-effect waves-grey btn-flat" href="/about">OM OSS</a>
             {% if request.user.is_authenticated %}
-                <a class='dd waves-effect waves-grey btn-flat' href='#' data-activates='userdropdown'>PROFIL</a>
+                <a class='chip user-chip dd waves-effect waves-grey btn-flat' href='#' data-activates='userdropdown'>
+                    {% if request.user.profile.image  %}
+                    {# profile has image, show picture #}
+                        <img class="chip-img" src="{{ request.user.profile.image.url }}" height="300">
+                    {% else %}
+                        {# profile.images is None, show default.png #}
+                        <img class="chip-img" src="{% static "userprofile/img/default.png" %}" height="300">
+                    {% endif %}
+		            </a>
                 <ul id='userdropdown' class='dropdown-content' style="margin-top: 9px;">
+                    {% if request.user.is_superuser %}
+		            <li><a href="{% url 'userprofile:profile' user.profile.pk %}">MIN PROFIL</a></li>
+                    {% endif %}
                     <li><a href="/authentication/change-password">BYTT PASSORD</a></li>
                     <li><a href="/authentication/logout">LOGG UT</a></li>
                 </ul>

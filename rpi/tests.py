@@ -6,7 +6,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.timezone import now
 
-from rpi.models import RaspberryPi
+from rpi.models import RaspberryPi, Name
 
 RPI_SECRET_KEY = 'test key'
 
@@ -16,6 +16,10 @@ def json_bytes_to_dict(json_bytes):
 
 
 class RPiTestCase(TestCase):
+    def setUp(self):
+        names = Name.objects.all()
+        if not names:
+            Name.objects.create(name="Test")
     def test_create(self):
         pi = RaspberryPi(
             last_seen=now(),
@@ -86,6 +90,9 @@ class RPiAPIViewTestCase(TestCase):
     url = reverse('rpi-api')
 
     def setUp(self):
+        names = Name.objects.all()
+        if not names:
+            Name.objects.create(name="Test")
         self.existing_pi = RaspberryPi.objects.create(
             last_seen=now(),
             mac='12:34:56:78:90:ab',

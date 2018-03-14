@@ -8,3 +8,7 @@
 *.env
 media/*
 *local_settings.py
+profilepictures/
+
+# For Rope Project settings
+.ropeproject

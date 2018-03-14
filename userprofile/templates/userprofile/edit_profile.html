@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "userprofile/css/edit_profile.css" %}">
+{% endblock head %}
+
+{% block content %}
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <p class="flow-text">Endrer profilen til {{ profile.name }}: {{ retning }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="user-profile-image">
+                    {% if profile.image %}
+                        {# profile has image, show picture #}
+                        <img class="profile-image" src="{{ profile.image.url }}" height="300">
+                    {% else %}
+                        {# profile.images is None, show default.png #}
+                        <img class="profile-image" src="{% static "userprofile/img/default.png" %}" height="300">
+                    {% endif %}
+                    <div class="image-overlay">
+                        <div class="overlay-background"></div>
+                        <p class="overlay-text" onclick="reveal('id_image')">Endre profilbilde</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-10">
+                    <form enctype="multipart/form-data" method="post"
+                          action="{% url 'userprofile:edit_profile' profile.pk %}"
+                          onchange="condOption()">
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                        </table>
+                        <input class="btn waves-effect waves-light" type="submit" value="Submit"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+	$(document).ready(function(){
+	    $("select").material_select();
+	    
+	    var auto_duty = $("#id_auto_duty")
+	    auto_duty.parent().append("<label for='id_auto_duty'></label>")
+	    $("#id_image").parents("tr").fadeOut("fast")
+	    
+	    var auto_name = $("#id_auto_name")
+	    auto_name.parent().append("<label for='id_auto_name'></label>")
+	    $("#id_image").parents("tr").fadeOut("fast")
+	    
+	    condOption();
+	});
+	function condOption(){
+	    var auto_duty = document.getElementById("id_auto_duty").checked;
+	    if(!auto_duty){
+		$("#id_duty").parents("tr").fadeIn("fast");
+	    }
+	    else{
+		$("#id_duty").parents("tr").fadeOut("fast");
+	    }
+	    var auto_name = document.getElementById("id_auto_name").checked;
+	    if(!auto_name){
+		$("#id_name").parents("tr").fadeIn("fast");
+	    }
+	    else{
+		$("#id_name").parents("tr").fadeOut("fast");
+	    }
+	}
+	function reveal(field){
+	    $("#"+field).parents("tr").fadeIn("fast");
+	}
+    </script>
+{% endblock %}
+

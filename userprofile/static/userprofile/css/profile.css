@@ -1,0 +1,50 @@
+@font-face{
+    font-family: Roboto-Light;
+}
+.user-profile-info{
+    float:left;
+    background-color:var(--hs-gray);
+    height:300px;
+    width:300px;
+    padding:15px;
+    text-align:left;
+    color: white;
+}
+.user-profile-image{
+    float:left;
+    height:300px;
+}
+.profile-image{
+    height:300px;
+    width:300px;
+    object-fit: cover;
+    object-position: center;
+}
+.user-profile-container{
+    margin-right: auto;
+    margin-left:auto;
+    text-align:center;
+    width:intrinsic; /*Safari-kjeks*/
+    width:-moz-fit-content; /*Mozzarella FoxFire */
+    width:-webkit-fit-content; /*Chrome*/
+    height:300px;
+}
+#shift_table td,th{
+    border: 1px gray solid;
+    padding: 5px;
+}
+#shift_table{
+    width:600px;
+    margin-right: auto;
+    margin-left: auto;
+}
+#shift_table a{
+    color:white;
+}
+.skill.chip{
+    color:black;
+    background-color:var(--hs-gray-li3);
+}
+#edit_profile{
+    float:right;
+}

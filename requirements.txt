@@ -6,3 +6,4 @@ django-autocomplete-light==3.2.1
 django-smart-selects==1.5.1
 oauthlib
 requests
+django-material>=1.2,<1.3  # For committees

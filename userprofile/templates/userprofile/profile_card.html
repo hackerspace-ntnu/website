@@ -1,6 +1,14 @@
+{% load staticfiles %}
+
 <div class="user-profile-container">
     <div class="user-profile-image">
-	<img class="profile-image" src="/media/{{ profile.image }}" height="300">
+      {% if profile.image  %}
+	      {# profile has image, show picture #}
+        <img class="profile-image" src="{{ profile.image.url }}" height="300">
+      {% else %}
+        {# profile.images is None, show default.png #}
+        <img class="profile-image" src="{% static "userprofile/img/default.png" %}" height="300">
+      {% endif %}
     </div>
     <div class="user-profile-info">
 	<h4>{{ profile.name }}</h4>
@@ -15,10 +23,10 @@
 	{% endif %}
 	{% if profile.skills %}
 	{% for skill in profile.skills.all %}
-	<a class="skill chip" href="/members/skill/{{ skill.title }}">
+	<a class="skill chip" href="{% url 'userprofile:skill' skill.title %}">
 	    {{ skill.title }}
 	    {% if skill.icon %}
-	    <img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+	    <img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
 	    {% endif %}
 	</a>
 	{% endfor %}

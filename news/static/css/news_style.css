@@ -11,3 +11,16 @@
 .article-content {
 	word-break:break-all !important;
 }
+
+.subheader-list {
+	height:48px;
+	margin-bottom:48px;
+	margin-top:16px;
+}
+.subheader {
+	margin:16px;
+}
+.empty-list-container {
+	height:48px;
+	margin:16px;
+}

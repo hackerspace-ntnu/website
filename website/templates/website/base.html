@@ -37,7 +37,7 @@ gtag('config', 'UA-107702172-1');
 		</script>
 	</head>
 	<body>
-		{% include "header.html" %}
+		{% include "website/header.html" %}
 		{% block header %}
 		{% endblock header %}
 		{% if messages %}
@@ -54,9 +54,9 @@ Materialize.toast($toastContent, 5000);
 			{% block content %}
 			{% endblock content %}
 		</main>
-		{% include "delete.html" %}
+		{% include "website/delete.html" %}
 		{% block footer %}
-		{% include "footer.html" %}
+		{% include "website/footer.html" %}
 		{% endblock footer %}
 	</body>
 </html>

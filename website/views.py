@@ -12,14 +12,14 @@ def showcase(request):
     context = {
 
     }
-    return render(request, 'showcase.html', context)
+    return render(request, 'website/showcase.html', context)
 
 def virtualreality(request):
 
     context = {
 
     }
-    return render(request, 'vr.html', context)
+    return render(request, 'website/vr.html', context)
 
 
 
@@ -47,7 +47,7 @@ def index(request):
         'event_list': event_list,
         'door_status': door_status,
     }
-    return render(request, 'index.html', context)
+    return render(request, 'website/index.html', context)
 
 
 def opptak(request):
@@ -62,16 +62,16 @@ def test(request):
 
 
 def handler404(request):
-    return render(request, '404.html', status=404)
+    return render(request, 'website/404.html', status=404)
 
 
 def handler500(request):
-    return render(request, '500.html', status=500)
+    return render(request, 'website/500.html', status=500)
 
 
 def calendar(request):
-    return render(request, 'calendar.html')
+    return render(request, 'website/calendar.html')
 
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'website/about.html')

@@ -31,15 +31,15 @@
         <label for="{{ form.email.id_for_label }}">Email</label>
         {{ form.email }}
       </div>
-      <p id="error-message">{{ form.new_password.errors }}</p>
+      <p id="error-message">{{ form.password1.errors }}</p>
       <div class="input-field">
-        <label for="{{ form.new_password.id_for_label }}">Passord</label>
-        {{ form.new_password }}
+        <label for="{{ form.password1.id_for_label }}">Passord</label>
+        {{ form.password1 }}
       </div>
-      <p id="error-message">{{ form.confirm_new_password.errors }}</p>
+      <p id="error-message">{{ form.password2.errors }}</p>
       <div class="input-field">
-        <label for="{{ form.confirm_new_password.id_for_label }}">Bekreft passord</label>
-        {{ form.confirm_new_password }}
+        <label for="{{ form.password2.id_for_label }}">Bekreft passord</label>
+        {{ form.password2 }}
       </div>
       <button id="signUpButton" class="btn waves-effect waves-light" type="submit" name="action">Registrer</button>
     </form>

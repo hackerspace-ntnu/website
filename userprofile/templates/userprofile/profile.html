@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
 
@@ -24,7 +24,7 @@
 				{% if profile.image %}
 				<img class="circle" src="{{ profile.image.url }}" height="300">
 				{% else %}
-				<img class="circle" src="{% static 'img/misc/default.png' %}" height="300">
+				<img class="circle" src="{% static 'userprofile/img/misc/default.png' %}" height="300">
 				{% endif %}
 			</div>
 			<div class="col s6">

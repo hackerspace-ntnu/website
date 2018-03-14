@@ -141,4 +141,4 @@ def index(request):
                     except:
                         guard_list[name] = vakt_data[day][time][name]
         context["guards"] = guard_list
-    return render(request, 'vakt_filter.html', context)
+    return render(request, 'vaktliste/vakt_filter.html', context)

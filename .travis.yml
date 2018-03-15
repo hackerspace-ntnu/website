@@ -17,3 +17,4 @@ before_script:
 
 script:
 - python manage.py test
+- coverage run --source=. manage.py test --no-input

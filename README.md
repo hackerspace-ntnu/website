@@ -1,5 +1,6 @@
 # Hackerspace Website
 [![Build Status](https://travis-ci.org/hackerspace-ntnu/website.svg?branch=master)](https://travis-ci.org/hackerspace-ntnu/website)
+[![Coverage Status](https://coveralls.io/repos/github/hackerspace-ntnu/website/badge.svg?branch=feat%2Fcoverall)](https://coveralls.io/github/hackerspace-ntnu/website?branch=feat%2Fcoverall)
 
 The code running [hackerspace-ntnu.no](http://hackerspace-ntnu.no).
 

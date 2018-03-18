@@ -1,4 +1,3 @@
-
 .caption-text {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
@@ -7,6 +6,7 @@
 	margin-top:-200px !important;
 	padding-top:64px !important;
 	position:relative;
+	padding-bottom:64px !important;
 }
 .article-content {
 	word-break:break-all !important;
@@ -17,10 +17,26 @@
 	margin-bottom:48px;
 	margin-top:16px;
 }
-.subheader {
-	margin:16px;
-}
 .empty-list-container {
 	height:48px;
 	margin:16px;
+}
+.progress {
+	height: 30px;
+	width: 95%;
+	display: block;
+	margin: auto;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	z-index: 50;
+}
+
+.counter {
+	margin: 5px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.determinate {
+	z-index: 70;
 }

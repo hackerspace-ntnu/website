@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class CoffeePot(models.Model):
+class KaffeKanne(models.Model):
     datetime = models.DateTimeField(blank=True,null=True)
     name = models.CharField(max_length=20)
 
@@ -13,13 +13,13 @@ class CoffeePot(models.Model):
     def get_coffee_by_name(name):
 
         # Creates the object if it does not exist
-        return CoffeePot.objects.get_or_create(name=name, defaults={'datetime':timezone.now()})[0]
+        return KaffeKanne.objects.get_or_create(name=name, defaults={'datetime':timezone.now()})[0]
 
     class Meta:
-        verbose_name_plural = "Coffee Pots"
+        verbose_name_plural = "Kaffekanner"
 
 
-class CoffeeData(models.Model):
+class KaffeData(models.Model):
     brewed = models.DateTimeField()
     pot = models.CharField(max_length=20,blank=True,null=True)
 

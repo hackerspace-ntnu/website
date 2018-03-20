@@ -169,7 +169,7 @@ if not DEBUG:
     STATIC_ROOT = '../static'
     MEDIA_ROOT = '../media'
 
-CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
+CKEDITOR_UPLOAD_PATH = "ck_uploads"
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False

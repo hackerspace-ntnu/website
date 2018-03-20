@@ -25,7 +25,7 @@ def coffee_pot(request):
                 coffee_status_object = KaffeKanne.get_coffee_by_name(data['pot'])
 
                 # Coffee brewed
-                open_data=CoffeeData(brewed=timezone.now(),pot=data['pot'])
+                open_data=KaffeData(brewed=timezone.now(),pot=data['pot'])
                 open_data.save()
                 coffee_status_object.datetime = timezone.now()
                 coffee_status_object.save()

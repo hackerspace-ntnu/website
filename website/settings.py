@@ -82,8 +82,8 @@ INSTALLED_APPS = [
     'inventory',
     'userprofile',
     'vaktliste',
-    'koohii',
-    'material'
+    'material',
+    'kaffe'
 ]
 
 

@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 from website import settings
-from .models import CoffeePot, CoffeeData
+from .models import KaffeKanne, KaffeData
 import html.parser
 
 @csrf_exempt
@@ -22,10 +22,10 @@ def coffee_pot(request):
         # Authenticate message
         if 'key' in data and 'pot' in data:
             if data['key'] == settings.DOOR_KEY:
-                coffee_status_object = CoffeePot.get_coffee_by_name(data['pot'])
+                coffee_status_object = KaffeKanne.get_coffee_by_name(data['pot'])
 
                 # Coffee brewed
-                open_data=CoffeeData(brewed=timezone.now(),pot=data['pot'])
+                open_data=KaffeData(brewed=timezone.now(),pot=data['pot'])
                 open_data.save()
                 coffee_status_object.datetime = timezone.now()
                 coffee_status_object.save()
@@ -37,21 +37,21 @@ def coffee_pot(request):
 
 def get_json(request):
     coffee_json = {}
-    for pot in CoffeePot.objects.all():
+    for pot in KaffeKanne.objects.all():
         coffee_json[pot.name]=pot.datetime.strftime("%a %b %d %H:%M")
     return JsonResponse(coffee_json)
 
 @csrf_exempt
 def get_coffee(request,pot):
-    coffee = CoffeePot.get_coffee_by_name(pot)
+    coffee = KaffeKanne.get_coffee_by_name(pot)
     last_changed = str(coffee.datetime.strftime("%a %b %d %H:%M"))
     return HttpResponse(last_changed)
 
 
 def coffee_data(request):
-    finn = CoffeePot.get_coffee_by_name("Finn")
-    mathias = CoffeePot.get_coffee_by_name("Mathias")
-    coffee_data_list = list(CoffeeData.objects.order_by('-brewed'))
+    finn = KaffeKanne.get_coffee_by_name("Finn")
+    mathias = KaffeKanne.get_coffee_by_name("Mathias")
+    coffee_data_list = list(KaffeData.objects.order_by('-brewed'))
 
     context = {
         'coffee_data_list': coffee_data_list,
@@ -65,7 +65,7 @@ def coffee_data(request):
 def coffee_chart(request):
     coffee_data_list = []
 
-    for coffee_data in CoffeeData.objects.order_by('brewed'):
+    for coffee_data in KaffeData.objects.order_by('brewed'):
         name = coffee_data.pot
         time_brewed = coffee_data.brewed.strftime('%Y-%m-%d %H:%M')
         coffee_data_list.append({"column-1":1, "date": time_brewed,"name": name})

@@ -37,7 +37,7 @@ urlpatterns = [
     url(r'^members/', include('userprofile.urls')),
     url(r'^vaktliste/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
-    url(r'^kaffi/', include('koohii.urls')),
+    url(r'^kaffe/', include('kaffe.urls')),
 ]
 
 if settings.DEBUG:

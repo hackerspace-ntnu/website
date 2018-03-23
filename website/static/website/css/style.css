@@ -16,6 +16,10 @@ h1,h2,h3,h4,h5,a {
 	margin-left: 16px;
 	height:64px;
 }
+.thumb-img {
+	width:auto;
+	height:250px;
+}
 
 /* Resize og posisjonering av header bilder */
 .mobile-img {

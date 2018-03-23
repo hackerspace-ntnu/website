@@ -22,19 +22,18 @@
 					<li><a class="modal-trigger" href="#loginModal">Logg Inn</a></li>
 					{% endif %}
 				</ul>
+				<!-- Dropdown for resurser -->
+				<ul id="resourcedropdown" class="dropdown-content">
+					<li><a href="/wiki">WIKI</a></li>
+					<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
+					<li><a href="/about">OM OSS</a></li>
+					<li><a href="/showcase/">SHOWCASE</a></li>
+				</ul>
 				<!-- Hovedmeny -->
 				<ul class="right hide-on-med-and-down">
 					<li id="news"><a href="/news/">NYHETER</a></li>
 					<li id="events"><a href="/events/">ARRANGEMENTER</a></li>
-					<li><a class="dropdown-trigger-resources" href="#" data-target="resourcedropdown"><i class="material-icons right">apps</i></a>
-						<!-- Dropdown for resurser -->
-						<ul id="resourcedropdown" class="dropdown-content">
-							<li><a href="/wiki">WIKI</a></li>
-							<li><a href="{% url 'inventory:index' %}">INVENTAR</a></li>
-							<li><a href="/about">OM OSS</a></li>
-							<li><a href="/showcase/">SHOWCASE</a></li>
-						</ul>
-					</li>
+					<li id="resources"><a class="trigger-resources" href="/" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
 					<li class="tooltipped" data-tooltip="Trykk meg for å se hvor vi befinner oss">
 						<a class="modal-trigger" href="#mapModal"><i class="material-icons">map</i></a>
 					</li>
@@ -100,18 +99,20 @@
 	var sideNavElem = document.querySelector('.sidenav');
 	var instance = M.Sidenav.init(sideNavElem);
 
-	var dropdown_resources = document.querySelector('.dropdown-trigger-resources');
+	var dropdown_resources = document.querySelector('.trigger-resources');
 	var dropdown_user = document.querySelector('.dropdown-trigger-user');
+
+	var instance = M.Dropdown.init(dropdown_user, {
+		hover: true,
+		coverTrigger: false,
+		constrainWidth: false
+	});
 
 	var instance = M.Dropdown.init(dropdown_resources, {
 		hover: true,
-		coverTrigger: false
+		coverTrigger: false,
+		constrainWidth: false
 	});
-	var instance = M.Dropdown.init(dropdown_user, {
-		hover: true,
-		coverTrigger: false
-	});
-
 	var loginModal = document.querySelector('#loginModal');
 	var instance = M.Modal.init(loginModal);
 

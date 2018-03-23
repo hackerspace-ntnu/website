@@ -5,7 +5,7 @@ from news.models import Article, Event
 from files.models import Image
 from door.models import DoorStatus
 from datetime import datetime
-from wiki.templatetags import check_user_group as groups
+from authentication.templatetags import check_user_group as groups
 
 
 def showcase(request):

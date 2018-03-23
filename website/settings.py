@@ -44,11 +44,11 @@ except ImportError:
 #################################
 
 INSTALLED_APPS = [
-    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
@@ -61,17 +61,15 @@ INSTALLED_APPS = [
     'files',
     'ckeditor',
     'ckeditor_uploader',
+    'mptt',
     'sekizai',
     'sorl.thumbnail',
     'django_nyt',
-    'wiki',
-    'wiki.plugins.macros',
-    'wiki.plugins.help',
-    'wiki.plugins.links',
-    'wiki.plugins.images',
-    'wiki.plugins.attachments',
-    'wiki.plugins.notifications',
-    'mptt',
+    'wiki.apps.WikiConfig',
+    'wiki.plugins.attachments.apps.AttachmentsConfig',
+    'wiki.plugins.notifications.apps.NotificationsConfig',
+    'wiki.plugins.images.apps.ImagesConfig',
+    'wiki.plugins.macros.apps.MacrosConfig',
     'authentication',
     'authentication_feide',
     'smart_selects',
@@ -82,7 +80,7 @@ INSTALLED_APPS = [
     'inventory',
     'userprofile',
     'vaktliste',
-    'koohii'
+    'koohii',
 ]
 
 
@@ -171,7 +169,7 @@ if not DEBUG:
     STATIC_ROOT = '../static'
     MEDIA_ROOT = '../media'
 
-CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
+CKEDITOR_UPLOAD_PATH = "ck_uploads"
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False

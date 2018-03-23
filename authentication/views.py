@@ -1,222 +1,67 @@
-from threading import Thread
-from uuid import UUID
-
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.admin import User
+from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.template.loader import render_to_string
-
-from authentication.forms import LoginForm, ChangePasswordForm, SignUpForm, ForgotPasswordForm, SetPasswordForm
-from website.settings import DEFAULT_FROM_MAIL
-from .models import UserAuthentication
-
-
-def login_user(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            if form.validate():  # Custom validation
-                username = form.cleaned_data['username']
-                password = form.cleaned_data['password']
-                user = authenticate(username=username, password=password)
-                login(request, user)
-                request.session['feided']=False
-                return HttpResponseRedirect(reverse('index'))
-
-    else:
-        form = LoginForm()
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'login.html', context)
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.shortcuts import redirect
+from django.utils.http import urlsafe_base64_decode
+from django.views.generic import TemplateView, FormView
+from authentication.forms import SignUpForm
+from django.contrib.auth.tokens import default_token_generator
 
 
 @login_required
 def logout_user(request):
-    feided = request.session.get('feided',False)
-    if request.user.is_authenticated:
-        logout(request)
-        resp = HttpResponseRedirect(reverse('index'))
-    if feided:
-        print("Logging out FEIDE-user")
-        resp = HttpResponseRedirect("https://auth.dataporten.no/logout")
-    return resp
+    is_feide_login = request.session.get('feided', False)
+    logout(request)
+    if is_feide_login:
+        return redirect("https://auth.dataporten.no/logout")
+    return redirect(reverse('index'))
 
 
+class SignUpView(FormView):
+    template_name = 'signup.html'
+    form_class = SignUpForm
+    success_url = reverse_lazy('signup_done')
 
-@login_required
-def change_password(request):
-    error_message = None
-    if request.method == 'POST':
-        form = ChangePasswordForm(request.POST)
-        if form.is_valid():
-
-            # Validation of the passwords
-            if form.validate(request.user):
-                request.user.set_password(form.cleaned_data['new_password'])
-                request.user.save()
-                return HttpResponseRedirect(reverse('change_password_done'))
-    else:
-        form = ChangePasswordForm()
-
-    context = {
-        'form': form,
-        'error_message': error_message,
-    }
-    return render(request, 'change_password.html', context)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            if form.validate():  # Custom validation
-                username = form.cleaned_data['username']
-                first_name = form.cleaned_data['first_name']
-                last_name = form.cleaned_data['last_name']
-                email = form.cleaned_data['email']
-                new_password = form.cleaned_data['new_password']
+# Automatically get the user model that is being used by django from its engine
+UserModel = get_user_model()
 
-                # Create user
-                user = User.objects.create(username=username,
-                                           email=email,
-                                           first_name=first_name,
-                                           last_name=last_name, )
-                user.set_password(new_password)
-                user.is_active = False
-                user.save()
-
-                # Create authentication object for activation
-                auth_object = UserAuthentication.objects.create(user=user)
-                auth_object.save()
-
-                # Send mail about activation
-                email_subject = 'Bruker @ hackerspace NTNU'
-                message = 'Gratulerer! Du har nå laget deg en bruker hos Hackerspace NTNU.' \
-                          ' Aktiver brukeren ved å trykke på følgende link: '
-                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
-                                                                      'hash_key': auth_object.key.hex})
-                thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
-                thread.start()
-
-                return HttpResponseRedirect(reverse('signup_done'))
-
-    else:
-        form = SignUpForm()
-
-    context = {'form': form}
-
-    return render(request, 'signup.html', context)
-
-
-
-def forgot_password(request):
-    if request.method == 'POST':
-        form = ForgotPasswordForm(request.POST)
-        if form.is_valid():
-            if form.validate():  # Custom validation
-                email = form.cleaned_data['email']
-
-                # Create authentication object for verification of new password
-                user = User.objects.get(email=email)
-                auth_object = UserAuthentication.objects.create(user=user)
-                auth_object.save()
-
-                # Send forgot password link
-                email_subject = 'Nytt passord @ hackerspace-ntnu.no'
-                message = "Trykk på følgende link for å sette deg et nytt passord: "
-                email_message = render_to_string('signup_mail.html', {'request': request, 'message': message,
-                                                                      'hash_key': auth_object.key.hex}, )
-                thread = Thread(target=send_password_email, args=(email_subject, email_message, email))
-                thread.start()
-
-                return HttpResponseRedirect(reverse('forgot_password_done'))
-
-    else:
-        form = ForgotPasswordForm()
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'forgot_password.html', context)
-
-
-def activate_account(request, hash_key):
-    # Check if the hash_key is in the database
+def get_user(uidb64):
     try:
-        UUID(hash_key, version=4)
-        auth_object = get_object_or_404(UserAuthentication, key=hash_key)
-        if auth_object.expired():
-            raise Http404
-
-        # Checks if the authentication object is valid and validates the userinput
-        if auth_object.user.is_active:
-            if request.method == 'POST':
-                form = SetPasswordForm(request.POST)
-                if form.is_valid():
-                    if form.validate():  # Custom validation
-                        auth_object.set_password(form.cleaned_data["new_password"])
-                        return HttpResponseRedirect(reverse('set_password_done'))
-
-            else:
-                form = SetPasswordForm()
-
-            context = {
-                'form': form,
-                'hash_key': hash_key,
-            }
-            return render(request, 'set_password.html', context)
-        else:
-            auth_object.activate()
-            context = {
-                'message': "Brukeren er nå aktiv, du vil snart bli videresendt."
-            }
-            return render(request, 'redirection_page.html', context)
-
-    except ValueError:
-        raise Http404
+        # urlsafe_base64_decode() decodes to bytestring
+        uid = urlsafe_base64_decode(uidb64).decode()
+        return UserModel._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        return None
 
 
-def set_password_done(request):
-    context = {
-        'message': "Ditt passord er nå endret, du vil snart bli videresendt."
-    }
-    return render(request, 'redirection_page.html', context)
+class SignUpConfirmView(TemplateView):
+    template_name = 'redirection_page.html'
+
+    def dispatch(self, *args, **kwargs):
+        # If the user id is does not exist redirect to the main page
+        if get_user(kwargs['uidb64']) is None:
+            return redirect('/')
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        user = get_user(kwargs['uidb64'])
+        if user.is_active:
+            return {'title': 'Din konto er allerede aktivert!'}
+        if default_token_generator.check_token(user, kwargs["token"]):
+            user.is_active = True
+            user.save()
+            return {'title': 'Din konto er aktivert!'}
+        return {'title': "Linken du forsøker å bruker har utløpt"}
 
 
-def change_password_done(request):
-    context = {
-        'message': "Ditt passord er nå endret, du vil snart bli videresendt."
-    }
-    return render(request, 'redirection_page.html', context)
+class SignUpDoneView(TemplateView):
+    template_name = 'redirection_page.html'
 
-
-def forgot_password_done(request):
-    context = {
-        'message': "Du vil snart motta en mail med videre instruksjoner."
-    }
-    return render(request, 'redirection_page.html', context)
-
-
-def signup_done(request):
-    context = {
-        'message': "Registreringen var vellykket og du vil snart motta en mail med videre instruksjoner."
-    }
-    return render(request, 'redirection_page.html', context)
-
-
-def send_password_email(subject, message, email):
-    send_mail(subject,
-              message,
-              '%s'.format(DEFAULT_FROM_MAIL),
-              [email],
-              fail_silently=False,
-              html_message=message)
+    def get_context_data(self):
+        return {'title': "Registreringen var vellykket og du vil snart motta en"
+                         " mail med videre instruksjoner."}

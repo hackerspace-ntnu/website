@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 import re
 
-from .forms import ProfileModelFormAdmin
+from .forms import UserForm
 from .models import Profile, Skill, Group
 
 
@@ -56,24 +56,19 @@ def specific_profile(request, profile_id):
 
 
 
-def edit_profile(request):
-    return edit_profile_id(request, request.user.id)
-
-
 @login_required()
-def edit_profile_id(request, profile_id):
+def edit_profile(request):
     user = request.user
-    form = ProfileModelFormAdmin(instance=user)
+    form = UserForm(instance=user)
 
     ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('image','group','access_card','study','skills','duty','auto_duty'), can_delete=False)
     formset = ProfileInlineFormset(instance=user)
 
-
-    profile = get_object_or_404(Profile, user=request.user)
+    profile = get_object_or_404(Profile, user=user)
 
     if request.user.is_authenticated() and request.user.id == user.id:
         if request.method == "POST":
-            form = ProfileModelFormAdmin(request.POST, request.FILES, instance=user)
+            form = UserForm(request.POST, request.FILES, instance=user)
             formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
             if form.is_valid():
                 created_user = form.save(commit=False)

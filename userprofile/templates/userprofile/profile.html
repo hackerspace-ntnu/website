@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text center">
-				<h4>Brukerprofil for {{ profile.name }}</h4>
+				<h4>Brukerprofil for {{ profile.user.get_full_name }}</h4>
 				{% if user == profile.user %}
 				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-large waves-effect waves-light white hs-gray-text">Rediger</a>
 				{% elif user.is_superuser %}
@@ -28,7 +28,6 @@
 				{% endif %}
 			</div>
 			<div class="col s6">
-				<h4>{{ profile.name }}</h4>
 				<div class="divider"></div>
 				{% if profile.group %}
 				<p class="flow-text">{{ profile.group.all.0.title }}</p>
@@ -36,8 +35,8 @@
 				{% if profile.study %}
 				<p class="flow-text">{{ profile.study }}</p>
 				{% endif %}
-				{% if profile.email %}
-				<p class="flow-text">{{ profile.email }}</p>
+				{% if profile.user.email %}
+				<p class="flow-text">{{ profile.user.email }}</p>
 				{% endif %}
 				{% if profile.skills %}
 				{% for skill in profile.skills.all %}
@@ -58,7 +57,7 @@
 		<div class="row">
 			<div class="col s12">
 				{% if profile.duty.all %}
-				{% include "shift_table.html" %}
+				{% include "userprofile/shift_table.html" %}
 				{% endif %}
 			</div>
 		</div>

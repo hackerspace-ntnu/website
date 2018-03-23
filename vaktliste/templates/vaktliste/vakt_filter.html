@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "website/base.html" %}
 {% load staticfiles %}
 
 {% block content %}
@@ -52,7 +52,7 @@
 			<div class="col s12">
 				<h4>Følgende personer har vakt i dette tidsrommet</h4>
 			</div>
-			{% include "vakter.html" %}
+			{% include "vaktliste/vakter.html" %}
 		</div>
 	</div>
 </div>

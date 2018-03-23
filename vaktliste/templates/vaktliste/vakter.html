@@ -9,7 +9,7 @@
 					{% if profile.image %}
 						<img src="/media/{{ profile.image.url }}">
 						{% else %}
-						<img src="{% static 'img/misc/default.png' %}">
+						<img src="{% static 'website/img/misc/default.png' %}">
 					{% endif %}
 					</a>
 				{% else %}
@@ -17,7 +17,7 @@
 					{% if profile.image %}
 						<img class="activator" src="{{ profile.image.url }}">
 						{% else %}
-						<img src="{% static 'img/misc/default.png' %}">
+						<img src="{% static 'website/img/misc/default.png' %}">
 					{% endif %}
 					</a>
 				{% endif %}

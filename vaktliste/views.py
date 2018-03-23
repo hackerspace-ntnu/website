@@ -134,12 +134,12 @@ def index(request):
         for day in vakt_data:
             for time in vakt_data[day]:
                 for name in vakt_data[day][time]:
-                    name.split()
+                    name = name.split()
                     try:
                         user = User.objects.get(first_name__icontains=name[0])
                         userList.append(user.get_full_name())
                     except:
-                        userList.append(name[0] + "(Default)")
+                        userList.append(name[0] + "(No user profile)")
 
 
     context = {

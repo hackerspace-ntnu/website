@@ -18,7 +18,7 @@ def logout_user(request):
 
 
 class SignUpView(FormView):
-    template_name = 'signup.html'
+    template_name = 'authentication/signup.html'
     form_class = SignUpForm
     success_url = reverse_lazy('signup_done')
 
@@ -40,7 +40,7 @@ def get_user(uidb64):
 
 
 class SignUpConfirmView(TemplateView):
-    template_name = 'redirection_page.html'
+    template_name = 'authentication/redirection_page.html'
 
     def dispatch(self, *args, **kwargs):
         # If the user id is does not exist redirect to the main page
@@ -60,7 +60,7 @@ class SignUpConfirmView(TemplateView):
 
 
 class SignUpDoneView(TemplateView):
-    template_name = 'redirection_page.html'
+    template_name = 'authentication/redirection_page.html'
 
     def get_context_data(self):
         return {'title': "Registreringen var vellykket og du vil snart motta en"

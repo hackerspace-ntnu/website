@@ -3,6 +3,6 @@ from django import template
 
 register = template.Library()
 
-@register.inclusion_tag('login_modal.html')
+@register.inclusion_tag('authentication/login_modal.html')
 def LoginModal():
     return {'login_form': AuthenticationForm() }

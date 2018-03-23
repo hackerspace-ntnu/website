@@ -4,7 +4,7 @@
 	<div class="col s12">
 		<div class="card horizontal">
 			<div class="card-image">
-				{% if user.profile.id %}
+				{% if user.profile %}
 				<a href="{% url 'userprofile:profile_by_id' user.profile.id %}">
 					{% if profile.image %}
 						<img src="/media/{{ profile.image.url }}">
@@ -28,6 +28,8 @@
 					<a class="card-title truncate" href="{% url 'userprofile:profile' profile.pk %}">{{ name }}</a>
 					{% else %}
 						<p class="card-title truncate" >{{ user }}</p>
+						{{ user.first_name }}
+						{{ user.last_name }}
 					{% endif %}
 				</div>
 			</div>

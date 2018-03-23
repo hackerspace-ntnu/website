@@ -135,10 +135,11 @@ def index(request):
             for time in vakt_data[day]:
                 for name in vakt_data[day][time]:
                     try:
-                       user = User.objects.get(first_name__icontains=name)
-                       userList.append(user)
+                        name.split()
+                        user = User.objects.get(first_name__icontains=name[0])
+                        userList.append(user)
                     except:
-                       userList.append("Not found")
+                        userList.append(name + "(Default)")
 
 
     context = {

@@ -9,5 +9,4 @@ from userprofile.models import Profile
 @receiver(post_save, sender=User, dispatch_uid="create_profile_on_user_create")
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        name = instance.first_name + " " + instance.last_name
-        Profile.objects.create(user=instance, name=name, auto_duty=False)
+        Profile.objects.create(user=instance, auto_duty=False)

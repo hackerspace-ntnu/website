@@ -10,8 +10,6 @@
 				<h4>Brukerprofil for {{ profile.user.get_full_name }}</h4>
 				{% if user == profile.user %}
 				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-large waves-effect waves-light white hs-gray-text">Rediger</a>
-				{% elif user.is_superuser %}
-				<a id="edit_profile" href="{% url 'userprofile:profile_edit_by_id' profile.id %}" class="btn btn-large waves-effect waves-light white hs-gray-text">Rediger</a>
 				{% endif %}
 			</div>
 		</div>

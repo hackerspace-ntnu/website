@@ -14,7 +14,7 @@
 				</a>
 				{% else %}
 				<a class="img-a">
-					{% if profile.image %}
+					{% if user.profile.image %}
 					<img class="activator" src="{{ profile.image.url }}">
 					{% else %}
 					<img src="{% static 'website/img/misc/default.png' %}">
@@ -25,7 +25,7 @@
 			<div class="card-stacked">
 				<div class="card-content">
 					{% if user.profile %}
-						<a class="card-title truncate" href="{% url 'userprofile:profile_by_id' user.id %}">
+						<a class="card-title truncate" href="{% url 'userprofile:profile_by_id' user.profile.id %}">
 							<p class="card-title truncate" >{{ user.get_full_name }}</p>
 						</a>
 					{% else %}

@@ -118,6 +118,9 @@ def update(_):
     return JsonResponse({"Cache time": cache_time})
 
 
+
+from django.contrib.auth.models import User
+
 def index(request):
     from userprofile.models import Profile
     dager = request.GET.get('dag', '')
@@ -137,7 +140,7 @@ def index(request):
             for time in vakt_data[day]:
                 for name in vakt_data[day][time]:
                     try:
-                        guard_list[name] = Profile.objects.get(name=name)
+                        guard_list[name] = User.objects.get(first_name=name)
                     except:
                         guard_list[name] = vakt_data[day][time][name]
         context["guards"] = guard_list

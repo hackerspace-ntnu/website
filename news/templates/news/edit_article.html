@@ -45,19 +45,19 @@
 					</p>
 				</div>
 				<div class="col s12">
-					<div class="hidden">
-						{{ form.thumbnail.errors }}
-						<div class="input-field">
-							<label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
-							<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
-						</div>
+					{{ form.thumbnail.errors }}
+					<div class="input-field">
+						<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
 					</div>
 					<div id="thumbnailPicker" class="modal">
 						<div class="modal-content">
 							{% ImageModal request %}
 						</div>
 					</div>
-					<a class="btn btn-large modal-trigger" href="#thumbnailPicker" >Modal</a>
+					<i class="material-icons prefix">photo_library</i>
+					<label for="thumb-preview">Thumbnail</label>
+					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
+					</div>
 				<div>
 				<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
 			</form>
@@ -71,13 +71,14 @@ var instance = M.Modal.init(thumbModal);
 
 var selectButtons = document.querySelector('.selectButton');
 var thumbnail_input = document.querySelector('#id_thumbnail');
+var thumb_preview = document.querySelector('#thumb-preview');
 
 document.addEventListener('click', function(e) {
 	console.log(e);
 	if(e.target.innerText == "SELECT") {
 		var selectedImgId = e.target.attributes.value.value;
-		alert("Selected an image with value " + selectedImgId);
 		thumbnail_input.value = selectedImgId;
+		thumb_preview.style.backgroundImage = "url('/files/image/" + selectedImgId + "/view')";
 	}
 });
 </script>

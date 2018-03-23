@@ -1,13 +1,12 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
+{% load picker_modal %}
 
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
-
 {% endblock head %}
 
 {% block content %}
@@ -125,13 +124,17 @@
 			<div class="row">
 				<div class="input-field hidden">
 					{{ form.thumbnail.errors }}
-					<input class="thumbnailPicker" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="text" value="{{ form.thumbnail.value }}">
-					<label for="{{ form.thumbnail.id_for_label }}">Thumbnail</label>
+					<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
 				</div>
 				<div class="col s12">
+					<div id="thumbnailPicker" class="modal">
+						<div class="modal-content">
+							{% ImageModal request %}
+						</div>
+					</div>
 					<i class="material-icons prefix">photo_library</i>
 					<label for="thumb-preview">Thumbnail</label>
-					<div id="thumb-preview" class="card small thumb-preview" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
+					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
 					</div>
 				</div>
 			</div>
@@ -186,6 +189,22 @@
 		registrationBox.checked = false;
 		registrationBox.style.display = "none";
 	}
+	var thumbModal = document.querySelector('#thumbnailPicker');
+	var instance = M.Modal.init(thumbModal);
+
+	var selectButtons = document.querySelector('.selectButton');
+	var thumbnail_input = document.querySelector('#id_thumbnail');
+	var thumb_preview = document.querySelector('#thumb-preview');
+
+	document.addEventListener('click', function(e) {
+		console.log(e);
+		if(e.target.innerText == "SELECT") {
+			var selectedImgId = e.target.attributes.value.value;
+			thumbnail_input.value = selectedImgId;
+			thumb_preview.style.backgroundImage = "url('/files/image/" + selectedImgId + "/view')";
+
+		}
+	});
 
 </script>
 <script>

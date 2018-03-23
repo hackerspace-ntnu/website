@@ -47,12 +47,13 @@ def skill(request, skill_title):
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user)
     profile.update()
-    return render(request, 'userprofile/profile.html', {'profile': profile, 'user': request.user})
+    return render(request, 'userprofile/profile.html', {'profile': profile})
 
-def specific_profile(request, profile_id):
-    profile = get_object_or_404(Profile, pk=profile_id)
+
+def specific_profile(request, user_id):
+    profile = get_object_or_404(User, id=user_id).profile
     profile.update()
-    return render(request, 'userprofile/profile.html', {'profile': profile, 'user': request.user})
+    return render(request, 'userprofile/profile.html', {'profile': profile})
 
 
 

@@ -22,7 +22,7 @@ ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
-LOGIN_REDIRECT_URL = '/authentication/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/authentication/login/'
 
 DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"

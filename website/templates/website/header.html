@@ -13,7 +13,7 @@
 				<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 				<!-- Dropdown user list for desktop-->
 				<ul id="userdropdown" class="dropdown-content">
-					{% if request.user.is_authenticated %}
+					{% if user.is_authenticated %}
 					<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
 					<li><a href="/authentication/logout">Logg Ut</a></li>
@@ -38,8 +38,8 @@
 					<li class="tooltipped" data-tooltip="Trykk meg for å se hvor vi befinner oss">
 						<a class="modal-trigger" href="#mapModal"><i class="material-icons">map</i></a>
 					</li>
-					{% if request.user.is_authenticated %}
-					<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{{ request.user.profile.image.url }}"></a></li>
+					{% if user.is_authenticated %}
+					<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{{ user.profile.image.url }}"></a></li>
 					{% else %}
 					<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
 					{% endif %}
@@ -50,8 +50,8 @@
 						<div class="user-view center no-pad-bot">
 							<div class="background hs-gray"> </div>
 							<!-- TODO: Make centered while respecting circle class -->
-							{% if request.user.is_authenticated %}
-							<a class="center" href="{% url 'userprofile:profile' %}"><img class="circle" src="{{ request.user.profile.image.url }}"/></a>
+							{% if user.is_authenticated %}
+							<a class="center" href="{% url 'userprofile:profile' %}"><img class="circle" src="{{ user.profile.image.url }}"/></a>
 							<a href="#"><span class="white-text"></span></a>
 							{% else %}
 							<!-- TODO: Fix styling of image -->
@@ -67,7 +67,7 @@
 					<li><a href="/about">Om Oss</a></li>
 					<li><a href="{% url 'inventory:index' %}">Inventar</a></li>
 					<li class="no-pad-bot"><a class="subheader hs-green"></a></li>
-					{% if request.user.is_authenticated %}
+					{% if user.is_authenticated %}
 					<li><a href="#">Profil</a></li>
 					<li><a href="/authentication/change-password">Bytt Passord</a></li>
 					<li><a href="/authentication/logout">Logg Ut</a></li>

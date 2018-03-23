@@ -127,21 +127,21 @@ def index(request):
     tider = request.GET.get('tid', '')
     personer = request.GET.get('person', '')
     full = request.GET.get('full', '').lower() != "on"
-    context = {
-        "dager": dager,
-        "tider": tider,
-        "personer": personer,
-        "full": full,
-    }
+
+    userList = []
     if any([dager, tider, personer]):
-        guard_list = dict()
         vakt_data = vakt_filter(days=dager, times=tider, persons=personer, full=full)
         for day in vakt_data:
             for time in vakt_data[day]:
                 for name in vakt_data[day][time]:
                     try:
-                        guard_list[name] = User.objects.get(first_name=name)
+                       user = User.objects.get(first_name__icontains=name)
+                       userList.append(user)
                     except:
-                        guard_list[name] = vakt_data[day][time][name]
-        context["guards"] = guard_list
+                       userList.append("Not found")
+
+
+    context = {
+        "users": userList
+    }
     return render(request, 'vaktliste/vakt_filter.html', context)

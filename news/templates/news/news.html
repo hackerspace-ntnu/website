@@ -10,7 +10,7 @@
 <div class="section hs-green">
 	<div class="container">
 		<div class="row white-text">
-			<h4>Nyheter og Artikkler</h4>
+			<h4>Nyheter</h4>
 		</div>
 	</div>
 </div>
@@ -32,9 +32,11 @@
 {% endif %}
 <div class="section">
 	<div class="container">
+		<div class="subheader-list valign-wrapper">
+			<h5 class="subheader">Siste Nytt</h5>
+		</div>
 		<div class="row">
 			<div class="col s12">
-				<h3>Siste artikkler</h3>
 				{% for news in news_list %}
 				<div class="section">
 					<div class="row no-pad-bot">

@@ -69,7 +69,7 @@ def edit_profile_id(request, profile_id):
     formset = ProfileInlineFormset(instance=user)
 
 
-    profile = get_object_or_404(Profile, pk=profile_id)
+    profile = get_object_or_404(Profile, user=request.user)
 
     if request.user.is_authenticated() and request.user.id == user.id:
         if request.method == "POST":

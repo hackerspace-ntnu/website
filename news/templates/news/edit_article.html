@@ -72,7 +72,20 @@ var instance = M.Modal.init(thumbModal);
 var selectButtons = document.querySelector('.selectButton');
 var thumbnail_input = document.querySelector('#id_thumbnail');
 var thumb_preview = document.querySelector('#thumb-preview');
+var fileInput = document.querySelector('#fileInput');
 
+
+
+fileInput.addEventListener('change', function(e) {
+	$.ajax({
+		type:'POST',
+		url: "files/image-upload",
+		data: fileInput.files[0],
+		success: function(response){
+			console.log(response);
+		},
+	});
+});
 document.addEventListener('click', function(e) {
 	console.log(e);
 	if(e.target.innerText == "SELECT") {

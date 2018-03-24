@@ -1,13 +1,22 @@
 .caption-text {
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
+.ingress {
+	font-weight:700;
+
+}
 
 .article-container {
-	margin-top:-200px !important;
-	padding-top:64px !important;
+	margin-top:-124px !important;
+	padding-top:12px !important;
 	position:relative;
 	padding-bottom:64px !important;
+	border-radius:2px;
 }
+.article-container .row {
+	padding-right:56px;
+	padding-left:56px;
+} 
 .article-content {
 	word-break:break-all !important;
 }

@@ -182,9 +182,10 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'Custom',
         'toolbar_Custom': [
             ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
             ['Maximize', 'Find', 'Replace']
         ],
+        'extraPlugins': 'blockquote',
     },
     'committees': {
         'skin': 'material-design',

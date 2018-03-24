@@ -46,7 +46,7 @@
 						</div>
 						<div class="col s10 preview-text hide-on-med-and-down">
 							<span class="right badge">Publisert {{ news.pub_date }}</span>
-							<a href="/news/{{ news.id }}/"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+							<a href="/news/{{ news.id }}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
 							<p>
 								{% autoescape off %}
 								{{ news.ingress_content|truncatechars:200 }}
@@ -54,7 +54,7 @@
 							</p>
 						</div>
 						<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
-							<a href="/news/{{ news.id }}/"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+							<a href="/news/{{ news.id }}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
 							<p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
 							<p>
 								{% autoescape off %}
@@ -72,7 +72,6 @@
 	</div>
 </div>
 <script>
-	var dropdown = document.querySelector('.dropdown-trigger');
-	var instance = M.Dropdown.init(dropdown);
+	M.AutoInit();
 </script>
 {% endblock content %}

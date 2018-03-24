@@ -10,331 +10,120 @@
 
 
 {% block content %}
-
-  <!-- TODO: Fikse modals og for loop til avatarmenyen -->
-
-        <!-- Green overhead menu -->
-        <div class="section hs-green white-text">
-          <div class="container">
-            <div class="row center-align">
-              <div class="col s12 white-text">
-                <h4>Inventar</h4>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="container">
-          <!-- Start admin menu-->
-          {% if perms.inventory %}
-          <div class="row">
-            <div class="col offset-s1 center-align">
-              <div class="card">
-                <div class="card-content">
-                  <span class="card-title">Administrator meny</span>
-                </div>
-                <div class="card-action">
-
-                  <!-- Modal Triggers -->
-                  {% if perms.inventory.add_item %}
-                      <a href="#add_item" class="btn modal-trigger">Legg til gjenstand</a>
-                  {% endif %}
-                  {% if perms.inventory.add_tag %}
-                      <a href="#add_tag" class="btn modal-trigger">Legg til tag</a>
-                  {% endif %}
-                  {% if perms.inventory.add_loan %}
-                      <a href="#reg_loan" class="btn modal-trigger">Registrer utlån</a>
-                      <a href="#adm_loan" class="btn modal-trigger">Administrerutlån</a>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
-          <!-- Modal structures -->
-          <div id="add_item" class="modal">
-            <div class="modal-content">
-              {% include "inventory/add_item.html" %}
-            </div>
-          </div>
-          <div id="add_tag" class="modal">
-            <div class="modal-content">
-          <!--   trenger FIX -->
-            </div>
-          </div>
-          <div id="reg_loan" class="modal">
-            <!--  trenger FIX -->
-          </div>
-          <div id="adm_loan" class="modal">
-            <!-- add modal from administrate_loan.html -->
-          </div>
-          <!-- End admin menu-->
-
-          <!-- start main content -->
-          <div class="row">
-          {% if perms.inventory %}
-            <div class="col">
-              <a href="{% url 'inventory:my_loans' %}"  class="btn">Mine lån</a>
-            </div>
-            <!-- TODO: knytte søkefelt til items -->
-          {% endif %}
-            <div class="col valign-wrapper">
-              <i class="material-icons">search</i>
-            </div>
-            <div class="col s5">
-              <input type="text" name="search" placeholder="Søk">
-            </div>
-          </div>
-
-          <!-- Start avatar collapsable -->
-          <!-- TODO: Make for loop that runs through "tags/kategories" og items -->
-          <!-- TODO: Make modals for all item cards -->
-          <div class="row">
-
-            <!-- Rabperry Pi category skeleton-->
-            <div class="col s9">
-            <ul class="collapsible" data-collapsible="accordion">
-              <li>
-                <div class="collapsible-header valign-wrapper">
-                  <div class="col s1">
-                    <img src="{% static 'inventory/img/raspberry-pi-logo.png' %}" alt="rasppi" class="responsive-img">
-                  </div>
-                  <div class="col s11 valign-wrapper">
-                    <span>Raspberry Pi</span>
-                  </div>
-                </div>
-                <div class="collapsible-body">
-                  <ul class="collection">
-                    <li class="collection-item avatar">
-                      <div class="col s2">
-                        <img src="{% static 'inventory/img/raspberrypiitem.jpg' %}" alt="" class="responsive-img">
-                      </div>
-                      <div class="col s3">
-                        <span class="title">Raspberry Pi 1</span>
-                        <p>Model number <br>
-                          Antall: 4/4
-                        </p>
-                      </div>
-                      <div class="col s7">
-                        <p>
-                          Here we can write up a short description of the item.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="collection-item avatar">
-                      <div class="col s2">
-                        <img src="{% static 'inventory/img/raspberrypiitem.jpg' %}" alt="" class="responsive-img">
-                      </div>
-                      <div class="col s3">
-                        <span class="title">Raspberry Pi 2</span>
-                        <p>Model number <br>
-                          Antall: 4/4
-                        </p>
-                      </div>
-                      <div class="col s7">
-                        <p>
-                          Here we can write up a short description of the item.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="collection-item avatar">
-                      <div class="col s2">
-                        <img src="{% static 'inventory/img/raspberrypiitem.jpg' %}" alt="" class="responsive-img">
-                      </div>
-                      <div class="col s3">
-                        <span class="title">Raspberry Pi 3</span>
-                        <p>Model number <br>
-                          Antall: 4/4
-                        </p>
-                      </div>
-                      <div class="col s7">
-                        <p>
-                          Here we can write up a short description of the item.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-
-              <li>
-                <!-- Microcontroller category skeleton-->
-                <div class="collapsible-header valign-wrapper">
-                  <div class="col s1">
-                    <img src="{% static 'inventory/img/Arduino-logo.jpeg' %}" alt="Arduino" class="responsive-img">
-                  </div>
-                  <div class="col s11 valign-wrapper">
-                    <span>Mikrokontroller</span>
-                  </div>
-                </div>
-                <div class="collapsible-body">
-                  <ul class="collection">
-                    <li class="collection-item avatar">
-                      <div class="col s2">
-                        <img src="{% static 'inventory/img/arduinoitem.jpeg' %}" alt="" class="responsive-img">
-                      </div>
-                      <div class="col s3">
-                        <span class="title">Arduino 1</span>
-                        <p>Model number <br>
-                          Antall: 4/4
-                        </p>
-                      </div>
-                      <div class="col s7">
-                        <p>
-                          Here we can write up a short description of the item.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="collection-item avatar">
-                      <div class="col s2">
-                        <img src="{% static 'inventory/img/arduinoitem.jpeg' %}" alt="" class="responsive-img">
-                      </div>
-                      <div class="col s3">
-                        <span class="title">Arduino 2</span>
-                        <p>Model number <br>
-                          Antall: 4/4
-                        </p>
-                      </div>
-                      <div class="col s7">
-                        <p>
-                          Here we can write up a short description of the item.
-                        </p>
-                      </div>
-                    </li>
-                    <li class="collection-item avatar">
-                      <div class="col s2">
-                        <img src="{% static 'inventory/img/geckoitem.jpg' %}" alt="" class="responsive-img">
-                      </div>
-                      <div class="col s3">
-                        <span class="title">Gecko ting</span>
-                        <p>Model number <br>
-                          Antall: 4/4
-                        </p>
-                      </div>
-                      <div class="col s7">
-                        <p>
-                          Here we can write up a short description of the item.
-                        </p>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-
-              <li>
-                <!-- Minnekort category skeleton-->
-                <div class="collapsible-header valign-wrapper">
-                  <div class="col s1">
-                    <img src="{% static 'inventory/img/minnekort.jpg' %}" alt="Minnekort" class="responsive-img">
-                  </div>
-                  <div class="col s11 valign-wrapper">
-                    <span>Minnekort</span>
-                  </div>
-                </div>
-
-                <div class="collapsible-body">
-                  <ul class="collection">
-                    <li class="collection-item avatar">
-                      <img src="images/yuna.jpg" alt="" class="circle">
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                    <li class="collection-item avatar">
-                      <i class="material-icons circle">folder</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                    <li class="collection-item avatar">
-                      <i class="material-icons circle green">insert_chart</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                    <li class="collection-item avatar">
-                      <i class="material-icons circle red">play_arrow</i>
-                      <span class="title">Title</span>
-                      <p>First Line <br>
-                        Second Line
-                      </p>
-                      <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="col s3">
-            <div class="card-panel">
-                <h5>Tags</h5>
-                <form action="#">
-                  <p>
-                    <input type="checkbox" id="test5" />
-                    <label for="test5">Raspberry Pi</label>
-                  </p>
-                  <p>
-                    <input type="checkbox" id="test6"  />
-                    <label for="test6">Arduino</label>
-                  </p>
-                  <p>
-                    <input type="checkbox" id="SD-kort"  />
-                    <label for="filled-in-box">SD-kort</label>
-                  </p>
-                  <p>
-                    <input type="checkbox"  id="Kretskomponenter"/>
-                    <label for="Kretskomponenter">Kretskomponenter</label>
-                  </p>
-                  <p>
-                    <input type="checkbox" id="test7"  />
-                    <label for="test7">Skjermkabel</label>
-                  </p>
-                  <p>
-                    <input type="checkbox" id="test8"  />
-                    <label for="test8">Whatever</label>
-                  </p>
-                </form>
-            </div>
-          </div>
-
-        </div>
-          <!-- Start avatar collapsable -->
-
-          <!-- Put this as items?
-
-                    <div class="row">
-                          <div class="col s3">
-                              <div class="card horizontal">
-                                  <div class="card-stacked">
-
-
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="items col s9">
-                              {% for item in items %}
-                                  <div class="item-box">
-                                      {# }{% small_card_item_detail item request perms %} #}
-                                  </div>
-                              {% endfor %}
-                          </div>
-                      </div>
-            -->
-        </div>
-        <!-- End main content -->
-
-    <script>
-    $(document).ready(function(){
-      // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-  });
-    </script>
+<!-- TODO: Fikse modals og for loop til avatarmenyen -->
+<!-- Green overhead menu -->
+<div class="section hs-green white-text">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 white-text">
+				<h4>Inventar</h4>
+			</div>
+		</div>
+	</div>
+</div>
+{% if perms.inventory %}
+<div class="section white">
+	<div class="container">
+		<!-- Start admin menu-->
+		<div class="row">
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Administrator meny</span>
+					</div>
+					<div class="card-action white-text">
+						<!-- Modal Triggers -->
+						{% if perms.inventory.add_item %}
+						<a href="#add_item" class="btn modal-trigger">Legg til gjenstand</a>
+						{% endif %}
+						{% if perms.inventory.add_tag %}
+						<a href="#add_tag" class="btn modal-trigger">Legg til tag</a>
+						{% endif %}
+						{% if perms.inventory.add_loan %}
+						<a href="#reg_loan" class="btn modal-trigger">Registrer utlån</a>
+						<a href="#adm_loan" class="btn modal-trigger">Administrerutlån</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modals -->
+	<div id="add_item" class="modal">
+		<div class="modal-content">
+			<p>Add item</p>
+			<form method="post">
+				{% csrf_token %}
+				{{ itemform.as_p }}
+			<input type="submit" name="item"/>
+			</form>
+		</div>
+	</div>
+	<div id="add_tag" class="modal">
+		<div class="modal-content">
+			<p>Add tag</p>
+			<form method="POST">
+				{% csrf_token %}
+				{% for field in tagform %}
+				<div class="input-field col s12">
+					{{ field }}
+					<label for="{{ field.id_from_label }}">{{ field.label }}</label>
+				</div>
+				{% endfor %}
+				<input type="submit" name="tag" class="btn btn-large">Submit </input>
+			</form>
+		</div>
+	</div>
+	<div id="reg_loan" class="modal">
+		<!--  trenger FIX -->
+	</div>
+	<div id="adm_loan" class="modal">
+		<!-- add modal from administrate_loan.html -->
+	</div>
+	<div class="divider"></div>
+</div>
+<!-- End admin menu-->
+{% endif %}
+<div class="section white">
+	<div class="container">
+		<!-- start main content -->
+		<div class="row">
+			{% if perms.inventory %}
+			<div class="col s6">
+				<a href="{% url 'inventory:my_loans' %}"  class="btn">Mine lån</a>
+			</div>
+			{% endif %}
+			<!-- TODO: knytte søkefelt til items -->
+			<div class="col s6">
+				<input type="text" name="search" placeholder="Søk">
+			</div>
+		</div>
+		<div class="row">
+			<!-- Rabperry Pi category skeleton-->
+			<div class="col s12">
+				<ul class="collapsible">
+						{% for tag in tags %}
+						<li>
+							<div class="collapsible-header"><i class="material-icons">filter_drama</i>{{ tag.name }}</div>
+							<div class="collapsible-body">
+								<ul class="collection">
+									{% for item in tag.get_visible_items %}
+									<li class="collection-item avatar">
+										<img class="circle" src="{{ item.thumbnail.url }}"/>
+										<p>{{ item.description }}</p>
+										<a href="#!" class="secondary-content btn-flat">Lån Ut</a>
+									</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</li>
+						{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	M.AutoInit();
+</script>
 {% endblock content %}

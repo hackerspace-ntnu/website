@@ -14,7 +14,7 @@ class Tag(models.Model):
     visible = models.BooleanField(default=True)
 
     # TODO lag restriction så den ikke kan være seg selv
-    parent_tag = models.ForeignKey('Tag', null=True, related_name="children_tags")
+    parent_tag = models.ForeignKey('Tag', null=True, blank=True, related_name="children_tags")
 
     def get_visible_items(self):
         return self.item_set.filter(visible=True)

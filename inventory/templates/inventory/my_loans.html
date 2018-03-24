@@ -1,29 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 {% load staticfiles %}
-{% load cards %}
-
-
-{% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/style.css' %}">
-
-{% endblock header %}
-
-
 {% block content %}
 
-    <ul id="tabs-swipe-demo" class="tabs">
-    </ul>
-
-    <style>
-        #tabs-swipe-demo {
-            background-color: var(--hs-gray-li);
-        }
-    </style>
-
     <div class="content">
-        <!--
-        <div style="display: block; margin: 0 auto; ">
-        -->
         <div class="tab-container">
             <ul id="tabs-swipe-demo" class="tabs">
                 <li class="tab col s3"><a class="active-loans" href="#test-swipe-1"
@@ -81,18 +60,4 @@
             </div>
         </div>
     </div>
-
-
-    <style>
-        .chip {
-            background-color: var(--hs-green);
-        }
-
-        .tab-container {
-            margin-top: -48px;
-        }
-
-    </style>
-
-
 {% endblock content %}

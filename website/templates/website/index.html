@@ -10,29 +10,37 @@
 </div>
 <div class="section hide-on-small-only no-pad hs-green">
 	<div class="slider">
-		<div class="fixed-text center">
-			<img id="indexLogo" src="{% static 'website/img/logo/Icon_green_transparent.png' %}">
-			<div class=" white-text">
-				<h1 class="text-shadow">Hackerspace</h1>
-				<h4 class="text-shadow">En kreativ arena for å realisere dine ideer</h4>
-			</div>
-		</div>
 		<ul class="slides">
 			<li class="tinter">
-				<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
+				<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
+				<div class="caption left-align">
+					<h2>Har du en skaper i magen?</h2>
+					<h4>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</h4>
+					<a class="btn btn-large waves-effect hs-green white-text" href="#vr">Les mer</a>
+				</div>
 			</li>
 			<li class="tinter">
-				<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
+				<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
+				<div class="caption left-align">
+					<h3>Nyskjerrrig på VR?</h3>
+					<h5>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</h5>
+					<a class="btn btn-large waves-effect  hs-green white-text" href="#vr">Les mer</a>
+				</div>
 			</li>
 			<li class="tinter">
 				<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
+				<div class="caption right-align">
+					<h3>Kreativt, innovativt og ikke minst sosialt</h3>
+					<h5>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</h5>
+					<a class="btn btn-large waves-effect hs-green white-text" href="#vr">Les mer</a>
+				</div>
 			</li>
 		</ul>
-</div>
+	</div>
 </div>
 <div class="section hs-green">
 	<div class="container">
-	<div class="row valign-wrapper no-pad-bot no-pad">
+		<div class="row valign-wrapper no-pad-bot no-pad">
 		<div class="col s4">
 			<i class="material-icons white-text small">free_breakfast</i>
 			<span class="white-text">420 kanner kaffe drukket</span>
@@ -54,7 +62,7 @@
 			<div class="col s6 white-text">
 				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter.</p>
 				<p class="flow-text">Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
-				<a class="btn-flat btn-large hs-green white-text" href="/about/">Les mer her</a>
+				<a class="btn-flat btn-large waves-effect hs-green white-text" href="/about/">Les mer her</a>
 				<p class="flow-text">Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="modal-trigger hs-green-text" href="#mapModal">vårt kontor</a> og slack-kanal.</p>
 				<ul class="sosial-bilder">
 					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'website/img/icon/slack_icon.png' %}" title="Slack"></a>
@@ -173,14 +181,12 @@
 </div>
 <script>
 var elem = document.querySelector('.slider');
-var slideshow = M.Slider.init(elem, {
-	indicators: false,
-	height: 750,
-	duration:2000
+var instance = M.Slider.init(elem, {
+	indicators: true,
+	height: 500,
+	duration:600,
+	interval: 6000
 })
-
-setInterval(function(){
-	slideshow.next()}, 6000)
 
 </script>
 {% endblock content %}

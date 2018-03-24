@@ -3,7 +3,7 @@
 {% block content %}
 <div class="section hs-green white-text">
     <div class="container">
-        <div class="row center">
+        <div class="row">
           <h3>Om Hackerspace NTNU</h3>
         </div>
     </div>
@@ -132,17 +132,6 @@
 	</div>
 </div>
 <script>
-	var parallax = document.querySelector('.parallax');
-	var devp = document.querySelector('.devp');
-	var vrp = document.querySelector('.vrp');
-	var labp = document.querySelector('.labp');
-	var erp = document.querySelector('.erp');
-	var prp = document.querySelector('.prp');
-	var instance = M.Parallax.init(parallax);
-	var instance = M.Parallax.init(devp);
-	var instance = M.Parallax.init(vrp);
-	var instance = M.Parallax.init(labp);
-	var instance = M.Parallax.init(erp);
-	var instance = M.Parallax.init(prp);
+	M.AutoInit();
 </script>
 {% endblock content %}

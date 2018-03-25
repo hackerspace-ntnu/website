@@ -9,7 +9,7 @@ from .models import Item, Tag, Loan
 class ItemForm(ModelForm):
     class Meta:
         model = Item
-        fields = ['name', 'description', 'quantity', 'tags','zone','shelf','row','column']
+        fields = ['name', 'description', 'quantity', 'tags','zone','shelf','row','column','thumbnail']
 
 
 class TagForm(ModelForm):

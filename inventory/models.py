@@ -62,7 +62,10 @@ class Item(models.Model):
         return loans
 
     def __str__(self):
-        return str("name: " + self.name)
+        return str("<Item>" + self.name)
+
+    def __repr__(self):
+        return self
 
 
 class Loan(models.Model):

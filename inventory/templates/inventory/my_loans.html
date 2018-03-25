@@ -1,7 +1,6 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
 {% block content %}
-
     <div class="content">
         <div class="tab-container">
             <ul id="tabs-swipe-demo" class="tabs">
@@ -29,9 +28,7 @@
                 <h2>Aktive lån</h2>
                 {% if active_loans %}
                     {% for loan in active_loans %}
-
-                        {% small_card_loan_detail loan "Frist" loan.return_date %}
-
+			    {{ loan.date_description }}: {{ loan.date }}
                     {% endfor %}
                 {% endif %}
             </div>
@@ -40,11 +37,7 @@
                 <h2>For sene</h2>
                 {% if late_loans %}
                     <!-- TODO merk av for om hvor mange reminders personen har fått på mail -->
-
                     {% for loan in late_loans %}
-
-                        {% small_card_loan_detail loan "Frist" loan.return_date %}
-
                     {% endfor %}
                 {% endif %}
             </div>
@@ -53,7 +46,6 @@
                 {% if old_loans %}
                     <h2>Tidligere lån</h2>
                     {% for loan in old_loans %}
-                        {% small_card_loan_detail loan "Returnert" loan.date_returned %}
                     {% endfor %}
 
                 {% endif %}

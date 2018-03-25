@@ -13,4 +13,7 @@ urlpatterns = [
     url(r'^loan_detail/(?P<loan_id>[0-9]+)/$', views.loan_detail, name='loan_detail'),
     url(r'^my_loans/', views.my_loans, name='my_loans'),
     url(r'^search/', views.search, name='search'),
+    url(r'^items/$', views.item_list),
+    url(r'^tags/$', views.tag_list),
+    url(r'^items/(?P<pk>[0-9]+)$', views.item_detail),
 ]

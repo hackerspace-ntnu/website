@@ -93,32 +93,6 @@
 	</div>
 </div>
 <script>
-	var elem = document.querySelector('.tooltipped');
-	var instance = M.Tooltip.init(elem);
-
-	var sideNavElem = document.querySelector('.sidenav');
-	var instance = M.Sidenav.init(sideNavElem);
-
-	var dropdown_resources = document.querySelector('.trigger-resources');
-	var dropdown_user = document.querySelector('.dropdown-trigger-user');
-
-	var instance = M.Dropdown.init(dropdown_user, {
-		hover: true,
-		coverTrigger: false,
-		constrainWidth: false
-	});
-
-	var instance = M.Dropdown.init(dropdown_resources, {
-		hover: true,
-		coverTrigger: false,
-		constrainWidth: false
-	});
-	var loginModal = document.querySelector('#loginModal');
-	var instance = M.Modal.init(loginModal);
-
-	var mapModal = document.querySelector('#mapModal');
-	var instance = M.Modal.init(mapModal);
-
 	switch(window.location.pathname) {
 		case '/news/':
 			var element = document.getElementById("news");

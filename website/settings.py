@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     'website',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
     'applications',
     'news',
     'door',
@@ -90,6 +93,11 @@ INSTALLED_APPS = [
 
 THUMBNAIL_PRESERVE_FORMAT = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES':
+    ['rest_framework.permissions.IsAdminUser'],
+    'PAGE_SIZE': 10
+}
 
 #################################
 # Database                      #

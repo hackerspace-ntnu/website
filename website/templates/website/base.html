@@ -21,6 +21,10 @@
 		<link rel="stylesheet" type="text/css" href="{% static "website/css/style.css" %}">
 		<link rel="stylesheet" type="text/css" href="{% static "website/css/colors.css" %}">
 		<link rel="stylesheet" type="text/css" href="{% static "website/css/material_override.css" %}">
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue-resource"></script>
+
 		{% block head %}
 		{% endblock head %}
 		{% block extra_js %}
@@ -57,6 +61,9 @@ Materialize.toast($toastContent, 5000);
 		{% include "website/delete.html" %}
 		{% block footer %}
 		{% include "website/footer.html" %}
+			<script>
+				M.AutoInit();
+			</script>
 		{% endblock footer %}
 	</body>
 </html>

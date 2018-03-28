@@ -5,6 +5,7 @@
 {% load divtags %}
 {% load picker_modal %}
 {% load register %}
+{% load rest_framework %}
 {% block head %}
 {% endblock %}
 {% block content %}
@@ -54,25 +55,6 @@
 		<div id="add_item" class="modal">
 			<div class="modal-content">
 				<p>Add item</p>
-				<form method="post">
-					{% csrf_token %}
-					{% for field in itemform %}
-					{% if field.label == "Thumbnail" %}
-					<div class="input-field hidden">
-						<input class="thumbnailPicker hidden" id="{{ field.id_for_label }}" name="thumbnail" type="hidden" value="{{ field.value }}">
-					</div>
-					<i class="material-icons prefix">photo_library</i>
-					<label for="thumb-preview">Thumbnail</label>
-					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ field.value }}/view);"></div>
-					{% else %}
-					<div class="input-field col s12">
-						{{ field }}
-						<label for="{{ field.id_from_label }}">{{ field.label }}</label>
-					</div>
-					{% endif %}
-					{% endfor %}
-					<input type="submit" name="item"/>
-				</form>
 			</div>
 		</div>
 		<div id="thumbnailPicker" class="modal">
@@ -83,40 +65,23 @@
 		<div id="add_tag" class="modal">
 			<div class="modal-content">
 				<p>Add tag</p>
-				<form method="POST">
-					{% csrf_token %}
-					{% for field in tagform %}
-					<div class="input-field col s12">
-						{{ field }}
-						<label for="{{ field.id_from_label }}">{{ field.label }}</label>
-					</div>
-					{% endfor %}
-					<input type="submit" name="tag" class="btn btn-large">Submit </input>
-				</form>
 			</div>
 		</div>
 		<div id="reg_loan" class="modal">
 			<div class="modal-content">
-				{{ ItemForm }}
 			</div>
 		</div>
 		<div id="edit_modal" class="modal">
-			<div class="modal-content">
-				{% csrf_token %}
-				<div v-for="(item, key) in current_item" :key="key" v-model="item" class="input-field col s12">
-					<select v-if="key == 'tags'" multiple class="browser-default">
-						<option value="" disabled selected>Choose your option</option>
-						<option v-for="tag in item" :value="tag.id">[[ tag.name ]]</option>
-					</select>
-					<label v-if="key == 'tags'">LAbel</label>
-
-					<input type="text" :id="key" :value="item">
-					<label class="active" :for="key">[[ key ]]</label>
-				</div>
-				<input type="submit" name="tag" class="btn btn-large">Submit </input>
-				</form>
-
-			</div>
+			<input v-model="current_item.name"/>
+			<input v-model="current_item.description"/>
+			<input v-model="current_item.quantity"/>
+			<input v-model="current_item.thumbnail"/>
+			<input v-model="current_item.tags"/>
+			<input v-model="current_item.zone"/>
+			<input v-model="current_item.shelf"/>
+			<input v-model="current_item.row"/>
+			<input v-model="current_item.column"/>
+			<input v-on:click="postItem(current_item)" type="submit" value="Oppdater"/>
 		</div>
 		<div id="adm_loan" class="modal">
 			<!-- add modal from administrate_loan.html -->
@@ -143,18 +108,15 @@
 				<!-- Rabperry Pi category skeleton-->
 				<div class="col s12">
 					<ul class="collapsible">
-						<li v-for="tag in tags">
+						<li v-for="item in itemList" :key="item.id">
 							<div class="collapsible-header">
-								<span> [[ tag.name ]] </span>
+								<span> [[ item.name ]] </span>
 							</div>
 							<div class="collapsible-body" >
 								<ul class="collection">
-									<li v-for="item in tag.item_set" :key="item.id" class="collection-item avatar">
-										<img src="[[ item.thumbnail.file ]]" />
-										<a class="modal-trigger" v-on:click="getItem(item.id)" href="#edit_modal">
-											<span> [[ item.name ]] </span>
-										</a>
-									</li>
+									<a class="modal-trigger" v-on:click="getItem(item)" href="#edit_modal">
+										<span> [[ item.name ]] </span>
+									</a>
 								</ul>
 							</div>
 						</li>
@@ -163,35 +125,51 @@
 			</div>
 		</div>
 	</div>
-</div>
-
+</div>}
 <script type="text/javascript">
+	function readCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+	var csrftoken = readCookie('csrftoken');
+
+	console.log("CSRF TOKEN SHOULD BE " + csrftoken);
 	new Vue({
 		el: "#app",
 		delimiters: ["[[","]]"],
 		data: {
-			tags: [],
-			current_item: [],
+			itemList: [],
+			current_item: "",
+			current_item_form: "",
 		},
 		mounted: function() {
-			this.getTags();
+			this.getItemList();
 		},
 		methods: {
-			getTags: function() {
-				this.$http.get('/inventory/tags').then((response => {
-					this.tags = response.data;
+			getItemList: function() {
+				this.$http.get('/inventory/items').then((response => {
+					this.itemList = response.data;
 					console.log(response.data);
 				}));
-				console.log(this.tags);
+				console.log(this.itemList);
 			},
-			getItem: function(id) {
-				this.$http.get('/inventory/items/' + id).then((response => {
-					this.current_item = response.data;
-					console.log(response.data);
+			getItem: function(item) {
+				this.current_item = item;
+			},
+			postItem: function(current_item) {
+				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
+					M.toast({html: response.statusText});
 				}));
 			},
 		}
 	});
+	Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 	M.AutoInit();
 	var elem = document.querySelector('#tags');
 	var instance = M.FormSelect.init(elem);

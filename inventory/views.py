@@ -1,17 +1,64 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic import View
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.renderers import TemplateHTMLRenderer
+from rest_framework.views import APIView
 
 from .forms import ItemForm, LoanForm, TagForm
 from .models import Tag, Item, Loan
 from .serializers import *
+
+class ItemList(APIView):
+    """
+    List one item, update or create.
+    """
+
+    def get(self, request, pk):
+        items = Item.objects.all()
+        serializer = ItemSerializer(item, many=True)
+        return Response(serializer.data)
+
+
+class ItemDetail(APIView):
+    """
+    List one item, update or create.
+    """
+    def get_object(self, pk):
+        try:
+            return Item.objects.get(pk=pk)
+        except Item.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        item = self.get_object(pk=pk)
+        serializer = ItemSerializer(item)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        item = self.get_object(pk=pk)
+        serializer = ItemSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        item = self.get_object(pk=pk)
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'POST'])
 def tag_list(request):
@@ -30,30 +77,6 @@ def tag_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def item_detail(request, pk):
-    """
-    Retrieve, update or delete an item instance.
-    """
-    try:
-        item = Item.objects.get(pk=pk)
-    except Item.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = ItemSerializer(item,context={'request': request})
-        return Response(serializer.data)
-
-    elif request.method == 'PUT':
-        serializer = ItemSerializer(item, data=request.data,context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
@@ -75,21 +98,11 @@ def item_list(request):
 
 def index(request):
     tags = Tag.objects.filter(visible=True)
-    itemForm =  ItemForm()
-    tagForm = TagForm()
+    itemSerializer = ItemSerializer()
 
 
-    if request.method == "POST":
-        if 'item' in request.POST:
-            formdata = ItemForm(request.POST)
-            formdata.save()
-        elif 'tag' in request.POST:
-            formdata = TagForm(request.POST)
-            formdata.save()
-
-    context = {'itemform': itemForm,
-               'tagform': tagForm,
-               'tags': tags,
+    context = {'tags': tags,
+               'item_serializer': itemSerializer,
                }
 
     return render(request, 'inventory/index.html', context)

@@ -1,5 +1,7 @@
+{% load rest_framework %}
 <div class="modal-content">
-	<p>Hallo</p>
-	{{ form.as_p }}
+	<p> Test </p>
+	{% csrf_token %}
+	{% render_form serializer %}
 </div>
 

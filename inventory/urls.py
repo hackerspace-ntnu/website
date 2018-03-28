@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^search/', views.search, name='search'),
     url(r'^items/$', views.item_list),
     url(r'^tags/$', views.tag_list),
-    url(r'^items/(?P<pk>[0-9]+)$', views.item_detail),
+    url(r'^items/(?P<pk>[0-9]+)$', views.ItemDetail.as_view(), name='view-specific-item'),
+    url(r'^items/$', views.ItemList.as_view(), name='view-list-item'),
 ]

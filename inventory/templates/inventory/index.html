@@ -101,15 +101,17 @@
 				<!-- Rabperry Pi category skeleton-->
 				<div class="col s12">
 					<ul class="collapsible">
-						<li v-for="item in itemList" :key="item.id">
+						<li v-for="tag in tagList" :key="tag.id">
 							<div class="collapsible-header">
-								<span> [[ item.name ]] </span>
+								<span> [[ tag.name ]] </span>
 							</div>
 							<div class="collapsible-body" >
 								<ul class="collection">
+									<li v-for="item in tag.item_set">
 									<a class="modal-trigger" v-on:click="getItem(item)" href="#edit_modal">
 										<span> [[ item.name ]] </span>
 									</a>
+									</li>
 								</ul>
 							</div>
 						</li>
@@ -138,13 +140,22 @@
 		delimiters: ["[[","]]"],
 		data: {
 			itemList: [],
+			tagList: [],
 			current_item: "",
 			current_item_form: "",
 		},
 		mounted: function() {
 			this.getItemList();
+			this.getTagList();
 		},
 		methods: {
+			getTagList: function() {
+				this.$http.get('/inventory/tags').then((response => {
+					this.tagList = response.data;
+					console.log(response.data);
+				}));
+				console.log(this.itemList);
+			},
 			getItemList: function() {
 				this.$http.get('/inventory/items').then((response => {
 					this.itemList = response.data;

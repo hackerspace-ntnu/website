@@ -1,13 +1,7 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
-{% load cards %}
-{% load utils %}
-{% load divtags %}
 {% load picker_modal %}
-{% load register %}
 {% load rest_framework %}
-{% block head %}
-{% endblock %}
 {% block content %}
 <div id="app">
 	<!-- TODO: Fikse modals og for loop til avatarmenyen -->
@@ -96,7 +90,6 @@
 			<div class="row">
 				{% if perms.inventory %}
 				<div class="col s6">
-					<a href="{% url 'inventory:my_loans' %}"  class="btn">Mine lån</a>
 				</div>
 				{% endif %}
 				<!-- TODO: knytte søkefelt til items -->

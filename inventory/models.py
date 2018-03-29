@@ -46,35 +46,29 @@ class Item(models.Model):
         return "{} is tagged with {}".format(self.name, all_tags)
 
     def quantity_left(self):
-        """ Returnerer antall items som ikke er lånt ut. """
-        if self.loanitem_set.all():
-            sum_lent_out = self.loanitem_set.filter(
-                loan__visible=True, loan__date_returned=None).aggregate(Sum('quantity'))['quantity__sum']
-            return self.quantity - (0 if sum_lent_out is None else sum_lent_out)
-        return self.quantity
+        total_quantity = self.quantity
+        current_quantity = 0
 
-    def get_active_loans(self):
-        loans = []
-        for loan_item in self.loanitem_set.filter(loan__date_returned=None):
-            loan = loan_item.loan
-            if loan and loan.visible:
-                loans.append(loan)
-        return loans
+        loans = self.loans.all()
+        for loan in loans:
+            current_quantity += loan.quantity
+
+        return (total_quantity - current_quantity)
 
     def __str__(self):
         return str("<Item>" + self.name)
 
-    def __repr__(self):
-        return self
 
 
 class Loan(models.Model):
-    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='loan_set')  # lånetaker
+    borrower = models.CharField(max_length=300, null=True)
+    email = models.CharField(max_length=300, null=True)
+    phone = models.CharField(max_length=300, null=True)
     lender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='lender_set')  # utlåner
 
     comment = models.CharField(max_length=300)
     visible = models.BooleanField(default=True)
-    item = models.ForeignKey(Item, null=True)
+    item = models.ForeignKey('Item', null=True, blank=True, related_name="loans")
     quantity = models.IntegerField(default=1)  # Antall man har lånt av typen item.
 
     loan_date = models.DateTimeField('date_lent', default=timezone.now)

@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import ItemSerializer, TagSerializer
-from .models import Item, Tag
+from .serializers import ItemSerializer, TagSerializer, LoanSerializer
+from .models import Item, Tag, Loan
 
 
 class ItemList(APIView):
@@ -16,6 +16,12 @@ class ItemList(APIView):
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ItemDetail(APIView):
     """
@@ -40,13 +46,6 @@ class ItemDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def post(self, request, pk):
-        item = self.get_object(pk=pk)
-        serializer = ItemSerializer(item, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TagList(APIView):
@@ -58,6 +57,31 @@ class TagList(APIView):
         tags = Tag.objects.all()
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data)
+
+    def post(self, request):
+        serializer = TagSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoanList(APIView):
+    """
+    List all tags, or create a new product.
+    """
+
+    def get(self, request):
+        loans = Loan.objects.all()
+        serializer = LoanSerializer(loans, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = LoanSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def index(request):

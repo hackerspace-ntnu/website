@@ -7,11 +7,12 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = ('id','name','description', 'quantity', 'thumbnail', 'tags', 'zone', 'shelf', 'row', 'column')
 
+
 class TagSerializer(serializers.ModelSerializer):
-    item_set = ItemSerializer(many=True)
+    item_set = ItemSerializer(many=True, read_only=True)
     class Meta:
         model = Tag
-        fields = ('id', 'name', 'parent_tag', 'item_set')
+        fields = ('id', 'name', 'item_set')
         depth = 2
 
 

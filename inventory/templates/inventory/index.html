@@ -28,13 +28,10 @@
 						<div class="card-action white-text">
 							<!-- Modal Triggers -->
 							{% if perms.inventory.add_item %}
-							<a class="modal-trigger" v-on:click="setItem(new_item, true)" href="#edit_modal">Legg til gjenstand</a>
+								<a class="modal-trigger" v-on:click="setItem(new_item, true)" href="#edit_modal">Legg til gjenstand</a>
 							{% endif %}
-							<div id="reg_item">
-								{{ msg }}
-							</div>
 							{% if perms.inventory.add_tag %}
-							<a href="#add_tag" class="btn modal-trigger">Legg til tag</a>
+								<a class="modal-trigger" href="#add_tag" v-on:click="updateTags()" class="btn modal-trigger">Legg til tag</a>
 							{% endif %}
 							{% if perms.inventory.add_loan %}
 							<a href="#reg_loan" class="btn modal-trigger">Registrer utlån</a>
@@ -53,7 +50,16 @@
 		</div>
 		<div id="add_tag" class="modal">
 			<div class="modal-content">
-				<p>Add tag</p>
+				<p>Add tag asd</p>
+				<div class="input-field col s12">
+					<input id="name" v-model="new_tag.name"/>
+					<label for="name" class="active">Navn</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="visible" v-model="new_tag.visible"/>
+					<label for="visible" class="active">Beskrivelse</label>
+				</div>
+				<a href="#!" class="btn btn-large" v-on:click="postTag(new_tag)">Legg til</a>
 			</div>
 		</div>
 		<div id="loan_modal" class="modal">
@@ -172,9 +178,6 @@
 		}
 		return null;
 	}
-	var csrftoken = readCookie('csrftoken');
-
-	console.log("CSRF TOKEN SHOULD BE " + csrftoken);
 	new Vue({
 		el: "#app",
 		delimiters: ["[[","]]"],
@@ -183,6 +186,8 @@
 			add: false,
 			current_item: "",
 			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null },
+			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], },
+			new_loan: ,
 		},
 		mounted: function() {
 			this.getTagList();
@@ -206,6 +211,12 @@
 					var instance = M.FormSelect.init(selectorElement);
 				})
 			},
+			updateTags: function(item, add) {
+				Vue.nextTick(function () {
+					var selectorElement = document.querySelector('#tagSelector');
+					var instance = M.FormSelect.init(selectorElement);
+				})
+			},
 			putItem: function(current_item) {
 				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
@@ -218,8 +229,15 @@
 				}));
 				this.getTagList();
 			},
+			postTag: function(tag) {
+				this.$http.post('/inventory/tags/', tag).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
 		}
 	});
+	var csrftoken = readCookie('csrftoken');
 	Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 	M.AutoInit();
 	

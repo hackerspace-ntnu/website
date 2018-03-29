@@ -85,9 +85,9 @@
 					<label for="thumbnail" class="active">Bilde</label>
 				</div>
 				<div class="input-field col s12">
-					<select v-model="current_item.tags" v-if="current_item.tags" multiple>
+					<select id="tagSelector" v-model="current_item.tags" v-if="current_item.tags" multiple>
 						<option value="" disabled>Velg ny kategori</option>
-						<option v-for="tag in tagList" :value="tag.id"> [[ tag.name ]] </option>
+						<option v-for="tag in tagList" v-bind:value="tag.id"> [[ tag.name ]]</option>
 					</select>
 				</div>
 				<div class="input-field col s12">
@@ -186,24 +186,29 @@
 		},
 		methods: {
 			getTagList: function() {
-				this.$http.get('/inventory/tags').then((response => {
+				this.$http.get('/inventory/tags').then(
+				function (response) {
 					this.tagList = response.data;
-					console.log(response.data);
-				}));
-				console.log(this.itemList);
+				},
+				function(response) {
+					M.toast({html: "Noe gikk galt under henting av tags. Feilkode: " + response.detail});
+				});
 			},
 			getItemList: function() {
-				this.$http.get('/inventory/items').then((response => {
+				this.$http.get('/inventory/items').then(
+				function (response) {
 					this.itemList = response.data;
-					console.log(response.data);
-				}));
-				console.log(this.itemList);
+				}, function(response) {
+					M.toast({html: "Noe gikk galt under henting av items. Feilkode: " + response.detail});
+				
+				});
 			},
 			getItem: function(item) {
 				this.current_item = item;
-				var elem = document.querySelector('select');
-				var instance = M.FormSelect.init(elem);
-
+				Vue.nextTick(function () {
+					var selectorElement = document.querySelector('#tagSelector');
+					var instance = M.FormSelect.init(selectorElement);
+				})
 			},
 			postItem: function(current_item) {
 				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {

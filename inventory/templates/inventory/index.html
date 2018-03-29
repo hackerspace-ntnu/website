@@ -28,7 +28,7 @@
 						<div class="card-action white-text">
 							<!-- Modal Triggers -->
 							{% if perms.inventory.add_item %}
-							<a class="modal-trigger" v-on:click="getItem()" href="#edit_modal">Legg til gjenstand</a>
+							<a class="modal-trigger" v-on:click="setItem(new_item, true)" href="#edit_modal">Legg til gjenstand</a>
 							{% endif %}
 							<div id="reg_item">
 								{{ msg }}
@@ -46,11 +46,6 @@
 			</div>
 		</div>
 		<!-- Modals -->
-		<div id="add_item" class="modal">
-			<div class="modal-content">
-				<p>Add item</p>
-			</div>
-		</div>
 		<div id="thumbnailPicker" class="modal">
 			<div class="modal-content">
 				{% ImageModal request %}
@@ -61,8 +56,16 @@
 				<p>Add tag</p>
 			</div>
 		</div>
-		<div id="reg_loan" class="modal">
+		<div id="loan_modal" class="modal">
 			<div class="modal-content">
+				<div class="input-field col s12">
+					<input id="name" v-model="current_item.name"/>
+					<label for="name" class="active">Navn</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="description" v-model="current_item.description"/>
+					<label for="description" class="active">Beskrivelse</label>
+				</div>
 			</div>
 		</div>
 		<div id="edit_modal" class="modal">
@@ -103,7 +106,8 @@
 					<label for="column" class="active">Kolonne</label>
 				</div>
 				<div class="input-field col s12">
-					<button class="btn btn-large" v-on:click="postItem(current_item)" value="Oppdater"/>
+					<a href="#!" v-if="add" class="btn btn-large" v-on:click="postItem(current_item)">Legg til</a>
+					<a href="#!" v-if="!add" class="btn btn-large" v-on:click="putItem(current_item)">Oppdater</a>
 				</div>
 			</div>
 			</div>
@@ -140,13 +144,13 @@
 								<ul class="collection">
 									<li v-for="item in tag.item_set" class="collection-item avatar">
 										<img v-if="item.thumbnail" :src="item.thumbnail.file" alt="" class="circle">
-										<a class="modal-trigger" v-on:click="getItem(item)" href="#edit_modal">
+										<a class="modal-trigger" v-on:click="setItem(item, false)" href="#edit_modal">
 											<span class="title"> [[ item.name ]] </span>
 										</a>
 										<p>[[ item.description ]]<br>
 										[[ item.quantity ]] stk, sone [[ item.zone ]], [[ item.shelf ]] [[ item.row ]] [[ item.column ]].
 										</p>
-										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+										<a v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text"><i class="material-icons">arrow_forward</i>Lån ut</a>
 									</li>
 								</ul>
 							</div>
@@ -175,13 +179,12 @@
 		el: "#app",
 		delimiters: ["[[","]]"],
 		data: {
-			itemList: [],
 			tagList: [],
+			add: false,
 			current_item: "",
-			current_item_form: "",
+			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null },
 		},
 		mounted: function() {
-			this.getItemList();
 			this.getTagList();
 		},
 		methods: {
@@ -194,27 +197,25 @@
 					M.toast({html: "Noe gikk galt under henting av tags. Feilkode: " + response.detail});
 				});
 			},
-			getItemList: function() {
-				this.$http.get('/inventory/items').then(
-				function (response) {
-					this.itemList = response.data;
-				}, function(response) {
-					M.toast({html: "Noe gikk galt under henting av items. Feilkode: " + response.detail});
-				
-				});
-			},
-			getItem: function(item) {
+			setItem: function(item, add) {
+				this.add = add;
 				this.current_item = item;
+				this.current_item.tags = item.tags;
 				Vue.nextTick(function () {
 					var selectorElement = document.querySelector('#tagSelector');
 					var instance = M.FormSelect.init(selectorElement);
 				})
 			},
-			postItem: function(current_item) {
+			putItem: function(current_item) {
 				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
-				this.getItemList();
+				this.getTagList();
+			},
+			postItem: function(current_item) {
+				this.$http.post('/inventory/items/', current_item).then((response => {
+					M.toast({html: response.statusText});
+				}));
 				this.getTagList();
 			},
 		}

@@ -65,13 +65,30 @@
 		<div id="loan_modal" class="modal">
 			<div class="modal-content">
 				<div class="input-field col s12">
-					<input id="name" v-model="current_item.name"/>
+					<input id="name" v-model="new_loan.borrower"/>
 					<label for="name" class="active">Navn</label>
 				</div>
 				<div class="input-field col s12">
-					<input id="description" v-model="current_item.description"/>
-					<label for="description" class="active">Beskrivelse</label>
+					<input id="name" v-model="new_loan.lender"/>
+					<label for="name" class="active">Utleier</label>
 				</div>
+				<div class="input-field col s12">
+					<input id="email" v-model="new_loan.email"/>
+					<label for="email" class="active">Epost-addresse</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="quantity" v-model="new_loan.quantity"/>
+					<label for="quantity" class="active">Antall enheter å låne ut</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="phone" v-model="new_loan.phone"/>
+					<label for="phone" class="active">Telefonnummer</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="comment" v-model="new_loan.comment"/>
+					<label for="comment" class="active">Kommentar</label>
+				</div>
+				<a href="#!" class="btn btn-large" v-on:click="postLoan(new_loan)">Legg til</a>
 			</div>
 		</div>
 		<div id="edit_modal" class="modal">
@@ -154,9 +171,10 @@
 											<span class="title"> [[ item.name ]] </span>
 										</a>
 										<p>[[ item.description ]]<br>
-										[[ item.quantity ]] stk, sone [[ item.zone ]], [[ item.shelf ]] [[ item.row ]] [[ item.column ]].
+										[[ item.quantity_left ]]/[[ item.quantity ]], sone [[ item.zone ]], [[ item.shelf ]] [[ item.row ]] [[ item.column ]].
 										</p>
-										<a v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text"><i class="material-icons">arrow_forward</i>Lån ut</a>
+										<a v-if="item.quantity_left <= 0" v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text disabled"><i class="material-icons">arrow_forward</i>Lån ut</a>
+										<a v-else v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text"><i class="material-icons">arrow_forward</i>Lån ut</a>
 									</li>
 								</ul>
 							</div>
@@ -187,7 +205,7 @@
 			current_item: "",
 			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null },
 			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], },
-			new_loan: ,
+			new_loan: { "borrower": null, "lender": null, "comment": "none", "email": null, "phone": null, "item": null },
 		},
 		mounted: function() {
 			this.getTagList();
@@ -231,6 +249,14 @@
 			},
 			postTag: function(tag) {
 				this.$http.post('/inventory/tags/', tag).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+			postLoan: function(loan) {
+				loan.item = this.current_item.id;
+				loan.item.visible = false;
+				this.$http.post('/inventory/loans/', loan).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();

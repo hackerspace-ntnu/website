@@ -5,7 +5,7 @@ from .models import Item, Tag, Loan
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ('id','name','description', 'quantity', 'thumbnail', 'tags', 'zone', 'shelf', 'row', 'column')
+        fields = ('id','name','description', 'quantity', 'thumbnail', 'tags', 'zone', 'shelf', 'row', 'column', 'loans', 'quantity_left')
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -17,7 +17,9 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class LoanSerializer(serializers.ModelSerializer):
+    item = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=Item.objects.all())
     class Meta:
         model = Loan
-        fields = ('id', 'borrower', 'lender', 'comment')
+        fields = ('id', 'borrower', 'comment',
+                  'email', 'phone', 'item', 'quantity')
         depth = 2

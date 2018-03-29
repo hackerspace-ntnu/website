@@ -4,8 +4,6 @@
 {% load rest_framework %}
 {% block content %}
 <div id="app">
-	<!-- TODO: Fikse modals og for loop til avatarmenyen -->
-	<!-- Green overhead menu -->
 	<div class="section hs-green white-text">
 		<div class="container">
 			<div class="row">
@@ -52,7 +50,7 @@
 			<div class="modal-content">
 				<p>Add tag asd</p>
 				<div class="input-field col s12">
-					<input id="name" v-model="new_tag.name"/>
+					<input id="name" class="validate" v-model="new_tag.name"/>
 					<label for="name" class="active">Navn</label>
 				</div>
 				<div class="input-field col s12">
@@ -64,31 +62,39 @@
 		</div>
 		<div id="loan_modal" class="modal">
 			<div class="modal-content">
-				<div class="input-field col s12">
-					<input id="name" v-model="new_loan.borrower"/>
-					<label for="name" class="active">Navn</label>
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="name" type="text" v-model="new_loan.borrower"/>
+						<label for="name">Navn</label>
+						<span class="helper-text">Fornavn og etternavn på personen som skal låne</span>
+					</div>
+					<div class="input-field col s12">
+						<input id="email" type="email" class="validate" v-model="new_loan.email"/>
+						<label for="email">Epost-addresse</label>
+						<span class="helper-text" data-error="Epost-addressen ser ikke riktig ut" data-success="Dette ser bedre ut">Epost-addressen til personen som skal låne</span>
+					</div>
+					<div class="input-field col s12">
+						<input id="name" type="text" v-model="new_loan.lender"/>
+						<label for="name">Utleier</label>
+						<span class="helper-text">Fornavn og etternavn på personen som låner ut</span>
+					</div>
+					<div class="input-field col s12">
+						<input type="number" min="0" :max="current_item.quantity_left" id="quantity" v-model="new_loan.quantity" class="validate"/>
+						<label for="quantity">Antall</label>
+						<span class="helper-text" data-error="Det er færre gjenstander på lager enn du forsøker å låne ut" data-success="Dette ser bedre ut">Tast inn antall enheter du vil låne ut</span>
+					</div>
+					<div class="input-field col s12">
+						<input type="text" id="phone" v-model="new_loan.phone"/>
+						<label for="phone">Telefonnummer</label>
+					</div>
+					<div class="input-field col s12">
+						<textarea class="materialize-textarea" id="comment" v-model="new_loan.comment"></textarea>
+						<label for="comment">Kommentar</label>
+					</div>
+					<div class="input-field col s12">
+						<a href="#!" class="btn btn-large" v-on:click="postLoan(new_loan)">Lån ut</a>
+					</div>
 				</div>
-				<div class="input-field col s12">
-					<input id="name" v-model="new_loan.lender"/>
-					<label for="name" class="active">Utleier</label>
-				</div>
-				<div class="input-field col s12">
-					<input id="email" v-model="new_loan.email"/>
-					<label for="email" class="active">Epost-addresse</label>
-				</div>
-				<div class="input-field col s12">
-					<input id="quantity" v-model="new_loan.quantity"/>
-					<label for="quantity" class="active">Antall enheter å låne ut</label>
-				</div>
-				<div class="input-field col s12">
-					<input id="phone" v-model="new_loan.phone"/>
-					<label for="phone" class="active">Telefonnummer</label>
-				</div>
-				<div class="input-field col s12">
-					<input id="comment" v-model="new_loan.comment"/>
-					<label for="comment" class="active">Kommentar</label>
-				</div>
-				<a href="#!" class="btn btn-large" v-on:click="postLoan(new_loan)">Legg til</a>
 			</div>
 		</div>
 		<div id="edit_modal" class="modal">
@@ -131,6 +137,7 @@
 				<div class="input-field col s12">
 					<a href="#!" v-if="add" class="btn btn-large" v-on:click="postItem(current_item)">Legg til</a>
 					<a href="#!" v-if="!add" class="btn btn-large" v-on:click="putItem(current_item)">Oppdater</a>
+					<a href="#!" v-if="!add" class="btn btn-large hs-red" v-on:click="deleteItem(current_item)">Slett</a>
 				</div>
 			</div>
 			</div>
@@ -203,7 +210,7 @@
 			tagList: [],
 			add: false,
 			current_item: "",
-			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null },
+			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null, "loans": [] },
 			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], },
 			new_loan: { "borrower": null, "lender": null, "comment": "none", "email": null, "phone": null, "item": null },
 		},
@@ -224,6 +231,7 @@
 				this.add = add;
 				this.current_item = item;
 				this.current_item.tags = item.tags;
+				this.current_item.loans = item.loans;
 				Vue.nextTick(function () {
 					var selectorElement = document.querySelector('#tagSelector');
 					var instance = M.FormSelect.init(selectorElement);
@@ -243,6 +251,12 @@
 			},
 			postItem: function(current_item) {
 				this.$http.post('/inventory/items/', current_item).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+			deleteItem: function(current_item) {
+				this.$http.delete('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();

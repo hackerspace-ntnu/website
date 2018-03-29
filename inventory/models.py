@@ -1,11 +1,7 @@
 from django.contrib.auth.admin import User
 from django.db import models
-from django.db.models import Sum
 from django.utils import timezone
-from sorl.thumbnail import ImageField
-
 from datetime import timedelta
-
 from files.models import Image
 
 
@@ -28,9 +24,7 @@ class Item(models.Model):
     description = models.CharField(max_length=300)
     quantity = models.IntegerField(default=1)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
-
     visible = models.BooleanField(default=True)
-
     tags = models.ManyToManyField(Tag)
 
     # Felt for plassering i rommet.
@@ -38,12 +32,6 @@ class Item(models.Model):
     shelf = models.IntegerField(null=True)
     row = models.IntegerField(null=True)
     column = models.IntegerField(null=True)
-
-    # TODO legge til et felt for å telle popularitet i sidevisninger, kan bruke dette når man søker
-
-    def show_tags(self):
-        all_tags = ", ".join(str(tag) for tag in self.tags.all())
-        return "{} is tagged with {}".format(self.name, all_tags)
 
     def quantity_left(self):
         total_quantity = self.quantity
@@ -68,7 +56,7 @@ class Loan(models.Model):
 
     comment = models.CharField(max_length=300)
     visible = models.BooleanField(default=True)
-    item = models.ForeignKey('Item', null=True, blank=True, related_name="loans")
+    item = models.ForeignKey('Item', null=True, related_name="loans")
     quantity = models.IntegerField(default=1)  # Antall man har lånt av typen item.
 
     loan_date = models.DateTimeField('date_lent', default=timezone.now)
@@ -78,8 +66,3 @@ class Loan(models.Model):
     def is_past_return_date(self):
         return self.return_date - timezone.now() < timedelta()
 
-
-class LoanItem(models.Model):
-    item = models.ForeignKey(Item)
-    loan = models.ForeignKey(Loan, null=True)
-    quantity = models.IntegerField(default=1)  # Antall man har lånt av typen item.

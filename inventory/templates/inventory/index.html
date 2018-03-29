@@ -248,6 +248,7 @@
 				function(response) {
 					M.toast({html: "Noe gikk galt under henting av tags. Feilkode: " + response.detail});
 				});
+				var csrftoken = readCookie('csrftoken');
 			},
 			setItem: function(item, add) {
 				this.add = add;
@@ -258,36 +259,42 @@
 					var selectorElement = document.querySelector('#tagSelector');
 					var instance = M.FormSelect.init(selectorElement);
 				})
+				var csrftoken = readCookie('csrftoken');
 			},
 			updateTags: function(item, add) {
 				Vue.nextTick(function () {
 					var selectorElement = document.querySelector('#tagSelector');
 					var instance = M.FormSelect.init(selectorElement);
 				})
+				var csrftoken = readCookie('csrftoken');
 			},
 			putItem: function(current_item) {
 				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
+				var csrftoken = readCookie('csrftoken');
 			},
 			postItem: function(current_item) {
 				this.$http.post('/inventory/items/', current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
+				var csrftoken = readCookie('csrftoken');
 			},
 			deleteItem: function(current_item) {
 				this.$http.delete('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
+				var csrftoken = readCookie('csrftoken');
 			},
 			postTag: function(tag) {
 				this.$http.post('/inventory/tags/', tag).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
+				var csrftoken = readCookie('csrftoken');
 			},
 			postLoan: function(loan) {
 				loan.item = this.current_item.id;
@@ -296,6 +303,7 @@
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
+				var csrftoken = readCookie('csrftoken');
 			},
 		}
 	});

@@ -7,7 +7,6 @@ from datetime import timedelta
 from json import dumps
 
 from inventory.models import Item, Loan, Tag
-from inventory.forms import TagForm
 from inventory.views import AddTag
 
 

@@ -74,7 +74,7 @@ class Loan(models.Model):
 
     comment = models.CharField(max_length=300)
     visible = models.BooleanField(default=True)
-    item = models.ForeignKey(Item)
+    item = models.ForeignKey(Item, null=True)
     quantity = models.IntegerField(default=1)  # Antall man har lånt av typen item.
 
     loan_date = models.DateTimeField('date_lent', default=timezone.now)

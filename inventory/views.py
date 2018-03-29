@@ -1,8 +1,8 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from .serializers import ItemSerializer, TagSerializer, LoanSerializer
 from .models import Item, Tag, Loan
 
@@ -22,6 +22,7 @@ class ItemList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ItemDetail(APIView):
     """
@@ -98,7 +99,6 @@ class TagDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
 class LoanList(APIView):
     """
     List all tags, or create a new product.
@@ -117,11 +117,11 @@ class LoanList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@login_required
 def index(request):
     itemSerializer = ItemSerializer()
-
-
-    context = { 'item_serializer': itemSerializer,
-               }
+    context = {
+        'item_serializer': itemSerializer
+    }
 
     return render(request, 'inventory/index.html', context)

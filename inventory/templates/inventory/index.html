@@ -241,6 +241,8 @@
 		},
 		methods: {
 			getTagList: function() {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				this.$http.get('/inventory/tags').then(
 				function (response) {
 					this.tagList = response.data;
@@ -262,48 +264,54 @@
 				var csrftoken = readCookie('csrftoken');
 			},
 			updateTags: function(item, add) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				Vue.nextTick(function () {
 					var selectorElement = document.querySelector('#tagSelector');
 					var instance = M.FormSelect.init(selectorElement);
 				})
-				var csrftoken = readCookie('csrftoken');
 			},
 			putItem: function(current_item) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
-				var csrftoken = readCookie('csrftoken');
 			},
 			postItem: function(current_item) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				this.$http.post('/inventory/items/', current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
-				var csrftoken = readCookie('csrftoken');
 			},
 			deleteItem: function(current_item) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				this.$http.delete('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
-				var csrftoken = readCookie('csrftoken');
 			},
 			postTag: function(tag) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				this.$http.post('/inventory/tags/', tag).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
-				var csrftoken = readCookie('csrftoken');
 			},
 			postLoan: function(loan) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 				loan.item = this.current_item.id;
 				loan.item.visible = false;
 				this.$http.post('/inventory/loans/', loan).then((response => {
 					M.toast({html: response.statusText});
 				}));
 				this.getTagList();
-				var csrftoken = readCookie('csrftoken');
 			},
 		}
 	});

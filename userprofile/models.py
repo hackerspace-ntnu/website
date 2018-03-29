@@ -1,4 +1,6 @@
 from django.contrib.auth.admin import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.db import models
 from django.shortcuts import reverse
 
@@ -100,5 +102,9 @@ class Profile(models.Model):
         return reverse('userprofile:profile', args=(self.pk,))
 
 
-# Import receiver (for creating profiles when a user is created) into namespace.
-from userprofile.triggers import *
+
+# Save a user profile whenever we create a user
+@receiver(post_save, sender=User, dispatch_uid="create_profile_on_user_create")
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance, auto_duty=False)

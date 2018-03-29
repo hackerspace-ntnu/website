@@ -28,7 +28,7 @@
 						<div class="card-action white-text">
 							<!-- Modal Triggers -->
 							{% if perms.inventory.add_item %}
-							<a href="#add_item" class="btn modal-trigger">Legg til gjenstand</a>
+							<a class="modal-trigger" v-on:click="getItem()" href="#edit_modal">Legg til gjenstand</a>
 							{% endif %}
 							<div id="reg_item">
 								{{ msg }}
@@ -66,16 +66,47 @@
 			</div>
 		</div>
 		<div id="edit_modal" class="modal">
-			<input v-model="current_item.name"/>
-			<input v-model="current_item.description"/>
-			<input v-model="current_item.quantity"/>
-			<input v-model="current_item.thumbnail"/>
-			<input v-model="current_item.tags"/>
-			<input v-model="current_item.zone"/>
-			<input v-model="current_item.shelf"/>
-			<input v-model="current_item.row"/>
-			<input v-model="current_item.column"/>
-			<input v-on:click="postItem(current_item)" type="submit" value="Oppdater"/>
+			<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="name" v-model="current_item.name"/>
+					<label for="name" class="active">Navn</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="description" v-model="current_item.description"/>
+					<label for="description" class="active">Beskrivelse</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="quantity" v-model="current_item.quantity"/>
+					<label for="quantity" class="active">Kvantitet</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="thumbnail" v-model="current_item.thumbnail"/>
+					<label for="thumbnail" class="active">Bilde</label>
+				</div>
+				<div class="input-field col s12">
+					<select v-model="current_item.tags" v-if="current_item.tags" multiple>
+						<option value="" disabled>Velg ny kategori</option>
+						<option v-for="tag in tagList" :value="tag.id"> [[ tag.name ]] </option>
+					</select>
+				</div>
+				<div class="input-field col s12">
+					<input id="zone" v-model="current_item.zone"/>
+					<label for="zone" class="active">Sone</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="shelf" v-model="current_item.shelf"/>
+					<label for="shelf" class="active">Hylleplass</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="column" v-model="current_item.column"/>
+					<label for="column" class="active">Kolonne</label>
+				</div>
+				<div class="input-field col s12">
+					<button class="btn btn-large" v-on:click="postItem(current_item)" value="Oppdater"/>
+				</div>
+			</div>
+			</div>
 		</div>
 		<div id="adm_loan" class="modal">
 			<!-- add modal from administrate_loan.html -->
@@ -107,10 +138,15 @@
 							</div>
 							<div class="collapsible-body" >
 								<ul class="collection">
-									<li v-for="item in tag.item_set">
-									<a class="modal-trigger" v-on:click="getItem(item)" href="#edit_modal">
-										<span> [[ item.name ]] </span>
-									</a>
+									<li v-for="item in tag.item_set" class="collection-item avatar">
+										<img v-if="item.thumbnail" :src="item.thumbnail.file" alt="" class="circle">
+										<a class="modal-trigger" v-on:click="getItem(item)" href="#edit_modal">
+											<span class="title"> [[ item.name ]] </span>
+										</a>
+										<p>[[ item.description ]]<br>
+										[[ item.quantity ]] stk, sone [[ item.zone ]], [[ item.shelf ]] [[ item.row ]] [[ item.column ]].
+										</p>
+										<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
 									</li>
 								</ul>
 							</div>
@@ -165,18 +201,22 @@
 			},
 			getItem: function(item) {
 				this.current_item = item;
+				var elem = document.querySelector('select');
+				var instance = M.FormSelect.init(elem);
+
 			},
 			postItem: function(current_item) {
 				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
 					M.toast({html: response.statusText});
 				}));
+				this.getItemList();
+				this.getTagList();
 			},
 		}
 	});
 	Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
 	M.AutoInit();
-	var elem = document.querySelector('#tags');
-	var instance = M.FormSelect.init(elem);
+	
 </script>
 
 {% endblock content %}

@@ -1,9 +1,7 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 # -*- coding: utf-8 -*-
-from os import path as os_path
 import os
-import sys
 
 #################################
 # General                       #
@@ -94,9 +92,7 @@ INSTALLED_APPS = [
 THUMBNAIL_PRESERVE_FORMAT = True
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES':
-    ['rest_framework.permissions.IsAdminUser'],
-    'PAGE_SIZE': 10
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAdminUser'],
 }
 
 #################################
@@ -254,5 +250,3 @@ LOGGING = {
         }
     }
 }
-
-

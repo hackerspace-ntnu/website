@@ -1,7 +1,6 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
 {% load picker_modal %}
-{% load rest_framework %}
 {% block content %}
 <div id="app">
 	<div class="section hs-green white-text">
@@ -31,10 +30,6 @@
 							{% if perms.inventory.add_tag %}
 								<a class="modal-trigger" href="#add_tag" v-on:click="updateTags()" class="btn modal-trigger">Legg til tag</a>
 							{% endif %}
-							{% if perms.inventory.add_loan %}
-							<a href="#reg_loan" class="btn modal-trigger">Registrer utlån</a>
-							<a href="#adm_loan" class="btn modal-trigger">Administrerutlån</a>
-							{% endif %}
 						</div>
 					</div>
 				</div>
@@ -48,16 +43,26 @@
 		</div>
 		<div id="add_tag" class="modal">
 			<div class="modal-content">
-				<p>Add tag asd</p>
-				<div class="input-field col s12">
-					<input id="name" class="validate" v-model="new_tag.name"/>
-					<label for="name" class="active">Navn</label>
+				<p>Add new tag</p>
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="name" type="text" v-model="new_tag.name"/>
+						<label for="name">Navn</label>
+					</div>
+					<div class="input-field col s12">
+						<p>
+						<label>
+							<input id="visible" type="checkbox" v-model="new_tag.visible"/>
+							<span>Synlig</span>
+						</label>
+						</p>
+					</div>
+					<div class="input-field col s12">
+						<input id="description" type="text" v-model="new_tag.description"/>
+						<label for="description">Beskrivelse</label>
+					</div>
+					<a href="#!" class="btn btn-large" v-on:click="postTag(new_tag)">Legg til</a>
 				</div>
-				<div class="input-field col s12">
-					<input id="visible" v-model="new_tag.visible"/>
-					<label for="visible" class="active">Beskrivelse</label>
-				</div>
-				<a href="#!" class="btn btn-large" v-on:click="postTag(new_tag)">Legg til</a>
 			</div>
 		</div>
 		<div id="loan_modal" class="modal">
@@ -130,6 +135,21 @@
 					<input id="shelf" v-model="current_item.shelf"/>
 					<label for="shelf" class="active">Hylleplass</label>
 				</div>
+				<div class="input-field hidden">
+					{{ form.thumbnail.errors }}
+					<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
+				</div>
+				<div class="col s12">
+					<div id="thumbnailPicker" class="modal">
+						<div class="modal-content">
+							{% ImageModal request %}
+						</div>
+					</div>
+					<i class="material-icons prefix">photo_library</i>
+					<label for="thumb-preview">Thumbnail</label>
+					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
+					</div>
+				</div>
 				<div class="input-field col s12">
 					<input id="column" v-model="current_item.column"/>
 					<label for="column" class="active">Kolonne</label>
@@ -180,8 +200,10 @@
 										<p>[[ item.description ]]<br>
 										[[ item.quantity_left ]]/[[ item.quantity ]], sone [[ item.zone ]], [[ item.shelf ]] [[ item.row ]] [[ item.column ]].
 										</p>
+										{% if perms.inventory.add_loan %}
 										<a v-if="item.quantity_left <= 0" v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text disabled"><i class="material-icons">arrow_forward</i>Lån ut</a>
 										<a v-else v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text"><i class="material-icons">arrow_forward</i>Lån ut</a>
+										{% endif %}
 									</li>
 								</ul>
 							</div>
@@ -211,7 +233,7 @@
 			add: false,
 			current_item: "",
 			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null, "loans": [] },
-			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], },
+			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], "visible": true },
 			new_loan: { "borrower": null, "lender": null, "comment": "none", "email": null, "phone": null, "item": null },
 		},
 		mounted: function() {

@@ -1,20 +1,17 @@
-<!-- amCharts javascript sources -->
-
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 {% load staticfiles %}
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static "css/door_data.css" %}">
-		<script type="text/javascript" src="{% static "amcharts/amcharts.js"%}"></script>
-		<script type="text/javascript" src="{% static "amcharts/serial.js"%}">></script>
+    <script src="//www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="//www.amcharts.com/lib/3/serial.js"></script>
 {% endblock head %}
-
 {% block content %}
-    <div id="chartdiv" style="width: 80%; height: 400px; background:none; margin: 100px auto;"></div>
-
+<div class="section hs-green">
+	<div class="container">
+		<div id="chartdiv" style="width: 80%; height: 400px; background:none; margin: 100px auto;"></div>
 		<script type="text/javascript">
-
-			var chart = AmCharts.makeChart("chartdiv",
+			var chart = new AmCharts.makeChart("chartdiv",
 				{
 					"type": "serial",
 					"categoryField": "date",
@@ -94,29 +91,29 @@
 						}
 					],
 					"dataProvider": [
-		        {{ open_data | safe }}
+						{{ open_data | safe }}
 					]
 				}
 			);
 
 			function labelFunction(value, formattedValue, valueAxis){
-			    if(value === 0){
-			        return "Closed";
-					} else if(value == 1){
-			        return "Open";
-			    }
-			    else{
-			        return "";
-			    }
+				if(value === 0){
+					return "Closed";
+				} else if(value == 1){
+					return "Open";
+				}
+				else{
+					return "";
+				}
 			}
 
 			chart.addListener("rendered", function(event) {
-			  var end = new Date();
-			  var start = new Date();
-			  start.setHours(start.getHours() - 12);
-			  chart.zoomToDates(start, end);
+				var end = new Date();
+				var start = new Date();
+				start.setHours(start.getHours() - 12);
+				chart.zoomToDates(start, end);
 			});
 		</script>
+	</div>
+</div>
 {% endblock content %}
-
-<!-- amCharts javascript code -->

@@ -1,6 +1,10 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
 {% load picker_modal %}
+{% block header %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue-resource"></script>
+{% endblock %}
 {% block content %}
 <div id="app">
 	<div class="section hs-green white-text">

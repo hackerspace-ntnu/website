@@ -9,7 +9,7 @@ from .models import Item, Tag, Loan
 
 class ItemList(APIView):
     """
-    List all items
+    List all items, or create new
     """
     def get(self, request):
         items = Item.objects.all()
@@ -26,7 +26,7 @@ class ItemList(APIView):
 
 class ItemDetail(APIView):
     """
-    List one item, update or create.
+    List one item and its details, update or delete.
     """
     def get_object(self, pk):
         try:
@@ -55,7 +55,7 @@ class ItemDetail(APIView):
 
 class TagList(APIView):
     """
-    List all tags, or create a new product.
+    List all tags, or create a new tag.
     """
     def get(self, request):
         tags = Tag.objects.all()
@@ -72,7 +72,7 @@ class TagList(APIView):
 
 class TagDetail(APIView):
     """
-    List one item, update or create.
+    List one tag, update or delete.
     """
     def get_object(self, pk):
         try:
@@ -101,7 +101,7 @@ class TagDetail(APIView):
 
 class LoanList(APIView):
     """
-    List all tags, or create a new product.
+    List all loans, or create a new one.
     """
 
     def get(self, request):

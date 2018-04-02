@@ -114,13 +114,6 @@ main {
 	width:100%;
 }
 /* GENERELL STYLING OG MATERIAL OVERRIDES BEGYNNER HER */
-/* Overstyr materialize farger */
-a {
-	color: #5BBA47;
-	/* Fjerner stygg outline etter å ha trykket på noe */
-	outline: none;
-}
-
 .card-action a {
 	color: #5BBA47 !important;
 }
@@ -197,3 +190,10 @@ blockquote {
 .secondary-content {
   color: #5BBA47 !important;
 }
+/* Overstyr materialize farger */
+a {
+	color: #5BBA47;
+	/* Fjerner stygg outline etter å ha trykket på noe */
+	outline: none;
+}
+

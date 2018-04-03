@@ -11,7 +11,7 @@ h1,h2,h3,h4,h5,a {
 /* Denne koden er nødvendig for å få footer som fixed. */
 body {
 	display: flex;
-	min-height:100vh;
+	min-height: 100vh;
 	flex-direction: column;
 }
 main {
@@ -20,29 +20,29 @@ main {
 
 /* Resize hackerspace-logoen */
 .brand-logo img {
-	width:200px !important;
-	height:64px;
-	padding-top:15px;
-	padding-bottom:15px;
+	width: 200px !important;
+	height: 64px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 .brand-logo {
 	margin-left: 16px;
-	height:64px;
+	height: 64px;
 }
 /* Resize og posisjonering av header bilder */
 .mobile-img img {
-	height:56px;
+	height: 56px;
 }
 /* Align navbar logo for tablet device screen */
 .tab-img {
-	margin-left:0px !important;
+	margin-left: 0px !important;
 }
 
 /* Fix personlig profilbilde i navbaren */
 .dropdown-trigger-user img {
-	height:64px;
-	padding-bottom:16px;
-	padding-top:16px; 
+	height: 64px;
+	padding-bottom: 16px;
+	padding-top: 16px; 
 }
 /* Få material icons til å vertikalt aligne med teksten */
 .material-icons {
@@ -52,21 +52,21 @@ main {
 
 /* Social media icons */
 .sosial-bilder a img {
-	width:42px;
-	height:42px;
-	margin-right:16px;
-	border-radius:8px;
+	width: 42px;
+	height: 42px;
+	margin-right: 16px;
+	border-radius: 8px;
 }
 
 /* For darkening images on front page (for better contrast with text on top) */
 .tinter:before {
 	content: "";
-	display:block;
-	position:absolute;
-	top:0;
-	bottom:0;
-	left:0;
-	right:0;
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	background: rgba(0, 65, 128, 0.60);
 }
 
@@ -76,19 +76,19 @@ main {
 }
 
 .search-wrapper i.material-icons{
-	cursor:pointer;
-	position:relative;
-	right:24px;
+	cursor: pointer;
+	position: relative;
+	right: 24px;
 }
 /* footer for parallax on about */
 .opaque-footer {
-	background-color:#000;
-	position:absolute;
-	bottom:0;
-	width:100%;
-	height:24px;
-	opacity:0.4;
-	padding-left:24px;
+	background-color: #000;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 24px;
+	opacity: 0.4;
+	padding-left: 24px;
 }
 
 /* Required for sidenav + static navbar. Makes sure sidenav always on top */
@@ -98,20 +98,20 @@ main {
 
 /* Remove padding / margins from bottom. Handy for section blocks */
 .no-pad-bot {
-	margin-bottom:0px !important;
-	padding-bottom:0px !important;
+	margin-bottom: 0px !important;
+	padding-bottom: 0px !important;
 }
 
 .no-margin {
-	margin:0px !important;
+	margin: 0px !important;
 }
 .no-pad {
-	padding:0px !important;
+	padding: 0px !important;
 }
 
 /* CKEditor override */
 .django-ckeditor-widget {
-	width:100%;
+	width: 100%;
 }
 /* GENERELL STYLING OG MATERIAL OVERRIDES BEGYNNER HER */
 .card-action a {
@@ -126,7 +126,7 @@ blockquote {
 }
 
 .dropdown-content li > a {
-	color:#5BBA47 !important;
+	color: #5BBA47 !important;
 }
 
 /* label color */

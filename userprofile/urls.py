@@ -4,9 +4,9 @@ from . import views
 app_name = 'userprofile'
 
 urlpatterns = [
-    url(r'^$', views.members),
-    url(r'^profile/(?P<profile_id>[0-9]+)$', views.profile, name='profile'),
-    url(r'^profile/(?P<profile_id>[0-9]+)/edit$', views.edit_profile_id, name='edit_profile'),
-    url(r'^edit', views.edit_profile),
+    url(r'members/$', views.members, name='members'),
+    url(r'^$', views.profile, name='profile'),
+    url(r'^(?P<user_id>[0-9]+)$', views.specific_profile, name='profile_by_id'),
+    url(r'^edit', views.edit_profile, name="edit_profile"),
     url(r'^skill/(?P<skill_title>.+)$', views.skill, name='skill')
 ]

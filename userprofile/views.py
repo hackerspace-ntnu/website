@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
+# For merging user and profile forms
+from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
 
 import re
 
-from .forms import ProfileModelFormUser, ProfileModelFormMember, ProfileModelFormAdmin
+from .forms import UserForm
 from .models import Profile, Skill, Group
 
 
@@ -41,28 +44,41 @@ def skill(request, skill_title):
     return render(request, 'userprofile/skill.html', context)
 
 
-def profile(request, profile_id):
-    profile = get_object_or_404(Profile, pk=profile_id)
+def profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
     profile.update()
-    return render(request, 'userprofile/profile.html', {'profile': profile, 'user': request.user})
+    return render(request, 'userprofile/profile.html', {'profile': profile})
 
 
+def specific_profile(request, user_id):
+    profile = get_object_or_404(User, id=user_id).profile
+    profile.update()
+    return render(request, 'userprofile/profile.html', {'profile': profile})
+
+
+
+@login_required()
 def edit_profile(request):
-    return edit_profile_id(request, request.user.id)
-
-
-def edit_profile_id(request, profile_id):
     user = request.user
-    profile = get_object_or_404(Profile, pk=profile_id)
-    if user != profile.user and not user.is_superuser:
-        return redirect(profile)
-    if user.is_superuser:
-        form = ProfileModelFormAdmin(request.POST or None, request.FILES or None, instance=profile)
-    elif Profile.objects.filter(user=user, group__isnull=False):
-        form = ProfileModelFormMember(request.POST or None, request.FILES or None, instance=profile)
+    form = UserForm(instance=user)
+
+    ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('image','group','access_card','study','skills','duty','auto_duty'), can_delete=False)
+    formset = ProfileInlineFormset(instance=user)
+
+    profile = get_object_or_404(Profile, user=user)
+
+    if request.user.is_authenticated() and request.user.id == user.id:
+        if request.method == "POST":
+            form = UserForm(request.POST, request.FILES, instance=user)
+            formset = ProfileInlineFormset(request.POST, request.FILES, instance=user)
+            if form.is_valid():
+                created_user = form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST, request.FILES, instance=created_user)
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    return redirect("/profile/")
+
+        return render(request, 'userprofile/edit_profile.html', {'form': form, 'formset': formset, 'profile':profile})
     else:
-        form = ProfileModelFormUser(request.POST or None, request.FILES or None, instance=profile)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect(profile)
-    return render(request, 'userprofile/edit_profile.html', {'form': form, 'profile': profile})
+        return redirect("/")

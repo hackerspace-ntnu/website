@@ -1,9 +1,7 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 # -*- coding: utf-8 -*-
-from os import path as os_path
 import os
-import sys
 
 #################################
 # General                       #
@@ -22,7 +20,7 @@ ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
-LOGIN_REDIRECT_URL = '/authentication/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/authentication/login/'
 
 DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
@@ -55,6 +53,9 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     'website',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
     'applications',
     'news',
     'door',
@@ -90,6 +91,9 @@ INSTALLED_APPS = [
 
 THUMBNAIL_PRESERVE_FORMAT = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAdminUser'],
+}
 
 #################################
 # Database                      #
@@ -174,25 +178,32 @@ CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
 CKEDITOR_BROWSE_SHOW_DIRS = False
+
 CKEDITOR_CONFIGS = {
     'default': {
+        'skin': 'material-design',
+        'width': '100%',
         'toolbar': 'Custom',
         'toolbar_Custom': [
-            ['Undo', 'Redo'],
-            ['Format', 'Styles', 'Font', 'FontSize'],
-            ['Bold', 'Italic', 'Underline'],
-            ['HorizontalRule', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['TextColor', 'BGColor', 'Smiley'],
-            ['RemoveFormat', 'ShowBlocks', 'Maximize'],
-            ['Source']
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
+            ['Maximize', 'Find', 'Replace']
         ],
-        'width': 840,
-        'height': 300,
-        'toolbarCanCollapse': False,
-    }
+        'extraPlugins': 'blockquote',
+    },
+    'committees': {
+        'skin': 'material-design',
+        'width': '100%',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['Maximize', 'Find', 'Replace']
+        ],
+    },
 }
+
+DEFAULT_CONFIG = CKEDITOR_CONFIGS
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -239,30 +250,3 @@ LOGGING = {
         }
     }
 }
-
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'skin': 'bootstrapck',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
-        'customConfig': '/static/js/ckeditor_config.js',
-    },
-
-    'committees': {
-        'skin': 'bootstrapck',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
-        'customConfig': '/static/js/ckeditor_config.js',
-    },
-}
-
-DEFAULT_CONFIG = CKEDITOR_CONFIGS

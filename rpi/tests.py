@@ -1,11 +1,9 @@
 import json
-
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.timezone import now
-
 from rpi.models import RaspberryPi, Name
 
 RPI_SECRET_KEY = 'test key'
@@ -20,6 +18,7 @@ class RPiTestCase(TestCase):
         names = Name.objects.all()
         if not names:
             Name.objects.create(name="Test")
+
     def test_create(self):
         pi = RaspberryPi(
             last_seen=now(),
@@ -137,7 +136,5 @@ class RPiAPIViewTestCase(TestCase):
             'secret_key': RPI_SECRET_KEY,
             'mac_address': '00:00:00:00:00:00',
         })
-        data = json_bytes_to_dict(response.content)
-
         self.assertEqual(response.status_code, 201)
         self.assertEqual(RaspberryPi.objects.count(), 2)

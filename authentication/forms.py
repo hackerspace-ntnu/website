@@ -16,7 +16,7 @@ default_error_messages = {'required': 'Feltet må fylles ut',
 class SignUpForm(UserCreationForm):
     username = forms.CharField(max_length=50,
                                label="Username",
-                               widget=forms.TextInput(),
+                               widget=forms.TextInput(attrs={'class' : 'validate' }),
                                error_messages=default_error_messages)
     email = forms.EmailField(max_length=50,
                              label="Email",
@@ -24,11 +24,10 @@ class SignUpForm(UserCreationForm):
                              error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
-                                 widget=forms.TextInput(),
                                  error_messages=default_error_messages)
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
-                                widget=forms.TextInput(),
+                                widget=forms.TextInput(attrs={'class' : 'validate' }),
                                 error_messages=default_error_messages)
 
     def clean_email(self):
@@ -42,12 +41,10 @@ class SignUpForm(UserCreationForm):
                 str(email).endswith('@ntnu.no') or
                 str(email).endswith('@ntnu.edu')):
             self.add_error('email', 'Mailen er ikke fra NTNU')
-
         return email
 
     def clean_username(self):
         username = self.cleaned_data.get("username")
-
         # Checks if user already exists
         if User.objects.filter(username=username).exists():
             self.add_error('username', 'Brukernavnet eksisterer allerede')

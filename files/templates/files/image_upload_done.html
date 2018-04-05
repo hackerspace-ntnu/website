@@ -1,0 +1,13 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+{% endblock head %}
+
+{% block content %}
+  <script>
+    $(function(){
+      window.opener.doneUploading("{{ src }}");
+    });
+  </script>
+{% endblock content %}

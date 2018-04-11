@@ -1,11 +1,12 @@
 from django.contrib.auth.admin import User
 from django.db.models.signals import post_save
+from django.core.files.base import ContentFile
 from django.dispatch import receiver
 from django.db import models
 from django.shortcuts import reverse
 
 from datetime import datetime
-from PIL import Image, ImageOps
+from sorl.thumbnail import get_thumbnail
 
 from vaktliste.views import vakt_filter
 
@@ -14,6 +15,14 @@ class Skill(models.Model):
     title = models.CharField(max_length=30)
     icon = models.ImageField(upload_to="skillicons", blank=True)
     description = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if self.icon:
+            # Make sure image is saved before tumbnailing
+            super(Skill, self).save(*args, **kwargs)
+            thumb = get_thumbnail(self.icon, '50x50', crop='center', quality=99)
+            self.icon.save(thumb.name, ContentFile(thumb.read()), False)
+        super(Skill, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -69,6 +78,14 @@ class Profile(models.Model):
     duty = models.ManyToManyField(DutyTime, related_name="duty", blank=True)
 
     auto_duty = models.BooleanField(default=True)
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            # Make sure image is saved before tumbnailing
+            super(Profile, self).save(*args, **kwargs)
+            thumb = get_thumbnail(self.image, '300x300', crop='center', quality=99)
+            self.image.save(thumb.name, ContentFile(thumb.read()), False)
+        super(Profile, self).save(*args, **kwargs)
 
     def get_dutytime(self):
         if self.auto_duty:

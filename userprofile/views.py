@@ -69,7 +69,8 @@ def edit_profile(request):
         Profile,
         fields=('image','group','access_card','study','skills','duty','auto_duty'),
         widgets={'image': widgets.FileInput()},
-        can_delete=False)
+        can_delete=False,
+        can_order=False)
     formset = ProfileInlineFormset(instance=user)
 
     profile = get_object_or_404(Profile, user=user)

@@ -61,7 +61,7 @@ class DutyTime(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     group = models.ManyToManyField(Group, related_name='profile', verbose_name="Gruppe", blank=True)
-    image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None)
+    image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None, blank=True)
 
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
@@ -69,17 +69,6 @@ class Profile(models.Model):
     duty = models.ManyToManyField(DutyTime, related_name="duty", blank=True)
 
     auto_duty = models.BooleanField(default=True)
-
-    def update(self):
-        self.get_dutytime()
-        self.fix_profile_picture()
-        self.save()
-
-    def fix_profile_picture(self):
-        if self.image:
-            if self.image.width > 300 or self.image.height > 300:
-                ImageOps.fit(Image.open(self.image.path), (300, 300), Image.ANTIALIAS, centering=(0.5, 0.5)).save(
-                    self.image.path, "PNG", quality=100)
 
     def get_dutytime(self):
         if self.auto_duty:

@@ -23,16 +23,31 @@
 			</div>
 		</div>
 		<div class="row">
-			<form  enctype="multipart/form-data" method="post" action="" onchange="condOption()">
+			<form  enctype="multipart/form-data" method="post" action="">
 				{% csrf_token %}
 				{{ formset.management_form }}
 				{% for form in formset %}
+					{{ form.errors }}
 					{% for field in form.visible_fields %}
 						{% if field.label == "Profilbilde" %}
 							<div class="col s12">
 								{{ field }}
 							</div>
 							<div class="divider"></div>
+						{% elif field.label == "Duty" %}
+							<div class="col s12 input-field" id="duty-section">
+								{{ field }}
+								<label for="{{field.id_for_label }}">{{ field.label }}</input>
+							</div>
+						{% elif field.label == "Auto duty" %}
+						<div class="col s12">
+						<p>
+							<label>
+								{{ field }}
+								<span id="autocheckbox">{{ field.label }}</span>
+							</label>
+						</p>
+						</div>
 						{% else %}
 							<div class="col s12 input-field">
 								{{ field }}
@@ -41,7 +56,6 @@
 						{% endif %}
 					{% endfor %}
 					{% for field in form.hidden_fields %}
-
 								{{ field }}
 					{% endfor %}
 				{% endfor %}
@@ -58,20 +72,16 @@
 	</div>
 </div>
 <script>
-	var groupSelect = document.querySelector('#id_profile-0-group');
-	var nameGetter = document.querySelector('#id_profile-0-auto_name');
-	var vaktGetter = document.querySelector('#id_profile-0-duty');
-	var skillGetter = document.querySelector('#id_profile-0-skills');
-	var autoDutyGetter = document.querySelector('#id_profile-0-auto_duty');
-	var instance = M.FormSelect.init(groupSelect);
-	var instance = M.FormSelect.init(nameGetter);
-	var instance = M.FormSelect.init(vaktGetter);
-	var instance = M.FormSelect.init(skillGetter);
-	var instance = M.FormSelect.init(autoDutyGetter);
-	
+	var vaktGetter = document.querySelector('#duty-section');
+	var autoDutyGetter = document.querySelector('#autocheckbox');
 	autoDutyGetter.addEventListener('click', function() {
-		vaktGetter.hide();
+		if(vaktGetter.style.display === "none") {
+			vaktGetter.style.display = "block";
+		} else {
+			vaktGetter.style.display = "none";
+		}
 	});
+	M.AutoInit();
 </script>
 {% endblock %}
 

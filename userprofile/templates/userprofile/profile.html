@@ -37,7 +37,7 @@
 				{% endif %}
 				{% if profile.skills %}
 				{% for skill in profile.skills.all %}
-				<a href="/members/skill/{{ skill.title }}">
+				<a href="{% url 'userprofile:skill' skill_title=skill.title %}">
 					{% if skill.icon %}
 					<div class="chip">
 						<img src="{{ skill.icon.url }}" alt="Skill tag">

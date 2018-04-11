@@ -40,6 +40,7 @@ def members(request):
 def skill(request, skill_title):
     skill = Skill.objects.get(title=skill_title)
     profiles = Profile.objects.filter(skills__title__icontains=skill_title, group__isnull=False).distinct()
+
     context = {'skill': skill, 'profiles': profiles}
     return render(request, 'userprofile/skill.html', context)
 

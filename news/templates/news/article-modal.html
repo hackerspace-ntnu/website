@@ -1,0 +1,20 @@
+{% load check_user_group %}
+<div class="modal-content">
+	<img class="materialboxed" src="{{ news.thumbnail.url }}" />
+	<div class="article-container">
+		<p>{{ news.pub_date }}</p>
+		<h2>{{ news.title }}</h2>
+		<div class="divider"></div>
+		<p class="caption">{{ news.ingress_content }}</p>
+		{% autoescape off %}
+		{{ news.main_content }}
+		{% endautoescape %}
+	</div>
+</div>
+<div class="modal-footer">
+	{% if request.user|has_group:"member" %}
+	<a href="/news/{{ news.id }}/edit" class="left btn btn-small hs-green"><i class="material-icons">edit</i></a>
+	<a href="#deleteModal" class="left btn btn-small modal-trigger hs-red"><i class="material-icons">delete</i></a>
+	{% endif %}
+	<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Lukk</a>
+</div>

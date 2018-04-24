@@ -1,0 +1,77 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row white-text">
+			<h4>Nyheter</h4>
+		</div>
+	</div>
+</div>
+{% if request.user|has_group:"member" %}
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<ul class='collection with-header'>
+					<li class="collection-header"><h5>Administrator-meny</h5></li>
+					<li class="collection-item"><a href="/news/0/edit"><i class="material-icons">note_add</i>Ny Artikkel</a></li>
+					<li class="collection-item"><a href="/events/0/edit"><i class="material-icons">event</i>Ny Event</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+{% endif %}
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				{% for news in news_list %}
+				<div class="section">
+					<div class="row no-pad-bot">
+						<div class="col s2 center hide-on-med-and-down">
+							{% if news.thumbnail %}
+							<img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.url }}">
+							{% else %}
+							<img class="circle" style="width:100px; height:100px;" src="">
+							{% endif %}
+						</div>
+						<div class="col s10 preview-text hide-on-med-and-down">
+							<span class="right badge">Publisert {{ news.pub_date }}</span>
+							<a href="/news/{{ news.id }}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+							<p>
+								{% autoescape off %}
+								{{ news.ingress_content|truncatechars:200 }}
+								{% endautoescape %}
+							</p>
+						</div>
+						<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
+							<a href="/news/{{ news.id }}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+							<p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
+							<p>
+								{% autoescape off %}
+								{{ news.ingress_content|truncatechars:200 }}
+								{% endautoescape %}
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="divider"></div>
+				{% endfor %}
+			</div>
+		</div>
+
+	</div>
+</div>
+<script>
+	M.AutoInit();
+</script>
+{% endblock content %}

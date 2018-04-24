@@ -1,9 +1,7 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 # -*- coding: utf-8 -*-
-from os import path as os_path
 import os
-import sys
 
 #################################
 # General                       #
@@ -22,7 +20,7 @@ ROOT_URLCONF = 'website.urls'
 WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
-LOGIN_REDIRECT_URL = '/authentication/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/authentication/login/'
 
 DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
@@ -44,34 +42,35 @@ except ImportError:
 #################################
 
 INSTALLED_APPS = [
-    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     'website',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
     'applications',
     'news',
     'door',
     'files',
     'ckeditor',
     'ckeditor_uploader',
+    'mptt',
     'sekizai',
     'sorl.thumbnail',
     'django_nyt',
-    'wiki',
-    'wiki.plugins.macros',
-    'wiki.plugins.help',
-    'wiki.plugins.links',
-    'wiki.plugins.images',
-    'wiki.plugins.attachments',
-    'wiki.plugins.notifications',
-    'mptt',
+    'wiki.apps.WikiConfig',
+    'wiki.plugins.attachments.apps.AttachmentsConfig',
+    'wiki.plugins.notifications.apps.NotificationsConfig',
+    'wiki.plugins.images.apps.ImagesConfig',
+    'wiki.plugins.macros.apps.MacrosConfig',
     'authentication',
     'authentication_feide',
     'smart_selects',
@@ -93,6 +92,9 @@ INSTALLED_APPS = [
 
 THUMBNAIL_PRESERVE_FORMAT = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAdminUser'],
+}
 
 #################################
 # Database                      #
@@ -172,30 +174,37 @@ if not DEBUG:
     STATIC_ROOT = '../static'
     MEDIA_ROOT = '../media'
 
-CKEDITOR_UPLOAD_PATH = os_path.join(BASE_DIR, 'media/uploads')
+CKEDITOR_UPLOAD_PATH = "ck_uploads"
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
 CKEDITOR_BROWSE_SHOW_DIRS = False
+
 CKEDITOR_CONFIGS = {
     'default': {
+        'skin': 'material-design',
+        'width': '100%',
         'toolbar': 'Custom',
         'toolbar_Custom': [
-            ['Undo', 'Redo'],
-            ['Format', 'Styles', 'Font', 'FontSize'],
-            ['Bold', 'Italic', 'Underline'],
-            ['HorizontalRule', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['TextColor', 'BGColor', 'Smiley'],
-            ['RemoveFormat', 'ShowBlocks', 'Maximize'],
-            ['Source']
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
+            ['Maximize', 'Find', 'Replace']
         ],
-        'width': 840,
-        'height': 300,
-        'toolbarCanCollapse': False,
-    }
+        'extraPlugins': 'blockquote',
+    },
+    'committees': {
+        'skin': 'material-design',
+        'width': '100%',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link'],
+            ['Maximize', 'Find', 'Replace']
+        ],
+    },
 }
+
+DEFAULT_CONFIG = CKEDITOR_CONFIGS
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -242,30 +251,3 @@ LOGGING = {
         }
     }
 }
-
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'skin': 'bootstrapck',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
-        'customConfig': '/static/js/ckeditor_config.js',
-    },
-
-    'committees': {
-        'skin': 'bootstrapck',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
-        'customConfig': '/static/js/ckeditor_config.js',
-    },
-}
-
-DEFAULT_CONFIG = CKEDITOR_CONFIGS

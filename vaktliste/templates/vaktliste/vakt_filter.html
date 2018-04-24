@@ -1,0 +1,72 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 white-text center">
+				<h4>Vaktliste for {{ dager }} klokken {{ tider }}</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<form>
+		<div class="row">
+			<div class="col s3 input-field">
+				<label for="filter_days">Dager</label>
+				<input id="filter_days" maxlength="100" name="dag" type="text" value="{{ dager }}"/>
+			</div>
+			<div class="col s3 input-field">
+				<label for="filter_times">Tider</label>
+				<input id="filter_times" maxlength="100" name="tid" type="text" value="{{ tider }}"/>
+			</div>
+			<div class="col s3 input-field">
+				<label for="filter_persons">Personer</label>
+				<input id="filter_persons" maxlength="100" name="person" type="text" value="{{ personer }}" onchange="condOption()" onfocus="condOption()"/>
+			</div>
+			<div class="col s3 input-field">
+				<button class="btn waves-effect waves-light" type="submit">Søk</button>
+			</div>
+			<div class="switch" id="full_shift" style="visibility:hidden">
+				<label for="full_shift">Kun matchende personer?</label>
+				<label>
+					Nei
+					{% if full or personer == "" %}
+					<input id="full_shift_switch" name="full" type="checkbox">
+					{% else %}
+					<input id="full_shift_switch" name="full" type="checkbox" checked>
+					{% endif %}
+					<span class="lever"></span>
+					Ja
+				</label>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4>Følgende personer har vakt i dette tidsrommet</h4>
+			</div>
+			{% include "vaktliste/vakter.html" %}
+		</div>
+	</div>
+</div>
+	<script>
+		function condOption(){
+			var filter_person = document.getElementById("filter_persons").value;
+			if(filter_person!=""){
+				document.getElementById("full_shift").style.visibility="visible";
+			}
+			else{
+				document.getElementById("full_shift").style.visibility="hidden";
+				document.getElementById("full_shift_switch").checked=false
+			}
+		}
+condOption()
+	</script>
+	{% endblock content %}

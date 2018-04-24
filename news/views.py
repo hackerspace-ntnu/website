@@ -7,7 +7,7 @@ from . import log_changes
 from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm
 from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
-from wiki.templatetags import check_user_group as groups
+from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.admin import User
 from django.contrib.auth.decorators import login_required
 from files.models import Image
@@ -36,35 +36,41 @@ def event(request, event_id):
         context['registration_visible'] = False
         context['userstatus'] = 'Ikke pålogget'
 
-    return render(request, 'event.html', context)
+    return render(request, 'news/event.html', context)
 
 
 def all_news(request):
     if groups.has_group(request.user, 'member'):
-        article_list = list(Article.objects.order_by('pub_date'))
-        event_list = list(Event.objects.order_by('time_start'))
+        article_list = list(Article.objects.order_by('-pub_date'))
     else:
-        article_list = list(Article.objects.filter(internal=False).order_by('pub_date'))
-        event_list = list(Event.objects.filter(internal=False).order_by('time_start'))
-    news_list = []
-    # Create a list mixed with both articles and events sorted after publication date
-    for i in range(len(article_list) + len(event_list)):
-        if len(article_list) == 0:
-            news_list.append(event_list.pop())
-            continue
-        elif len(event_list) == 0:
-            news_list.append(article_list.pop())
-            continue
-        if article_list[len(article_list) - 1].pub_date > event_list[len(event_list) - 1].time_start:
-            news_list.append(article_list.pop())
-        else:
-            news_list.append(event_list.pop())
+        article_list = list(Article.objects.filter(internal=False).order_by('-pub_date'))
 
     context = {
-        'news_list': news_list,
+        'news_list': article_list,
     }
 
-    return render(request, 'all_news.html', context)
+    return render(request, 'news/news.html', context)
+
+
+def all_events(request):
+    if groups.has_group(request.user, 'member'):
+        event_list = list(Event.objects.order_by('-time_start'))
+        old_events = list(Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start'))
+        new_events = list(Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start'))
+    else:
+        event_list = list(Event.objects.filter(internal=False).order_by('-time_start'))
+        old_events = list(Event.objects.filter(internal=False, time_start__lte=datetime.now()).order_by('-time_start'))
+        new_events = list(Event.objects.filter(internal=False, time_start__gte=datetime.now()).order_by('-time_start'))
+
+
+    context = {
+        'event_list': event_list,
+        'old_events': old_events,
+        'new_events': new_events,
+        'time_now': datetime.now(),
+    }
+
+    return render(request, 'news/events.html', context)
 
 
 def article(request, article_id):
@@ -77,7 +83,7 @@ def article(request, article_id):
     if article.internal and not groups.has_group(request.user, 'member'):
         return HttpResponseRedirect('/')
 
-    return render(request, 'article.html', context)
+    return render(request, 'news/article.html', context)
 
 
 def edit_event(request, event_id):
@@ -95,11 +101,12 @@ def edit_event(request, event_id):
             for attr in form.cleaned_data:
                 setattr(event, attr, form.cleaned_data[attr])
 
+
             event.save()
 
             log_changes.change(request, event)
 
-            return HttpResponseRedirect('/news/event/' + str(event.id) + '/')
+            return HttpResponseRedirect('/events/' + str(event.id) + '/')
     else:
         if event_id:
             event = get_object_or_404(Event, pk=event_id)
@@ -147,7 +154,7 @@ def edit_event(request, event_id):
         'form': form,
     }
 
-    return render(request, 'edit_event.html', context)
+    return render(request, 'news/edit_event.html', context)
 
 
 def edit_article(request, article_id):
@@ -173,7 +180,7 @@ def edit_article(request, article_id):
             article.save()
             log_changes.change(request, article)
 
-            return HttpResponseRedirect('/news/article/' + str(article.id) + '/')
+            return HttpResponseRedirect('/news/' + str(article.id) + '/')
     else:  # Request form
         if article_id == 0:
             form = ArticleEditForm()
@@ -197,7 +204,7 @@ def edit_article(request, article_id):
         'form': form,
     }
 
-    return render(request, 'edit_article.html', context)
+    return render(request, 'news/edit_article.html', context)
 
 
 def delete_article(request, article_id):
@@ -206,7 +213,7 @@ def delete_article(request, article_id):
         article = get_object_or_404(Article, pk=article_id)
         article.delete()
 
-    return HttpResponseRedirect('/news/all')
+    return HttpResponseRedirect('/news/')
 
 
 def delete_event(request, event_id):
@@ -215,7 +222,7 @@ def delete_event(request, event_id):
         event = get_object_or_404(Event, pk=event_id)
         event.delete()
 
-    return HttpResponseRedirect('/news/all')
+    return HttpResponseRedirect('/events/')
 
 
 def upload_file(request):
@@ -245,11 +252,11 @@ def upload_file(request):
     context = {
         'form': form,
     }
-    return render(request, 'upload.html', context)
+    return render(request, 'news/upload.html', context)
 
 
 def upload_done(request):
-    return render(request, 'upload_done.html')
+    return render(request, 'news/upload_done.html')
 
 
 @login_required
@@ -264,7 +271,7 @@ def register_on_event(request, event_id):
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
-    return HttpResponseRedirect("/news/event/%i" % event_object.id)
+    return HttpResponseRedirect("/events/%i" % event_object.id)
 
 
 def event_attendees(request, event_id):
@@ -301,7 +308,7 @@ def event_attendees(request, event_id):
             'attending_usernames': event_object.attending_usernames(),
         }
 
-        return render(request, 'event_attendees.html', context)
+        return render(request, 'news/event_attendees.html', context)
 
 
 def get_id_or_404(object_id):

@@ -1,4 +1,6 @@
 from django.contrib.auth.admin import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.db import models
 from django.shortcuts import reverse
 
@@ -58,9 +60,8 @@ class DutyTime(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
-    group = models.ManyToManyField(Group, related_name='profile', blank=True)
-    name = models.CharField(max_length=30, null=True, blank=True)
-    image = models.ImageField(upload_to="profilepictures", default=None)
+    group = models.ManyToManyField(Group, related_name='profile', verbose_name="Gruppe", blank=True)
+    image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None)
 
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
@@ -68,11 +69,8 @@ class Profile(models.Model):
     duty = models.ManyToManyField(DutyTime, related_name="duty", blank=True)
 
     auto_duty = models.BooleanField(default=True)
-    auto_name = models.BooleanField(default=True)
 
     def update(self):
-        if self.auto_name: self.name = self.user.first_name + " " + self.user.last_name
-        self.email = self.user.email
         self.get_dutytime()
         self.fix_profile_picture()
         self.save()
@@ -85,7 +83,7 @@ class Profile(models.Model):
 
     def get_dutytime(self):
         if self.auto_duty:
-            result = vakt_filter(persons=self.name, output="tuples")
+            result = vakt_filter(persons=self.user.get_full_name(), output="tuples")
             if result:
                 day, time, hackers = result[0]
                 start_time, end_time = time.split(" - ")
@@ -104,5 +102,9 @@ class Profile(models.Model):
         return reverse('userprofile:profile', args=(self.pk,))
 
 
-# Import receiver (for creating profiles when a user is created) into namespace.
-from userprofile.triggers import *
+
+# Save a user profile whenever we create a user
+@receiver(post_save, sender=User, dispatch_uid="create_profile_on_user_create")
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance, auto_duty=False)

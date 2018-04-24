@@ -1,0 +1,199 @@
+/* Sett riktige fonts */
+html {
+	font-family: 'Open Sans', sans-serif !important;
+}
+p {
+	font-family: 'Open Sans', sans-serif !important;
+}
+h1,h2,h3,h4,h5,a {
+	font-family: 'Montserrat', sans-serif !important;
+}
+/* Denne koden er nødvendig for å få footer som fixed. */
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+main {
+	flex: 1 0 auto;
+}
+
+/* Resize hackerspace-logoen */
+.brand-logo img {
+	width: 200px !important;
+	height: 64px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.brand-logo {
+	margin-left: 16px;
+	height: 64px;
+}
+/* Resize og posisjonering av header bilder */
+.mobile-img img {
+	height: 56px;
+}
+/* Align navbar logo for tablet device screen */
+.tab-img {
+	margin-left: 0px !important;
+}
+
+/* Fix personlig profilbilde i navbaren */
+.dropdown-trigger-user img {
+	height: 64px;
+	padding-bottom: 16px;
+	padding-top: 16px; 
+}
+/* Få material icons til å vertikalt aligne med teksten */
+.material-icons {
+	vertical-align: middle !important;
+	padding-bottom: 3px;
+}
+
+/* Social media icons */
+.sosial-bilder a img {
+	width: 42px;
+	height: 42px;
+	margin-right: 16px;
+	border-radius: 8px;
+}
+
+/* For darkening images on front page (for better contrast with text on top) */
+.tinter:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 65, 128, 0.60);
+}
+
+/* Prevent text in articles not formatted properly from looking ugly and clipping outside its container */
+.preview-text p {
+	word-break: break-all;
+}
+
+.search-wrapper i.material-icons{
+	cursor: pointer;
+	position: relative;
+	right: 24px;
+}
+/* footer for parallax on about */
+.opaque-footer {
+	background-color: #000;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 24px;
+	opacity: 0.4;
+	padding-left: 24px;
+}
+
+/* Required for sidenav + static navbar. Makes sure sidenav always on top */
+.navbar-fixed {
+	z-index: 9999 !important;
+}
+
+/* Remove padding / margins from bottom. Handy for section blocks */
+.no-pad-bot {
+	margin-bottom: 0px !important;
+	padding-bottom: 0px !important;
+}
+
+.no-margin {
+	margin: 0px !important;
+}
+.no-pad {
+	padding: 0px !important;
+}
+
+/* CKEditor override */
+.django-ckeditor-widget {
+	width: 100%;
+}
+/* GENERELL STYLING OG MATERIAL OVERRIDES BEGYNNER HER */
+.card-action a {
+	color: #5BBA47 !important;
+}
+.slider .indicator-item.active {
+	background-color: #4E4E4E !important;
+}
+
+blockquote {
+	border-left: 5px solid #939084 !important;
+}
+
+.dropdown-content li > a {
+	color: #5BBA47 !important;
+}
+
+/* label color */
+.input-field label {
+	color: #000;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label, .input-field input[type=email]:focus + label, .input-field input[type=password]:focus + label {
+	color: #000 !important;
+}
+/* label underline focus color */
+.input-field input[type=text]:focus, .input-field input[type=email]:focus, .input-field input[type=password]:focus {
+	border-bottom: 1px solid #939084 !important;
+	box-shadow: 0 1px 0 0 #939084 !important;
+}
+/* valid color */
+.input-field input[type=text].valid, .input-field input[type=email].valid {
+	border-bottom: 1px solid #5BBA47;
+	box-shadow: 0 1px 0 0 #5BBA47;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+	color: #5BBA47;
+}
+
+/* Definer hackerspace farger som klasser */
+.hs-gray {
+  background-color: #4E4B46 !important;
+}
+.hs-gray-text {
+  color: #4E4B46 !important;
+}
+.hs-gray-text:visited {
+  color: #4E4B46 !important;
+}
+.hs-red {
+  background-color: #E25E48 !important;
+}
+.hs-red-text {
+  color: #E25E48 !important;
+}
+.hs-red {
+  background-color: #E25E48 !important;
+}
+.hs-red-text {
+  color: #E25E48 !important;
+}
+.hs-yellow {
+  background-color: #F6BE00 !important;
+}
+.hs-yellow-text {
+  color: #F6BE00 !important;
+}
+.hs-green {
+  background-color: #5BBA47 !important;
+}
+.hs-green-text {
+  color: #5BBA47 !important;
+}
+.secondary-content {
+  color: #5BBA47 !important;
+}
+/* Overstyr materialize farger */
+a {
+	color: #5BBA47;
+	/* Fjerner stygg outline etter å ha trykket på noe */
+	outline: none;
+}
+

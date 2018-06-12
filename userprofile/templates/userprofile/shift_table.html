@@ -1,4 +1,4 @@
-<table id="shift_table" class="centered responsive-table">
+<table id="shift_table" class="striped">
     <thead>
 	<tr>
 	    <th></th>
@@ -59,7 +59,7 @@
 	var cell = cells[i]
 	if(cell.innerHTML=="{{ duties.dutytime }}"){
 	    cells[i+day].style="background-color:var(--hs-green)";
-	    var link = "<a href=\"/vaktliste?dag={{ duties.dutyday }}&tid="+(11+i/3)+"\">Se vakt</a>"
+	    var link = "<a href=\"/users/?dag={{ duties.dutyday }}&tid="+(11+i/3)+"\">Se vakt</a>"
 	    cells[i+day].innerHTML=link;
 	    break;
 	}

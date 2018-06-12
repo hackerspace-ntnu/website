@@ -1,0 +1,49 @@
+.caption-text {
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.ingress {
+	font-weight: 700;
+
+}
+.article-container {
+	margin-top: -124px !important;
+	padding-top: 12px !important;
+	position: relative;
+	padding-bottom: 64px !important;
+	border-radius: 2px;
+}
+.article-container .row {
+	padding-right: 56px;
+	padding-left: 56px;
+} 
+.article-content {
+	word-break: break-all !important;
+}
+
+.subheader-list {
+	height: 48px;
+	margin-bottom: 48px;
+	margin-top: 16px;
+}
+.empty-list-container {
+	height: 48px;
+	margin: 16px;
+}
+.progress {
+	height: 30px;
+	width: 95%;
+	display: block;
+	margin: auto;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	z-index: 50;
+}
+.counter {
+	margin: 5px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.determinate {
+	z-index: 70;
+}

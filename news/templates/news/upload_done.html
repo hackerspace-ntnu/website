@@ -1,0 +1,11 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+  <p id="doneUploading">Done uploading</p>
+
+  <script>
+      setTimeout(function(){ window.close(); }, 1000);
+  </script>
+{% endblock content %}

@@ -1,183 +1,79 @@
 from django import forms
-from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.admin import User
+from django.template.loader import render_to_string
+# Note that default_token_generator is based on PasswordTokenGenerator
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.core.mail import send_mail
+from website.settings import DEFAULT_FROM_MAIL
+
+default_error_messages = {'required': 'Feltet må fylles ut',
+                          'invalid_choice': 'Verdien er ikke gyldig'}
 
 
-default_error_messages = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
-
-
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=100,
+class SignUpForm(UserCreationForm):
+    username = forms.CharField(max_length=50,
                                label="Username",
-                               widget=forms.TextInput(),
+                               widget=forms.TextInput(attrs={'class' : 'validate' }),
                                error_messages=default_error_messages)
-    password = forms.CharField(max_length=100,
-                               label="Password",
-                               widget=forms.PasswordInput(),
-                               error_messages=default_error_messages)
-
-    # Custom validation
-    def validate(self):
-        username = self.cleaned_data['username']
-        password = self.cleaned_data['password']
-        user = authenticate(username=username, password=password)
-
-        # Checks if user doesn't exist
-        if user is None:
-            message = 'Feil brukernavn eller passord'
-            self.add_error('username', message)
-            return False
-
-        # Checks if the user is not active
-        if not user.is_active:
-            message = 'Brukeren er ikke aktivert'
-            self.add_error('username', message)
-            return False
-
-        return True
-
-
-class ChangePasswordForm(forms.Form):
-    current_password = forms.CharField(max_length=100,
-                                       label="Current password",
-                                       widget=forms.PasswordInput(),
-                                       error_messages=default_error_messages)
-    new_password = forms.CharField(max_length=100,
-                                   label="New password",
-                                   widget=forms.PasswordInput(),
-                                   error_messages=default_error_messages)
-    confirm_new_password = forms.CharField(max_length=100,
-                                           label="Confirm password",
-                                           widget=forms.PasswordInput(),
-                                           error_messages=default_error_messages)
-
-    # Custom validation
-    def validate(self, user):
-        current = self.cleaned_data["current_password"]
-        new = self.cleaned_data["new_password"]
-        confirm = self.cleaned_data["confirm_new_password"]
-
-        # Checks if the typed password doesn't match the current password
-        if not user.check_password(current):
-            message = "Nåværende passord er feil"
-            self.add_error('current_password', message)
-            return False
-
-        # Checks if the new password and confirm new password doesn't match
-        if not new == confirm:
-            message = "De nye passordene er ikke like"
-            self.add_error('current_password', message)
-            return False
-        return True
-
-
-class SignUpForm(forms.Form):
-    username = forms.CharField(max_length=100,
-                               label="Username",
-                               widget=forms.TextInput(),
-                               error_messages=default_error_messages)
-    email = forms.EmailField(max_length=100,
+    email = forms.EmailField(max_length=50,
                              label="Email",
-                             widget=forms.EmailInput(),
+                             widget=forms.TextInput(),
                              error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
-                                 widget=forms.TextInput(),
                                  error_messages=default_error_messages)
     last_name = forms.CharField(max_length=50,
                                 label="Last name",
-                                widget=forms.TextInput(),
+                                widget=forms.TextInput(attrs={'class' : 'validate' }),
                                 error_messages=default_error_messages)
-    new_password = forms.CharField(max_length=100,
-                                   label="New password",
-                                   widget=forms.PasswordInput(),
-                                   error_messages=default_error_messages)
-    confirm_new_password = forms.CharField(max_length=100,
-                                           label="Confirm password",
-                                           widget=forms.PasswordInput(),
-                                           error_messages=default_error_messages)
 
-    # Custom validation
-    def validate(self):
-        username = self.cleaned_data['username']
-        email = self.cleaned_data['email']
-        new_password = self.cleaned_data['new_password']
-        confirm_new_password = self.cleaned_data['confirm_new_password']
-
-        # Checks if user already exists
-        try:
-            User.objects.get(username=username)
-            message = 'Brukernavnet eksisterer allerede'
-            self.add_error('username', message)
-            return False
-        except User.DoesNotExist:
-            pass
-
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
         # Checks if the email is already registered
-        try:
-            User.objects.get(email=email)
-            message = 'Mailen er allerede registrert'
-            self.add_error('email', message)
-            return False
-        except User.DoesNotExist:
-            pass
+        if User.objects.filter(email=email).exists():
+            self.add_error('email', 'Mailen er allerede registrert')
 
         # Checks if the email is not from NTNU
-        if not (str(email).endswith('@stud.ntnu.no') or str(email).endswith('@ntnu.no') or str(email).endswith(
-                '@ntnu.edu')):
-            message = 'Mailen er ikke fra NTNU'
-            self.add_error('email', message)
-            return False
+        if not (str(email).endswith('@stud.ntnu.no') or
+                str(email).endswith('@ntnu.no') or
+                str(email).endswith('@ntnu.edu')):
+            self.add_error('email', 'Mailen er ikke fra NTNU')
+        return email
 
-        # Checks if the new password and confirm new password doesn't match
-        if not new_password == confirm_new_password:
-            message = 'Passordene er ikke like'
-            self.add_error('new_password', message)
-            self.add_error('confirm_new_password', message)
-            return False
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        # Checks if user already exists
+        if User.objects.filter(username=username).exists():
+            self.add_error('username', 'Brukernavnet eksisterer allerede')
 
-        return True
+        return username
 
+    def save(self, commit=True):
+        user = super(SignUpForm, self).save(commit=False)
+        user.email = self.cleaned_data.get("email")
+        user.is_active = False
 
-class ForgotPasswordForm(forms.Form):
-    email = forms.EmailField(max_length=100,
-                             label='Email',
-                             widget=forms.TextInput(),
-                             error_messages=default_error_messages)
+        if commit:
+            user.save()
 
-    # Custom validation
-    def validate(self):
-        email = self.cleaned_data['email']
+        plain_message = render_to_string('signup_mail.txt', {
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': default_token_generator.make_token(user)}
+        )
+        html_message = render_to_string('signup_mail.html', {
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': default_token_generator.make_token(user)}
+        )
 
-        # Checks if the user with email exist
-        try:
-            User.objects.get(email=email)
-            return True
-        except User.DoesNotExist:
-            message = "Mailen er ikke registrert"
-            self.add_error("email", message)
-            return False
-
-
-class SetPasswordForm(forms.Form):
-    new_password = forms.CharField(max_length=100,
-                                   label="New password",
-                                   widget=forms.PasswordInput(),
-                                   error_messages=default_error_messages)
-    confirm_new_password = forms.CharField(max_length=100,
-                                           label="Confirm password",
-                                           widget=forms.PasswordInput(),
-                                           error_messages=default_error_messages)
-
-    # Custom validation
-    def validate(self):
-        new_password = self.cleaned_data['new_password']
-        confirm_new_password = self.cleaned_data['confirm_new_password']
-
-        # Checks if the new password and confirm new password doesn't match
-        if not new_password == confirm_new_password:
-            message = "Passordene er ikke like"
-            self.add_error('new_password', message)
-            self.add_error('confirm_new_password', message)
-            return False
-        return True
+        send_mail(
+            'Velkommen som bruker hos Hackerspace',
+            plain_message,
+            DEFAULT_FROM_MAIL,
+            [user.email],
+            fail_silently=False,
+            html_message=html_message
+        )
+        return user

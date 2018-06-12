@@ -2,12 +2,13 @@ from django.shortcuts import render
 from .models import Image
 from .forms import ImageUpload, ImageSearch, ImageEdit
 from django.utils import timezone
-from django.http import HttpResponseRedirect, HttpResponse
-#from x import admin_history
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 import os
 from django.conf import settings
-from news.templatetags import check_user_group as groups
+from authentication.templatetags import check_user_group as groups
 
+@login_required()
 def findId(title):
     number = 1
     for element in Image.objects.order_by('-time'):
@@ -18,9 +19,12 @@ def findId(title):
             return element.number + 1
     return number
 
+
+@login_required()
 def fileExt(name):
     return name.split('.')[-1:][0]
 
+@login_required()
 def saveImage(file, title, description, tags):
     savename = title.lower()
     while " " in savename:
@@ -34,6 +38,7 @@ def saveImage(file, title, description, tags):
     instance.save()
     return instance
 
+@login_required()
 def renameImage(instance, title):
     savename = title.lower()
     while ' ' in savename:
@@ -52,6 +57,7 @@ def renameImage(instance, title):
     instance.save()
     return instance
 
+@login_required()
 def imageUpload(request):
     if groups.has_group(request.user, 'member'):
         if request.method == 'POST':
@@ -61,7 +67,7 @@ def imageUpload(request):
                 context = {
                     'src': img.file.name,
                 }
-                return render(request, 'image_upload_done.html', context)
+                return render(request, 'files/image_upload_done.html', context)
         else:
             form = ImageUpload(initial={
                 'description': '',
@@ -72,10 +78,12 @@ def imageUpload(request):
         context = {
             'form': form,
         }
-        return render(request, 'image_upload.html', context)
+        return render(request, 'files/image_upload.html', context)
     else:
         return HttpResponseRedirect('/authentication/login')
 
+
+@login_required()
 def images(request):
     if groups.has_group(request.user, 'member'):
         searchText = ''
@@ -98,10 +106,15 @@ def images(request):
             'form': form,
             'searchText': searchText,
         }
-        return render(request, 'images.html', context)
-    else:
-        return HttpResponseRedirect('/authentication/login')
+        return render(request, 'files/images.html', context)
 
+
+@login_required()
+def modalpicker(request):
+        images = Image.objects.order_by('-time')
+        return images
+
+@login_required()
 def imageDelete(request, image_id):
     if groups.has_group(request.user, 'member'):
         try:
@@ -114,6 +127,7 @@ def imageDelete(request, image_id):
     else:
         return HttpResponseRedirect('/authentication/login')
 
+@login_required()
 def imageView(request, image_id):
     try:
         image = Image.objects.get(pk=image_id)
@@ -121,6 +135,7 @@ def imageView(request, image_id):
     except Image.DoesNotExist:
         return HttpResponseRedirect('/')
 
+@login_required()
 def imageEdit(request, image_id):
     if groups.has_group(request.user, 'member'):
         if request.method == 'POST':
@@ -155,6 +170,6 @@ def imageEdit(request, image_id):
             'form': form,
         }
 
-        return render(request, 'image_edit.html', context)
+        return render(request, 'files/image_edit.html', context)
     else:
         return HttpResponseRedirect('/authentication/login')

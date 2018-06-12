@@ -1,9 +1,0 @@
-@media (max-width: 600px) {
-  .about-section {
-      display: flex;
-      flex-direction: column; /* Stack on top */}
-  }
-  .about-text {
-      order: 2; /* Go down, bring Box B up */
-  }
-}

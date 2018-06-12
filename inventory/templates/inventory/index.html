@@ -1,110 +1,328 @@
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 {% load staticfiles %}
-{% load cards %}
-{% load utils %}
-{% load divtags %}
-
+{% load picker_modal %}
 {% block header %}
-    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/style.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "inventory/css/index.css" %}">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="{% static 'inventory/js/index.js' %}"></script>
-{% endblock header %}
-
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue-resource"></script>
+{% endblock %}
 {% block content %}
+<div id="app">
+	<div class="section hs-green white-text">
+		<div class="container">
+			<div class="row">
+				<div class="col s12 white-text">
+					<h4>Inventar</h4>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if perms.inventory %}
+	<div class="section white">
+		<div class="container">
+			<!-- Start admin menu-->
+			<div class="row">
+				<div class="col s12">
+					<div class="card">
+						<div class="card-content">
+							<span class="card-title">Administrator meny</span>
+						</div>
+						<div class="card-action white-text">
+							<!-- Modal Triggers -->
+							{% if perms.inventory.add_item %}
+								<a class="modal-trigger" v-on:click="setItem(new_item, true)" href="#edit_modal">Legg til gjenstand</a>
+							{% endif %}
+							{% if perms.inventory.add_tag %}
+								<a class="modal-trigger" href="#add_tag" v-on:click="updateTags()" class="btn modal-trigger">Legg til tag</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modals -->
+		<div id="thumbnailPicker" class="modal">
+			<div class="modal-content">
+				{% ImageModal request %}
+			</div>
+		</div>
+		<div id="add_tag" class="modal">
+			<div class="modal-content">
+				<p>Add new tag</p>
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="name" type="text" v-model="new_tag.name"/>
+						<label for="name">Navn</label>
+					</div>
+					<div class="input-field col s12">
+						<p>
+						<label>
+							<input id="visible" type="checkbox" v-model="new_tag.visible"/>
+							<span>Synlig</span>
+						</label>
+						</p>
+					</div>
+					<div class="input-field col s12">
+						<input id="description" type="text" v-model="new_tag.description"/>
+						<label for="description">Beskrivelse</label>
+					</div>
+					<a href="#!" class="btn btn-large" v-on:click="postTag(new_tag)">Legg til</a>
+				</div>
+			</div>
+		</div>
+		<div id="loan_modal" class="modal">
+			<div class="modal-content">
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="name" type="text" v-model="new_loan.borrower"/>
+						<label for="name">Navn</label>
+						<span class="helper-text">Fornavn og etternavn på personen som skal låne</span>
+					</div>
+					<div class="input-field col s12">
+						<input id="email" type="email" class="validate" v-model="new_loan.email"/>
+						<label for="email">Epost-addresse</label>
+						<span class="helper-text" data-error="Epost-addressen ser ikke riktig ut" data-success="Dette ser bedre ut">Epost-addressen til personen som skal låne</span>
+					</div>
+					<div class="input-field col s12">
+						<input id="name" type="text" v-model="new_loan.lender"/>
+						<label for="name">Utleier</label>
+						<span class="helper-text">Fornavn og etternavn på personen som låner ut</span>
+					</div>
+					<div class="input-field col s12">
+						<input type="number" min="0" :max="current_item.quantity_left" id="quantity" v-model="new_loan.quantity" class="validate"/>
+						<label for="quantity">Antall</label>
+						<span class="helper-text" data-error="Det er færre gjenstander på lager enn du forsøker å låne ut" data-success="Dette ser bedre ut">Tast inn antall enheter du vil låne ut</span>
+					</div>
+					<div class="input-field col s12">
+						<input type="text" id="phone" v-model="new_loan.phone"/>
+						<label for="phone">Telefonnummer</label>
+					</div>
+					<div class="input-field col s12">
+						<textarea class="materialize-textarea" id="comment" v-model="new_loan.comment"></textarea>
+						<label for="comment">Kommentar</label>
+					</div>
+					<div class="input-field col s12">
+						<a href="#!" class="btn btn-large" v-on:click="postLoan(new_loan)">Lån ut</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="edit_modal" class="modal">
+			<div class="modal-content">
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="name" v-model="current_item.name"/>
+					<label for="name" class="active">Navn</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="description" v-model="current_item.description"/>
+					<label for="description" class="active">Beskrivelse</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="quantity" v-model="current_item.quantity"/>
+					<label for="quantity" class="active">Kvantitet</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="thumbnail" v-model="current_item.thumbnail"/>
+					<label for="thumbnail" class="active">Bilde</label>
+				</div>
+				<div class="input-field col s12">
+					<select id="tagSelector" v-model="current_item.tags" v-if="current_item.tags" multiple>
+						<option value="" disabled>Velg ny kategori</option>
+						<option v-for="tag in tagList" v-bind:value="tag.id"> [[ tag.name ]]</option>
+					</select>
+				</div>
+				<div class="input-field col s12">
+					<input id="zone" v-model="current_item.zone"/>
+					<label for="zone" class="active">Sone</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="shelf" v-model="current_item.shelf"/>
+					<label for="shelf" class="active">Hylleplass</label>
+				</div>
+				<div class="input-field hidden">
+					{{ form.thumbnail.errors }}
+					<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
+				</div>
+				<div class="col s12">
+					<div id="thumbnailPicker" class="modal">
+						<div class="modal-content">
+							{% ImageModal request %}
+						</div>
+					</div>
+					<i class="material-icons prefix">photo_library</i>
+					<label for="thumb-preview">Thumbnail</label>
+					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
+					</div>
+				</div>
+				<div class="input-field col s12">
+					<input id="column" v-model="current_item.column"/>
+					<label for="column" class="active">Kolonne</label>
+				</div>
+				<div class="input-field col s12">
+					<a href="#!" v-if="add" class="btn btn-large" v-on:click="postItem(current_item)">Legg til</a>
+					<a href="#!" v-if="!add" class="btn btn-large" v-on:click="putItem(current_item)">Oppdater</a>
+					<a href="#!" v-if="!add" class="btn btn-large hs-red" v-on:click="deleteItem(current_item)">Slett</a>
+				</div>
+			</div>
+			</div>
+		</div>
+		<div id="adm_loan" class="modal">
+			<!-- add modal from administrate_loan.html -->
+		</div>
+		<div class="divider"></div>
+	</div>
+	<!-- End admin menu-->
+	{% endif %}
+	<div class="section white">
+		<div class="container">
+			<!-- start main content -->
+			<div class="row">
+				{% if perms.inventory %}
+				<div class="col s6">
+				</div>
+				{% endif %}
+				<!-- TODO: knytte søkefelt til items -->
+				<div class="col s6">
+					<input type="text" name="search" placeholder="Søk">
+				</div>
+			</div>
+			<div class="row">
+				<!-- Rabperry Pi category skeleton-->
+				<div class="col s12">
+					<ul class="collapsible">
+						<li v-for="tag in tagList" :key="tag.id">
+							<div class="collapsible-header">
+								<span> [[ tag.name ]] </span>
+							</div>
+							<div class="collapsible-body" >
+								<ul class="collection">
+									<li v-for="item in tag.item_set" class="collection-item avatar">
+										<img v-if="item.thumbnail" :src="item.thumbnail.file" alt="" class="circle">
+										<a class="modal-trigger" v-on:click="setItem(item, false)" href="#edit_modal">
+											<span class="title"> [[ item.name ]] </span>
+										</a>
+										<p>[[ item.description ]]<br>
+										[[ item.quantity_left ]]/[[ item.quantity ]], sone [[ item.zone ]], [[ item.shelf ]] [[ item.row ]] [[ item.column ]].
+										</p>
+										{% if perms.inventory.add_loan %}
+										<a v-if="item.quantity_left <= 0" v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text disabled"><i class="material-icons">arrow_forward</i>Lån ut</a>
+										<a v-else v-on:click="setItem(item, false)" href="#loan_modal" class="modal-trigger secondary-content btn btn-small hs-green white-text"><i class="material-icons">arrow_forward</i>Lån ut</a>
+										{% endif %}
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>}
+<script type="text/javascript">
+	function readCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+	new Vue({
+		el: "#app",
+		delimiters: ["[[","]]"],
+		data: {
+			tagList: [],
+			add: false,
+			current_item: "",
+			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null, "loans": [] },
+			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], "visible": true },
+			new_loan: { "borrower": null, "lender": null, "comment": "none", "email": null, "phone": null, "item": null },
+		},
+		mounted: function() {
+			this.getTagList();
+		},
+		methods: {
+			getTagList: function() {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				this.$http.get('/inventory/tags').then(
+				function (response) {
+					this.tagList = response.data;
+				},
+				function(response) {
+					M.toast({html: "Noe gikk galt under henting av tags. Feilkode: " + response.detail});
+				});
+				var csrftoken = readCookie('csrftoken');
+			},
+			setItem: function(item, add) {
+				this.add = add;
+				this.current_item = item;
+				this.current_item.tags = item.tags;
+				this.current_item.loans = item.loans;
+				Vue.nextTick(function () {
+					var selectorElement = document.querySelector('#tagSelector');
+					var instance = M.FormSelect.init(selectorElement);
+				})
+				var csrftoken = readCookie('csrftoken');
+			},
+			updateTags: function(item, add) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				Vue.nextTick(function () {
+					var selectorElement = document.querySelector('#tagSelector');
+					var instance = M.FormSelect.init(selectorElement);
+				})
+			},
+			putItem: function(current_item) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				this.$http.put('/inventory/items/' + current_item.id, current_item).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+			postItem: function(current_item) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				this.$http.post('/inventory/items/', current_item).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+			deleteItem: function(current_item) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				this.$http.delete('/inventory/items/' + current_item.id, current_item).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+			postTag: function(tag) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				this.$http.post('/inventory/tags/', tag).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+			postLoan: function(loan) {
+				var csrftoken = readCookie('csrftoken');
+				Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+				loan.item = this.current_item.id;
+				loan.item.visible = false;
+				this.$http.post('/inventory/loans/', loan).then((response => {
+					M.toast({html: response.statusText});
+				}));
+				this.getTagList();
+			},
+		}
+	});
+	var csrftoken = readCookie('csrftoken');
+	Vue.http.headers.common['X-CSRFTOKEN'] = csrftoken;
+	M.AutoInit();
+	
+</script>
 
-    <!-- TODO gjøre denne alltid aktiv? Da blir den lettere å finne-->
-    <!-- TODO kan lage templatetag, så den blir lettere å legge til på flere sider -->
-    <!-- TODO kan legge til et ikon på knappen så det blir lettere å se at man har flere valg-->
-    <a class='dropdown-button btn' href='#' data-activates='dropdown1'
-       style="position: absolute; width: 120px; margin-left: 10px; margin-top: 10px;">Valg
-    </a>
-    <ul id='dropdown1' class='dropdown-content'
-        style="position: absolute; width: 120px; margin-left: 10px; margin-top: 45px;">
-        {% if perms.inventory.add_item %}
-            <li><a href="{% url 'inventory:add_item' %}">Legg til gjenstand</a></li>
-        {% endif %}
-        {% if perms.inventory.add_tag %}
-            <li><a href="{% url 'inventory:add_tag' %}">Legg til tag</a></li>
-        {% endif %}
-        {% if perms.inventory.add_loan %}
-            <li><a href="{% url 'inventory:register_loan' 0 %}">Registrer utlån</a></li>
-            <li><a href="{% url 'inventory:administrate_loans' %}">Administrer
-                utlån</a></li>
-        {% endif %}
-        <li><a href="{% url 'inventory:my_loans' %}">Mine lån</a></li>
-    </ul>
-    <div class="content">
-        <br>
-        <form id="searchform" action="{% url 'inventory:search' %}" method="get">
-            {% csrf_token %}
-            <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Søk" autocomplete="off">
-            <button class="btn waves-effect waves-light" type="submit" name="action">søk</button>
-        </form>
-
-        <h1>Inventar</h1>
-        <!--
-        TODO endre dette når man får maaange tags.
-        TODO endre så kun brukere med endringstilgang kan se de som er slettet.
-        TODO mellomrom mellom radene varierer, fiks så det ikke blir så mye.
-        -->
-
-        <div class="row">
-            <div class="col s3">
-                <div class="card horizontal" style="background-color: var(--hs-gray-li3);">
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Velg tagger du vil vise</p>
-                        </div>
-                        <form id="check-form" action="{% url 'inventory:index' %}" method="post"
-                              style="padding-left: 15px;">
-                            {% csrf_token %}
-
-                            <!-- recursive template tag -->
-                            {% tag_hierarchy tags 0 20 %}
-                            <br>
-
-                            <label for="check_json"></label>
-                            <input type="text" name="check_json" id="check_json" hidden="hidden">
-
-                        </form>
-
-                        <div class="card-action">
-                            <button class="btn waves-effect waves-light" type="button"
-                                    onclick="postCheckBoxes()">Refresh!
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="items col s9">
-                {% for item in items %}
-                    <div class="item-box">
-                        {% small_card_item_detail item request perms %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <script>
-        var postedTags = {{ posted_tags|safe }};
-
-        $(function () {
-            showBoxes(postedTags);
-        });
-
-        function showBoxes(postedTags) {
-            // Viser og checker av bokser som var checked før man poster.
-            for (var key in postedTags) {
-                $('#' + key).attr('checked', true);
-                $('.child-of-' + key).show();
-                if (Object.keys(postedTags[key]).length > 0) {
-                    showBoxes(postedTags[key]);
-                }
-            }
-        }
-    </script>
 {% endblock content %}

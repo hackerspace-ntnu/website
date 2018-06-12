@@ -1,17 +1,15 @@
 import json
-from datetime import datetime
-
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-
 from website import settings
 from .models import DoorStatus, OpenData
 import html.parser
 
 DOOR_NAME = "hackerspace"
+
 
 @csrf_exempt
 def door_post(request):
@@ -28,16 +26,19 @@ def door_post(request):
                 door_status_object = DoorStatus.get_door_by_name(DOOR_NAME)
 
                 # Door open
-                if status is True and door_status_object.status == False:
+                if status is True and door_status_object.status is False:
                     # Save status and time to door status object
                     door_status_object.status = status
                     door_status_object.datetime = timezone.now()
                     door_status_object.save()
 
                 # Door closed
-                elif status is False and door_status_object.status == True:
+                elif status is False and door_status_object.status is True:
                     # Create OpenData object with open and close datetime
-                    open_data = OpenData(opened=door_status_object.datetime, closed=timezone.now())
+                    open_data = OpenData(
+                        opened=door_status_object.datetime,
+                        closed=timezone.now()
+                    )
                     open_data.save()
 
                     # Save status and time to door status object

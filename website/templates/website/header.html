@@ -1,0 +1,140 @@
+{% load staticfiles %}
+{% load loginmodal %}
+<header>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper hs-gray">
+				<div class="container">
+					<!-- Hamburger -->
+					<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+					<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
+					<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
+					<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
+					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
+					<!-- Hovedmeny -->
+					<ul class="right hide-on-med-and-down">
+						<li id="news"><a class="waves-effect" href="/news/"><i class="material-icons">import_contacts</i></a></li>
+						<li id="events"><a class="waves-effect" href="/events/"><i class="material-icons">event</i></a></li>
+						<li id="resources"><a class="trigger-resources" href="/" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
+						{% if user.is_authenticated %}
+								{% if user.profile.image %}
+								<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{{ user.profile.image.url }}"></a></li>
+								{% else %}
+								<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{% static 'website/img/misc/default.png' %}"></a></li>
+								{% endif %}
+						{% else %}
+						<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
+						{% endif %}
+					</ul>
+					<!-- Mobil dynamisk meny -->
+				<ul class="sidenav" id="mobile-sidebar">
+					<li>
+						<div class="user-view no-pad-bot">
+							<div class="background hs-gray"></div>
+							{% if user.is_authenticated %}
+							<a href="{% url 'userprofile:profile' %}">
+								{% if user.profile.image %}
+								<img class="circle" src="{{ user.profile.image.url }}"/>
+								{% else %}
+								<img class="circle" src="{% static 'website/img/misc/default.png' %}"/>
+								{% endif %}
+							</a>
+							<a href="#"><span class="white-text name">{{ user.get_full_name }}</span></a>
+							<a href="#"><span class="white-text email">{{ user.email }}</span></a>
+							<a href="#"><span class="white-text"></span></a>
+							{% else %}
+							<!-- TODO: Fix styling of image -->
+							<a href="/"><img style="width:128px; height:164" src="{% static "website/img/logo/Icon_green_transparent.png" %}"></a>
+							{% endif %}
+						</div>
+					</li>
+					<li><a class="waves-effect" href="/">Hjem</a></li>
+					<li><a class="waves-effect" href="/news/">Nyheter</a></li>
+					<li><a class="waves-effect" href="/events/">Arrangementer</a></li>
+					<li><a class="waves-effect" href="/wiki">Wiki</a></li>
+					<li><a class="waves-effect" href="/about">Om Oss</a></li>
+					<li><a class="waves-effect" href="{% url 'inventory:index' %}">Inventar</a></li>
+
+					<li><div class="divider"></div></li>
+					{% if user.is_authenticated %}
+					<li><a class="waves-effect" href="/authentication/change-password">Bytt Passord</a></li>
+					<li><a class="waves-effect" href="/authentication/logout">Logg Ut</a></li>
+					{% else %}
+					<li><a class="waves-effect" href="/authentication/signup">Registrer</a></li>
+					<li><a class="waves-effect" href="/authentication/login">Logg inn</a></li>
+					{% endif %}
+					<!-- Dropdown user list for desktop-->
+					<ul id="userdropdown" class="dropdown-content">
+						{% if user.is_authenticated %}
+						<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
+						<li><a href="/authentication/change-password">Bytt Passord</a></li>
+						<li><a href="/authentication/logout">Logg Ut</a></li>
+						{% else %}
+						<li><a href="/authentication/signup">Registrer</a></li>
+						<li><a class="modal-trigger" href="#loginModal">Logg Inn</a></li>
+						{% endif %}
+					</ul>
+					<!-- Dropdown for resurser -->
+					<ul id="resourcedropdown" class="dropdown-content">
+						<li class="tooltipped" data-position="left" data-tooltip="Trykk meg for å se hvor vi befinner oss">
+							<a class="modal-trigger waves-effect hs-green-text" href="#mapModal">KART</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="På wikien finner du en haug informasjon">
+						<a href="/wiki">WIKI</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="Inventar-siden benyttes til utlån av utstyr.">
+						<a href="{% url 'inventory:index' %}">INVENTAR</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
+						<a href="/about">OM OSS</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="Våre prosjekter som vi reklamerer ekstra godt for">
+						<a href="/showcase/">SHOWCASE</a>
+						</li>
+					</ul>
+				</ul>
+			</div>
+			</div>
+		</nav>
+	</div>
+<div id="loginModal" class="modal">
+	<div class="modal-content">
+		{% LoginModal %}
+	</div>
+</div>
+<div id="mapModal" class="modal bottom-sheet">
+	<div class="modal-content">
+		<p>
+			<div class="video-container">
+			</div>
+		</p>
+	</div>
+</div>
+<script>
+
+
+	var dropdown_resources = document.querySelector('.trigger-resources');
+	var dropdown_user = document.querySelector('.dropdown-trigger-user');
+
+	var instance = M.Dropdown.init(dropdown_user, {
+		hover: true,
+		coverTrigger: false,
+		constrainWidth: false
+	});
+	var instance = M.Dropdown.init(dropdown_resources, {
+		hover: true,
+		coverTrigger: false,
+		constrainWidth: false
+	});
+	switch(window.location.pathname) {
+		case '/news/':
+			var element = document.getElementById("news");
+			element.classList.add("active");
+			break;
+		case '/events/':
+			var element = document.getElementById("events");
+			element.classList.add("active");
+			break;
+	}
+</script>
+</header>

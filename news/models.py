@@ -121,7 +121,7 @@ class Event(models.Model):
 
     class Meta:
         app_label = 'news'
-        ordering = ("-time_start",)
+        ordering = ("time_start",)
 
 
 class Upload(models.Model):

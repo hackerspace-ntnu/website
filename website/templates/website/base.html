@@ -1,0 +1,60 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="no">
+	<head>
+		<title>Hackerspace NTNU</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" type="image/png" href="{% static "website/img/favicon.ico" %}">
+		<!-- Google Icons -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+		<!-- Materialize CSS -->
+		<script async type="text/javascript" src="{% static 'website/js/ajax_requests.js' %}"></script>
+		<!-- Legg til Materialize JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+		<!-- Lokale stylesheets etter materialize, for å override -->
+		<link rel="stylesheet" type="text/css" href="{% static "website/css/style.css" %}">
+		  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		<!-- Global Site Tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107702172-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'UA-107702172-1');
+		</script>
+
+		{% block head %}
+		{% endblock head %}
+		{% block extra_js %}
+		{% endblock %}
+	</head>
+	<body>
+		{% include "website/header.html" %}
+		{% block header %}
+		{% endblock header %}
+		{% if messages %}
+		<div class="row">
+			{% for message in messages %}
+			<script>
+			</script>
+			{% endfor %}
+		</div>
+		{% endif %}
+		<main>
+			{% block content %}
+			{% endblock content %}
+		</main>
+		{% include "website/delete.html" %}
+		{% block footer %}
+		{% include "website/footer.html" %}
+			<script>
+				M.AutoInit();
+			</script>
+		{% endblock footer %}
+	</body>
+</html>

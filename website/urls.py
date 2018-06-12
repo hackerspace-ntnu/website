@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^profile/', include('userprofile.urls')),
     url(r'^users/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
-    url(r'^kaffi/', include('koohii.urls')),
+    url(r'^kaffe/', include('kaffe.urls')),
 ]
 # Add wiki and notify urls
 urlpatterns += [

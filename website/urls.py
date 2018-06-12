@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^door/', include('door.urls')),
     url(r'^opptak/', include('applications.urls'), name='opptak'),
     url(r'^files/', include('files.urls')),
-    url(r'^inventory/', include('inventory.urls'), name='inventory'),
+    # url(r'^inventory/', include('inventory.urls'), name='inventory'),
     url(r'^groups/', include('committees.urls', namespace='verv')),
     url(r'^chaining/', include('smart_selects.urls')),
     url(r'^rpi/', include('rpi.urls')),

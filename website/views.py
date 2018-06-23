@@ -1,13 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
+from userprofile.models import Profile
 from authentication.templatetags import check_user_group as groups
 
 
 def showcase(request):
     return render(request, 'website/showcase.html')
+
+
+def tos(request):
+    return render(request, 'website/tos.html')
+
+def tosreturn(request):
+    return render(request, 'website/tos-returningls.html')
+
+def tosaccept(request):
+    profileobj = get_object_or_404(Profile, pk=request.user.profile.id)
+    if(profileobj != None):
+        profileobj.tos_accepted = True
+        profileobj.save()
+
+    return HttpResponseRedirect('/')
 
 
 def virtualreality(request):

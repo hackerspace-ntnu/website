@@ -175,6 +175,7 @@ if not DEBUG:
     MEDIA_ROOT = '../media'
 
 CKEDITOR_UPLOAD_PATH = "ck_uploads"
+CKEDITOR_BASEPATH = "ckeditor"
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
@@ -182,7 +183,6 @@ CKEDITOR_BROWSE_SHOW_DIRS = False
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'skin': 'material-design',
         'width': '100%',
         'toolbar': 'Custom',
         'toolbar_Custom': [
@@ -193,7 +193,6 @@ CKEDITOR_CONFIGS = {
         'extraPlugins': 'blockquote',
     },
     'committees': {
-        'skin': 'material-design',
         'width': '100%',
         'toolbar': 'Custom',
         'toolbar_Custom': [

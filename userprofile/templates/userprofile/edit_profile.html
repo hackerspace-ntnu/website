@@ -5,16 +5,16 @@
 <div class="section hs-green">
 	<div class="container">
 		<div class="row">
-			<div class="col s12 white-text center">
-				<h4>Endre brukerprofilen til {{ profile.user.get_full_name }}</h4>
+			<div class="col s12 white-text">
+				<h4>Innsillinger for {{ profile.user.get_full_name }}</h4>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="section no-pad-bot">
+<div class="section">
 	<div class="container">
 		<div class="row">
-			<div class="col s12">
+			<div class="col s12 center">
 				{% if profile.image %}
 				<img class="circle" src="{{ profile.image.url }}" height="300">
 				{% else %}
@@ -22,56 +22,95 @@
 				{% endif %}
 			</div>
 		</div>
-		<div class="row">
-			<form  enctype="multipart/form-data" method="post" action="" onchange="condOption()">
+		<form  enctype="multipart/form-data" method="post" action="">
+			{{ formset.management_form }}
+			<div class="row">
 				{% csrf_token %}
-				{{ formset.management_form }}
+				<div class="col s12">
+					<h5>Generell kontoinformasjon</h5>
+					<div class="divider"></div>
+					<br>
+				</div>
+				<div class="col s6 input-field">
+					{{ form.first_name }}
+					<label for="{{form.first_name.id_for_label }}">{{ form.first_name.label }}</input>
+				</div>
+				<div class="col s6 input-field">
+					{{ form.last_name }}
+					<label for="{{form.last_name.id_for_label }}">{{ form.last_name.label }}</input>
+				</div>
+				<div class="col s12 input-field">
+					{{ form.email }}
+					<label for="{{form.email.id_for_label }}">{{ form.email.label }}</input>
+				</div>
+				<div class="col s12">
+					<a target="_blank" class="btn btn-flat hs-green white-text" href="{% url 'password_change' %}">Endre passord</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col s12">
+					<h5>Profil</h5>
+					<div class="divider"></div>
+					<br>
+				</div>
 				{% for form in formset %}
+					{{ form.errors }}
 					{% for field in form.visible_fields %}
 						{% if field.label == "Profilbilde" %}
-							<div class="col s12">
+						<div class="col s12 file-field input-field">
+							<div class="btn hs-green white-text">
+								<span>Last opp profilbilde</span>
+								<input type="file">
 								{{ field }}
 							</div>
-							<div class="divider"></div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text">
+							</div>
+						</div>
+						<div class="divider"></div>
+						{% elif field.label == "Duty" %}
+						<div class="col s12 input-field" id="duty-section">
+							{{ field }}
+							<label for="{{field.id_for_label }}">{{ field.label }}</input>
+						</div>
+						{% elif field.label == "Auto duty" %}
+						<div class="col s12">
+							<p>
+							<label>
+								{{ field }}
+								<span id="autocheckbox">{{ field.label }}</span>
+							</label>
+							</p>
+						</div>
 						{% else %}
-							<div class="col s12 input-field">
-								{{ field }}
-								<label for="{{field.id_for_label }}">{{ field.label }}</input>
-							</div>
+						<div class="col s12 input-field">
+							{{ field }}
+							<label for="{{field.id_for_label }}">{{ field.label }}</input>
+						</div>
 						{% endif %}
-					{% endfor %}
-					{% for field in form.hidden_fields %}
-
-								{{ field }}
+						{% for hidden in form.hidden_fields %}
+						{{ hidden }}
+						{% endfor %}
 					{% endfor %}
 				{% endfor %}
-
-				{% for field in form %}
-					<div class="col s12 input-field">
-						{{ field }}
-						<label for="{{field.id_for_label }}">{{ field.label }}</input>
-					</div>
-				{% endfor %}
-				<input type="submit" value="Submit"/>
-			</form>
-		</div>
+			</div>
+			<input type="submit" value="Submit"/>
+		</form>
 	</div>
 </div>
+</div>
 <script>
-	var groupSelect = document.querySelector('#id_profile-0-group');
-	var nameGetter = document.querySelector('#id_profile-0-auto_name');
-	var vaktGetter = document.querySelector('#id_profile-0-duty');
-	var skillGetter = document.querySelector('#id_profile-0-skills');
-	var autoDutyGetter = document.querySelector('#id_profile-0-auto_duty');
-	var instance = M.FormSelect.init(groupSelect);
-	var instance = M.FormSelect.init(nameGetter);
-	var instance = M.FormSelect.init(vaktGetter);
-	var instance = M.FormSelect.init(skillGetter);
-	var instance = M.FormSelect.init(autoDutyGetter);
-	
+	var vaktGetter = document.querySelector('#duty-section');
+	var autoDutyGetter = document.querySelector('#autocheckbox');
 	autoDutyGetter.addEventListener('click', function() {
-		vaktGetter.hide();
+		if(vaktGetter.style.display === "none") {
+			vaktGetter.style.display = "block";
+		} else {
+			vaktGetter.style.display = "none";
+		}
 	});
+	M.AutoInit();
 </script>
 {% endblock %}
 

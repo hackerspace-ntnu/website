@@ -78,10 +78,11 @@ INSTALLED_APPS = [
     'dal',
     'dal_select2',
     'rpi',
-    'inventory',
+    # 'inventory',
     'userprofile',
     'vaktliste',
-    'koohii',
+    'material',
+    'kaffe'
 ]
 
 

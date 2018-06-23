@@ -54,17 +54,11 @@
 							{% endif %}
 						</div>
 					</li>
-					<div class="container">
-						<div class="search-wrapper center-valign-wrapper ">
-							<input class="validate" id="search" placeholder="Søk">
-						</div>
-					</div>
 					<li><a class="waves-effect" href="/">Hjem</a></li>
 					<li><a class="waves-effect" href="/news/">Nyheter</a></li>
 					<li><a class="waves-effect" href="/events/">Arrangementer</a></li>
 					<li><a class="waves-effect" href="/wiki">Wiki</a></li>
 					<li><a class="waves-effect" href="/about">Om Oss</a></li>
-					<li><a class="waves-effect" href="{% url 'inventory:index' %}">Inventar</a></li>
 
 					<li><div class="divider"></div></li>
 					{% if user.is_authenticated %}
@@ -93,14 +87,8 @@
 						<li class="tooltipped" data-position="left" data-tooltip="På wikien finner du en haug informasjon">
 						<a href="/wiki">WIKI</a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Inventar-siden benyttes til utlån av utstyr.">
-						<a href="{% url 'inventory:index' %}">INVENTAR</a>
-						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 						<a href="/about">OM OSS</a>
-						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Våre prosjekter som vi reklamerer ekstra godt for">
-						<a href="/showcase/">SHOWCASE</a>
 						</li>
 					</ul>
 				</ul>

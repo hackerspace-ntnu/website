@@ -7,7 +7,10 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text">
-				<h4>{{ profile.user.get_full_name }}</h4>
+				<h4>Brukerprofilen til {{ profile.user.get_full_name }}</h4>
+				{% if user == profile.user %}
+				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Innstillinger</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -17,7 +20,7 @@
 		<div class="row">
 			<div class="col s6">
 				{% if profile.image %}
-				<img class="circle" src="{{ profile.image.url }}" height="300">
+				<img class="circle" src="{{ profile.image.url }}">
 				{% else %}
 				<img class="circle" src="{% static 'website/img/misc/default.png' %}" height="300">
 				{% endif %}
@@ -34,16 +37,15 @@
 				{% endif %}
 				{% if profile.skills %}
 				{% for skill in profile.skills.all %}
-				<a href="/members/skill/{{ skill.title }}">
-					{{ skill.title }}
+				<a href="{% url 'userprofile:skill' skill_title=skill.title %}">
 					{% if skill.icon %}
-					<img class="chip-img" src="/media/{{ skill.icon }}" alt="Skill tag">
+					<div class="chip">
+						<img src="{{ skill.icon.url }}" alt="Skill tag">
+						{{ skill.title }}
+					</div>
 					{% endif %}
 				</a>
 				{% endfor %}
-				{% endif %}
-				{% if user == profile.user %}
-				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-large waves-effect waves-light white hs-gray-text">Innstillinger</a>
 				{% endif %}
 			</div>
 		</div>

@@ -19,12 +19,16 @@
 				<div class="input-field col s12">
 					<i class="material-icons prefix">account_circle</i>
 					{{ form.username }}
-					<label for="{{ form.username.id_for_label }}" data-error="{{ form.username.errors | striptags }}"> {{ form.username.label }} </label>
+					<label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+					{% for error in form.username.errors %}
+					<span class="helper-text" data-error="{{ error | escape }}"></span>
+					{% endfor %}
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">perm_identity</i>
 					{{ form.first_name }}
-					<label for="{{ form.first_name.id_for_label }}" data-error="{{ form.first_name.errors | striptags }}"> {{ form.first_name.label }} </label>
+					<label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+					<span class="helper-text" data-error="{{ form.first_name.errors | striptags }}"></span>
 				</div>
 				<div class="input-field col s6">
 					{{ form.last_name }}
@@ -33,16 +37,19 @@
 				<div class="input-field col s12">
 					<i class="material-icons prefix">email</i>
 					{{ form.email }}
-					<label for="{{ form.email.id_for_label }}" data-error="{{ form.email.errors | striptags }}"> {{ form.email.label }} </label>
+					<label for="{{ form.email.id_for_label }}"> {{ form.email.label }} </label>
+					<span class="helper-text" data-error="{{ form.email.errors | striptags }}"></span>
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">vpn_key</i>
 					{{ form.password1 }}
-					<label for="{{ form.password1.id_for_label }}" data-error="{{ form.password1.errors | striptags }}"> {{ form.password1.label }} </label>
+					<label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label> 
+					<span class="helper-text" data-error="{{ form.password1.errors | striptags }}"></span>
 				</div>
 				<div class="input-field col s6">
 					{{ form.password2 }}
-					<label for="{{ form.password2.id_for_label }}" data-error="{{ form.password2.errors | striptags }}"> {{ form.password2.label }} </label>
+					<label for="{{ form.password2.id_for_label }}"> {{ form.password2.label }} </label>
+					<span class="helper-text active" data-error="{{ form.password2.errors | striptags }}"></span>
 				</div>
 				<button id="signUpButton" class="btn waves-effect waves-light" type="submit" name="action">Registrer</button>
 			</div>

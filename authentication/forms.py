@@ -30,6 +30,8 @@ class SignUpForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'class' : 'validate' }),
                                 error_messages=default_error_messages)
 
+    tos_accept = forms.BooleanField(label="Jeg er kjent med og godtar innholdet i samtykkeerklæringen", required=True)
+
     def is_valid(self):
         ret = forms.Form.is_valid(self)
         for f in self.errors:

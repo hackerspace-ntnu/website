@@ -7,7 +7,7 @@ from django.views.static import serve as static_serve
 from wiki.urls import get_pattern as get_wiki_pattern
 from django_nyt.urls import get_pattern as get_notify_pattern
 
-from website.views import index, test, calendar, about, showcase, virtualreality
+from website.views import index, test, calendar, about, showcase, virtualreality, tos, tosreturn, tosaccept
 
 handler404 = 'website.views.handler404'
 handler500 = 'website.views.handler500'
@@ -15,6 +15,9 @@ handler500 = 'website.views.handler500'
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^showcase/$', showcase, name='showcase'),
+    url(r'^tos/$', tos, name='tos'),
+    url(r'^tos/returning-user/', tosreturn, name='tos'),
+    url(r'^tos/accept/', tosaccept, name='tos'),
     url(r'^showcase/vr/', virtualreality, name='vr'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt',

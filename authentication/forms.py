@@ -14,13 +14,13 @@ default_error_messages = {'required': 'Feltet må fylles ut',
 
 
 class SignUpForm(UserCreationForm):
+    error_css_class = 'invalid'
     username = forms.CharField(max_length=50,
                                label="Username",
                                widget=forms.TextInput(attrs={'class' : 'validate' }),
                                error_messages=default_error_messages)
     email = forms.EmailField(max_length=50,
                              label="Email",
-                             widget=forms.TextInput(),
                              error_messages=default_error_messages)
     first_name = forms.CharField(max_length=50,
                                  label="First name",
@@ -30,8 +30,17 @@ class SignUpForm(UserCreationForm):
                                 widget=forms.TextInput(attrs={'class' : 'validate' }),
                                 error_messages=default_error_messages)
 
+    tos_accept = forms.BooleanField(label="Jeg er kjent med og godtar innholdet i samtykkeerklæringen", required=True)
+
+    def is_valid(self):
+        ret = forms.Form.is_valid(self)
+        for f in self.errors:
+            self.fields[f].widget.attrs.update({'class': self.fields[f].widget.attrs.get('class', '') + ' invalid'})
+        return ret
+
     def clean_email(self):
         email = self.cleaned_data.get("email")
+
         # Checks if the email is already registered
         if User.objects.filter(email=email).exists():
             self.add_error('email', 'Mailen er allerede registrert')
@@ -59,11 +68,11 @@ class SignUpForm(UserCreationForm):
         if commit:
             user.save()
 
-        plain_message = render_to_string('signup_mail.txt', {
+        plain_message = render_to_string('authentication/signup_mail.txt', {
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': default_token_generator.make_token(user)}
         )
-        html_message = render_to_string('signup_mail.html', {
+        html_message = render_to_string('authentication/signup_mail.html', {
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': default_token_generator.make_token(user)}
         )

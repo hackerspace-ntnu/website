@@ -1,5 +1,11 @@
 {% load staticfiles %}
 {% load loginmodal %}
+{% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
+	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
+	{% else %}
+		<meta http-equiv="refresh" content="1;url=/tos/returning-user/">
+	{% endif %}
+{% endif %}
 <header>
 	<div class="navbar-fixed">
 		<nav>

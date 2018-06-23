@@ -1,5 +1,11 @@
 {% load staticfiles %}
 {% load loginmodal %}
+{% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
+	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
+	{% else %}
+		<meta http-equiv="refresh" content="1;url=/tos/returning-user/">
+	{% endif %}
+{% endif %}
 <header>
 	<div class="navbar-fixed">
 		<nav>
@@ -48,6 +54,11 @@
 							{% endif %}
 						</div>
 					</li>
+					<div class="container">
+						<div class="search-wrapper center-valign-wrapper ">
+							<input class="validate" id="search" placeholder="Søk">
+						</div>
+					</div>
 					<li><a class="waves-effect" href="/">Hjem</a></li>
 					<li><a class="waves-effect" href="/news/">Nyheter</a></li>
 					<li><a class="waves-effect" href="/events/">Arrangementer</a></li>

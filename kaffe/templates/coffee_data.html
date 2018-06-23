@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/door_data.css" %}">
+{% endblock head %}
+
+{% block content %}
+    <div id="content">
+        <h1>Sist brygget:</h1>
+	<p>Finn: {{ finn.datetime|time:"H:i" }} {{ finn.datetime|date:"d/m/Y" }}</p>
+	<p>Mathias: {{ mathias.datetime|time:"H:i" }} {{ mathias.datetime|date:"d/m/Y" }}</p>
+
+        <h1>Kaffe-data:</h1>
+        {% if coffee_data_list %}
+            {% for coffeedata in coffee_data_list %}
+                <p>
+		Brygget for "{{ coffeedata.pot }}": {{ coffeedata.brewed|time:"H:i" }} {{ coffeedata.brewed|date:"d/m/Y" }}<br>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock content %}

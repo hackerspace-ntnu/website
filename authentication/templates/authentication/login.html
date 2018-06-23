@@ -19,11 +19,17 @@
 			</div>
 			<form action="" method="post">
 				{% csrf_token %}
+				{% if form.non_field_errors %}
+				{% for error in form.non_field_errors %}
+				{{ error }}
+				{% endfor %}
+				{% endif %}
 				<div class="row">
 					<div class="input-field col push-s2 pull-s2 s8">
 						<p>{{ form.username.errors }}</p>
 						{{ form.username }}
 						<label for="{{ form.username.id_for_label }}">Brukernavn</label>
+						<span class="help-text" data-error="{{ form.username.errors }}"></span>
 					</div>
 				</div>
 				<div class="row">
@@ -31,6 +37,7 @@
 						<p>{{ form.password.errors }}</p>
 						{{ form.password }}
 						<label for="{{ form.password.id_for_label }}">Passord</label>
+						<span class="help-text" data-error="{{ form.password.errors }}"></span>
 					</div>
 				</div>
 				<div class="row">

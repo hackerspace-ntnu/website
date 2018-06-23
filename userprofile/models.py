@@ -78,6 +78,7 @@ class Profile(models.Model):
     duty = models.ManyToManyField(DutyTime, related_name="duty", blank=True)
 
     auto_duty = models.BooleanField(default=True)
+    tos_accepted = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if self.image:
@@ -113,4 +114,4 @@ class Profile(models.Model):
 @receiver(post_save, sender=User, dispatch_uid="create_profile_on_user_create")
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance, auto_duty=False)
+        Profile.objects.create(user=instance, auto_duty=False, tos_accepted=True)

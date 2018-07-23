@@ -1,0 +1,47 @@
+{# <a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a> #}
+<div class="modal" id="uploadModal">
+		<div class="modal-content">
+			<form method="POST" name="uploadform" id="uploadForm" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="input-field col s12">
+				{{ UploadForm.title }}
+				<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
+			</div>
+			<div class="input-field col s12">
+				{{ UploadForm.description }}
+				<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
+			</div>
+			<div class="input-field col s12">
+				{{ UploadForm.file }}
+				<label for="{{ UploadForm.file.id_for_label }}">{{ UploadForm.file.label }}</label>
+			</div>
+			<button type="button" class="btn" id="uploadBtn">Upload</a>
+			</form>
+		</div>
+</div>
+<script>
+	var submitBtn = document.querySelector('#uploadBtn');
+	submitBtn.addEventListener('click', function(e) {
+		e.preventDefault();
+		var form = document.querySelector('#uploadForm');
+		var formData = new FormData(form);
+		console.log(formData);
+		$.ajax({
+			type:'POST',
+			url: "/files/image-upload/",
+			headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+			data: formData,
+			contentType: false,
+			processData: false,
+			success: function(response){
+				console.log("Trying to append");
+				console.log(response);
+				$('.imageList').prepend(response);
+			},
+			error: function(response) {
+				console.log("It was no success");
+				console.log(response);
+			}
+		});
+	});
+</script>

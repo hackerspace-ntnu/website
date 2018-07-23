@@ -1,0 +1,25 @@
+<div class="col s4">
+	<div class="card">
+		<div class="card-image waves-effect">
+			<img class="activator thumb-img" src="{{ image.url }}" />
+		</div>
+		<div class="card-content">
+			<span class="card-title activator">{{ image.title }}<i class="material-icons right">more_vert</i></span>
+			<p>
+			{{ image.number }}
+			{{ image.time|date:"M d, Y, H:i:s" }}
+			</p>
+		</div>
+		<div class="card-reveal">
+			<span class="card-title">Valg<i class="material-icons right">close</i></span>
+			<div class="divider"></div>
+			<br>
+			<ul>
+				<li> <a class="waves-effect waves-light btn previewButton blue">Preview</a></li>
+				<li><a class="waves-effect waves-light btn selectButton green" value="{{ image.id }}">Select</a></li>
+				<li><a class="waves-effect waves-light btn editButton orange" href="/files/image/{{ image.id }}/edit">Edit</a></li>
+				<li><a url="/files/image/{{ image.id }}/delete/" class="waves-effect waves-light btn delete deleteButton red">Delete</a></li>
+			</ul>
+		</div>
+	</div>
+</div>

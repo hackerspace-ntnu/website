@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load check_user_group %}
 {% load picker_modal %}
+{% load modal_upload %}
 
 
 {% block head %}
@@ -20,7 +21,7 @@
 <div class="section block">
 	<div class="container">
 		<div class="row">
-			<form action="" method="post">
+			<form action="" method="post" novalidate>
 				{% csrf_token %}
 				{{ form.title.errors }}
 				<div class="input-field col s12">
@@ -49,18 +50,19 @@
 					<div class="input-field">
 						<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
 					</div>
+					<input id="fileInput" type="hidden">
 					<div id="thumbnailPicker" class="modal">
 						<div class="modal-content">
-							{% ImageModal request %}
+							{% ImagePickModal request %}
 						</div>
 					</div>
-					<i class="material-icons prefix">photo_library</i>
-					<label for="thumb-preview">Thumbnail</label>
+					<a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
 					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
 					</div>
 				<div>
 				<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
 			</form>
+			{% UploadModal request %}
 		</div>
 		{% endif %}
 	</div>
@@ -72,20 +74,8 @@ var instance = M.Modal.init(thumbModal);
 var selectButtons = document.querySelector('.selectButton');
 var thumbnail_input = document.querySelector('#id_thumbnail');
 var thumb_preview = document.querySelector('#thumb-preview');
-var fileInput = document.querySelector('#fileInput');
 
 
-
-fileInput.addEventListener('change', function(e) {
-	$.ajax({
-		type:'POST',
-		url: "files/image-upload",
-		data: fileInput.files[0],
-		success: function(response){
-			console.log(response);
-		},
-	});
-});
 document.addEventListener('click', function(e) {
 	console.log(e);
 	if(e.target.innerText == "SELECT") {

@@ -24,9 +24,17 @@
 						<li id="resources"><a class="trigger-resources" href="/" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
 						{% if user.is_authenticated %}
 								{% if user.profile.image %}
-								<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{{ user.profile.image.url }}"></a></li>
+								<li>
+									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> 
+										<img class="center circle" src="{{ user.profile.image.url }}" />
+									</a>
+								</li>
 								{% else %}
-								<li><a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> <img class="center circle" src="{% static 'website/img/misc/default.png' %}"></a></li>
+								<li>
+									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> 
+										<img class="center circle" src="{% static 'website/img/misc/default.png' %}" />
+									</a>
+								</li>
 								{% endif %}
 						{% else %}
 						<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load check_user_group %}
 {% load picker_modal %}
+{% load modal_upload %}
 
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -78,8 +79,8 @@
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">event_available</i>
-					<input id="{{ form.registration_start_date.id_for_label }}" class="datepicker-start" name="registration_start_date" value="{{ form.registration_start_date.value }}">
-					<label class="active" for="{{ form.registration_start_date.id_for_label }}">{{ form.registration_start_date.label }}</label>
+					<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
+					<label class="active" for="{{ form.registration_start.id_for_label }}">{{ form.registration_start.label }}</label>
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">hourglass_empty</i>
@@ -88,8 +89,8 @@
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">event_busy</i>
-					<label for="{{ form.deregistration_end_date.id_for_label }}">{{ form.deregistration_end_date.label }}</label>
-					<input type="text" id="{{ form.deregistration_end_date.id_for_label }}" class="datepicker-end" name="deregistration_end_date" value="{{ form.deregistration_end_date.value }}" />
+					<label for="{{ form.deregistration_end.id_for_label }}">{{ form.deregistration_end.label }}</label>
+					<input type="text" id="{{ form.deregistration_end.id_for_label }}" class="no-autoinit datepicker" name="deregistration_end" value="{{ form.deregistration_end.value }}" />
 				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">hourglass_full</i>
@@ -101,24 +102,33 @@
 				{{ form.internal.errors }}
 				<div class="col s12">
 					<i class="material-icons prefix">card_membership</i>
-					<input type="checkbox" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
-					<label for="internal-box">{{ form.internal.label }}</label>
-					<br><br><br>
+					<p>
+						<i class="material-icons prefix">group_add</i>
+						<label>
+							<input type="checkbox" id="internal-check" name="internal" value="{{ form.internal.value }}"/>
+							<span for="registration-check">{{ form.internal.label }}</span>
+						</label>
+					</p>
 				</div>
 				<div class="input-field col s6">
-					<i class="material-icons prefix">access_time</i>
-					{{ form.time_start }}
-					<label for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">weekend</i>
-					{{ form.time_end }}
-					<label for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
-				</div>
-				<div class="input-field col s12">
 					<i class="material-icons prefix">date_range</i>
-					<input type="text" id="{{ form.date.id_for_label }}" class="datepicker" name="date" value="{{ form.date.value }}">
-					<label for="{{ form.date.id_for_label }}">{{ form.date.label }}</label>
+					<input id="{{ form.time_start.id_for_label }}" class="no-autoinit datepicker" name="time_start" value="{{ form.time_start.value }}">
+					<label class="active" for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
+				</div>
+				<div class="input-field col s6">
+					<i class="material-icons prefix">hourglass_full</i>
+					<input type="text" id="{{ form.event_start_time.id_for_label }}" name="event_start_time" value="{{ form.event_start_time.value }}">
+					<label for="{{ form.event_start_time.id_for_label }}">{{ form.event_start_time.label }}</label>
+				</div>
+				<div class="input-field col s6">
+					<i class="material-icons prefix">date_range</i>
+					<input id="{{ form.time_end.id_for_label }}" class="no-autoinit datepicker" name="time_end" value="{{ form.time_end.value }}">
+					<label class="active" for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
+				</div>
+				<div class="input-field col s6">
+					<i class="material-icons prefix">hourglass_empty</i>
+					<input type="text" id="{{ form.event_end_time.id_for_label }}" name="event_end_time" value="{{ form.event_end_time.value }}">
+					<label for="{{ form.event_end_time.id_for_label }}">{{ form.event_end_time.label }}</label>
 				</div>
 			</div>
 			<div class="row">
@@ -129,11 +139,10 @@
 				<div class="col s12">
 					<div id="thumbnailPicker" class="modal">
 						<div class="modal-content">
-							{% ImageModal request %}
+							{% ImagePickModal request %}
 						</div>
 					</div>
-					<i class="material-icons prefix">photo_library</i>
-					<label for="thumb-preview">Thumbnail</label>
+					<a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
 					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
 					</div>
 				</div>
@@ -155,17 +164,17 @@
 
 			<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
 		</form>
+		{% UploadModal request %}
 	</div>
 </div>
 {% endif %}
 
 <script>
-	var startDate = document.querySelector('.datepicker-start');
-	var endDate = document.querySelector('.datepicker-end');
-	var select = document.querySelector('.datepicker-end');
-	var instance = M.Datepicker.init(endDate);
-	var instance = M.Datepicker.init(startDate);
-	var instance = M.Datepicker.init(select);
+	var datepickers = document.querySelectorAll('.datepicker');
+	options = {
+		format: 'yyyy-mm-dd'
+	}
+	var instance = M.Datepicker.init(datepickers, options);
 
 	var registrationCheck = document.getElementById('registration-check');
 	var registrationBox = document.getElementById('registration-box');

@@ -4,8 +4,8 @@ from django.utils import formats
 from django.utils import timezone
 from datetime import datetime, timedelta
 from . import log_changes
-from .forms import ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm, EventForm
-from .models import Event, Article, Upload, EventRegistration
+from .forms import ArticleEditForm, EventRegistrationForm, AttendeeForm, EventForm
+from .models import Event, Article, EventRegistration
 from itertools import chain
 from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.admin import User
@@ -121,16 +121,18 @@ def edit_event(request, event_id):
         if form.is_valid():
             # Create new event (ID = 0) or update existing event (ID != 0)
             form.save()
-            log_changes.change(request, event)
-            return HttpResponseRedirect('/events/' + str(event.id) + '/')
+            return HttpResponseRedirect('/events/' + event_id + '/')
     else:
-        event = get_object_or_404(Event, pk=event_id)
         # Set values for edit-form
-        form = EventForm(instance=event, initial = {
-            'time_start': datetime.strftime(event.time_start.date(), '%Y-%m-%d'),
-            'time_end': datetime.strftime(event.time_end.date(), '%Y-%m-%d'),
-            'event_start_time': event.time_start.time(),
-            'event_end_time': event.time_end.time()
+        form = EventForm(instance=instance, initial = {
+            'time_start': datetime.strftime(instance.time_start.date(), '%Y-%m-%d'),
+            'time_end': datetime.strftime(instance.time_end.date(), '%Y-%m-%d'),
+            'event_start_time': instance.time_start.time(),
+            'event_end_time': instance.time_end.time(),
+            'registration_start_time': instance.registration_start.time(),
+            'registration_start': datetime.strftime(instance.registration_start.date(), '%Y-%m-%d'),
+            'deregistration_end': datetime.strftime(instance.deregistration_end.date(), '%Y-%m-%d'),
+            'deregistration_end_time': instance.deregistration_end.time()
         })
 
     context = {
@@ -208,43 +210,9 @@ def delete_event(request, event_id):
     return HttpResponseRedirect('/events/')
 
 
-def upload_file(request):
-    if request.method == 'POST':
-        form = UploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            title = str(form.cleaned_data['title']).replace(" ", "_")
-            file = request.FILES['file']
-            number = 0
-
-            for element in Upload.objects.order_by('-time'):
-                if title == element.title:
-                    number = element.number + 1
-                    break
-
-            ext = file.name.split(".")[-1:][0]
-            file.name = "/upload/" + title + "_" + str(number) + "." + ext
-            instance = Upload(file=file, title=title, time=timezone.now(), number=number)
-            instance.save()
-            return HttpResponseRedirect('/news/upload-done')
-    else:
-        form = UploadForm(initial={
-            'title': '',
-            'file': '',
-        })
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'news/upload.html', context)
-
-
-def upload_done(request):
-    return render(request, 'news/upload_done.html')
-
-
 @login_required
 def register_on_event(request, event_id):
-    event_object = get_object_or_404(Event, pk=get_id_or_404(event_id))
+    event_object = get_object_or_404(Event, pk=event_id)
     now = timezone.now()
     try:
         er = EventRegistration.objects.get(user=request.user, event=event_object)
@@ -254,7 +222,7 @@ def register_on_event(request, event_id):
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
-    return HttpResponseRedirect("/events/%i" % event_object.id)
+    return HttpResponseRedirect("/events/" + event_id)
 
 
 def event_attendees(request, event_id):

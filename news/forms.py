@@ -80,13 +80,6 @@ class EventForm(forms.ModelForm):
         if 'deregistration_end' in form_data: del form_data['deregistration_end']
         if 'deregistration_end_time' in form_data: del form_data['deregistration_end_time']
 
-        # Verify dates
-        if form_data['registration']:
-            if not form_data['registration_start'] <= form_data['deregistration_end']:
-                raise ValidationError({'registration_start_time': 'Ugyldige datoer, påmending må åpne før avmelding slutter'}, code='invalid')
-            if not form_data['deregistration_end'] <= form_data['time_start']:
-                raise ValidationError({'time_start': 'Ugyldige datoer, avmelding må slutte før eventen starter'}, code='invalid')
-
 
         return form_data
 
@@ -97,12 +90,6 @@ class ArticleEditForm(forms.Form):
     main_content = forms.CharField(widget=CKEditorUploadingWidget(), label='Artikkel', required=False)
     thumbnail = forms.CharField(max_length=100, label='Miniatyrbilde', required=False)
     internal = forms.BooleanField(label="Intern", required=False)
-
-
-
-class UploadForm(forms.Form):
-    title = forms.CharField(max_length=50)
-    file = forms.FileField()
 
 
 class EventRegistrationForm(forms.Form):

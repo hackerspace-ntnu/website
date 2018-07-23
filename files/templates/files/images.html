@@ -29,34 +29,6 @@
 		{% endfor %}
 	</div>
 </div>
-<script>
-	$(".imageItem").click(function() {
-		if ($(this).hasClass("selected")) {
-			$(".imageItem").removeClass("selected");
-			$(".actions").css("display", "none");
-		} else {
-			$(".imageItem").removeClass("selected");
-			$(".actions").css("display", "none");
-			$(this).addClass("selected");
-			$(this).children(".actions").css("display", "inline");
-		}
-	});
-
-	$("#upload").click(function() {
-		uploadWindow = window.open('/files/image-upload/');
-	});
-
-	$(".selectButton").click(function() {
-		var src = $(this).attr("selectImage");
-		var id = $(this).attr("selectID");
-		window.opener.selectThumnail(src, id);
-	});
-
-	function doneUploading(src) {
-		uploadWindow.close();
-		location.reload();
-	}
-</script>
 
 {% include 'website/delete.html' %}
 {% endblock content %}

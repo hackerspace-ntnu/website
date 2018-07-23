@@ -34,10 +34,9 @@ def imageUpload(request):
         if form.is_valid():
             image = form.save(commit = False)
             image.save()
-            return render_image(image)
+            return ajax_return_last_image(request)
         else:
             return HttpResponse(form.errors)
-
     else:
         return HttpResponseRedirect('/')
 

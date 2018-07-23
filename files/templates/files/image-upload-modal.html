@@ -30,15 +30,12 @@
 			$.ajax({
 				type:'POST',
 				url: "/files/image-upload/",
-				headers: {'X-CSRFToken': '{{ csrf_token }}'},
 				data: formData,
-				dataType: "json",
 				contentType: false,
 				processData: false,
 				success: function(response){
 					console.log("Trying to append");
-					var imageList = document.querySelector('.imageList');
-					imageList.append(response);
+					$('.imageList').prepend(response);
 				},
 				error: function(response) {
 					console.log(response);

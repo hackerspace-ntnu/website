@@ -30,7 +30,7 @@ def images(request):
 @login_required()
 def imageUpload(request):
     if request.method == 'POST':
-        form = ImageForm(request.POST, request.FILES)
+        form = ImageForm(request.POST, request.FILES, prefix='img')
         if form.is_valid():
             image = form.save(commit = False)
             image.save()

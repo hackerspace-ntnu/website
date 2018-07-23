@@ -35,7 +35,7 @@ class Article(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name='Tittel')
     main_content = RichTextUploadingField(blank=True, verbose_name='Artikkel')
-    ingress_content = RichTextUploadingField(blank=True, verbose_name='Ingress')
+    ingress_content = models.CharField(max_length=30, blank=True, verbose_name='Ingress')
     pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True, )
 
@@ -44,7 +44,7 @@ class Event(models.Model):
     max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Max påmeldte')
     registration_start = models.DateTimeField(default=timezone.now, verbose_name='Registrering start')
     deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avregistrering slutt')
-    external_registration = models.CharField(max_length=200, default='', verbose_name='Ekstern påmelding url')
+    external_registration = models.CharField(blank=True, max_length=200, default='', verbose_name='Lenke for ekstern påmelding')
 
     time_start = models.DateTimeField(verbose_name='Start tidspunkt')
     time_end = models.DateTimeField(verbose_name='Slutt tidspunkt')

@@ -4,7 +4,7 @@ from django.utils import formats
 from django.utils import timezone
 from datetime import datetime, timedelta
 from . import log_changes
-from .forms import EventEditForm, ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm
+from .forms import ArticleEditForm, UploadForm, EventRegistrationForm, AttendeeForm, EventForm
 from .models import Event, Article, Upload, EventRegistration
 from itertools import chain
 from authentication.templatetags import check_user_group as groups
@@ -86,69 +86,52 @@ def article(request, article_id):
     return render(request, 'news/article.html', context)
 
 
-def edit_event(request, event_id):
-    event_id = get_id_or_404(event_id)
+def NewEvent(request):
     if request.method == 'POST':  # Post form
-        form = EventEditForm(request.POST)
+        form = EventForm(request.POST)
         if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/events/' + str(event.id) + '/')
 
+    else:
+        # No event to edit, set data to default
+        # Set initial values
+        today = datetime.strftime(timezone.now(), '%Y-%m-%d')
+        form = EventForm(initial={
+            'event_start_time': '00:00',
+            'time_start': today,
+            'event_end_time': '00:00',
+            'time_end': today,
+            'registration_start_time': '00:00',
+            'registration_start': today,
+            'deregistration_end': today,
+            'deregistration_end_time': '00:00',
+        })
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'news/edit_event.html', context)
+
+def edit_event(request, event_id):
+    instance = get_object_or_404(Event, pk=event_id)
+    if request.method == 'POST':  # Post form
+        form = EventForm(request.POST, instance=instance)
+        if form.is_valid():
             # Create new event (ID = 0) or update existing event (ID != 0)
-            if event_id:
-                event = get_object_or_404(Event, pk=event_id)
-            else:
-                event = Event()
-
-            for attr in form.cleaned_data:
-                setattr(event, attr, form.cleaned_data[attr])
-
-
-            event.save()
-
+            form.save()
             log_changes.change(request, event)
-
             return HttpResponseRedirect('/events/' + str(event.id) + '/')
     else:
-        if event_id:
-            event = get_object_or_404(Event, pk=event_id)
-
-            try:
-                thumb_id = event.thumbnail.id
-            except AttributeError:
-                thumb_id = 0
-
-            # Set values for edit-form
-            form = EventEditForm(initial={
-                'title': event.title,
-                'ingress_content': event.ingress_content,
-                'main_content': event.main_content,
-                'thumbnail': thumb_id,
-                'max_limit': event.max_limit,
-                'registration': event.registration,
-                'internal': event.internal,
-                'place': event.place,
-                'place_href': event.place_href,
-                'time_start': datetime.strftime(event.time_start, '%H:%M'),
-                'time_end': datetime.strftime(event.time_end, '%H:%M'),
-                'date': datetime.strftime(event.time_start, '%d %B, %Y'),
-                'external_registration': event.external_registration,
-                'deregistration_end_date': datetime.strftime(event.deregistration_end, '%d %B, %Y'),
-                'deregistration_end_time': datetime.strftime(event.deregistration_end, '%H:%M'),
-                'registration_start_date': datetime.strftime(event.registration_start, '%d %B, %Y'),
-                'registration_start_time': datetime.strftime(event.registration_start, '%H:%M'),
-            })
-        else:
-            # No event to edit, set data to default
-            # Set initial values
-            today = datetime.strftime(timezone.now(), '%d %B, %Y')
-            form = EventEditForm(initial={
-                'time_start': '00:00',
-                'time_end': '00:00',
-                'date': today,
-                'registration_start_time': '00:00',
-                'registration_start_date': today,
-                'deregistration_end_time': '00:00',
-                'deregistration_end_date': today,
-            })
+        event = get_object_or_404(Event, pk=event_id)
+        # Set values for edit-form
+        form = EventForm(instance=event, initial = {
+            'time_start': datetime.strftime(event.time_start.date(), '%Y-%m-%d'),
+            'time_end': datetime.strftime(event.time_end.date(), '%Y-%m-%d'),
+            'event_start_time': event.time_start.time(),
+            'event_end_time': event.time_end.time()
+        })
 
     context = {
         'form': form,

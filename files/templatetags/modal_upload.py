@@ -8,7 +8,7 @@ register = template.Library()
 @register.inclusion_tag('files/image-upload-modal.html')
 def UploadModal(request):
     if request.method == 'POST':
-        return {'UploadForm': ImageForm(request.POST, request.FILES, prefix='img')}
+        return {'UploadForm': ImageForm(request.POST, request.FILES)}
     else:
         form = ImageForm()
-    return {'UploadForm': ImageForm(prefix='img')}
+    return {'UploadForm': ImageForm(prefix="img")}

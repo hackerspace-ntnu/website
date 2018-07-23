@@ -41,6 +41,7 @@ main {
 /* Fix personlig profilbilde i navbaren */
 .dropdown-trigger-user img {
 	height: 64px;
+	width: 32px;
 	padding-bottom: 16px;
 	padding-top: 16px; 
 }

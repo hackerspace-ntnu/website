@@ -21,7 +21,7 @@
 <div class="section block">
 	<div class="container">
 		<div class="row">
-			<form action="" method="post">
+			<form action="" method="post" novalidate>
 				{% csrf_token %}
 				{{ form.title.errors }}
 				<div class="input-field col s12">
@@ -47,17 +47,6 @@
 				</div>
 				<div class="col s12">
 					{{ form.thumbnail.errors }}
-					<form action="#">
-						<div class="file-field input-field">
-							<div class="btn">
-								<span>File</span>
-								<input id="fileInput" type="file">
-							</div>
-							<div class="file-path-wrapper">
-								<input class="file-path validate" type="text">
-							</div>
-						</div>
-					</form>
 					<div class="input-field">
 						<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
 					</div>
@@ -68,8 +57,6 @@
 						</div>
 					</div>
 							{% UploadModal request %}
-					<i class="material-icons prefix">photo_library</i>
-					<label for="thumb-preview">Thumbnail</label>
 					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
 					</div>
 				<div>

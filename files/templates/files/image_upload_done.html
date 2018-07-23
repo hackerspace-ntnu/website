@@ -1,13 +1,22 @@
-{% extends 'website/base.html' %}
-{% load staticfiles %}
+<a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Upload</a>
+<div class="modal" id="uploadModal">
+	<div class="modal-content">
+		<form class="row" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="input-field col s12">
+				{{ UploadForm.title }}
+				<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
+			</div>
+			<div class="input-field col s12">
+				{{ UploadForm.description }}
+				<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
+			</div>
+			<div class="input-field col s12">
+				{{ UploadForm.file }}
+				<label for="{{ UploadForm.file.id_for_label }}">{{ UploadForm.file.label }}</label>
+			</div>
+			<button type="submit">Upload</button>
+		</form>
+	</div>
 
-{% block head %}
-{% endblock head %}
-
-{% block content %}
-  <script>
-    $(function(){
-      window.opener.doneUploading("{{ src }}");
-    });
-  </script>
-{% endblock content %}
+</div>

@@ -57,10 +57,8 @@
 					</p>
 				</div>
 				<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
-						<span class="right badge">Starter {{ event.time_start }}</span>
-						<a href="/events/{{ event.id }}/">
-							<h5 class="no-margin truncate">
-								{{ event.title }}</h5></a>
+					<a href="/events/{{ event.id }}/"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+					<p class="badge"><i>Starter {{ event.time_start }}</i><br></p>
 					<p>
 						{% autoescape off %}
 						{{ event.ingress_content|truncatechars:150 }}

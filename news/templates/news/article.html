@@ -6,45 +6,38 @@
 {% endblock header %}
 
 {% block content %}
-<div class="parallax-container" style="height:400px">
+<img class="header-image" src="{{ article.thumbnail.url }}" />
+<div class="section hs-green">
+	<div class="container">
+		<div class="card-panel cut-top z-depth-2">
+			<div class="row">
+				<div class="col s12">
+					<h2>{{ article.title }}</h2>
+					<p>{{ article.pub_date }}</p>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div class="row">
+				<div class="col s12">
+					{% autoescape off %}
+					<p class="ingress">{{ article.ingress_content }}</p>
+					{{ article.main_content }}
+					{% endautoescape %}
+				</div>
+			</div>
+		</div>
+	</div>
 	{% if request.user|has_group:"member" %}
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
 				<ul class='collection'>
 					<li class="collection-item"><a href="/news/{{ article.id }}/edit"><i class="material-icons">edit</i>Rediger artikkel</a></li>
-					<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Artikkel</a></li>
+					<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	{% endif %}
-	<div class="parallax">
-		<img class="responsive-img" src="{{ article.thumbnail.url }}" />
-	</div>
 </div>
-<div class="section hs-green">
-	<div class="white container article-container z-depth-2">
-		<div class="row">
-			<div class="col s12">
-				<h2>{{ article.title }}</h2>
-				<p>{{ article.pub_date }}</p>
-			</div>
-		</div>
-		<div class="divider"></div>
-		<div class="row article-content">
-			<div class="col s12">
-				<p class="ingress">{{ article.ingress_content }}</p>
-				{% autoescape off %}
-				{{ article.main_content }}
-				{% endautoescape %}
-			</div>
-		</div>
-	</div>
-</div>
-<script>
-	var parallax = document.querySelector(".parallax");
-	var instance = M.Parallax.init(parallax);
-</script>
-</section>
 {% endblock content %}

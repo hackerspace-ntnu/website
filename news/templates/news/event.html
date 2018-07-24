@@ -4,64 +4,49 @@
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
 {% endblock head %}
-
 {% block content %}
-<div class="parallax-container" style="height:400px">
-	<div class="parallax">
-		<img class="responsive-img" src="{{ event.thumbnail.url }}" />
-	</div>
+<div class="section no-pad-bot no-pad hs-green">
+	<img class="header-image" src="{{ event.thumbnail.url }}" />
 </div>
 <div class="section hs-green">
 	<div class="container">
-		<div class="article-container white z-depth-2">
-			<div class="container">
+		<div class="card-panel cut-top white z-depth-2">
 				<div class="row article-title">
 					<div class="col s12">
 						<h2>{{ event.title }}</h2>
+						{% if event.internal %} <p>Dette er et internt arrangement.</p>
+						{% else %} <p> Dette arrangementet er åpent for alle </p>  {% endif %}
+						<div class="divider"></div>
 					</div>
-				</div>
-				{% if request.user|has_group:"member" %}
-				<div class="row">
-					<div class="col s12">
-						<ul class='collection'>
-							<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-							<li class="collection-item"><a href="#deleteModal" class="modal-trigger"><i class="material-icons">delete</i>Slett Event</a></li>
-						</ul>
+					<div class="col s12 m6">
+						<h5><i class="material-icons small">event</i> {{ event.time_start|date:"d. F Y" }}</h5>
+						<h5><i class="material-icons small">access_time</i> {{ event.time_start|date:"H:i" }} til {{ event.time_end|date:"H:i" }}</h5>
+						{% if event.place %}
+						<h5><i class="material-icons small">location_on</i> <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
 					</div>
-				</div>
-				{% endif %}
-				<div class="row article-content white">
-					<div class="col s8 preview-text">
-						<p><b>{{ event.ingress_content }}</b></p>
-						{% autoescape off %}
-						{{ event.main_content }}
-						{% endautoescape %}
-					</div>
-					<div class="col s4">
-						{% if event.place %} <p>Sted: <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> {% endif %}
-						{% if event.internal %} <p>Dette er et internt arrangement.</p> {% endif %}
-						<p>Tid: {{ event.time_start|date:"H:i" }} - {{ event.time_end|date:"H:i" }}</p>
-						<p>Dato: {{ event.time_start|date:"d M Y" }}</p>
+					<div class="col s12 m6 card-panel z-depth-0 ">
+						<div class="right-align">
 						{% if event.external_registration %}
 						<a class="btn waves-effect waves-light" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
 						{% elif event.registration %}
+						<p>Du er {{ userstatus }}</p>
 						<div class="progress hs-gray">
 							<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-							<p class="counter center white-text">{{ event.registered_count }} / {{ event.max_limit }}</p>
+							<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }}</p>
 						</div>
-						<p>Status: {{ userstatus }}</p>
 						{% if event.registration and request.user.is_authenticated and registration_visible %}
-						{% if registered %}
-						<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button>
-						{% else %}
-						<a class="btn waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a>
+							{% if registered %}
+							<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
+							{% else %}
+							<a class="btn waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a><br><br>
 						{% endif %}
+						</div>
 						<div id="registrationModal" class="modal">
 							<div class="modal-content">
 								<h4>Bekreft handling</h4>
 								<p>Eventen starter {{ event.time_start|date:"d M Y, H:i" }}</p>
-								<p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_end|date:"d M Y, H:i" }}</p>
-								<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end|date:"d M Y, H:i" }}</p>
+								<p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_start |date:"d M Y, H:i" }} </p>
+								<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
 							</div>
 							<div class="modal-footer">
 								<form method="post" action="/events/register/{{ event.id }}/">
@@ -76,43 +61,63 @@
 							</div>
 						</div>
 						{% endif %}
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="row">
+						{% comment %} 
 						{% if event.registered_list or event.wait_list %}
-						{% if user.is_superuser or user|has_group:"viewAttendees" %}
-						<ul class="collapsible" data-collapsible="accordion">
+							{% if user.is_superuser or user|has_group:"viewAttendees" %}
+							<ul class="collapsible" data-collapsible="accordion">
+								{% if event.registered_list %}
+								<li>
+									<div class="collapsible-header">Påmeldte</div>
+									<div class="collapsible-body">
+										{% for user in event.registered_list %}
+										<p>{{ user.0 }}</p>
+										{% endfor %}
+									</div>
+								</li>
+								{% endif %}
+								{% if event.wait_list %}
+								<li>
+									<div class="collapsible-header">Venteliste</div>
+									<div class="collapsible-body">
+										{% for user in event.wait_list %}
+										<p>{{ user.0 }}. {{ user.1 }}</p>
+										{% endfor %}
+									</div>
+								</li>
+								{% endif %}
+							</ul>
 							{% if event.registered_list %}
-							<li>
-								<div class="collapsible-header">Påmeldte</div>
-								<div class="collapsible-body">
-									{% for user in event.registered_list %}
-									<p>{{ user.0 }}</p>
-									{% endfor %}
-								</div>
-							</li>
+								<button class="btn waves-effect waves-light hs-green ">Epost påmeldte</button>
 							{% endif %}
 							{% if event.wait_list %}
-							<li>
-								<div class="collapsible-header">Venteliste</div>
-								<div class="collapsible-body">
-									{% for user in event.wait_list %}
-									<p>{{ user.0 }}. {{ user.1 }}</p>
-									{% endfor %}
-								</div>
-							</li>
+								<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
 							{% endif %}
-						</ul>
-						{% if event.registered_list %}
-						<button class="btn waves-effect waves-light hs-green ">Epost påmeldte</button>
 						{% endif %}
-						{% if event.wait_list %}
-						<button class="btn waves-effect waves-light hs-green ">Epost venteliste</button>
-						{% endif %}
+					{% endif %}
+						{% endcomment %}
+					<div class="col s12 preview-text">
+						<p><b>{{ event.ingress_content }}</b></p>
+						{% autoescape off %}
+						{{ event.main_content }}
+						{% endautoescape %}
 					</div>
-					{% endif %}
-					{% endif %}
-					{% endif %}
-				</div>
+				{% endif %}
 			</div>
 		</div>
+{% if request.user|has_group:"member" %}
+<div class="row">
+	<div class="col s12">
+		<ul class='collection'>
+			<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
+			<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
+		</ul>
+	</div>
+</div>
+{% endif %}
 	</div>
 </div>
 			<script>

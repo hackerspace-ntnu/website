@@ -56,7 +56,6 @@ class EventForm(forms.ModelForm):
             form_data['time_end'] = datetime.combine(form_data['time_end'], form_data['event_end_time'])
         except ValueError:
             raise ValidationError({'time_end': 'Eventens slutt-tidspunkt eller dato er ugyldig'}, code='invalid')
-        if 'event_end_time' in form_data: del form_data['event_end_time']
 
         # Merge registration time and date
         try:
@@ -66,8 +65,6 @@ class EventForm(forms.ModelForm):
                 raise ValidationError({'registration_start_time': 'Påmeldingens åpnings-tidspunkt eller dato er ugyldig'}, code='invalid')
             else:
                 form_data['registration_start'] = datetime(2000, 1, 1, 0, 0)
-        if 'registration_start' in form_data: del form_data['registration_start']
-        if 'registration_start_time' in form_data: del form_data['registration_start_time']
 
         # Merge deregistration time and date
         try:
@@ -77,9 +74,6 @@ class EventForm(forms.ModelForm):
                 raise ValidationError({'deregistration_end_time': 'Avmeldingens slutt-tidspunkt eller dato er ugyldig'}, code='invalid')
             else:
                 form_data['deregistration_end'] = datetime(2000, 1, 1, 0, 0)
-        if 'deregistration_end' in form_data: del form_data['deregistration_end']
-        if 'deregistration_end_time' in form_data: del form_data['deregistration_end_time']
-
 
         return form_data
 

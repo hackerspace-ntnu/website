@@ -13,19 +13,22 @@
 </div>
 <div class="section">
 	<div class="container">
-		<div class="card-panel">
 			<div class="row center">
 				<i class="material-icons large hs-gray-text">account_circle</i>
 			</div>
 			<form action="" method="post">
-				{% csrf_token %}
-				{% if form.non_field_errors %}
-				{% for error in form.non_field_errors %}
-				{{ error }}
-				{% endfor %}
-				{% endif %}
 				<div class="row">
-					<div class="input-field col push-s2 pull-s2 s8">
+					<div class="input-field col push-m2 pull-m2 s12 m8">
+						{% csrf_token %}
+						{% if form.non_field_errors %}
+						{% for error in form.non_field_errors %}
+						{{ error }}
+						{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col push-m2 pull-m2 s12 m8">
 						<p>{{ form.username.errors }}</p>
 						{{ form.username }}
 						<label for="{{ form.username.id_for_label }}">Brukernavn</label>
@@ -33,7 +36,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col push-s2 pull-s2 s8">
+					<div class="input-field col push-m2 pull-m2 s12 m8">
 						<p>{{ form.password.errors }}</p>
 						{{ form.password }}
 						<label for="{{ form.password.id_for_label }}">Passord</label>
@@ -41,16 +44,17 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col push-s2 pull-s2 s8">
+					<div class="input-field col push-m2 pull-m2 s12 m8">
 						<input type="submit" class="btn btn-large waves-effect waves-light hs-green" value="Logg Inn"/>
 						<a class="right" href="/authentication/forgot-password">Glemt passord?</a>
 					</div>
-					<div class="col push-s2 pull-s2 s8">
+				</div>
+				<div class="row">
+					<div class="col push-m2 pull-m2 s12 m8">
 						<a class="btn btn-large waves-effect waves-light white-text hs-green" href="{% url 'authentication_feide:login' %}">Logg inn med FEIDE</a>
 					</div>
 				</div>
 			</form>
-		</div>
 	</div>
 </div>
 {% endblock content %}

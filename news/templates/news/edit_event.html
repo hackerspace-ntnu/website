@@ -101,12 +101,11 @@
 			<div class="row">
 				{{ form.internal.errors }}
 				<div class="col s12">
-					<i class="material-icons prefix">card_membership</i>
 					<p>
-						<i class="material-icons prefix">group_add</i>
+						<i class="material-icons prefix">card_membership</i>
 						<label>
 							<input type="checkbox" id="internal-check" name="internal" value="{{ form.internal.value }}"/>
-							<span for="registration-check">{{ form.internal.label }}</span>
+							<span for="internal-check">{{ form.internal.label }}</span>
 						</label>
 					</p>
 				</div>
@@ -191,6 +190,7 @@
 		}
 	});
 
+
 	if(registrationCheck.value == "True") {
 		registrationCheck.checked = true;
 		registrationBox.style.display = "block";
@@ -198,6 +198,24 @@
 		registrationBox.checked = false;
 		registrationBox.style.display = "none";
 	}
+
+	var internalCheck = document.getElementById('internal-check');
+	internalCheck.addEventListener("change", function() {
+		if(internalCheck.checked == true) {
+			internalCheck.checked = true;
+			internalCheck.value = "True";
+		} else {
+			internalCheck.checked = false;
+			internalCheck.value = "False";
+		}
+	});
+
+	if(internalCheck.value == "True") {
+		internalCheck.checked = true;
+	} else {
+		internalCheck.checked = false;
+	}
+
 	var thumbModal = document.querySelector('#thumbnailPicker');
 	var instance = M.Modal.init(thumbModal);
 

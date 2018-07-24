@@ -91,7 +91,7 @@ def NewEvent(request):
         form = EventForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/events/' + str(event.id) + '/')
+            return HttpResponseRedirect('/events/')
 
     else:
         # No event to edit, set data to default
@@ -119,7 +119,6 @@ def edit_event(request, event_id):
     if request.method == 'POST':  # Post form
         form = EventForm(request.POST, instance=instance)
         if form.is_valid():
-            # Create new event (ID = 0) or update existing event (ID != 0)
             form.save()
             return HttpResponseRedirect('/events/' + event_id + '/')
     else:

@@ -11,16 +11,24 @@
 				{{ UploadForm.description }}
 				<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
 			</div>
-			<div class="input-field col s12">
-				{{ UploadForm.file }}
-				<label for="{{ UploadForm.file.id_for_label }}">{{ UploadForm.file.label }}</label>
+			<div class="file-field input-field col s12">
+				<div class="btn">
+					<span>Bilde</span>
+					{{ UploadForm.file }}
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text">
+				</div>
 			</div>
+			<br>
 			<button type="button" class="btn" id="uploadBtn">Upload</a>
 			</form>
 		</div>
 </div>
 <script>
 	var submitBtn = document.querySelector('#uploadBtn');
+
+
 	submitBtn.addEventListener('click', function(e) {
 		e.preventDefault();
 		var form = document.querySelector('#uploadForm');
@@ -35,8 +43,8 @@
 			processData: false,
 			success: function(response){
 				console.log("Trying to append");
-				console.log(response);
 				$('.imageList').prepend(response);
+				M.toast( { html: 'Bildet var lastet opp og kan velges fra galleriet' });
 			},
 			error: function(response) {
 				console.log("It was no success");

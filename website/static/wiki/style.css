@@ -1,10 +1,3 @@
-html {
-	font-family: 'Open Sans', sans-serif !important;
-}
-h1, h2, h3, h4, h5, a {
-	font-family: 'Montserrat', sans-serif !important;
-	font-size: 14px !important;
-}
 h1, h2, h3, h4, h5, a:hover {
 	color: white !important;
 	text-decoration: none !important;
@@ -13,8 +6,45 @@ h1, h2, h3, h4, h5, a:focus {
 	color: white !important;
 	text-decoration: none !important;
 }
+
+/* Definer hackerspace farger som klasser */
+.hs-gray {
+  background-color: #4E4B46 !important;
+}
+.hs-gray-text {
+  color: #4E4B46 !important;
+}
+.hs-gray-text:visited {
+  color: #4E4B46 !important;
+}
+.hs-green {
+  background-color: #5BBA47 !important;
+}
+.hs-green-text {
+  color: #5BBA47 !important;
+}
+
 .dropdown-content li > a, .dropdown-content li > span {
 	color: #5BBA47 !important;
+
+}
+
+/* Bootstrap / Materialize kollisjon */
+.breadcrumb {
+	font-size: inherit !important;
+	padding: 8px 15px !important;
+}
+
+.modal {
+	left: 0 !important;
+	right: 0 !important;
+	z-index:1050 !important;
+	bottom: auto !important;
+
+}
+
+.modal-content {
+	position: relative !important;
 
 }
 
@@ -49,6 +79,7 @@ h1, h2, h3, h4, h5, a:focus {
 /* Fix personlig profilbilde i navbaren */
 .dropdown-trigger-user img {
 	height: 64px;
+	width: 32px;
 	padding-bottom: 16px;
 	padding-top: 16px; 
 }
@@ -58,82 +89,9 @@ h1, h2, h3, h4, h5, a:focus {
 	padding-bottom: 3px;
 }
 
-/* "Hackerspace er stengt / åpent */
-.door {
-	width: 100%;
-	display: inline-block;
-	text-align: center;
-}
 
+/* Render navbar over bootstrap for sidemeny */
+.navbar-fixed {
+	z-index: 2000 !important;
 
-/* Denne koden er nødvendig for å få footer som fixed. */
-main {
-	flex: 1 0 auto !important;
-}
-
-/* Social media icons */
-.sosial-bilder a img {
-	width: 42px !important;
-	height: 42px !important;
-	margin-right: 16px;
-	border-radius: 8px !important;
-}
-
-/* For darkening images on front page (for better contrast with text on top) */
-.tinter {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	filter: brightness(50%);
-}
-.tinter:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: rgba(0, 65, 128, 0.60);
-}
-
-/* For the fixed text on top of slider on main index page */
-.fixed-text {
-	position: absolute !important;
-	z-index: 10 !important;
-	width: 100%;
-	margin-top: 8vh;
-}
-
-/* Drop text shadow on tinted image center cog image in green with transparent bg, text */
-.fixed-text .text-shadow {
-	text-shadow: 5px 5px 5px black !important;
-}
-.fixed-text #indexLogo {
-	height: 400px;
-	-webkit-filter: drop-shadow(5px 5px 5px #000);
-	filter: drop-shadow(5px 5px 5px #000);
-}
-
-/* Prevent text in articles not formatted properly from looking ugly and clipping outside its container */
-.preview-text p {
-	word-break: break-all;
-}
-
-
-.search-wrapper i.material-icons{
-	cursor: pointer;
-	position: relative;
-	right: 24px;
-}
-/* footer for parallax on about */
-.opaque-footer {
-	background-color: #000;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 24px;
-	opacity: 0.4;
-	padding-left: 24px;
 }

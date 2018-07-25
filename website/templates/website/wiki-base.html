@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="no">
 	<head>
-		<title>Hackerspace NTNU</title>
 		<link rel="shortcut icon" type="image/png" href="{% static "website/img/favicon.ico" %}">
 		<!-- Google Icons -->
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -11,7 +10,6 @@
 		<!-- Materialize CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/css/materialize.min.css">
 
-		<script async type="text/javascript" src="{% static 'website/js/ajax_requests.js' %}"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- Legg til Materialize JS -->
@@ -19,7 +17,6 @@
 		<!-- Lokale stylesheets etter materialize, for å override -->
 		<link rel="stylesheet" type="text/css" href="{% static "website/css/style.css" %}">
 		<link rel="stylesheet" type="text/css" href="{% static "wiki/style.css" %}">
-		<link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
 		{% block head %}
 		{% endblock head %}
 		{% block extra_js %}
@@ -28,16 +25,16 @@
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107702172-1"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
-function gtag() {
-	dataLayer.push(arguments);
-}
-gtag('js', new Date());
-gtag('config', 'UA-107702172-1');
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'UA-107702172-1');
 		</script>
 	</head>
 	<body>
-		{% include "website/header.html" %}
 		{% block header %}
+		<link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
 		{% endblock header %}
 		{% if messages %}
 		<div class="row">

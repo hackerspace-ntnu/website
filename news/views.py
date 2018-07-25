@@ -1,10 +1,12 @@
 from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, render
 from django.utils import formats
 from django.utils import timezone
+from django.views.generic import TemplateView, DetailView, ListView
 from datetime import datetime, timedelta
 from . import log_changes
-from .forms import ArticleEditForm, EventRegistrationForm, AttendeeForm, EventForm
+from .forms import ArticleEditForm, AttendeeForm, EventForm
 from .models import Event, Article, EventRegistration
 from itertools import chain
 from authentication.templatetags import check_user_group as groups
@@ -13,64 +15,64 @@ from django.contrib.auth.decorators import login_required
 from files.models import Image
 
 
-def event(request, event_id):
-    event_id = get_id_or_404(event_id)
-    requested_event = get_object_or_404(Event, pk=event_id)
-    context = {
-        'event': requested_event,
-        'user': request.user,
-    }
+class EventView(DetailView):
+    model = Event
+    template_name = "news/event.html"
 
-    if requested_event.internal and not groups.has_group(request.user, 'member'):
-        return HttpResponseRedirect('/')
+    def get_queryset(self):
+        if self.event.internal and not groups.has_group(self.request.user, 'member'):
+            return Event.objects.get(pk)
+        else:
+            return HttpResponseRedirect("/")
 
-    context['registration_visible'] = False
-    if request.user.is_authenticated():
-        now = timezone.now()
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['userstatus'] = "ikke pålogget"
 
-    if request.user.is_authenticated():
-        context['registered'], context['registration_visible'] = requested_event.registration_button_status(request.user)
-        context['userstatus'] = requested_event.userstatus(request.user)
-    else:
-        context['registered'] = False
-        context['registration_visible'] = False
-        context['userstatus'] = 'Ikke pålogget'
+        if self.request.user.is_authenticated:
+            context_data['registered'] = self.object.is_registered(self.request.user) or \
+                                         self.object.is_waiting(self.request.user)
+            context_data['registration_visible'] = self.object.can_edit_registration_status(
+                self.request.user)
+            context_data['userstatus'] = self.object.userstatus(self.request.user)
 
-    return render(request, 'news/event.html', context)
+        return context_data
+
+class EventListView(ListView):
+    template_name = "news/events.html"
+
+    def get_queryset(self):
+        if groups.has_group(self.request.user, 'member'):
+            return Event.objects.order_by('-time_start')
+        else:
+            return Event.objects.filter(internal=False).order_by('-time_start')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # Split into two seperate lists
+        context_data['old_events'] = self.object_list.filter(time_start__lte=datetime.now()).order_by('-time_start')
+        context_data['new_events'] = self.object_list.filter(time_start__gte=datetime.now()).order_by('-time_start')
+
+        return context_data
+
+class ArticleListView(ListView):
+    template_name = "news/news.html"
+
+    def get_queryset(self):
+        if groups.has_group(self.request.user, 'member'):
+            return Article.objects.order_by('-pub_date')
+        else:
+            return Article.objects.filter(internal=False).order_by('-pub_date')
 
 
-def all_news(request):
-    if groups.has_group(request.user, 'member'):
-        article_list = list(Article.objects.order_by('-pub_date'))
-    else:
-        article_list = list(Article.objects.filter(internal=False).order_by('-pub_date'))
+class ArticleView(DetailView):
+    template_name = "news/article.html"
 
-    context = {
-        'news_list': article_list,
-    }
-
-    return render(request, 'news/news.html', context)
-
-
-def all_events(request):
-    if groups.has_group(request.user, 'member'):
-        event_list = list(Event.objects.order_by('-time_start'))
-        old_events = list(Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start'))
-        new_events = list(Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start'))
-    else:
-        event_list = list(Event.objects.filter(internal=False).order_by('-time_start'))
-        old_events = list(Event.objects.filter(internal=False, time_start__lte=datetime.now()).order_by('-time_start'))
-        new_events = list(Event.objects.filter(internal=False, time_start__gte=datetime.now()).order_by('-time_start'))
-
-
-    context = {
-        'event_list': event_list,
-        'old_events': old_events,
-        'new_events': new_events,
-        'time_now': datetime.now(),
-    }
-
-    return render(request, 'news/events.html', context)
+    def get_queryset(self):
+        if groups.has_group(self.request.user, 'member'):
+            return Article.objects.get(pk)
+        else:
+            return HttpResponseRedirect("/")
 
 
 def article(request, article_id):

@@ -40,10 +40,15 @@
 					{{ form.main_content }}
 				</div>
 				<div class="col s12">
-					<p> {{ form.internal.errors }}
-					<input type="checkbox" id="internal-box" name="internal" value="{{ form.internal.value }}"/>
-					<label for="internal-box">{{ form.internal.label }}</label>
-					</p>
+					{{ form.internal.errors }}
+					<div class="col s12">
+						<p>
+							<label>
+								<input type="checkbox" id="internal-check" name="internal" value="{{ form.internal.value }}"/>
+								<span for="internal-check">{{ form.internal.label }}</span>
+							</label>
+						</p>
+					</div>
 				</div>
 				<div class="col s12">
 					{{ form.thumbnail.errors }}
@@ -57,7 +62,8 @@
 						</div>
 					</div>
 					<a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
-					<div id="thumb-preview" class="card small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view);">
+					<div id="thumb-preview" class="card center-align small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view); background-size:contain; background-repeat:no-repeat;">
+							<h5 class="hover-text">Trykk for å velge bilde</h5>
 					</div>
 				<div>
 				<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
@@ -77,12 +83,30 @@ var thumb_preview = document.querySelector('#thumb-preview');
 
 
 document.addEventListener('click', function(e) {
-	console.log(e);
 	if(e.target.innerText == "SELECT") {
 		var selectedImgId = e.target.attributes.value.value;
 		thumbnail_input.value = selectedImgId;
 		thumb_preview.style.backgroundImage = "url('/files/image/" + selectedImgId + "/view')";
+		M.toast({html: 'Bilde er valgt.'});
+		M.Modal.getInstance(thumbModal).close();
 	}
 });
+
+var internalCheck = document.getElementById('internal-check');
+internalCheck.addEventListener("change", function() {
+	if(internalCheck.checked == true) {
+		internalCheck.checked = true;
+		internalCheck.value = "True";
+	} else {
+		internalCheck.checked = false;
+		internalCheck.value = "False";
+	}
+});
+
+if(internalCheck.value == "True") {
+	internalCheck.checked = true;
+} else {
+	internalCheck.checked = false;
+}
 </script>
 {% endblock content %}

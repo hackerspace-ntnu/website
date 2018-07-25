@@ -30,6 +30,10 @@ main {
 	flex: 1 0 auto;
 }
 
+.hover-text {
+	padding-top:24px;
+}
+
 /* Resize hackerspace-logoen */
 .brand-logo img {
 	width: 200px !important;

@@ -76,8 +76,8 @@
 							</li>
 							{% for article in article_list %}
 							<li class="collection-item">
-								<a href="/news/{{ article.id }}">{{ article.title }}</a>
 								<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+								<a href="/news/{{ article.id }}">{{ article.title }}</a>
 							</li>
 							{% endfor %}
 						</ul>
@@ -89,8 +89,8 @@
 							</li>
 							{% for event in event_list reversed %}
 							<li class="collection-item">
-								<a href="/events/{{ event.id}}" class="title">{{ event.title }}</a>
 								<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
+								<a href="/events/{{ event.id}}" class="title">{{ event.title }}</a>
 							</li>
 							{% endfor %}
 						</ul>

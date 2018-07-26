@@ -32,8 +32,8 @@
 		<div class="row">
 			<div class="col s12">
 				<ul class='collection'>
-					<li class="collection-item"><a href="/news/{{ article.id }}/edit"><i class="material-icons">edit</i>Rediger artikkel</a></li>
-					<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
+					<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i>Rediger artikkel</a></li>
+					<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
 				</ul>
 			</div>
 		</div>

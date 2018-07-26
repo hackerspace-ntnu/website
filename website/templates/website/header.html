@@ -19,8 +19,8 @@
 					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
 					<!-- Hovedmeny -->
 					<ul class="right hide-on-med-and-down">
-						<li id="news"><a class="waves-effect" href="/news/">Nyheter</a></li>
-						<li id="events"><a class="waves-effect" href="/events/">Arrangement</a></li>
+						<li id="news"><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
+						<li id="events"><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
 						<li id="resources"><a class="trigger-resources" href="/" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
 						{% if user.is_authenticated %}
 								{% if user.profile.image %}
@@ -37,7 +37,7 @@
 								</li>
 								{% endif %}
 						{% else %}
-						<li><a class="dropdown-trigger-user" href="/authentication/login/" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
+						<li><a class="dropdown-trigger-user" href="{% url 'auth:login' %}" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
 						{% endif %}
 					</ul>
 					<!-- Mobil dynamisk meny -->
@@ -63,27 +63,27 @@
 						</div>
 					</li>
 					<li><a class="waves-effect" href="/">Hjem</a></li>
-					<li><a class="waves-effect" href="/news/">Nyheter</a></li>
-					<li><a class="waves-effect" href="/events/">Arrangementer</a></li>
+					<li><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
+					<li><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
 					<li><a class="waves-effect" href="/wiki">Wiki</a></li>
-					<li><a class="waves-effect" href="/about">Om Oss</a></li>
+					<li><a class="waves-effect" href="{% url 'about' %}">Om Oss</a></li>
 
 					<li><div class="divider"></div></li>
 					{% if user.is_authenticated %}
-					<li><a class="waves-effect" href="/authentication/change-password">Bytt Passord</a></li>
-					<li><a class="waves-effect" href="/authentication/logout">Logg Ut</a></li>
+					<li><a class="waves-effect" href="{% url 'auth:password_change' %}">Bytt Passord</a></li>
+					<li><a class="waves-effect" href="{% url 'auth:logout' %}">Logg Ut</a></li>
 					{% else %}
-					<li><a class="waves-effect" href="/authentication/signup">Registrer</a></li>
-					<li><a class="waves-effect" href="/authentication/login">Logg inn</a></li>
+					<li><a class="waves-effect" href="{% url 'auth:signup' %}">Registrer</a></li>
+					<li><a class="waves-effect" href="{% url 'auth:login' %}">Logg inn</a></li>
 					{% endif %}
 					<!-- Dropdown user list for desktop-->
 					<ul id="userdropdown" class="dropdown-content">
 						{% if user.is_authenticated %}
 						<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
-						<li><a href="/authentication/change-password">Bytt Passord</a></li>
-						<li><a href="/authentication/logout">Logg Ut</a></li>
+						<li><a href="{% url 'auth:password_change' %}">Bytt Passord</a></li>
+						<li><a href="{% url 'auth:logout' %}">Logg Ut</a></li>
 						{% else %}
-						<li><a href="/authentication/signup">Registrer</a></li>
+						<li><a href="{% url 'auth:signup' %}">Registrer</a></li>
 						<li><a class="modal-trigger" href="#loginModal">Logg Inn</a></li>
 						{% endif %}
 					</ul>
@@ -96,7 +96,7 @@
 						<a href="/wiki">Wiki</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
-						<a href="/about">Om Oss</a>
+							<a href="{% url 'about' %}">Om Oss</a>
 						</li>
 					</ul>
 				</ul>

@@ -54,69 +54,112 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-    @staticmethod
-    def get_class():
-        return "Event"
-
     def registered_count(self):
-        return min(self.max_limit, len(EventRegistration.objects.filter(event=self)))
+        '''
+        Finds the number of registered users for the event. Does not count any user that is in
+        the waiting list for the event.
+
+        :return: The number of registered users for the event
+        '''
+        return len(EventRegistration.get_registrations(self))
 
     def is_registered(self, user):
-        if user in [er.user for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]:
-            return True
-        return False
+        '''
+        Check if the user is registered for the event and not on the waiting list
+
+        :param user: The user to check
+        :return: A boolean indicating if the user is registered for the event
+        '''
+        return user in [registration.user for registration in
+                        EventRegistration.get_registrations(self)]
+
 
     def is_waiting(self, user):
-        if user in [er.user for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:]:
-            return True
-        return False
+        '''
+        Checks if the user is registered for the event and on the waiting list
+
+        :param user: The user to check
+        :return: A boolean indicating if the user is on the waiting list
+        '''
+        return user in [registration.user for registration in EventRegistration.get_waitlist(self)]
 
     def userstatus(self, user):
-        if self.is_registered(user): return "Påmeldt"
-        if self.is_waiting(user): return "Venteliste"
+        '''
+        Finds the registration status of the user
+
+        :param user: The user to get registration status for
+        :return: A string representing the user status
+        '''
+        if self.is_registered(user):
+            return "Påmeldt"
+        if self.is_waiting(user):
+            return "Venteliste"
         return "Ikke påmeldt"
 
     def registered_percentage(self):
+        '''
+        Finds the percentage of the slots taken. If limit is 0, return 100% instead
+
+        :return: Percentage of slots taken
+        '''
         if self.max_limit:
             return round(self.registered_count() / self.max_limit * 100)
         else:
             return 100
 
     def registered_list(self):
-        return sorted([("%s %s" % (er.user.first_name, er.user.last_name), er.username()) for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit])
+        '''
+        Create a list of the registered users for the event
 
-    def register_email(self):
-        return ''.join(sorted([er.user.email + '; ' if er.user.email else '' for er in EventRegistration.objects.filter(event=self).order_by('date')][:self.max_limit]))
+        :return: A list of the registered users for the event
+        '''
+        return [registration.user for registration in EventRegistration.get_registrations(self)]
 
-    def waitlist_email(self):
-        return ''.join(sorted([er.user.email + '; ' if er.user.email else '' for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:]))
+    def attending(self):
+        '''
+        Creates a list of all attending users
 
-    def attending_usernames(self):
-        return [er.username() for er in EventRegistration.objects.filter(event=self, attended=True).order_by('date')]
+        :return: A list of the usernames of all attending users
+        '''
+        return [registration.user for registration in
+                EventRegistration.get_registrations(self).filter(attended=True)]
 
     def wait_list(self):
-        return [(a[0]+1, a[1][0], a[1][1]) for a in enumerate([("%s %s" % (er.user.first_name, er.user.last_name), er.username()) for er in EventRegistration.objects.filter(event=self).order_by('date')][self.max_limit:])]
+        '''
+        Creates a list containing the full name and priority of the users in the waiting list
 
-    def registration_button_status(self, user):
-        now = timezone.now()
-        try:
-            er = EventRegistration.objects.get(user=user, event=self)
-            if self.deregistration_end > now:
-                return True, True
-        except EventRegistration.DoesNotExist:
-            if now > self.registration_start and self.time_end > now:
-                return False, True
-        return False, False
+        :return: Simplified waiting list
+        '''
+        return [(priority + 1, registration.user.get_full_name) for priority, registration in
+                enumerate(EventRegistration.get_waitlist(self))]
+
+    def can_edit_registration_status(self, user):
+        '''
+        Checks if the given user can change their registration status
+
+        :param user: The user to check
+        :return: A boolean indicating if the user can change their registration status
+        '''
+        if self.is_registered(user) or self.is_waiting(user):
+            return timezone.now() < self.deregistration_end
+        return self.registration_start < timezone.now() < self.time_end
 
 
     def attended(self, user, status):
-        try:
-            er = EventRegistration.objects.get(event=self, user=user)
-            er.attended = status
-            er.save()
-            return True
-        except EventRegistration.DoesNotExist:
+        '''
+        If the user is attending the event, set the attended status of the user
+
+        :param user: The user to set attending status for
+        :param status: The status to set
+        :return: A boolean indicating if the attending status was changed
+        '''
+
+        if event_registration is None:
             return False
+
+        event_registration.attended = status
+        event_registration.save()
+        return True
 
 
     class Meta:
@@ -143,11 +186,37 @@ class EventRegistration(models.Model):
     date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
     attended = models.BooleanField(default=False)
 
+    @staticmethod
+    def get_waitlist(event):
+        '''
+        Retreives the waitlist for a given event
+
+        :param event: The event to retrieve the waitlist for
+        :return: The waitlist
+        '''
+        return EventRegistration.get_ordered_event_registrations(event)[event.max_limit:]
+
+    @staticmethod
+    def get_ordered_event_registrations(event):
+        '''
+        Retrieves all event registrations for a given event ordered by date
+
+        :param event: The event to get event registrations for
+        :return: A queryset of all event registration for the event ordered by date
+        '''
+        return EventRegistration.get_registrations(event).order_by('date')[:event.max_limit]
+
+
+    @staticmethod
+    def get_registrations(event):
+        '''
+        Retrieves all registrations for a given event
+
+        :param event: The event to get registrations for
+        :return: A list of all registrations for an event
+        '''
+        return EventRegistration.objects.filter(event=event)
+
+
     def username(self):
         return self.user.username
-
-    def name(self):
-        return self.user.first_name.capitalize() + " " + self.user.last_name.capitalize()
-
-    def __str__(self):
-        return "%s %s" % (self.user.first_name, self.user.last_name)

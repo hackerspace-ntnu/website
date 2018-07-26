@@ -69,10 +69,16 @@ main {
 
 /* Social media icons */
 .sosial-bilder a img {
-	width: 32px;
+	min-width: 32px;
 	height: 32px;
-	margin-right: 56px;
+	margin-left: 24px;
+	margin-right: 24px;
 	border-radius: 8px;
+}
+.sosial-bilder {
+	overflow:hidden;
+	display:inline-flex;
+
 }
 
 /* For darkening images on front page (for better contrast with text on top) */

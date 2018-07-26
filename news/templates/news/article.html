@@ -12,16 +12,17 @@
 		<div class="card-panel cut-top z-depth-2">
 			<div class="row">
 				<div class="col s12">
-					<h2>{{ article.title }}</h2>
+					<h5 class="hide-on-med-and-up">{{ article.title }}</h5>
+					<h3 class="hide-on-small-only">{{ article.title }}</h3>
 					<p>{{ article.pub_date }}</p>
 				</div>
 			</div>
-			<div class="divider"></div>
 			<div class="row">
 				<div class="col s12">
+					<div class="divider"></div>
+					<p><b>{{ article.ingress_content }}</b></p>
 					{% autoescape off %}
-					<p class="ingress">{{ article.ingress_content }}</p>
-					{{ article.main_content }}
+						{{ article.main_content }}
 					{% endautoescape %}
 				</div>
 			</div>

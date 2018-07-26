@@ -5,25 +5,23 @@
 			</div>
 			<form action="/authentication/login/" method="post">
 				<div class="row">
-					<div class="input-field col push-s2 pull-s2 s8">
-						<p>{{ login_form.username.errors }}</p>
+					<div class="input-field col s12">
 						{{ login_form.username }}
-						<label for="{{ form.username.id_for_label }}">Brukernavn</label>
+						<label for="{{ login_form.username.id_for_label }}">{{ login_form.username.label }}</label>
 					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col push-s2 pull-s2 s8">
-						<p>{{ login_form.password.errors }}</p>
+					<p>{{ login_form.username.errors }}</p>
+					<div class="input-field col s12">
 						{{ login_form.password }}
-						<label for="{{ form.password.id_for_label }}">Passord</label>
+						<label for="{{ login_form.password.id_for_label }}">{{ login_form.password.label }}</label>
 					</div>
+					<p>{{ login_form.password.errors }}</p>
 				</div>
 				<div class="row">
-					<div class="input-field col push-s2 pull-s2 s8">
-						<button id="submit_login" class="btn btn-large waves-effect waves-light hs-green" type="submit" name="action">Logg inn</button>
+					<div class="input-field col s12">
+						<button class="btn btn-large waves-effect waves-light hs-green" type="submit" name="action">Logg inn</button>
 						<a class="right" href="/authentication/forgot-password">Glemt passord?</a>
 					</div>
-					<div class="col push-s2 pull-s2 s8">
+					<div class="col s12"> 
 						<a class="btn btn-large waves-effect waves-light white-text hs-green" href="{% url 'authentication_feide:login' %}">Logg inn med FEIDE</a>
 					</div>
 				</div>

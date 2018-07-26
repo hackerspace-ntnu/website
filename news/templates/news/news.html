@@ -46,7 +46,7 @@
 							<img class="circle" style="width:100px; height:100px;" src="">
 							{% endif %}
 						</div>
-						<div class="col s10 preview-text hide-on-med-and-down">
+						<div class="col s10 hide-on-med-and-down">
 							<span class="right badge">Publisert {{ news.pub_date }}</span>
 							<a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
 							<p>
@@ -55,7 +55,7 @@
 								{% endautoescape %}
 							</p>
 						</div>
-						<div class="col s12 show-on-med-and-down hide-on-large-only preview-text">
+						<div class="col s12 show-on-med-and-down hide-on-large-only">
 							<a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
 							<p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
 							<p>

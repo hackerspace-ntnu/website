@@ -4,93 +4,52 @@
 
 The code running [hackerspace-ntnu.no](http://hackerspace-ntnu.no).
 
-## Getting started developing
+## Prerequisites
 
-#### Install all the requirements
+To get started developing, make sure you have the correct software installed.
 
-Update the OS:
-`sudo apt-get update`
+This projects uses Django with Python 3. Make sure you have Python3 and pip3 installed.
 
-Upgrade the OS:
-`sudo apt-get upgrade`
+### For Linux
 
-Install pip3:
+`apt-get install python3`
+
 `apt-get install python3-pip`
 
-Install required packages for Pillow(Python Image Library):
-`sudo apt-get install libtiff5-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk`
+### For Windows
+Alternatives:
+1. Install Python3 manually and use CMD
 
-Install postgresql:
-`sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib`
+2. Use an environment such as Cygwin64, select pip3 and python3 during install.
 
-#### Download the project
+3. Install Linux Subsystem for Windows and install Ubuntu (or other prefered distro) from Windows Store
+
+## Set up a virtual environment with virtualenv
+
+Instead of installing a bunch of python files system-wide, we will use a virtual environment to install the packages in a single folder instead.
+
+1. Install virtualenv:
+`pip3 install virtualenv`
+
+2. Create virtualenv:
+`virtualenv venv`
+
+3. Activate virtualenv:
+`source venv/bin/activate`
+
+## Download and initialize the project
 
 Clone the project:
 `git clone https://github.com/hackerspace-ntnu/website.git`
 
-#### Set up the virtualenv
-
-Install virtualenv:
-`pip3 install virtualenv`
-
-Create virtualenv:
-`virtualenv venv`
-
-Activate virtualenv:
-`source venv/bin/activate`
-
-#### Install all python packages
-
 Go into the project:
 `cd website/`
 
-Install requirements:
+Install required python packages:
 `pip install -r requirements.txt`
-
-Create local_settings.py:
-`vim local_settings.py`
-and add the following values:
-- SECRET_KEY = ""
-- DEBUG = True
-- DOOR_KEY = ''
-- EMAIL_HOST_USER = ''
-- EMAIL_HOST_PASSWORD = ''
-- DATABASE_USERNAME = ''
-- DATABASE_PASSWORD = ''
-- ALLOWED_HOSTS = ''
-
-#### Set up the database
-
-Change to postgres user:
-`sudo su - postgres`
-
-Open database:
-`psql`
-
-Create the new database:
-`CREATE DATABASE hsdb;`
-
-Create user for the database:
-`CREATE USER hackerspace WITH PASSWORD 'password';`
-
-Grant access to the user just created:
-`GRANT ALL PRIVILEGES ON DATABASE hsdb TO hackerspace;`
-
-Exit the database:
-`\q`
-
-Exit postgres user session:
-`exit`
-
-#### Populate the database
-
-Make migrations for the database:
-`python manage.py makemigrations`
 
 Migrate the database:
 `python manage.py migrate`
 
-#### Start the server
-
-Run the server:
+After installing the required packages and initializing the database, you can run the server with the following command:
 `python manage.py runserver`

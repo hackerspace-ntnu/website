@@ -8,7 +8,7 @@ import re
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
     main_content = RichTextUploadingField(blank=True)
-    ingress_content = RichTextUploadingField(blank=True)
+    ingress_content = models.CharField(max_length=300, blank=True)
 
     internal = models.BooleanField(default=False, verbose_name='Intern')
     pub_date = models.DateTimeField('Publication date', default=timezone.now)

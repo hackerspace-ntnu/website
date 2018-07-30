@@ -59,7 +59,6 @@ def profile(request):
 
 def specific_profile(request, user_id):
     profile = get_object_or_404(User, id=user_id).profile
-    profile.update()
     return render(request, 'userprofile/profile.html', {'profile': profile})
 
 

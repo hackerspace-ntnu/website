@@ -22,7 +22,7 @@
 				{% else %}
 					<img class="circle" src="{% static "userprofile/img/default.png" %}">
 				{% endif %}
-				<a class="title" href={% url 'userprofile:profile_by_id' profile.pk %}>{{ profile }}</a>
+				<a class="title" href={% url 'userprofile:profile_by_id' profile.user.id %}>{{ profile }}</a>
 				<p>Kan følgende: <br>
 				{% for skill in profile.skills.all %}
 				<a class="chip" href="{% url 'userprofile:skill' skill.title %}"

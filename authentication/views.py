@@ -20,7 +20,7 @@ def logout_user(request):
 class SignUpView(FormView):
     template_name = 'authentication/signup.html'
     form_class = SignUpForm
-    success_url = reverse_lazy('signup_done')
+    success_url = reverse_lazy('auth:signup_done')
 
     def form_valid(self, form):
         form.save()

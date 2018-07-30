@@ -1,5 +1,5 @@
 django>=1.11,<2.0
-gunicorn==17.5
+gunicorn
 django-ckeditor
 wiki
 django-autocomplete-light==3.2.1

@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^tos/accept/', tosaccept, name='tos'),
     url(r'^showcase/vr/', virtualreality, name='vr'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^robots.txt', TemplateView.as_view(template_name='robots.txt',
+    url(r'^robots.txt', TemplateView.as_view(template_name='website/robots.txt',
                                              content_type='text/plain')),
     url(r'^news/', include('news.urls')),
     url(r'^events/', include('news.event_urls')),

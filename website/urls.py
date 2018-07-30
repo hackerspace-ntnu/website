@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^news/', include('news.urls')),
     url(r'^events/', include('news.event_urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^authentication/', include('authentication.urls')),
+    url(r'^authentication/', include('authentication.urls', namespace='auth')),
     url(r'^door/', include('door.urls')),
     url(r'^opptak/', include('applications.urls'), name='opptak'),
     url(r'^files/', include('files.urls')),

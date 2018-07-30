@@ -48,7 +48,6 @@ class Item(models.Model):
 
 
 class Loan(models.Model):
-    borrower = models.CharField(max_length=300, null=True)
     email = models.CharField(max_length=300, null=True)
     phone = models.CharField(max_length=300, null=True)
     lender = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,

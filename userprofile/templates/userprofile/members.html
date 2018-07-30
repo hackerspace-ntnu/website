@@ -26,7 +26,7 @@
                         <div class="card-container">
                             <div class="card medium">
                                 <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href={% url 'userprofile:profile_by_id' profile.id %}>
+                                    <a class="img-a" href={% url 'userprofile:profile_by_id' profile.user.id %}>
                                         {% if profile.image %}
                                             {# profile has image, show picture #}
                                             <img class="activator" src="{{ profile.image.url }}">

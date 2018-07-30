@@ -20,6 +20,6 @@ class LoanSerializer(serializers.ModelSerializer):
     item = serializers.PrimaryKeyRelatedField(many=False, read_only=False, queryset=Item.objects.all())
     class Meta:
         model = Loan
-        fields = ('id', 'borrower', 'comment',
+        fields = ('id', 'comment',
                   'email', 'phone', 'item', 'quantity')
         depth = 2

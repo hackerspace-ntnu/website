@@ -73,11 +73,6 @@
 			<div class="modal-content">
 				<div class="row">
 					<div class="input-field col s12">
-						<input id="name" type="text" v-model="new_loan.borrower"/>
-						<label for="name">Navn</label>
-						<span class="helper-text">Fornavn og etternavn på personen som skal låne</span>
-					</div>
-					<div class="input-field col s12">
 						<input id="email" type="email" class="validate" v-model="new_loan.email"/>
 						<label for="email">Epost-addresse</label>
 						<span class="helper-text" data-error="Epost-addressen ser ikke riktig ut" data-success="Dette ser bedre ut">Epost-addressen til personen som skal låne</span>
@@ -238,7 +233,7 @@
 			current_item: "",
 			new_item: { "id": null, "name": null, "description": null, "quantity": null, "thumbnail": null, "tags": [], "zone": null, "shelf": null, "row": null, "column": null, "loans": [] },
 			new_tag: { "id": null, "name": null, "parent_tag": null, "item_set": [], "visible": true },
-			new_loan: { "borrower": null, "lender": null, "comment": "none", "email": null, "phone": null, "item": null },
+			new_loan: { "lender": null, "comment": "none", "email": null, "phone": null, "item": null },
 		},
 		mounted: function() {
 			this.getTagList();

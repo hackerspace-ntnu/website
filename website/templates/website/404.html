@@ -1,0 +1,28 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row center-align">
+		<h1>OOPS!</h1>
+		<h3>404 - Ikke funnet</h3>
+        </div>
+    </div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<p class="flow-text center-align">
+					Vi finner dessverre ikke siden du leter etter. :-(<br>
+				</p>
+				<p class="flow-text center-align">
+					Kanskje <a href="{% url 'wiki:root' %}">wikien</a> eller
+					<a href="{% url 'index' %}">forsiden</a> kan hjelpe deg?</p>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
+{% endblock %}

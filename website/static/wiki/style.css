@@ -1,0 +1,97 @@
+h1, h2, h3, h4, h5, a:hover {
+	color: white !important;
+	text-decoration: none !important;
+}
+h1, h2, h3, h4, h5, a:focus {
+	color: white !important;
+	text-decoration: none !important;
+}
+
+/* Definer hackerspace farger som klasser */
+.hs-gray {
+  background-color: #4E4B46 !important;
+}
+.hs-gray-text {
+  color: #4E4B46 !important;
+}
+.hs-gray-text:visited {
+  color: #4E4B46 !important;
+}
+.hs-green {
+  background-color: #5BBA47 !important;
+}
+.hs-green-text {
+  color: #5BBA47 !important;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+	color: #5BBA47 !important;
+
+}
+
+/* Bootstrap / Materialize kollisjon */
+.breadcrumb {
+	font-size: inherit !important;
+	padding: 8px 15px !important;
+}
+
+.modal {
+	left: 0 !important;
+	right: 0 !important;
+	z-index:1050 !important;
+	bottom: auto !important;
+
+}
+
+.modal-content {
+	position: relative !important;
+
+}
+
+/* Resize hackerspace-logoen */
+.brand-logo img {
+	width: 200px !important;
+	height: 64px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.brand-logo {
+	margin-left: 16px;
+	height: 64px;
+}
+.thumb-img {
+	width: auto;
+	height: 250px;
+}
+
+/* Resize og posisjonering av header bilder */
+.mobile-img {
+	margin-left: 0px !important;
+}
+.mobile-img img {
+	height: 56px;
+}
+.tab-img {
+	margin-left: 0px !important;
+}
+
+
+/* Fix personlig profilbilde i navbaren */
+.dropdown-trigger-user img {
+	height: 64px;
+	width: 32px;
+	padding-bottom: 16px;
+	padding-top: 16px; 
+}
+/* Få material icons til å vertikalt aligne med teksten */
+.material-icons {
+	vertical-align: middle !important;
+	padding-bottom: 3px;
+}
+
+
+/* Render navbar over bootstrap for sidemeny */
+.navbar-fixed {
+	z-index: 2000 !important;
+
+}

@@ -1,82 +1,116 @@
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
-
-{% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "userprofile/css/edit_profile.css" %}">
-{% endblock head %}
-
 {% block content %}
-    <div class="section no-pad-bot">
-        <div class="container">
-            <div class="row">
-                <div class="col-10">
-                    <p class="flow-text">Endrer profilen til {{ profile.name }}: {{ retning }}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="user-profile-image">
-                    {% if profile.image %}
-                        {# profile has image, show picture #}
-                        <img class="profile-image" src="{{ profile.image.url }}" height="300">
-                    {% else %}
-                        {# profile.images is None, show default.png #}
-                        <img class="profile-image" src="{% static "userprofile/img/default.png" %}" height="300">
-                    {% endif %}
-                    <div class="image-overlay">
-                        <div class="overlay-background"></div>
-                        <p class="overlay-text" onclick="reveal('id_image')">Endre profilbilde</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="row col-10">
-                    <form enctype="multipart/form-data" method="post"
-                          action="{% url 'userprofile:edit_profile' profile.pk %}"
-                          onchange="condOption()">
-                        {% csrf_token %}
-                        <table>
-                            {{ form.as_table }}
-                        </table>
-                        <input class="btn waves-effect waves-light" type="submit" value="Submit"/>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-	$(document).ready(function(){
-	    $("select").material_select();
-	    
-	    var auto_duty = $("#id_auto_duty")
-	    auto_duty.parent().append("<label for='id_auto_duty'></label>")
-	    $("#id_image").parents("tr").fadeOut("fast")
-	    
-	    var auto_name = $("#id_auto_name")
-	    auto_name.parent().append("<label for='id_auto_name'></label>")
-	    $("#id_image").parents("tr").fadeOut("fast")
-	    
-	    condOption();
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 white-text">
+				<h4>Innsillinger for {{ profile.user.get_full_name }}</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 center">
+				{% if profile.image %}
+				<img class="circle" src="{{ profile.image.url }}" height="300">
+				{% else %}
+				<img class="circle" src="{% static 'website/img/misc/default.png' %}" height="300">
+				{% endif %}
+			</div>
+		</div>
+		<form  enctype="multipart/form-data" method="post" action="">
+			{{ formset.management_form }}
+			<div class="row">
+				{% csrf_token %}
+				<div class="col s12">
+					<h5>Generell kontoinformasjon</h5>
+					<div class="divider"></div>
+					<br>
+				</div>
+				<div class="col s6 input-field">
+					{{ form.first_name }}
+					<label for="{{form.first_name.id_for_label }}">{{ form.first_name.label }}</input>
+				</div>
+				<div class="col s6 input-field">
+					{{ form.last_name }}
+					<label for="{{form.last_name.id_for_label }}">{{ form.last_name.label }}</input>
+				</div>
+				<div class="col s12 input-field">
+					{{ form.email }}
+					<label for="{{form.email.id_for_label }}">{{ form.email.label }}</input>
+				</div>
+				<div class="col s12">
+					<a target="_blank" class="btn btn-flat hs-green white-text" href="{% url 'auth:password_change' %}">Endre passord</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col s12">
+					<h5>Profil</h5>
+					<div class="divider"></div>
+					<br>
+				</div>
+				{% for form in formset %}
+					{{ form.errors }}
+					{% for field in form.visible_fields %}
+						{% if field.label == "Profilbilde" %}
+						<div class="col s12 file-field input-field">
+							<div class="btn hs-green white-text">
+								<span>Last opp profilbilde</span>
+								<input type="file">
+								{{ field }}
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text">
+							</div>
+						</div>
+						<div class="divider"></div>
+						{% elif field.label == "Duty" %}
+						<div class="col s12 input-field" id="duty-section">
+							{{ field }}
+							<label for="{{field.id_for_label }}">{{ field.label }}</input>
+						</div>
+						{% elif field.label == "Auto duty" %}
+						<div class="col s12">
+							<p>
+							<label>
+								{{ field }}
+								<span id="autocheckbox">{{ field.label }}</span>
+							</label>
+							</p>
+						</div>
+						{% else %}
+						<div class="col s12 input-field">
+							{{ field }}
+							<label for="{{field.id_for_label }}">{{ field.label }}</input>
+						</div>
+						{% endif %}
+						{% for hidden in form.hidden_fields %}
+						{{ hidden }}
+						{% endfor %}
+					{% endfor %}
+				{% endfor %}
+			</div>
+			<input type="submit" value="Submit"/>
+		</form>
+	</div>
+</div>
+</div>
+<script>
+	var vaktGetter = document.querySelector('#duty-section');
+	var autoDutyGetter = document.querySelector('#autocheckbox');
+	autoDutyGetter.addEventListener('click', function() {
+		if(vaktGetter.style.display === "none") {
+			vaktGetter.style.display = "block";
+		} else {
+			vaktGetter.style.display = "none";
+		}
 	});
-	function condOption(){
-	    var auto_duty = document.getElementById("id_auto_duty").checked;
-	    if(!auto_duty){
-		$("#id_duty").parents("tr").fadeIn("fast");
-	    }
-	    else{
-		$("#id_duty").parents("tr").fadeOut("fast");
-	    }
-	    var auto_name = document.getElementById("id_auto_name").checked;
-	    if(!auto_name){
-		$("#id_name").parents("tr").fadeIn("fast");
-	    }
-	    else{
-		$("#id_name").parents("tr").fadeOut("fast");
-	    }
-	}
-	function reveal(field){
-	    $("#"+field).parents("tr").fadeIn("fast");
-	}
-    </script>
+	M.AutoInit();
+</script>
 {% endblock %}
 

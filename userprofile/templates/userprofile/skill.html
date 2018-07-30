@@ -1,54 +1,45 @@
-{% extends 'base.html' %}
+{% extends 'website/base.html' %}
 {% load staticfiles %}
 {% load check_user_group %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{% static "userprofile/css/members.css" %}">
 {% endblock head %}
 
 {% block content %}
-    <section id="groupview" style="width: 90%; max-width: 1000px; margin: 50px auto;">
-        <h1 class="center-align">Medlemmer i Hackerspace som kan {{ skill.title }}</h1>
-        <div class="members">
-            <div class="row">
-                {% for profile in profiles %}
-                    <div class="col s12 m6 l4">
-                        <div class="card-container">
-                            <div class="card medium">
-                                <div class="card-image waves-effect waves-block waves-light">
-                                    <a class="img-a" href={% url 'userprofile:profile' profile.pk %}>
-                                        {% if profile.image %}
-                                            {# profile has image, show picture #}
-                                            <img class="activator" src="{{ profile.image.url }}">
-                                        {% else %}
-                                            {# profile.images is None, show default.png #}
-                                            <img class="activator" src="{% static "userprofile/img/default.png" %}">
-                                        {% endif %}
-                                    </a>
-                                </div>
-                                <div class="card-content">
-                                    <a class="profile-name"
-                                       href={% url 'userprofile:profile' profile.pk %}>{{ profile }}</a>
-                                    <div class="profile-groups-title">
-                                        {% for group in profile.group.all %}
-                                            {{ group.title|linebreaks }}
-                                        {% endfor %}
-                                    </div>
-                                    {% for skill in profile.skills.all %}
-                                        <a class="chip" href="{% url 'userprofile:skill' skill.title %}"
-                                           style="color: black">
-                                            {{ skill.title }}
-                                            {% if skill.icon %}
-                                                <img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
-                                            {% endif %}
-                                        </a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
+<div class="section hs-green">
+	<div class="container">
+		<h3 class="white-text">Medlemmer i Hackerspace som kan {{ skill.title }}</h3>
+	</div>
+</div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<ul class="collection">
+			{% for profile in profiles %}
+			<li class="collection-item avatar">
+				{% if profile.image %}
+					<img class="circle" src="{{ profile.image.url }}">
+				{% else %}
+					<img class="circle" src="{% static "userprofile/img/default.png" %}">
+				{% endif %}
+				<a class="title" href={% url 'userprofile:profile_by_id' profile.pk %}>{{ profile }}</a>
+				<p>Kan følgende: <br>
+				{% for skill in profile.skills.all %}
+				<a class="chip" href="{% url 'userprofile:skill' skill.title %}"
+		    style="color: black">
+					{% if skill.icon %}
+					<img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
+					{% endif %}
+					{{ skill.title }}
+				</a>
+				{% endfor %}
+				<a href="#!" class="secondary-content btn btn-flat">Se vakttider<i class="material-icons hs-green-text">access_time</i></a>
+			</li>
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+</div>
+</section>
 {% endblock %}

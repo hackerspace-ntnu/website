@@ -1,0 +1,34 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% load modal_upload %}
+{% load render_single_image %}
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+	<form id="searchForm" action="/files/images/" method="post">
+		{% csrf_token %}
+		<div class="row">
+			<div class="input-field col s12">
+				<input  name="search" type="text" maxlength="100" value="{{ searchText }}">
+				<button class="btn btn-large waves-effect waves-light" type="submit" name="action">Search</button>
+			</div>
+		</div>
+	</form>
+	{% UploadModal request %}
+</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row imageList">
+		{% for image in images %}
+			{% render_image image %} 
+		{% endfor %}
+	</div>
+</div>
+
+{% include 'website/delete.html' %}
+{% endblock content %}

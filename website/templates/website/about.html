@@ -1,0 +1,128 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row">
+          <h3>Om Hackerspace NTNU</h3>
+        </div>
+    </div>
+</div>
+<div class="parallax-container hide-on-small-only">
+	<div class="parallax">
+		<img class="darken-90 responsive-img" src="{% static 'website/img/group_photos/Halloween-workshop.jpg' %}" alt="Hackerspace Logo" />
+        </div>
+</div>
+<img class="darken-90 responsive-img no-pad-bot hide-on-med-and-up" src="{% static 'website/img/group_photos/Halloween-workshop.jpg' %}" alt="Hackerspace Logo" />
+<div class="section hs-gray white-text">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h3>Hva er Hackerspace?</h3>
+				<p class="flow-text">Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter. Vi tilbyr en kreativ arena der studenter fra forskjellige linjer kan få hjelp til å realisere idéene sine i et engasjert og inkluderende miljø. Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p>
+				<p class="flow-text">Om du er en førsteklassing som trenger hjelp med ditt første Arduino-prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av Trondheim, kan vi stille med både utstyr og kompetanse. Vi holder også regelmessig kurs for både nybegynnere og viderekomne innen mange spennende emner.</p>
+				<p class="flow-text">Kom innom for å se hva vi driver med og slå av en prat. <br>Du finner oss i Drivhuset på NTNU Gløshaugen i IT-byggets sydfløy.</p>
+				<a class="btn btn-flat btn-large waves hs-green white-text modal-trigger" href="#mapModal"><i class="material-icons small">map</i> Vis kart</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h3 class="white-text">Våre aktive grupper</h3>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4>DevOps</h4>
+				<p class="flow-text">Hovedoppgaven til DevOps er å utvikle og drifte hackerspace sin nettside, men vi jobber også med ting som dør-apiet og registreringsløsningen vår for utlån av utstyr.  Dør-apiet er koblet opp mot døra til hackerspace og statusen vises både på nettsida og en android widget.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4>LabOps</h4>
+				<p class="flow-text">Hovedoppgaven til LabOps er å drifte Hackerspace sine lokaler, planlegge og gjennomføre arrangement, holde stands og drive annen promotering.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4>Prosjektgruppen</h4>
+				<p class="flow-text">Prosjektgruppen gjennomfører en rekke prosjekter som varierer fra år til år. For Høst 2018 skal følgende prosjekter startes opp:</p>
+				<ul>
+					<li class="flow-text">- Arkademaskin</li>
+					<li class="flow-text">- Mobilspill</li>
+					<li class="flow-text">- Brettspill</li>
+					<li class="flow-text">- Videospill</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h3 class="white-text">Våre tidligere prosjektgrupper</h3>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>Prosjekt VR</h4>
+					<p class="flow-text">VR-gruppen gjennomførte utvikling av Virtual Reality spillet Defendy Pengy - et tower devence-inspirert spill med hjemmekoselig dyretema. I spillet skal du beskytte små, søte pingvinunger mot ville dyr.</p>
+					<a class="btn btn-large hs-green" target="_blank" href="https://github.com/hackerspace-ntnu/Defendy-Pengy">Se prosjekt på GitHub</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div class="section">
+					<h4>Prosjekt ER</h4>
+					<p class="flow-text">Escape Room gruppen laget et kjempekult ER-prosjekt som er tilgjengelig for alle som ønsker.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section hs-green white-text">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h3>Opptak</h3>
+				<p class="flow-text">
+					Vi har opptak for medlemskap i Hackerspace én gang i året på høsten ved semesterstart. Både ferske førsteklassinger og erfarene studenter er velkommen til å søke. Opptak blir publisert og informert om på våre hjemmesider.
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	M.AutoInit();
+</script>
+{% endblock content %}

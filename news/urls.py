@@ -2,16 +2,11 @@ from django.conf.urls import url
 
 from . import views
 
+app_name = 'news'
 urlpatterns = [
-    url(r'^all/$', views.all_news, name='all-news'),
-    url(r'^article/(?P<article_id>[0-9]+)/$', views.article, name='article'),
-    url(r'^article/(?P<article_id>[0-9]+)/edit', views.edit_article, name='edit-article'),
-    url(r'^article/(?P<article_id>[0-9]+)/delete', views.delete_article, name='delete-article'),
-    url(r'^event/(?P<event_id>[0-9]+)/$', views.event, name='event'),
-    url(r'^event/(?P<event_id>[0-9]+)/edit', views.edit_event, name='edit-event'),
-    url(r'^event/(?P<event_id>[0-9]+)/delete', views.delete_event, name='delete-event'),
-    url(r'^event/(?P<event_id>[0-9]+)/attendees/$', views.event_attendees, name='event-attendees'),
-    url(r'^upload-file/', views.upload_file, name='upload-file'),
-    url(r'^upload-done/', views.upload_done, name='upload-done'),
-    url(r'^register/(?P<event_id>[0-9]+)/$', views.register_on_event, name="register-on-event")
+    url(r'^$', views.ArticleListView.as_view(), name='all'),
+    url(r'^(?P<pk>[0-9]+)/$', views.ArticleView.as_view(), name='details'),
+    url(r'^(?P<pk>[0-9]+)/edit', views.ArticleUpdateView.as_view(), name='edit'),
+    url(r'^new', views.ArticleCreateView.as_view(), name='new'),
+    url(r'^(?P<pk>[0-9]+)/delete', views.ArticleDeleteView.as_view(), name='delete'),
 ]

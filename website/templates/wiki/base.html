@@ -1,0 +1,23 @@
+{% extends "wiki/base_site.html" %}
+{% load staticfiles %}
+
+{% block wiki_site_title %} - Hackerspace Wiki{% endblock %}
+{% block wiki_navbar %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	{% include 'website/header.html' %}
+	<link href="{% static "wiki/bootstrap/css/wiki-bootstrap.min.css" %}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{% static "wiki/style.css" %}">
+	<div class="container">
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				M.AutoInit();
+
+			});
+		</script>
+{% endblock %}
+

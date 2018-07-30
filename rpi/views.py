@@ -1,5 +1,4 @@
 import datetime
-
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt

@@ -1,0 +1,24 @@
+{% load staticfiles %}
+
+<div id="deleteModal" class="modal delete-modal">
+	<div class="modal-content">
+		<h4>Advarsel!</h4>
+		<div class="divider"></div>
+		<p class="flow-text">Du vil permanent slette det valgte elementet.</p>
+	</div>
+	<div class="modal-footer">
+		<a id="deleteButton" href="" class="modal-action modal-close waves-effect btn-flat waves-light hs-red white-text"><i class="material-icons">delete</i> Slett</a>
+		<a id="cancelButton" class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
+	</div>
+</div>
+
+<script>
+	var deleteModal = document.querySelector('.delete-modal');
+	var instance = M.Modal.init(deleteModal);
+
+	var delete_button = document.querySelector("#deleteButton");
+	delete_button.href += "delete";
+	delete_button.addEventListener("click", function() {
+		instance.open();
+	});
+</script>

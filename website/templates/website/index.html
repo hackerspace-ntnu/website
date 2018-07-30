@@ -1,0 +1,173 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="section hs-gray hide-on-med-and-up">
+	<div class="row center">
+		<br>
+		<img style="width:100px; height:150px;" src=" {% static 'website/img/logo/Icon_green_transparent.png' %} ">
+	</div>
+</div>
+<div class="section hide-on-small-only no-pad hs-green">
+	<div class="slider">
+		<div class="container">
+				<ul class="slides">
+					<li class="tinter">
+						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
+						<div class="caption center-align">
+							<h4>Har du en skaper i magen?</h4>
+							<p>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</p>
+						</div>
+					</li>
+					<li class="tinter">
+						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
+						<div class="caption center-align">
+							<h4>Nyskjerrrig på VR?</h4>
+							<p>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</p>
+						</div>
+					</li>
+					<li class="tinter">
+						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
+						<div class="caption center-align">
+							<h4>Kreativt, innovativt og ikke minst sosialt</h4>
+							<p>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</p>
+						</div>
+					</li>
+				</ul>
+		</div>
+	</div>
+</div>
+</div>
+<div class="section hs-green center">
+	<div class="container">
+		<div class="row no-pad-bot">
+			<div class="col s12">
+				<ul class="sosial-bilder">
+					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'website/img/icon/slack_icon.png' %}" title="Slack"></a>
+					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img src="{% static 'website/img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
+					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img src="{% static 'website/img/icon/if_github_253591.svg' %}" title="GitHub"></a>
+					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img src="{% static 'website/img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="section hs-gray">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 l6 white-text">
+				<h4>Hvem er vi?</h4>
+				<p>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter uavhengig av studieretning.</p>
+				<p>Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p><p>Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det.</p>
+				<p>Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="modal-trigger hs-green-text" href="#mapModal">vårt kontor</a> og slack-kanal.</p>
+				<p>Vaktordningen sørger for at du alltid møter noen på kontoret klare til å demonstrere utstyr eller hjelpe deg.</p>
+				<a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">Les mer om oss her</a>
+			</div>
+			<div class="col s12 l6">
+				<div class="row">
+					<br>
+					<div class="col s12 x12">
+						<ul class="collection with-header z-depth-1">
+							<li class="collection-header">
+								<div>
+									<p class="flow-text">Siste nytt <i class="material-icons hs-green-text">new_releases</i></p>
+								</div>
+							</li>
+							{% for article in article_list %}
+							<li class="collection-item">
+								<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+								<a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="col s12 xl12">
+						<ul class="collection with-header z-depth-1">
+							<li class="collection-header">
+								<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
+							</li>
+							{% for event in event_list reversed %}
+							<li class="collection-item">
+								<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
+								<a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section hs-green ">
+	<div class="container hide-on-med-and-down">
+		<div class="row">
+			<div class="col s12">
+				<h4 class="white-text">Våre prosjekter</h4>
+				<p class="white-text">I tillegg til våre interne løsninger og medlemmers kule saker, har vi prosjektgrupper som står for å lage større prosjekter.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<div class="card horizontal">
+					<div class="card-image">
+						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
+						<span class="card-title">Nye prosjekter</span>
+					</div>
+					<div class="card-stacked">
+						<div class="card-content">
+							<p>Høsten 2018 kjører vi i gang med nye større prosjekter: </p>
+							<ul>
+								<li>Arkademaskin</li>
+								<li>Mobilspill</li>
+								<li>Brettspill</li>
+								<li>Spill</li>
+
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col s12" >
+				<div class="card horizontal">
+					<div class="card-image">
+						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
+						<span class="card-title">Escape Room</span>
+					</div>
+					<div class="card-stacked">
+					<div class="card-content">
+						<p>Er du lei av at de kule eventyrene kun eksisterer i digital form?<br> Dersom du vil dra på eventyr i virkeligheten, kan du komme innom vårt Escape Room</p>
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="col s12">
+				<div class="card horizontal">
+					<div class="card-image">
+						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
+						<span class="card-title">Virtual Reality</span>
+					</div>
+					<div class="card-stacked">
+					<div class="card-content">
+						<p>Hackerspace har utviklet et eget Virtual Reality spill! Prosjektgruppa for VR driver med dette.</p>
+					</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var elem = document.querySelector('.slider');
+var instance = M.Slider.init(elem, {
+	indicators: false,
+	height: 256,
+	duration:600,
+	interval: 6000
+})
+
+</script>
+{% endblock content %}

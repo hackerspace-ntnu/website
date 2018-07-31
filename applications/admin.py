@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Application, ProjectApplication
+from .models import Application
 
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = [
@@ -9,9 +9,3 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 admin.site.register(Application, ApplicationAdmin)
 
-class ProjectApplicationAdmin(admin.ModelAdmin):
-    list_display = [
-        'email',
-    ]
-
-admin.site.register(ProjectApplication, ProjectApplicationAdmin)

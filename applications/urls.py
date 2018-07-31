@@ -1,11 +1,10 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 from applications import views
 
 app_name = 'application'
 
 urlpatterns = [
-    # url(r'^notyet$', views.no_application, name='no_application'),
-    # url(r'^$', views.project_application_form, name='project_application_form'),
-    url(r'^$', views.application_form, name='application_form'),
-    # url(r'^done/$', views.application_sent, name="application_sent")
+    url(r'^$', views.ApplicationView.as_view(), name='application_form'),
+    url(r'^success', TemplateView.as_view(template_name="applications/application_success.html"), name='application_success'),
 ]

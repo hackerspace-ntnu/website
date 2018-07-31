@@ -1,0 +1,81 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="section hs-green">
+	<div class="container">
+		<div class="row white-text">
+			<div class="col s12">
+				<h4>Søknad</h4>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<p>Velkommen til søknadssiden for Hackerspace NTNU sitt opptak.</p><p>Når opptaket er ferdig, kontakter vi deg med svar via epostaddressen du oppgir under.</p>
+				<p>Les mer om gruppene våre <a href="{% url 'about' %}">her</a></p>
+				<p>På forhånd tusen takk for din interesse.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<form method="post">
+					{% csrf_token %}
+					{{ form.errors }}
+					<div class="row">
+						<div class="input-field col s12">
+							{{ form.name }}
+							{{ form.name.label_tag }}
+						</div>
+						<div class="input-field col s12">
+							{{ form.email }}
+							{{ form.email.label_tag }}
+						</div>
+						<div class="input-field col s12">
+							{{ form.phone }}
+							{{ form.phone.label_tag }}
+						</div>
+						<div class="input-field col s12">
+							{{ form.study }}
+							{{ form.study.label_tag }}
+						</div>
+						<div id="year" class="input-field col s12">
+							{{ form.year }}
+							<label for="{{ form.year.id_for_label }}">{{ form.year.label }}</label>
+						</div>
+						<div id="group_choice" class="input-field col s12">
+							{{ form.group_choice }}
+							<label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
+						</div>
+						<div class="input-field col s12">
+							{{ form.knowledge_of_hs }}
+							{{ form.knowledge_of_hs.label_tag }}
+						</div>
+
+						<div class="input-field col s12">
+							<textarea id="about-input" class="materialize-textarea"
+				  name="{{ form.about.name }}"></textarea>
+							<label for="about-input" id="custom-label">{{ form.about.label }}</label>
+						</div>
+						<div class="input-field col s12">
+							<textarea id="application-text-input" class="materialize-textarea"
+					     name="{{ form.application_text.name }}"></textarea>
+							<label for="application-text-input" id="custom-label">{{ form.application_text.label }}</label>
+						</div>
+						<button class="btn waves-effect waves-light" type="submit" name="action">Send
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock content %}

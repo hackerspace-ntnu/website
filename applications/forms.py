@@ -1,22 +1,10 @@
-from datetime import datetime
-
 from django.forms import ModelForm
+from django.core.mail import send_mail
 
-from .models import Application, ProjectApplication
+from .models import Application
 
 
 class ApplicationForm(ModelForm):
-    # Creates a list with the choices
-    year_choices = [choice[1] for choice in Application.YEAR_CHOICES]
-    group_choices = [choice[1] for choice in Application.GROUP_CHOICES]
-
-    # Returns if it's still possible to apply
-    @staticmethod
-    def deadline_passed():
-        if (datetime.now() - Application.APPLICATION_DEADLINE).total_seconds() > 0:
-            return True
-        else:
-            return False
 
     class Meta:
         model = Application
@@ -24,26 +12,30 @@ class ApplicationForm(ModelForm):
                   'email',
                   'phone',
                   'study',
-                  'group_choice',
                   'year',
+                  'group_choice',
                   'knowledge_of_hs',
                   'about',
                   'application_text',
                   ]
-        error_messages = {}
 
-        for field in fields:
-            error_messages[field] = {'required': 'Feltet må fylles ut', 'invalid_choice': 'Verdien er ikke gyldig'}
+    def send_email(self):
+        send_mail(
+            '[Hackerspace NTNU] Søknad er registrert!',
+            """Hei!
+
+            Dette er en bekreftelse på at din søknad er registrert.
+            Vi svarer på søknader fortløpende etter søknadsfristen går ut.
 
 
-class ProjectApplicationForm(ModelForm):
+            Tusen takk for din interesse. :-)
 
-    class Meta:
-        model = ProjectApplication
-        fields = ['email']
-        error_messages = {}
+            Mvh,
+            Styret i Hackerspace NTNU
 
-        for field in fields:
-            error_messages[field] = {'required': 'Feltet må fylles ut',
-                                     'invalid': 'Verdien er ikke gyldig'
-                                     }
+            """,
+            'Hackerspace NTNU',
+            [self.cleaned_data['email']],
+            fail_silently=False,
+        )
+        pass

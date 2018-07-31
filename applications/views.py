@@ -26,12 +26,12 @@ class ApplicationView(FormView):
                 "application_start_date": APPLICATION_START_DATE,
             }
             return render(request,
-                          'applications/application_not_active.html', context
+                          'applications/application_info.html', context
                           )
         elif current_date > APPLICATION_END_DATE:
             context = {
                 "status": "sent",
             }
-            return render(request, 'applications/application_not_active.html', context)
+            return render(request, 'applications/application_info.html', context)
         else:
             return super(ApplicationView, self).dispatch(request, *args, **kwargs)

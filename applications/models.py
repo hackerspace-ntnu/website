@@ -13,10 +13,12 @@ YEAR_CHOICES = (
 )
 
 GROUP_CHOICES = (
-    ("DEVOPS", "DEVOPS"),
-    ("PR", "PR"),
-    ("LABOPS", "LABOPS"),
-    ("ER", "ER"),
+    ("DEVOPS", "DevOps"),
+    ("LABOPS", "LabOps"),
+    ("ARCADE", "Prosjekt - Arkademaskin"),
+    ("BOARDGAME", "Prosjekt - Brettspill"),
+    ("MOBILEGAME", "Prosjekt - Mobilspill"),
+    ("VIDEOGAME", "Prosjekt - Videospill"),
 )
 
 class Application(models.Model):

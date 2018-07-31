@@ -5,6 +5,7 @@ from applications import views
 app_name = 'application'
 
 urlpatterns = [
-    url(r'^$', views.ApplicationView.as_view(), name='application_form'),
+    url(r'^$', TemplateView.as_view(template_name="applications/application_info.html"), name='application_form'),
+    url(r'^application', views.ApplicationView.as_view(), name='application_form'),
     url(r'^success', TemplateView.as_view(template_name="applications/application_success.html"), name='application_success'),
 ]

@@ -18,7 +18,6 @@
 			<div class="col s12">
 				<h5>Velkommen til søknadssiden for Hackerspace NTNU sitt opptak!</h5>
 				<p>Når opptaket er ferdig, kontakter vi deg med svar via epostaddressen du oppgir under.</p>
-				<p>Tusen takk for din interesse!</p>
 			</div>
 		</div>
 	</div>
@@ -73,8 +72,7 @@
 				</div>
 
 				<div class="input-field col s12">
-					<textarea id="about-input" class="materialize-textarea"
-				name="{{ form.about.name }}"></textarea>
+					{{ form.about }}
 					<label for="{{ form.about.id_for_label }}">{{ form.about.label }}</label>
 					{% if form.about.errors %}
 					<span class="helper-text hs-red-text">{{ form.about.errors }}</span>
@@ -83,11 +81,12 @@
 					{% endif %}
 				</div>
 				<div class="input-field col s12">
-					<textarea id="application-text-input" class="materialize-textarea"
-					   name="{{ form.application_text.name }}"></textarea>
-					<label for="application-text-input" id="custom-label">{{ form.application_text.label }}</label>
+					{{ form.application_text }}
+					<label for="{{ form.application_text.id_for_label }}">{{ form.application_text.label }}</label>
 					{% if form.application_text.errors %}
 					<span class="helper-text hs-red-text">{{ form.application_text.errors }}</span>
+					{% else %}
+					<span class="helper-text">Skriv gjerne litt om hva du har lyst til å jobbe med innenfor gruppen, dersom relevant.</span>
 					{% endif %}
 				</div>
 			</div>

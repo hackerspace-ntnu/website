@@ -21,6 +21,11 @@ GROUP_CHOICES = (
     ("VIDEOGAME", "Prosjekt - Videospill"),
 )
 
+class ApplicationGroup(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Gruppenavn")
+    def __str__(self):
+        return self.name
+
 class Application(models.Model):
     name = models.CharField(max_length=50, verbose_name="Navn")
     email = models.EmailField(verbose_name="Email")
@@ -28,7 +33,7 @@ class Application(models.Model):
     study = models.CharField(max_length=255, verbose_name="Studieprogram")
 
     year = models.IntegerField(blank=False, verbose_name="Årstrinn", choices=YEAR_CHOICES, default=YEAR_CHOICES[0])
-    group_choice = models.CharField(blank=False, default=GROUP_CHOICES[0], max_length=255, choices=GROUP_CHOICES, verbose_name="Ønsket gruppe")
+    group_choice = models.ManyToManyField(ApplicationGroup, related_name="groups")
     knowledge_of_hs = models.CharField(max_length=1000, verbose_name="Hvordan fikk du vite om Hackerspace?")
 
     about = models.TextField(verbose_name="Litt om deg selv")
@@ -37,3 +42,5 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
+
+

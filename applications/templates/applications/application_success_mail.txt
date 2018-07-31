@@ -1,0 +1,19 @@
+Hei {{ navn }}!
+
+Dette er en bekreftelse på at din søknad er registrert.
+
+Du har søkt følgende grupper:
+{% for group in grupper %}
+{{ group }}
+{% endfor %}
+
+
+Vi svarer på søknader fortløpende etter søknadsfristen går ut.
+Denne mailen kan ikke besvares. Dersom du skulle ha noen spørsmål rundt din søknad, ta kontakt med
+hackerspace-styret@idi.ntnu.no
+
+
+Tusen takk for din interesse. :-)
+
+Mvh,
+Styret i Hackerspace NTNU

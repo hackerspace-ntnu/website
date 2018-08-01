@@ -1,82 +1,28 @@
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
-from applications.forms import ApplicationForm, ProjectApplicationForm
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.core.mail import send_mail
+from applications.forms import ApplicationForm
 from datetime import datetime
-
-from .models import Application
-
-import json
-
-APPLICATION_START_DATE = datetime(2017, 8, 1)
+from django.views.generic.edit import FormView
 
 
-# Application page
-def application_form(request):
-    # Check if not application time
-    current_date = datetime.now()
-    if current_date < APPLICATION_START_DATE or current_date > Application.APPLICATION_DEADLINE:
-        return render(request, 'no_application.html', {'APPLICATION_START_DATE': APPLICATION_START_DATE})
+APPLICATION_START_DATE = datetime(2018, 8, 13)
+APPLICATION_END_DATE = datetime(2018, 9, 2, 1, 0, 0)
 
-    if request.method == 'POST':
-        form = ApplicationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse("Søknaden din er mottatt, du vil snart høre fra oss")
+
+class ApplicationView(FormView):
+    template_name = 'applications/application_form.html'
+    form_class = ApplicationForm
+    success_url = '/opptak/success'
+
+    def form_valid(self, form):
+        form.send_email()
+        form.save()
+        return super(ApplicationView, self).form_valid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        current_date = datetime.now()
+        if current_date < APPLICATION_START_DATE:
+            return render(request, 'applications/application_too_early.html')
+        elif current_date > APPLICATION_END_DATE:
+            return render(request, 'applications/application_too_late.html')
         else:
-            return JsonResponse(json.dumps(form.errors), status=400, safe=False)
-    else:
-        # Set the initial choices of the dropdowns
-        form = ApplicationForm(initial={
-            'group_choice': 'Velg en gruppe',
-            'year': 'Velg et årstrinn',
-        })
-
-    context = {
-        'form': form
-    }
-
-    return render(request, 'application_form.html', context)
-
-
-# Project group specific application page
-def project_application_form(request):
-    if request.method == 'POST':
-        form = ProjectApplicationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            send_mail(
-                'Hackerspace NTNU takker for interessen :)',
-                """Hei og takk for at du er interessert i å søke prosjektgruppa til Hackerspace NTNU! Du får du en epost med link til søknadsskjemaet når det åpner, og kan søke stilling i enten Escape-rom gruppa eller VR-gruppa.
-
-Har du spørsmål eller vil du vite mer om oss eller stillingene? Besøk oss gjerne på Slack:
-https://hackerspace-ntnu.slack.com/messages/opptak/
-
-Med vennlig hilsen oss i prosjektgruppa ved Hackerspace NTNU.
-
-https://hackerspace-ntnu.no/
-https://www.facebook.com/hackerspacentnu/?fref=ts
-""",
-                'Hackerspace NTNU',
-                [form.cleaned_data['email']],
-                fail_silently=False,
-            )
-            return application_sent(request)
-        else:
-            return JsonResponse(json.dumps(form.errors), status=400, safe=False)
-
-    form = ProjectApplicationForm()
-
-    context = {
-        'form': form
-    }
-    return render(request, 'project_application_form.html', context)
-
-
-def application_sent(request):
-    return render(request, 'application_sent.html')
-
-
-def no_application(request):
-    return render(request, 'no_application.html', {'APPLICATION_START_DATE': APPLICATION_START_DATE})
+            return super(ApplicationView, self).dispatch(request, *args, **kwargs)

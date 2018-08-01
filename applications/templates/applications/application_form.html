@@ -1,0 +1,106 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="section hs-green">
+	<div class="container">
+		<div class="row white-text">
+			<div class="col s12">
+				<h4>Søknad</h4>
+				<a class="btn btn-flat hs-green-text white" href="/opptak/">Tilbake til infoside</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h5>Velkommen til søknadssiden for Hackerspace NTNU sitt opptak!</h5>
+				<p>Når opptaket er ferdig, kontakter vi deg med svar via epostaddressen du oppgir under.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<form method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="input-field col s12">
+					{{ form.name }}
+					<label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+				</div>
+				<div class="input-field col s12">
+					{{ form.email }}
+					<label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+					{% if form.email.errors %}
+					<span class="helper-text hs-red-text">{{ form.email.errors }}</span>
+					{% endif %}
+				</div>
+				<div class="input-field col s12">
+					{{ form.phone }}
+					<label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+					{% if form.phone.errors %}
+					<span class="helper-text hs-red-text">{{ form.phone.errors }}</span>
+					{% endif %}
+				</div>
+				<div class="input-field col s12">
+					{{ form.study }}
+					<label for="{{ form.study.id_for_label }}">{{ form.study.label }}</label>
+				</div>
+				<div id="year" class="input-field col s12">
+					{{ form.year }}
+					<label for="{{ form.year.id_for_label }}">{{ form.year.label }}</label>
+					{% if form.year.errors %}
+					<span class="helper-text hs-red-text">{{ form.year.errors }}</span>
+					{% endif %}
+				</div>
+				<div id="group_choice" class="input-field col s12">
+					{{ form.group_choice }}
+					<label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
+					{% if form.group_choice.errors %}
+					<span class="helper-text hs-red-text">{{ form.group_choice.errors }}</span>
+					{% endif %}
+				</div>
+				<div class="input-field col s12">
+					{{ form.knowledge_of_hs }}
+					<label for="{{ form.knowledge_of_hs.id_for_label }}">{{ form.knowledge_of_hs.label }}</label>
+					{% if form.knowledge_of_hs.errors %}
+					<span class="helper-text hs-red-text">{{ form.knowledge_of_hs.errors }}</span>
+					{% endif %}
+				</div>
+
+				<div class="input-field col s12">
+					{{ form.about }}
+					<label for="{{ form.about.id_for_label }}">{{ form.about.label }}</label>
+					{% if form.about.errors %}
+					<span class="helper-text hs-red-text">{{ form.about.errors }}</span>
+					{% else %}
+					<span class="helper-text">Vi ønsker å vite litt om hvem du er som person, hva du liker å gjøre på fritiden, etc.</span>
+					{% endif %}
+				</div>
+				<div class="input-field col s12">
+					{{ form.application_text }}
+					<label for="{{ form.application_text.id_for_label }}">{{ form.application_text.label }}</label>
+					{% if form.application_text.errors %}
+					<span class="helper-text hs-red-text">{{ form.application_text.errors }}</span>
+					{% else %}
+					<span class="helper-text">Skriv gjerne litt om hva du har lyst til å jobbe med innenfor gruppen, dersom relevant.</span>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12">
+					<p>Informasjonen oppgitt i dette skjema vil kun benyttes av styret (gruppeledere og ledelsen) til formål for opptaket. Dataen vil permanent slettes etter opptaket er ferdig.</p> 
+					<br>
+				</div>
+				<div class="col s12">
+					<button class="btn btn-large hs-green waves-effect waves-light" type="submit" name="action">Send inn søknad</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+{% endblock content %}

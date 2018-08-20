@@ -2,6 +2,7 @@
 <div class="modal" id="uploadModal">
 		<div class="modal-content">
 			<form method="POST" name="uploadform" id="uploadForm" enctype="multipart/form-data">
+				{% csrf_token %}
 			<div class="input-field col s12">
 				{{ UploadForm.title }}
 				<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>

@@ -37,7 +37,6 @@
 		$.ajax({
 			type:'POST',
 			url: "/files/image-upload/",
-			headers: { 'X-CSRFToken': '{{ csrf_token }}' },
 			data: formData,
 			contentType: false,
 			processData: false,

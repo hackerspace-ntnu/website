@@ -91,12 +91,6 @@ document.addEventListener('click', function(e) {
 		M.Modal.getInstance(thumbModal).close();
 	}
 });
-document.addEventListener('click', function(e) {
-	if(e.target.innerText == "DELETE") {
-		e.target.parentElement.parentElement.parentElement.remove();
-	}
-});
-
 var internalCheck = document.getElementById('internal-check');
 internalCheck.addEventListener("change", function() {
 	if(internalCheck.checked == true) {

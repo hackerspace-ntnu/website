@@ -1,6 +1,6 @@
 from django import template
 from files.forms import ImageForm
-from files.views import images
+from files.views import ImageListView
 
 register = template.Library()
 

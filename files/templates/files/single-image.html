@@ -18,7 +18,7 @@
 				<li> <a class="waves-effect waves-light btn previewButton blue">Preview</a></li>
 				<li><a class="waves-effect waves-light btn selectButton green" value="{{ image.id }}">Select</a></li>
 				<li><a class="waves-effect waves-light btn editButton orange" href="/files/image/{{ image.id }}/edit">Edit</a></li>
-				<li><a url="/files/image/{{ image.id }}/delete/" class="waves-effect waves-light btn delete deleteButton red">Delete</a></li>
+				<li><a href="{% url 'image-delete' image.id %}" class="waves-effect waves-light btn delete deleteButton red">Delete</a></li>
 			</ul>
 		</div>
 	</div>

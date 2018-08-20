@@ -62,7 +62,11 @@
 						</div>
 					</div>
 					<a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
-					<div id="thumb-preview" class="card center-align small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url(/files/image/{{ form.thumbnail.value }}/view); background-size:contain; background-repeat:no-repeat;">
+					{% if form.thumbnail.value %}
+					<div id="thumb-preview" class="card center-align small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-size:contain; background-repeat:no-repeat;">
+						{% else %}
+					<div id="thumb-preview" class="card center-align small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: none; background-size:contain; background-repeat:no-repeat;">
+						{% endif %}
 							<h5 class="hover-text">Trykk for å velge bilde</h5>
 					</div>
 				<div>

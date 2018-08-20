@@ -2,7 +2,7 @@
 <div class="modal" id="uploadModal">
 		<div class="modal-content">
 			<form method="POST" name="uploadform" id="uploadForm" enctype="multipart/form-data">
-			{% csrf_token %}
+				{% csrf_token %}
 			<div class="input-field col s12">
 				{{ UploadForm.title }}
 				<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
@@ -27,17 +27,19 @@
 </div>
 <script>
 	var submitBtn = document.querySelector('#uploadBtn');
-
-
 	submitBtn.addEventListener('click', function(e) {
 		e.preventDefault();
 		var form = document.querySelector('#uploadForm');
 		var formData = new FormData(form);
+		// Get from original form
+		var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 		console.log(formData);
 		$.ajax({
 			type:'POST',
 			url: "/files/image-upload/",
-			headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+			headers: {
+				'X-CSRFToken': csrftoken 
+			},
 			data: formData,
 			contentType: false,
 			processData: false,

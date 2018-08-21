@@ -53,7 +53,7 @@
 										<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
 									</div>
 									<div class="modal-footer">
-										<form method="post" action="/events/register/{{ event.id }}/">
+										<form method="post" action="/events/{{ event.id }}/register/">
 											{% csrf_token %}
 											{% if registered %}
 												<button class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>

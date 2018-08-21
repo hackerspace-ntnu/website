@@ -44,7 +44,7 @@
 		<div class="row">
 			<div class="col s2 center hide-on-med-and-down">
 				{% if event.thumbnail %}
-				<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.url }}">
+				<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
 				{% else %}
 				<img class="circle" style="width:100px; height:100px;" src="">
 				{% endif %}
@@ -88,7 +88,7 @@
 		<div class="row">
 			<div class="col s2 center hide-on-med-and-down">
 				{% if event.thumbnail %}
-				<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.url }}">
+				<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
 				{% else %}
 				<img class="circle" style="width:100px; height:100px;" src="">
 				{% endif %}

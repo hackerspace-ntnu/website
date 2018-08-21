@@ -1,7 +1,7 @@
 <div class="col s4">
 	<div class="card">
 		<div class="card-image waves-effect">
-			<img class="activator thumb-img" src="{{ image.url }}" />
+			<img class="activator thumb-img" src="{{ image.thumb_url }}" />
 		</div>
 		<div class="card-content">
 			<span class="card-title activator">{{ image.title }}<i class="material-icons right">more_vert</i></span>
@@ -15,7 +15,7 @@
 			<div class="divider"></div>
 			<br>
 			<ul>
-				<li> <a class="waves-effect waves-light btn previewButton blue">Preview</a></li>
+				<li> <a target="_blank" href="{{ image.url }}" class="waves-effect waves-light btn previewButton blue">Preview</a></li>
 				<li><a class="waves-effect waves-light btn selectButton green" value="{{ image.id }}">Select</a></li>
 				<li><a class="waves-effect waves-light btn editButton orange" href="/files/image/{{ image.id }}/edit">Edit</a></li>
 				<li><a href="{% url 'image-delete' image.id %}" class="waves-effect waves-light btn delete deleteButton red">Delete</a></li>

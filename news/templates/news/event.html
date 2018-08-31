@@ -5,8 +5,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
 {% endblock head %}
 {% block content %}
-<div class="section no-pad-bot no-pad hs-green">
+<div class="section no-pad-bot no-pad hs-green hide-on-med-and-up">
 	<img class="header-image" src="{{ object.thumbnail.url }}" />
+</div>
+<div class="section no-pad-bot no-pad hs-green hide-on-small-only">
+	<div class="container">
+		<img class="header-image" src="{{ object.thumbnail.url }}" />
+	</div>
 </div>
 <div class="section hs-green">
 	<div class="container">
@@ -84,22 +89,21 @@
 				</div>
 			</div>
 			{% if request.user|has_group:"member" %}
-			<div class="row">
-				<div class="col s12">
-					<ul class='collection'>
-						<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-						<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
-					</ul>
+				<div class="row">
+					<div class="col s12">
+						<ul class='collection'>
+							<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
+							<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
+						</ul>
+					</div>
 				</div>
-			</div>
-			<p>Venteliste:</p>
-			{% for user in event.wait_list %}
-				{{ user }}
-			{% endfor %}
-			</p>Total liste:</p>
-			{% for user in event.registered_list %}
-				{{ user }}
-			{% endfor %}
+				<p>Venteliste:</p>
+				{% for user in event.wait_list %}
+					{{ user }}
+				{% endfor %}
+				</p>Total liste:</p>
+				{% for user in event.registered_list %}
+					{{ user }} {% endfor %}
 			{% endif %}
 		</div>
 	</div>

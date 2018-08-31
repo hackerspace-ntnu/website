@@ -56,13 +56,21 @@ class Event(models.Model):
 
     def registered_count(self):
         '''
-        Finds the number of registered users for the event. Does not count any user that is in
-        the waiting list for the event.
+        Finds the number of registered users not in the waiting list for the event. 
+
+        :return: The number of registered users for the event, excluding waitlisted
+        '''
+        return len(EventRegistration.get_registrations(self)) - len(EventRegistration.get_waitlist(self))
+
+    def waiting_count(self):
+        '''
+        Finds the number of waitlisted users for the event. Does not count any user that is in
+        the normal list for the event.
 
         :return: The number of registered users for the event
         '''
-        return len(EventRegistration.get_registrations(self))
-
+        return len(EventRegistration.get_waitlist(self))
+    
     def is_registered(self, user):
         '''
         Check if the user is registered for the event and not on the waiting list
@@ -90,11 +98,20 @@ class Event(models.Model):
         :param user: The user to get registration status for
         :return: A string representing the user status
         '''
-        if self.is_registered(user):
-            return "Påmeldt"
         if self.is_waiting(user):
-            return "Venteliste"
-        return "Ikke påmeldt"
+            return "på ventelisten"
+        if self.is_registered(user):
+            return "påmeldt"
+        return "ikke påmeldt"
+
+    def get_position(self, user):
+        '''
+        Retreives the position in waitlist for a given event
+
+        :param event: The event to retrieve the waitlist for
+        :return: The waitlist
+        '''
+        return self.wait_list().index(user) + 1
 
     def registered_percentage(self):
         '''
@@ -130,8 +147,7 @@ class Event(models.Model):
 
         :return: Simplified waiting list
         '''
-        return [(priority + 1, registration.user.get_full_name) for priority, registration in
-                enumerate(EventRegistration.get_waitlist(self))]
+        return [registration.user for registration in EventRegistration.get_waitlist(self)]
 
     def can_edit_registration_status(self, user):
         '''
@@ -186,6 +202,7 @@ class EventRegistration(models.Model):
     date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
     attended = models.BooleanField(default=False)
 
+
     @staticmethod
     def get_waitlist(event):
         '''
@@ -204,7 +221,7 @@ class EventRegistration(models.Model):
         :param event: The event to get event registrations for
         :return: A queryset of all event registration for the event ordered by date
         '''
-        return EventRegistration.get_registrations(event).order_by('date')[:event.max_limit]
+        return EventRegistration.get_registrations(event).order_by('date')
 
 
     @staticmethod

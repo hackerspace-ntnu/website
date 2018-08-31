@@ -18,7 +18,7 @@
 					{% if event.internal %}
 						<p>Dette er et internt arrangement.</p>
 					{% else %}
-						<p> Dette arrangementet er åpent for alle </p> 
+						<p> Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
 					{% endif %}
 					<div class="divider"></div>
 				</div>
@@ -37,8 +37,11 @@
 							<p>Du er {{ userstatus }}</p>
 							<div class="progress hs-gray">
 								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }}</p>
+								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
 							</div>
+							{% if userstatus == 'på ventelisten' %}
+							<p class="hs-grey-text">{{ get_position }}</p>
+							{% endif %}
 							{% if event.registration and request.user.is_authenticated and registration_visible %}
 								{% if registered %}
 									<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
@@ -56,9 +59,10 @@
 										<form method="post" action="/events/{{ event.id }}/register/">
 											{% csrf_token %}
 											{% if registered %}
-												<button class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
+												<p>Obs! Dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
+												<button class="btn waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
 											{% else %}
-												<button class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
+												<button class="btn waves-effect waves-light hs-green" type="submit" name="action">Meld deg på</button>
 											{% endif %}
 										</form>
 										<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
@@ -88,6 +92,14 @@
 					</ul>
 				</div>
 			</div>
+			<p>Venteliste:</p>
+			{% for user in event.wait_list %}
+				{{ user }}
+			{% endfor %}
+			</p>Total liste:</p>
+			{% for user in event.registered_list %}
+				{{ user }}
+			{% endfor %}
 			{% endif %}
 		</div>
 	</div>

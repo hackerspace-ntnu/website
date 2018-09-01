@@ -5,8 +5,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
 {% endblock head %}
 {% block content %}
-<div class="section no-pad-bot no-pad hs-green">
+<div class="section no-pad-bot no-pad hs-green hide-on-med-and-up">
 	<img class="header-image" src="{{ object.thumbnail.url }}" />
+</div>
+<div class="section no-pad-bot no-pad hs-green hide-on-small-only">
+	<div class="container">
+		<img class="header-image" src="{{ object.thumbnail.url }}" />
+	</div>
 </div>
 <div class="section hs-green">
 	<div class="container">
@@ -18,7 +23,7 @@
 					{% if event.internal %}
 						<p>Dette er et internt arrangement.</p>
 					{% else %}
-						<p> Dette arrangementet er åpent for alle </p> 
+						<p> Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
 					{% endif %}
 					<div class="divider"></div>
 				</div>
@@ -37,8 +42,11 @@
 							<p>Du er {{ userstatus }}</p>
 							<div class="progress hs-gray">
 								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }}</p>
+								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
 							</div>
+							{% if userstatus == 'på ventelisten' %}
+							<p class="hs-grey-text">{{ get_position }}</p>
+							{% endif %}
 							{% if event.registration and request.user.is_authenticated and registration_visible %}
 								{% if registered %}
 									<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
@@ -56,9 +64,10 @@
 										<form method="post" action="/events/{{ event.id }}/register/">
 											{% csrf_token %}
 											{% if registered %}
-												<button class="btn waves-effect waves-light hsred" type="submit" name="action">Meld deg av</button>
+												<p>Obs! Dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
+												<button class="btn waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
 											{% else %}
-												<button class="btn waves-effect waves-light hsgreen" type="submit" name="action">Meld deg på</button>
+												<button class="btn waves-effect waves-light hs-green" type="submit" name="action">Meld deg på</button>
 											{% endif %}
 										</form>
 										<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
@@ -80,14 +89,21 @@
 				</div>
 			</div>
 			{% if request.user|has_group:"member" %}
-			<div class="row">
-				<div class="col s12">
-					<ul class='collection'>
-						<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-						<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
-					</ul>
+				<div class="row">
+					<div class="col s12">
+						<ul class='collection'>
+							<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
+							<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
+						</ul>
+					</div>
 				</div>
-			</div>
+				<p>Venteliste:</p>
+				{% for user in event.wait_list %}
+					{{ user }}
+				{% endfor %}
+				</p>Total liste:</p>
+				{% for user in event.registered_list %}
+					{{ user }} {% endfor %}
 			{% endif %}
 		</div>
 	</div>

@@ -5,7 +5,7 @@ from django.views.generic.edit import FormView
 
 
 APPLICATION_START_DATE = datetime(2018, 8, 13)
-APPLICATION_END_DATE = datetime(2018, 9, 2, 1, 0, 0)
+APPLICATION_END_DATE = datetime(2018, 9, 3)
 
 
 class ApplicationView(FormView):

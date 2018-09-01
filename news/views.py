@@ -27,6 +27,10 @@ class EventView(DetailView):
             context_data['registration_visible'] = self.object.can_edit_registration_status(
                 self.request.user)
             context_data['userstatus'] = self.object.userstatus(self.request.user)
+            if(self.object.is_waiting(self.request.user)):
+                context_data['get_position'] = "Du er nummer " + str(self.object.get_position(user=self.request.user)) + " på ventelisten"
+            else:
+                context_data['get_position'] = "Du er ikke på ventelisten."
 
         return context_data
 

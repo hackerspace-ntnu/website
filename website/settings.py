@@ -244,6 +244,20 @@ USE_TZ = False
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'handlers': {
+        # Null handler will consume all logging to it, acting like /dev/null
+        'null': {
+            'level': DEBUG,
+            'class': 'logging.NullHandler',
+        },
+    },
+    'loggers': {
+        # Removes emails about disallowed hosts. We do not really care about these errors anyway.
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'

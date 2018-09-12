@@ -15,6 +15,11 @@
 		width:100%;
 		height:100%;
 	}
+	.header-image {
+		object-fit:fill;
+		width:100%;
+
+	}
 }
 @media only screen and (min-width: 600px) {
 	.cut-top {

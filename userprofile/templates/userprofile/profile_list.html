@@ -52,14 +52,6 @@
 								{{ group.title|linebreaks }}
 								{% endfor %}
 							</div>
-							{% for skill in profile.skills.all %}
-							<a class="chip" href="{% url 'userprofile:skill' skill.title %}" style="color: black">
-								{{ skill.title }}
-								{% if skill.icon %}
-								<img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
-								{% endif %}
-							</a>
-							{% endfor %}
 						</div>
 					</div>
 				</div>

@@ -40,15 +40,17 @@ class EventListView(ListView):
 
     def get_queryset(self):
         if groups.has_group(self.request.user, 'member'):
-            return Event.objects.order_by('-time_start')
+            return Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start')
         else:
-            return Event.objects.filter(internal=False).order_by('-time_start')
+            return Event.objects.filter(internal=False).filter(time_start__lte=datetime.now()).order_by('-time_start')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         # Split into two seperate lists
-        context_data['old_events'] = self.object_list.filter(time_start__lte=datetime.now()).order_by('-time_start')
-        context_data['new_events'] = self.object_list.filter(time_start__gte=datetime.now()).order_by('-time_start')
+        if groups.has_group(self.request.user, 'member'):
+            context_data['new_events'] = Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start')
+        else:
+            context_data['new_events'] = Event.objects.filter(internal=False).filter(time_start__gte=datetime.now()).order_by('-time_start')
 
         return context_data
 

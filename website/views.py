@@ -65,11 +65,11 @@ def test(request):
         raise Http404
 
 
-def handler404(request):
+def handler404(request, exception=None):
     return render(request, 'website/404.html', status=404)
 
 
-def handler500(request):
+def handler500(request, exception=None):
     return render(request, 'website/500.html', status=500)
 
 

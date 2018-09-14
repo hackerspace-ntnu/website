@@ -68,7 +68,7 @@ class DutyTime(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     group = models.ManyToManyField(Group, related_name='profile', verbose_name="Gruppe", blank=True)
     image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None, blank=True)
 

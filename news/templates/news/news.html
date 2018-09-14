@@ -73,4 +73,31 @@
 
 	</div>
 </div>
-{% endblock content %}
+
+<div class="section">
+	<div class="container">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			{% endif %}
+
+			{% for page in page_obj.paginator.page_range %}
+			{% if page == page_obj.number %}
+			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
+			{% endif %}	
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			{% endif %}
+
+			{% endblock %}
+		</ul>
+	</div>
+</div>

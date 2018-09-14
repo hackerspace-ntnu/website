@@ -80,7 +80,7 @@ def door_data(request):
         'status': status,
     }
 
-    return render(request, 'door_data.html', context)
+    return render(request, 'door/door_data.html', context)
 
 
 def door_chart(request):
@@ -126,4 +126,4 @@ def door_chart(request):
         'open_data': s,
     }
 
-    return render(request, 'chart.html', context)
+    return render(request, 'door/chart.html', context)

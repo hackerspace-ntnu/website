@@ -9,7 +9,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
     visible = models.BooleanField(default=True)
     parent_tag = models.ForeignKey('Tag', null=True, blank=True,
-                                   related_name="children_tags")
+                                   related_name="children_tags", on_delete=models.CASCADE)
 
     def get_visible_items(self):
         return self.item_set.filter(visible=True)

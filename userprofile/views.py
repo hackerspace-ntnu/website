@@ -6,8 +6,81 @@ from django.contrib.auth.decorators import login_required
 
 import re
 
-from .forms import UserForm
+from .forms import UserForm, ProfileForm, ProfileFormSet, ProfileSearchForm
 from .models import Profile, Skill, Group
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
+from django.forms import modelformset_factory, formset_factory
+
+class ProfileListView(ListView):
+    # Lister opp alle brukerprofiler med pagination
+    model = Profile
+    form_class = ProfileSearchForm
+    paginate_by = 3
+    template_name = "userprofile/profile_list.html"
+
+    # Søkefunksjonalitet som filtrerer queryset
+    def get_queryset(self):
+        filter_val = self.request.GET.get('filter', '')
+        profiles = Profile.objects.filter(user__first_name__icontains=filter_val).all()
+        return profiles
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileListView, self).get_context_data(**kwargs)
+        context['filter'] = self.request.GET.get('filter', '')
+        return context
+
+class SelfProfileDetailView(DetailView):
+    # Vis egen profil.
+    # Endpointet her er /profile/
+    template_name = "userprofile/profile.html"
+
+    def get_object(self):
+        return get_object_or_404(Profile, pk=self.request.user.id)
+
+class ProfileDetailView(DetailView):
+    # Vis en spesifikk profil.
+    # Endpointet her er /profile/<id>
+    template_name = "userprofile/profile.html"
+    model = Profile
+
+class ProfileUpdateView(UpdateView):
+    # Klasse for å oppdatere brukerprofilen sin
+
+    # Modellen tar utgangspunkt i djangos brukerobject User, men legger
+    # til en profile-form fra ProfileFormSet som senere settes inn i User objektet.
+    # Formålet med dette er å kunne redigere både User og Profile samtidig.
+    model = User
+    form_class = UserForm
+    template_name = "userprofile/edit_profile.html"
+    success_url = "/profile"
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = ProfileFormSet(
+            request.POST,
+            request.FILES,
+            instance=self.object)
+
+        if form.is_valid():
+            if formset.is_valid():
+                formset.save()
+                return self.form_valid(form)
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
+        form = UserForm(instance=self.object)
+
+        context['formset'] =  ProfileFormSet(instance=self.object)
+        return context
+
+    def get_object(self):
+        return get_object_or_404(User, pk=self.request.user.id)
+
 
 
 def members(request):
@@ -50,65 +123,3 @@ def skill(request, skill_title):
 
     context = {'skill': skill, 'profiles': profiles}
     return render(request, 'userprofile/skill.html', context)
-
-
-def profile(request):
-    profile = get_object_or_404(Profile, user=request.user)
-    return render(request, 'userprofile/profile.html', {'profile': profile})
-
-
-def specific_profile(request, user_id):
-    profile = get_object_or_404(User, id=user_id).profile
-    return render(request, 'userprofile/profile.html', {'profile': profile})
-
-
-@login_required()
-def edit_profile(request):
-    user = request.user
-    form = UserForm(instance=user)
-
-    # This will merge the user form for name and email together with the
-    # profile form. Image field is rendered with normal FileInput to make sure
-    # Django doesn't add any extra fields from ClearableFileInput template.
-    ProfileInlineFormset = inlineformset_factory(
-        User,
-        Profile,
-        fields=('image',
-                'group',
-                'access_card',
-                'study',
-                'skills',
-                'duty',
-                'auto_duty'),
-        widgets={'image': widgets.FileInput()},
-        can_delete=False,
-        can_order=False)
-    formset = ProfileInlineFormset(instance=user)
-
-    profile = get_object_or_404(Profile, user=user)
-
-    if request.user.is_authenticated() and request.user.id == user.id:
-        if request.method == "POST":
-            # Submit changes
-            form = UserForm(request.POST, request.FILES, instance=user)
-            formset = ProfileInlineFormset(
-                request.POST,
-                request.FILES,
-                instance=user)
-            if form.is_valid():
-                # If form is valid, pass instance into formset, but dont commit
-                # until profile form is also valid.
-                created_user = form.save(commit=False)
-                formset = ProfileInlineFormset(
-                    request.POST,
-                    request.FILES,
-                    instance=created_user)
-                if formset.is_valid():
-                    # When everything looks good in both forms
-                    created_user.save()
-                    formset.save()
-                    return redirect("/profile/")
-        return render(request, 'userprofile/edit_profile.html',
-                      {'form': form, 'formset': formset, 'profile': profile})
-    else:
-        return redirect("/")

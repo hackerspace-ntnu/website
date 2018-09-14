@@ -7,6 +7,9 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
+    # Django 2.0 compat for renaming fields
+    atomic = False
+
     dependencies = [
         ('applications', '0006_auto_20180731_1856'),
     ]

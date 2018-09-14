@@ -44,7 +44,12 @@ class ProfileDetailView(DetailView):
     # Vis en spesifikk profil.
     # Endpointet her er /profile/<id>
     template_name = "userprofile/profile.html"
-    model = Profile
+
+    def get_object(self):
+        # Get the user for the pk, then return the user profile
+        pk = self.kwargs['pk']
+        user = get_object_or_404(User, pk=pk)
+        return get_object_or_404(Profile, pk=user.profile.pk)
 
 class ProfileUpdateView(UpdateView):
     # Klasse for å oppdatere brukerprofilen sin

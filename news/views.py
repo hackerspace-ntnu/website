@@ -36,6 +36,7 @@ class EventView(DetailView):
 
 class EventListView(ListView):
     template_name = "news/events.html"
+    paginate_by = 10
 
     def get_queryset(self):
         if groups.has_group(self.request.user, 'member'):
@@ -53,6 +54,7 @@ class EventListView(ListView):
 
 class ArticleListView(ListView):
     template_name = "news/news.html"
+    paginate_by = 10
 
     def get_queryset(self):
         if groups.has_group(self.request.user, 'member'):

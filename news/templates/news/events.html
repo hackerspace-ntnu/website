@@ -33,9 +33,11 @@
 {% endif %}
 <div class="section block">
 	<div class="container">
+	{% if page_obj.number == 1 %}
 		<div class="row">
 			<div class="col s12">
 				<h5 class="subheader">Kommende Arrangementer</h5>
+				<p>Husk å logge på din konto for å se internarrangementer</p>
 				<div class="divider"></div>
 			</div>
 		</div>
@@ -78,13 +80,14 @@
 			</div>
 		</div>
 		{% endif %}
+		{% endif %}
 		<div class="row">
 			<div class="col s12">
 				<h5 class="subheader">Tidligere Arrangementer</h5>
 				<div class="divider"></div>
 			</div>
 		</div>
-		{% for event in old_events %}
+		{% for event in object_list %}
 		<div class="row">
 			<div class="col s2 center hide-on-med-and-down">
 				{% if event.thumbnail %}

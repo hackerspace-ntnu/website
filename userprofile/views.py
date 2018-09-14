@@ -35,9 +35,10 @@ class SelfProfileDetailView(DetailView):
     # Vis egen profil.
     # Endpointet her er /profile/
     template_name = "userprofile/profile.html"
+    model = Profile
 
     def get_object(self):
-        return get_object_or_404(Profile, pk=self.request.user.id)
+        return get_object_or_404(Profile, pk=self.request.user.profile.id)
 
 class ProfileDetailView(DetailView):
     # Vis en spesifikk profil.
@@ -82,44 +83,4 @@ class ProfileUpdateView(UpdateView):
         return get_object_or_404(User, pk=self.request.user.id)
 
 
-
-def members(request):
-    profiles = Profile.objects.exclude(group__isnull=True)
-    if request.method == 'POST':
-        text = request.POST['searchBar'].lower()
-        tokens = re.split('; |, | |\n', text)
-
-        name_results = User.objects.none()
-        skill_results = Skill.objects.none()
-        group_results = Group.objects.none()
-
-        for token in tokens:
-            name_results |= User.objects.filter(
-                first_name__icontains=token) | User.objects.filter(
-                last_name__icontains=token)
-            skill_results |= Skill.objects.filter(title__icontains=token)
-            group_results |= Group.objects.filter(title__icontains=token)
-
-        result_profiles = [
-            user_profile for user_profile in profiles if
-            user_profile.user in name_results or
-            any(
-                skill in skill_results for skill in user_profile.skills.all())
-            or any(
-                group in group_results for group in user_profile.group.all())
-        ]
-
-        return render(request, "userprofile/members.html",
-                      context={"profiles": result_profiles})
-
-    return render(request, "userprofile/members.html",
-                  context={"profiles": profiles})
-
-
-def skill(request, skill_title):
-    skill = Skill.objects.get(title=skill_title)
-    profiles = Profile.objects.filter(
-        skills__title__icontains=skill_title, group__isnull=False).distinct()
-
-    context = {'skill': skill, 'profiles': profiles}
-    return render(request, 'userprofile/skill.html', context)
+#TODO: Class based skill views

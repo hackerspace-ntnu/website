@@ -30,4 +30,3 @@ ProfileFormSet = inlineformset_factory(
         widgets={'image': widgets.FileInput()},
         can_delete=False,
         can_order=False)
-print(ProfileFormSet())

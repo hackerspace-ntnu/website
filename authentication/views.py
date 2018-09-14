@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model, logout
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import TemplateView, FormView

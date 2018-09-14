@@ -8,6 +8,22 @@ import re
 
 from .forms import UserForm
 from .models import Profile, Skill, Group
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+
+class ProfileListView(ListView):
+    model = Profile
+    paginate_by = 3
+
+class SelfProfileDetailView(DetailView):
+    template_name = "userprofile/profile.html"
+
+    def get_object(self):
+        return get_object_or_404(Profile, pk=self.request.user.id)
+
+class ProfileDetailView(DetailView):
+    template_name = "userprofile/profile.html"
+    model = Profile
 
 
 def members(request):

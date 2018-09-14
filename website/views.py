@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
 from userprofile.models import Profile

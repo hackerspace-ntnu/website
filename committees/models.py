@@ -1,6 +1,6 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import Group, User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.db.models.signals import pre_save
@@ -28,15 +28,15 @@ class Committee(models.Model):
 class Position(models.Model):
     title = models.CharField(max_length=100, verbose_name="Stillingsnavn")
     email = models.EmailField(null=True, blank=True, verbose_name="Epost")
-    committee = models.ForeignKey(Committee)
-    permission_group = models.ForeignKey(Group)
+    committee = models.ForeignKey(Committee, on_delete=models.CASCADE)
+    permission_group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return str(self.title)
 
 
 class Member(models.Model):
-    committee = models.ForeignKey(Committee, related_name="members")
+    committee = models.ForeignKey(Committee, related_name="members", on_delete=models.CASCADE)
     position = ChainedForeignKey(
         Position,
         chained_field="committee",
@@ -44,7 +44,7 @@ class Member(models.Model):
         show_all=False,
         auto_choose=True
     )
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         if self.user:

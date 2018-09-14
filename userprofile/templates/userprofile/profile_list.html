@@ -1,0 +1,74 @@
+{% extends 'website/base.html' %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h1 class="white-text">Medlemmer i Hackerspace</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			{% for profile in object_list %}
+			<div class="col s12 m6 l4">
+				<div class="card-container">
+					<div class="card medium">
+						<div class="card-image waves-effect waves-block waves-light">
+							<a href={% url 'userprofile:profile_by_id' profile.user.id %}>
+								{% if profile.image %}
+								{# profile has image, show picture #}
+								<img class="activator" src="{{ profile.image.url }}">
+								{% else %}
+								{# profile.images is None, show default.png #}
+								<img class="activator" src="{% static "website/img/misc/default.png" %}">
+								{% endif %}
+							</a>
+						</div>
+						<div class="card-content">
+							<a href={% url 'userprofile:profile_by_id' profile.user.id %}>{{ profile.user.first_name }}</a>
+							<div>
+								{% for group in profile.group.all %}
+								{{ group.title|linebreaks }}
+								{% endfor %}
+							</div>
+							{% for skill in profile.skills.all %}
+							<a class="chip" href="{% url 'userprofile:skill' skill.title %}" style="color: black">
+								{{ skill.title }}
+								{% if skill.icon %}
+								<img class="chip-img" src="{{ skill.icon.url }}" alt="Skill tag">
+								{% endif %}
+							</a>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div class="pagination">
+	<span class="step-links">
+		{% if page_obj.has_previous %}
+		<a href="?page=1">&laquo; first</a>
+		<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+		{% endif %}
+
+		<span class="current">
+			Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+		</span>
+
+		{% if page_obj.has_next %}
+		<a href="?page={{ page_obj.next_page_number }}">next</a>
+		<a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+		{% endif %}
+	</span>
+</div>
+{% endblock %}

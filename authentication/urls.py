@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from authentication.views import logout_user, SignUpView, SignUpDoneView, SignUpConfirmView
 from website.settings import DEFAULT_FROM_MAIL
 
+app_name = "authentication"
 
 urlpatterns = [
     url(r'^login/$', auth_views.LoginView.as_view(template_name="authentication/login.html"), name='login'),

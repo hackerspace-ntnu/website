@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django_filters',
     'applications',
     'news',
+    'internal',
     'door',
     'files',
     'ckeditor',

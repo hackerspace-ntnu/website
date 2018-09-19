@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^users/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
     url(r'^kaffe/', include('kaffe.urls')),
+    url(r'^reservations/', include('reservations.urls')),
 ]
 # Add wiki and notify urls
 urlpatterns += [

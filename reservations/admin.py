@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from reservations.models import Queue, Reservation
+
+admin.site.register(Queue)
+admin.site.register(Reservation)

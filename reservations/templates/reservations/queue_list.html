@@ -1,0 +1,17 @@
+{% extends 'website/base.html' %}
+{% block content %}
+    <div class="section block">
+        <div class="row">
+
+            <div class="col s6 offset-s3">
+                <div class="collection">
+                    {% for queue in queue_list %}
+                        <a href="{% url 'reservations:queue_detail' pk=queue.pk %}" class="collection-item">{{ queue.name }}</a>
+                    {% empty %}
+                        <p class="center grey-text">Ingen køer er opprettet</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

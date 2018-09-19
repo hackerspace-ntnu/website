@@ -1,6 +1,6 @@
 import datetime
-
 import requests
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 
@@ -10,10 +10,9 @@ vakt_cache_json = ""
 
 
 def hent_vaktliste(output="json", force_update=False):
-    global vakt_cache_tuples
-    global vakt_cache_json
-    global cache_time
-    if force_update or not vakt_cache_json or datetime.datetime.now() - cache_time >= datetime.timedelta(hours=12):
+    global vakt_cache_tuples, vakt_cache_json, cache_time
+    if force_update or not vakt_cache_json or datetime.datetime.now() - cache_time >= datetime.timedelta(
+        hours=12):
         vakt_data_json = requests.get(
             "https://script.googleusercontent.com/macros/echo?user_content_key=gR05slZZQrkrumxUc8DJZEc81FUEXWJpVDu8OGmYc7Bd8STD9BEvHnNLn3Hqa93sZAkXhzOJJfVsxRBCis22hxj50ZyEv7V0m5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBHVJ4Ip7UlCqkboOF3idyLswydE_Rh_IZ2xA43kME624RrB2b1T6_LZIUQtyudpTtsAUXIaJqQ5&lib=MvQgEbo5GAfi_xTmCXLhSAK0T_1fexhuo").json()
 
@@ -38,7 +37,8 @@ def filter_vakt_data(filter_days, filter_times, filter_persons):
             continue
         if filter_times and vakt[1] not in filter_times:
             continue
-        if filter_persons and all(person_filter not in "".join(vakt[2]).lower() for person_filter in filter_persons):
+        if filter_persons and all(
+            person_filter not in "".join(vakt[2]).lower() for person_filter in filter_persons):
             continue
         yield vakt
 
@@ -54,7 +54,8 @@ def get_time_slots(times):
 
             h, m = map(int, time.split(":"))
 
-            filter_times.append(min(time_slots, key=lambda x: abs(time_slots.index(x) * 2 + 11.11 - h - m / 60)))
+            filter_times.append(
+                min(time_slots, key=lambda x: abs(time_slots.index(x) * 2 + 11.11 - h - m / 60)))
 
     return filter_times
 
@@ -118,17 +119,13 @@ def update(_):
     return JsonResponse({"Cache time": cache_time})
 
 
-
-from django.contrib.auth.models import User
-
 def index(request):
-    from userprofile.models import Profile
     dager = request.GET.get('dag', '')
     tider = request.GET.get('tid', '')
     personer = request.GET.get('person', '')
     full = request.GET.get('full', '').lower() != "on"
 
-    userList = []
+    user_list = []
     if any([dager, tider, personer]):
         vakt_data = vakt_filter(days=dager, times=tider, persons=personer, full=full)
         for day in vakt_data:
@@ -137,12 +134,11 @@ def index(request):
                     try:
                         name = name.split()
                         user = User.objects.get(first_name__icontains=name[0])
-                        userList.append(user)
+                        user_list.append(user)
                     except:
-                        userList.append(" ".join(name))
-
+                        user_list.append(" ".join(name))
 
     context = {
-        "users": userList
+        "users": user_list
     }
     return render(request, 'vaktliste/vakt_filter.html', context)

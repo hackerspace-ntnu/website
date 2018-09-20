@@ -1,13 +1,18 @@
 from django.urls import path
 
-from reservations.views import QueueListView, QueueDetailView, QueueCreateView, QueueUpdateView, QueueDeleteView
+from reservations.views import QueueListView, QueueDetailView, QueueCreateView, QueueUpdateView, QueueDeleteView, \
+    ReservationUpdateView, ReservationDeleteView
 
 app_name = "reservations"
 
 urlpatterns = [
     path('', QueueListView.as_view(), name='queue_list'),
-    path('create', QueueCreateView.as_view(), name="queue_create"),
-    path('<int:pk>', QueueDetailView.as_view(), name='queue_detail'),
-    path('<int:pk>/update', QueueUpdateView.as_view(), name='queue_update'),
-    path('<int:pk>/delete', QueueDeleteView.as_view(), name='queue_delete'),
+    path('queue/create', QueueCreateView.as_view(), name="queue_create"),
+    path('queue/<int:pk>', QueueDetailView.as_view(), name='queue_detail'),
+    path('queue/<int:pk>/update', QueueUpdateView.as_view(), name='queue_update'),
+    path('queue/<int:pk>/delete', QueueDeleteView.as_view(), name='queue_delete'),
+
+    path('create', QueueCreateView.as_view(), name="reservation_create"),
+    path('<int:pk>/update', ReservationUpdateView.as_view(), name='reservation_update'),
+    path('<int:pk>/delete', ReservationDeleteView.as_view(), name='reservation_delete'),
 ]

@@ -1,15 +1,16 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.urls import reverse_lazy
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from reservations.forms import QueueForm
-from reservations.models import Queue
+from reservations.models import Queue, Reservation
 
 
 class QueueDetailView(DetailView):
     model = Queue
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['has_update_permission'] = self.request.user.has_perm('reservations.edit_queue')
         return context
@@ -17,6 +18,11 @@ class QueueDetailView(DetailView):
 
 class QueueListView(ListView):
     model = Queue
+    queryset = Queue.objects.filter(published=True)
+
+
+class UnpublishedQueueListView(QueueListView):
+    queryset = Queue.objects.filter(published=False)
 
 
 class QueueCreateView(PermissionRequiredMixin, CreateView):
@@ -40,4 +46,39 @@ class QueueDeleteView(PermissionRequiredMixin, DeleteView):
     redirect_field_name = '/'
     permission_required = 'reservations.delete_queue'
     success_url = reverse_lazy('reservations:queue_list')
+
+
+class ReservationCreateView(LoginRequiredMixin, CreateView):
+    model = Reservation
+    redirect_field_name = 'login/'
+    fields = ('date', 'start_time', 'end_time')
+
+
+class ReservationDeleteView(UserPassesTestMixin, DeleteView):
+    model = Reservation
+    redirect_field_name = 'login/'
+    success_url = reverse_lazy('reservations:queue_list')
+
+    def test_func(self):
+        return self.request.user == get_object_or_404(Reservation, pk=self.kwargs['pk']).user \
+               or self.request.user.has_perm('reservations.delete_queue')
+
+
+class ReservationUpdateView(UserPassesTestMixin, UpdateView):
+    model = Reservation
+    redirect_field_name = 'login/'
+
+    def get_success_url(self):
+        return reverse(
+            'reservations:queue_detail',
+            kwargs={'pk': get_object_or_404(Reservation, pk=self.kwargs['pk']).parent_queue.pk}
+
+        )
+
+    def test_func(self):
+        return self.request.user == get_object_or_404(Reservation, pk=self.kwargs['pk']).user \
+               or self.request.user.has_perm('reservations.edit_reservation')
+
+
+
 

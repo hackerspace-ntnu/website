@@ -67,7 +67,6 @@ class ReservationUpdateView(UserPassesTestMixin, UpdateView):
         return reverse(
             'reservations:queue_detail',
             kwargs={'pk': get_object_or_404(Reservation, pk=self.kwargs['pk']).parent_queue.pk}
-
         )
 
     def test_func(self):

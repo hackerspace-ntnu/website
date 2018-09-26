@@ -16,7 +16,7 @@
                                 <p class="flow-text">
                                     {{ queue.description }}
                                 </p>
-                                {% if has_update_permission %}
+                                {% if perms.reservations.edit_queue %}
                                     <a href="{% url 'reservations:queue_update' pk=queue.pk %}" class="btn waves-effect waves-light right-align">Update</a>
                                 {% endif %}
                             </div>

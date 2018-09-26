@@ -1,7 +1,7 @@
 from django.urls import path
 
 from reservations.views import QueueListView, QueueDetailView, QueueCreateView, QueueUpdateView, QueueDeleteView, \
-    ReservationUpdateView, ReservationDeleteView
+    ReservationUpdateView, ReservationDeleteView, ReservationCreateView
 
 app_name = "reservations"
 
@@ -12,7 +12,7 @@ urlpatterns = [
     path('queue/<int:pk>/update', QueueUpdateView.as_view(), name='queue_update'),
     path('queue/<int:pk>/delete', QueueDeleteView.as_view(), name='queue_delete'),
 
-    path('create', QueueCreateView.as_view(), name="reservation_create"),
+    path('queue/<int:pk>/reserve', ReservationCreateView.as_view(), name="reservation_create"),
     path('<int:pk>/update', ReservationUpdateView.as_view(), name='reservation_update'),
     path('<int:pk>/delete', ReservationDeleteView.as_view(), name='reservation_delete'),
 ]

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
-from reservations.forms import QueueForm
+from reservations.forms import QueueForm, ReservationForm
 from reservations.models import Queue, Reservation
 
 
@@ -46,7 +46,13 @@ class QueueDeleteView(PermissionRequiredMixin, DeleteView):
 class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
     redirect_field_name = 'login/'
-    fields = ('date', 'start_time', 'end_time')
+    form_class = ReservationForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ReservationCreateView, self).get_form_kwargs()
+        # update the kwargs for the form init method with yours
+        kwargs.update(self.kwargs)  # self.kwargs contains all url conf params
+        return kwargs
 
 
 class ReservationDeleteView(UserPassesTestMixin, DeleteView):
@@ -62,6 +68,7 @@ class ReservationDeleteView(UserPassesTestMixin, DeleteView):
 class ReservationUpdateView(UserPassesTestMixin, UpdateView):
     model = Reservation
     redirect_field_name = 'login/'
+    form_class = ReservationForm
 
     def get_success_url(self):
         return reverse(

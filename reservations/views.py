@@ -48,6 +48,12 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     redirect_field_name = 'login/'
     form_class = ReservationForm
 
+    def get_form_kwargs(self):
+        kwargs = super(ReservationCreateView, self).get_form_kwargs()
+        # update the kwargs for the form init method with yours
+        kwargs.update(self.kwargs)  # self.kwargs contains all url conf params
+        return kwargs
+
 
 class ReservationDeleteView(UserPassesTestMixin, DeleteView):
     model = Reservation

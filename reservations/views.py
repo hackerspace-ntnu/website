@@ -10,11 +10,6 @@ from reservations.models import Queue, Reservation
 class QueueDetailView(DetailView):
     model = Queue
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['has_update_permission'] = self.request.user.has_perm('reservations.edit_queue')
-        return context
-
 
 class QueueListView(ListView):
     model = Queue

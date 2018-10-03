@@ -1,8 +1,6 @@
 import datetime
-
 from django.forms import ModelForm, ValidationError
 from django.shortcuts import get_object_or_404
-
 from reservations.models import Queue, Reservation
 
 

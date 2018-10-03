@@ -9,7 +9,7 @@
                         <form method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn waves-effect waves-light" name="action">
+                            <button id="submit" type="submit" class="btn waves-effect waves-light" name="action">
                                 Submit
                                 <i class="material-icons send">send</i>
                             </button>

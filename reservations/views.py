@@ -44,10 +44,16 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     redirect_field_name = 'login/'
     form_class = ReservationForm
 
+    def get_success_url(self):
+        return reverse(
+            'reservations:queue_detail',
+            kwargs={'pk': get_object_or_404(Reservation, pk=self.kwargs['pk']).parent_queue.pk}
+        )
+
     def get_form_kwargs(self):
+        # get parent queue pk, add to kwargs
         kwargs = super(ReservationCreateView, self).get_form_kwargs()
-        # update the kwargs for the form init method with yours
-        kwargs.update(self.kwargs)  # self.kwargs contains all url conf params
+        kwargs.update(self.kwargs)
         return kwargs
 
 

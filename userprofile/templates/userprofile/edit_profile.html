@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text">
-				<h4>Innsillinger for {{ profile.user.get_full_name }}</h4>
+				<h4>Innsillinger for {{ object.get_full_name }}</h4>
 			</div>
 		</div>
 	</div>
@@ -22,10 +22,10 @@
 				{% endif %}
 			</div>
 		</div>
-		<form  enctype="multipart/form-data" method="post" action="">
+		<form enctype="multipart/form-data" method="post" action="">
 			{{ formset.management_form }}
+			{% csrf_token %}
 			<div class="row">
-				{% csrf_token %}
 				<div class="col s12">
 					<h5>Generell kontoinformasjon</h5>
 					<div class="divider"></div>

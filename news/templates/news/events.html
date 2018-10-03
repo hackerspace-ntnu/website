@@ -33,9 +33,11 @@
 {% endif %}
 <div class="section block">
 	<div class="container">
+	{% if page_obj.number == 1 %}
 		<div class="row">
 			<div class="col s12">
 				<h5 class="subheader">Kommende Arrangementer</h5>
+				<p>Husk å logge på din konto for å se internarrangementer</p>
 				<div class="divider"></div>
 			</div>
 		</div>
@@ -78,13 +80,14 @@
 			</div>
 		</div>
 		{% endif %}
+		{% endif %}
 		<div class="row">
 			<div class="col s12">
 				<h5 class="subheader">Tidligere Arrangementer</h5>
 				<div class="divider"></div>
 			</div>
 		</div>
-		{% for event in old_events %}
+		{% for event in object_list %}
 		<div class="row">
 			<div class="col s2 center hide-on-med-and-down">
 				{% if event.thumbnail %}
@@ -117,4 +120,30 @@
 		{% endfor %}
 	</div>
 </div>
-{% endblock content %}
+<div class="section">
+	<div class="container">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			{% endif %}
+
+			{% for page in page_obj.paginator.page_range %}
+			{% if page == page_obj.number %}
+			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
+			{% endif %}	
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			{% endif %}
+
+			{% endblock %}
+		</ul>
+	</div>
+</div>

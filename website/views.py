@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
 from userprofile.models import Profile
@@ -65,11 +65,11 @@ def test(request):
         raise Http404
 
 
-def handler404(request):
+def handler404(request, exception=None):
     return render(request, 'website/404.html', status=404)
 
 
-def handler500(request):
+def handler500(request, exception=None):
     return render(request, 'website/500.html', status=500)
 
 

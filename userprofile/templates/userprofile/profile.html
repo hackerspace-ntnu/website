@@ -35,18 +35,6 @@
 				{% if profile.user.email %}
 				<p class="flow-text">{{ profile.user.email }}</p>
 				{% endif %}
-				{% if profile.skills %}
-				{% for skill in profile.skills.all %}
-				<a href="{% url 'userprofile:skill' skill_title=skill.title %}">
-					{% if skill.icon %}
-					<div class="chip">
-						<img src="{{ skill.icon.url }}" alt="Skill tag">
-						{{ skill.title }}
-					</div>
-					{% endif %}
-				</a>
-				{% endfor %}
-				{% endif %}
 			</div>
 		</div>
 	</div>

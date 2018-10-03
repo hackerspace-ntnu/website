@@ -7,11 +7,8 @@ class Queue(models.Model):
     name = CharField(max_length=64, blank=False, unique=True)
     description = TextField(max_length=512, default="")
 
-    # Visible for regular users
+    # Visible for regular users or not
     published = BooleanField(default=False)
-
-    start_time = TimeField(blank=False)
-    end_time = TimeField(blank=False)
 
     def __str__(self):
         return self.name + "[%s]" % self.reservations.count()

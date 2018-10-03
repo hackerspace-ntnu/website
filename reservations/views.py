@@ -16,10 +16,6 @@ class QueueListView(ListView):
     queryset = Queue.objects.filter(published=True)
 
 
-class UnpublishedQueueListView(QueueListView):
-    queryset = Queue.objects.filter(published=False)
-
-
 class QueueCreateView(PermissionRequiredMixin, CreateView):
     model = Queue
     redirect_field_name = '/'

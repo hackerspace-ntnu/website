@@ -31,7 +31,7 @@ class ReservationForm(ModelForm):
         if start_time < end_time or end_time > queue.end_time:
             raise ValidationError("Invalid argument parameters")
 
-        if date >= datetime.date.today():
+        if date < datetime.date.today():
             raise ValidationError("You cannot make reservations back in time")
 
         for interval in [(r.start_time, r.end_time) for r in queue.reservations.filter(date=date)]:

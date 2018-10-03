@@ -30,12 +30,8 @@ class ReservationForm(ModelForm):
         pk = self.cleaned_data.get('pk', None)
         queue = get_object_or_404(Queue, pk=pk)
 
-        if (
-            start_time < end_time or
-            start_time < queue.start_time or
-            end_time > queue.end_time
-        ):
-            raise ValidationError("Valgt tid er ugyldig")
+        if start_time < end_time or end_time > queue.end_time:
+            raise ValidationError("Invalid argument parameters")
 
         if date >= datetime.date.today():
             raise ValidationError("You cannot make reservations back in time")

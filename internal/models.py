@@ -6,16 +6,15 @@ from django.db import models
 class TimeTable(models.Model):
     slots = models.IntegerField()
     term = models.CharField(max_length=20)
+    start_time = models.TimeField()
 
     @classmethod
     def create(cls, slots, term, start_time, per_slot=3):
-        table = TimeTable(slots=slots, term=term)
+        table = TimeTable(slots=slots, term=term, start_time=start_time)
         table.save()
-        for slot in range(slots):
+        for start_time, end_time in table.get_time_slots():
             for day in range(5):
-                TimeTableSlot.create(start_time + timedelta(hours=2 * slot),
-                                     start_time + timedelta(hours=2 * (slot + 1)),
-                                     day, table, max_number_of_users=per_slot)
+                TimeTableSlot.create(start_time, end_time, day, table, max_number_of_users=per_slot)
 
     @staticmethod
     def current_term():
@@ -23,6 +22,11 @@ class TimeTable(models.Model):
         :return: The current term in the format (yy[HV])
         """
         return str(datetime.now().year)[-2:] + "VH"[datetime.now().month > 6]
+
+    def get_time_slots(self):
+        for time_slot in range(self.slots):
+            yield self.start_time + timedelta(hours=2 * time_slot), \
+                  self.end_time + timedelta(hours=2 * (time_slot + 1))
 
 
 class TimeTableSlot(models.Model):
@@ -35,7 +39,7 @@ class TimeTableSlot(models.Model):
     table = models.ForeignKey(TimeTable, on_delete=models.CASCADE)
 
     @classmethod
-    def create(cls, start_time, end_time, day, table, max_number_of_users=3, ):
+    def create(cls, start_time, end_time, day, table, max_number_of_users=3):
         slot = TimeTableSlot(start_time=start_time, end_time=end_time, day=day, table=table)
         slot.save()
         for signup_slot in range(max_number_of_users):

@@ -69,11 +69,11 @@ class SignUpForm(UserCreationForm):
             user.save()
 
         plain_message = render_to_string('authentication/signup_mail.txt', {
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
             'token': default_token_generator.make_token(user)}
         )
         html_message = render_to_string('authentication/signup_mail.html', {
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
             'token': default_token_generator.make_token(user)}
         )
 

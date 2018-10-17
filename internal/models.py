@@ -25,8 +25,9 @@ class TimeTable(models.Model):
 
     def get_time_slots(self):
         for time_slot in range(self.slots):
-            yield self.start_time + timedelta(hours=2 * time_slot), \
-                  self.end_time + timedelta(hours=2 * (time_slot + 1))
+            yield (datetime.combine(datetime.today().date(), self.start_time) + timedelta(hours=2 * time_slot)).time(), \
+                  (datetime.combine(datetime.today().date(), self.start_time) + timedelta(
+                      hours=2 * (time_slot + 1))).time()
 
 
 class TimeTableSlot(models.Model):
@@ -52,3 +53,8 @@ class TimeTableSlotSignup(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     time_table_slot = models.ForeignKey(TimeTableSlot, on_delete=models.CASCADE)
+
+    class Meta:
+        permissions = (
+            ("admin_office_hours", "Can admin office hours"),
+        )

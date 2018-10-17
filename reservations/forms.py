@@ -25,10 +25,10 @@ class ReservationForm(ModelForm):
         start_time = self.cleaned_data.get('start_time', None)
         end_time = self.cleaned_data.get('end_time', None)
         date = self.cleaned_data.get('date', None)
-        pk = self.cleaned_data.get('pk', None)
+        pk = self.queue_id
         queue = get_object_or_404(Queue, pk=pk)
 
-        if start_time < end_time or end_time > queue.end_time:
+        if start_time > end_time:
             raise ValidationError("Invalid argument parameters")
 
         if date < datetime.date.today():

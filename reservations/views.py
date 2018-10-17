@@ -43,12 +43,7 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
     redirect_field_name = 'login/'
     form_class = ReservationForm
-
-    def get_success_url(self):
-        return reverse(
-            'reservations:queue_detail',
-            kwargs={'pk': get_object_or_404(Reservation, pk=self.kwargs['pk']).parent_queue.pk}
-        )
+    success_url = reverse_lazy('reservations:queue_list')
 
     def get_form_kwargs(self):
         # get parent queue pk, add to kwargs
@@ -56,6 +51,13 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         kwargs.update(self.kwargs)
         return kwargs
 
+"""
+    def get_success_url(self):
+        return reverse(
+            'reservations:queue_detail',
+            kwargs={'pk': get_object_or_404(Reservation, pk=self.kwargs['pk']).parent_queue.pk}
+        )
+"""
 
 class ReservationDeleteView(UserPassesTestMixin, DeleteView):
     model = Reservation

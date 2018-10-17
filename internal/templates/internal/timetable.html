@@ -1,9 +1,89 @@
 {% extends "website/base.html" %}
 
+{% block head %}
+{% endblock %}
+
 {% block content %}
 
     <div class="container">
-
+        {% csrf_token %}
+        <h2>Vaktliste</h2>
+        <table class="striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Mandag</th>
+                <th>Tirsdag</th>
+                <th>Onsdag</th>
+                <th>Torsdag</th>
+                <th>Fredag</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for slot in slots %}
+                <tr>
+                <td>{{ slot.start_time }} - {{ slot.end_time }}</td>
+                {% for day in slot.days %}
+                    <td>
+                        {% for signup in day %}
+                            {% if perms.internal.change_timetableslotsignup %}
+                                <div class="input-field">
+                                    {% if perms.admin_office_hours %}
+                                        <select data-pk="{{ signup.pk }}">
+                                            <option value="0" {% if not signup.user %}selected{% endif %}>Ledig</option>
+                                            {% for member in members %}
+                                                <option value="{{ member.pk }}"
+                                                        {% if signup.user == member %}selected{% endif %}>{{ member.get_full_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% elif signup.user == user %}
+                                        <select data-pk="{{ signup.pk }}">
+                                            <option value="0">Ledig</option>
+                                            <option value="{{ user.pk }}" selected>{{ user.get_full_name }}</option>
+                                        </select>
+                                    {% elif signup.user %}
+                                        <select data-pk="{{ signup.pk }}" disabled>
+                                            <option value="0">Ledig</option>
+                                            <option value="{{ signup.user.pk }}"
+                                                    selected>{{ signup.user.get_full_name }}</option>
+                                        </select>
+                                    {% else %}
+                                        <select data-pk="{{ signup.pk }}">
+                                            <option value="0" selected>Ledig</option>
+                                            <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
+                                        </select>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div>{{ signup.user.get_full_name }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            {% endfor %}
+            </tr>
+            </tbody>
+        </table>
     </div>
+    <br/>
+    <br/>
+
+    <script>
+        let selectElements = document.getElementsByTagName("select");
+        for (let elementIndex = 0; elementIndex < selectElements.length; elementIndex++) {
+            selectElements[elementIndex].onchange = function(event) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState === 4 && this.status === 200) {
+                    }
+                };
+                let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+                xhttp.open("POST", "/internal/hours/change/" + event.target.dataset.pk, true);
+                xhttp.setRequestHeader("X-CSRFToken", csrf);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("user=" + event.target.value);
+            };
+        }
+    </script>
 
 {% endblock %}

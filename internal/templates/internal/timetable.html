@@ -7,7 +7,26 @@
 
     <div class="container">
         {% csrf_token %}
-        <h2>Vaktliste</h2>
+        <h2>
+            Vaktliste
+            <span class="right">
+                <div id="loading-spinner" class="preloader-wrapper hide active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <i id="success-icon" class="green-text hide medium material-icons">check_circle</i>
+                <i id="failure-icon" class="red-text hide medium material-icons">error_outline</i>
+            </span>
+        </h2>
         <table class="striped">
             <thead>
             <tr>
@@ -69,12 +88,26 @@
     <br/>
 
     <script>
+        function resetFeedback() {
+            document.getElementById("loading-spinner").classList.toggle("hide", true);
+            document.getElementById("success-icon").classList.toggle("hide", true);
+            document.getElementById("failure-icon").classList.toggle("hide", true);
+        }
+
+        function setFeedback(id) {
+            resetFeedback();
+            document.getElementById(id).classList.toggle("hide", false);
+        }
+
         let selectElements = document.getElementsByTagName("select");
         for (let elementIndex = 0; elementIndex < selectElements.length; elementIndex++) {
-            selectElements[elementIndex].onchange = function(event) {
+            selectElements[elementIndex].onchange = function (event) {
                 var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
+                xhttp.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {
+                        setFeedback("success-icon");
+                    } else if (this.readyState === 4 && this.status >= 300) {
+                        setFeedback("failure-icon");
                     }
                 };
                 let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
@@ -82,6 +115,7 @@
                 xhttp.setRequestHeader("X-CSRFToken", csrf);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("user=" + event.target.value);
+                setFeedback("loading-spinner");
             };
         }
     </script>

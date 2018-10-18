@@ -10,7 +10,8 @@
         <h2>
             Vaktliste
             <span class="right">
-                <div id="loading-spinner" class="preloader-wrapper hide active">
+                <div id="loading-spinner" class="preloader-wrapper hide active tooltipped"
+                     data-position="bottom" data-tooltip="Endringene dine lagres">
                     <div class="spinner-layer spinner-blue-only">
                         <div class="circle-clipper left">
                             <div class="circle"></div>
@@ -23,8 +24,14 @@
                         </div>
                     </div>
                 </div>
-                <i id="success-icon" class="green-text hide medium material-icons">check_circle</i>
-                <i id="failure-icon" class="red-text hide medium material-icons">error_outline</i>
+                <i id="success-icon" class="green-text hide medium material-icons tooltipped"
+                    data-position="bottom" data-tooltip="Endringene dine er lagret">
+                    check_circle
+                </i>
+                <i id="failure-icon" class="red-text hide medium material-icons tooltipped"
+                   data-position="bottom" data-tooltip="Endringene dine kunne ikke lagres">
+                    error_outline
+                </i>
             </span>
         </h2>
         <table class="striped">
@@ -118,6 +125,12 @@
                 setFeedback("loading-spinner");
             };
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.tooltipped');
+            var instances = M.Tooltip.init(elems, {exitDelay: 5000});
+        });
+
     </script>
 
 {% endblock %}

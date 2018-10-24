@@ -59,6 +59,7 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         )
 """
 
+
 class ReservationDeleteView(UserPassesTestMixin, DeleteView):
     model = Reservation
     redirect_field_name = 'login/'

@@ -19,7 +19,7 @@ class ReservationForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.queue_id = kwargs.pop('pk')
-        super(ReservationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         start_time = self.cleaned_data.get('start_time', None)

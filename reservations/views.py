@@ -4,11 +4,18 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from reservations.forms import QueueForm, ReservationForm
+from reservations.helpers import get_queue_timetable
 from reservations.models import Queue, Reservation
 
 
 class QueueDetailView(DetailView):
     model = Queue
+
+    def get_context_data(self, **kwargs):
+        context = dict()
+        context['reservations'] = get_queue_timetable(queue=self.object, week_delta=kwargs.pop('week', 0))
+        context.update(kwargs)
+        return super().get_context_data(**context)
 
 
 class QueueListView(ListView):

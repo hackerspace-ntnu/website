@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from reservations.models import Reservation
 
 
-def get_queue_timetable(queue, week_delta=0):
+def get_queue_reservations_for_week(queue, week_delta=0):
     """
     :param queue: Parent queue of the reservations
     :param week_delta: distance in weeks from today you want to view the Q's reservations. -1 moved you back in time
@@ -23,7 +23,6 @@ def get_queue_timetable(queue, week_delta=0):
         reservations_today = queue_reservations.filter(date=day)
 
         # map day's weekday name to reservations for day
-        print(day, day.strftime("%A"))
         reservation_dict[day.strftime("%A")] = [
             [(res.start_time, res.end_time) for res in reservations_today]
         ]

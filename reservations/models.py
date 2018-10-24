@@ -23,4 +23,4 @@ class Reservation(models.Model):
     end_time = TimeField(blank=False)
 
     def __str__(self):
-        return self.user.username + "[%s.%s.%s]" % self.date.isocalendar()
+        return self.user.username + str(self.date)

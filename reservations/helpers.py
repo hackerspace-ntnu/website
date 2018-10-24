@@ -24,7 +24,7 @@ def get_queue_reservations_for_week(queue, week_delta=0):
 
         # map day's weekday name to reservations for day
         reservation_dict[day.strftime("%A")] = [
-            [(res.start_time, res.end_time) for res in reservations_today]
+            [(r.start_time, r.end_time) for r in reservations_today]
         ]
 
     return reservation_dict

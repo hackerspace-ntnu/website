@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
@@ -55,10 +56,18 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     form_class = ReservationForm
     success_url = reverse_lazy('reservations:queue_list')
 
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        reservation = form.save(commit=False)
+        reservation.user = self.request.user
+        reservation.parent_queue = form.parent_queue
+        reservation.save()
+        return super().form_valid(form)
+
     def get_form_kwargs(self):
-        # get parent queue pk, add to kwargs
-        kwargs = super(ReservationCreateView, self).get_form_kwargs()
-        kwargs.update(self.kwargs)
+        # get parent_queue pk and pass on to form
+        kwargs = super().get_form_kwargs()
+        kwargs['pk'] = self.kwargs['pk']
         return kwargs
 
 """

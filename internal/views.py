@@ -1,4 +1,5 @@
 # from django.views.generic import TemplateView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
 from django.views.generic import TemplateView, UpdateView
@@ -30,9 +31,10 @@ class TimeTableView(TemplateView):
         return context_data
 
 
-class SignupView(UpdateView):
+class SignupView(PermissionRequiredMixin, UpdateView):
     form_class = TimeTableSignupForm
     model = TimeTableSlotSignup
+    permission_required = "internal.change_timetableslotsignup"
     # No redirection
 
     def form_valid(self, form):

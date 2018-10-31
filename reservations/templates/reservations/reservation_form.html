@@ -25,7 +25,23 @@
     </div>
 
     <script>
-        M.textareaAutoResize(document.querySelector('#{{ form.description.id_for_label }}'));
+            // Custom initialization for pickers
+            // Make pickers use pythons date and time formats
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                let dp = document.querySelectorAll('.datepicker');
+                let tp = document.querySelectorAll('.timepicker');
+
+                M.Datepicker.init(dp, {
+                    format: "dd.mm.yyyy"
+                });
+
+                M.Timepicker.init(tp, {
+                    twelveHour: false
+                });
+
+            });
     </script>
 
 {% endblock content %}

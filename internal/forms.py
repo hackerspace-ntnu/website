@@ -19,5 +19,4 @@ class TimeTableSignupForm(forms.ModelForm):
         if "user" not in cleaned_data.keys():
             cleaned_data["user"] = None
             self.errors.clear()
-        print(self.errors)
         return cleaned_data

@@ -40,10 +40,12 @@ class SignupView(UpdateView):
         current_user = self.object.user
         if prior_user is not None and prior_user != self.request.user and not self.request.user.has_perm(
                 "internal.admin_office_hours"):
+            # Check if the user is allowed to change the given signup field
             return HttpResponseForbidden()
 
         if current_user not in [None, self.request.user] and not self.request.user.has_perm(
                 "internal.admin_office_hours"):
+            # Check if the user can assign the given user to the give signup field
             return HttpResponseForbidden()
 
         self.object.save()

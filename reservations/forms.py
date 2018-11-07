@@ -44,9 +44,9 @@ class ReservationForm(ModelForm):
                     and date == datetime.date.today()):
             raise ValidationError("You cannot make reservations back in time")
 
-        for interval in [(r.start_time, r.end_time) for r in self.parent_queue.reservations.filter(date=date)]:
-            reservation_overlap = interval[0] <= start_time, end_time <= interval[1]
-            if reservation_overlap.__contains__(True):
+        for i_start, i_end in [(r.start_time, r.end_time) for r in self.parent_queue.reservations.filter(date=date)]:
+            reservation_overlap = (i_start < start_time < i_end) or (start_time < i_end < end_time)
+            if reservation_overlap:
                 raise ValidationError("Reservation incompatible with existing reservations")
 
         return cleaned_data

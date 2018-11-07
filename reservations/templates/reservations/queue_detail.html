@@ -23,13 +23,15 @@
                                             <td>
                                                 <div class="collection">
                                                     {% for reservation in res %}
-                                                        <p class="collection-item">
                                                             {% if reservation %}
-                                                                {{ reservation|first|first }} - {{ reservation|first|last }}
+                                                                {% for slot in reservation %}
+                                                                    <p class="collection-item">
+                                                                        {{ slot|first }} - {{ slot|last }}
+                                                                    </p>
+                                                                {% endfor %}
                                                             {% else %}
-                                                                Empty
+                                                                <p class="collection-item grey-text">Empty</p>
                                                             {% endif %}
-                                                        </p>
                                                     {% endfor %}
 
                                                 </div>

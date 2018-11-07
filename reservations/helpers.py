@@ -20,7 +20,7 @@ def get_queue_reservations_for_week(queue, week_delta=0):
     reservation_dict = {}
     for i in range(7):
         day = base_date + timedelta(days=i)
-        reservations_today = queue_reservations.filter(date=day)
+        reservations_today = sorted(queue_reservations.filter(date=day), key=lambda e: e.start_time)
 
         # map day's weekday name to reservations for day
         reservation_dict[day.strftime("%A")] = [

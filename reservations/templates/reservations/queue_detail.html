@@ -8,7 +8,37 @@
                         <div class="row s10">
                             <div class="col s10 offset-s1">
                                 <h2>{{ queue.name }}</h2>
-                                <p>{{ reservations }}</p>
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            {% for day in reservations %}
+                                                <th>{{ day }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                <tbody>
+                                    <tr>
+                                        {% for day, res in reservations.items %}
+                                            <td>
+                                                <div class="collection">
+                                                    {% for reservation in res %}
+                                                        <p class="collection-item">
+                                                            {% if reservation %}
+                                                                {{ reservation|first|first }} - {{ reservation|first|last }}
+                                                            {% else %}
+                                                                Empty
+                                                            {% endif %}
+                                                        </p>
+                                                    {% endfor %}
+
+                                                </div>
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                                </table>
+
                             </div>
                         </div>
                         <div class="row">

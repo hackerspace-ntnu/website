@@ -9,7 +9,7 @@ from reservations.helpers import get_queue_reservations_for_week
 from reservations.models import Queue, Reservation
 
 
-class QueueDetailView(DetailView):
+class QueueDetailView(UserPassesTestMixin, DetailView):
     model = Queue
 
     def get_context_data(self, **kwargs):
@@ -20,6 +20,9 @@ class QueueDetailView(DetailView):
         )
         context.update(kwargs)
         return super().get_context_data(**context)
+
+    def test_func(self):
+        return self.get_object().published or self.request.user.has_perm("reservations.add_queue")
 
 
 class QueueListView(ListView):

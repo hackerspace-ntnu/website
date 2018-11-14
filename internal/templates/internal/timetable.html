@@ -8,7 +8,7 @@
     <div class="container">
         {% csrf_token %}
         <h2>
-            Vaktliste
+            Vaktliste {{ time_table.term }}
             <span class="right">
                 <div id="loading-spinner" class="preloader-wrapper hide active tooltipped"
                      data-position="bottom" data-tooltip="Endringene dine lagres">

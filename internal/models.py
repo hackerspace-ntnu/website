@@ -29,6 +29,13 @@ class TimeTable(models.Model):
                   (datetime.combine(datetime.today().date(), self.start_time) + timedelta(
                       hours=2 * (time_slot + 1))).time()
 
+    def __lt__(self, other):
+        # Check if the year is different
+        if self.term[:2] != other.term[:2]:
+            return self.term[:2] < other.term[:2]
+        # V is further into the alphabet than H even though the spring term is before the fall term
+        return self.term[2] > other.term[2]
+
 
 class TimeTableSlot(models.Model):
     """

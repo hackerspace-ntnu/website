@@ -1,7 +1,7 @@
 # from django.views.generic import TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseBadRequest, HttpResponseNotFound
 from django.views.generic import TemplateView, UpdateView
 
 from internal.forms import TimeTableSignupForm
@@ -26,7 +26,8 @@ class TimeTableView(TemplateView):
                 ]
             } for start_time, end_time in time_table.get_time_slots()
             ],
-            "members": User.objects.filter(groups__name__in=["member"])
+            "members": User.objects.filter(groups__name__in=["member"]),
+            "time_table": time_table,
         })
         return context_data
 

@@ -26,6 +26,12 @@ class QueueListView(ListView):
     model = Queue
     queryset = Queue.objects.filter(published=True)
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(QueueListView, self).get_context_data()
+        if self.request.user.has_perm("reservations.add_queue"):
+            context["unpublished_queues"] = Queue.objects.filter(published=False)
+        return context
+
 
 class QueueCreateView(PermissionRequiredMixin, CreateView):
     model = Queue

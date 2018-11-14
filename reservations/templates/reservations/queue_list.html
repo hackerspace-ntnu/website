@@ -2,7 +2,7 @@
 {% block content %}
     <div class="section block">
 
-        {% if perms.reservations.create_queue %}
+        {% if perms.reservations.add_queue %}
             <div class="row">
                 <div class="col offset-s3">
                     <a href="{% url 'reservations:queue_create' %}" class="btn waves-effect waves-light">
@@ -28,5 +28,19 @@
                 </div>
             </div>
         </div>
+
+        {% if unpublished_queues %}
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <div class="collection with-header">
+                    <p class="collection-header s10">Upubliserte køer</p>
+                    {% for queue in unpublished_queues %}
+                        <a href="{% url 'reservations:queue_update' pk=queue.pk %}" class="collection-item s10">{{ queue.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
 {% endblock content %}

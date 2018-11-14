@@ -44,15 +44,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col s9">
+                            <div class="col s10 offset-s1">
                                 <p class="flow-text">
                                     {{ queue.description }}
                                 </p>
+                                <br>
                                 {% if perms.reservations.edit_queue %}
                                     <a href="{% url 'reservations:queue_update' pk=queue.pk %}" class="btn waves-effect waves-light right-align">Update</a>
                                 {% endif %}
+                                <a href="{% url 'reservations:reservation_create' pk=queue.pk %}" class="btn hs-green right">New reservation</a>
                             </div>
-                            <a href="{% url 'reservations:reservation_create' pk=queue.pk %}" class="btn hs-green">New reservation</a>
                         </div>
                     </div>
                 </div>

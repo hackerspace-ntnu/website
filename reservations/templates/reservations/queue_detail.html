@@ -52,7 +52,7 @@
                                     <a href="{% url 'reservations:queue_update' pk=queue.pk %}" class="btn waves-effect waves-light right-align">Update</a>
                                 {% endif %}
                             </div>
-                            <a href="{% url 'reservations:reservation_create' pk=queue.pk %}">Make reservation</a>
+                            <a href="{% url 'reservations:reservation_create' pk=queue.pk %}" class="btn hs-green">New reservation</a>
                         </div>
                     </div>
                 </div>

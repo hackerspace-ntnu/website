@@ -1,4 +1,5 @@
 {% extends 'website/base.html' %}
+{% load week %}
 {% block content %}
 
     <div class="section block">
@@ -6,6 +7,9 @@
             <div class="col s8 offset-s2">
                 <div class="card">
                     <div class="card-content">
+
+                        {% week reservations %}
+
                         <form method="post">
                             {% csrf_token %}
                             {{ form.as_p }}

@@ -79,6 +79,15 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         kwargs['pk'] = self.kwargs['pk']
         return kwargs
 
+    def get_context_data(self, **kwargs):
+        context = super(ReservationCreateView, self).get_context_data(**kwargs)
+        context['reservations'] = get_queue_reservations_for_week(
+            queue=get_object_or_404(Queue, pk=self.get_form_kwargs()["pk"]),
+            week_delta=kwargs.pop('week', 0)
+        )
+        return context
+
+
 """
     def get_success_url(self):
         return reverse(

@@ -14,8 +14,8 @@
                     {% for reservation in res %}
                             {% if reservation %}
                                 {% for slot in reservation %}
-                                    <p class="collection-item">
-                                        {{ slot|first }} - {{ slot|last }}
+                                    <p class="collection-item {% if perms.reservations.view_name %}tooltipped" data-position="top" data-tooltip="{{ slot.2 }}{% endif %}">
+                                        {{ slot.0 }} - {{ slot.1 }}
                                     </p>
                                 {% endfor %}
                             {% else %}

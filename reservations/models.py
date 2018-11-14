@@ -60,3 +60,4 @@ class Reservation(models.Model):
     class Meta:
         verbose_name = 'reservasjon'
         verbose_name_plural = 'reservasjoner'
+        permissions = (('view_name', 'View name of reservee'),)

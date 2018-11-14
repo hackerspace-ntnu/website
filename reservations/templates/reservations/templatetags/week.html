@@ -1,0 +1,31 @@
+<table>
+    <thead>
+        <tr>
+            {% for day in reservations %}
+                <th>{{ day }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+<tbody>
+    <tr>
+        {% for day, res in reservations.items %}
+            <td>
+                <div class="collection">
+                    {% for reservation in res %}
+                            {% if reservation %}
+                                {% for slot in reservation %}
+                                    <p class="collection-item">
+                                        {{ slot|first }} - {{ slot|last }}
+                                    </p>
+                                {% endfor %}
+                            {% else %}
+                                <p class="collection-item grey-text">Empty</p>
+                            {% endif %}
+                    {% endfor %}
+
+                </div>
+            </td>
+        {% endfor %}
+    </tr>
+</tbody>
+</table>

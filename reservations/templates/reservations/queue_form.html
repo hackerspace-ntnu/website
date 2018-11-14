@@ -8,7 +8,20 @@
                     <div class="card-content">
                         <form method="post">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+                            {{ form.name }}
+
+                            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+                            {{ form.description }}
+                            <p>
+                                <label>
+                                    {{ form.published }}
+                                    <span>{{ form.published.label }}</span>
+                                </label>
+                            </p>
+                            <br>
+                            <div class="divider"></div>
+                            <br>
                             <button type="submit" class="btn waves-effect waves-light" name="action">
                                 Submit
                                 <i class="material-icons send">send</i>

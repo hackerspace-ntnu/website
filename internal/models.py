@@ -36,6 +36,23 @@ class TimeTable(models.Model):
         # V is further into the alphabet than H even though the spring term is before the fall term
         return self.term[2] > other.term[2]
 
+    @staticmethod
+    def get_users_in_office_now():
+        """
+        :return: A list of users currently in office
+        """
+        time_now = datetime.now().time()
+
+        # The number of current slot may be 0 (outside office hours), 1 (normally), 2 (at the change point)
+        current_slot = TimeTableSlot.objects.filter(start_time__lte=time_now, end_time__gte=time_now,
+                                                    table__term=TimeTable.current_term())
+        users = []
+        for slot in current_slot:
+            # Only care about singup slots where there is actually a user
+            users.extend([signup_slot.user for signup_slot in slot.timetableslotsignup_set.filter(user__isnull=False)])
+
+        return users
+
 
 class TimeTableSlot(models.Model):
     """

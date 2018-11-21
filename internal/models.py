@@ -5,7 +5,7 @@ from django.db import models
 
 class TimeTable(models.Model):
     slots = models.IntegerField()
-    term = models.CharField(max_length=20)
+    term = models.CharField(max_length=3, unique=True)
     start_time = models.TimeField()
 
     @classmethod

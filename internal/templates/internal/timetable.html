@@ -34,6 +34,9 @@
                 </i>
             </span>
         </h2>
+        {% if perms.internal.admin_office_hours %}
+            <a href="{% url "admin_hours" %}" class="right btn">Admin</a>
+        {% endif %}
         <table class="striped">
             <thead>
             <tr>

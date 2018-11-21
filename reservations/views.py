@@ -63,7 +63,6 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
     model = Reservation
     redirect_field_name = 'login/'
     form_class = ReservationForm
-    success_url = reverse_lazy('reservations:queue_list')
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
@@ -87,14 +86,11 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         )
         return context
 
-
-"""
     def get_success_url(self):
         return reverse(
             'reservations:queue_detail',
-            kwargs={'pk': get_object_or_404(Reservation, pk=self.kwargs['pk']).parent_queue.pk}
+            kwargs={'pk': self.kwargs['pk']}
         )
-"""
 
 
 class ReservationDeleteView(UserPassesTestMixin, DeleteView):

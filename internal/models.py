@@ -24,6 +24,9 @@ class TimeTable(models.Model):
         return str(datetime.now().year)[-2:] + "VH"[datetime.now().month > 6]
 
     def get_time_slots(self):
+        """
+        :return: A list of time slots (start-, end-time) for a single day in this term
+        """
         for time_slot in range(self.slots):
             yield (datetime.combine(datetime.today().date(), self.start_time) + timedelta(hours=2 * time_slot)).time(), \
                   (datetime.combine(datetime.today().date(), self.start_time) + timedelta(

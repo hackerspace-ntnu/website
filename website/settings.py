@@ -81,7 +81,6 @@ INSTALLED_APPS = [
     'rpi',
     'inventory',
     'userprofile',
-    'vaktliste',
     'material',
     'kaffe'
 ]

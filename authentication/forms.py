@@ -63,17 +63,19 @@ class SignUpForm(UserCreationForm):
     def save(self, commit=True):
         user = super(SignUpForm, self).save(commit=False)
         user.email = self.cleaned_data.get("email")
+        user.first_name = self.cleaned_data.get("first_name")
+        user.last_name = self.cleaned_data.get("last_name")
         user.is_active = False
 
         if commit:
             user.save()
 
         plain_message = render_to_string('authentication/signup_mail.txt', {
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
             'token': default_token_generator.make_token(user)}
         )
         html_message = render_to_string('authentication/signup_mail.html', {
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
             'token': default_token_generator.make_token(user)}
         )
 

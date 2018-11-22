@@ -44,11 +44,11 @@ class TimeTable(models.Model):
         """
         :return: A list of users currently in office
         """
-        time_now = datetime.now().time()
+        time_now = datetime.now()
 
         # The number of current slot may be 0 (outside office hours), 1 (normally), 2 (at the change point)
-        current_slot = TimeTableSlot.objects.filter(start_time__lte=time_now, end_time__gte=time_now,
-                                                    table__term=TimeTable.current_term())
+        current_slot = TimeTableSlot.objects.filter(start_time__lte=time_now.time(), end_time__gte=time_now.time(),
+                                                    table__term=TimeTable.current_term(), day=time_now.weekday())
         users = []
         for slot in current_slot:
             # Only care about singup slots where there is actually a user

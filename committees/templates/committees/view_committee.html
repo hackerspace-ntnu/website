@@ -38,14 +38,14 @@
               <div class="card-content">
                 <div class="section" style="padding-top: 0;">
                   <div class="valign-wrapper">
-                    <i class="material-icons valign left hs-green">people</i>
+                    <i class="material-icons valign left">people</i>
                     <h5 class="left-align">Medlemmer</h5>
                   </div>
                   {% for member in members %}
                     <a href="mailto:
                         {% if member.position.email %}{{ member.position.email }}{% else %}{{ member.user.email }}{% endif %}">
                       <div class="valign-wrapper">
-                        <i class="material-icons valign left tiny hs-green">email</i>
+                        <i class="material-icons valign left tiny">email</i>
                         <p class="black-text"> {{ member.position.title }}
                           : {{ member.user.get_full_name }}</p>
                       </div>
@@ -57,7 +57,7 @@
                   <div class="section">
                     <a href="mailto:{{ committee.email }}">
                       <div class="valign-wrapper">
-                        <i class="material-icons valign left hs-green">email</i>
+                        <i class="material-icons valign left">email</i>
                         <p class="left-align black-text">Mail oss</p>
                       </div>
                     </a>

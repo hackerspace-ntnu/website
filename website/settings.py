@@ -82,7 +82,8 @@ INSTALLED_APPS = [
     'userprofile',
     'vaktliste',
     'material',
-    'kaffe'
+    'kaffe',
+    'seasonal_events'
 ]
 
 

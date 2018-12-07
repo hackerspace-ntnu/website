@@ -1,6 +1,46 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
-
+{% block head %}
+{% if is_christmas %}
+<style>
+#snowflakeContainer {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.snowflake {
+    padding-left: 15px;
+    font-family: Cambria, Georgia, serif;
+    font-size: 14px;
+    line-height: 24px;
+    position: fixed;
+    color: #FFFFFF;
+    user-select: none;
+    z-index: 1000;
+}
+.snowflake:hover {
+    cursor: default;
+}
+h1 {
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #FF3300;
+    padding: 15px;
+    color: #FFF;
+    margin: 0px;
+}
+p, ol {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", sans-serif;
+    font-size: 24px;
+    color: #CCC;
+}
+li {
+    margin-bottom: 24px;
+    padding-left: 10px;
+}
+</style>
+{% endif %}
+{% endblock %}
 {% block content %}
 <div class="section hs-gray hide-on-med-and-up">
 	<div class="row center">
@@ -160,6 +200,10 @@
 		</div>
 	</div>
 </div>
+<div class="fixed-action-btn">
+	<img src="{% static 'website/img/misc/santa.png' %}" />
+</div>
+
 <script>
 var elem = document.querySelector('.slider');
 var instance = M.Slider.init(elem, {
@@ -170,4 +214,124 @@ var instance = M.Slider.init(elem, {
 })
 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% if is_christmas %}
+<script>
+/**
+ * jQuery snow effects.
+ *
+ * This is a heavily modified, jQuery-adapted, browser-agnostic version of
+ * "Snow Effect Script" by Altan d.o.o. (http://www.altan.hr/snow/index.html).
+ *
+ * Dustin Oprea (2011)
+ */
+
+function __ShowSnow(settings)
+{
+
+    var snowsrc = settings.SnowImage;
+    var no = settings.Quantity;
+
+    var dx, xp, yp;    // coordinate and position variables
+    var am, stx, sty;  // amplitude and step variables
+    var i;
+
+    var doc_width = $(window).width() - 10;
+    var doc_height = $(window).height();
+
+    dx = [];
+    xp = [];
+    yp = [];
+    am = [];
+    stx = [];
+    sty = [];
+    flakes = [];
+    for (i = 0; i < no; ++i)
+    {
+        dx[i] = 0;                        // set coordinate variables
+        xp[i] = Math.random()*(doc_width-50);  // set position variables
+        yp[i] = Math.random()*doc_height;
+        am[i] = Math.random()*20;         // set amplitude variables
+        stx[i] = 0.02 + Math.random()/10; // set step variables
+        sty[i] = 0.7 + Math.random();     // set step variables
+
+        var flake = $("<div />");
+
+        var id = ("dot" + i);
+        flake.attr("id", id);
+        flake.css({
+                    position: "absolute",
+                    zIndex: settings.ZIndexStart + i,
+                    top: "15px",
+                    left: "15px"
+                });
+
+        flake.append("<img src='" + snowsrc + "'>");
+        flake.appendTo("body");
+
+        flakes[i] = $("#" + id);
+    }
+
+    var animateSnow;
+    animateSnow = function()
+    {
+        for (i = 0; i < no; ++ i)
+        {
+            // iterate for every dot
+            yp[i] += sty[i];
+            if (yp[i] > doc_height - 50)
+            {
+                xp[i] = Math.random() * (doc_width - am[i] - 30);
+                yp[i] = 0;
+                stx[i] = 0.02 + Math.random() / 10;
+                sty[i] = 0.7 + Math.random();
+            }
+
+            dx[i] += stx[i];
+            flakes[i].css("top", yp[i] + "px");
+            flakes[i].css("left", (xp[i] + am[i] * Math.sin(dx[i])) + "px");
+        }
+
+        snowtimer = setTimeout(animateSnow, 10);
+    };
+
+	function hidesnow()
+    {
+		if(window.snowtimer)
+            clearTimeout(snowtimer)
+
+        for (i = 0; i < no; i++)
+            flakes[i].hide();
+	}
+
+    animateSnow();
+	if (settings.HideSnowTime > 0)
+    	setTimeout(hidesnow, settings.HideSnowTime * 1000)
+}
+
+(function($) {
+    $.fn.snow = function(options) {
+
+    var settings = $.extend({
+            SnowImage:      undefined,
+            Quantity:       50,
+            HideSnowTime:   0,
+            ZIndexStart:    0,
+        }, options);
+
+    __ShowSnow(settings);
+
+    return this;
+  }
+
+})(jQuery);
+
+
+
+$(document).snow({ SnowImage: "{% static 'website/img/icon/snow.gif' %}" });
+
+
+</script>
+{% endif %}
 {% endblock content %}

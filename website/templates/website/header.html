@@ -14,7 +14,11 @@
 					<!-- Hamburger -->
 					<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
+					{% if is_christmas %}
+					<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "website/img/logo/hakcerspace_jul.png" %}"/></a>
+					{% else %}
 					<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
+					{% endif %}
 					<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
 					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
 					<!-- Hovedmeny -->
@@ -25,13 +29,13 @@
 						{% if user.is_authenticated %}
 								{% if user.profile.image %}
 								<li>
-									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> 
+									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
 										<img class="center circle" src="{{ user.profile.image.url }}" />
 									</a>
 								</li>
 								{% else %}
 								<li>
-									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> 
+									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
 										<img class="center circle" src="{% static 'website/img/misc/default.png' %}" />
 									</a>
 								</li>

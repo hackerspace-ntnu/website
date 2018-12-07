@@ -1,0 +1,36 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Vaktlister</h1>
+
+        <a href="{% url "create_hours" %}" class="right btn">Lag ny vaktliste</a>
+
+        <table class="striped">
+            <thead>
+            <tr>
+                <th>Semester</th>
+                <th>Start tidspunkt</th>
+                <th>Antall tidspunkter per dag</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for time_table in time_tables %}
+                <tr>
+                    <td>{{ time_table.term }}</td>
+                    <td>{{ time_table.start_time }}</td>
+                    <td>{{ time_table.slots }}</td>
+                    <td>
+                        <b>
+                            <a href="{% url "hours" term=time_table.term %}">Se vaktliste</a>
+                        </b>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

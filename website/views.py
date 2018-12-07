@@ -4,6 +4,7 @@ from django.urls import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
 from userprofile.models import Profile
+from datetime import datetime
 from authentication.templatetags import check_user_group as groups
 
 
@@ -31,6 +32,10 @@ def virtualreality(request):
 
 
 def index(request):
+    CHRISTMAS_START_DATE = datetime(2018, 11, 14)
+    CHRISTMAS_END_DATE = datetime(2019, 1, 1)
+
+
     can_access_internal = groups.has_group(request.user, 'member')
 
     # First sort, then grab 5 elements, then flip the list ordered by date
@@ -46,11 +51,15 @@ def index(request):
     except DoorStatus.DoesNotExist:
         door_status = True
 
+    current_date = datetime.now()
+
     context = {
         'article_list': article_list,
         'event_list': event_list,
         'door_status': door_status,
+        'is_christmas': CHRISTMAS_START_DATE < current_date < CHRISTMAS_END_DATE,
     }
+
     return render(request, 'website/index.html', context)
 
 

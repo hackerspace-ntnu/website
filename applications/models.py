@@ -31,6 +31,11 @@ class ApplicationPeriod(models.Model):
 
 class ApplicationGroup(models.Model):
     name = models.CharField(max_length=50, verbose_name="Gruppenavn")
+    text_main = models.TextField(verbose_name="Om gruppen generelt", blank=False)
+    text_structure = models.TextField(verbose_name="Om gruppens struktur", blank=True)
+    text_workload = models.TextField(verbose_name="Om gruppens arbeidsmengde", blank=True)
+
+
     def __str__(self):
         return self.name
 

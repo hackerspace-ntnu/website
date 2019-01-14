@@ -21,6 +21,14 @@ GROUP_CHOICES = (
     ("VIDEOGAME", "Prosjekt - Videospill"),
 )
 
+class ApplicationPeriod(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Navn")
+    period_start = models.DateTimeField(default=timezone.now, blank=False)
+    period_end = models.DateTimeField(default=timezone.now, blank=False)
+
+    def __str__(self):
+        return self.name
+
 class ApplicationGroup(models.Model):
     name = models.CharField(max_length=50, verbose_name="Gruppenavn")
     def __str__(self):
@@ -42,5 +50,3 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
-
-

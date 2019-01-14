@@ -13,7 +13,6 @@ DB = 'sqlite'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 DOOR_KEY = 'DOOR_KEY'
-RPI_SECRET_KEY = 'RPI_SECRET_KEY'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_URLCONF = 'website.urls'
@@ -78,7 +77,6 @@ INSTALLED_APPS = [
     'committees',
     'dal',
     'dal_select2',
-    'rpi',
     'inventory',
     'userprofile',
     'material',

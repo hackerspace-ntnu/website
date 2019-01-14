@@ -2,10 +2,8 @@ from django.shortcuts import render
 from applications.forms import ApplicationForm
 from datetime import datetime
 from django.views.generic.edit import FormView
+from .models import ApplicationPeriod
 
-
-APPLICATION_START_DATE = datetime(2018, 8, 13)
-APPLICATION_END_DATE = datetime(2018, 9, 3)
 
 
 class ApplicationView(FormView):
@@ -20,9 +18,17 @@ class ApplicationView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         current_date = datetime.now()
-        if current_date < APPLICATION_START_DATE:
-            return render(request, 'applications/application_too_early.html')
-        elif current_date > APPLICATION_END_DATE:
-            return render(request, 'applications/application_too_late.html')
+        start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
+        end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
+        context = {
+            'start_date': start_date,
+            'end_date': end_date
+        }
+
+
+        if current_date < start_date:
+            return render(request, 'applications/application_too_early.html', context=context)
+        elif current_date > end_date:
+            return render(request, 'applications/application_too_late.html', context=context)
         else:
             return super(ApplicationView, self).dispatch(request, *args, **kwargs)

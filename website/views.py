@@ -7,6 +7,7 @@ from userprofile.models import Profile
 from datetime import datetime
 from authentication.templatetags import check_user_group as groups
 from applications.models import ApplicationPeriod
+from .models import Card
 
 
 def showcase(request):
@@ -70,7 +71,6 @@ def index(request):
         is_application = True
 
 
-
     context = {
         'article_list': article_list,
         'event_list': event_list,
@@ -79,6 +79,7 @@ def index(request):
         'app_start_date': app_start_date,
         'app_end_date': app_end_date,
         'is_application': is_application,
+        'index_cards': Card.objects.all()
     }
 
     return render(request, 'website/index.html', context)

@@ -6,6 +6,7 @@ from door.models import DoorStatus
 from userprofile.models import Profile
 from datetime import datetime
 from authentication.templatetags import check_user_group as groups
+from applications.models import ApplicationPeriod
 
 
 def showcase(request):
@@ -52,12 +53,23 @@ def index(request):
         door_status = True
 
     current_date = datetime.now()
+    app_start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
+    app_end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
+    if (current_date < app_start_date) or (current_date > app_end_date):
+        is_application = False
+    else:
+        is_application = True
+
+
 
     context = {
         'article_list': article_list,
         'event_list': event_list,
         'door_status': door_status,
         'is_christmas': CHRISTMAS_START_DATE < current_date < CHRISTMAS_END_DATE,
+        'app_start_date': app_start_date,
+        'app_end_date': app_end_date,
+        'is_application': is_application,
     }
 
     return render(request, 'website/index.html', context)

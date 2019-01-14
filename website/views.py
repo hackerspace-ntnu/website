@@ -7,6 +7,7 @@ from userprofile.models import Profile
 from datetime import datetime
 from authentication.templatetags import check_user_group as groups
 from applications.models import ApplicationPeriod
+from .models import Card
 
 
 def showcase(request):
@@ -53,13 +54,21 @@ def index(request):
         door_status = True
 
     current_date = datetime.now()
+
+    # hvis det ikke eksisterer en ApplicationPeriod, lag en.
+    if not ApplicationPeriod.objects.filter(name="Opptak"):
+        ap = ApplicationPeriod.objects.create(
+            name="Opptak",
+            period_start=datetime(2018,1,1),
+            period_end=datetime(2018,1,2)
+            ).save()
+
     app_start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
     app_end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
     if (current_date < app_start_date) or (current_date > app_end_date):
         is_application = False
     else:
         is_application = True
-
 
 
     context = {
@@ -70,6 +79,7 @@ def index(request):
         'app_start_date': app_start_date,
         'app_end_date': app_end_date,
         'is_application': is_application,
+        'index_cards': Card.objects.all()
     }
 
     return render(request, 'website/index.html', context)

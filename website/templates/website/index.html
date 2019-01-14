@@ -167,53 +167,27 @@ li {
 			</div>
 		</div>
 		<div class="row">
+			{% for card in index_cards %}
 			<div class="col s12">
 				<div class="card horizontal">
 					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
-						<span class="card-title">Nye prosjekter</span>
+						<img src="{{ card.thumbnail.url }}">
+						{% if card.thumbnail_dark_text %}
+						<span class="card-title black-text">{{ card.title }}</span>
+						{% else %}
+						<span class="card-title">{{ card.title }}</span>
+						{% endif %}
 					</div>
 					<div class="card-stacked">
 						<div class="card-content">
-							<p>Høsten 2018 kjører vi i gang med nye større prosjekter: </p>
-							<ul>
-								<li>Arkademaskin</li>
-								<li>Mobilspill</li>
-								<li>Brettspill</li>
-								<li>Spill</li>
-
-
-							</ul>
+							{% autoescape off %}
+							{{ card.body }}
+							{% endautoescape %}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col s12" >
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
-						<span class="card-title">Escape Room</span>
-					</div>
-					<div class="card-stacked">
-					<div class="card-content">
-						<p>Er du lei av at de kule eventyrene kun eksisterer i digital form?<br> Dersom du vil dra på eventyr i virkeligheten, kan du komme innom vårt Escape Room</p>
-					</div>
-					</div>
-				</div>
-			</div>
-			<div class="col s12">
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
-						<span class="card-title">Virtual Reality</span>
-					</div>
-					<div class="card-stacked">
-					<div class="card-content">
-						<p>Hackerspace har utviklet et eget Virtual Reality spill! Prosjektgruppa for VR driver med dette.</p>
-					</div>
-					</div>
-				</div>
-
+			{% endfor %}
 			</div>
 		</div>
 	</div>
@@ -224,6 +198,7 @@ li {
 	<img src="{% static 'website/img/misc/santa.png' %}" />
 </div>
 {% endif %}
+
 <script>
 var elem = document.querySelector('.slider');
 var instance = M.Slider.init(elem, {
@@ -232,7 +207,6 @@ var instance = M.Slider.init(elem, {
 	duration:600,
 	interval: 6000
 })
-
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

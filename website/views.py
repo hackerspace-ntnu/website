@@ -53,6 +53,15 @@ def index(request):
         door_status = True
 
     current_date = datetime.now()
+
+    # hvis det ikke eksisterer en ApplicationPeriod, lag en.
+    if not ApplicationPeriod.objects.filter(name="Opptak"):
+        ap = ApplicationPeriod.objects.create(
+            name="Opptak",
+            period_start=datetime(2018,1,1),
+            period_end=datetime(2018,1,2)
+            ).save()
+
     app_start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
     app_end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
     if (current_date < app_start_date) or (current_date > app_end_date):

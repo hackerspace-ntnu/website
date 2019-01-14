@@ -200,10 +200,12 @@ li {
 		</div>
 	</div>
 </div>
+{% if is_christmas %}
+
 <div class="fixed-action-btn">
 	<img src="{% static 'website/img/misc/santa.png' %}" />
 </div>
-
+{% endif %}
 <script>
 var elem = document.querySelector('.slider');
 var instance = M.Slider.init(elem, {

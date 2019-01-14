@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import path
 from django.views.generic.base import TemplateView
 from django.views.static import serve as static_serve
 from wiki.urls import get_pattern as get_wiki_pattern
@@ -37,9 +38,9 @@ urlpatterns = [
     url(r'^about/', about, name='about'),
     url(r'^s/', include('django.contrib.flatpages.urls')),
     url(r'^profile/', include('userprofile.urls')),
-    url(r'^users/', include('vaktliste.urls', namespace='vaktliste')),
     url(r'^feide/', include('authentication_feide.urls')),
     url(r'^kaffe/', include('kaffe.urls')),
+    path('internal/', include('internal.urls'))
 ]
 # Add wiki and notify urls
 urlpatterns += [

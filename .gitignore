@@ -3,6 +3,7 @@
 *.save
 *.saved
 .idea/
+*.iml
 *.sqlite3
 *.pyc
 *.env

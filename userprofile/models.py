@@ -8,8 +8,6 @@ from django.shortcuts import reverse
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
 
-from vaktliste.views import vakt_filter
-
 
 class Skill(models.Model):
     title = models.CharField(max_length=30)
@@ -88,26 +86,11 @@ class Profile(models.Model):
             self.image.save(thumb.name, ContentFile(thumb.read()), False)
         super(Profile, self).save(*args, **kwargs)
 
-    def get_dutytime(self):
-        if self.auto_duty:
-            result = vakt_filter(persons=self.user.get_full_name(), output="tuples")
-            if result:
-                day, time, hackers = result[0]
-                start_time, end_time = time.split(" - ")
-                start_time = datetime.strptime(start_time, "%H:%M")
-                end_time = datetime.strptime(end_time, "%H:%M")
-                try:
-                    self.duty = [DutyTime.objects.get(day=day, start_time=start_time, end_time=end_time)]
-                except:
-                    duty = [DutyTime.objects.create(day=day, start_time=start_time, end_time=end_time)]
-                    self.duty = duty
-
     def __str__(self):
         return self.user.username
 
     def get_absolute_url(self):
         return reverse('userprofile:profile', args=(self.pk,))
-
 
 
 # Save a user profile whenever we create a user

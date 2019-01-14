@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django_filters',
     'applications',
     'news',
+    'internal',
     'door',
     'files',
     'ckeditor',
@@ -80,7 +81,6 @@ INSTALLED_APPS = [
     'rpi',
     'inventory',
     'userprofile',
-    'vaktliste',
     'material',
     'kaffe'
 ]

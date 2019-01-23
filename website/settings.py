@@ -74,7 +74,6 @@ INSTALLED_APPS = [
     'authentication',
     'authentication_feide',
     'smart_selects',
-    'committees',
     'dal',
     'dal_select2',
     'inventory',

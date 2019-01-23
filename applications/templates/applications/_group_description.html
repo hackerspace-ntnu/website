@@ -1,0 +1,25 @@
+<div class="divider"></div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h5>{{ group.name}}</h5>
+				<p class="flow-text">
+					{{ group.text_main|linebreaks }}
+				</p>
+				{% if group.text_structure %}
+				<p><b>Struktur</b></p>
+				<blockquote>
+					{{ group.text_structure }}
+				</blockquote>
+				{% endif %}
+				{% if group.text_workload %}
+				<p><b>Arbeidsmegde</b></p>
+				<blockquote>
+					<p class="flow-text">{{ group.text_workload }}</p>
+				</blockquote>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

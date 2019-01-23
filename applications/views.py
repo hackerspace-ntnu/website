@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from applications.forms import ApplicationForm
 from datetime import datetime
+from django.views.generic import ListView
 from django.views.generic.edit import FormView
-from .models import ApplicationPeriod
+from .models import ApplicationPeriod, ApplicationGroup
 
-
+class ApplicationInfoView(ListView):
+    template_name = "applications/application_info.html"
+    model = ApplicationGroup
 
 class ApplicationView(FormView):
     template_name = 'applications/application_form.html'

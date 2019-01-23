@@ -55,108 +55,43 @@
 		</div>
 	</div>
 </div>
+{% for group in object_list %}
 <div class="divider"></div>
 <div class="section white">
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h5>LabOps</h5>
+				<h5>{{ group.name}}</h5>
 				<p class="flow-text">
-				LabOps har mange forskjellige arbeidsområder, og kan by på varierte arbeidsoppgaver som gir innsikt i mye av det Hackerspace driver med.
+					{{ group.text_main|linebreaks }}
 				</p>
-				<p class="flow-text">
-Et av områdene er å holde orden på Hackerspace sine lokaler, passe på at vi har nok utstyr og at utstyret er i orden. Dette medfører at du får god kunnskap om alle våre løsninger. Eksempler vil være bruk og vedlikehold av 3D-printere, oppdatering av verkstedets datautstyr, og passe på at Rift-stasjonene er i drift.
-				</p>
-				<p class="flow-text">
-LabOps har også ansvaret for å planlegge og gjennomføre arrangementer, kurs og stands som gjennom året. Det trenger ikke å være LabOps som er kursholder, men LabOps har ansvaret for gjennomføringen. Med kurs får du mye kontakt med andre erfarne mennesker i og utenfor Hackerspace og mye praktisk erfaring.
-				</p>
-				<p class="flow-text">
-Promotering er også en del av LabOps arbeidsområder, og PR-gruppen under LabOps jobber med visuell profilering, sosiale medier, artikler på nettsiden, og alt annet innen PR.
-				</p>
+				{% if group.text_structure %}
 				<p><b>Struktur</b></p>
-				<p class="flow-text">LabOps har følgende grupper:</p>
 				<blockquote>
-				<ul>
-					<li>PR</li>
-					<li>Arrangement</li>
-					<li>Verkstedsgruppa</li>
-					<li>Sosialkommite</li>
-				</ul>
+					{{ group.text_structure }}
 				</blockquote>
+				{% endif %}
+				{% if group.workload %}
 				<p><b>Arbeidsmegde</b></p>
 				<blockquote>
-					<p class="flow-text">Arbeidsmengde og gjennomføring varierer fra gruppe til gruppe. Beregn rundt 4 timer i uken på gruppearbeid.</p>
+					<p class="flow-text">{{ group.text_workload }}</p>
 				</blockquote>
+				{% endif %}
 			</div>
 		</div>
 	</div>
 </div>
-<div class="divider"></div>
+{% empty %}
 <div class="section white">
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h5>DevOps</h5>
-			</div>
-			<div class="col s12">
-				<p class="flow-text">DevOps jobber med å utvikle tjenester og drifte infrastruktur som støtter Hackerspace sin virksomhet. Hovedsakelig baserer DevOps seg på nettsidene, men jobber også med servere, git, dør-apiet (som viser om noen er på Hackerspace-kontoret), kursing, utlånssystem, og diverse andre kule dingser.</p>
-				<p class="flow-text">Som medlem av DevOps vil du få god kjennskap til Hackerspace sine IT-systemer, og være med i utviklingen av løsninger som gjør at organisasjonen og medlemmene kan yte sitt beste.</p>
-				<p><b>Struktur</b></p>
-				<blockquote>
-				<p class="flow-text">Strukturen internt i DevOps er fleksibel, med mindre grupper tilpasset interesser hos medlemmer og rettet mot konkrete prosjekter.</p>
-				</blockquote>
-				<p><b>Arbeidsmengde</b></p>
-				<blockquote>
-				<p class="flow-text">DevOps har normalt sett en arbeidskveld i uken som beregnes rundt 4 timer på gruppearbeid, men det jobbes av og til på diverse oppgaver utenfor arbeidskveld etter behov.</p>
-				</blockquote>
+					<p>Ingen grupper lagt til i opptaket.</p>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="divider"></div>
-<div class="section white">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h5>Prosjektgruppen</h5>
-				<p class="flow-text">Prosjektgruppen gjennomfører en rekke prosjekter som varierer fra år til år.</p>
-				<p class="flow-text">Som medlem av prosjektgruppen jobber du konkret på et prosjekt sammen med andre på gruppen.</p>
-				<p><b>Struktur</b></p>
-				<p>I år har prosjektgruppen følgende undergrupper (trykk for å vise beskrivelse):</p>
-				<ul class="collapsible">
-					<li>
-						<div class="collapsible-header"><i class="material-icons">videogame_asset</i>Arkademaskin</div>
-						<div class="collapsible-body"><span>
-								Lage en fysisk arkademaskin som kan forventes å være på størrelsen av et skap. Her blir det muligens utvikling av noen få enkle retrospill for maskinen. For eksempel kan det være en maskin som støtter to spillere med hver sin skjerm. Her trenger vi folk som er interessert i hardware, software og kunst. Har du erfaring med kunst og maleri, kan du for eksempel bidra med å designe kabinettet og spillfigurer.
-							</span></div>
-					</li>
-					<li>
-						<div class="collapsible-header"><i class="material-icons">phone_android</i>Mobilspill</div>
-						<div class="collapsible-body"><span>
-								Mobilspill som skal være inspirert av selskapsleken Mafia og mobilspillet Pokémon Go. Her skal brukeren interagere med spillet ved å bevege seg fysisk i den virkelige verden. Det kan forventes at det blir et kart der du kan se fiender/andre spillere som du skal drepe. Spillet er ment for å bli spilt av studenter på campus. Dette er spesielt morsomt med tanke på mulig bruk i fadderperioden. Selvsagt er rammene for spillet svært åpne, og det er opp til dere å bestemme hvor mye spillet skal være inspirert av de titlene nevnt ovenfor. Det vil være en fordel om du har erfaring med kunst eller spillprogrammering fra før av.
-							</span></div>
-					</li>
-					<li>
-						<div class="collapsible-header"><i class="material-icons">people</i>Brettspill</div>
-						<div class="collapsible-body"><span>
-								Det skal lages et brettspill som skal ligge på Hackerspace-kontoret. Om det blir et kort-, Risk- eller Monopol-spill, er det opp til prosjektmedlemmene å bestemme. Her gjelder det å være kreative og komme med mange kule ideer som bidrar til et fungerende brettspill. Det lønner seg å ha noe erfaring med worldbuilding fra før av. Folk som kan tegning eller 3D-modellering bidrar med det visuelle.
-							</span></div>
-					</li>
-					<li>
-						<div class="collapsible-header"><i class="material-icons">computer</i>PC-Spill</div>
-						<div class="collapsible-body"><span>
-								Brenner du for å lage et spill, men ikke har noen å jobbe med? Har du mange ideer for spill du ønsker å lage? Da bør du virkelig være med i denne gruppen! Dere skal lage et PC-spill (evt. konsollspill dersom folk ønsker det), ellers er det åpent for alle kreative ideer. Det vil være et lite pluss dersom du har tidligere erfaringer med grafikk eller spillprogrammering.
-							</span></div>
-					</li>
-				</ul>
-				<p><b>Arbeidsmengde</b></p>
-				<blockquote>
-				<p class="flow-text">Siden det er nye prosjekter som startes opp, er det ikke etablert hvordan gjennomføringen skjer. Beregn arbeidsmengde rundt 4 timer i uken på gruppearbeid.</p>
-				</blockquote>
-
-			</div>
-		</div>
-	</div>
+{% endfor %}
 </div>
 </main>
 {% endblock %}

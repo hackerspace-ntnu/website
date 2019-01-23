@@ -34,6 +34,7 @@ class ApplicationGroup(models.Model):
     text_main = models.TextField(verbose_name="Om gruppen generelt", blank=False)
     text_structure = models.TextField(verbose_name="Om gruppens struktur", blank=True)
     text_workload = models.TextField(verbose_name="Om gruppens arbeidsmengde", blank=True)
+    project_group = models.BooleanField(verbose_name="Gruppen tilhører prosjektgruppen", default=False)
 
 
     def __str__(self):

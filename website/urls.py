@@ -31,7 +31,6 @@ urlpatterns = [
     path('opptak/', include('applications.urls'), name='opptak'),
     path('files/', include('files.urls')),
     # url(r'^inventory/', include('inventory.urls'), name='inventory'),
-    path('groups/', include('committees.urls', namespace='verv')),
     path('chaining/', include('smart_selects.urls')),
     path('kalender/', TemplateView.as_view(template_name="website/calendar.html"), name='calendar'),
     path('about/', TemplateView.as_view(template_name="website/about.html"), name='about'),

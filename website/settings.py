@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'files',
     'ckeditor',
     'ckeditor_uploader',
-    'sorl.thumbnail',
     'authentication',
     'authentication_feide',
     'userprofile',

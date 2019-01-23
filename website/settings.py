@@ -52,9 +52,6 @@ INSTALLED_APPS = [
     'django.contrib.admindocs',
     'django.contrib.flatpages',
     'website',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'django_filters',
     'applications',
     'news',
     'internal',
@@ -62,23 +59,10 @@ INSTALLED_APPS = [
     'files',
     'ckeditor',
     'ckeditor_uploader',
-    'mptt',
-    'sekizai',
     'sorl.thumbnail',
-    'django_nyt',
-    'wiki.apps.WikiConfig',
-    'wiki.plugins.attachments.apps.AttachmentsConfig',
-    'wiki.plugins.notifications.apps.NotificationsConfig',
-    'wiki.plugins.images.apps.ImagesConfig',
-    'wiki.plugins.macros.apps.MacrosConfig',
     'authentication',
     'authentication_feide',
-    'smart_selects',
-    'dal',
-    'dal_select2',
-    'inventory',
     'userprofile',
-    'material',
 ]
 
 
@@ -87,10 +71,6 @@ INSTALLED_APPS = [
 #################################
 
 THUMBNAIL_PRESERVE_FORMAT = True
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAdminUser'],
-}
 
 #################################
 # Database                      #

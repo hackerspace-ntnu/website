@@ -1,12 +1,10 @@
 django<2.1>=2.0.2
 gunicorn
 django-ckeditor
-wiki==0.4b1
 django-autocomplete-light
 django-smart-selects
 oauthlib
 requests
-django-material
 coverage
 python-coveralls
 djangorestframework

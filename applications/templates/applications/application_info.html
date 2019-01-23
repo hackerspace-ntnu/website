@@ -50,48 +50,54 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h4>Informasjon om gruppene</h4>
+				<h4>Hovedgrupper</h4>
+				<p>Under finner du informasjon om hovedgruppene som har opptak nå</p>
 			</div>
 		</div>
 	</div>
 </div>
-{% for group in object_list %}
-<div class="divider"></div>
-<div class="section white">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h5>{{ group.name}}</h5>
-				<p class="flow-text">
-					{{ group.text_main|linebreaks }}
-				</p>
-				{% if group.text_structure %}
-				<p><b>Struktur</b></p>
-				<blockquote>
-					{{ group.text_structure }}
-				</blockquote>
-				{% endif %}
-				{% if group.workload %}
-				<p><b>Arbeidsmegde</b></p>
-				<blockquote>
-					<p class="flow-text">{{ group.text_workload }}</p>
-				</blockquote>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-</div>
+{% if main_list %}
+{% for group in main_list %}
+{% include "applications/_group_description.html" %}
 {% empty %}
 <div class="section white">
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-					<p>Ingen grupper lagt til i opptaket.</p>
+				<p>Ingen grupper lagt til i opptaket.</p>
 			</div>
 		</div>
 	</div>
 </div>
 {% endfor %}
+{% endif %}
+{% if group_list %}
+<div class="divider"></div>
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4>Prosjektgruppen</h4>
+				<p>Prosjektgruppen gjennomfører en rekke prosjekter som varierer fra år til år. Prosjektene varer som oftest i to semestre.</p>
+				<p>Som medlem av Prosjektgruppen jobber du konkret på et prosjekt sammen med andre på gruppen. Du vil få kjennskap til ulike teknologier innen spillutvikling, men ikke begrenset til det.
+				<p>Under finner du informasjon om prosjektene som har opptak nå.</p> </div>
+		</div>
+	</div>
+</div>
+{% for group in group_list %}
+	{% include "applications/_group_description.html" %}
+{% empty %}
+<div class="section white">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<p>Ingen grupper lagt til i opptaket.</p>
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endif %}
 </div>
 </main>
 {% endblock %}

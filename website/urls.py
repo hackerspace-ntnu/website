@@ -38,7 +38,6 @@ urlpatterns = [
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
     path('feide/', include('authentication_feide.urls')),
-    path('kaffe/', include('kaffe.urls')),
     path('internal/', include('internal.urls'))
 ]
 # Add wiki and notify urls

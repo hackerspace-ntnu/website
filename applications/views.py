@@ -7,7 +7,14 @@ from .models import ApplicationPeriod, ApplicationGroup
 
 class ApplicationInfoView(ListView):
     template_name = "applications/application_info.html"
-    model = ApplicationGroup
+    queryset = ApplicationGroup.objects.all()
+
+    def get_context_data(self, **kwargs): 
+        context = super(ApplicationInfoView, self).get_context_data(**kwargs)
+        context['group_list'] = ApplicationGroup.objects.filter(project_group=True)
+        context['main_list'] = ApplicationGroup.objects.filter(project_group=False)
+
+        return context
 
 class ApplicationView(FormView):
     template_name = 'applications/application_form.html'

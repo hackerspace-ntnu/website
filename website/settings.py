@@ -80,7 +80,6 @@ INSTALLED_APPS = [
     'inventory',
     'userprofile',
     'material',
-    'kaffe'
 ]
 
 

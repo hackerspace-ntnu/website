@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'authentication',
-    'authentication_feide',
     'userprofile',
 ]
 

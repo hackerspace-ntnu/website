@@ -28,7 +28,6 @@ urlpatterns = [
     path('about/', TemplateView.as_view(template_name="website/about.html"), name='about'),
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
-    path('feide/', include('authentication_feide.urls')),
     path('internal/', include('internal.urls'))
 ]
 

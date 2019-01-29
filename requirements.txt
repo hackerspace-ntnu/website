@@ -11,3 +11,4 @@ python-coveralls
 djangorestframework
 django-filter
 markdown
+pillow

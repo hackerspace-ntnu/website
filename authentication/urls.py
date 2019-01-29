@@ -6,8 +6,7 @@ from . import views
 app_name = 'auth'
 
 urlpatterns = [
-    path('login', views.login, name='login'),
-    path('logout', views.logout, name='logout'),
-    path('login_callback', views.login_callback, name='login_callback'),
-    path('logout_legacy', legacy_logout, name="legacy_logout")
+    path('login', views.LoginView.as_view(), name='login'),
+    path('logout', views.LogoutView.as_view(), name='logout'),
+    path('login_callback', views.LoginCallbackView.as_view(), name='login_callback'),
 ]

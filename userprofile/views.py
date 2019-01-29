@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.forms import inlineformset_factory, widgets
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 import re
 
@@ -38,7 +39,11 @@ class SelfProfileDetailView(DetailView):
     model = Profile
 
     def get_object(self):
-        return self.request.user.profile
+        try:
+            userprofile = self.request.user.profile
+            return userprofile
+        except AttributeError:
+            raise Http404("Profile not found")
 
 class ProfileDetailView(DetailView):
     # Vis en spesifikk profil.

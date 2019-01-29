@@ -1,3 +1,0 @@
-{{ message }}
-
-Link: http://hackerspace-ntnu.no/authentication/signup-confirm/{{ uid }}/{{ token }}/

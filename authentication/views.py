@@ -6,7 +6,16 @@ from django.utils.http import urlsafe_base64_decode
 from django.views.generic import TemplateView, FormView
 from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
+import requests
+from django.contrib.auth.models import User
+from userprofile.models import Profile
 
+from django.conf import settings
+
+from oauthlib.oauth2 import WebApplicationClient
+from django.contrib.auth import login as auth_login
+
+dataporten_oauth_client = WebApplicationClient(settings.DATAPORTEN_OAUTH_CLIENT_ID)
 
 @login_required
 def logout_user(request):
@@ -15,17 +24,6 @@ def logout_user(request):
     if is_feide_login:
         return redirect("https://auth.dataporten.no/logout")
     return redirect(reverse('index'))
-
-
-class SignUpView(FormView):
-    template_name = 'authentication/signup.html'
-    form_class = SignUpForm
-    success_url = reverse_lazy('auth:signup_done')
-
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
 
 # Automatically get the user model that is being used by django from its engine
 UserModel = get_user_model()
@@ -39,29 +37,68 @@ def get_user(uidb64):
         return None
 
 
-class SignUpConfirmView(TemplateView):
-    template_name = 'authentication/redirection_page.html'
+# Feide
 
-    def dispatch(self, *args, **kwargs):
-        # If the user id is does not exist redirect to the main page
-        if get_user(kwargs['uidb64']) is None:
-            return redirect('/')
-        return super().dispatch(*args, **kwargs)
+def get_callback_redirect_url(request):
+    return request.build_absolute_uri(reverse('auth:login_callback'))
 
-    def get_context_data(self, **kwargs):
-        user = get_user(kwargs['uidb64'])
-        if user.is_active:
-            return {'title': 'Din konto er allerede aktivert!'}
-        if default_token_generator.check_token(user, kwargs["token"]):
-            user.is_active = True
-            user.save()
-            return {'title': 'Din konto er aktivert!'}
-        return {'title': "Linken du forsøker å bruker har utløpt"}
+def logout(request):
+    return redirect("https://auth.dataporten.no/logout")
+
+def make_requests_session(token):
+    s = requests.Session()
+    s.headers.update({'authorization': 'bearer {}'.format(token)})
+    return s
+
+def login(request):
+    dataporten_auth_url = dataporten_oauth_client.prepare_request_uri(
+        settings.DATAPORTEN_OAUTH_AUTH_URL,
+        redirect_uri=get_callback_redirect_url(request))
+    request.session['feided'] = True
+
+    return redirect(dataporten_auth_url)
 
 
-class SignUpDoneView(TemplateView):
-    template_name = 'authentication/redirection_page.html'
+def login_callback(request):
+    code = request.GET.get('code')
 
-    def get_context_data(self):
-        return {'title': "Registreringen var vellykket og du vil snart motta en"
-                         " mail med videre instruksjoner."}
+    token_request_body = dataporten_oauth_client.prepare_request_body(
+        code=code,
+        redirect_uri=get_callback_redirect_url(request),
+        client_secret=settings.DATAPORTEN_OAUTH_CLIENT_SECRET)
+
+    token_request_response = requests.post(
+        settings.DATAPORTEN_OAUTH_TOKEN_URL,
+        data=token_request_body,
+        headers={
+            "content-type": "application/x-www-form-urlencoded",
+            "authorization": "Basic {}".format(settings.DATAPORTEN_OAUTH_CLIENT_SECRET),
+        })
+
+    if token_request_response.status_code != 200:
+        raise Exception("invalid code")
+
+    response_json = token_request_response.json()
+    access_token = response_json['access_token']
+    session = make_requests_session(access_token)
+
+    user_info = session.get("https://auth.dataporten.no/userinfo").json()
+    user_email = user_info['user']['email']
+    username = user_email.split("@")[0]
+    first_name = " ".join(user_info['user']['name'].split(" ")[0:-1])
+    last_name = user_info['user']['name'].split(" ")[-1]
+
+    try:
+        user = User.objects.get(email=user_email)
+        try:
+            user.profile
+        except Profile.DoesNotExist:
+            profile = Profile.objects.create(user=user, tos_accepted=False)
+    except User.DoesNotExist:
+        user = User.objects.create_user(username=username, email=user_email, first_name=first_name, last_name=last_name)
+        profile = Profile.objects.create(user=user,  tos_accepted=False)
+
+    auth_login(request, user)
+    return redirect('/')
+
+

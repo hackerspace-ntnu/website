@@ -1,10 +1,9 @@
-from django.contrib.auth import get_user_model, logout
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import redirect
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import TemplateView, FormView
-from authentication.forms import SignUpForm
 from django.contrib.auth.tokens import default_token_generator
 import requests
 from django.contrib.auth.models import User
@@ -26,17 +25,6 @@ def logout_user(request):
     return redirect(reverse('index'))
 
 # Automatically get the user model that is being used by django from its engine
-UserModel = get_user_model()
-
-def get_user(uidb64):
-    try:
-        # urlsafe_base64_decode() decodes to bytestring
-        uid = urlsafe_base64_decode(uidb64).decode()
-        return UserModel._default_manager.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
-        return None
-
-
 # Feide
 
 def get_callback_redirect_url(request):

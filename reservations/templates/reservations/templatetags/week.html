@@ -1,9 +1,8 @@
-<!---->
-<table>
+<table class="responsive-table">
     <thead>
         <tr>
             {% for day in reservations %}
-                <th>{{ day }}</th>
+                <th>{{ day }} {{ day.date }}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -13,21 +12,21 @@
             <td>
                 <div class="collection">
                     {% for reservation in res %}
-                            {% if reservation %}
-                                {% for slot in reservation %}
-                                    <p class="collection-item flow-text {% if perms.reservations.view_name %}tooltipped" data-position="top" data-tooltip="{{ slot.2 }}{% endif %}">
-                                        {{ slot.0 }} - {{ slot.1 }}
-                                    </p>
-                                {% endfor %}
-                            {% else %}
-                                <p class="collection-item grey-text">Empty</p>
-                            {% endif %}
+                        {% if reservation %}
+                            {% for slot in reservation %}
+                                <p class="collection-item {% if perms.reservations.view_name %}tooltipped" data-position="top"
+                                    data-tooltip="{% if slot.2.get_full_name %}{{ slot.2.get_full_name }}{% else %}{{ slot.2.username }}{% endif %}
+                                    {% endif %}">
+                                    {{ slot.0 }} - {{ slot.1 }}
+                                </p>
+                            {% endfor %}
+                        {% else %}
+                            <p class="collection-item grey-text">Empty</p>
+                        {% endif %}
                     {% endfor %}
-
                 </div>
             </td>
         {% endfor %}
     </tr>
 </tbody>
 </table>
-<!---->

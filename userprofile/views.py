@@ -3,10 +3,11 @@ from django.contrib.auth.models import User
 from django.forms import inlineformset_factory, widgets
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 import re
 
-from .forms import UserForm, ProfileForm, ProfileFormSet, ProfileSearchForm
+from .forms import ProfileSearchForm
 from .models import Profile, Skill, Group
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -38,7 +39,11 @@ class SelfProfileDetailView(DetailView):
     model = Profile
 
     def get_object(self):
-        return get_object_or_404(Profile, pk=self.request.user.profile.id)
+        try:
+            userprofile = self.request.user.profile
+            return userprofile
+        except AttributeError:
+            raise Http404("Profile not found")
 
 class ProfileDetailView(DetailView):
     # Vis en spesifikk profil.
@@ -53,39 +58,10 @@ class ProfileDetailView(DetailView):
 
 class ProfileUpdateView(UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
-
-    # Modellen tar utgangspunkt i djangos brukerobject User, men legger
-    # til en profile-form fra ProfileFormSet som senere settes inn i User objektet.
-    # Formålet med dette er å kunne redigere både User og Profile samtidig.
-    model = User
-    form_class = UserForm
+    model = Profile
+    fields = ['image', 'group', 'access_card', 'study', 'skills']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        formset = ProfileFormSet(
-            request.POST,
-            request.FILES,
-            instance=self.object)
-
-        if form.is_valid():
-            if formset.is_valid():
-                formset.save()
-                return self.form_valid(form)
-            return self.form_invalid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
-        form = UserForm(instance=self.object)
-
-        context['formset'] =  ProfileFormSet(instance=self.object)
-        return context
-
     def get_object(self):
-        return get_object_or_404(User, pk=self.request.user.id)
-
-
-#TODO: Class based skill views
+        return self.request.user.profile

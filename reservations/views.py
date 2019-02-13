@@ -14,11 +14,12 @@ class QueueDetailView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = dict()
-        context['reservations'] = get_queue_reservations_for_week(
+        context['reservation_info'] = get_queue_reservations_for_week(
             queue=self.object,
             week_delta=kwargs.pop('week', 0)
         )
         context.update(kwargs)
+        print(context['reservation_info'])
         return super().get_context_data(**context)
 
     def test_func(self):

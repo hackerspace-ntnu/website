@@ -1,28 +1,26 @@
-<table class="responsive-table">
+<table class="striped-table responsive-table">
     <thead>
+            <th>Time</th>
         <tr>
-            {% for day in reservations %}
-                <th>{{ day }} {{ day.date }}</th>
+            {% for day in reservation_info.reservation_day_dict.keys %}
+                <th>{{ day }}</th>
             {% endfor %}
         </tr>
     </thead>
 <tbody>
     <tr>
-        {% for day, res in reservations.items %}
+        <td>
+        {% for interval in reservation_info.reservation_intervals  %}
+                <div class="collection-item">
+                    {{ interval }}
+                </div>
+        {% endfor %}
+        </td>
+        {% for reservations in reservation_info.reservation_day_dict.values %}
             <td>
-                <div class="collection">
-                    {% for reservation in res %}
-                        {% if reservation %}
-                            {% for slot in reservation %}
-                                <p class="collection-item {% if perms.reservations.view_name %}tooltipped" data-position="top"
-                                    data-tooltip="{% if slot.2.get_full_name %}{{ slot.2.get_full_name }}{% else %}{{ slot.2.username }}{% endif %}
-                                    {% endif %}">
-                                    {{ slot.0 }} - {{ slot.1 }}
-                                </p>
-                            {% endfor %}
-                        {% else %}
-                            <p class="collection-item grey-text">Empty</p>
-                        {% endif %}
+                <div class="collection-item">
+                    {% for user in reservations %}
+                        {{ user }}
                     {% endfor %}
                 </div>
             </td>

@@ -1,3 +1,5 @@
+import calendar
+
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404
@@ -13,14 +15,14 @@ class QueueDetailView(UserPassesTestMixin, DetailView):
     model = Queue
 
     def get_context_data(self, **kwargs):
-        context = dict()
-        context['reservation_info'] = get_queue_reservations_for_week(
+        context = super().get_context_data(**kwargs)
+        context['intervals'] = get_queue_reservations_for_week(
             queue=self.object,
-            week_delta=kwargs.pop('week', 0)
+            paginate=kwargs.get('week', 0),
+            reservation_min_length=30,
         )
-        context.update(kwargs)
-        print(context['reservation_info'])
-        return super().get_context_data(**context)
+        context['week'] = calendar.day_name
+        return context
 
     def test_func(self):
         return self.get_object().published or self.request.user.has_perm("reservations.add_queue")
@@ -83,7 +85,7 @@ class ReservationCreateView(LoginRequiredMixin, CreateView):
         context = super(ReservationCreateView, self).get_context_data(**kwargs)
         context['reservations'] = get_queue_reservations_for_week(
             queue=get_object_or_404(Queue, pk=self.get_form_kwargs()["pk"]),
-            week_delta=kwargs.pop('week', 0)
+            paginate=kwargs.pop('week', 0)
         )
         return context
 

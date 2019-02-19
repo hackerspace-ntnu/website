@@ -1,30 +1,28 @@
 <table class="striped-table responsive-table">
     <thead>
-            <th>Time</th>
         <tr>
-            {% for day in reservation_info.reservation_day_dict.keys %}
+            <th>Time</th>
+            {% for day in week %}
                 <th>{{ day }}</th>
             {% endfor %}
         </tr>
     </thead>
 <tbody>
+    {% for interval in intervals %}
     <tr>
-        <td>
-        {% for interval in reservation_info.reservation_intervals  %}
-                <div class="collection-item">
-                    {{ interval }}
-                </div>
-        {% endfor %}
-        </td>
-        {% for reservations in reservation_info.reservation_day_dict.values %}
-            <td>
-                <div class="collection-item">
-                    {% for user in reservations %}
-                        {{ user }}
-                    {% endfor %}
-                </div>
-            </td>
+        <td>{{ interval.start }} - {{ interval.stop }}</td>
+        {% for day_reservation in interval.reservations %}
+            {% if day_reservation.0.user %}
+                <td style="background-color: red;">
+                    {{ day_reservation.0.user }}
+                </td>
+            {% else %}
+                <td style="background-color: greenyellow;">
+                    LEDIG
+                </td>
+            {% endif %}
         {% endfor %}
     </tr>
+    {% endfor %}
 </tbody>
 </table>

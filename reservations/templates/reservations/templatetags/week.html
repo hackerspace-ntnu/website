@@ -1,28 +1,71 @@
-<table class="striped-table responsive-table">
+{% load week %}
+
+<style>
+
+tr, td {
+    padding: 0px;
+}
+
+</style>
+
+<table class="striped-table">
     <thead>
         <tr>
             <th>Time</th>
             {% for day in week %}
-                <th>{{ day }}</th>
+                <th>{{ day|nob_day }}</th>
             {% endfor %}
         </tr>
     </thead>
-<tbody>
-    {% for interval in intervals %}
-    <tr>
-        <td>{{ interval.start }} - {{ interval.stop }}</td>
-        {% for day_reservation in interval.reservations %}
-            {% if day_reservation.0.user %}
-                <td style="background-color: red;">
-                    {{ day_reservation.0.user }}
-                </td>
-            {% else %}
-                <td style="background-color: greenyellow;">
-                    LEDIG
-                </td>
-            {% endif %}
+    <tbody>
+        {% for interval in intervals %}
+        <tr>
+            <td>{{ interval.start }} - {{ interval.stop }}</td>
+            {% for day_reservation in interval.reservations %}
+                {% if day_reservation.0.user %}
+                    <td style="background-color: red;">
+                        {{ day_reservation.0.user }}
+                    </td>
+                {% else %}
+                    <td style="background-color: greenyellow;">
+                        LEDIG
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
         {% endfor %}
-    </tr>
-    {% endfor %}
-</tbody>
+        <ul class="pagination" id="pagination-container">
+            <li class="waves-effect"><a id="prev-chevron"
+                    href="{% url 'reservations:queue_detail' pk=queue.pk %}?page=">
+                <i class="material-icons">chevron_left</i></a></li>
+            {% for day in week %}
+                <li class="waves-effect"><a href="{% url 'reservations:queue_detail' pk=queue.pk %}?page={{ forloop.counter0 }}">
+                {{ forloop.counter0 }}</a></li>
+            {% endfor %}
+            <li class="waves-effect"><a id="next-chevron"
+                    href="{% url 'reservations:queue_detail' pk=queue.pk %}?page=">
+            <i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </tbody>
 </table>
+
+<script>
+    let params = (new URL(document.location)).searchParams;
+    let page = Number(params.get("page"));
+    let ul = document.getElementById('pagination-container');
+
+    ul.childNodes[page*2 + 3].setAttribute('class', 'active');
+    let lchev = document.getElementById("prev-chevron");
+    let rchev = document.getElementById("next-chevron");
+    if (page > 0) {
+        lchev.setAttribute('href', lchev.getAttribute('href') + (page-1));
+    } else {
+        lchev.setAttribute('href', '#')
+    }
+    if (page < 6) {
+        rchev.setAttribute('href', rchev.getAttribute('href') + (page+1));
+    } else {
+        rchev.setAttribute('href', '#')
+    }
+
+</script>

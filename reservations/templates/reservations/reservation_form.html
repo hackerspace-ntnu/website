@@ -8,8 +8,6 @@
                 <div class="card">
                     <div class="card-content">
 
-                        {% week reservations %}
-
                         <form method="post">
                             {% csrf_token %}
                             {{ form.as_p }}

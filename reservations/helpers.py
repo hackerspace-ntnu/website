@@ -27,6 +27,7 @@ def get_queue_reservations_for_week(queue, paginate=0, reservation_min_length=30
 
     queue_reservations = Reservation.objects.filter(parent_queue=queue)
     intervals = []
+
     """
     Iterate through every interval available for reservation and either get user who made reservation for that 
     interval/day-combo or an empty QS 
@@ -47,7 +48,6 @@ def get_queue_reservations_for_week(queue, paginate=0, reservation_min_length=30
                 )
                 for i in range(7)
             ]
-            print(reservations_for_interval)
             intervals.append(
                 {
                     'start': interval,
@@ -56,41 +56,3 @@ def get_queue_reservations_for_week(queue, paginate=0, reservation_min_length=30
                 }
             )
     return intervals
-
-"""
-    reservation_day_time = {}
-    for i in range(7):  # for every weekday
-        day = base_date + timedelta(days=i)
-        reservations_for_day = queue_reservations.filter(date=day)
-
-        # ascending list of reservations made that day
-        reservations_today = sorted(queue_reservations.filter(date=day), key=lambda e: e.start_time)
-
-        reservations = []
-        reservation_intervals = []
-        t = datetime.datetime(100, 1, 1, queue_start_time, 0, 0)
-        while t.time() < datetime.time(queue_end_time):
-            for r in reservations_today:
-                if r.start_time <= t.time() <= r.end_time:
-                    reservations.append(r.user)
-                    break
-            else:
-                reservations.append(None)
-
-            reservation_intervals.append(t.time())
-            t += datetime.timedelta(minutes=reservation_min_length)
-
-        # map day's weekday name to reservations for day
-        reservation_day_time[day.strftime("%A")] = reservations
-
-    return_dict = {
-        'start_time': queue_start_time,
-        'interval': reservation_min_length,
-        'reservation_day_dict': reservation_day_time,
-        'reservation_intervals': reservation_intervals,
-    }
-    return return_dict
-
-
-"""
-

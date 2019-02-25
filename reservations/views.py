@@ -16,9 +16,10 @@ class QueueDetailView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        pagination = int(self.request.GET.get('page', 0))
         context['intervals'] = get_queue_reservations_for_week(
             queue=self.object,
-            paginate=kwargs.get('week', 0),
+            paginate=pagination,
             reservation_min_length=30,
         )
         context['week'] = calendar.day_name
@@ -26,6 +27,43 @@ class QueueDetailView(UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return self.get_object().published or self.request.user.has_perm("reservations.add_queue")
+
+
+class ReservationCreateView(LoginRequiredMixin, CreateView):
+    model = Reservation
+    redirect_field_name = 'login/'
+    form_class = ReservationForm
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        valid = super().form_valid(form)
+        if valid:
+            reservation = form.save(commit=False)
+            reservation.user = self.request.user
+            reservation.parent_queue = form.parent_queue
+            reservation.save()
+        return valid
+
+    def get_form_kwargs(self):
+        # get parent_queue pk and pass on to form
+        kwargs = super().get_form_kwargs()
+        kwargs['pk'] = self.kwargs['pk']
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(ReservationCreateView, self).get_context_data(**kwargs)
+        context['reservations'] = get_queue_reservations_for_week(
+            queue=get_object_or_404(Queue, pk=self.get_form_kwargs()["pk"]),
+            paginate=kwargs.pop('week', 0)
+        )
+        context['queue'] = get_object_or_404(Queue, pk=self.get_form_kwargs()["pk"])
+        return context
+
+    def get_success_url(self):
+        return reverse(
+            'reservations:queue_detail',
+            kwargs={'pk': self.kwargs['pk']}
+        )
 
 
 class QueueListView(ListView):
@@ -60,40 +98,6 @@ class QueueDeleteView(PermissionRequiredMixin, DeleteView):
     redirect_field_name = '/'
     permission_required = 'reservations.delete_queue'
     success_url = reverse_lazy('reservations:queue_list')
-
-
-class ReservationCreateView(LoginRequiredMixin, CreateView):
-    model = Reservation
-    redirect_field_name = 'login/'
-    form_class = ReservationForm
-
-    def form_valid(self, form):
-        """If the form is valid, save the associated model."""
-        reservation = form.save(commit=False)
-        reservation.user = self.request.user
-        reservation.parent_queue = form.parent_queue
-        reservation.save()
-        return super().form_valid(form)
-
-    def get_form_kwargs(self):
-        # get parent_queue pk and pass on to form
-        kwargs = super().get_form_kwargs()
-        kwargs['pk'] = self.kwargs['pk']
-        return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super(ReservationCreateView, self).get_context_data(**kwargs)
-        context['reservations'] = get_queue_reservations_for_week(
-            queue=get_object_or_404(Queue, pk=self.get_form_kwargs()["pk"]),
-            paginate=kwargs.pop('week', 0)
-        )
-        return context
-
-    def get_success_url(self):
-        return reverse(
-            'reservations:queue_detail',
-            kwargs={'pk': self.kwargs['pk']}
-        )
 
 
 class ReservationDeleteView(UserPassesTestMixin, DeleteView):

@@ -1,13 +1,22 @@
 {% extends 'website/base.html' %}
 {% load week %}
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+{% endblock %}
+
 {% block content %}
 
     <div class="section block">
         <div class="row">
+                        <div id='calendar'></div>
+                        <!--
             <div class="col s8 offset-s2">
                 <div class="card">
                     <div class="card-content">
-
                         <form method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
@@ -23,28 +32,23 @@
                     </div>
                 </div>
             </div>
+                        -->
         </div>
     </div>
 
-    <script>
-            // Custom initialization for pickers
-            // Make pickers use pythons date and time formats
+<script>
+$(function() {
 
-            document.addEventListener("DOMContentLoaded", function () {
 
-                let dp = document.querySelectorAll('.datepicker');
-                let tp = document.querySelectorAll('.timepicker');
+    $('#calendar').fullCalendar({
+        height: 500,
+        defaultView: 'agendaWeek',
+        allDaySlot: false,
+        firstDay: 1,
+        header: {right: 'prev, next'},
+    })
 
-                M.Datepicker.init(dp, {
-                    format: "dd.mm.yyyy",
-                    disableWeekends: true
-                });
-
-                M.Timepicker.init(tp, {
-                    twelveHour: false
-                });
-
-            });
-    </script>
+});
+</script>
 
 {% endblock content %}

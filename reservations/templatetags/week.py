@@ -17,3 +17,5 @@ def get_norwegian_day_name(day):
     translation = dict(zip(calendar.day_name, nob_days))
     return translation.get(day, None)
 
+    test = lambda x: "alt funka"
+    test()

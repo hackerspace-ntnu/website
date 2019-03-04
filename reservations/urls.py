@@ -1,11 +1,14 @@
 from django.urls import path
 
+from reservations.serializers import ReservationViewSet
 from reservations.views import QueueListView, QueueDetailView, QueueCreateView, QueueUpdateView, QueueDeleteView, \
     ReservationUpdateView, ReservationDeleteView, ReservationCreateView
 
 app_name = "reservations"
 
 urlpatterns = [
+    path('testing/<int:pk>/', ReservationViewSet.as_view({'get': 'list'}), name='fullcalendar_test'),
+
     path('', QueueListView.as_view(), name='queue_list'),
     path('queue/create', QueueCreateView.as_view(), name="queue_create"),
     path('queue/<int:pk>/update', QueueUpdateView.as_view(), name='queue_update'),
@@ -15,4 +18,5 @@ urlpatterns = [
     path('queue/<int:pk>/', QueueDetailView.as_view(), name='queue_detail'),
     path('<int:pk>/update', ReservationUpdateView.as_view(), name='reservation_update'),
     path('<int:pk>/delete', ReservationDeleteView.as_view(), name='reservation_delete'),
+
 ]

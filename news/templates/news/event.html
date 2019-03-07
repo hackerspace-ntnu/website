@@ -49,6 +49,13 @@
 				</div>
 				<div class="col s12 m6 card-panel z-depth-0 ">
 					<div class="right-align">
+						{% if expired_event %}
+						<p>Arrangementet er over og du kan ikke melde deg på.</p>
+							<div class="progress hs-gray">
+								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
+								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
+							</div>
+						{% else %}
 						{% if event.external_registration %}
 							<a class="btn waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
 						{% elif event.registration %}
@@ -93,6 +100,7 @@
 								</div>
 						</div>
 							{% endif %}
+						{% endif %}
 						{% endif %}
 					</div>
 				</div>

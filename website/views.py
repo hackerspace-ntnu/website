@@ -9,8 +9,9 @@ from authentication.templatetags import check_user_group as groups
 from applications.models import ApplicationPeriod
 from .models import Card
 from django.views.generic import ListView, TemplateView, RedirectView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class AcceptTosRedirectView(RedirectView):
+class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'index'
 
     def get_redirect_url(self, *args, **kwargs):

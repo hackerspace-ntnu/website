@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
+from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
 from authentication.templatetags import check_user_group as groups
@@ -21,6 +22,17 @@ class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
             profileobj.save()
 
         return super().get_redirect_url(*args, **kwargs)
+
+class AboutView(TemplateView):
+    template_name = "website/about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['committees'] = Committee.objects.all()
+
+
+        return context
 
 
 class IndexView(TemplateView):

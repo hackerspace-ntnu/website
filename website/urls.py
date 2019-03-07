@@ -5,7 +5,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from website.views import IndexView, AcceptTosRedirectView
+from website.views import IndexView, AcceptTosRedirectView, AboutView
 
 handler404 = 'website.views.handler404'
 handler500 = 'website.views.handler500'
@@ -25,7 +25,7 @@ urlpatterns = [
     path('door/', include('door.urls')),
     path('opptak/', include('applications.urls'), name='opptak'),
     path('files/', include('files.urls')),
-    path('about/', TemplateView.as_view(template_name="website/about.html"), name='about'),
+    path('about/', AboutView.as_view(), name='about'),
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
     path('internal/', include('internal.urls'))

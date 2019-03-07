@@ -52,7 +52,12 @@
 						{% if event.external_registration %}
 							<a class="btn waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
 						{% elif event.registration %}
+							{% if userstatus == "ikke pålogget" %}
+							<a class="hs-yellow btn btn-large" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
+
+							{% else %}
 							<p>Du er {{ userstatus }}</p>
+							{% endif %}
 							<div class="progress hs-gray">
 								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
 								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>

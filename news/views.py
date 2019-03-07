@@ -20,6 +20,7 @@ class EventView(DetailView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['userstatus'] = "ikke pålogget"
+        context_data['expired_event'] = datetime.now() > self.object.time_end
 
         if self.request.user.is_authenticated:
             context_data['registered'] = self.object.is_registered(self.request.user) or \

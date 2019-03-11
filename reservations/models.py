@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import CharField, TextField, BooleanField, TimeField, ForeignKey, DateField
+from django.db.models import CharField, TextField, BooleanField, ForeignKey, DateTimeField
 
 
 class Queue(models.Model):
@@ -15,18 +15,16 @@ class Queue(models.Model):
         default="",
         verbose_name='beskrivelse'
     )
-    # Visible for regular users or not
-    published = BooleanField(
+    internal = BooleanField(
         default=False,
-        verbose_name='publisert'
+        verbose_name='intern'
+    )
+    hidden = BooleanField(
+        default=False,
     )
 
     def __str__(self):
-        return self.name + "[%s]" % self.reservations.count()
-
-    class Meta:
-        verbose_name = "kø"
-        verbose_name_plural = "køer"
+        return self.name
 
 
 class Reservation(models.Model):
@@ -41,23 +39,14 @@ class Reservation(models.Model):
         related_name='reservations',
         on_delete=models.CASCADE
     )
-    date = DateField(
-        blank=False,
-        verbose_name='dato'
-    )
-    start_time = TimeField(
+    start = DateTimeField(
         blank=False,
         verbose_name='starttidspunkt'
     )
-    end_time = TimeField(
+    end = DateTimeField(
         blank=False,
         verbose_name='sluttidspunkt'
     )
 
     def __str__(self):
-        return self.user.username + str(self.date)
-
-    class Meta:
-        verbose_name = 'reservasjon'
-        verbose_name_plural = 'reservasjoner'
-        permissions = (('view_name', 'View name of reservee'),)
+        return f'{self.parent_queue}: {self.start:%b %d - %H:%M}'

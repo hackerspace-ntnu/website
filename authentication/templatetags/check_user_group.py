@@ -18,5 +18,3 @@ def has_group(user, group_name):
             return True
         else:
             return False
-    else:
-        return False

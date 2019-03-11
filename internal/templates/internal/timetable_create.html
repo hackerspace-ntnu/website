@@ -1,0 +1,57 @@
+{% extends "website/base.html" %}
+
+{% block head %}
+    <style>
+        .collection-item {
+            background-color: red;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1>Lag ny vaktliste</h1>
+
+        {% if form.non_field_errors %}
+            <div class="collection">
+                {% for error in form.non_field_errors %}
+                    <div class="red white-text collection-item">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="" class="col s12">
+            {% csrf_token %}
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="{{ form.year.name }}">{{ form.year.label }}</label>
+                    {{ form.year }}
+                </div>
+                <div class="input-field col s6">
+                    {{ form.term }}
+                    <label for="{{ form.term.name }}">{{ form.term.label }}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s4">
+                    <label for="{{ form.number_of_slots.name }}">{{ form.number_of_slots.label }}</label>
+                    {{ form.number_of_slots }}
+                </div>
+                <div class="input-field col s4">
+                    <label for="{{ form.per_slot.name }}">{{ form.per_slot.label }}</label>
+                    {{ form.per_slot }}
+                </div>
+                <div class="input-field col s4">
+                    <input name="{{ form.start_time.name }}" type="time" value="{{ form.start_time.value }}"
+                           class="validate">
+                    <label for="{{ form.start_time.name }}">{{ form.start_time.label }}</label>
+                    <span class="helper-text" data-error="Velg et gyldig tidspunkt"></span>
+                </div>
+            </div>
+            <button class="right btn">Legg til</button>
+            <a href="{% url "admin_hours" %}" class="red right btn">Avbryt</a>
+        </form>
+    </div>
+
+{% endblock %}

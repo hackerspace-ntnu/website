@@ -32,7 +32,7 @@ class EventForm(forms.ModelForm):
             form_data['max_limit'] = 0
         if form_data['max_limit'] < 0:
             if form_data['registration']:
-                raise ValidationError({'max_limit': 'Antall plasser på være positivt'}, code='invalid')
+                raise ValidationError({'max_limit': 'Antall plasser må være positivt'}, code='invalid')
             else:
                  form_data['max_limit'] = 0
 

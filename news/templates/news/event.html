@@ -32,18 +32,39 @@
 					<div class="divider"></div>
 				</div>
 				<div class="col s12 m6">
+					{% if event.time_end|date:"d. F Y" != event.time_start|date:"d. F Y" %}
+					<p><i class="material-icons small">event</i> Fra {{ event.time_start|date:"d. F Y" }}, {{ event.time_start|date:"H:i" }}</p>
+					<p><i class="material-icons small">event_busy</i> Til {{ event.time_end|date:"d. F Y" }}, {{ event.time_end|date:"H:i" }}</p>
+					{% else %}
 					<p><i class="material-icons small">event</i> {{ event.time_start|date:"d. F Y" }}</p>
 					<p><i class="material-icons small">access_time</i> {{ event.time_start|date:"H:i" }} til {{ event.time_end|date:"H:i" }}</p>
+					{% endif %}
 					{% if event.place %}
+						{% if event.place_href %}
 						<p><i class="material-icons small">location_on</i> <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> 
+						{% else %}
+						<p><i class="material-icons small">location_on</i>{{ event.place }}</p> 
+						{% endif %}
 					{% endif %}
 				</div>
 				<div class="col s12 m6 card-panel z-depth-0 ">
 					<div class="right-align">
+						{% if expired_event %}
+						<p>Arrangementet er over og du kan ikke melde deg på.</p>
+							<div class="progress hs-gray">
+								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
+								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
+							</div>
+						{% else %}
 						{% if event.external_registration %}
 							<a class="btn waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
 						{% elif event.registration %}
+							{% if userstatus == "ikke pålogget" %}
+							<a class="hs-yellow btn btn-large" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
+
+							{% else %}
 							<p>Du er {{ userstatus }}</p>
+							{% endif %}
 							<div class="progress hs-gray">
 								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
 								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
@@ -79,6 +100,7 @@
 								</div>
 						</div>
 							{% endif %}
+						{% endif %}
 						{% endif %}
 					</div>
 				</div>

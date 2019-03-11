@@ -1,7 +1,26 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
-
+{% block head %}
+{% endblock %}
 {% block content %}
+{% if is_application %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 white-text center">
+				<h5>Hackerspace har opptak!</h5>
+				<p>Fra {{ app_start_date }} til {{ app_end_date }} kan du søke om å bli medlem i Hackerspace!<p>
+				<a class="btn btn-small white hs-green-text hide-on-med-and-up" href="/opptak/">GÅ TIL OPPTAKSSIDENE</a>
+				<a class="btn btn-small white hs-green-text hide-on-small-only" href="/opptak/">Trykk her for å gå til opptakssidene</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+<div class="section hs-gray hide-on-med-and-up">
+	<div class="row center">
+	</div>
+</div>
 <div class="section hs-gray hide-on-med-and-up">
 	<div class="row center">
 		<br>
@@ -103,59 +122,27 @@
 <div class="section hs-green ">
 	<div class="container hide-on-med-and-down">
 		<div class="row">
-			<div class="col s12">
-				<h4 class="white-text">Våre prosjekter</h4>
-				<p class="white-text">I tillegg til våre interne løsninger og medlemmers kule saker, har vi prosjektgrupper som står for å lage større prosjekter.</p>
-			</div>
-		</div>
-		<div class="row">
+			{% for card in index_cards %}
 			<div class="col s12">
 				<div class="card horizontal">
 					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
-						<span class="card-title">Nye prosjekter</span>
+						<img src="{{ card.thumbnail.url }}">
+						{% if card.thumbnail_dark_text %}
+						<span class="card-title black-text">{{ card.title }}</span>
+						{% else %}
+						<span class="card-title">{{ card.title }}</span>
+						{% endif %}
 					</div>
 					<div class="card-stacked">
 						<div class="card-content">
-							<p>Høsten 2018 kjører vi i gang med nye større prosjekter: </p>
-							<ul>
-								<li>Arkademaskin</li>
-								<li>Mobilspill</li>
-								<li>Brettspill</li>
-								<li>Spill</li>
-
-
-							</ul>
+							{% autoescape off %}
+							{{ card.body }}
+							{% endautoescape %}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col s12" >
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
-						<span class="card-title">Escape Room</span>
-					</div>
-					<div class="card-stacked">
-					<div class="card-content">
-						<p>Er du lei av at de kule eventyrene kun eksisterer i digital form?<br> Dersom du vil dra på eventyr i virkeligheten, kan du komme innom vårt Escape Room</p>
-					</div>
-					</div>
-				</div>
-			</div>
-			<div class="col s12">
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
-						<span class="card-title">Virtual Reality</span>
-					</div>
-					<div class="card-stacked">
-					<div class="card-content">
-						<p>Hackerspace har utviklet et eget Virtual Reality spill! Prosjektgruppa for VR driver med dette.</p>
-					</div>
-					</div>
-				</div>
-
+			{% endfor %}
 			</div>
 		</div>
 	</div>
@@ -168,6 +155,7 @@ var instance = M.Slider.init(elem, {
 	duration:600,
 	interval: 6000
 })
-
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {% endblock content %}

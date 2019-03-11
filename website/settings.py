@@ -13,7 +13,6 @@ DB = 'sqlite'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 DOOR_KEY = 'DOOR_KEY'
-RPI_SECRET_KEY = 'RPI_SECRET_KEY'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_URLCONF = 'website.urls'
@@ -21,7 +20,7 @@ WSGI_APPLICATION = 'website.wsgi.application'
 SITE_ID = 1
 APPEND_SLASH = True
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/authentication/login/'
+LOGIN_URL = '/authentication/login'
 
 DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
 DATAPORTEN_OAUTH_TOKEN_URL = "https://auth.dataporten.no/oauth/token"
@@ -52,38 +51,19 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.flatpages',
+    'sorl.thumbnail',
     'website',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'django_filters',
     'applications',
     'news',
+    'internal',
     'door',
     'files',
     'ckeditor',
     'ckeditor_uploader',
-    'mptt',
-    'sekizai',
-    'sorl.thumbnail',
-    'django_nyt',
-    'wiki.apps.WikiConfig',
-    'wiki.plugins.attachments.apps.AttachmentsConfig',
-    'wiki.plugins.notifications.apps.NotificationsConfig',
-    'wiki.plugins.images.apps.ImagesConfig',
-    'wiki.plugins.macros.apps.MacrosConfig',
     'authentication',
-    'authentication_feide',
-    'smart_selects',
-    'committees',
-    'dal',
-    'dal_select2',
-    'rpi',
-    'inventory',
     'userprofile',
-    'vaktliste',
-    'material',
-    'kaffe',
-    'seasonal_events'
+    'seasonal_events',
+    'committees',
 ]
 
 
@@ -92,10 +72,6 @@ INSTALLED_APPS = [
 #################################
 
 THUMBNAIL_PRESERVE_FORMAT = True
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAdminUser'],
-}
 
 #################################
 # Database                      #

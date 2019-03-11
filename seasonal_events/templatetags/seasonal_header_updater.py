@@ -3,10 +3,20 @@ from seasonal_events.models import Season
 register = template.Library()
 
 
-#Date conflicts can arise
-@register.simple_tag()
-def current_season():
-    for s in Season.objects.filter(active=True):
-        if s.isNow():
-            return "seasonal_events/seasonal_logos/"+s.header_name+".png"
-    return "website/img/logo/Hackerspace_huge.png"
+@register.tag
+def season_data(parser,token):
+    return CurrentSeason()
+
+
+class CurrentSeason(template.Node):
+
+    def render(self, context):
+        context["logo_url"] = "/website/img/logo/Hackerspace_huge.png"
+        context["season"] = "default"
+        for s in Season.objects.filter(active=True):
+            if s.isNow():
+                context["logo_url"] = "seasonal_events/seasonal_logos/"+s.header_name+".png"
+                context["season"] = s.name
+        print(context["season"]+"  "+context["logo_url"])
+
+        return ''

@@ -5,12 +5,12 @@ import datetime
 
 #Date conflicts can arise
 class Season(models.Model):
-    name = models.CharField(max_length=50, verbose_name="navn")
+    name = models.CharField(max_length=50, verbose_name="navn", )
     header_name = models.CharField(default="", max_length=50, verbose_name="headernavn")
-    start_date = models.DateTimeField(verbose_name="startdato")
-    end_date = models.DateTimeField(verbose_name="sluttdato")
+    start_date = models.DateTimeField(verbose_name="startdato",help_text="Prøv å unngå overlapp mellom datoer")
+    end_date = models.DateTimeField(verbose_name="sluttdato",help_text="Prøv å unngå overlapp mellom datoer")
     active = models.BooleanField(default=True, verbose_name="aktiv")
-    repeating = models.BooleanField(default=False, verbose_name="repeterende")
+    repeating = models.BooleanField(default=False, verbose_name="repeterende",help_text="Repeteres hvert år")
     manual_override = models.BooleanField()
 
     def isNow(self):

@@ -51,6 +51,12 @@ $(function() {
         events: {
             url: '{% url 'reservations:fullcalendar_test' pk=queue.pk %}',
             type: 'GET',
+            error: function () {
+                console.log("error!");
+            },
+            success: function (data) {
+                console.log(data);
+            }
         },
 
         select: function(startDate, endDate) {

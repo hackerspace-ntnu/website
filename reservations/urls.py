@@ -1,8 +1,7 @@
 from django.urls import path
 
-from reservations.serializers import ReservationViewSet
 from reservations.views import QueueListView, QueueDetailView, QueueCreateView, QueueUpdateView, QueueDeleteView, \
-    ReservationUpdateView, ReservationDeleteView, ReservationCreateView
+    ReservationUpdateView, ReservationDeleteView, ReservationCreateView, ReservationViewSet
 
 app_name = "reservations"
 

@@ -2,13 +2,30 @@ import calendar
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 from reservations.forms import QueueForm, ReservationForm
 from reservations.helpers import get_queue_reservations_for_week
 from reservations.models import Queue, Reservation
+from reservations.serializers import ReservationSerializer
+
+
+class ReservationViewSet(ViewSet):
+
+    def list(self, request, pk):
+        print(self, request.GET, '\n')
+        start, end = request.GET['start'], request.GET['end']
+        queryset = Reservation.objects.filter(parent_queue_id=pk)
+        queryset = queryset.filter(Q(start_time__gte=start) & Q(start_time__lte=end))
+        print(queryset)
+        serializer = ReservationSerializer(queryset, many=True)
+        print(serializer)
+        return Response(serializer.data)
 
 
 class QueueDetailView(UserPassesTestMixin, DetailView):

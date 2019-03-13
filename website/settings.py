@@ -164,18 +164,10 @@ CKEDITOR_CONFIGS = {
         'toolbar_Custom': [
             ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
             ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
-            ['Maximize', 'Find', 'Replace']
+            ['Maximize', 'Find', 'Replace'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'],
         ],
         'extraPlugins': 'blockquote',
-    },
-    'committees': {
-        'width': '100%',
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
-            ['NumberedList', 'BulletedList', '-', 'Link'],
-            ['Maximize', 'Find', 'Replace']
-        ],
     },
 }
 

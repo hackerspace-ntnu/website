@@ -48,13 +48,13 @@
 				</div>
 				<div class="col s4 right-align">
 					{% if group.main_lead %}
-					<p><b>Nåværende Leder: {{ group.main_lead.get_full_name }}</b></p>
+					<p><b>Leder: {{ group.main_lead.get_full_name }}</b></p>
 					{% endif %}
 					{% if group.second_lead %}
-					<p><b>Nåværende Nestleder: {{ group.second_lead.get_full_name }}</b></p>
+					<p><b>Nestleder: {{ group.second_lead.get_full_name }}</b></p>
 					{% endif %}
 					{% if group.economy %}
-					<p><b>Nåværende Økonomiansvarlig: {{ group.second_lead.get_full_name }}</b></p>
+					<p><b>Økonomiansvarlig: {{ group.economy.get_full_name }}</b></p>
 					{% endif %}
 				</div>
 			</div>

@@ -18,7 +18,7 @@ class CurrentSeason(template.Node):
     '''
     def render(self, context):
         #Standard season
-        context["logo_url"] = "static/website/img/logo/Hackerspace_huge.png"
+        context["logo_url"] = "/static/website/img/logo/Hackerspace_huge.png"
         context["season"] = "default"
 
         for s in Season.objects.filter(active=True).order_by("start_date"):

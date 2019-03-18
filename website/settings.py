@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'authentication',
     'userprofile',
+    'seasonal_events',
     'committees',
 ]
 

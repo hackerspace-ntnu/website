@@ -4,6 +4,8 @@ from django.test import TestCase
 # Create your tests here.
 from django.urls import reverse
 from unittest import mock
+from django.apps import apps
+from internal.apps import InternalConfig
 
 from internal.models import TimeTable, TimeTableSlotSignup, TimeTableSlot
 
@@ -113,3 +115,10 @@ class TimeTableSignupViewTest(TestCase):
         response = self.client.post(self.get_signup_url(), data={"user": self.user.pk})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.get_slot().user, self.user)
+
+
+
+class InternalConfigTest(TestCase):
+    def test_apps(self):
+        self.assertEqual(InternalConfig.name, 'internal')
+        self.assertEqual(apps.get_app_config('internal').name, 'internal')

@@ -5,19 +5,15 @@
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
 {% endblock head %}
 {% block content %}
-<div class="section no-pad-bot no-pad hs-green hide-on-med-and-up">
-	<div class="image-container">
+<div class="section no-pad hs-green hide-on-med-and-up">
 	<img class="header-image" src="{{ object.thumbnail.url }}" />
+</div>
+<div class="section no-pad hs-green hide-on-small-only">
+	<div class="container center">
+		<img class="responsive-img" src="{{ object.thumbnail.url }}" />
 	</div>
 </div>
-<div class="section no-pad-bot no-pad hs-green hide-on-small-only">
-	<div class="container">
-	<div class="image-container">
-		<img class="header-image" src="{{ object.thumbnail.url }}" />
-	</div>
-	</div>
-</div>
-<div class="section hs-green">
+<div class="section hs-green no-pad-top">
 	<div class="container">
 		<div class="card-panel cut-top white z-depth-2 no-top-shadow">
 			<div class="row">

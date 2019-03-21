@@ -8,7 +8,7 @@ from django.http import Http404
 import re
 
 from .forms import ProfileSearchForm
-from .models import Profile, Skill, Group
+from .models import Profile, Skill
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -59,9 +59,13 @@ class ProfileDetailView(DetailView):
 class ProfileUpdateView(UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
-    fields = ['image', 'group', 'access_card', 'study', 'skills']
+    fields = ['image', 'access_card', 'study', 'skills']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
 
     def get_object(self):
-        return self.request.user.profile
+        try:
+            userprofile = self.request.user.profile
+            return userprofile
+        except AttributeError:
+            raise Http404("Profile not found")

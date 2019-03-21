@@ -25,16 +25,8 @@ class Skill(models.Model):
         return self.title
 
 
-class Group(models.Model):
-    title = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.title
-
-
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    group = models.ManyToManyField(Group, related_name='profile', verbose_name="Gruppe", blank=True)
     image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None, blank=True)
 
     access_card = models.CharField(max_length=20, null=True, blank=True)

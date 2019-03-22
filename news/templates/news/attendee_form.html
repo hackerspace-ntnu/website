@@ -1,0 +1,58 @@
+{% extends "website/base.html" %}
+{% load staticfiles %}
+{% load check_user_group %}
+
+{% block content %}
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row">
+		<div class="col s12">
+			<h3>Oppmøte</h3>
+		</div>
+        </div>
+    </div>
+</div>
+<div class="container">
+<div class="section">
+<form method="post">
+	<ul class="collection with-header">
+		<li class="collection-header"><h4>Registrer oppmøte</h4></li>
+		{% csrf_token %}
+		<div class="hide">
+			{{ form }}
+		</div>
+		{{ registrations.management_form }}
+		{% for instance in registrations %}
+		<li class="collection-item">
+			<div>
+				<div class="hide">
+				{{ instance.user }}
+				{{ instance.event }}
+				{{ instance.date }}
+				{{ instance.id }}
+				</div>
+				{{ instance.user.label }}
+				<div class="secondary-content">
+					{{ instance.user.waiting }}
+				<label>
+					{% if instance.attended.value %}
+					<input type="checkbox" checked="checked" id="attended" name="{{ instance.attended.html_name }}" />
+					{% else %}
+					<input type="checkbox" id="attended" name="{{ instance.attended.html_name }}"/>
+					{% endif %}
+					<span>{{ instance.attended.label }}</span>
+				</label>
+				</div>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+	<div class="row">
+		<div class="col s12">
+			<button class="right btn btn-flat btn-large hs-green white-text"  type="submit">Lagre</button>
+		</div>
+	</div>
+</form>
+</div>
+</div>
+{% endblock %}

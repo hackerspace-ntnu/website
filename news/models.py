@@ -132,14 +132,13 @@ class Event(models.Model):
         '''
         return [registration.user for registration in EventRegistration.get_registrations(self)]
 
-    def attending(self):
+    def registration_list(self):
         '''
-        Creates a list of all attending users
+        Create a list of the registered users for the event
 
-        :return: A list of the usernames of all attending users
+        :return: A list of the registered users for the event
         '''
-        return [registration.user for registration in
-                EventRegistration.get_registrations(self).filter(attended=True)]
+        return [registration for registration in EventRegistration.get_registrations(self)]
 
     def wait_list(self):
         '''
@@ -159,23 +158,6 @@ class Event(models.Model):
         if self.is_registered(user) or self.is_waiting(user):
             return timezone.now() < self.deregistration_end
         return self.registration_start < timezone.now() < self.time_end
-
-
-    def attended(self, user, status):
-        '''
-        If the user is attending the event, set the attended status of the user
-
-        :param user: The user to set attending status for
-        :param status: The status to set
-        :return: A boolean indicating if the attending status was changed
-        '''
-
-        if event_registration is None:
-            return False
-
-        event_registration.attended = status
-        event_registration.save()
-        return True
 
 
     class Meta:
@@ -198,7 +180,7 @@ class Upload(models.Model):
 
 class EventRegistration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="registrations")
     date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
     attended = models.BooleanField(default=False)
 
@@ -237,3 +219,12 @@ class EventRegistration(models.Model):
 
     def username(self):
         return self.user.username
+
+    def is_waitlisted(self):
+        '''
+        Retreives the waitlist for a given event
+
+        :param event: The event to retrieve the waitlist for
+        :return: The waitlist
+        '''
+        return self.event.is_waiting(self.user) 

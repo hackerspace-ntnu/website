@@ -6,6 +6,7 @@ from .forms import EventForm, eventformset
 from .models import Event, Article, EventRegistration
 from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 class EventView(DetailView):
     model = Event
@@ -60,7 +61,6 @@ class EventAttendeeEditView(UpdateView):
         Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
         de har møtt opp eller ikke.
     '''
-    success_url = "/events/"
     template_name = "news/attendee_form.html"
     model = Event
     fields = ['title']
@@ -89,6 +89,9 @@ class EventAttendeeEditView(UpdateView):
             return response
         else:
             return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('events:details', kwargs={'pk': self.object.id})
 
 
 class ArticleListView(ListView):

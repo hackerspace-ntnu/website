@@ -57,6 +57,7 @@ nav .brand-logo {
 	display: flex;
 }
 
+
 /* Fix personlig profilbilde i navbaren */
 .dropdown-trigger-user img {
 	height: 64px;
@@ -144,8 +145,20 @@ nav .brand-logo {
 .card-action a {
 	color: #5BBA47 !important;
 }
-.slider .indicator-item.active {
-	background-color: #4E4E4E !important;
+.slider .slides {
+	background-color: none;
+	background: rgba(0,0,0,0); 
+
+}
+.slider .slides:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 65, 128, 0.60);
 }
 
 blockquote {

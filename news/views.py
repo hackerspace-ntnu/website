@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import TemplateView, DetailView, ListView, FormView, UpdateView, CreateView, DeleteView
 from datetime import datetime
-from .forms import EventForm
+from .forms import EventForm, eventformset
 from .models import Event, Article, EventRegistration
 from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.decorators import login_required
@@ -54,6 +54,42 @@ class EventListView(ListView):
             context_data['new_events'] = Event.objects.filter(internal=False).filter(time_start__gte=datetime.now()).order_by('-time_start')
 
         return context_data
+
+class EventAttendeeEditView(UpdateView):
+    '''
+        Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
+        de har møtt opp eller ikke.
+    '''
+    success_url = "/events/"
+    template_name = "news/attendee_form.html"
+    model = Event
+    fields = ['title']
+
+    def dispatch(self, request, *args, **kwargs):
+        if not groups.has_group(self.request.user, 'member'):
+            return redirect("/")
+
+        return super(EventAttendeeEditView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['registrations'] = eventformset(self.request.POST, instance=self.object)
+        else:
+            context['registrations'] = eventformset(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        formset = context['registrations']
+        if formset.is_valid():
+            response = super().form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        else:
+            return super().form_invalid(form)
+
 
 class ArticleListView(ListView):
     template_name = "news/news.html"
@@ -187,5 +223,5 @@ def register_on_event(request, event_id):
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
-    return redirect("/events/" + event_id)
+    return redirect("/events/" + str(event_id))
 

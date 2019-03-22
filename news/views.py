@@ -121,7 +121,6 @@ class EventUpdateView(UpdateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
-    success_url = "/events/"
 
     def dispatch(self, request, *args, **kwargs):
         if not groups.has_group(self.request.user, 'member'):
@@ -140,6 +139,9 @@ class EventUpdateView(UpdateView):
         initial['deregistration_end'] = self.object.deregistration_end.date().strftime('%Y-%m-%d')
         initial['deregistration_end_time'] = self.object.deregistration_end.time()
         return initial
+
+    def get_success_url(self):
+        return reverse('events:details', kwargs={'pk': self.object.id})
 
 
 class EventCreateView(CreateView):

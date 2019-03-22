@@ -4,18 +4,7 @@
 {% endblock %}
 {% block content %}
 {% if is_application %}
-<div class="section hs-green">
-	<div class="container">
-		<div class="row">
-			<div class="col s12 white-text center">
-				<h5>Hackerspace har opptak!</h5>
-				<p>Fra {{ app_start_date }} til {{ app_end_date }} kan du søke om å bli medlem i Hackerspace!<p>
-				<a class="btn btn-small white hs-green-text hide-on-med-and-up" href="/opptak/">GÅ TIL OPPTAKSSIDENE</a>
-				<a class="btn btn-small white hs-green-text hide-on-small-only" href="/opptak/">Trykk her for å gå til opptakssidene</a>
-			</div>
-		</div>
-	</div>
-</div>
+{% include 'website/_application_banner.html' %}
 {% endif %}
 <div class="section hs-gray hide-on-med-and-up">
 	<div class="row center">
@@ -30,48 +19,33 @@
 <div class="section hide-on-small-only no-pad hs-green">
 	<div class="slider">
 		<div class="container">
-				<ul class="slides">
-					<li class="tinter">
-						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
-						<div class="caption center-align">
-							<h4>Har du en skaper i magen?</h4>
-							<p>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</p>
-						</div>
-					</li>
-					<li class="tinter">
-						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
-						<div class="caption center-align">
-							<h4>Nysgjerrig på VR?</h4>
-							<p>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</p>
-						</div>
-					</li>
-					<li class="tinter">
-						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
-						<div class="caption center-align">
-							<h4>Kreativt, innovativt og ikke minst sosialt</h4>
-							<p>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</p>
-						</div>
-					</li>
-				</ul>
+			<ul class="slides">
+				<li class="tinter">
+					<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
+					<div class="caption center-align">
+						<h4>Har du en skaper i magen?</h4>
+						<p>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</p>
+					</div>
+				</li>
+				<li class="tinter">
+					<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
+					<div class="caption center-align">
+						<h4>Nysgjerrig på VR?</h4>
+						<p>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</p>
+					</div>
+				</li>
+				<li class="tinter">
+					<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
+					<div class="caption center-align">
+						<h4>Kreativt, innovativt og ikke minst sosialt</h4>
+						<p>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</p>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
-</div>
-<div class="section hs-green center">
-	<div class="container">
-		<div class="row no-pad-bot">
-			<div class="col s12">
-				<ul class="sosial-bilder">
-					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'website/img/icon/slack_icon.png' %}" title="Slack"></a>
-					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img src="{% static 'website/img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
-					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img src="{% static 'website/img/icon/if_github_253591.svg' %}" title="GitHub"></a>
-					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img src="{% static 'website/img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
+{% include "website/_social_buttons.html" %}
 <div class="section hs-gray">
 	<div class="container">
 		<div class="row">
@@ -119,7 +93,7 @@
 		</div>
 	</div>
 </div>
-<div class="section hs-green ">
+<div class="section hs-green">
 	<div class="container hide-on-med-and-down">
 		<div class="row">
 			{% for card in index_cards %}
@@ -143,7 +117,6 @@
 				</div>
 			</div>
 			{% endfor %}
-			</div>
 		</div>
 	</div>
 </div>
@@ -156,6 +129,4 @@ var instance = M.Slider.init(elem, {
 	interval: 6000
 })
 </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {% endblock content %}

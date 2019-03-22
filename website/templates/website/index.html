@@ -119,10 +119,19 @@
 </div>
 <script>
 var elem = document.querySelector('.slider');
+// Reinitialize function after load to prevent initial lag on pageload
+setTimeout(function() {
+	var instance = M.Slider.init(elem, {
+		indicators: false,
+		height: 256,
+		duration:600,
+		interval: 6000
+	})
+}, 100);
 var instance = M.Slider.init(elem, {
 	indicators: false,
 	height: 256,
-	duration:600,
+	duration:0,
 	interval: 6000
 })
 </script>

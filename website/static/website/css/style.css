@@ -34,24 +34,27 @@ main {
 	padding-top:24px;
 }
 
-/* Resize hackerspace-logoen */
-.brand-logo img {
-	width: 200px !important;
-	height: 64px;
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-.brand-logo {
-	margin-left: 16px;
-	height: 64px;
-}
+
 /* Resize og posisjonering av header bilder */
 .mobile-img img {
 	height: 56px;
 }
-/* Align navbar logo for tablet device screen */
-.tab-img {
-	margin-left: 0px !important;
+
+.brand-logo img {
+	width: 200px;
+	height: 64px;
+	margin-left:16px;
+}
+.tab-img img {
+	margin-left:0px;
+}
+.mobile-img img {
+	margin-left:0px;
+	height:54px;
+}
+
+nav .brand-logo {
+	display: flex;
 }
 
 /* Fix personlig profilbilde i navbaren */
@@ -68,15 +71,18 @@ main {
 }
 
 /* Social media icons */
-.sosial-bilder a img {
+.sosial-bilder img {
 	height: 32px;
+	width: 32px;
+	border-radius: 6px;
+}
+.sosial-bilder a {
+	display: inline-block;
+	height: 32px;
+	width: 32px;
 	margin-left: 4%;
 	margin-right: 4%;
 	border-radius: 6px;
-}
-.sosial-bilder {
-	margin:0px;
-
 }
 
 /* For darkening images on front page (for better contrast with text on top) */
@@ -89,9 +95,6 @@ main {
 	left: 0;
 	right: 0;
 	background: rgba(0, 65, 128, 0.60);
-}
-.tinter {
-	background-color: #5BBA47 !important;
 }
 
 /* Prevent text in articles not formatted properly from looking ugly and clipping outside its container */

@@ -30,43 +30,43 @@
 					<div class="divider"></div>
 					<br>
 				</div>
-					{% for field in form.visible_fields %}
-						{{ field.errors }}
-						{% if field.label == "Profilbilde" %}
-						<div class="col s12 file-field input-field">
-							<div class="btn hs-green white-text">
-								<span>Nytt profilbilde</span>
-								<input type="file">
-							</div>
-							<div class="file-path-wrapper">
-								<input class="file-path validate" type="text">
-							</div>
-						</div>
-						<div class="divider"></div>
-						{% elif field.label == "Duty" %}
-						<div class="col s12 input-field" id="duty-section">
-							{{ field }}
-							<label for="{{field.id_for_label }}">{{ field.label }}</input>
-						</div>
-						{% elif field.label == "Auto duty" %}
-						<div class="col s12">
-							<p>
-							<label>
-								{{ field }}
-								<span id="autocheckbox">{{ field.label }}</span>
-							</label>
-							</p>
-						</div>
-						{% else %}
-						<div class="col s12 input-field">
-							{{ field }}
-							<label for="{{field.id_for_label }}">{{ field.label }}</input>
-						</div>
-						{% endif %}
-						{% for hidden in form.hidden_fields %}
-						{{ hidden }}
-						{% endfor %}
-					{% endfor %}
+				{% for field in form.visible_fields %}
+				{{ field.errors }}
+				{% if field.label == "Profilbilde" %}
+				<div class="col s12 file-field input-field">
+					<div class="btn hs-green white-text">
+						<span>Nytt profilbilde</span>
+						<input type="file" name="image">
+					</div>
+					<div class="file-path-wrapper">
+						<input class="file-path validate" type="text">
+					</div>
+				</div>
+				<div class="divider"></div>
+				{% elif field.label == "Duty" %}
+				<div class="col s12 input-field" id="duty-section">
+					{{ field }}
+					<label for="{{field.id_for_label }}">{{ field.label }}</label>
+				</div>
+				{% elif field.label == "Auto duty" %}
+				<div class="col s12">
+					<p>
+					<label>
+						{{ field }}
+						<span id="autocheckbox">{{ field.label }}</span>
+					</label>
+					</p>
+				</div>
+				{% else %}
+				<div class="col s12 input-field">
+					{{ field }}
+					<label for="{{field.id_for_label }}">{{ field.label }}</input>
+				</div>
+				{% endif %}
+				{% for hidden in form.hidden_fields %}
+				{{ hidden }}
+				{% endfor %}
+				{% endfor %}
 			</div>
 			<input class="btn btn-large hs-green" type="submit" value="Submit"/>
 		</form>

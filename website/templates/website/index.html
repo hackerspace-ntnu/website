@@ -13,10 +13,10 @@
 		</div>
 	</div>
 </div>
-<div class="section hide-on-small-only no-pad hs-gray">
+<div class="section hide-on-small-only no-pad">
 	<div class="slider">
 		<div class="container">
-			<ul class="slides hs-gray">
+			<ul class="slides">
 				<li class="tinter">
 					<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
 					<div class="caption center-align">
@@ -118,21 +118,19 @@
 	</div>
 </div>
 <script>
+// For å få slideshow til å laste pent inn setter vi bakgrunnen til bildet som benyttes og tinter det.
 var elem = document.querySelector('.slider');
-// Reinitialize function after load to prevent initial lag on pageload
-setTimeout(function() {
-	var instance = M.Slider.init(elem, {
-		indicators: false,
-		height: 256,
-		duration:600,
-		interval: 6000
-	})
-}, 100);
+elem.style.backgroundImage = "url('static/website/img/people_and_tech/briller.jpg')"
+elem.style.height = "100%";
+elem.style.width = "100%";
+elem.style.backgroundSize = "cover";
+elem.style.backgroundPosition = "center";
 var instance = M.Slider.init(elem, {
 	indicators: false,
 	height: 256,
-	duration:0,
+	duration:500,
 	interval: 6000
 })
+
 </script>
 {% endblock content %}

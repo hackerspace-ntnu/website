@@ -25,7 +25,9 @@
 				<h5>Verktøy</h5>
 				<div class="divider"></div>
 						<ul>
-							<li><a href="/authentication/login">Logg inn</a></li>
+							{% if not request.user.is_authenticated %}
+                                <li><a href="/authentication/login">Logg inn</a></li>
+                            {% endif %}
 				<p>Har du funnet en <i class="material-icons">bug_report</i>?
 					<br>Send gjerne en <a href="mailto:hackerspace-dev@idi.ntnu.no">mail</a> til DevOps eller bruk #dev-public kanalen på Slack!</p>
 						</ul>

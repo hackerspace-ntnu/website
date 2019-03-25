@@ -162,6 +162,19 @@ var instance = M.Collapsible.init(collapsible);
 
 var parallax = document.querySelector('.parallax');
 var instance = M.Parallax.init(parallax);
+
+// Prevent ckeditor hard fields to allow responsive images 
+window.addEventListener('DOMContentLoaded', function(event) {
+	var images = document.getElementsByTagName("img");
+	console.log(images);
+	var i;
+
+	for(i = 0; i < images.length; i++) {
+		images[i].className = "responsive-img";
+		images[i].style.height = "";
+	}
+});
+
 </script>
 {% endblock content %}
 

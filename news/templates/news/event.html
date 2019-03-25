@@ -165,7 +165,8 @@ var instance = M.Parallax.init(parallax);
 
 // Prevent ckeditor hard fields to allow responsive images 
 window.addEventListener('DOMContentLoaded', function(event) {
-	var images = document.getElementsByTagName("img");
+	var container = document.getElementsByClassName('card-panel')[0];
+	var images = container.getElementsByTagName("img");
 	console.log(images);
 	var i;
 

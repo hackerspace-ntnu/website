@@ -48,4 +48,18 @@
 	</div>
 	{% endif %}
 </div>
+<script>
+// Prevent ckeditor hard fields to allow responsive images 
+window.addEventListener('DOMContentLoaded', function(event) {
+	var images = document.getElementsByTagName("img");
+	console.log(images);
+	var i;
+
+	for(i = 0; i < images.length; i++) {
+		images[i].className = "responsive-img";
+		images[i].style.height = "";
+	}
+});
+
+</script>
 {% endblock content %}

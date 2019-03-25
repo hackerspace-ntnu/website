@@ -5,7 +5,7 @@
         {% if perms.reservations.add_queue %}
             <div class="row">
                 <div class="col offset-s3">
-                    <a href="{% url 'reservations:queue_create' %}" class="btn waves-effect waves-light">
+                    <a href="{% url 'reservations:create_queue' %}" class="btn waves-effect waves-light">
                         <i class="material-icons">note_add</i>
                         Create Queue
                     </a>
@@ -17,10 +17,10 @@
             <div class="col s6 offset-s3">
                 <div class="collection">
                     {% for queue in queue_list %}
-                        {% if queue.published %}
-                            <a href="{% url 'reservations:queue_detail' pk=queue.pk %}" class="collection-item s10">{{ queue.name }}</a>
-                        {% elif perms.reservations.change_queue %}
-                            <a href="{% url 'reservations:queue_detail' pk=queue.pk %}" class="collection-item s10">DRAFT: {{ queue.name }}</a>
+                        {% if not queue.hidden or perms.reservations.edit_queue %}
+                            <a href="{% url 'reservations:queue_detail' pk=queue.pk %}" class="collection-item s10">
+                                {{ queue.name }}
+                            </a>
                         {% endif %}
                     {% empty %}
                         <p class="center grey-text">Ingen køer er opprettet</p>
@@ -28,19 +28,6 @@
                 </div>
             </div>
         </div>
-
-        {% if unpublished_queues %}
-        <div class="row">
-            <div class="col s6 offset-s3">
-                <div class="collection with-header">
-                    <p class="collection-header s10">Upubliserte køer</p>
-                    {% for queue in unpublished_queues %}
-                        <a href="{% url 'reservations:queue_update' pk=queue.pk %}" class="collection-item s10">{{ queue.name }}</a>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        {% endif %}
 
     </div>
 {% endblock content %}

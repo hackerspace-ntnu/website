@@ -79,7 +79,12 @@
 							</li>
 							{% for event in event_list reversed %}
 							<li class="collection-item">
-								<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
+								{% if event.time_start > now %}
+								<span class="badge hs-green white-text" href="#!">NY{{ event.time_start|date:"d.m.Y" }}</span>
+									{% else %}
+									<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
+
+								{% endif %}
 								<a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
 							</li>
 							{% endfor %}

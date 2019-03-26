@@ -38,6 +38,11 @@ class Reservation(models.Model):
         related_name='reservations',
         on_delete=models.CASCADE
     )
+    comment = models.CharField(
+        max_length=140,
+        null=True,
+        blank=True,
+    )
     start = models.DateTimeField(
         blank=False,
     )

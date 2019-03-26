@@ -18,16 +18,20 @@
     </div>
 
     <div id="reservation_modal" class="modal">
-        <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
-        </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
+        <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-content">
+                {{ form.as_p }}
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="send">
+            </div>
+        </form>
     </div>
 
     <script>
+
+        var start, end, comment;
 
         $(document).ready(function () {
             $('#reservation_modal').modal({
@@ -76,8 +80,9 @@
                 select: function (startDate, endDate) {
                     let modal = $('#reservation_modal')
                     let instance = M.Modal.getInstance(modal);
-                    let time_text = 'selected ' + startDate.format() + ' to ' + endDate.format();
-                    instance.el.childNodes[1].childNodes[3].innerText = time_text
+                    $('#id_start')[0].value = startDate.format();
+                    $('#id_end')[0].value = endDate.format();
+                    console.log($('#reservation-end')[0])
                     instance.open();
                 },
                 eventMouseover: function(mouseEnterInfo){
@@ -87,6 +92,10 @@
 
 
         });
+
+        function makeReservation() {
+
+        }
     </script>
 
 {% endblock content %}

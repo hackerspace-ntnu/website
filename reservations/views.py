@@ -2,12 +2,14 @@ import datetime
 
 from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
+from django.views.generic import DetailView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from reservations.models import Reservation
+from reservations.forms import ReservationForm
+from reservations.models import Reservation, Queue
 from reservations.serializers import ReservationSerializer
 
 
@@ -31,6 +33,17 @@ class ReservationView(APIView):
 
         serializer = ReservationSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class QueueDetailView(DetailView):
+    model = Queue
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'form': ReservationForm(),
+        })
+        return context
 
 
 class ReservationViewSet(ModelViewSet):

@@ -1,3 +1,5 @@
+{% extends 'website/base.html' %}
+
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -6,67 +8,85 @@
 {% endblock %}
 
 {% block content %}
-<div class="section block">
-    <div class="row">
-        <div class="col s10 offset-s1">
-            <div id='calendar'></div>
+
+    <div class="section block">
+        <div class="row">
+            <div class="col s10 offset-s1">
+                <div id='calendar'></div>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="reservation_modal" class="modal">
-    <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
+    <div id="reservation_modal" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
     </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-</div>
 
-<script>
+    <script>
 
-    $(document).ready(function () {
-        $('.modal').modal({
-            startingTop: '30%',
-            endingTop: '50%',
+        $(document).ready(function () {
+            $('#reservation_modal').modal({
+                startingTop: '30%',
+                endingTop: '50%',
+            });
         });
-    });
 
-    $(function () {
+        $(function () {
 
-        $('#calendar').fullCalendar({
-            selectable: true,
-            height: 500,
-            defaultView: 'agendaWeek',
-            allDaySlot: false,
-            firstDay: 1,
-            header: {right: 'prev, next'},
-            refetchResourcesOnNavigate: true,
+            $('#calendar').fullCalendar({
 
+                selectable: true,
+                height: 500,
+                defaultView: 'agendaWeek',
+                allDaySlot: false,
+                firstDay: 1,
+                header: {right: 'prev, next'},
+                refetchResourcesOnNavigate: true,
+                slotDuration: '00:30:00',
+                snapDuration: '00:05:00',
+                slotLabelInterval: {hours: 1},
 
-            events: {
-                url: '{% url 'reservations:fullcalendar_test' pk=queue.pk %}',
-                type: 'GET',
-                error: function () {
-                    console.log("error!");
+                slotLabelFormat: "HH:mm",
+                scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
+
+                {% if request.user is member %}
+                    minTime: "00:00:00",
+                    maxTime: "23:59:59",
+                {% else %}
+                    // minTime: "10:00:00",
+                    // maxTime: "18:00:00",
+                {% endif %}
+
+                events: {
+                    url: '{% url 'reservations:reservation_api' pk=queue.pk %}',
+                    type: 'GET',
+                    error: function () {
+                        console.log("error!");
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    },
                 },
-                success: function (data) {
-                    console.log(data);
+
+                select: function (startDate, endDate) {
+                    let modal = $('#reservation_modal')
+                    let instance = M.Modal.getInstance(modal);
+                    let time_text = 'selected ' + startDate.format() + ' to ' + endDate.format();
+                    instance.el.childNodes[1].childNodes[3].innerText = time_text
+                    instance.open();
+                },
+                eventMouseover: function(mouseEnterInfo){
+                    console.log(mouseEnterInfo);
                 }
-            },
-
-            select: function (startDate, endDate) {
-                let modal = $('#reservation_modal')
-                let instance = M.Modal.getInstance(modal);
-                let time_text = 'selected ' + startDate.format() + ' to ' + endDate.format();
-                instance.el.childNodes[1].childNodes[3].innerText = time_text
-                instance.open();
-            }
-        })
+            })
 
 
-    });
-</script>
+        });
+    </script>
 
 {% endblock content %}

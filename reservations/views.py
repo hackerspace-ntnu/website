@@ -2,6 +2,7 @@ import datetime
 
 from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -55,3 +56,10 @@ class ReservationViewSet(ModelViewSet):
             qs = Reservation.objects.all()
             print(qs)
             return qs
+
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]

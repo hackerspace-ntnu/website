@@ -18,7 +18,7 @@
     </div>
 
     <div id="reservation_modal" class="modal">
-        <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST">
+        <form action="{% url 'reservations:queue_detail' pk=queue.pk %}" method="POST">
             {% csrf_token %}
             <div class="modal-content">
                 {{ form.as_p }}
@@ -30,8 +30,6 @@
     </div>
 
     <script>
-
-        var start, end, comment;
 
         $(document).ready(function () {
             $('#reservation_modal').modal({
@@ -82,7 +80,7 @@
                     let instance = M.Modal.getInstance(modal);
                     $('#id_start')[0].value = startDate.format();
                     $('#id_end')[0].value = endDate.format();
-                    console.log($('#reservation-end')[0])
+                    $('#id_parent_queue')[0].value = {{ queue.pk }};
                     instance.open();
                 },
                 eventMouseover: function(mouseEnterInfo){

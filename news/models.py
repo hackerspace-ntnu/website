@@ -56,7 +56,7 @@ class Event(models.Model):
 
     def registered_count(self):
         '''
-        Finds the number of registered users not in the waiting list for the event. 
+        Finds the number of registered users not in the waiting list for the event.
 
         :return: The number of registered users for the event, excluding waitlisted
         '''
@@ -70,7 +70,7 @@ class Event(models.Model):
         :return: The number of registered users for the event
         '''
         return len(EventRegistration.get_waitlist(self))
-    
+
     def is_registered(self, user):
         '''
         Check if the user is registered for the event and not on the waiting list
@@ -159,7 +159,6 @@ class Event(models.Model):
             return timezone.now() < self.deregistration_end
         return self.registration_start < timezone.now() < self.time_end
 
-
     class Meta:
         app_label = 'news'
         ordering = ("time_start",)
@@ -227,4 +226,4 @@ class EventRegistration(models.Model):
         :param event: The event to retrieve the waitlist for
         :return: The waitlist
         '''
-        return self.event.is_waiting(self.user) 
+        return self.event.is_waiting(self.user)

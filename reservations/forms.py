@@ -25,13 +25,9 @@ class ReservationForm(forms.ModelForm):
         label='Sluttdato'
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['parent_queue'].widget = forms.HiddenInput()
-
     class Meta:
         model = Reservation
-        fields = ['comment', 'parent_queue']
+        fields = ['comment']
 
         labels = {
             'comment': 'Kommentar',

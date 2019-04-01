@@ -105,7 +105,7 @@
                         $('#id_end_date')[0].value = htmlDateFormat(endDateTime);
                         $('#id_start_time')[0].value = htmlTimeFormat(startDateTime);
                         $('#id_end_time')[0].value = htmlTimeFormat(endDateTime);
-                        $('#id_parent_queue')[0].value = {{ queue.pk }};
+                        // $('#id_parent_queue')[0].value = {{ queue.pk }};
 
                         instance.open();
                     {% else %}

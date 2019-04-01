@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'seasonal_events',
     'committees',
     'reservations',
+    'rest_framework'
 ]
 
 

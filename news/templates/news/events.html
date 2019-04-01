@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load check_user_group %}
 {% block header %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
 {% endblock header %}
 
@@ -34,6 +35,7 @@
 <div class="section block">
 	<div class="container">
 	{% if page_obj.number == 1 %}
+
 		<div class="row">
 			<div class="col s12">
 				<h5 class="subheader">Kommende Arrangementer</h5>
@@ -41,38 +43,19 @@
 				<div class="divider"></div>
 			</div>
 		</div>
+
 		{% if new_events %}
+
+
 		{% for event in new_events %}
-		<div class="row">
-			<div class="col s2 center hide-on-med-and-down">
-				{% if event.thumbnail %}
-				<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
+				{% if event in happening_events %}
+					{% include 'news/_event-list-element.html' with status='happening' %}
 				{% else %}
-				<img class="circle" style="width:100px; height:100px;" src="">
+					{% include 'news/_event-list-element.html' with status='coming' %}
 				{% endif %}
-			</div>
-			<div class="col s10 hide-on-med-and-down">
-				<span class="right badge">Starter {{ event.time_start }}</span>
-				<a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
-				<p>
-					{% autoescape off %}
-					{{ event.ingress_content|truncatechars:200 }}
-					{% endautoescape %}
-				</p>
-			</div>
-			<div class="col s12 show-on-med-and-down hide-on-large-only">
-				<a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
-				<p class="badge"><i>Starter {{ event.time_start }}</i><br></p>
-				<p>
-					{% autoescape off %}
-					{{ event.ingress_content|truncatechars:150 }}
-					{% endautoescape %}
-				</p>
-			</div>
-		</div>
-		<div class="divider"></div>
-		<br>
 		{% endfor %}
+
+
 		{% else %}
 		<div class="row">
 			<div class="col s12">
@@ -87,37 +70,10 @@
 				<div class="divider"></div>
 			</div>
 		</div>
-		{% for event in object_list %}
-		<div class="row">
-			<div class="col s2 center hide-on-med-and-down">
-				{% if event.thumbnail %}
-				<img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
-				{% else %}
-				<img class="circle" style="width:100px; height:100px;" src="">
-				{% endif %}
-			</div>
-			<div class="col s10 hide-on-med-and-down">
-				<span class="right badge">Avsluttet {{ event.time_end }}</span>
-				<a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
-				<p>
-					{% autoescape off %}
-					{{ event.ingress_content|truncatechars:200 }}
-					{% endautoescape %}
-				</p>
-			</div>
-			<div class="col s12 show-on-med-and-down hide-on-large-only">
-				<a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
-				<p class="badge"><i>Avsluttet {{ event.time_end }}</i><br></p>
-				<p>
-					{% autoescape off %}
-					{{ event.ingress_content|truncatechars:150 }}
-					{% endautoescape %}
-				</p>
-			</div>
-		</div>
-		<div class="divider"></div>
-		<br>
-		{% endfor %}
+		{% for event in past_events %}
+			{% include 'news/_event-list-element.html' with status='ended' %}
+		{% endfor%}
+
 	</div>
 </div>
 <div class="section">
@@ -134,7 +90,7 @@
 			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
 			{% else %}
 			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
-			{% endif %}	
+			{% endif %}
 			{% endfor %}
 
 			{% if page_obj.has_next %}

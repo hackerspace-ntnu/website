@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col s2 center hide-on-med-and-down">
+    {% if event.thumbnail %}
+    <img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
+    {% else %}
+    <img class="circle" style="width:100px; height:100px;" src="">
+    {% endif %}
+  </div>
+  <div class="col s10 hide-on-med-and-down">
+    {% if 'happening' in status %}
+    <span class="right badge hs-green-text">Skjer nå!</span>
+    {% endif %}
+
+    {% if 'coming' in status %}
+    <span class="right badge">Starter {{ event.time_start }}</span>
+    {% endif %}
+
+    {% if 'ended' in status %}
+    <span class="right badge">Avsluttet {{ event.time_end }}</span>
+    {% endif %}
+
+    <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+    <p>
+      {% autoescape off %}
+      {{ event.ingress_content|truncatechars:200 }}
+      {% endautoescape %}
+    </p>
+  </div>
+  <div class="col s12 show-on-med-and-down hide-on-large-only">
+    <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+    <p class="badge"><i>{{ info }}</i><br></p>
+    <p>
+      {% autoescape off %}
+      {{ event.ingress_content|truncatechars:150 }}
+      {% endautoescape %}
+    </p>
+  </div>
+</div>
+<div class="divider"></div>
+<br>

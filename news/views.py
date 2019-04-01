@@ -42,19 +42,30 @@ class EventListView(ListView):
 
     def get_queryset(self):
         if groups.has_group(self.request.user, 'member'):
-            return Event.objects.filter(time_start__lte=datetime.now()).order_by('-time_start')
+            return Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
         else:
-            return Event.objects.filter(internal=False).filter(time_start__lte=datetime.now()).order_by('-time_start')
+            return Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         # Split into two seperate lists
         if groups.has_group(self.request.user, 'member'):
-            context_data['new_events'] = Event.objects.filter(time_start__gte=datetime.now()).order_by('-time_start')
+            context_data['new_events'] = Event.objects.filter(time_end__gte=datetime.now()).order_by('time_end')
+            context_data['past_events'] = Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
+            context_data['happening_events'] = Event.objects.filter(time_start__lte=datetime.now()).filter(time_end__gt=datetime.now()).order_by('-time_start')
+
+
         else:
-            context_data['new_events'] = Event.objects.filter(internal=False).filter(time_start__gte=datetime.now()).order_by('-time_start')
+            context_data['happening_events'] = Event.objects.filter(internal=False).filter(time_end__gte=datetime.now()).filter(time_start__lte=datetime.now()).order_by('-time_start')
+            context_data['new_events'] = Event.objects.filter(internal=False).filter(time_end__gte=datetime.now()).order_by('time_end')
+            context_data['past_events'] = Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
+
 
         return context_data
+
+
+
+
 
 class EventAttendeeEditView(UpdateView):
     '''
@@ -229,4 +240,3 @@ def register_on_event(request, event_id):
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
     return redirect("/events/" + str(event_id))
-

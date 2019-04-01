@@ -16,7 +16,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h2>Rediger event</h2>
+				<h4>Rediger event</h4>
 			</div>
 		</div>
 	</div>
@@ -141,12 +141,14 @@
 							{% ImagePickModal request %}
 						</div>
 					</div>
-					<a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
+					<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
+					<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
+
 					{% if form.thumbnail.value %}
-					<div id="thumb-preview" class="card center-align small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-size:contain; background-repeat:no-repeat;">
-						{% else %}
-					<div id="thumb-preview" class="card center-align small thumb-preview modal-trigger" data-target="thumbnailPicker" style="background-image: none; background-size:contain; background-repeat:no-repeat;">
-						{% endif %}
+					<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
+					{% else %}
+						<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
+					{% endif %}
 					</div>
 				</div>
 			</div>
@@ -165,7 +167,7 @@
 				</div>
 			</div>
 
-			<button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Lagre</button>
+			<button id="submit" class="btn btn-large hs-green white-text waves-effect waves-light" type="submit" name="action">Opprett Arrangement</button>
 		</form>
 		{% UploadModal request %}
 	</div>
@@ -174,9 +176,49 @@
 
 <script>
 	var datepickers = document.querySelectorAll('.datepicker');
-	options = {
-		format: 'yyyy-mm-dd'
+	internationalization = {
+		months:	[
+			'Januar',
+			'Februar',
+			'Mars',
+			'April',
+			'Mai',
+			'Juni',
+			'Juli',
+			'August',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+		],
+		weekdays: [
+			'Søndag',
+			'Mandag',
+			'Tirsdag',
+			'Onsdag',
+			'Torsdag',
+			'Fredag',
+			'Lørdag'
+		],
+		weekdaysShort: [
+			  'Søn',
+			  'Man',
+			  'Tir',
+			  'Ons',
+			  'Tor',
+			  'Fre',
+			  'Lør'
+		],
+		weekdaysAbbrev: ['S','M','T','O','T','F','L']
 	}
+	options = {
+		format: 'yyyy-mm-dd',
+		firstDay: 1,
+		i18n: internationalization
+	}
+
+
+
 	var instance = M.Datepicker.init(datepickers, options);
 
 	var registrationCheck = document.getElementById('registration-check');

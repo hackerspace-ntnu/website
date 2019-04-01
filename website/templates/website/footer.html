@@ -5,7 +5,7 @@
 			<div class="col s12 m12 l4">
 				<h5>Hackerspace</h5>
 				<div class="divider"></div>
-				<p>Velkommen innom <a href="#mapModal" class="modal-trigger">Drivhuset</a> på NTNU Gløshaugen for en kopp kaffe!</p>
+				<p>Velkommen innom <a target="_blank" href="http://bit.ly/2Hzw7EO">verkstedet</a> på NTNU Gløshaugen for en kopp kaffe!</p>
 				<p> IT-Bygget, Sydfløy<br>
 					Sem Sælands vei 7<br>
 					7034 Trondheim
@@ -25,7 +25,9 @@
 				<h5>Verktøy</h5>
 				<div class="divider"></div>
 						<ul>
-							<li><a href="/authentication/login">Logg inn</a></li>
+							{% if not request.user.is_authenticated %}
+                                <li><a href="/authentication/login">Logg inn</a></li>
+                            {% endif %}
 				<p>Har du funnet en <i class="material-icons">bug_report</i>?
 					<br>Send gjerne en <a href="mailto:hackerspace-dev@idi.ntnu.no">mail</a> til DevOps eller bruk #dev-public kanalen på Slack!</p>
 						</ul>

@@ -193,6 +193,24 @@ blockquote {
 	color: #5BBA47;
 }
 
+.datepicker-date-display {
+	background-color: #5BBA47;
+}
+.datepicker-cancel {
+	color: #5BBA47;
+}
+.datepicker-done {
+	color: #5BBA47;
+}
+.datepicker-table td.is-today {
+	color: #939084;
+}
+.datepicker-table td.is-selected {
+	background-color: #5BBA47;
+	color: #fff;
+}
+
+
 /* Definer hackerspace farger som klasser */
 .hs-gray {
   background-color: #4E4B46 !important;

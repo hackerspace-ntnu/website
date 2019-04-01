@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Skill, DutyTime, Group
+from .models import Profile, Skill
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -7,8 +7,5 @@ class ProfileAdmin(admin.ModelAdmin):
         ('tos_accepted', admin.BooleanFieldListFilter),
     )
 
-
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Skill)
-admin.site.register(DutyTime)
-admin.site.register(Group)

@@ -1,56 +1,40 @@
 from django.conf import settings
-from django.conf.urls import include, url
+from django.urls import include, path, re_path
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.views.generic.base import TemplateView
+from django.urls import path
+from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from wiki.urls import get_pattern as get_wiki_pattern
-from django_nyt.urls import get_pattern as get_notify_pattern
-
-from website.views import index, test, calendar, about, showcase, virtualreality, tos, tosreturn, tosaccept
+from website.views import IndexView, AcceptTosRedirectView, AboutView
 
 handler404 = 'website.views.handler404'
 handler500 = 'website.views.handler500'
 
 urlpatterns = [
-    url(r'^$', index, name='index'),
-    url(r'^showcase/$', showcase, name='showcase'),
-    url(r'^tos/$', tos, name='tos'),
-    url(r'^tos/returning-user/', tosreturn, name='tos'),
-    url(r'^tos/accept/', tosaccept, name='tos'),
-    url(r'^showcase/vr/', virtualreality, name='vr'),
-    url(r'^admin/', admin.site.urls),
-    url(r'^robots.txt', TemplateView.as_view(template_name='website/robots.txt',
+    path('', IndexView.as_view(), name='index'),
+    path('tos/', TemplateView.as_view(template_name="website/tos.html"), name='tos'),
+    path('tos/returning-user/', TemplateView.as_view(template_name="website/tos-returningls.html"), name='tos'),
+    path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos'),
+    path('admin/', admin.site.urls),
+    path('robots.txt', TemplateView.as_view(template_name='website/robots.txt',
                                              content_type='text/plain')),
-    url(r'^news/', include('news.urls')),
-    url(r'^events/', include('news.event_urls')),
-    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-    url(r'^authentication/', include('authentication.urls', namespace='auth')),
-    url(r'^door/', include('door.urls')),
-    url(r'^opptak/', include('applications.urls'), name='opptak'),
-    url(r'^files/', include('files.urls')),
-    # url(r'^inventory/', include('inventory.urls'), name='inventory'),
-    url(r'^groups/', include('committees.urls', namespace='verv')),
-    url(r'^chaining/', include('smart_selects.urls')),
-    url(r'^rpi/', include('rpi.urls')),
-    url(r'^kalender/', calendar, name='calendar'),
-    url(r'^about/', about, name='about'),
-    url(r'^s/', include('django.contrib.flatpages.urls')),
-    url(r'^profile/', include('userprofile.urls')),
-    url(r'^users/', include('vaktliste.urls', namespace='vaktliste')),
-    url(r'^feide/', include('authentication_feide.urls')),
-    url(r'^kaffe/', include('kaffe.urls')),
-    url(r'^reservations/', include('reservations.urls')),
-]
-# Add wiki and notify urls
-urlpatterns += [
-    url(r'^notify/', get_notify_pattern()),
-    url(r'^wiki/', get_wiki_pattern())
+    path('news/', include('news.urls')),
+    path('events/', include('news.event_urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('authentication/', include('authentication.urls', namespace='auth')),
+    path('door/', include('door.urls')),
+    path('opptak/', include('applications.urls'), name='opptak'),
+    path('files/', include('files.urls')),
+    path('about/', AboutView.as_view(), name='about'),
+    path('s/', include('django.contrib.flatpages.urls')),
+    path('profile/', include('userprofile.urls')),
+    path('internal/', include('internal.urls')),
+    path('reservations/', include('reservations.urls'))
 ]
 
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += [
-        url(r'^media/(?P<path>.*)$', static_serve,
+        re_path(r'^media/(?P<path>.*)$', static_serve,
             {'document_root': settings.MEDIA_ROOT}),
     ]

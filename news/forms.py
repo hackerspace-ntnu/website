@@ -4,11 +4,31 @@ from ckeditor.widgets import CKEditorWidget
 from datetime import datetime
 from django.core.exceptions import ValidationError
 from files.models import Image
-from news.models import Event
+from news.models import Event, EventRegistration
+from django.forms import inlineformset_factory
+from django.contrib.auth.models import User
 
 custom_error = {
     'required': '',
 }
+
+class EventAttendeeForm(forms.ModelForm):
+    # Til registrering av attendees
+    def __init__(self, *args, **kwargs):
+        super(EventAttendeeForm, self).__init__(*args, **kwargs)
+        if kwargs.get('instance'):
+            if kwargs.get('instance').is_waitlisted():
+                self.fields['user'].label = kwargs.get('instance').user.get_full_name() + " (Venteliste) "
+            else:
+                self.fields['user'].label = kwargs.get('instance').user.get_full_name()
+
+    class Meta:
+        model = EventRegistration
+        fields = ['attended', 'user', 'event', 'date']
+
+
+eventformset = inlineformset_factory(Event, EventRegistration,
+        form=EventAttendeeForm, extra=0)
 
 
 class EventForm(forms.ModelForm):
@@ -32,7 +52,7 @@ class EventForm(forms.ModelForm):
             form_data['max_limit'] = 0
         if form_data['max_limit'] < 0:
             if form_data['registration']:
-                raise ValidationError({'max_limit': 'Antall plasser på være positivt'}, code='invalid')
+                raise ValidationError({'max_limit': 'Antall plasser må være positivt'}, code='invalid')
             else:
                  form_data['max_limit'] = 0
 

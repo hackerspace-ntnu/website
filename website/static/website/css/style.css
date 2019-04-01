@@ -34,32 +34,36 @@ main {
 	padding-top:24px;
 }
 
-/* Resize hackerspace-logoen */
-.brand-logo img {
-	width: 200px !important;
-	height: 64px;
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-.brand-logo {
-	margin-left: 16px;
-	height: 64px;
-}
+
 /* Resize og posisjonering av header bilder */
 .mobile-img img {
 	height: 56px;
 }
-/* Align navbar logo for tablet device screen */
-.tab-img {
-	margin-left: 0px !important;
+
+.brand-logo img {
+	width: 200px;
+	height: 64px;
+	margin-left:16px;
 }
+.tab-img img {
+	margin-left:0px;
+}
+.mobile-img img {
+	margin-left:0px;
+	height:54px;
+}
+
+nav .brand-logo {
+	display: flex;
+}
+
 
 /* Fix personlig profilbilde i navbaren */
 .dropdown-trigger-user img {
 	height: 64px;
 	width: 32px;
 	padding-bottom: 16px;
-	padding-top: 16px; 
+	padding-top: 16px;
 }
 /* Få material icons til å vertikalt aligne med teksten */
 .material-icons {
@@ -68,17 +72,18 @@ main {
 }
 
 /* Social media icons */
-.sosial-bilder a img {
-	min-width: 32px;
+.sosial-bilder img {
 	height: 32px;
-	margin-left: 24px;
-	margin-right: 24px;
-	border-radius: 8px;
+	width: 32px;
+	border-radius: 6px;
 }
-.sosial-bilder {
-	overflow:hidden;
-	display:inline-flex;
-
+.sosial-bilder a {
+	display: inline-block;
+	height: 32px;
+	width: 32px;
+	margin-left: 4%;
+	margin-right: 4%;
+	border-radius: 6px;
 }
 
 /* For darkening images on front page (for better contrast with text on top) */
@@ -140,8 +145,20 @@ main {
 .card-action a {
 	color: #5BBA47 !important;
 }
-.slider .indicator-item.active {
-	background-color: #4E4E4E !important;
+.slider .slides {
+	background-color: none;
+	background: rgba(0,0,0,0); 
+
+}
+.slider .slides:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: rgba(0, 65, 128, 0.60);
 }
 
 blockquote {
@@ -220,3 +237,9 @@ a {
 	outline: none;
 }
 
+/* For horisontale kort */
+.card.horizontal .card-image img{
+		max-height: 200px;
+		min-width:300px;
+		max-width:300px;
+}

@@ -6,17 +6,15 @@
 {% endblock header %}
 
 {% block content %}
-<div class="section no-pad-bot no-pad hs-green hide-on-med-and-up">
+<div class="section no-pad hs-green hide-on-med-and-up">
 	<img class="header-image" src="{{ object.thumbnail.url }}" />
 </div>
-<div class="section no-pad-bot no-pad hs-green hide-on-small-only">
-	<div class="container">
-		<div class="image-container">
-		<img class="header-image" src="{{ object.thumbnail.url }}" />
-		</div>
+<div class="section no-pad hs-green hide-on-small-only">
+	<div class="container center">
+		<img class="responsive-img" src="{{ object.thumbnail.url }}" />
 	</div>
 </div>
-<div class="section hs-green">
+<div class="section hs-green no-pad-top">
 	<div class="container">
 		<div class="card-panel cut-top z-depth-2">
 			<div class="row">

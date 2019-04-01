@@ -21,8 +21,22 @@ GROUP_CHOICES = (
     ("VIDEOGAME", "Prosjekt - Videospill"),
 )
 
+class ApplicationPeriod(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Navn")
+    period_start = models.DateTimeField(default=timezone.now, blank=False)
+    period_end = models.DateTimeField(default=timezone.now, blank=False)
+
+    def __str__(self):
+        return self.name
+
 class ApplicationGroup(models.Model):
     name = models.CharField(max_length=50, verbose_name="Gruppenavn")
+    text_main = models.TextField(verbose_name="Om gruppen generelt", blank=False)
+    text_structure = models.TextField(verbose_name="Om gruppens struktur", blank=True)
+    text_workload = models.TextField(verbose_name="Om gruppens arbeidsmengde", blank=True)
+    project_group = models.BooleanField(verbose_name="Gruppen tilhører prosjektgruppen", default=False)
+
+
     def __str__(self):
         return self.name
 
@@ -42,5 +56,3 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
-
-

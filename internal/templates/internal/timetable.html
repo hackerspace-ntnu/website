@@ -1,0 +1,139 @@
+{% extends "website/base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        {% csrf_token %}
+        <h2>
+            Vaktliste {{ time_table.term }}
+            <span class="right">
+                <div id="loading-spinner" class="preloader-wrapper hide active tooltipped"
+                     data-position="bottom" data-tooltip="Endringene dine lagres">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <i id="success-icon" class="green-text hide medium material-icons tooltipped"
+                    data-position="bottom" data-tooltip="Endringene dine er lagret">
+                    check_circle
+                </i>
+                <i id="failure-icon" class="red-text hide medium material-icons tooltipped"
+                   data-position="bottom" data-tooltip="Endringene dine kunne ikke lagres">
+                    error_outline
+                </i>
+            </span>
+        </h2>
+        {% if perms.internal.admin_office_hours %}
+            <a href="{% url "admin_hours" %}" class="right btn">Admin</a>
+        {% endif %}
+        <table class="striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Mandag</th>
+                <th>Tirsdag</th>
+                <th>Onsdag</th>
+                <th>Torsdag</th>
+                <th>Fredag</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for slot in slots %}
+                <tr>
+                <td>{{ slot.start_time }} - {{ slot.end_time }}</td>
+                {% for day in slot.days %}
+                    <td>
+                        {% for signup in day %}
+                            {% if perms.internal.change_timetableslotsignup %}
+                                <div class="input-field">
+                                    {% if perms.admin_office_hours %}
+                                        <select data-pk="{{ signup.pk }}">
+                                            <option value="0" {% if not signup.user %}selected{% endif %}>Ledig</option>
+                                            {% for member in members %}
+                                                <option value="{{ member.pk }}"
+                                                        {% if signup.user == member %}selected{% endif %}>{{ member.get_full_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% elif signup.user == user %}
+                                        <select data-pk="{{ signup.pk }}">
+                                            <option value="0">Ledig</option>
+                                            <option value="{{ user.pk }}" selected>{{ user.get_full_name }}</option>
+                                        </select>
+                                    {% elif signup.user %}
+                                        <select data-pk="{{ signup.pk }}" disabled>
+                                            <option value="0">Ledig</option>
+                                            <option value="{{ signup.user.pk }}"
+                                                    selected>{{ signup.user.get_full_name }}</option>
+                                        </select>
+                                    {% else %}
+                                        <select data-pk="{{ signup.pk }}">
+                                            <option value="0" selected>Ledig</option>
+                                            <option value="{{ user.pk }}">{{ user.get_full_name }}</option>
+                                        </select>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div>{{ signup.user.get_full_name }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+            {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+
+    <script>
+        function resetFeedback() {
+            document.getElementById("loading-spinner").classList.toggle("hide", true);
+            document.getElementById("success-icon").classList.toggle("hide", true);
+            document.getElementById("failure-icon").classList.toggle("hide", true);
+        }
+
+        function setFeedback(id) {
+            resetFeedback();
+            document.getElementById(id).classList.toggle("hide", false);
+        }
+
+        let selectElements = document.getElementsByTagName("select");
+        for (let elementIndex = 0; elementIndex < selectElements.length; elementIndex++) {
+            selectElements[elementIndex].onchange = function (event) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        setFeedback("success-icon");
+                    } else if (this.readyState === 4 && this.status >= 300) {
+                        setFeedback("failure-icon");
+                    }
+                };
+                let csrf = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+                xhttp.open("POST", "/internal/hours/change/" + event.target.dataset.pk, true);
+                xhttp.setRequestHeader("X-CSRFToken", csrf);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("user=" + event.target.value);
+                setFeedback("loading-spinner");
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.tooltipped');
+            var instances = M.Tooltip.init(elems, {exitDelay: 1000});
+        });
+
+    </script>
+
+{% endblock %}

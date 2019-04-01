@@ -117,7 +117,9 @@
 
                         instance.open();
                     {% else %}
-
+                        let modal = $('#loginModal');
+                        let instance = M.Modal.getInstance(modal);
+                        instance.open();
                     {% endif %}
                 },
 

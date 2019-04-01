@@ -1,85 +1,17 @@
-from ckeditor.fields import RichTextField
 from django.contrib.auth.models import Group, User
-from django.urls import reverse
 from django.db import models
-from django.db.models.signals import pre_delete
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from django.utils.text import slugify
-from smart_selects.db_fields import ChainedForeignKey
-from sorl.thumbnail import ImageField
 
+# Create your models here.
 
-class Committee(models.Model):
-    title = models.CharField(max_length=100, unique=True)
-    email = models.EmailField(null=True, blank=True)
-    image = ImageField(upload_to='komiteer')
-    slug = models.SlugField(null=True, blank=True)
-    one_liner = models.CharField(max_length=30, verbose_name="Lynbeskrivelse")
-    description = RichTextField(verbose_name='Beskrivelse', config_name='committees')
+class Committee(Group):
+    # Name feltet er fra superclass
+    thumbnail = models.ImageField(upload_to="committees", null=True, blank=True, verbose_name="miniatyrbilde")
+    description = models.TextField(verbose_name='beskrivelse')
 
-    def __str__(self):
-        return self.title
+    email = models.EmailField(blank=True, null=True)
 
-    def get_absolute_url(self):
-        return reverse('verv:view', kwargs={'slug':self.slug})
+    main_lead = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="Leder")
+    second_lead = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="Nestleder")
+    economy = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="Økonomiansvarlig")
 
-
-class Position(models.Model):
-    title = models.CharField(max_length=100, verbose_name="Stillingsnavn")
-    email = models.EmailField(null=True, blank=True, verbose_name="Epost")
-    committee = models.ForeignKey(Committee, on_delete=models.CASCADE)
-    permission_group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return str(self.title)
-
-
-class Member(models.Model):
-    committee = models.ForeignKey(Committee, related_name="members", on_delete=models.CASCADE)
-    position = ChainedForeignKey(
-        Position,
-        chained_field="committee",
-        chained_model_field="committee",
-        show_all=False,
-        auto_choose=True
-    )
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        if self.user:
-            return self.user.get_full_name()
-        else:
-            return "Ledig"
-
-    def remove_from_group(self, user):
-        self.position.permission_group.user_set.remove(user)
-
-    def add_to_group(self, user):
-        self.position.permission_group.user_set.add(user)
-
-    def __init__(self, *args, **kwargs):
-        super(Member, self).__init__(*args, **kwargs)
-        self.initial_user = self.user
-
-    def save(self, *args, **kwargs):
-        new = self.user
-        if self.pk:
-            #Member exists and is changed
-            old = Member.objects.get(pk=self.pk).user
-            self.remove_from_group(old)
-        if new:
-            self.add_to_group(self.user)
-        super(Member, self).save()
-
-
-@receiver(pre_delete, sender=Member)
-def update_position_member_groups_on_save(sender, instance, *args, **kwargs):
-    instance.remove_from_group(instance.user)
-
-
-def pre_save_committee_receiver(sender, instance, *args, **kwargs):
-    slug = slugify(instance.title)
-    instance.slug = slug
-
-pre_save.connect(pre_save_committee_receiver, sender=Committee)
+    active = models.BooleanField()

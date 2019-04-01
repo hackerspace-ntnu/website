@@ -5,19 +5,15 @@
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
 {% endblock head %}
 {% block content %}
-<div class="section no-pad-bot no-pad hs-green hide-on-med-and-up">
-	<div class="image-container">
+<div class="section no-pad hs-green hide-on-med-and-up">
 	<img class="header-image" src="{{ object.thumbnail.url }}" />
+</div>
+<div class="section no-pad hs-green hide-on-small-only">
+	<div class="container center">
+		<img class="responsive-img" src="{{ object.thumbnail.url }}" />
 	</div>
 </div>
-<div class="section no-pad-bot no-pad hs-green hide-on-small-only">
-	<div class="container">
-	<div class="image-container">
-		<img class="header-image" src="{{ object.thumbnail.url }}" />
-	</div>
-	</div>
-</div>
-<div class="section hs-green">
+<div class="section hs-green no-pad-top">
 	<div class="container">
 		<div class="card-panel cut-top white z-depth-2 no-top-shadow">
 			<div class="row">
@@ -25,38 +21,58 @@
 					<h5 class="hide-on-med-and-up">{{ event.title }}</h5>
 					<h3 class="hide-on-small-only">{{ event.title }}</h3>
 					{% if event.internal %}
-						<p>Dette er et internt arrangement.</p>
+					<p>Dette er et internt arrangement.</p>
 					{% else %}
-						<p> Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
+					<p>Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
 					{% endif %}
 					<div class="divider"></div>
 				</div>
 				<div class="col s12 m6">
+					{% if event.time_end|date:"d. F Y" != event.time_start|date:"d. F Y" %}
+					<p><i class="material-icons small">event</i> Fra {{ event.time_start|date:"d. F Y" }}, {{ event.time_start|date:"H:i" }}</p>
+					<p><i class="material-icons small">event_busy</i> Til {{ event.time_end|date:"d. F Y" }}, {{ event.time_end|date:"H:i" }}</p>
+					{% else %}
 					<p><i class="material-icons small">event</i> {{ event.time_start|date:"d. F Y" }}</p>
 					<p><i class="material-icons small">access_time</i> {{ event.time_start|date:"H:i" }} til {{ event.time_end|date:"H:i" }}</p>
+					{% endif %}
 					{% if event.place %}
+						{% if event.place_href %}
 						<p><i class="material-icons small">location_on</i> <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> 
+						{% else %}
+						<p><i class="material-icons small">location_on</i>{{ event.place }}</p> 
+						{% endif %}
 					{% endif %}
 				</div>
 				<div class="col s12 m6 card-panel z-depth-0 ">
 					<div class="right-align">
-						{% if event.external_registration %}
-							<a class="btn waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
-						{% elif event.registration %}
-							<p>Du er {{ userstatus }}</p>
+						{% if expired_event %}
+							<p>Arrangementet er over og du kan ikke melde deg på.</p>
 							<div class="progress hs-gray">
 								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
 								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
 							</div>
-							{% if userstatus == 'på ventelisten' %}
-							<p class="hs-grey-text">{{ get_position }}</p>
-							{% endif %}
-							{% if event.registration and request.user.is_authenticated and registration_visible %}
-								{% if registered %}
-									<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
+						{% else %}
+							{% if event.external_registration %}
+								<a class="btn waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
+							{% elif event.registration %}
+								{% if userstatus == "ikke pålogget" %}
+									<a class="hs-yellow btn btn-large" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
 								{% else %}
-									<a class="btn waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a><br><br>
+									<p>Du er {{ userstatus }}</p>
 								{% endif %}
+								<div class="progress hs-gray">
+									<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
+									<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
+								</div>
+								{% if userstatus == 'på ventelisten' %}
+									<p class="hs-grey-text">{{ get_position }}</p>
+								{% endif %}
+								{% if event.registration and request.user.is_authenticated and registration_visible %}
+									{% if registered %}
+									<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
+									{% else %}
+									<a class="btn waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a><br><br>
+									{% endif %}
 								<div id="registrationModal" class="modal">
 									<div class="modal-content">
 										<h4>Bekreft handling</h4>
@@ -77,14 +93,14 @@
 										<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
 									</div>
 								</div>
-						</div>
+								{% endif %}
 							{% endif %}
 						{% endif %}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s12">
-				<div class="divider"></div>
+						<div class="divider"></div>
 						<p><b>{{ event.ingress_content }}</b></p>
 						{% autoescape off %}
 						{{ event.main_content }}
@@ -92,32 +108,60 @@
 					</div>
 				</div>
 			</div>
-			{% if request.user|has_group:"member" %}
+		</div>
+		{% if request.user|has_group:"member" %}
+		<div class="card-panel">
+			<div class="row">
+				<div class="col s12">
+					<h4>Administrativ meny</h4>
+				</div>
 				<div class="row">
 					<div class="col s12">
 						<ul class='collection'>
 							<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-							<li class="collection-item"><a href="#deleteModal" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
+							{% if event.registration %}
+							<li class="collection-item"><a href="/events/{{ event.id }}/attended"><i class="material-icons">check</i>Registrer oppmøte</a></li>
+							{% endif %}
+							<li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
 						</ul>
 					</div>
 				</div>
-				<p>Venteliste:</p>
-				{% for user in event.wait_list %}
-					{{ user }}
-				{% endfor %}
-				</p>Total liste:</p>
-				{% for user in event.registered_list %}
-					{{ user }} {% endfor %}
-			{% endif %}
+				{% if event.registration %}
+				<div class="row">
+					<div class="col s12 m12 l6">
+						<ul class="collection with-header">
+							<li class="collection-header"><h4>Venteliste</h4></li>
+							{% for user in event.wait_list %}
+							<li class="collection-item">{{ user.get_full_name }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="col s12 m12 l6">
+						<ul class="collection with-header">
+							<li class="collection-header">
+								<h4>Alle Påmeldte</h4>
+							</li>
+							{% for user in event.registration_list %}
+							{% if user.is_waitlisted %}
+							{% else %}
+							<li class="collection-item">{{ user.user.get_full_name }}</li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				{% endif %}
+			</div>
 		</div>
+		{% endif %}
 	</div>
 </div>
 <script>
 	var collapsible = document.querySelector('.collapsible');
-	var instance = M.Collapsible.init(collapsible);
+var instance = M.Collapsible.init(collapsible);
 
-	var parallax = document.querySelector('.parallax');
-	var instance = M.Parallax.init(parallax);
+var parallax = document.querySelector('.parallax');
+var instance = M.Parallax.init(parallax);
 </script>
 {% endblock content %}
 

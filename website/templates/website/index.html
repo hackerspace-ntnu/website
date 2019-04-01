@@ -1,58 +1,48 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
-
+{% block head %}
+{% endblock %}
 {% block content %}
+{% if is_application %}
+{% include 'website/_application_banner.html' %}
+{% endif %}
 <div class="section hs-gray hide-on-med-and-up">
-	<div class="row center">
-		<br>
+	<div class="row center valign-wrapper no-pad-bot">
+		<div class="col s12">
 		<img style="width:100px; height:150px;" src=" {% static 'website/img/logo/Icon_green_transparent.png' %} ">
+		</div>
 	</div>
 </div>
-<div class="section hide-on-small-only no-pad hs-green">
+<div class="section hide-on-small-only no-pad">
 	<div class="slider">
 		<div class="container">
-				<ul class="slides">
-					<li class="tinter">
-						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
-						<div class="caption center-align">
-							<h4>Har du en skaper i magen?</h4>
-							<p>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</p>
-						</div>
-					</li>
-					<li class="tinter">
-						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
-						<div class="caption center-align">
-							<h4>Nysgjerrig på VR?</h4>
-							<p>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</p>
-						</div>
-					</li>
-					<li class="tinter">
-						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
-						<div class="caption center-align">
-							<h4>Kreativt, innovativt og ikke minst sosialt</h4>
-							<p>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</p>
-						</div>
-					</li>
-				</ul>
+			<ul class="slides">
+				<li class="tinter">
+					<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
+					<div class="caption center-align">
+						<h4>Har du en skaper i magen?</h4>
+						<p>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</p>
+					</div>
+				</li>
+				<li class="tinter">
+					<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
+					<div class="caption center-align">
+						<h4>Nysgjerrig på VR?</h4>
+						<p>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</p>
+					</div>
+				</li>
+				<li class="tinter">
+					<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
+					<div class="caption center-align">
+						<h4>Kreativt, innovativt og ikke minst sosialt</h4>
+						<p>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</p>
+					</div>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
-</div>
-<div class="section hs-green center">
-	<div class="container">
-		<div class="row no-pad-bot">
-			<div class="col s12">
-				<ul class="sosial-bilder">
-					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'website/img/icon/slack_icon.png' %}" title="Slack"></a>
-					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img src="{% static 'website/img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>
-					<a href="https://github.com/hackerspace-ntnu/" target="_blank"><img src="{% static 'website/img/icon/if_github_253591.svg' %}" title="GitHub"></a>
-					<a href=https://www.instagram.com/hackerspacentnu/ target="_blank"><img src="{% static 'website/img/icon/INSTAGRAM.svg' %}" title="Instagram"></a>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
+{% include "website/_social_buttons.html" %}
 <div class="section hs-gray">
 	<div class="container">
 		<div class="row">
@@ -100,72 +90,45 @@
 		</div>
 	</div>
 </div>
-<div class="section hs-green ">
+<div class="section hs-green">
 	<div class="container hide-on-med-and-down">
 		<div class="row">
-			<div class="col s12">
-				<h4 class="white-text">Våre prosjekter</h4>
-				<p class="white-text">I tillegg til våre interne løsninger og medlemmers kule saker, har vi prosjektgrupper som står for å lage større prosjekter.</p>
-			</div>
-		</div>
-		<div class="row">
+			{% for card in index_cards %}
 			<div class="col s12">
 				<div class="card horizontal">
 					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/briller.jpg' %}">
-						<span class="card-title">Nye prosjekter</span>
+						<img src="{{ card.thumbnail.url }}">
+						{% if card.thumbnail_dark_text %}
+						<span class="card-title black-text">{{ card.title }}</span>
+						{% else %}
+						<span class="card-title">{{ card.title }}</span>
+						{% endif %}
 					</div>
 					<div class="card-stacked">
 						<div class="card-content">
-							<p>Høsten 2018 kjører vi i gang med nye større prosjekter: </p>
-							<ul>
-								<li>Arkademaskin</li>
-								<li>Mobilspill</li>
-								<li>Brettspill</li>
-								<li>Spill</li>
-
-
-							</ul>
+							{% autoescape off %}
+							{{ card.body }}
+							{% endautoescape %}
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col s12" >
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/cover7.jpg' %}">
-						<span class="card-title">Escape Room</span>
-					</div>
-					<div class="card-stacked">
-					<div class="card-content">
-						<p>Er du lei av at de kule eventyrene kun eksisterer i digital form?<br> Dersom du vil dra på eventyr i virkeligheten, kan du komme innom vårt Escape Room</p>
-					</div>
-					</div>
-				</div>
-			</div>
-			<div class="col s12">
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{% static 'website/img/people_and_tech/spill2.jpg' %}">
-						<span class="card-title">Virtual Reality</span>
-					</div>
-					<div class="card-stacked">
-					<div class="card-content">
-						<p>Hackerspace har utviklet et eget Virtual Reality spill! Prosjektgruppa for VR driver med dette.</p>
-					</div>
-					</div>
-				</div>
-
-			</div>
+			{% endfor %}
 		</div>
 	</div>
 </div>
 <script>
+// For å få slideshow til å laste pent inn setter vi bakgrunnen til bildet som benyttes og tinter det.
 var elem = document.querySelector('.slider');
+elem.style.backgroundImage = "url('static/website/img/people_and_tech/briller.jpg')"
+elem.style.height = "100%";
+elem.style.width = "100%";
+elem.style.backgroundSize = "cover";
+elem.style.backgroundPosition = "center";
 var instance = M.Slider.init(elem, {
 	indicators: false,
 	height: 256,
-	duration:600,
+	duration:500,
 	interval: 6000
 })
 

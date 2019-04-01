@@ -2,10 +2,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import TemplateView, DetailView, ListView, FormView, UpdateView, CreateView, DeleteView
 from datetime import datetime
-from .forms import EventForm
+from .forms import EventForm, eventformset
 from .models import Event, Article, EventRegistration
 from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 class EventView(DetailView):
     model = Event
@@ -20,6 +21,7 @@ class EventView(DetailView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data['userstatus'] = "ikke pålogget"
+        context_data['expired_event'] = datetime.now() > self.object.time_end
 
         if self.request.user.is_authenticated:
             context_data['registered'] = self.object.is_registered(self.request.user) or \
@@ -54,6 +56,44 @@ class EventListView(ListView):
 
         return context_data
 
+class EventAttendeeEditView(UpdateView):
+    '''
+        Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
+        de har møtt opp eller ikke.
+    '''
+    template_name = "news/attendee_form.html"
+    model = Event
+    fields = ['title']
+
+    def dispatch(self, request, *args, **kwargs):
+        if not groups.has_group(self.request.user, 'member'):
+            return redirect("/")
+
+        return super(EventAttendeeEditView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['registrations'] = eventformset(self.request.POST, instance=self.object)
+        else:
+            context['registrations'] = eventformset(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        formset = context['registrations']
+        if formset.is_valid():
+            response = super().form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        else:
+            return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse('events:details', kwargs={'pk': self.object.id})
+
+
 class ArticleListView(ListView):
     template_name = "news/news.html"
     paginate_by = 10
@@ -81,7 +121,6 @@ class EventUpdateView(UpdateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
-    success_url = "/events/"
 
     def dispatch(self, request, *args, **kwargs):
         if not groups.has_group(self.request.user, 'member'):
@@ -100,6 +139,9 @@ class EventUpdateView(UpdateView):
         initial['deregistration_end'] = self.object.deregistration_end.date().strftime('%Y-%m-%d')
         initial['deregistration_end_time'] = self.object.deregistration_end.time()
         return initial
+
+    def get_success_url(self):
+        return reverse('events:details', kwargs={'pk': self.object.id})
 
 
 class EventCreateView(CreateView):
@@ -186,5 +228,5 @@ def register_on_event(request, event_id):
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
 
-    return redirect("/events/" + event_id)
+    return redirect("/events/" + str(event_id))
 

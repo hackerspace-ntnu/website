@@ -26,26 +26,14 @@
 				{% endif %}
 			</div>
 			<div class="col s6">
-				{% if profile.group %}
-				<p class="flow-text">{{ profile.group.all.0.title }}</p>
-				{% endif %}
-				{% if profile.study %}
-				<p class="flow-text">{{ profile.study }}</p>
-				{% endif %}
-				{% if profile.user.email %}
-				<p class="flow-text">{{ profile.user.email }}</p>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-</div>
-<div class="section">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				{% if profile.duty.all %}
-				{% include "userprofile/shift_table.html" %}
-				{% endif %}
+				<ul class="collection">
+					{% if profile.study %}
+						<li class="collection-item">Studerer {{ profile.study }}</li>
+					{% endif %}
+					{% if profile.user.email %}
+						<li class="collection-item">{{ profile.user.email }}</li>
+					{% endif %}
+				</ul>
 			</div>
 		</div>
 	</div>

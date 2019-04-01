@@ -1,5 +1,6 @@
 {% load staticfiles %}
-{% load loginmodal %}
+{% load seasonal_header_updater %}
+{% season_data %}
 {% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
 	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
 	{% else %}
@@ -14,24 +15,24 @@
 					<!-- Hamburger -->
 					<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 					<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
-					<a href="/" class="brand-logo hide-on-med-and-down"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
-					<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
-					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{% static "website/img/logo/Hakcerspace_huge.png" %}"/></a>
+					<a href="/" class="brand-logo hide-on-med-and-down valign-wrapper"><img src="{{ logo_url }}"/></a>
+					<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{{ logo_url }}"/></a>
+					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{{ logo_url }}"/></a>
 					<!-- Hovedmeny -->
 					<ul class="right hide-on-med-and-down">
 						<li id="news"><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
 						<li id="events"><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
-						<li id="resources"><a class="trigger-resources" href="/" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
+						<li id="resources"><a class="trigger-resources" href="#" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
 						{% if user.is_authenticated %}
 								{% if user.profile.image %}
 								<li>
-									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> 
+									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
 										<img class="center circle" src="{{ user.profile.image.url }}" />
 									</a>
 								</li>
 								{% else %}
 								<li>
-									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown"> 
+									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
 										<img class="center circle" src="{% static 'website/img/misc/default.png' %}" />
 									</a>
 								</li>
@@ -65,35 +66,27 @@
 					<li><a class="waves-effect" href="/">Hjem</a></li>
 					<li><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
 					<li><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
-					<li><a class="waves-effect" href="/wiki">Wiki</a></li>
 					<li><a class="waves-effect" href="{% url 'about' %}">Om Oss</a></li>
 
 					<li><div class="divider"></div></li>
 					{% if user.is_authenticated %}
-					<li><a class="waves-effect" href="{% url 'auth:password_change' %}">Bytt Passord</a></li>
 					<li><a class="waves-effect" href="{% url 'auth:logout' %}">Logg Ut</a></li>
 					{% else %}
-					<li><a class="waves-effect" href="{% url 'auth:signup' %}">Registrer</a></li>
 					<li><a class="waves-effect" href="{% url 'auth:login' %}">Logg inn</a></li>
 					{% endif %}
 					<!-- Dropdown user list for desktop-->
 					<ul id="userdropdown" class="dropdown-content">
 						{% if user.is_authenticated %}
 						<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
-						<li><a href="{% url 'auth:password_change' %}">Bytt Passord</a></li>
 						<li><a href="{% url 'auth:logout' %}">Logg Ut</a></li>
 						{% else %}
-						<li><a href="{% url 'auth:signup' %}">Registrer</a></li>
-						<li><a class="modal-trigger" href="#loginModal">Logg Inn</a></li>
+						<li><a class="modal-trigger" href="{% url 'auth:login' %}">Logg Inn</a></li>
 						{% endif %}
 					</ul>
 					<!-- Dropdown for resurser -->
 					<ul id="resourcedropdown" class="dropdown-content">
 						<li class="tooltipped" data-position="left" data-tooltip="Trykk meg for å se hvor vi befinner oss">
-							<a class="modal-trigger waves-effect hs-green-text" href="#mapModal">Kart</a>
-						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="På wikien finner du en haug informasjon">
-						<a href="/wiki">Wiki</a>
+							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="http://bit.ly/2Hzw7EO">Kart</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 							<a href="{% url 'about' %}">Om Oss</a>
@@ -104,17 +97,6 @@
 			</div>
 		</nav>
 	</div>
-<div id="loginModal" class="modal">
-	<div class="modal-content">
-		{% LoginModal %}
-	</div>
-</div>
-<div id="mapModal" class="modal bottom-sheet">
-	<div class="modal-content">
-		<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://use.mazemap.com/embed.html#v=1&zlevel=1&campusid=1&sharepoitype=poi&sharepoi=71922" style="border: 1px solid grey; height:35vh; width:100%;"></iframe>
-		<br/><small><a href="https://www.mazemap.com/">Map by MazeMap</a></small>
-	</div>
-</div>
 <script>
 
 

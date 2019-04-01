@@ -78,13 +78,14 @@
 								<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
 							</li>
 							{% for event in event_list reversed %}
-							<li class="collection-item">
-								{% if event.time_start > now %}
-								<span class="badge hs-green white-text" href="#!">NY{{ event.time_start|date:"d.m.Y" }}</span>
+								<li class="collection-item">
+									{% if event.time_start > current_date %}
+										<span class="badge white-text hs-green" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
 									{% else %}
-									<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
+										<span class="secondary-content" href="#!">{{ event.time_start|date:"d.m.Y" }}</span>
 
-								{% endif %}
+									{% endif %}
+
 								<a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
 							</li>
 							{% endfor %}

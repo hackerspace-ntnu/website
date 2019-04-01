@@ -1,6 +1,8 @@
 {# <a class="modal-trigger waves-effect waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a> #}
 <div class="modal" id="uploadModal">
 		<div class="modal-content">
+			<h4>Last opp nytt bilde til galleriet</h4>
+
 			<form method="POST" name="uploadform" id="uploadForm" enctype="multipart/form-data">
 				{% csrf_token %}
 			<div class="input-field col s12">
@@ -12,8 +14,8 @@
 				<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
 			</div>
 			<div class="file-field input-field col s12">
-				<div class="btn">
-					<span>Bilde</span>
+				<div class="btn hs-green">
+					<span>Velg bilde</span>
 					{{ UploadForm.file }}
 				</div>
 				<div class="file-path-wrapper">
@@ -21,7 +23,7 @@
 				</div>
 			</div>
 			<br>
-			<button type="button" class="btn" id="uploadBtn">Upload</a>
+			<button type="button" class="btn btn-large hs-green white-text" id="uploadBtn">Last opp bilde til galleri</a>
 			</form>
 		</div>
 </div>

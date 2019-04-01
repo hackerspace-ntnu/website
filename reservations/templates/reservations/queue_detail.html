@@ -19,17 +19,9 @@
         </div>
     </div>
 
-    <div id="reservation_modal" class="modal">
-        <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST">
-            <div class="modal-content">
-                {% csrf_token %}
-                {% include 'reservations/reservation_form.html' %}
-            </div>
-            <div class="modal-footer">
-                <input type="submit" value="send" class="btn waves-effect waves-light">
-            </div>
-        </form>
-    </div>
+    {% include 'reservations/reservation_modal.html' %}
+
+    {% include 'reservations/require_login_modal.html' %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -117,7 +109,7 @@
 
                         instance.open();
                     {% else %}
-                        let modal = $('#loginModal');
+                        let modal = $('#requireLoginModal');
                         let instance = M.Modal.getInstance(modal);
                         instance.open();
                     {% endif %}

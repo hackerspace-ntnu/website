@@ -1,6 +1,7 @@
 import datetime
 
 from django.db.models import Q
+from django.http import QueryDict
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.generic import DetailView, CreateView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -21,21 +22,6 @@ class QueueDetailView(DetailView):
         })
         return context
 
-    def post(self, *args, **kwargs):
-        return ReservationCreateView.as_view()(self.request, *args, **kwargs)
-
-
-class ReservationCreateView(CreateView):
-    model = Reservation
-    form_class = ReservationForm
-    # template_name = 'reservations/queue_detail.html'
-
-    def form_invalid(self, form):
-        print(form.errors)
-
-    def form_valid(self, form):
-        super().form_valid(form)
-
 
 class ReservationViewSet(ModelViewSet):
     serializer_class = ReservationSerializer
@@ -55,11 +41,10 @@ class ReservationViewSet(ModelViewSet):
                 Q(start__gte=start) &
                 Q(end__lte=end)
             )
-            return queryset
         except MultiValueDictKeyError:
-            qs = Reservation.objects.all()
-            print(qs)
-            return qs
+            queryset = Reservation.objects.all()
+        print(queryset)
+        return queryset
 
     def get_permissions(self):
         if self.action == 'list':

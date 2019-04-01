@@ -1,0 +1,18 @@
+<div class="row">
+    {% include 'reservations/reservation_form_std_field.html' with form_field=form.start_time %}
+    {% include 'reservations/reservation_form_std_field.html' with form_field=form.end_time %}
+</div>
+<div class="row">
+    {% include 'reservations/reservation_form_std_field.html' with form_field=form.start_date %}
+    {% include 'reservations/reservation_form_std_field.html' with form_field=form.end_date %}
+</div>
+<div class="row">
+    <div class="col s12">
+        {{ form.comment.label_tag }}
+        {{ form.comment }}
+    </div>
+    <div>
+        {{ form.parent_queue }}
+    </div>
+</div>
+

@@ -5,30 +5,21 @@ from reservations.models import Reservation
 
 class ReservationForm(forms.ModelForm):
     """
-    Reservations use datetime fields to track start and end,
-    but we show separate time and date fields to the user.
+    def __init__(self, *args, **kwargs):
+        parent_queue = kwargs.pop('parent_queue')
+        super().__init__(*args, **kwargs)
+        self.fields['parent_queue'] = forms.HiddenInput()
+        self.fields['parent_queue'].initial = parent_queue
     """
-    start_time = forms.TimeField(widget=forms.TimeInput(
-        attrs={'type': 'time', 'class': 'timepicker'}),
-        label='Starttid'
-    )
-    end_time = forms.TimeField(widget=forms.TimeInput(
-        attrs={'type': 'time', 'class': 'timepicker'}),
-        label='Sluttid'
-    )
-    start_date = forms.DateField(widget=forms.DateInput(
-        attrs={'type': 'date', 'class': 'datepicker'}),
-        label='Startdato'
-    )
-    end_date = forms.DateField(widget=forms.DateInput(
-        attrs={'type': 'date', 'class': 'datepicker'}),
-        label='Sluttdato'
-    )
 
     class Meta:
         model = Reservation
-        fields = ['comment']
+        fields = ['comment', 'start_date', 'end_date', 'start_time', 'end_time']  # 'parent_queue'
 
         labels = {
             'comment': 'Kommentar',
+            'start_date': 'Startdato',
+            'end_date': 'Sluttdato',
+            'start_time': 'Starttid',
+            'end_time': 'Sluttid',
         }

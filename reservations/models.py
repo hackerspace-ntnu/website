@@ -24,7 +24,7 @@ class Queue(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('queue_detail', kwargs={'pk': self.pk})
+        return reverse('reservations:queue_detail', kwargs={'pk': self.pk})
 
 
 class Reservation(models.Model):
@@ -43,15 +43,13 @@ class Reservation(models.Model):
         null=True,
         blank=True,
     )
-    start = models.DateTimeField(
-        blank=False,
-    )
-    end = models.DateTimeField(
-        blank=False,
-    )
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    start_date = models.DateField()
+    end_date = models.DateField()
 
     def __str__(self):
-        return f'{self.parent_queue}: {self.start:%b %d - %H:%M}'
+        return f'{self.parent_queue}: {self.start_date:%b %d} {self.start_time:%H:%M} - {self.end_time:%H:%M}'
 
     def get_absolute_url(self):
-        return reverse('queue_detail', kwargs={'pk': self.parent_queue.pk})
+        return reverse('reservations:queue_detail', kwargs={'pk': self.parent_queue.pk})

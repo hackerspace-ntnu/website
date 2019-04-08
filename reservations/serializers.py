@@ -3,7 +3,7 @@ from reservations.models import Reservation
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     @staticmethod
     def get_user(obj):
@@ -12,4 +12,4 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ('start', 'end', 'user', 'id')
+        fields = ('start_date', 'end_date', 'start_time', 'end_time', 'user', 'parent_queue', 'comment')

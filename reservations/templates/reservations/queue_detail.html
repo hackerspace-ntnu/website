@@ -115,8 +115,13 @@
                     {% endif %}
                 },
 
+                eventRender: function(event, element) {
+                    if (event.comment != "") {
+                        M.Tooltip.init(element, {html: event.comment});
+                    }
+                },
+
                 eventMouseover: function(mouseEnterInfo){
-                    console.log(mouseEnterInfo);
                 }
             })
 
@@ -129,10 +134,6 @@
 
         function htmlTimeFormat(datetime) {
             return $.fullCalendar.formatDate(datetime, "HH:mm")
-        }
-
-        function makeReservation() {
-
         }
     </script>
 

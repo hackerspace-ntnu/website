@@ -29,6 +29,12 @@ class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None, blank=True)
 
+    # Felter for sosiale konti
+    social_discord = models.CharField(max_length=30, null=True, blank=True, verbose_name="Discord-tag")
+    social_steam = models.CharField(max_length=30, null=True, blank=True, verbose_name="Steam navn")
+    social_battlenet = models.CharField(max_length=30, null=True, blank=True, verbose_name="Battle.net-tag")
+    social_git = models.CharField(max_length=30, null=True, blank=True, verbose_name="Git navn")
+
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)

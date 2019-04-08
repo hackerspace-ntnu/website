@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -53,3 +55,11 @@ class Reservation(models.Model):
 
     def get_absolute_url(self):
         return reverse('reservations:queue_detail', kwargs={'pk': self.parent_queue.pk})
+
+    @property
+    def start(self):
+        return datetime.datetime.combine(self.start_date, self.start_time)
+
+    @property
+    def end(self):
+        return datetime.datetime.combine(self.end_date, self.end_time)

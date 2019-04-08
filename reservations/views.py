@@ -1,5 +1,6 @@
+import datetime
+
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -17,7 +18,7 @@ class QueueDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'form': ReservationForm(),  # parent_queue=self.kwargs['pk']
+            'form': ReservationForm()
         })
         return context
 
@@ -38,12 +39,13 @@ class ReservationViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_queryset(self):
-        start = self.request.GET['start']
-        end = self.request.GET['end']
-        queryset = Reservation.objects.filter(  # Q() lets you combine queries
+        start = datetime.datetime.strptime(self.request.GET['start'], '%Y-%m-%dT%H:%M:%S').date()
+        end = datetime.datetime.strptime(self.request.GET['end'], '%Y-%m-%dT%H:%M:%S').date()
+        queryset = Reservation.objects.filter(
+            # Q() lets you combine queries
             Q(parent_queue_id=self.kwargs['pk'])
-            & Q(start__gte=start)
-            & Q(end__lte=end)
+            & Q(start_date__gte=start)
+            & Q(end_date__lte=end)
         )
         return queryset
 

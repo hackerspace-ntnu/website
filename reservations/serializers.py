@@ -12,4 +12,5 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ('start_date', 'end_date', 'start_time', 'end_time', 'user', 'parent_queue', 'comment')
+        fields = ('start_date', 'end_date', 'start_time', 'end_time', 'user', 'parent_queue', 'comment',
+                  'start', 'end')

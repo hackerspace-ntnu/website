@@ -66,7 +66,7 @@
 							</li>
 							{% for article in article_list %}
 							<li class="collection-item">
-								<span class="secondary-content" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+								<span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
 								<a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
 							</li>
 							{% endfor %}
@@ -82,7 +82,7 @@
 									{% if event.time_start > current_date %}
 										<span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
 									{% else %}
-										<span class="secondary-content">{{ event.time_start|date:"d.m.Y" }}</span>
+										<span class="secondary-content badge">{{ event.time_start|date:"d.m.Y" }}</span>
 
 									{% endif %}
 

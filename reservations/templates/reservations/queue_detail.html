@@ -73,6 +73,7 @@
                 slotDuration: '00:30:00',
                 snapDuration: '00:05:00',
                 slotLabelInterval: {hours: 1},
+                eventColor: '#456990',
 
                 slotLabelFormat: "HH:mm",
                 scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
@@ -93,6 +94,13 @@
                     },
                     success: function (data) {
                         console.log(data);
+                        // change color of the users own reservations
+                        requestUser = '{{ request.user }}';
+                        for (event of data) {
+                            if (requestUser == event.user) {
+                                event.color = '#7ABB7A';
+                            }
+                        }
                     },
                 },
 
@@ -105,7 +113,6 @@
                         $('#id_end_date')[0].value = htmlDateFormat(endDateTime);
                         $('#id_start_time')[0].value = htmlTimeFormat(startDateTime);
                         $('#id_end_time')[0].value = htmlTimeFormat(endDateTime);
-                        // $('#id_parent_queue')[0].value = {{ queue.pk }};
 
                         instance.open();
                     {% else %}

@@ -36,7 +36,7 @@ class ReservationViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         parent_queue = Queue.objects.get(pk=self.kwargs['pk'])
-        serializer.save(parent_queue=parent_queue)
+        serializer.save(parent_queue=parent_queue, user=self.request.user)
 
     def get_queryset(self):
         start = datetime.datetime.strptime(self.request.GET['start'], '%Y-%m-%dT%H:%M:%S').date()

@@ -63,3 +63,8 @@ class Reservation(models.Model):
     @property
     def end(self):
         return datetime.datetime.combine(self.end_date, self.end_time)
+
+    class Meta:
+        ordering = [
+            '-start_time'
+        ]

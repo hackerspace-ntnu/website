@@ -3,17 +3,12 @@ from reservations.models import Reservation
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    @staticmethod
-    def get_user(obj):
-        name = obj.user.get_full_name()
-        return name if name is not "" else obj.user.username
+    user = serializers.PrimaryKeyRelatedField(read_only=True, source='user.username')
 
     class Meta:
         model = Reservation
         fields = ('start_date', 'end_date', 'start_time', 'end_time', 'user', 'parent_queue', 'comment',
                   'start', 'end')
 
-        # Let parent_queue be blank through validation. parent_queue is set in serializer.save() (after validation).
+        # Lets these fields be blank through validation. They will be set in serializer.save() (after validation).
         extra_kwargs = {'parent_queue': {'required': False}}

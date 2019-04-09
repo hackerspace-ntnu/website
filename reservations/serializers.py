@@ -14,3 +14,6 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = ('start_date', 'end_date', 'start_time', 'end_time', 'user', 'parent_queue', 'comment',
                   'start', 'end')
+
+        # Let parent_queue be blank through validation. parent_queue is set in serializer.save() (after validation).
+        extra_kwargs = {'parent_queue': {'required': False}}

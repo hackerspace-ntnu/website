@@ -1,6 +1,9 @@
 import datetime
 
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.views.generic import DetailView
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -28,15 +31,12 @@ class ReservationViewSet(ModelViewSet):
     queryset = Reservation.objects.all()
 
     def create(self, request, *args, **kwargs):
-        data = request.data.copy()
-        data.update({
-            'parent_queue': kwargs['pk'],
-        })
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        super().create(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse('reservations:queue_detail', kwargs={'pk': kwargs['pk']}))
+
+    def perform_create(self, serializer):
+        parent_queue = Queue.objects.get(pk=self.kwargs['pk'])
+        serializer.save(parent_queue=parent_queue)
 
     def get_queryset(self):
         start = datetime.datetime.strptime(self.request.GET['start'], '%Y-%m-%dT%H:%M:%S').date()

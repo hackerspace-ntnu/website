@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
 from rest_framework import status
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -32,8 +33,10 @@ class ReservationViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         instance = get_object_or_404(Reservation, pk=kwargs['pk'])
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user == instance.user:
+            self.perform_destroy(instance)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return PermissionDenied()
 
     def create(self, request, *args, **kwargs):
         super().create(request, *args, **kwargs)

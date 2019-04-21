@@ -34,36 +34,30 @@
         let commentField = $('#id_comment')[0];
         let createButton = $('#createReservationInput')[0];
         let deleteButton = $('#deleteReservationButton')[0];
-        let reservationForm = $('#reservationForm')[0];
 
         let selectedReservation = null;
 
         document.addEventListener('DOMContentLoaded', function() {
-            options = {
-                twelveHour: false,
-                i18n : {
-                    cancel: 'Avbryt',
-                    clear: 'Fjern',
-                    done: 'Ok',
-                }
-            };
-            var elems = document.querySelectorAll('.timepicker');
-            var instances = M.Timepicker.init(elems, options);
+
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            options = {
+            let buttonTranslations = {cancel: 'Avbryt', clear: 'Fjern', done: 'Ok'};
+            let datepickerOptions = {
                 firstDay: 1,
-                i18n : {
-                    cancel: 'Avbryt',
-                    clear: 'Fjern',
-                    done: 'Ok',
-                    // months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
-                    // weekdaysAbbrev: ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
-                }
+                i18n: buttonTranslations
+                // months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
+                // weekdaysAbbrev: ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
             };
-            var elems = document.querySelectorAll('.datepicker');
-            var instances = M.Datepicker.init(elems, options);
+            let datepickerElems = document.querySelectorAll('.datepicker');
+            M.Datepicker.init(datepickerElems, datepickerOptions);
+
+            let timepickerOptions = {
+                twelveHour: false,
+                i18n : buttonTranslations
+            };
+            let timepickerElems = document.querySelectorAll('.timepicker');
+            M.Timepicker.init(timepickerElems, timepickerOptions);
         });
 
         $(function () {
@@ -86,12 +80,14 @@
                 timeFormat: "HH:mm",
                 scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
 
+                // hide hours when we are officially closed from non-members
                 {% if request.user|has_group:"member" or request.user.is_superuser %}
                     minTime: "00:00:00",
                     maxTime: "23:59:59",
                 {% else %}
                     minTime: "10:00:00",
                     maxTime: "18:00:00",
+                    hiddenDays: [6, 0],
                 {% endif %}
 
                 events: {

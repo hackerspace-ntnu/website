@@ -1,3 +1,6 @@
+import datetime
+
+from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework import serializers
 
@@ -13,17 +16,20 @@ class ReservationSerializer(serializers.ModelSerializer):
         fields = ('start_date', 'end_date', 'start_time', 'end_time', 'user', 'parent_queue', 'comment',
                   'start', 'end', 'id')
 
-        # Let these fields be blank through validation. They will be set in serializer.save() (after validation).
-        extra_kwargs = {'parent_queue': {'required': False}}
-
     def validate(self, attrs):
-        # Check for conflicting reservations
+        # disallow reservations into the past, but be slightly forgiving
+        now = datetime.datetime.now() - datetime.timedelta(minutes=15)
+        if attrs['start_date'] < now.date() \
+                or (attrs['start_date'] == now.date() and attrs['start_time'] < now.time()):
+            raise serializers.ValidationError("Invalid timeframe")
+
+        # Check if the new reservation conflicts with any of the old ones in the same queue
         # note that Fullcalendar allows reservations across multiple days, but not across multiple weeks
 
         # get reservations occurring across the same days as new reservation
-        reservations = Reservation.objects.exclude(
-            Q(start_date__gt=attrs['end_date']) | Q(end_date__lt=attrs['start_date'])
-        )
+        reservations = Reservation.objects\
+            .filter(parent_queue_id=attrs['parent_queue'])\
+            .exclude(Q(start_date__gt=attrs['end_date']) | Q(end_date__lt=attrs['start_date']))
         for r in reservations:
             if (r.start_time <= attrs['start_time'] <= r.end_time and r.start_date <= attrs['start_date']) \
                     or (r.start_time <= attrs['end_time'] <= r.end_time and r.end_date >= attrs['end_date']):

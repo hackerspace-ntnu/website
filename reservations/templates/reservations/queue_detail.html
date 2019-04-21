@@ -23,6 +23,8 @@
 
     {% include 'reservations/require_login_modal.html' %}
 
+    {% include 'reservations/display_messages_as_toast.html' %}
+
     <script>
         const requestUser = '{{ request.user }}';
 

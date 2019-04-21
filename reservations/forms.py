@@ -16,3 +16,12 @@ class ReservationForm(forms.ModelForm):
             'start_time': 'Starttid',
             'end_time': 'Sluttid',
         }
+
+        # the pickers are way too small atm, and are therefore commented out
+        widgets = {
+            # 'start_date': forms.DateInput(attrs={'class': 'datepicker'}),
+            # 'end_date': forms.DateInput(attrs={'class': 'datepicker'}),
+
+            # 'start_time': forms.TimeInput(attrs={'class': 'timepicker'}),
+            # 'end_time': forms.TimeInput(attrs={'class': 'timepicker'}),
+        }

@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -47,12 +48,17 @@ class ReservationViewSet(ModelViewSet):
         raise PermissionDenied()
 
     def create(self, request, *args, **kwargs):
-        super().create(request, *args, **kwargs)
+        data = {**request.data.copy(), **{'parent_queue': [self.kwargs['pk']]}}
+        for k, v in data.items():
+            data[k] = v[0]
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        messages.add_message(request, 40, message='Reservasjon opprettet!')
         return HttpResponseRedirect(reverse('reservations:queue_detail', kwargs={'pk': kwargs['pk']}))
 
     def perform_create(self, serializer):
-        parent_queue = Queue.objects.get(pk=self.kwargs['pk'])
-        serializer.save(parent_queue=parent_queue, user=self.request.user)
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         start = datetime.datetime.strptime(self.request.GET['start'], '%Y-%m-%dT%H:%M:%S').date()

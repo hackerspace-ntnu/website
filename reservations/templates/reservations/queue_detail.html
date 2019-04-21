@@ -93,7 +93,7 @@
                 {% endif %}
 
                 events: {
-                    url: '{% url 'reservations:reservation_api' pk=queue.pk %}',
+                    url: '{% url 'reservations:reservation_api-list' pk_pq=queue.pk %}',
                     type: 'GET',
                     error: function () {
                         console.log("Encountered error while retrieving reservation data!");
@@ -178,9 +178,9 @@
 
         deleteButton.onclick = function(event) {
             $.ajax({
-                url: '{% url 'reservations:reservation_api_delete' pk=queue.pk %}',
+                url: '{% url 'reservations:reservation_api-list' pk_pq=queue.pk%}' + 28,
                 data: {id: event.id},
-                type: 'POST',
+                type: 'DELETE',
                 success: function() {
                     $('#calendar').fullCalendar('refetchEvents');
                 },

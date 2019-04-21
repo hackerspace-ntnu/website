@@ -43,13 +43,18 @@ class ReservationViewSet(ModelViewSet):
         end = datetime.datetime.strptime(self.request.GET['end'], '%Y-%m-%dT%H:%M:%S').date()
         queryset = Reservation.objects.filter(
             # Q() lets you combine queries
-            Q(parent_queue_id=self.kwargs['pk'])
+            Q(parent_queue_id=self.kwargs['pk_pq'])
             & Q(start_date__gte=start)
             & Q(end_date__lte=end)
         )
         return queryset
 
+    def destroy(self, request, *args, **kwargs):
+        print(self, request, args, kwargs)
+        return super().destroy(request, *args, **kwargs)
+
     def get_permissions(self):
+        print(self.action)
         if self.action == 'list':
             permission_classes = [AllowAny]
         else:

@@ -69,6 +69,6 @@ class Reservation(models.Model):
         # only when querying for the admin menu
         # https://docs.djangoproject.com/en/2.2/ref/models/options/#ordering
         ordering = [
-            '-start_date'
+            '-start_date',
             '-start_time',
         ]

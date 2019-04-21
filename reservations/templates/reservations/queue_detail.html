@@ -36,6 +36,8 @@
         let deleteButton = $('#deleteReservationButton')[0];
         let reservationForm = $('#reservationForm')[0];
 
+        let selectedReservation = null;
+
         document.addEventListener('DOMContentLoaded', function() {
             options = {
                 twelveHour: false,
@@ -93,7 +95,7 @@
                 {% endif %}
 
                 events: {
-                    url: '{% url 'reservations:reservation_api-list' pk_pq=queue.pk %}',
+                    url: '{% url 'reservations:reservation_api' pk=queue.pk %}',
                     type: 'GET',
                     error: function () {
                         console.log("Encountered error while retrieving reservation data!");
@@ -110,7 +112,8 @@
                 eventClick: function(event, element) {
                     console.log(event, element);
                     if (requestUser == event.user) {
-                        let modal = $('#reservationModal')
+                        selectedReservation = event;
+                        let modal = $('#reservationModal');
                         setupReservationModal(event.start, event.end, true, event.comment)
                         let instance = M.Modal.getInstance(modal);
                         instance.open();
@@ -178,9 +181,12 @@
 
         deleteButton.onclick = function(event) {
             $.ajax({
-                url: '{% url 'reservations:reservation_api-list' pk_pq=queue.pk%}' + 28,
+                url: '{% url 'reservations:reservation_delete_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/',
                 data: {id: event.id},
-                type: 'DELETE',
+                type: 'POST',
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                },
                 success: function() {
                     $('#calendar').fullCalendar('refetchEvents');
                 },

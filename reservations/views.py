@@ -30,6 +30,11 @@ class ReservationViewSet(ModelViewSet):
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
 
+    def destroy(self, request, *args, **kwargs):
+        instance = get_object_or_404(Reservation, pk=kwargs['pk'])
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     def create(self, request, *args, **kwargs):
         super().create(request, *args, **kwargs)
         return HttpResponseRedirect(reverse('reservations:queue_detail', kwargs={'pk': kwargs['pk']}))
@@ -43,18 +48,13 @@ class ReservationViewSet(ModelViewSet):
         end = datetime.datetime.strptime(self.request.GET['end'], '%Y-%m-%dT%H:%M:%S').date()
         queryset = Reservation.objects.filter(
             # Q() lets you combine queries
-            Q(parent_queue_id=self.kwargs['pk_pq'])
+            Q(parent_queue_id=self.kwargs['pk'])
             & Q(start_date__gte=start)
             & Q(end_date__lte=end)
         )
         return queryset
 
-    def destroy(self, request, *args, **kwargs):
-        print(self, request, args, kwargs)
-        return super().destroy(request, *args, **kwargs)
-
     def get_permissions(self):
-        print(self.action)
         if self.action == 'list':
             permission_classes = [AllowAny]
         else:

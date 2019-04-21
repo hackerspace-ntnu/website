@@ -1,11 +1,11 @@
 <div id="reservationModal" class="modal">
-    <form action="{% url 'reservations:reservation_api-list' pk_pq=queue.pk %}" method="POST" id="reservationForm">
+    <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST" id="reservationForm">
         <div class="modal-content">
             {% csrf_token %}
             {% include 'reservations/reservation_form.html' %}
         </div>
         <div class="modal-footer">
-            <button type="button" id="deleteReservationButton" style="display: none" class="btn left">
+            <button type="button" id="deleteReservationButton" style="display: none" class="btn left modal-close">
                 <i class="material-icons left">delete</i>Slett</button>
             <button type="button" class="btn" style="display: none">Oppdater</button>
 

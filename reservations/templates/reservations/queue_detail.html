@@ -24,6 +24,18 @@
     {% include 'reservations/require_login_modal.html' %}
 
     <script>
+        const requestUser = '{{ request.user }}';
+        const submitReservationInputText = 'opprett reservasjon';
+
+        let startDateField = $('#id_start_date')[0];
+        let endDateField = $('#id_end_date')[0];
+        let startTimeField = $('#id_start_time')[0];
+        let endTimeField = $('#id_end_time')[0];
+        let commentField = $('#id_comment')[0];
+        let createButton = $('#createReservationInput')[0];
+        let deleteButton = $('#deleteReservationButton')[0];
+        let reservationForm = $('#reservationForm')[0];
+
         document.addEventListener('DOMContentLoaded', function() {
             options = {
                 twelveHour: false,
@@ -52,13 +64,6 @@
             var instances = M.Datepicker.init(elems, options);
         });
 
-        $(document).ready(function () {
-            $('#reservation_modal').modal({
-                startingTop: '30%',
-                endingTop: '50%',
-            });
-        });
-
         $(function () {
 
             $('#calendar').fullCalendar({
@@ -76,6 +81,7 @@
                 eventColor: '#456990',
 
                 slotLabelFormat: "HH:mm",
+                timeFormat: "HH:mm",
                 scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
 
                 {% if request.user|has_group:"member" or request.user.is_superuser %}
@@ -90,12 +96,9 @@
                     url: '{% url 'reservations:reservation_api' pk=queue.pk %}',
                     type: 'GET',
                     error: function () {
-                        console.log("error!");
+                        console.log("Encountered error while retrieving reservation data!");
                     },
                     success: function (data) {
-                        console.log(data);
-                        // change color of the users own reservations
-                        requestUser = '{{ request.user }}';
                         for (event of data) {
                             if (requestUser == event.user) {
                                 event.color = '#7ABB7A';
@@ -104,35 +107,34 @@
                     },
                 },
 
+                eventClick: function(event, element) {
+                    console.log(event, element);
+                    if (requestUser == event.user) {
+                        let modal = $('#reservationModal')
+                        setupReservationModal(event.start, event.end, true, event.comment)
+                        let instance = M.Modal.getInstance(modal);
+                        instance.open();
+                    }
+                },
+
                 select: function (startDateTime, endDateTime) {
                     {% if request.user.is_authenticated %}
-                        let modal = $('#reservation_modal')
-                        let instance = M.Modal.getInstance(modal);
-
-                        $('#id_start_date')[0].value = htmlDateFormat(startDateTime);
-                        $('#id_end_date')[0].value = htmlDateFormat(endDateTime);
-                        $('#id_start_time')[0].value = htmlTimeFormat(startDateTime);
-                        $('#id_end_time')[0].value = htmlTimeFormat(endDateTime);
-
-                        instance.open();
+                        let modal = $('#reservationModal')
+                        setupReservationModal(startDateTime, endDateTime)
                     {% else %}
                         let modal = $('#requireLoginModal');
+                    {% endif %}
                         let instance = M.Modal.getInstance(modal);
                         instance.open();
-                    {% endif %}
                 },
 
                 eventRender: function(event, element) {
+                    // Add event comments as tooltips
                     if (event.comment != "") {
                         M.Tooltip.init(element, {html: event.comment});
                     }
                 },
-
-                eventMouseover: function(mouseEnterInfo){
-                }
             })
-
-
         });
 
         function htmlDateFormat(datetime) {
@@ -141,6 +143,48 @@
 
         function htmlTimeFormat(datetime) {
             return $.fullCalendar.formatDate(datetime, "HH:mm")
+        }
+
+        function setupReservationModal(startDateTime, endDateTime, update=false, comment="") {
+            startDateField.value = htmlDateFormat(startDateTime);
+            endDateField.value = htmlDateFormat(endDateTime);
+            startTimeField.value = htmlTimeFormat(startDateTime);
+            endTimeField.value = htmlTimeFormat(endDateTime);
+            commentField.value = comment;
+
+            // disable all time-related fields when showing update form
+            if (update) {
+                commentField.oninput = function(){createButton.value = 'Oppdater'};
+
+                startDateField.disabled = true;
+                endDateField.disabled = true;
+                startTimeField.disabled = true;
+                endTimeField.disabled = true;
+
+                createButton.value = 'OK';
+                deleteButton.style.display = 'inline';
+            } else {
+                commentField.oninput = function(){};
+
+                startDateField.disabled = false;
+                endDateField.disabled = false;
+                startTimeField.disabled = false;
+                endTimeField.disabled = false;
+
+                createButton.value = submitReservationInputText;
+                deleteButton.style.display = 'none';
+            }
+        }
+
+        deleteButton.onclick = function(event) {
+            $.ajax({
+                url: '{% url 'reservations:reservation_api_delete' pk=queue.pk %}',
+                data: {id: event.id},
+                type: 'POST',
+                success: function() {
+                    $('#calendar').fullCalendar('refetchEvents');
+                },
+            })
         }
     </script>
 

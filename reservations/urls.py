@@ -11,4 +11,5 @@ urlpatterns = [
         path('create/', CreateView.as_view(model=Queue, fields='__all__'), name='create_queue'),
         path('queue/<int:pk>/', QueueDetailView.as_view(), name='queue_detail'),
         path('api/<int:pk>/', ReservationViewSet.as_view({'get': 'list', 'post': 'create'}), name='reservation_api'),
+        path('api/<int:pk>/delete', ReservationViewSet.as_view({'post': 'destroy'}), name='reservation_api_delete'),
 ]

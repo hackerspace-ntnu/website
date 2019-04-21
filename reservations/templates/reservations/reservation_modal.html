@@ -1,11 +1,16 @@
-<div id="reservation_modal" class="modal">
-    <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST">
+<div id="reservationModal" class="modal">
+    <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST" id="reservationForm">
         <div class="modal-content">
             {% csrf_token %}
             {% include 'reservations/reservation_form.html' %}
         </div>
         <div class="modal-footer">
-            <input type="submit" value="send" class="btn waves-effect waves-light">
+            <button type="button" id="deleteReservationButton" style="display: none" class="btn left">
+                <i class="material-icons left">delete</i>Slett</button>
+            <button type="button" class="btn" style="display: none">Oppdater</button>
+
+            <button type="button" class="btn modal-close"><i class="material-icons left">cancel</i>Avbryt</button>
+            <input id="createReservationInput" type="submit" value="opprett reservasjon" class="btn">
         </div>
     </form>
 </div>

@@ -25,7 +25,6 @@
 
     <script>
         const requestUser = '{{ request.user }}';
-        const submitReservationInputText = 'opprett reservasjon';
 
         let startDateField = $('#id_start_date')[0];
         let endDateField = $('#id_end_date')[0];
@@ -34,6 +33,8 @@
         let commentField = $('#id_comment')[0];
         let createButton = $('#createReservationInput')[0];
         let deleteButton = $('#deleteReservationButton')[0];
+        let updateButton = $('#updateReservationButton')[0];
+        let cancelButton = $('#cancelButton')[0];
 
         let selectedReservation = null;
 
@@ -106,7 +107,6 @@
                 },
 
                 eventClick: function(event, element) {
-                    console.log(event, element);
                     if (requestUser == event.user) {
                         selectedReservation = event;
                         let modal = $('#reservationModal');
@@ -132,6 +132,11 @@
                     if (event.comment != "") {
                         M.Tooltip.init(element, {html: event.comment});
                     }
+                    // extra tooltip to indicate that this is indeed your own reservation
+                    if (event.user == requestUser) {
+                        // M.Tooltip.init(element, {html: 'Din reservasjon. Klikk for å se detaljer/administrere'});
+                        // element[0].M_Tooltip.tooltipEl.style = 'background-color: #7ABB7A';
+                    }
                 },
             })
         });
@@ -153,14 +158,20 @@
 
             // disable all time-related fields when showing update form
             if (update) {
-                commentField.oninput = function(){createButton.value = 'Oppdater'};
+                commentField.oninput = function(){
+                    updateButton.innerText = 'Oppdater';
+                    cancelButton.style.display = 'inline';
+                };
 
                 startDateField.disabled = true;
                 endDateField.disabled = true;
                 startTimeField.disabled = true;
                 endTimeField.disabled = true;
 
-                createButton.value = 'OK';
+                updateButton.innerText = 'OK';
+                cancelButton.style.display = 'none';
+                updateButton.style.display = 'inline';
+                createButton.style.display = 'none';
                 deleteButton.style.display = 'inline';
             } else {
                 commentField.oninput = function(){};
@@ -170,21 +181,44 @@
                 startTimeField.disabled = false;
                 endTimeField.disabled = false;
 
-                createButton.value = submitReservationInputText;
+                updateButton.style.display = 'none';
+                createButton.style.display = 'inline';
                 deleteButton.style.display = 'none';
             }
         }
 
-        deleteButton.onclick = function(event) {
+        deleteButton.onclick = function() {
             $.ajax({
                 url: '{% url 'reservations:reservation_delete_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/',
-                data: {id: event.id},
+                data: {},
                 type: 'POST',
                 beforeSend: function (xhr, settings) {
                     xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
                 },
                 success: function() {
                     $('#calendar').fullCalendar('refetchEvents');
+                    M.toast({html: 'Reservasjon slettet!'})
+                },
+                error: function() {
+                    alert("Noe gikk galt, vennligst prøv igjen.");
+                },
+            })
+        }
+
+        updateButton.onclick = function() {
+            $.ajax({
+                url: '{% url 'reservations:reservation_update_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/',
+                data: {comment: $('#id_comment')[0].value},
+                type: 'POST',
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+                },
+                success: function() {
+                    $('#calendar').fullCalendar('refetchEvents');
+                    M.toast({html: 'Reservasjon oppdatert!'})
+                },
+                error: function() {
+                    alert("Noe gikk galt, vennligst prøv igjen.");
                 },
             })
         }

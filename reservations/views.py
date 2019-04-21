@@ -36,7 +36,15 @@ class ReservationViewSet(ModelViewSet):
         if request.user == instance.user:
             self.perform_destroy(instance)
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return PermissionDenied()
+        raise PermissionDenied()
+
+    def update(self, request, *args, **kwargs):
+        instance = get_object_or_404(Reservation, pk=kwargs['pk'])
+        if request.user == instance.user:
+            instance.comment = request.data['comment']
+            instance.save()
+            return Response(status=status.HTTP_200_OK)
+        raise PermissionDenied()
 
     def create(self, request, *args, **kwargs):
         super().create(request, *args, **kwargs)

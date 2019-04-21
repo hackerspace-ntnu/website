@@ -63,12 +63,3 @@ class Reservation(models.Model):
     @property
     def end(self):
         return datetime.datetime.combine(self.end_date, self.end_time)
-
-    class Meta:
-        # This is for admin panel only and takes some time. Consider removing and then sorting
-        # only when querying for the admin menu
-        # https://docs.djangoproject.com/en/2.2/ref/models/options/#ordering
-        ordering = [
-            '-start_date',
-            '-start_time',
-        ]

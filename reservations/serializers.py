@@ -34,8 +34,6 @@ class ReservationSerializer(serializers.ModelSerializer):
 
         # Check if the new reservation conflicts with any of the old ones in the same queue
         # note that Fullcalendar allows reservations across multiple days, but not across multiple weeks
-
-        # get reservations occurring across the same days as new reservation
         reservations = Reservation.objects\
             .filter(parent_queue_id=attrs['parent_queue'])\
             .exclude(Q(start_date__gt=attrs['end_date']) | Q(end_date__lt=attrs['start_date']))

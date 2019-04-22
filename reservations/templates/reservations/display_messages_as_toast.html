@@ -1,5 +1,13 @@
 {% for msg in messages %}
-    <script>
-        M.toast({html: '{{ msg }}'})
-    </script>
+    {% if msg.level == 25 %} <!-- error message -->
+        <script>
+            M.toast({html: '<strong>ERROR:&nbsp</strong> {{ msg }}', displayLength: 10000})
+            // Alert would maybe be preferable, but it prevents the page from loading completely, which looks pretty ugly
+            // alert("ERROR: {{ msg }}");
+        </script>
+    {% else %} <!-- success/info message -->
+        <script>
+            M.toast({html: '{{ msg }}'})
+        </script>
+    {% endif %}
 {% endfor %}

@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView
-from rest_framework import status
+from rest_framework import status, serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -52,9 +52,13 @@ class ReservationViewSet(ModelViewSet):
         for k, v in data.items():
             data[k] = v[0]
         serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        messages.add_message(request, 40, message='Reservasjon opprettet!')
+        try:
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            messages.add_message(request, 40, message='Reservasjon opprettet!')
+        except serializers.ValidationError as error:
+            msg = error.detail['non_field_errors'][0]  # get actual error message
+            messages.add_message(request, 25, message=msg)
         return HttpResponseRedirect(reverse('reservations:queue_detail', kwargs={'pk': kwargs['pk']}))
 
     def perform_create(self, serializer):

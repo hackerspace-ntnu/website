@@ -25,7 +25,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
         # disallow weekend and late/early hour reservations to non-members
         user = self.context['request'].user
-        if not has_group(self.request.user, 'member') and not user.is_superuser:
+        if not has_group(user, 'member') and not user.is_superuser:
             if attrs['start_time'].hour < 10 or attrs['end_time'].hour > 18 \
                     or attrs['start_date'].weekday() >= 6 or attrs['end_date'].weekday() >= 6:
                 raise serializers.ValidationError(

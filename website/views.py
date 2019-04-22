@@ -81,7 +81,8 @@ class IndexView(TemplateView):
             'app_start_date': app_start_date,
             'app_end_date': app_end_date,
             'is_application': is_application,
-            'index_cards': Card.objects.all()
+            'index_cards': Card.objects.all(),
+            'current_date': current_date
         }
 
         return context

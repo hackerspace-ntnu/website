@@ -1,9 +1,9 @@
 import datetime
 
-from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework import serializers
 
+from authentication.templatetags.check_user_group import has_group
 from reservations.models import Reservation
 
 
@@ -21,7 +21,16 @@ class ReservationSerializer(serializers.ModelSerializer):
         now = datetime.datetime.now() - datetime.timedelta(minutes=15)
         if attrs['start_date'] < now.date() \
                 or (attrs['start_date'] == now.date() and attrs['start_time'] < now.time()):
-            raise serializers.ValidationError("Invalid timeframe")
+            raise serializers.ValidationError("Invalid timeframe. Reservations into past are disallowed")
+
+        # disallow weekend and late/early hour reservations to non-members
+        user = self.context['request'].user
+        if not has_group(self.request.user, 'member') and not user.is_superuser:
+            if attrs['start_time'].hour < 10 or attrs['end_time'].hour > 18 \
+                    or attrs['start_date'].weekday() >= 6 or attrs['end_date'].weekday() >= 6:
+                raise serializers.ValidationError(
+                    "Non-members are not allowed to make reservations outside opening hours"
+                )
 
         # Check if the new reservation conflicts with any of the old ones in the same queue
         # note that Fullcalendar allows reservations across multiple days, but not across multiple weeks

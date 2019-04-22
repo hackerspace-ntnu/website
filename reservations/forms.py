@@ -18,6 +18,7 @@ class ReservationForm(forms.ModelForm):
         }
 
         widgets = {
+            'comment': forms.TextInput(attrs={'placeholder': 'Er det noe de som sitter på vakt bør vite?'}),
             'start_date': forms.DateInput(attrs={'class': 'datepicker'}),
             'end_date': forms.DateInput(attrs={'class': 'datepicker'}),
             'start_time': forms.TimeInput(attrs={'class': 'timepicker'}),

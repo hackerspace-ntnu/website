@@ -6,12 +6,14 @@ import datetime
 #Date conflicts can arise
 class Season(models.Model):
     name = models.CharField(max_length=50, verbose_name="navn", help_text="Jul, Påske etc.")
-    logo = models.ImageField(upload_to="seasonal_events/logos/", default="static/website/img/logo/Hackerspace_huge.png",help_text="Dersom ingen logo defineres brukes standard hackerspace-logo")
+    banner_text = models.CharField(null=True, blank=True, max_length=220, verbose_name="bannertext", help_text="Tekst som vil vises i en banner på forsiden.")
+    banner_color = models.CharField(null=True, blank=True, max_length=50, verbose_name="bannercolor", help_text="Tar en CSS klasse til bakgrunnsfarge. Dette kan være for eksempel hs-green, hs-yellow, hs-red, etc.")
+    logo = models.ImageField(null=True, blank=True, upload_to="seasonal_events/logos/", help_text="Dersom ingen logo lastes opp brukes standard hackerspace-logo")
     start_date = models.DateTimeField(verbose_name="startdato", help_text="Prøv å unngå overlapp mellom datoer")
     end_date = models.DateTimeField(verbose_name="sluttdato", help_text="Prøv å unngå overlapp mellom datoer")
     active = models.BooleanField(default=True, verbose_name="aktiv")
     repeating = models.BooleanField(default=False, verbose_name="repeterende", help_text="Repeteres hvert år")
-    manual_override = models.BooleanField(verbose_name="Manuel overskriving")
+    manual_override = models.BooleanField(verbose_name="Manuel overskriving", help_text="Tving sesongen til å være aktiv")
 
     def isNow(self):
         if not self.active:

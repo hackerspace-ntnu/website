@@ -1,9 +1,15 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
 {% load check_user_group %}
-{% block header %}
+{% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
-{% endblock header %}
+{# OpenGraph Metadata #}
+<meta property="og:title" content="{{ article.title }}" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="{{ article.thumbnail.abs_url }}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+{# OpenGraph Metadata End #}
+{% endblock head %}
 
 {% block content %}
 <div class="section no-pad hs-green hide-on-med-and-up">

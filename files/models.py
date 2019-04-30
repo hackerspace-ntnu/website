@@ -20,6 +20,9 @@ class Image(models.Model):
     def url(self):
         return '/media/' + str(self.file)
 
+    def abs_url(self):
+        return 'https://www.hackerspace-ntnu.no/media/' + str(self.file)
+
     def thumb_url(self):
         if not self.thumb:
             self.save()

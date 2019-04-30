@@ -3,6 +3,12 @@
 {% load check_user_group %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+{# OpenGraph Metadata #}
+<meta property="og:title" content="{{ object.title }}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ object.thumbnail.abs_url }}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+{# OpenGraph Metadata End #}
 {% endblock head %}
 {% block content %}
 <div class="section no-pad hs-green hide-on-med-and-up">

@@ -1,6 +1,4 @@
 {% load staticfiles %}
-{% load seasonal_header_updater %}
-{% season_data %}
 {% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
 	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
 	{% else %}

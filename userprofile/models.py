@@ -51,5 +51,8 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def get_main_group(self):
+        return self.user.groups.first()
+
     def get_absolute_url(self):
         return reverse('userprofile:profile', args=(self.pk,))

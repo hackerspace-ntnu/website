@@ -66,9 +66,15 @@ class LoginCallbackView(View):
 
         user_info = session.get("https://auth.dataporten.no/userinfo").json()
         user_email = user_info['user']['email']
-        username = user_email.split("@")[0]
         first_name = " ".join(user_info['user']['name'].split(" ")[0:-1])
         last_name = user_info['user']['name'].split(" ")[-1]
+        # Lag catch dersom feidebruker ikke har email. Mest sansynlig testuser.
+
+        try:
+            username = user_email.split("@")[0]
+        except AttributeError:
+            username = first_name.replace(" ", ".") + "_testuser_" + last_name.replace(" ", ".") 
+            user_email = first_name.replace(" ", ".") + "-" + last_name.replace(" ", ".") + "@hackerspace-ntnu-test.no"
 
         try:
             # Sjekk om det eksisterer en bruker med denne feide-eposten allerede, og loggi nn

@@ -7,13 +7,14 @@ from .models import Event, Article, EventRegistration
 from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class EventView(DetailView):
     model = Event
     template_name = "news/event.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if self.get_object().internal and not groups.has_group(self.request.user, 'member'):
+        if self.get_object().internal and not request.user.has_perm('news.can_view_internal_event'):
             return redirect("/")
 
         return super(EventView, self).dispatch(request, *args, **kwargs)
@@ -41,7 +42,7 @@ class EventListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        if groups.has_group(self.request.user, 'member'):
+        if self.request.user.has_perm('news.can_view_internal_event'):
             return Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
         else:
             return Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
@@ -49,7 +50,7 @@ class EventListView(ListView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         # Split into two seperate lists
-        if groups.has_group(self.request.user, 'member'):
+        if self.request.user.has_perm('news.can_view_internal_event'):
             context_data['new_events'] = Event.objects.filter(time_end__gte=datetime.now()).order_by('time_end')
             context_data['past_events'] = Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
             context_data['happening_events'] = Event.objects.filter(time_start__lte=datetime.now()).filter(time_end__gt=datetime.now()).order_by('-time_start')
@@ -67,7 +68,7 @@ class EventListView(ListView):
 
 
 
-class EventAttendeeEditView(UpdateView):
+class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
     '''
         Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
         de har møtt opp eller ikke.
@@ -75,12 +76,7 @@ class EventAttendeeEditView(UpdateView):
     template_name = "news/attendee_form.html"
     model = Event
     fields = ['title']
-
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(EventAttendeeEditView, self).dispatch(request, *args, **kwargs)
+    permission_required = "news.can_see_attendees"
 
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
@@ -110,7 +106,7 @@ class ArticleListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        if groups.has_group(self.request.user, 'member'):
+        if self.request.user.has_perm("news.can_view_internal_article"):
             return Article.objects.order_by('-pub_date')
         else:
             return Article.objects.filter(internal=False).order_by('-pub_date')
@@ -121,23 +117,18 @@ class ArticleView(DetailView):
     template_name = "news/article.html"
 
     def dispatch(self, request, *args, **kwargs):
-        # Check if user is member if the article field internal is True
-        if self.get_object().internal and not groups.has_group(request.user, 'member'):
+        # If the article is internal, check if user has the permission to view.
+        if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
             return redirect("/")
 
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
 
 
-class EventUpdateView(UpdateView):
+class EventUpdateView(PermissionRequiredMixin, UpdateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
-
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(EventUpdateView, self).dispatch(request, *args, **kwargs)
+    permission_required = 'news.change_event'
 
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()
@@ -155,17 +146,12 @@ class EventUpdateView(UpdateView):
         return reverse('events:details', kwargs={'pk': self.object.id})
 
 
-class EventCreateView(CreateView):
+class EventCreateView(PermissionRequiredMixin, CreateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
     success_url = "/events/"
-
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(EventCreateView, self).dispatch(request, *args, **kwargs)
+    permission_required = 'news.add_event'
 
     def get_initial(self):
         today = datetime.strftime(timezone.now(), '%Y-%m-%d')
@@ -183,48 +169,33 @@ class EventCreateView(CreateView):
         return initial
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(PermissionRequiredMixin, CreateView):
     model = Article
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
     template_name = "news/edit_article.html"
-    success_url = "/news/"
+    permission_required = "news.add_article"
+    
+    def get_success_url(self):
+        return reverse('news:details', kwargs={'pk': self.object.id})
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-        return super(ArticleCreateView, self).dispatch(request, *args, **kwargs)
-
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
     model = Article
     template_name = "news/edit_article.html"
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
-    success_url = "/news/"
+    permission_required = "news.change_article"
+    
+    def get_success_url(self):
+        return reverse('news:details', kwargs={'pk': self.object.id})
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(ArticleUpdateView, self).dispatch(request, *args, **kwargs)
-
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Article
     success_url = "/news/"
+    permission_required = "news.delete_article"
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(ArticleDeleteView, self).dispatch(request, *args, **kwargs)
-
-class EventDeleteView(DeleteView):
+class EventDeleteView(PermissionRequiredMixin, DeleteView):
     model = Event
     success_url = "/events/"
-
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(EventDeleteView, self).dispatch(request, *args, **kwargs)
+    permission_required = "news.delete_event"
 
 
 @login_required

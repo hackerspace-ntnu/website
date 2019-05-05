@@ -40,33 +40,37 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	{% if request.user|has_group:"member" %}
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<ul class='collection'>
-					<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i>Rediger artikkel</a></li>
-					<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
-				</ul>
+		{% if perms.news.change_article %}
+		<div class="card-panel">
+			<div class="row">
+				<div class="col s12">
+					<h4>Administrativ meny</h4>
+				</div>
+				<div class="col s12">
+					<ul class='collection'>
+						<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i>Rediger artikkel</a></li>
+						{% if perms.news.delete_article %}
+						<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
+						{% endif %}
+					</ul>
+				</div>
 			</div>
 		</div>
+		{% endif %}
 	</div>
-	{% endif %}
-</div>
-<script>
-// Prevent ckeditor hard fields to allow responsive images 
-window.addEventListener('DOMContentLoaded', function(event) {
-	var container = document.getElementsByClassName('card-panel')[0];
-	var images = container.getElementsByTagName("img");
-	console.log(images);
-	var i;
+	<script>
+		// Prevent ckeditor hard fields to allow responsive images 
+		window.addEventListener('DOMContentLoaded', function(event) {
+			var container = document.getElementsByClassName('card-panel')[0];
+			var images = container.getElementsByTagName("img");
+			console.log(images);
+			var i;
 
-	for(i = 0; i < images.length; i++) {
-		images[i].className = "responsive-img";
-		images[i].style.height = "";
-	}
-});
+			for(i = 0; i < images.length; i++) {
+				images[i].className = "responsive-img";
+				images[i].style.height = "";
+			}
+		});
 
-</script>
-{% endblock content %}
+	</script>
+	{% endblock content %}

@@ -115,7 +115,7 @@
 				</div>
 			</div>
 		</div>
-		{% if request.user|has_group:"member" %}
+		{% if perms.news.change_event %}
 		<div class="card-panel">
 			<div class="row">
 				<div class="col s12">
@@ -124,21 +124,27 @@
 				<div class="row">
 					<div class="col s12">
 						<ul class='collection'>
+							{% if perms.news.change_event %}
 							<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-							{% if event.registration %}
+							{% endif %}
+							{% if event.registration and perms.news.can_see_attendees %}
 							<li class="collection-item"><a href="/events/{{ event.id }}/attended"><i class="material-icons">check</i>Registrer oppmøte</a></li>
 							{% endif %}
+							{% if perms.news.delete_event %}
 							<li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
+							{% endif %}
 						</ul>
 					</div>
 				</div>
-				{% if event.registration %}
+				{% if event.registration and perms.news.can_see_attendees %}
 				<div class="row">
 					<div class="col s12 m12 l6">
-						<ul class="collection with-header">
+						<ul class="collection with-header"> 
 							<li class="collection-header"><h4>Venteliste</h4></li>
 							{% for user in event.wait_list %}
 							<li class="collection-item">{{ user.get_full_name }}</li>
+							{% empty %}
+							<li class="collection-item">Det er ingen på ventelisten</li>
 							{% endfor %}
 						</ul>
 					</div>
@@ -152,6 +158,8 @@
 							{% else %}
 							<li class="collection-item">{{ user.user.get_full_name }}</li>
 							{% endif %}
+							{% empty %}
+							<li class="collection-item">Det er ingen påmeldte</li>
 							{% endfor %}
 						</ul>
 					</div>

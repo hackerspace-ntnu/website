@@ -11,7 +11,6 @@
 {% endblock head %}
 
 {% block content %}
-{% if request.user|has_group:"member" %}
 <div class="section hs-green white-text">
 	<div class="container">
 		<div class="row">
@@ -172,7 +171,6 @@
 		{% UploadModal request %}
 	</div>
 </div>
-{% endif %}
 
 <script>
 	var datepickers = document.querySelectorAll('.datepicker');

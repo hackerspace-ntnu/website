@@ -25,6 +25,9 @@ class Article(models.Model):
     class Meta:
         app_label = 'news'
         ordering = ('-pub_date',)
+        permissions = (
+                ("can_view_internal_article", "Can see internal articles"),
+                )
 
     def redirect_id(self):
         if self.redirect:
@@ -162,6 +165,10 @@ class Event(models.Model):
     class Meta:
         app_label = 'news'
         ordering = ("time_start",)
+        permissions = (
+                ("can_see_attendees", "Can see attending, waitlist, register meetup in a event"),
+                ("can_view_internal_event", "Can see internal events"),
+                )
 
 
 class Upload(models.Model):

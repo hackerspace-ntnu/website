@@ -24,7 +24,7 @@ class ProfileListView(ListView):
     # Søkefunksjonalitet som filtrerer queryset
     def get_queryset(self):
         filter_val = self.request.GET.get('filter', '')
-        profiles = Profile.objects.filter(user__first_name__icontains=filter_val).all()
+        profiles = Profile.objects.filter(user__groups__name='member', user__first_name__icontains=filter_val).all()
         return profiles
 
     def get_context_data(self, **kwargs):

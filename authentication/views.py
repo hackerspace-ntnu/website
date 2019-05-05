@@ -69,7 +69,7 @@ class LoginCallbackView(View):
         # Lag catch dersom feidebruker ikke har email. Mest sansynlig testuser.
         try:
             username = user_email.split("@")[0]
-        except user_email.AttributeError:
+        except AttributeError:
             username = "testuser@hackerspace-ntnu.no"
         first_name = " ".join(user_info['user']['name'].split(" ")[0:-1])
         last_name = user_info['user']['name'].split(" ")[-1]

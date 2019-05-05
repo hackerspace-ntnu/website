@@ -59,23 +59,43 @@
 						<label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
 					</div>
 				</div>
-				<div class="col s12">
-					{{ form.registration.errors }}
+				<div class="col s12 input-field">
+					{{ form.internal.errors }}
 					<p>
-						<i class="material-icons prefix">group_add</i>
-						<label>
-							<input type="checkbox" id="registration-check" name="registration" value="{{ form.registration.value }}"/>
-							<span for="registration-check">{{ form.registration.label }}</span>
-						</label>
+					<i class="material-icons prefix">card_membership</i>
+					<label>
+						{{ form.internal }}
+						<span>{{ form.internal.label }}</span>
+					</label>
 					</p>
 				</div>
-			</div>
-			<div class="row" id="registration-box">
+				<div class="col s12 input-field">
+					{{ form.registration.errors }}
+					<p>
+					<i class="material-icons prefix">group_add</i>
+					<label>
+						{{ form.registration }}
+						<span>{{ form.registration.label }}</span>
+					</label>
+					</p>
+				</div>
 				<div class="input-field col s12">
 					<i class="material-icons prefix">event_seat</i>
 					<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
 					{{ form.max_limit }}
 				</div>
+				<div class="col s12 input-field">
+					{{ form.servering.errors }}
+					<p>
+					<i class="material-icons prefix">fastfood</i>
+					<label>
+						{{ form.servering }}
+						<span>{{ form.servering.label }}</span>
+					</label>
+					</p>
+				</div>
+			</div>
+			<div class="row" id="registration-box">
 				<div class="input-field col s6">
 					<i class="material-icons prefix">event_available</i>
 					<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
@@ -98,16 +118,6 @@
 				</div>
 			</div>
 			<div class="row">
-				{{ form.internal.errors }}
-				<div class="col s12">
-					<p>
-						<i class="material-icons prefix">card_membership</i>
-						<label>
-							<input type="checkbox" id="internal-check" name="internal" value="{{ form.internal.value }}"/>
-							<span for="internal-check">{{ form.internal.label }}</span>
-						</label>
-					</p>
-				</div>
 				<div class="input-field col s6">
 					<i class="material-icons prefix">date_range</i>
 					<input id="{{ form.time_start.id_for_label }}" class="no-autoinit datepicker" name="time_start" value="{{ form.time_start.value }}">

@@ -33,7 +33,7 @@
 					{% if profile.study %}
 						<li class="collection-item">Studerer {{ profile.study }}</li>
 					{% endif %}
-					{% if profile.user.email %}
+					{% if profile.user.email and profile.show_email %}
 						<li class="collection-item">{{ profile.user.email }}</li>
 					{% endif %}
 					{% if profile.social_discord %}

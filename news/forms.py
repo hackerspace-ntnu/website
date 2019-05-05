@@ -41,7 +41,7 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['title', 'main_content', 'ingress_content', 'thumbnail', 'internal', 'registration', 'max_limit', 'registration_start', 'deregistration_end', 'external_registration',
-                  'time_start', 'time_end', 'place', 'place_href']
+                  'time_start', 'time_end', 'place', 'servering', 'place_href']
 
 
     def clean(self):

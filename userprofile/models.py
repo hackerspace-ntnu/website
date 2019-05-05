@@ -40,6 +40,13 @@ class Profile(models.Model):
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
     tos_accepted = models.BooleanField(default=False)
 
+    show_email = models.BooleanField(default=False, verbose_name="Vis epostadresse i din profil")
+
+    allergi_gluten = models.BooleanField(default=False, verbose_name="Ønsker glutenfritt alternativ")
+    allergi_vegetar = models.BooleanField(default=False, verbose_name="Ønsker vegetar alternativ")
+    allergi_vegan = models.BooleanField(default=False, verbose_name="Ønsker vegansk alternativ")
+    allergi_annet = models.CharField(max_length=140, null=True, blank=True, verbose_name="Evt. andre ønsker for matservering.")
+
     def save(self, *args, **kwargs):
         if self.image:
             # Make sure image is saved before tumbnailing

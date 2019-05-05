@@ -7,25 +7,24 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h1 class="white-text">Medlemmer i Hackerspace</h1>
+				<h4 class="white-text">Medlemmer i Hackerspace</h4>
+				<p class="flow-text white-text">For å se enkel oversikt gruppers medlemmer, sjekk ut <a class="hs-gray-text" href="{% url 'about' %}"> om oss</a> siden.</p>
 			</div>
 		</div>
 		<form method="get">
-		{% csrf_token %}
-		<div class="row card-panel">
-			<div class="col s10">
-				<div class="input-field">
-					<input name="filter" maxlength="100" value="{{ filter }}" type="text">
+			{% csrf_token %}
+			<div class="row card-panel z-depth-0">
+				<div class="file-field input-field">
+					<button id="searchButton" type="submit" name="action" class="right waves-effect btn-flat btn-medium waves-light btn white-text hs-green">SØK</button>
+					<div class="file-path-wrapper" style="padding-right:10px; padding-left:0px;">
+						<input name="filter" value="{{ filter }}" type="text">
+						<label class="active" for="filter">Navn på medlem</label>
+					</div>
 				</div>
 			</div>
-			<div class="col s2">
-				<div class="input-field">
-					<button id="searchButton" type="submit" name="action" class="waves-effect waves-light btn btn-flat white-text hs-green">SØK</button>
-				</div>
-			</div>
+</div>
 		</form>
 	</div>
-</div>
 </div>
 <div class="section">
 	<div class="container">
@@ -46,12 +45,8 @@
 							</a>
 						</div>
 						<div class="card-content">
-							<a href={% url 'userprofile:profile_by_id' profile.user.id %}>{{ profile.user.first_name }}</a>
-							<div>
-								{% for group in profile.group.all %}
-								{{ group.title|linebreaks }}
-								{% endfor %}
-							</div>
+							<a href={% url 'userprofile:profile_by_id' profile.user.id %}>{{ profile.user.get_full_name }}</a>
+							<p>{{ profile.get_main_group }}
 						</div>
 					</div>
 				</div>

@@ -4,6 +4,7 @@ from django.forms import inlineformset_factory, widgets
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from committees.models import Committee
 
 import re
 
@@ -24,7 +25,8 @@ class ProfileListView(ListView):
     # Søkefunksjonalitet som filtrerer queryset
     def get_queryset(self):
         filter_val = self.request.GET.get('filter', '')
-        profiles = Profile.objects.filter(user__groups__name='member', user__first_name__icontains=filter_val).all()
+        committee_array = Committee.objects.values_list('name', flat=True)
+        profiles = Profile.objects.filter(user__groups__name__in=list(committee_array), user__first_name__icontains=filter_val).all()
         return profiles
 
     def get_context_data(self, **kwargs):

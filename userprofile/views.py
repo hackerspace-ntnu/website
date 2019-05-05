@@ -19,7 +19,7 @@ class ProfileListView(ListView):
     # Lister opp alle brukerprofiler med pagination
     model = Profile
     form_class = ProfileSearchForm
-    paginate_by = 3
+    paginate_by = 9
     template_name = "userprofile/profile_list.html"
 
     # Søkefunksjonalitet som filtrerer queryset

@@ -42,14 +42,16 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Sjekk om bruker har medlemskap og kan se interne elementer
-        can_access_internal = groups.has_group(self.request.user, 'member')
+        can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
+        can_access_internal_event = self.request.user.has_perm('news.can_view_internal_event')
+
         # First sort, then grab 5 elements, then flip the list ordered by date
         event_list = Event.objects.filter(
-            internal__lte=can_access_internal).order_by('-time_start')[:5:-1]
+            internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
 
         # Get five articles
         article_list = Article.objects.filter(
-            internal__lte=can_access_internal).order_by('-pub_date')[:5]
+            internal__lte=can_access_internal_article).order_by('-pub_date')[:5]
 
         # Få dørstatus
         try:

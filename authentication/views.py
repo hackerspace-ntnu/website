@@ -74,7 +74,7 @@ class LoginCallbackView(View):
             username = user_email.split("@")[0]
         except AttributeError:
             username = first_name + "_testuser_" + last_name 
-            user_email = first_name + "-" last_name + "@hackerspace-ntnu-test.no"
+            user_email = first_name + "-" + last_name + "@hackerspace-ntnu-test.no"
 
         try:
             # Sjekk om det eksisterer en bruker med denne feide-eposten allerede, og loggi nn

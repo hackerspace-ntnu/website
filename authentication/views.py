@@ -73,7 +73,7 @@ class LoginCallbackView(View):
         try:
             username = user_email.split("@")[0]
         except AttributeError:
-            username = first_name + "_testuser_" + last_name 
+            username = first_name.replace(" ", ".") + "_testuser_" + last_name.replace(" ", ".") 
             user_email = first_name.replace(" ", ".") + "-" + last_name.replace(" ", ".") + "@hackerspace-ntnu-test.no"
 
         try:

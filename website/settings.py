@@ -71,7 +71,7 @@ INSTALLED_APPS = [
 # App config                    #
 #################################
 
-THUMBNAIL_PRESERVE_FORMAT = True
+THUMBNAIL_PRESERVE_FORMAT = False
 
 #################################
 # Database                      #

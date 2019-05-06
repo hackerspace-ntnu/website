@@ -35,6 +35,8 @@ class Profile(models.Model):
     social_battlenet = models.CharField(max_length=30, null=True, blank=True, verbose_name="Battle.net-tag")
     social_git = models.CharField(max_length=30, null=True, blank=True, verbose_name="Github brukernavn")
 
+    limit_social = models.BooleanField(default=False, verbose_name="Vis sosiale profiler kun for andre Hackerspace-medlemmer")
+
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
@@ -47,6 +49,10 @@ class Profile(models.Model):
     allergi_vegan = models.BooleanField(default=False, verbose_name="Ønsker vegansk alternativ")
     allergi_annet = models.CharField(max_length=140, null=True, blank=True, verbose_name="Evt. andre ønsker for matservering.")
 
+    class Meta:
+        permissions =  (
+                ("can_view_social", "Can see social fields on UserProfile"),
+                )
     def save(self, *args, **kwargs):
         if self.image:
             # Make sure image is saved before tumbnailing

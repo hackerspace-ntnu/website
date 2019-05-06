@@ -94,6 +94,15 @@
 						{{ form.social_git }}
 						<label for="{{ form.social_git.id_for_label }}">{{ form.social_git.label }}</input>
 					</div>
+					<div class="col s12 input-field">
+						{{ form.limit_social.errors }}
+						<p>
+						<label>
+							{{ form.limit_social }}
+							<span>{{ form.limit_social.label }}</span>
+						</label>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div class="card-panel">

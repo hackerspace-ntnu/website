@@ -5,7 +5,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text">
-				<h4>Brukerprofilen til {{ profile.user.get_full_name }}</h4>
+				<h4>Brukerprofil</h4>
 				{% if user == profile.user %}
 				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Innstillinger</a>
 				{% endif %}
@@ -22,6 +22,10 @@
 				{% else %}
 				<img class="circle" src="{% static 'website/img/misc/default.png' %}" height="300">
 				{% endif %}
+			</div>
+			<div class="col s12 center-align">
+				<h4>{{ profile.user.get_full_name }}</h4>
+				<h5>{{ profile.get_main_group }}</h5>
 			</div>
 		</div>
 		<div class="row">

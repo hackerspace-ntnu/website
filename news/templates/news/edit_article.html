@@ -32,34 +32,33 @@
 					</div>
 					{% csrf_token %}
 					<div class="input-field col s12">
-						{{ form.title.errors }}
 						{{ form.title }}
 						<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.title.errors }}</span>
 					</div>
 					<div class="input-field col s12">
-						{{ form.ingress_content.errors }}
 						{{ form.ingress_content }}
 						<label for="id_ingress_content">{{ form.ingress_content.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
 					</div>
 
 					<div class="input-field col s12">
 						<p>{{ form.main_content.label }}</p>
-						{{ form.main_content.errors }}
+						<span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
 						{{ form.main_content }}
 					</div>
 					<div class="col s12 input-field">
 						<div class="col s12">
-							{{ form.internal.errors }}
 							<p>
 							<label>
 								{{ form.internal }}
 								<span for="internal-check">{{ form.internal.label }}</span>
 							</label>
 							</p>
+							<span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
 						</div>
 					</div>
 					<div class="col s12">
-						{{ form.thumbnail.errors }}
 						<div class="input-field">
 							<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
 						</div>
@@ -71,12 +70,13 @@
 						</div>
 						<a class="modal-trigger waves-effect waves-light btn btn-large hs-green" data-target="uploadModal">Last opp nytt bilde</a>
 						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
+						<span class="helper-text hs-red-text">{{ form.thumbnail.errors }}</span>
 
 						{% if form.thumbnail.value %}
-						<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
-							{% else %}
-							<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
-								{% endif %}
+						<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat; background-size: cover;">
+						{% else %}
+						<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat; background-size:cover;">
+						{% endif %}
 							</div>
 							<div>
 								<button id="submit" class="btn btn-large hs-green waves-effect waves-light" type="submit" name="action">Lagre og publiser artikkel</button>

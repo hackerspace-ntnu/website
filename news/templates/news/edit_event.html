@@ -4,6 +4,7 @@
 {% load modal_upload %}
 
 {% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
 {% endblock head %}
@@ -29,20 +30,22 @@
 					<div class="col s12">
 						<h5>Innhold</h5>
 						<div class="divider"></div>
-						<br>
 					</div>
+				</div>
+				<div class="row">
 					<div class="input-field col s12">
 						{{ form.title }}
 						<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.title.errors }}</span>
 					</div>
 					<div class="input-field col s12">
-						{{ form.ingress_content.errors }}</textarea>
-					{{ form.ingress_content }}
-					<label for="{{ form.ingress_content.id_from_label }}">{{ form.ingress_content.label }}</label>
+						{{ form.ingress_content }}
+						<label for="{{ form.ingress_content.id_from_label }}">{{ form.ingress_content.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
 					</div>
 					<div class="input-field col s12">
 						<p>{{ form.main_content.label }}</p>
-						{{ form.main_content.errors }}
+						<span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
 						{{ form.main_content }}
 					</div>
 				</div>
@@ -52,25 +55,25 @@
 					<div class="col s12">
 						<h5>Velg hovedbilde</h5>
 						<div class="divider"></div>
-						<br>
 					</div>
+				</div>
+				<div class="row">
 					<div class="input-field hidden">
-						{{ form.thumbnail.errors }}
 						<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
 					</div>
-					<div class="col s12">
+					<div class="col s12 input-field">
 						<div id="thumbnailPicker" class="modal">
 							<div class="modal-content">
 								{% ImagePickModal request %}
 							</div>
 						</div>
-						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
-						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
-
+						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large btn-flat" data-target="uploadModal">Last opp nytt bilde</a>
+						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large btn-flat" data-target="thumbnailPicker">Vis bildegalleri</a>
+						<span class="helper-text hs-red-text">{{ form.thumbnail.errors }}</span>
 						{% if form.thumbnail.value %}
-						<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
+							<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
 						{% else %}
-						<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
+							<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
 						{% endif %}
 						</div>
 					</div>
@@ -81,19 +84,10 @@
 					<div class="col s12">
 						<h5>Generelt</h5>
 						<div class="divider"></div>
-						<br>
-						{{ form.max_limit.errors }}
-						{{ form.registration_start_time.errors }}
-						{{ form.registration_start_date.errors }}
-						{{ form.deregistration_end_time.errors }}
-						{{ form.deregistration_end_date.errors }}
-						{{ form.time_start.errors }}
-						{{ form.time_end.errors }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s12 input-field">
-						{{ form.internal.errors }}
 						<p>
 						<i class="material-icons prefix">card_membership</i>
 						<label>
@@ -101,47 +95,45 @@
 							<span>Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)</span>
 						</label>
 						</p>
+						<span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
 					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s6">
+					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">date_range</i>
 						<input id="{{ form.time_start.id_for_label }}" class="no-autoinit datepicker" name="time_start" value="{{ form.time_start.value }}">
 						<label class="active" for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.time_start.errors }}</span>
 					</div>
-					<div class="input-field col s6">
+					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">hourglass_full</i>
 						<input type="text" id="{{ form.event_start_time.id_for_label }}" name="event_start_time" value="{{ form.event_start_time.value }}">
 						<label for="{{ form.event_start_time.id_for_label }}">{{ form.event_start_time.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.event_start_time.errors }}</span>
 					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s6">
+					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">date_range</i>
 						<input id="{{ form.time_end.id_for_label }}" class="no-autoinit datepicker" name="time_end" value="{{ form.time_end.value }}">
 						<label class="active" for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.time_end.errors }}</span>
 					</div>
-					<div class="input-field col s6">
+					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">hourglass_empty</i>
 						<input type="text" id="{{ form.event_end_time.id_for_label }}" name="event_end_time" value="{{ form.event_end_time.value }}">
 						<label for="{{ form.event_end_time.id_for_label }}">{{ form.event_end_time.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.event_end_time.errors }}</span>
 					</div>
-					<div class="input-field col s6">
+					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">location_on</i>
-						{{ form.place.errors }}
 						{{ form.place }}
 						<label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.place.errors }}</span>
 					</div>
-					<div class="input-field col s6">
+					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">link</i>
-						{{ form.place_href.errors }}
 						{{ form.place_href }}
 						<label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.place_href.errors }}</span>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col s12 input-field">
-						{{ form.servering.errors }}
 						<p>
 						<i class="material-icons prefix">fastfood</i>
 						<label>
@@ -149,9 +141,9 @@
 							<span>{{ form.servering.label }}</span>
 						</label>
 						</p>
+						<span class="helper-text hs-red-text">{{ form.servering.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.registration.errors }}
 						<p>
 						<i class="material-icons prefix">group_add</i>
 						<label>
@@ -159,14 +151,16 @@
 							<span>{{ form.registration.label }}</span>
 						</label>
 						</p>
+						<span class="helper-text hs-red-text">{{ form.registration.errors }}</span>
 					</div>
-					<div class="col s12 ext-reg">
+					<div class="col s12 input-field ext-reg">
 						<p>Ikke velg påmelding ovenfor dersom ekstern påmelding skal benyttes. La stå tom for ingen påmelding i det hele tatt.</p>
 						<div class="input-field">
 							{{ form.external_registration.errors }}
 							{{ form.external_registration }}
 							<label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
 						</div>
+						<span class="helper-text hs-red-text">{{ form.external_registration.errors }}</span>
 					</div>
 				</div>
 			</div>
@@ -175,43 +169,38 @@
 					<div class="col s12">
 						<h5>Påmelding</h5>
 						<div class="divider"></div>
-						<br>
-						{{ form.max_limit.errors }}
-						{{ form.registration_start_time.errors }}
-						{{ form.registration_start_date.errors }}
-						{{ form.deregistration_end_time.errors }}
-						{{ form.deregistration_end_date.errors }}
-						{{ form.time_start.errors }}
-						{{ form.time_end.errors }}
 					</div>
-					<div class="row">
-						<div class="input-field col s12">
-							<i class="material-icons prefix">event_seat</i>
-							<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
-							{{ form.max_limit }}
-						</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<i class="material-icons prefix">event_seat</i>
+						{{ form.max_limit }}
+						<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.max_limit.errors }}</span>
 					</div>
-					<div class="row" id="registration-box">
-						<div class="input-field col s6">
-							<i class="material-icons prefix">event_available</i>
-							<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
-							<label class="active" for="{{ form.registration_start.id_for_label }}">{{ form.registration_start.label }}</label>
-						</div>
-						<div class="input-field col s6">
-							<i class="material-icons prefix">hourglass_empty</i>
-							<label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
-							{{ form.registration_start_time }}
-						</div>
-						<div class="input-field col s6">
-							<i class="material-icons prefix">event_busy</i>
-							<label for="{{ form.deregistration_end.id_for_label }}">{{ form.deregistration_end.label }}</label>
-							<input type="text" id="{{ form.deregistration_end.id_for_label }}" class="no-autoinit datepicker" name="deregistration_end" value="{{ form.deregistration_end.value }}" />
-						</div>
-						<div class="input-field col s6">
-							<i class="material-icons prefix">hourglass_full</i>
-							<label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
-							{{ form.deregistration_end_time }}
-						</div>
+					<div class="input-field col s12 m6">
+						<i class="material-icons prefix">event_available</i>
+						<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
+						<label class="active" for="{{ form.registration_start.id_for_label }}">{{ form.registration_start.label }}</label>
+						<span class="helper-text hs-red-text">{{ form.registration_start.errors }}</span>
+					</div>
+					<div class="input-field col s12 m6">
+						<i class="material-icons prefix">hourglass_empty</i>
+						<label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
+						{{ form.registration_start_time }}
+						<span class="helper-text hs-red-text">{{ form.registration_start_time.errors }}</span>
+					</div>
+					<div class="input-field col s12 m6">
+						<i class="material-icons prefix">event_busy</i>
+						<label for="{{ form.deregistration_end.id_for_label }}">{{ form.deregistration_end.label }}</label>
+						<input type="text" id="{{ form.deregistration_end.id_for_label }}" class="no-autoinit datepicker" name="deregistration_end" value="{{ form.deregistration_end.value }}" />
+						<span class="helper-text hs-red-text">{{ form.deregistration_end.errors }}</span>
+					</div>
+					<div class="input-field col s12 m6">
+						<i class="material-icons prefix">hourglass_full</i>
+						<label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
+						{{ form.deregistration_end_time }}
+						<span class="helper-text hs-red-text">{{ form.deregistration_end_time.errors }}</span>
 					</div>
 				</div>
 			</div>

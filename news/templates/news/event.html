@@ -157,7 +157,19 @@
 							{% for user in event.registration_list %}
 							{% if user.is_waitlisted %}
 							{% else %}
-							<li class="collection-item">{{ user.user.get_full_name }}</li>
+							<li class="collection-item">{{ user.user.get_full_name }}
+								{% if user.attended %}
+								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Møtte opp!">
+									😇
+								</span>
+								{% else %}
+								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
+									😈
+								</span>
+								{% endif %}
+							
+							
+							</li>
 							{% endif %}
 							{% empty %}
 							<li class="collection-item">Det er ingen påmeldte</li>

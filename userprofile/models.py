@@ -33,7 +33,7 @@ class Profile(models.Model):
     social_discord = models.CharField(max_length=30, null=True, blank=True, verbose_name="Discord-tag")
     social_steam = models.CharField(max_length=30, null=True, blank=True, verbose_name="Steam navn")
     social_battlenet = models.CharField(max_length=30, null=True, blank=True, verbose_name="Battle.net-tag")
-    social_git = models.CharField(max_length=30, null=True, blank=True, verbose_name="Git navn")
+    social_git = models.CharField(max_length=30, null=True, blank=True, verbose_name="Github brukernavn")
 
     access_card = models.CharField(max_length=20, null=True, blank=True)
     study = models.CharField(max_length=50, null=True, blank=True)

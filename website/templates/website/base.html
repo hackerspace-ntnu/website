@@ -43,6 +43,15 @@
 			</div>
 		</div>
 		{% endif %}
+		{% if messages %}
+		<script>
+			{% for message in messages %}
+			M.toast({html: '{{ message }}', classes: 'hs-grey'});
+			{% endfor %}
+		</script>
+		</ul>
+		{% endif %}
+
 		<main>
 		{% block content %}{% endblock content %}
 		</main>

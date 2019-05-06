@@ -37,7 +37,7 @@ class Profile(models.Model):
 
     limit_social = models.BooleanField(default=False, verbose_name="Vis sosiale profiler kun for andre Hackerspace-medlemmer")
 
-    access_card = models.CharField(max_length=20, null=True, blank=True)
+    access_card = models.CharField(max_length=20, null=True, blank=True, verbose_name="NTNU Adgangskort (EMXXXXXXXXXX)")
     study = models.CharField(max_length=50, null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
     tos_accepted = models.BooleanField(default=False)
@@ -52,7 +52,9 @@ class Profile(models.Model):
     class Meta:
         permissions =  (
                 ("can_view_social", "Can see social fields on UserProfile"),
+                ("can_view_admin", "Can see information for admin panel"),
                 )
+
     def save(self, *args, **kwargs):
         if self.image:
             # Make sure image is saved before tumbnailing

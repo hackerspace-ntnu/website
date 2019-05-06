@@ -5,7 +5,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from website.views import IndexView, AcceptTosRedirectView, AboutView
+from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView
 from userprofile.views import ProfileListView
 
 handler404 = 'website.views.handler404'
@@ -30,7 +30,8 @@ urlpatterns = [
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
     path('members/', ProfileListView.as_view(), name='member-list'),
-    path('internal/', include('internal.urls'))
+    path('internal/', include('internal.urls')),
+    path('admin-panel/', AdminView.as_view(), name='admin')
 ]
 
 if settings.DEBUG:

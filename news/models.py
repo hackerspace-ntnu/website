@@ -51,6 +51,7 @@ class Event(models.Model):
 
     time_start = models.DateTimeField(verbose_name='Start tidspunkt')
     time_end = models.DateTimeField(verbose_name='Slutt tidspunkt')
+    servering = models.BooleanField(default=False)
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
 
@@ -111,7 +112,7 @@ class Event(models.Model):
         '''
         Retreives the position in waitlist for a given event
 
-        :param event: The event to retrieve the waitlist for
+        eparam event: The event to retrieve the waitlist for
         :return: The waitlist
         '''
         return self.wait_list().index(user) + 1
@@ -126,6 +127,32 @@ class Event(models.Model):
             return round(self.registered_count() / self.max_limit * 100)
         else:
             return 100
+
+    def get_allergies_registered(self):
+        user_list = self.registered_list()
+        gluten_count = 0
+        vegetar_count = 0
+        vegan_count = 0
+        annet_list = []
+
+
+        for user in user_list:
+            if user.profile.allergi_gluten:
+                gluten_count += 1
+            if user.profile.allergi_vegetar:
+                vegetar_count += 1
+            if user.profile.allergi_vegan:
+                vegan_count += 1
+            if user.profile.allergi_annet:
+                annet_list.append(user.profile.allergi_annet)
+
+        result = {
+                'gluten': gluten_count,
+                'vegetar': vegetar_count,
+                'vegan': vegan_count,
+                'annet': annet_list
+                }
+        return result
 
     def registered_list(self):
         '''

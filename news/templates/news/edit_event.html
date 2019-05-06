@@ -5,7 +5,6 @@
 {% load modal_upload %}
 
 {% block head %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
 <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
 {% endblock head %}
@@ -26,154 +25,217 @@
 		{{ form.non_field_errors }}
 		{{ form.title.errors }}
 		<div class="container">
-			<div class="row">
-				<div class="input-field col s12">
-					{{ form.title }}
-					<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-				</div>
-				<div class="input-field col s12">
-					{{ form.ingress_content.errors }}</textarea>
+			<div class="card-panel">
+				<div class="row">
+					<div class="col s12">
+						<h5>Innhold</h5>
+						<div class="divider"></div>
+						<br>
+					</div>
+					<div class="input-field col s12">
+						{{ form.title }}
+						<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+					</div>
+					<div class="input-field col s12">
+						{{ form.ingress_content.errors }}</textarea>
 					{{ form.ingress_content }}
 					<label for="{{ form.ingress_content.id_from_label }}">{{ form.ingress_content.label }}</label>
-				</div>
-				<div class="input-field col s12">
-					<p>{{ form.main_content.label }}</p>
-					{{ form.main_content.errors }}
-					{{ form.main_content }}
-				</div>
-				{{ form.max_limit.errors }}
-				{{ form.registration_start_time.errors }}
-				{{ form.registration_start_date.errors }}
-				{{ form.deregistration_end_time.errors }}
-				{{ form.deregistration_end_date.errors }}
-				{{ form.time_start.errors }}
-				{{ form.time_end.errors }}
-				{{ form.date.errors }}
-			</div>
-			<div class="row">
-				<div class="col s12">
-					<p>Ved ekstern påmelding (f.eks. hoopla), skriv inn url her (husk http://) og IKKE velg påmelding nedenfor</p>
-					<div class="input-field">
-						{{ form.external_registration.errors }}
-						{{ form.external_registration }}
-						<label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
+					</div>
+					<div class="input-field col s12">
+						<p>{{ form.main_content.label }}</p>
+						{{ form.main_content.errors }}
+						{{ form.main_content }}
 					</div>
 				</div>
-				<div class="col s12">
-					{{ form.registration.errors }}
-					<p>
-						<i class="material-icons prefix">group_add</i>
-						<label>
-							<input type="checkbox" id="registration-check" name="registration" value="{{ form.registration.value }}"/>
-							<span for="registration-check">{{ form.registration.label }}</span>
-						</label>
-					</p>
-				</div>
 			</div>
-			<div class="row" id="registration-box">
-				<div class="input-field col s12">
-					<i class="material-icons prefix">event_seat</i>
-					<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
-					{{ form.max_limit }}
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">event_available</i>
-					<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
-					<label class="active" for="{{ form.registration_start.id_for_label }}">{{ form.registration_start.label }}</label>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">hourglass_empty</i>
-					<label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
-					{{ form.registration_start_time }}
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">event_busy</i>
-					<label for="{{ form.deregistration_end.id_for_label }}">{{ form.deregistration_end.label }}</label>
-					<input type="text" id="{{ form.deregistration_end.id_for_label }}" class="no-autoinit datepicker" name="deregistration_end" value="{{ form.deregistration_end.value }}" />
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">hourglass_full</i>
-					<label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
-					{{ form.deregistration_end_time }}
-				</div>
-			</div>
-			<div class="row">
-				{{ form.internal.errors }}
-				<div class="col s12">
-					<p>
-						<i class="material-icons prefix">card_membership</i>
-						<label>
-							<input type="checkbox" id="internal-check" name="internal" value="{{ form.internal.value }}"/>
-							<span for="internal-check">{{ form.internal.label }}</span>
-						</label>
-					</p>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">date_range</i>
-					<input id="{{ form.time_start.id_for_label }}" class="no-autoinit datepicker" name="time_start" value="{{ form.time_start.value }}">
-					<label class="active" for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">hourglass_full</i>
-					<input type="text" id="{{ form.event_start_time.id_for_label }}" name="event_start_time" value="{{ form.event_start_time.value }}">
-					<label for="{{ form.event_start_time.id_for_label }}">{{ form.event_start_time.label }}</label>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">date_range</i>
-					<input id="{{ form.time_end.id_for_label }}" class="no-autoinit datepicker" name="time_end" value="{{ form.time_end.value }}">
-					<label class="active" for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">hourglass_empty</i>
-					<input type="text" id="{{ form.event_end_time.id_for_label }}" name="event_end_time" value="{{ form.event_end_time.value }}">
-					<label for="{{ form.event_end_time.id_for_label }}">{{ form.event_end_time.label }}</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-field hidden">
-					{{ form.thumbnail.errors }}
-					<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
-				</div>
-				<div class="col s12">
-					<div id="thumbnailPicker" class="modal">
-						<div class="modal-content">
-							{% ImagePickModal request %}
+			<div class="card-panel">
+				<div class="row">
+					<div class="col s12">
+						<h5>Velg hovedbilde</h5>
+						<div class="divider"></div>
+						<br>
+					</div>
+					<div class="input-field hidden">
+						{{ form.thumbnail.errors }}
+						<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
+					</div>
+					<div class="col s12">
+						<div id="thumbnailPicker" class="modal">
+							<div class="modal-content">
+								{% ImagePickModal request %}
+							</div>
+						</div>
+						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
+						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
+
+						{% if form.thumbnail.value %}
+						<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
+						{% else %}
+						<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
+						{% endif %}
 						</div>
 					</div>
-					<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="uploadModal">Last opp nytt bilde</a>
-					<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
-
-					{% if form.thumbnail.value %}
-					<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
-					{% else %}
-						<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
-					{% endif %}
+				</div>
+			</div>
+			<div class="card-panel">
+				<div class="row">
+					<div class="col s12">
+						<h5>Generelt</h5>
+						<div class="divider"></div>
+						<br>
+						{{ form.max_limit.errors }}
+						{{ form.registration_start_time.errors }}
+						{{ form.registration_start_date.errors }}
+						{{ form.deregistration_end_time.errors }}
+						{{ form.deregistration_end_date.errors }}
+						{{ form.time_start.errors }}
+						{{ form.time_end.errors }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 input-field">
+						{{ form.internal.errors }}
+						<p>
+						<i class="material-icons prefix">card_membership</i>
+						<label>
+							{{ form.internal }}
+							<span>Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)</span>
+						</label>
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<i class="material-icons prefix">date_range</i>
+						<input id="{{ form.time_start.id_for_label }}" class="no-autoinit datepicker" name="time_start" value="{{ form.time_start.value }}">
+						<label class="active" for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
+					</div>
+					<div class="input-field col s6">
+						<i class="material-icons prefix">hourglass_full</i>
+						<input type="text" id="{{ form.event_start_time.id_for_label }}" name="event_start_time" value="{{ form.event_start_time.value }}">
+						<label for="{{ form.event_start_time.id_for_label }}">{{ form.event_start_time.label }}</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s6">
+						<i class="material-icons prefix">date_range</i>
+						<input id="{{ form.time_end.id_for_label }}" class="no-autoinit datepicker" name="time_end" value="{{ form.time_end.value }}">
+						<label class="active" for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
+					</div>
+					<div class="input-field col s6">
+						<i class="material-icons prefix">hourglass_empty</i>
+						<input type="text" id="{{ form.event_end_time.id_for_label }}" name="event_end_time" value="{{ form.event_end_time.value }}">
+						<label for="{{ form.event_end_time.id_for_label }}">{{ form.event_end_time.label }}</label>
+					</div>
+					<div class="input-field col s6">
+						<i class="material-icons prefix">location_on</i>
+						{{ form.place.errors }}
+						{{ form.place }}
+						<label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
+					</div>
+					<div class="input-field col s6">
+						<i class="material-icons prefix">link</i>
+						{{ form.place_href.errors }}
+						{{ form.place_href }}
+						<label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 input-field">
+						{{ form.servering.errors }}
+						<p>
+						<i class="material-icons prefix">fastfood</i>
+						<label>
+							{{ form.servering }}
+							<span>{{ form.servering.label }}</span>
+						</label>
+						</p>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.registration.errors }}
+						<p>
+						<i class="material-icons prefix">group_add</i>
+						<label>
+							{{ form.registration }}
+							<span>{{ form.registration.label }}</span>
+						</label>
+						</p>
+					</div>
+					<div class="col s12 ext-reg">
+						<p>Ikke velg påmelding ovenfor dersom ekstern påmelding skal benyttes. La stå tom for ingen påmelding i det hele tatt.</p>
+						<div class="input-field">
+							{{ form.external_registration.errors }}
+							{{ form.external_registration }}
+							<label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<i class="material-icons prefix">location_on</i>
-					{{ form.place.errors }}
-					{{ form.place }}
-					<label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
-				</div>
-				<div class="input-field col s6">
-					<i class="material-icons prefix">link</i>
-					{{ form.place_href.errors }}
-					{{ form.place_href }}
-					<label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
+			<div class="card-panel reg-box">
+				<div class="row">
+					<div class="col s12">
+						<h5>Påmelding</h5>
+						<div class="divider"></div>
+						<br>
+						{{ form.max_limit.errors }}
+						{{ form.registration_start_time.errors }}
+						{{ form.registration_start_date.errors }}
+						{{ form.deregistration_end_time.errors }}
+						{{ form.deregistration_end_date.errors }}
+						{{ form.time_start.errors }}
+						{{ form.time_end.errors }}
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<i class="material-icons prefix">event_seat</i>
+							<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
+							{{ form.max_limit }}
+						</div>
+					</div>
+					<div class="row" id="registration-box">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">event_available</i>
+							<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
+							<label class="active" for="{{ form.registration_start.id_for_label }}">{{ form.registration_start.label }}</label>
+						</div>
+						<div class="input-field col s6">
+							<i class="material-icons prefix">hourglass_empty</i>
+							<label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
+							{{ form.registration_start_time }}
+						</div>
+						<div class="input-field col s6">
+							<i class="material-icons prefix">event_busy</i>
+							<label for="{{ form.deregistration_end.id_for_label }}">{{ form.deregistration_end.label }}</label>
+							<input type="text" id="{{ form.deregistration_end.id_for_label }}" class="no-autoinit datepicker" name="deregistration_end" value="{{ form.deregistration_end.value }}" />
+						</div>
+						<div class="input-field col s6">
+							<i class="material-icons prefix">hourglass_full</i>
+							<label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
+							{{ form.deregistration_end_time }}
+						</div>
+					</div>
 				</div>
 			</div>
-
-			<button id="submit" class="btn btn-large hs-green white-text waves-effect waves-light" type="submit" name="action">Opprett Arrangement</button>
-		</form>
-		{% UploadModal request %}
+			<div class="card-panel reg-box">
+				<div class="row">
+					<div class="col s12">
+						<h5>Ferdig</h5>
+						<div class="divider"></div>
+						<br>
+						<button id="submit" class="btn btn-large hs-green white-text waves-effect waves-light" type="submit" name="action">Lagre Arrangement</button>
+	</form>
+	{% UploadModal request %}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", function(event) {
 	var datepickers = document.querySelectorAll('.datepicker');
+
 	internationalization = {
 		months:	[
 			'Januar',
@@ -199,13 +261,13 @@
 			'Lørdag'
 		],
 		weekdaysShort: [
-			  'Søn',
-			  'Man',
-			  'Tir',
-			  'Ons',
-			  'Tor',
-			  'Fre',
-			  'Lør'
+			'Søn',
+			'Man',
+			'Tir',
+			'Ons',
+			'Tor',
+			'Fre',
+			'Lør'
 		],
 		weekdaysAbbrev: ['S','M','T','O','T','F','L']
 	}
@@ -216,54 +278,39 @@
 	}
 
 
+	// Vis og gjem deler som relateres til påmeldinger
+	var reg_box = document.getElementsByClassName('reg-box')[0];
+	var reg_check = document.getElementsByName('registration')[0]
+	var ext_reg = document.getElementsByClassName('ext-reg')[0];
+
+	if(reg_check.checked) {
+		reg_box.classList.remove('hide');
+		ext_reg.classList.add('hide');
+	}
+	else {
+		reg_box.classList.add('hide');
+		ext_reg.classList.remove('hide');
+	}
+		
+	reg_check.onchange = function() {
+		if(this.checked) {
+			reg_box.classList.remove('hide');
+			ext_reg.classList.add('hide');
+		}
+		else {
+			reg_box.classList.add('hide');
+			ext_reg.classList.remove('hide');
+			document.getElementById('id_external_registration').value = '';
+		}
+	};
+
+
 
 	var instance = M.Datepicker.init(datepickers, options);
-
-	var registrationCheck = document.getElementById('registration-check');
-	var registrationBox = document.getElementById('registration-box');
-
-	registrationCheck.addEventListener("change", function() {
-		if(registrationCheck.checked == true) {
-			registrationCheck.checked = true;
-			registrationCheck.value = "True";
-			registrationBox.style.display = "block";
-		} else {
-			registrationCheck.checked = false;
-			registrationCheck.value = "False";
-			registrationBox.style.display = "none";
-		}
-	});
-
-
-	if(registrationCheck.value == "True") {
-		registrationCheck.checked = true;
-		registrationBox.style.display = "block";
-	} else {
-		registrationBox.checked = false;
-		registrationBox.style.display = "none";
-	}
-
-	var internalCheck = document.getElementById('internal-check');
-	internalCheck.addEventListener("change", function() {
-		if(internalCheck.checked == true) {
-			internalCheck.checked = true;
-			internalCheck.value = "True";
-		} else {
-			internalCheck.checked = false;
-			internalCheck.value = "False";
-		}
-	});
-
-	if(internalCheck.value == "True") {
-		internalCheck.checked = true;
-	} else {
-		internalCheck.checked = false;
-	}
 
 	var thumbModal = document.querySelector('#thumbnailPicker');
 	var instance = M.Modal.init(thumbModal);
 
-	var selectButtons = document.querySelector('.selectButton');
 	var thumbnail_input = document.querySelector('#id_thumbnail');
 	var thumb_preview = document.querySelector('#thumb-preview');
 
@@ -275,11 +322,7 @@
 
 		}
 	});
+});
 
-</script>
-<script>
-  $(document).ready(function() {
-	    $('#id_ingress_content').characterCounter();
-  });
 </script>
 {% endblock content %}

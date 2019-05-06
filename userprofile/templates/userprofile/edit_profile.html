@@ -11,6 +11,8 @@
 		</div>
 	</div>
 </div>
+{% regroup form.fields by social as social_fields %} 
+{% regroup form.fields by allergi as allergi_fields %} 
 <div class="section">
 	<div class="container">
 		<div class="row">
@@ -24,53 +26,129 @@
 		</div>
 		<form enctype="multipart/form-data" method="post" action="">
 			{% csrf_token %}
-			<div class="row">
-				<div class="col s12">
-					<h5>Profil</h5>
+			<div class="card-panel">
+				<div class="row">
+					<div class="col s12">
+						<h5>Grunnleggende</h5>
+						<div class="divider"></div>
+						<br>
+					</div>
+					{{ form.image.errors }}
+					<div class="col s12 file-field input-field">
+						<div class="btn hs-green white-text">
+							<span>Nytt profilbilde</span>
+							<input type="file" name="image">
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text">
+						</div>
+					</div>
 					<div class="divider"></div>
-					<br>
-				</div>
-				{% for field in form.visible_fields %}
-				{{ field.errors }}
-				{% if field.label == "Profilbilde" %}
-				<div class="col s12 file-field input-field">
-					<div class="btn hs-green white-text">
-						<span>Nytt profilbilde</span>
-						<input type="file" name="image">
+					<div class="col s12 input-field">
+						{{ form.access_card.errors }}
+						{{ form.access_card }}
+						<label for="{{ form.access_card.id_for_label }}">{{ form.access_card.label }}</input>
 					</div>
-					<div class="file-path-wrapper">
-						<input class="file-path validate" type="text">
+					<div class="col s12 input-field">
+						{{ form.study.errors }}
+						{{ form.study }}
+						<label for="{{ form.study.id_for_label }}">{{ form.study.label }}</input>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.skills.errors }}
+						{{ form.skills }}
+						<label for="{{ form.skills.id_for_label }}">{{ form.skills.label }}</input>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.show_email.errors }}
+						<p>
+						<label>
+							{{ form.show_email }}
+							<span>{{ form.show_email.label }}</span>
+						</label>
+						</p>
 					</div>
 				</div>
-				<div class="divider"></div>
-				{% elif field.label == "Duty" %}
-				<div class="col s12 input-field" id="duty-section">
-					{{ field }}
-					<label for="{{field.id_for_label }}">{{ field.label }}</label>
-				</div>
-				{% elif field.label == "Auto duty" %}
-				<div class="col s12">
-					<p>
-					<label>
-						{{ field }}
-						<span id="autocheckbox">{{ field.label }}</span>
-					</label>
-					</p>
-				</div>
-				{% else %}
-				<div class="col s12 input-field">
-					{{ field }}
-					<label for="{{field.id_for_label }}">{{ field.label }}</input>
-				</div>
-				{% endif %}
-				{% for hidden in form.hidden_fields %}
-				{{ hidden }}
-				{% endfor %}
-				{% endfor %}
 			</div>
-			<input class="btn btn-large hs-green" type="submit" value="Submit"/>
+			<div class="card-panel">
+				<div class="row">
+					<div class="col s12">
+						<h5>Spill og Sosialt</h5>
+						<div class="divider"></div>
+						<br>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.social_discord.errors }}
+						{{ form.social_discord }}
+						<label for="{{ form.social_discord.id_for_label }}">{{ form.social_discord.label }}</input>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.social_steam.errors }}
+						{{ form.social_steam }}
+						<label for="{{ form.social_steam.id_for_label }}">{{ form.social_steam.label }}</input>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.social_battlenet.errors }}
+						{{ form.social_battlenet }}
+						<label for="{{ form.social_battlenet.id_for_label }}">{{ form.social_battlenet.label }}</input>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.social_git.errors }}
+						{{ form.social_git }}
+						<label for="{{ form.social_git.id_for_label }}">{{ form.social_git.label }}</input>
+					</div>
+				</div>
+			</div>
+			<div class="card-panel">
+				<div class="row">
+					<div class="col s12">
+						<h5>Mat og Allergier</h5>
+						<p>Merk at disse ikke vil vises på din profil. Arrangør får kun opp aktuelle matønsker uten navn.</p>
+						<div class="divider"></div>
+						<br>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.allergi_gluten.errors }}
+						<p>
+						<label>
+							{{ form.allergi_gluten }}
+							<span>{{ form.allergi_gluten.label }}</span>
+						</label>
+						</p>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.allergi_vegetar.errors }}
+						<p>
+						<label>
+							{{ form.allergi_vegetar }}
+							<span>{{ form.allergi_vegetar.label }}</span>
+						</label>
+						</p>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.allergi_vegan.errors }}
+						<p>
+						<label>
+							{{ form.allergi_vegan }}
+							<span>{{ form.allergi_vegan.label }}</span>
+						</label>
+						</p>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.allergi_annet.errors }}
+						{{ form.allergi_annet }}
+						<label for="{{ form.allergi_annet.id_for_label }}">{{ form.allergi_annet.label }}</input>
+					</div>
+					{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+					{% endfor %}
+				</div>
+			</div>
+			<div class="card-panel">
+						<input class="btn btn-large hs-green" type="submit" value="Lagre endringer"/>
+			</div>
 		</form>
-	</div>
+</div>
 </div>
 </div>
 <script>

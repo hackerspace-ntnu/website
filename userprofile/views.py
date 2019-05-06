@@ -61,7 +61,7 @@ class ProfileDetailView(DetailView):
 class ProfileUpdateView(UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
-    fields = ['image', 'access_card', 'study', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git']
+    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
 

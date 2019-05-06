@@ -1,19 +1,14 @@
 from django.contrib.auth.models import User
 # For merging user and profile forms
-from django.forms import inlineformset_factory, widgets
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from django.http import Http404
 from committees.models import Committee
-
-import re
-
 from .forms import ProfileSearchForm
 from .models import Profile, Skill
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-from django.forms import modelformset_factory, formset_factory
+from django.contrib.messages.views import SuccessMessageMixin
 
 class ProfileListView(ListView):
     # Lister opp alle brukerprofiler med pagination
@@ -58,12 +53,13 @@ class ProfileDetailView(DetailView):
         user = get_object_or_404(User, pk=pk)
         return get_object_or_404(Profile, pk=user.profile.pk)
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
     fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
+    success_message = "Profilen er oppdatert."
 
     def get_object(self):
         try:

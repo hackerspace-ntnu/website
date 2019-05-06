@@ -4,10 +4,11 @@ from django.views.generic import TemplateView, DetailView, ListView, FormView, U
 from datetime import datetime
 from .forms import EventForm, eventformset
 from .models import Event, Article, EventRegistration
-from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 class EventView(DetailView):
     model = Event
@@ -124,11 +125,12 @@ class ArticleView(DetailView):
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
 
 
-class EventUpdateView(PermissionRequiredMixin, UpdateView):
+class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
     permission_required = 'news.change_event'
+    success_message = "Arrangementet er oppdatert."
 
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()
@@ -146,12 +148,16 @@ class EventUpdateView(PermissionRequiredMixin, UpdateView):
         return reverse('events:details', kwargs={'pk': self.object.id})
 
 
-class EventCreateView(PermissionRequiredMixin, CreateView):
+class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
     success_url = "/events/"
     permission_required = 'news.add_event'
+    success_message = "Arrangementet er opprettet og publisert."
+    
+    def get_success_url(self):
+        return reverse('events:details', kwargs={'pk': self.object.id})
 
     def get_initial(self):
         today = datetime.strftime(timezone.now(), '%Y-%m-%d')
@@ -169,20 +175,22 @@ class EventCreateView(PermissionRequiredMixin, CreateView):
         return initial
 
 
-class ArticleCreateView(PermissionRequiredMixin, CreateView):
+class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Article
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
     template_name = "news/edit_article.html"
     permission_required = "news.add_article"
+    success_message = "Artikkelen er opprettet og publisert."
     
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
 
-class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
+class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Article
     template_name = "news/edit_article.html"
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
     permission_required = "news.change_article"
+    success_message = "Artikkelen er oppdatert."
     
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
@@ -206,8 +214,10 @@ def register_on_event(request, event_id):
         er = EventRegistration.objects.get(user=request.user, event=event_object)
         if event_object.deregistration_end > now:
             er.delete()
+            messages.add_message(request, 25, 'Du er nå avmeldt')
     except EventRegistration.DoesNotExist:
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
+            messages.add_message(request, 25, 'Du er nå påmeldt')
 
     return redirect("/events/" + str(event_id))

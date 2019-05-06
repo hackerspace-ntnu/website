@@ -59,10 +59,10 @@
 							</div>
 						{% else %}
 							{% if event.external_registration %}
-								<a class="btn waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
+								<a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
 							{% elif event.registration %}
 								{% if userstatus == "ikke pålogget" %}
-									<a class="hs-yellow btn btn-large" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
+									<a class="hs-yellow btn btn-flat" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
 								{% else %}
 									<p>Du er {{ userstatus }}</p>
 								{% endif %}
@@ -75,29 +75,31 @@
 								{% endif %}
 								{% if event.registration and request.user.is_authenticated and registration_visible %}
 									{% if registered %}
-									<button class="btn waves-effect waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
+									<button class="btn waves-effect btn-flat white-text waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
 									{% else %}
-									<a class="btn waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a><br><br>
-									{% endif %}
+									<a class="btn btn-flat white-text waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a><br><br>
+								{% endif %}
 								<div id="registrationModal" class="modal">
 									<div class="modal-content">
 										<h4>Bekreft handling</h4>
 										<p>Eventen starter {{ event.time_start|date:"d M Y, H:i" }}</p>
 										<p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_start |date:"d M Y, H:i" }} </p>
 										<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
+										{% if registered %}
+											<p>Obs! Dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
+										{% endif %}
 									</div>
+									<form method="post" action="/events/{{ event.id }}/register/">
 									<div class="modal-footer">
-										<form method="post" action="/events/{{ event.id }}/register/">
 											{% csrf_token %}
 											{% if registered %}
-												<p>Obs! Dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
-												<button class="btn waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
+												<button class="btn btn-flat white-text waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
 											{% else %}
-												<button class="btn waves-effect waves-light hs-green" type="submit" name="action">Meld deg på</button>
+												<button class="btn waves-effect btn-flat white-text waves-light hs-green" type="submit" name="action">Meld deg på</button>
 											{% endif %}
-										</form>
 										<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
 									</div>
+									</form>
 								</div>
 								{% endif %}
 							{% endif %}

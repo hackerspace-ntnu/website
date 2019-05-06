@@ -5,7 +5,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text">
-				<h4>Innsillinger for {{ profile.user.get_full_name }}</h4>
+				<h4>Innsillinger</h4>
+				<a href="{% url 'userprofile:profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Tilbake til profil</a>
 			</div>
 		</div>
 	</div>
@@ -20,6 +21,10 @@
 				<img class="circle" src="{% static 'website/img/misc/default.png' %}" height="300">
 				{% endif %}
 			</div>
+			<div class="col s12 center-align">
+				<h4>{{ profile.user.get_full_name }}</h4>
+				<h5>{{ profile.get_main_group }}</h5>
+			</div>
 		</div>
 		<form enctype="multipart/form-data" method="post" action="">
 			{% csrf_token %}
@@ -30,7 +35,6 @@
 						<div class="divider"></div>
 						<br>
 					</div>
-					{{ form.image.errors }}
 					<div class="col s12 file-field input-field">
 						<div class="btn hs-green white-text">
 							<span>Nytt profilbilde</span>
@@ -39,25 +43,25 @@
 						<div class="file-path-wrapper">
 							<input class="file-path validate" type="text">
 						</div>
+						<span class="helper-text hs-red-text">{{ form.image.errors }}</span>
 					</div>
-					<div class="divider"></div>
 					<div class="col s12 input-field">
-						{{ form.access_card.errors }}
 						{{ form.access_card }}
 						<label for="{{ form.access_card.id_for_label }}">{{ form.access_card.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.access_card.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.study.errors }}
 						{{ form.study }}
 						<label for="{{ form.study.id_for_label }}">{{ form.study.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.study.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.skills.errors }}
 						{{ form.skills }}
 						<label for="{{ form.skills.id_for_label }}">{{ form.skills.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.skills.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.show_email.errors }}
+						<span class="helper-text hs-red-text">{{ form.show_email.errors }}</span>
 						<p>
 						<label>
 							{{ form.show_email }}
@@ -75,27 +79,27 @@
 						<br>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.social_discord.errors }}
 						{{ form.social_discord }}
 						<label for="{{ form.social_discord.id_for_label }}">{{ form.social_discord.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.social_discord.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.social_steam.errors }}
 						{{ form.social_steam }}
 						<label for="{{ form.social_steam.id_for_label }}">{{ form.social_steam.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.social_steam.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.social_battlenet.errors }}
 						{{ form.social_battlenet }}
 						<label for="{{ form.social_battlenet.id_for_label }}">{{ form.social_battlenet.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.social_battlenet.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.social_git.errors }}
 						{{ form.social_git }}
 						<label for="{{ form.social_git.id_for_label }}">{{ form.social_git.label }}</input>
+						<span class="helper-text hs-red-text">{{ form.social_git.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.limit_social.errors }}
+						<span class="helper-text hs-red-text">{{ form.limit_social.errors }}</span>
 						<p>
 						<label>
 							{{ form.limit_social }}
@@ -114,7 +118,7 @@
 						<br>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.allergi_gluten.errors }}
+						<span class="helper-text hs-red-text">{{ form.allergi_gluten.errors }}</span>
 						<p>
 						<label>
 							{{ form.allergi_gluten }}
@@ -123,7 +127,7 @@
 						</p>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.allergi_vegetar.errors }}
+						<span class="helper-text hs-red-text">{{ form.allergi_vegetar.errors }}</span>
 						<p>
 						<label>
 							{{ form.allergi_vegetar }}
@@ -132,7 +136,7 @@
 						</p>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.allergi_vegan.errors }}
+						<span class="helper-text hs-red-text">{{ form.allergi_vegan.errors }}</span>
 						<p>
 						<label>
 							{{ form.allergi_vegan }}
@@ -141,7 +145,7 @@
 						</p>
 					</div>
 					<div class="col s12 input-field">
-						{{ form.allergi_annet.errors }}
+						<span class="helper-text hs-red-text">{{ form.allergi_annet.errors }}</span>
 						{{ form.allergi_annet }}
 						<label for="{{ form.allergi_annet.id_for_label }}">{{ form.allergi_annet.label }}</input>
 					</div>
@@ -151,14 +155,10 @@
 				</div>
 			</div>
 			<div class="card-panel">
-						<input class="btn btn-large hs-green" type="submit" value="Lagre endringer"/>
+				<input class="btn btn-large hs-green" type="submit" value="Lagre endringer"/>
 			</div>
 		</form>
+	</div>
 </div>
-</div>
-</div>
-<script>
-	M.AutoInit();
-</script>
 {% endblock %}
 

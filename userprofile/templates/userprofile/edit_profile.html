@@ -1,6 +1,5 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
-{% load check_user_group %}
 {% block content %}
 <div class="section hs-green">
 	<div class="container">
@@ -11,8 +10,6 @@
 		</div>
 	</div>
 </div>
-{% regroup form.fields by social as social_fields %} 
-{% regroup form.fields by allergi as allergi_fields %} 
 <div class="section">
 	<div class="container">
 		<div class="row">

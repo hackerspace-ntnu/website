@@ -6,25 +6,18 @@ from django.views.generic import CreateView, DeleteView, UpdateView, ListView
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from authentication.templatetags import check_user_group as groups
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
-class ImageDeleteView(DeleteView):
+class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image
     success_url = '/files/images'
+    permission_required = "files.delete_image"
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-        return super(ImageDeleteView, self).dispatch(request, *args, **kwargs)
-
-class ImageListView(ListView):
+class ImageListView(PermissionRequiredMixin, ListView):
     model = Image
     template_name = 'files/images.html'
+    permission_required = "files.view_image"
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-        return super(ImageListView, self).dispatch(request, *args, **kwargs)
 
 @login_required()
 def imageUpload(request):

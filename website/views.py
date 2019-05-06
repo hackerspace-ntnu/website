@@ -6,7 +6,6 @@ from door.models import DoorStatus
 from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
-from authentication.templatetags import check_user_group as groups
 from applications.models import ApplicationPeriod
 from .models import Card
 from django.views.generic import ListView, TemplateView, RedirectView

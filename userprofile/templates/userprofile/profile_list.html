@@ -32,7 +32,7 @@
 		<div class="row">
 			{% for profile in object_list %}
 			<div class="col s12 m6 l4">
-				<div class="card">
+				<div class="card medium">
 					<div class="card-image waves-effect waves-block waves-light">
 						<a href={% url 'userprofile:profile_by_id' profile.user.id %}>
 							{% if profile.image %}

@@ -21,7 +21,7 @@ class ProfileListView(ListView):
     def get_queryset(self):
         filter_val = self.request.GET.get('filter', '')
         committee_array = Committee.objects.values_list('name', flat=True)
-        profiles = Profile.objects.filter(user__groups__name__in=list(committee_array), user__first_name__icontains=filter_val).all()
+        profiles = Profile.objects.filter(user__groups__name__in=list(committee_array), user__first_name__icontains=filter_val).order_by('user__first_name')
         return profiles
 
     def get_context_data(self, **kwargs):

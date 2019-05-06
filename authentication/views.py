@@ -1,19 +1,14 @@
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.shortcuts import redirect
-from django.utils.http import urlsafe_base64_decode
-from django.views.generic import TemplateView, FormView
-from django.contrib.auth.tokens import default_token_generator
 import requests
 from django.contrib.auth.models import User
 from userprofile.models import Profile
-
 from django.conf import settings
-
 from oauthlib.oauth2 import WebApplicationClient
 from django.contrib.auth import login as auth_login
 from django.views import View
+from django.contrib import messages
 
 dataporten_oauth_client = WebApplicationClient(settings.DATAPORTEN_OAUTH_CLIENT_ID)
 
@@ -77,7 +72,7 @@ class LoginCallbackView(View):
             user_email = first_name.replace(" ", ".") + "-" + last_name.replace(" ", ".") + "@hackerspace-ntnu-test.no"
 
         try:
-            # Sjekk om det eksisterer en bruker med denne feide-eposten allerede, og loggi nn
+            # Sjekk om det eksisterer en bruker med denne feide-eposten allerede, og logg inn
             user = User.objects.get(email=user_email)
             try:
                 # Sjekk at bruker har profil
@@ -92,4 +87,5 @@ class LoginCallbackView(View):
 
         # Logg brukeren inn
         auth_login(request, user)
+        messages.add_message(request, 25, 'Du er nå logget inn som ' + first_name + " " + last_name)
         return redirect('/')

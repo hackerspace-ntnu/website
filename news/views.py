@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 class EventView(DetailView):
     model = Event
@@ -213,8 +214,10 @@ def register_on_event(request, event_id):
         er = EventRegistration.objects.get(user=request.user, event=event_object)
         if event_object.deregistration_end > now:
             er.delete()
+            messages.add_message(request, 25, 'Du er nå avmeldt')
     except EventRegistration.DoesNotExist:
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
+            messages.add_message(request, 25, 'Du er nå påmeldt')
 
     return redirect("/events/" + str(event_id))

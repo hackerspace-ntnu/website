@@ -46,7 +46,7 @@
 		{% if messages %}
 		<script>
 			{% for message in messages %}
-			M.toast({html: '{{ message }}'})
+			M.toast({html: '{{ message }}', classes: 'hs-grey'});
 			{% endfor %}
 		</script>
 		</ul>

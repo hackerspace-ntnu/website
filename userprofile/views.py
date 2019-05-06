@@ -4,6 +4,7 @@ from django.forms import inlineformset_factory, widgets
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from committees.models import Committee
 
 import re
 
@@ -18,13 +19,14 @@ class ProfileListView(ListView):
     # Lister opp alle brukerprofiler med pagination
     model = Profile
     form_class = ProfileSearchForm
-    paginate_by = 3
+    paginate_by = 9
     template_name = "userprofile/profile_list.html"
 
     # Søkefunksjonalitet som filtrerer queryset
     def get_queryset(self):
         filter_val = self.request.GET.get('filter', '')
-        profiles = Profile.objects.filter(user__groups__name='member', user__first_name__icontains=filter_val).all()
+        committee_array = Committee.objects.values_list('name', flat=True)
+        profiles = Profile.objects.filter(user__groups__name__in=list(committee_array), user__first_name__icontains=filter_val).all()
         return profiles
 
     def get_context_data(self, **kwargs):
@@ -59,7 +61,7 @@ class ProfileDetailView(DetailView):
 class ProfileUpdateView(UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
-    fields = ['image', 'access_card', 'study', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git']
+    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
 

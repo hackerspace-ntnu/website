@@ -268,3 +268,8 @@ a {
 	filter: brightness(50%);
 }
 
+/* For gamle events, etc. Sett en linje gjennom tekst */
+.line-through {
+	text-decoration: line-through;
+}
+

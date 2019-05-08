@@ -58,10 +58,10 @@
 				<div class="row">
 					<br>
 					<div class="col s12 x12">
-						<ul class="collection with-header z-depth-1">
+						<ul class="collection with-header z-depth-0">
 							<li class="collection-header">
 								<div>
-									<p class="flow-text">Siste nytt <i class="material-icons hs-green-text">new_releases</i></p>
+									<p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">Siste Nytt</a></p>
 								</div>
 							</li>
 							{% for article in article_list %}
@@ -73,16 +73,16 @@
 						</ul>
 					</div>
 					<div class="col s12 xl12">
-						<ul class="collection with-header z-depth-1">
+						<ul class="collection with-header z-depth-0">
 							<li class="collection-header">
-								<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
+								<p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">Siste Arrangementer</a></p>
 							</li>
 							{% for event in event_list reversed %}
 								<li class="collection-item">
 									{% if event.time_start > current_date %}
 										<span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
 									{% else %}
-										<span class="secondary-content badge">{{ event.time_start|date:"d.m.Y" }}</span>
+										<span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
 
 									{% endif %}
 

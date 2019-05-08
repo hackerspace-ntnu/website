@@ -261,3 +261,10 @@ a {
 		min-width:300px;
 		max-width:300px;
 }
+
+/* For mørkere bilder */
+.darken-50 {
+	-webkit-filter: brightness(50%);
+	filter: brightness(50%);
+}
+

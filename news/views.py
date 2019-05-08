@@ -134,14 +134,10 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()
-        initial['time_start'] = self.object.time_start.date().strftime('%Y-%m-%d')
-        initial['time_end'] = self.object.time_end.date().strftime('%Y-%m-%d')
-        initial['event_start_time'] = self.object.time_start.time()
-        initial['event_end_time'] = self.object.time_end.time()
-        initial['registration_start_time'] = self.object.registration_start.time()
-        initial['registration_start'] = self.object.registration_start.date().strftime('%Y-%m-%d')
-        initial['deregistration_end'] = self.object.deregistration_end.date().strftime('%Y-%m-%d')
-        initial['deregistration_end_time'] = self.object.deregistration_end.time()
+        initial['time_start'] = self.object.time_start
+        initial['time_end'] = self.object.time_end
+        initial['registration_start'] = self.object.registration_start
+        initial['deregistration_end'] = self.object.deregistration_end
         return initial
 
     def get_success_url(self):
@@ -160,18 +156,12 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         return reverse('events:details', kwargs={'pk': self.object.id})
 
     def get_initial(self):
-        today = datetime.strftime(timezone.now(), '%Y-%m-%d')
-
         initial = super(EventCreateView, self).get_initial()
-        initial['event_start_time'] = "00:00"
-        initial['event_end_time'] = "00:00"
-        initial['registration_start_time'] = "00:00"
-        initial['deregistration_end_time'] = "00:00"
+        initial['time_start'] = timezone.now()
+        initial['time_end'] = timezone.now()
 
-        initial['time_start'] = today
-        initial['time_end'] = today
-        initial['registration_start'] = today
-        initial['deregistration_end'] = today
+        initial['registration_start'] = timezone.now()
+        initial['deregistration_end'] = timezone.now()
         return initial
 
 

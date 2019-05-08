@@ -50,25 +50,27 @@
 				</div>
 				<div class="col s12 m6 card-panel z-depth-0 ">
 					<div class="right-align">
-						{% if expired_event %}
-							<p>Arrangementet er over og du kan ikke melde deg på.</p>
+						{% if event.registration %}
 							<div class="progress hs-gray">
 								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
 								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
 							</div>
+						{% elif event.external_registration and not expired_event %}
+							<p>Arrangementet benytter ekstern påmelding</p>
+						{% elif not expired_event %}
+							<p>Arrangementet krever ikke påmelding.</p>
+						{% endif %}
+						{% if expired_event %}
+							<p>Arrangementet er over og du kan ikke melde deg på.</p>
 						{% else %}
 							{% if event.external_registration %}
-								<a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
+								<a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Åpne påmeldingsside i ny fane</a>
 							{% elif event.registration %}
 								{% if userstatus == "ikke pålogget" %}
 									<a class="hs-yellow btn btn-flat" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
 								{% else %}
 									<p>Du er {{ userstatus }}</p>
 								{% endif %}
-								<div class="progress hs-gray">
-									<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-									<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
-								</div>
 								{% if userstatus == 'på ventelisten' %}
 									<p class="hs-grey-text">{{ get_position }}</p>
 								{% endif %}

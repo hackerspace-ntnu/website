@@ -38,7 +38,7 @@ class Article(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name='Tittel')
     main_content = RichTextUploadingField(blank=True, verbose_name='Artikkel')
-    ingress_content = models.CharField(max_length=300, blank=True, verbose_name='Ingress')
+    ingress_content = models.CharField(max_length=300, blank=True, verbose_name='Ingress', help_text="En kort setning om hva artikkelen inneholder")
     pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True, )
 
@@ -49,8 +49,9 @@ class Event(models.Model):
     deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avregistrering slutt')
     external_registration = models.CharField(blank=True, max_length=200, default='', verbose_name='Lenke for ekstern påmelding')
 
-    time_start = models.DateTimeField(verbose_name='Start tidspunkt')
-    time_end = models.DateTimeField(verbose_name='Slutt tidspunkt')
+    time_start = models.DateTimeField(verbose_name='Start tidspunkt', null=True)
+    time_end = models.DateTimeField(verbose_name='Slutt tidspunkt', null=True)
+
     servering = models.BooleanField(default=False)
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')

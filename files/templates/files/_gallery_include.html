@@ -1,0 +1,28 @@
+{% load gallery_modals %}
+<div class="input-field">
+	<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
+</div>
+<span class="helper-text hs-red-text">{{ form.thumbnail.errors }}</span>
+{% ImagePickModal request %}
+
+{% if form.thumbnail.value %}
+<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image-view/{{ form.thumbnail.value }}'); background-repeat:no-repeat; background-size: cover;">
+{% else %}
+<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat; background-size:cover;">
+{% endif %}
+</div>
+
+<script>
+var thumbnail_input = document.querySelector('#id_thumbnail');
+var thumb_preview = document.querySelector('#thumb-preview');
+
+document.addEventListener('click', function(e) {
+	if(e.target.innerText == "SELECT") {
+		var selectedImgId = e.target.attributes.value.value;
+		thumbnail_input.value = selectedImgId;
+		thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;
+		M.toast({html: 'Bilde er valgt.'});
+		M.Modal.getInstance(thumbModal).close();
+	}
+});
+</script>

@@ -34,7 +34,7 @@ class AboutView(TemplateView):
 
 class AdminView(PermissionRequiredMixin, TemplateView):
     template_name = "website/admin.html"
-    permission_required = "can_view_admin"
+    permission_required = "userprofile.can_view_admin"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

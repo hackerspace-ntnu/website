@@ -3,12 +3,14 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.contrib.auth.admin import User
 from files.models import Image
-import re
+
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title')
     main_content = RichTextUploadingField(blank=True)
     ingress_content = models.CharField(max_length=300, blank=True)
+
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
     internal = models.BooleanField(default=False, verbose_name='Intern')
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
@@ -40,12 +42,16 @@ class Event(models.Model):
     main_content = RichTextUploadingField(blank=True, verbose_name='Artikkel')
     ingress_content = models.CharField(max_length=300, blank=True, verbose_name='Ingress', help_text="En kort setning om hva artikkelen inneholder")
     pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
-    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True, )
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    responsible = models.ForeignKey(User, related_name="responsible", on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Arrangementansvarlig")
+
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
 
     internal = models.BooleanField(default=False, verbose_name='Intern')
     registration = models.BooleanField(default=False, verbose_name='Påmelding')
     max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Max påmeldte')
-    registration_start = models.DateTimeField(default=timezone.now, verbose_name='Registrering start')
+    registration_start = models.DateTimeField(default=timezone.now, verbose_name='Påmelding start')
+    registration_end = models.DateTimeField(default=timezone.now, verbose_name='Påmelding slutt')
     deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avregistrering slutt')
     external_registration = models.CharField(blank=True, max_length=200, default='', verbose_name='Lenke for ekstern påmelding')
 
@@ -55,6 +61,26 @@ class Event(models.Model):
     servering = models.BooleanField(default=False)
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
+
+    @property
+    def can_register(self):
+        if self.registration_start < timezone.now() < self.registration_end:
+            return "ok"
+        elif timezone.now() < self.registration_start:
+            return "tidlig"
+        return "sen"
+
+    @property
+    def can_deregister(self):
+        if timezone.now() < self.deregistration_end:
+            return True
+        return False
+
+    @property
+    def expired(self):
+        if self.time_end < timezone.now():
+            return True
+        return False
 
     @property
     def is_past_due(self):
@@ -68,10 +94,6 @@ class Event(models.Model):
             return "2 Kommende arrangementer"
         else:
             return "3 Tidligere arrangementer"
-
-    @property
-    def is_happening(self):
-        return self.time_start < timezone.now() < self.time_end
 
     def __str__(self):
         return self.title
@@ -102,7 +124,6 @@ class Event(models.Model):
         '''
         return user in [registration.user for registration in
                         EventRegistration.get_registrations(self)]
-
 
     def is_waiting(self, user):
         '''
@@ -147,22 +168,20 @@ class Event(models.Model):
             return 100
 
     def get_allergies_registered(self):
-        user_list = self.registered_list()
         gluten_count = 0
         vegetar_count = 0
         vegan_count = 0
         annet_list = []
 
-
-        for user in user_list:
-            if user.profile.allergi_gluten:
+        for reg in self.registration_list():
+            if reg.user.profile.allergi_gluten:
                 gluten_count += 1
-            if user.profile.allergi_vegetar:
+            if reg.user.profile.allergi_vegetar:
                 vegetar_count += 1
-            if user.profile.allergi_vegan:
+            if reg.user.profile.allergi_vegan:
                 vegan_count += 1
-            if user.profile.allergi_annet:
-                annet_list.append(user.profile.allergi_annet)
+            if reg.user.profile.allergi_annet:
+                annet_list.append(reg.user.profile.allergi_annet)
 
         result = {
                 'gluten': gluten_count,
@@ -171,14 +190,6 @@ class Event(models.Model):
                 'annet': annet_list
                 }
         return result
-
-    def registered_list(self):
-        '''
-        Create a list of the registered users for the event
-
-        :return: A list of the registered users for the event
-        '''
-        return [registration.user for registration in EventRegistration.get_registrations(self)]
 
     def registration_list(self):
         '''
@@ -196,16 +207,6 @@ class Event(models.Model):
         '''
         return [registration.user for registration in EventRegistration.get_waitlist(self)]
 
-    def can_edit_registration_status(self, user):
-        '''
-        Checks if the given user can change their registration status
-
-        :param user: The user to check
-        :return: A boolean indicating if the user can change their registration status
-        '''
-        if self.is_registered(user) or self.is_waiting(user):
-            return timezone.now() < self.deregistration_end
-        return self.registration_start < timezone.now() < self.time_end
 
     class Meta:
         app_label = 'news'
@@ -219,8 +220,9 @@ class Event(models.Model):
 class Upload(models.Model):
     title = models.CharField(max_length=100, verbose_name='Filnavn')
     time = models.DateTimeField(default=timezone.now, verbose_name='Tittel')
-    file = models.FileField(upload_to='uploads')
+    file = models.FileField(upload_to='event-uploads')
     number = models.IntegerField(default=0)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="files")
 
     def __str__(self):
         return self.title
@@ -235,7 +237,6 @@ class EventRegistration(models.Model):
     date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
     attended = models.BooleanField(default=False)
 
-
     @staticmethod
     def get_waitlist(event):
         '''
@@ -244,18 +245,7 @@ class EventRegistration(models.Model):
         :param event: The event to retrieve the waitlist for
         :return: The waitlist
         '''
-        return EventRegistration.get_ordered_event_registrations(event)[event.max_limit:]
-
-    @staticmethod
-    def get_ordered_event_registrations(event):
-        '''
-        Retrieves all event registrations for a given event ordered by date
-
-        :param event: The event to get event registrations for
-        :return: A queryset of all event registration for the event ordered by date
-        '''
-        return EventRegistration.get_registrations(event).order_by('date')
-
+        return EventRegistration.get_registrations(event).order_by('date')[event.max_limit:]
 
     @staticmethod
     def get_registrations(event):
@@ -266,7 +256,6 @@ class EventRegistration(models.Model):
         :return: A list of all registrations for an event
         '''
         return EventRegistration.objects.filter(event=event)
-
 
     def username(self):
         return self.user.username

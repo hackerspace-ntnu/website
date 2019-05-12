@@ -1,16 +1,13 @@
 from django import forms
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
-from ckeditor.widgets import CKEditorWidget
-from datetime import datetime
-from django.core.exceptions import ValidationError
-from files.models import Image
 from news.models import Event, EventRegistration
 from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
+from committees.models import Committee
 
 custom_error = {
     'required': '',
 }
+
 
 class EventAttendeeForm(forms.ModelForm):
     # Til registrering av attendees
@@ -30,11 +27,12 @@ class EventAttendeeForm(forms.ModelForm):
 eventformset = inlineformset_factory(Event, EventRegistration,
         form=EventAttendeeForm, extra=0)
 
+
 class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
     '''
         Dette er en custom SplitDateTimeField som respekterer norske datoformat
     '''
-    widget=forms.SplitDateTimeWidget(
+    widget = forms.SplitDateTimeWidget(
             date_attrs=({
                 'class': 'no-autoinit datepicker',
                 }),
@@ -46,6 +44,10 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
         super().__init__(*args, **kwargs, input_date_formats=['%Y-%m-%d',], input_time_formats=['%H:%M',])
 
 
+class UserFullnameChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.get_full_name()
+
 
 class EventForm(forms.ModelForm):
     error_css_class = 'invalid'
@@ -53,11 +55,15 @@ class EventForm(forms.ModelForm):
     time_end = SplitDateTimeFieldCustom()
 
     registration_start = SplitDateTimeFieldCustom()
+    registration_end = SplitDateTimeFieldCustom()
     deregistration_end = SplitDateTimeFieldCustom()
+
+    committee_array = Committee.objects.values_list('name', flat=True)
+    responsible = UserFullnameChoiceField(queryset=User.objects.all().filter(groups__name__in=list(committee_array)).order_by('first_name'))
 
     class Meta:
         model = Event
-        fields = ['title', 'main_content', 'ingress_content', 'thumbnail', 'internal', 'registration', 'max_limit', 'registration_start', 'deregistration_end', 'external_registration',
+        fields = ['title', 'main_content', 'ingress_content', 'thumbnail', 'responsible', 'internal', 'registration', 'max_limit', 'registration_start', 'registration_end', 'deregistration_end', 'external_registration',
                   'time_start', 'time_end', 'place', 'servering', 'place_href']
 
 

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
-from django.views.generic import TemplateView, DetailView, ListView, FormView, UpdateView, CreateView, DeleteView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 from datetime import datetime
 from .forms import EventForm, eventformset
 from .models import Event, Article, EventRegistration
@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+
 
 class EventView(DetailView):
     model = Event
@@ -26,10 +27,6 @@ class EventView(DetailView):
         context_data['expired_event'] = datetime.now() > self.object.time_end
 
         if self.request.user.is_authenticated:
-            context_data['registered'] = self.object.is_registered(self.request.user) or \
-                                         self.object.is_waiting(self.request.user)
-            context_data['registration_visible'] = self.object.can_edit_registration_status(
-                self.request.user)
             context_data['userstatus'] = self.object.userstatus(self.request.user)
             if(self.object.is_waiting(self.request.user)):
                 context_data['get_position'] = "Du er nummer " + str(self.object.get_position(user=self.request.user)) + " på ventelisten"
@@ -37,6 +34,7 @@ class EventView(DetailView):
                 context_data['get_position'] = "Du er ikke på ventelisten."
 
         return context_data
+
 
 class EventListView(ListView):
     template_name = "news/events.html"
@@ -117,6 +115,7 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
         initial['time_start'] = self.object.time_start
         initial['time_end'] = self.object.time_end
         initial['registration_start'] = self.object.registration_start
+        initial['registration_end'] = self.object.registration_end
         initial['deregistration_end'] = self.object.deregistration_end
         return initial
 
@@ -141,8 +140,14 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         initial['time_end'] = timezone.now()
 
         initial['registration_start'] = timezone.now()
+        initial['registration_end'] = timezone.now()
         initial['deregistration_end'] = timezone.now()
         return initial
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -155,6 +160,10 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Article
     template_name = "news/edit_article.html"
@@ -165,10 +174,12 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
 
+
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Article
     success_url = "/news/"
     permission_required = "news.delete_article"
+
 
 class EventDeleteView(PermissionRequiredMixin, DeleteView):
     model = Event

@@ -78,6 +78,12 @@
 						</p>
 						<span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
 					</div>
+					<div class="input-field col s12">
+						<i class="material-icons prefix">person</i>
+						{{ form.responsible }}
+						{{ form.responsible.label_tag }}
+						<span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
+					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">date_range</i>
 						{{ form.time_start }}
@@ -150,6 +156,12 @@
 						{{ form.registration_start }}
 						{{ form.registration_start.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.registration_start.errors }}</span>
+					</div>
+					<div class="input-field col s12 m6">
+						<i class="material-icons prefix">event_available</i>
+						{{ form.registration_end }}
+						{{ form.registration_end.label_tag }}
+						<span class="helper-text hs-red-text">{{ form.registration_end.errors }}</span>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">event_busy</i>

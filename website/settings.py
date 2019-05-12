@@ -71,7 +71,7 @@ INSTALLED_APPS = [
 # App config                    #
 #################################
 
-THUMBNAIL_PRESERVE_FORMAT = True
+THUMBNAIL_PRESERVE_FORMAT = False
 
 #################################
 # Database                      #
@@ -205,6 +205,7 @@ LANGUAGE_CODE = 'nb'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = False
+DATE_FORMAT = 'd. F Y'
 
 #################################
 # Logging                       #

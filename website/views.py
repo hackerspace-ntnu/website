@@ -7,9 +7,9 @@ from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
 from applications.models import ApplicationPeriod
-from .models import Card
+from .models import Card, FaqQuestion
 from django.views.generic import ListView, TemplateView, RedirectView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'index'
@@ -27,12 +27,25 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['committees'] = Committee.objects.all()
-
-
+        context['faq'] = FaqQuestion.objects.all()
         return context
 
+
+class AdminView(PermissionRequiredMixin, TemplateView):
+    template_name = "website/admin.html"
+    permission_required = "userprofile.can_view_admin"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get all users belonging to a committee as well as pang
+        committee_array = list(Committee.objects.values_list('name', flat=True))
+        committee_array.append('Pang')
+        profiles = Profile.objects.filter(user__groups__name__in=committee_array).order_by('user__first_name')
+
+        context['profiles'] = profiles
+        return context
 
 class IndexView(TemplateView):
     template_name = "website/index.html"

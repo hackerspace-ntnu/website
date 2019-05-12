@@ -1,19 +1,85 @@
-<div class="imageList">
-	<a href="/files/images" target="_blank">Du kan slette bilder fra denne siden</a>
-	<br>
-	{% for image in images %}
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image waves-effect">
-				<a href="{{ image.url }}" target="_blank">
-				<img class="activator thumb-img materialboxed" src="{{ image.thumb_url }}" />
-				</a>
+<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
+<div id="thumbnailPicker" class="modal">
+	<div class="modal-content">
+		<div class="row">
+			<div class="col s12">
+				<h4>Velg bilde</h4>
+				<a class="btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">Last opp nytt bilde</a>
+				<a class="btn hs-yellow btn-small btn-flat hs-gray-text" href="/files/images" target="_blank">Administrer bilder</a>
 			</div>
-			<div class="card-content">
-				<span class="card-title activator">{{ image.title }}</span>
-				<a class="waves-effect waves-light btn selectButton green" value="{{ image.id }}">Select</a>
+			<div class="imageList">
+				{% for image in images %}
+				{% include 'files/single-image.html' %}
+				{% endfor %}
 			</div>
 		</div>
 	</div>
-	{% endfor %}
 </div>
+<div class="modal" id="uploadModal">
+	<div class="modal-content">
+		<h4>Last opp nytt bilde til galleriet</h4>
+		{% csrf_token %}
+		<div class="input-field col s12">
+			{{ UploadForm.title }}
+			{{ UploadForm.title.label_tag }}
+		</div>
+		<div class="input-field col s12">
+			{{ UploadForm.description }}
+			{{ UploadForm.description.label_tag }}
+		</div>
+		<div class="file-field input-field col s12">
+			<div class="btn btn-flat white-text hs-green">
+				<span>Velg bilde</span>
+				{{ UploadForm.file }}
+			</div>
+			<div class="file-path-wrapper">
+				<input class="file-path validate" type="text">
+			</div>
+		</div>
+		<a href="#" class="btn btn-flat btn-large hs-green white-text" id="uploadBtn">Last opp bilde til galleri</a>
+	</div>
+</div>
+<script>
+var thumbModal = document.querySelector('#thumbnailPicker');
+var uploadModal = document.querySelector('#uploadModal');
+
+var submitBtn = document.getElementById('uploadBtn');
+
+submitBtn.addEventListener('click', function(e) {
+	e.preventDefault();
+	// Get from original form
+
+	var title_field = document.getElementById('id_img-title');
+	var desc_field = document.getElementById('id_img-description');
+	var img_field = document.getElementById('id_img-file');
+
+	var formdata = new FormData()
+
+	formdata.append("img-file", img_field.files[0])
+	formdata.append("img-title", title_field.value)
+	formdata.append("img-description", desc_field.value)
+
+	var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+	$.ajax({
+		type:'POST',
+		url: "/files/image-upload/",
+		headers: {
+			'X-CSRFToken': csrftoken 
+		},
+		data: formdata,
+		contentType: false,
+		processData: false,
+		success: function(response){
+			console.log("Trying to append");
+			$('.imageList').prepend(response);
+			M.toast( { html: 'Bildet var lastet opp og kan velges fra galleriet' });
+			M.Modal.getInstance(uploadModal).close();
+			
+		},
+		error: function(response) {
+			M.toast( { html: 'Noe gikk galt under bildeopplastningen.' });
+			console.log(response);
+		}
+	});
+});
+</script>

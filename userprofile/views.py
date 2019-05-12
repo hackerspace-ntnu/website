@@ -21,7 +21,7 @@ class ProfileListView(ListView):
     def get_queryset(self):
         filter_val = self.request.GET.get('filter', '')
         committee_array = Committee.objects.values_list('name', flat=True)
-        profiles = Profile.objects.filter(user__groups__name__in=list(committee_array), user__first_name__icontains=filter_val).all()
+        profiles = Profile.objects.filter(user__groups__name__in=list(committee_array), user__first_name__icontains=filter_val).order_by('user__first_name')
         return profiles
 
     def get_context_data(self, **kwargs):
@@ -56,7 +56,7 @@ class ProfileDetailView(DetailView):
 class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
-    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet']
+    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
     success_message = "Profilen er oppdatert."

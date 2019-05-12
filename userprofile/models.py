@@ -35,7 +35,9 @@ class Profile(models.Model):
     social_battlenet = models.CharField(max_length=30, null=True, blank=True, verbose_name="Battle.net-tag")
     social_git = models.CharField(max_length=30, null=True, blank=True, verbose_name="Github brukernavn")
 
-    access_card = models.CharField(max_length=20, null=True, blank=True)
+    limit_social = models.BooleanField(default=False, verbose_name="Vis sosiale profiler kun for andre Hackerspace-medlemmer")
+
+    access_card = models.CharField(max_length=20, null=True, blank=True, verbose_name="NTNU Adgangskort (EMXXXXXXXXXX)")
     study = models.CharField(max_length=50, null=True, blank=True)
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
     tos_accepted = models.BooleanField(default=False)
@@ -46,6 +48,12 @@ class Profile(models.Model):
     allergi_vegetar = models.BooleanField(default=False, verbose_name="Ønsker vegetar alternativ")
     allergi_vegan = models.BooleanField(default=False, verbose_name="Ønsker vegansk alternativ")
     allergi_annet = models.CharField(max_length=140, null=True, blank=True, verbose_name="Evt. andre ønsker for matservering.")
+
+    class Meta:
+        permissions =  (
+                ("can_view_social", "Can see social fields on UserProfile"),
+                ("can_view_admin", "Can see information for admin panel"),
+                )
 
     def save(self, *args, **kwargs):
         if self.image:

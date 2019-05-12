@@ -64,7 +64,7 @@ class Profile(models.Model):
         super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.user.get_full_name
+        return self.user.username
 
     def get_main_group(self):
         return self.user.groups.first()

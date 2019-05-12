@@ -2,10 +2,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 from datetime import datetime
-from .forms import EventForm, eventformset
+from .forms import EventForm, eventformset, uploadformset
 from .models import Event, Article, EventRegistration
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -110,6 +111,32 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     permission_required = 'news.change_event'
     success_message = "Arrangementet er oppdatert."
 
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['uploads_form'] = uploadformset(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['uploads_form'] = uploadformset(instance=self.object)
+
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        context = self.get_context_data()
+
+        upload_form = context['uploads_form']
+
+        if upload_form.is_valid():
+            self.object = form.save()
+            upload_form.instance = self.object
+            upload_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            errors = upload_form.errors
+            raise
+            return self.render_to_response(self.get_context_data(form=form))
+
+
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()
         initial['time_start'] = self.object.time_start
@@ -134,6 +161,14 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse('events:details', kwargs={'pk': self.object.id})
 
+    def get_context_data(self, **kwargs):
+        context = super(EventCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['uploads_form'] = uploadformset(self.request.POST, self.request.FILES)
+        else:
+            context['uploads_form'] = uploadformset(instance=self.object)
+        return context
+
     def get_initial(self):
         initial = super(EventCreateView, self).get_initial()
         initial['time_start'] = timezone.now()
@@ -146,7 +181,18 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        self.object = form.save(commit=False)
+        context = self.get_context_data()
+
+        upload_form = context['uploads_form']
+
+        if upload_form.is_valid():
+            self.object = form.save()
+            upload_form.instance = self.object
+            upload_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 

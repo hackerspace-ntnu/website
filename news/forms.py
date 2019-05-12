@@ -1,13 +1,9 @@
 from django import forms
-from news.models import Event, EventRegistration
+from news.models import Event, EventRegistration, Upload
 from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
 from committees.models import Committee
-
-custom_error = {
-    'required': '',
-}
-
+from django.forms.widgets import ClearableFileInput
 
 class EventAttendeeForm(forms.ModelForm):
     # Til registrering av attendees
@@ -45,9 +41,24 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
 
 
 class UserFullnameChoiceField(forms.ModelChoiceField):
+    '''
+        Denne klassen overrider ModelChoiceField for å vise vanlige
+        fulle navn istedenfor brukernavn
+    '''
     def label_from_instance(self, obj):
         return obj.get_full_name()
 
+
+class MaterialFileWidget(ClearableFileInput):
+    template_name = "files/_file_widget.html"
+
+
+class UploadForm(forms.ModelForm):
+    file =  forms.FileField(label="Legg ved fil", required=False, widget=MaterialFileWidget)
+
+    class Meta:
+        model = Upload
+        fields = ['title', 'file']
 
 class EventForm(forms.ModelForm):
     error_css_class = 'invalid'
@@ -61,10 +72,16 @@ class EventForm(forms.ModelForm):
     committee_array = Committee.objects.values_list('name', flat=True)
     responsible = UserFullnameChoiceField(queryset=User.objects.all().filter(groups__name__in=list(committee_array)).order_by('first_name'))
 
+
     class Meta:
         model = Event
         fields = ['title', 'main_content', 'ingress_content', 'thumbnail', 'responsible', 'internal', 'registration', 'max_limit', 'registration_start', 'registration_end', 'deregistration_end', 'external_registration',
                   'time_start', 'time_end', 'place', 'servering', 'place_href']
+
+
+
+uploadformset = inlineformset_factory(Event, Upload,
+        form=UploadForm, extra=3)
 
 
 

@@ -62,6 +62,7 @@ class Event(models.Model):
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
 
+
     @property
     def can_register(self):
         if self.registration_start < timezone.now() < self.registration_end:
@@ -220,7 +221,7 @@ class Event(models.Model):
 class Upload(models.Model):
     title = models.CharField(max_length=100, verbose_name='Filnavn')
     time = models.DateTimeField(default=timezone.now, verbose_name='Tittel')
-    file = models.FileField(upload_to='event-uploads')
+    file = models.FileField(upload_to='event-uploads', blank=True)
     number = models.IntegerField(default=0)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="files")
 
@@ -229,6 +230,13 @@ class Upload(models.Model):
 
     class Meta:
         app_label = 'news'
+
+    def save(self, *args, **kwargs):
+        # Dersom fjern er huket av i event_edit, slettes hele objektet.
+        if self.file ==  "":
+            self.delete()
+        else:
+            return super(Upload, self).save(*args, **kwargs)
 
 
 class EventRegistration(models.Model):

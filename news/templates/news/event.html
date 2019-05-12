@@ -111,6 +111,42 @@
 				</div>
 			</div>
 		</div>
+		{% if event.files.all|length > 0 %}
+		<div class="card-panel white z-depth-1">
+			<div class="row">
+				<div class="col s12">
+					<h5>Filer</h5>
+					<p>Arrangøren har lagt ved følgende filer<p>
+					<div class="divider"></div>
+				</div>
+			</div> 
+			<div class="row center">
+				{% for file in event.files.all %}
+				{% if file.file %}
+				<div class="col s12 m6 l6">
+					<a target="_blank" href="{{ file.file.url }}">
+					<i class="material-icons medium hs-gray-text">
+						{% if "pdf" in file.file.url %}
+						picture_as_pdf
+						{% elif "jpg" in file.file.url or "png" in file.file.url or "gif" in file.file.url %}
+						photo
+						{% elif "ppt" in file.file.url or "odp" in file.file.url %}
+						cast_for_education
+						{% else %}
+						attachment
+						{% endif %}
+					</i>
+					<p class="flow-text">{{ file.title }}</p>
+					<small>{{ file.file.name }}</small>
+					</a>
+				</div>
+				{% endif %}
+				{% empty %}
+				<p>Ingen filer</p>
+				{% endfor %}
+			</div>
+		</div>
+		{% endif %}
 		{% if perms.news.change_event %}
 			{% include 'news/_event_admin_menu.html' %}
 		{% endif %}

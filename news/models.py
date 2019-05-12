@@ -56,6 +56,23 @@ class Event(models.Model):
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
 
+    @property
+    def is_past_due(self):
+        '''
+            Denne brukes i regroup og tallene strippes vekk, kun brukt for
+            dictsort i regroup.
+        '''
+        if self.time_start < timezone.now() < self.time_end:
+            return "1 Pågående arrangementer"
+        if self.time_end > timezone.now():
+            return "2 Kommende arrangementer"
+        else:
+            return "3 Tidligere arrangementer"
+
+    @property
+    def is_happening(self):
+        return self.time_start < timezone.now() < self.time_end
+
     def __str__(self):
         return self.title
 

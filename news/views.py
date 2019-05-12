@@ -44,29 +44,9 @@ class EventListView(ListView):
 
     def get_queryset(self):
         if self.request.user.has_perm('news.can_view_internal_event'):
-            return Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
+            return Event.objects.order_by('-time_end')
         else:
-            return Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        # Split into two seperate lists
-        if self.request.user.has_perm('news.can_view_internal_event'):
-            context_data['new_events'] = Event.objects.filter(time_end__gte=datetime.now()).order_by('time_end')
-            context_data['past_events'] = Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
-            context_data['happening_events'] = Event.objects.filter(time_start__lte=datetime.now()).filter(time_end__gt=datetime.now()).order_by('-time_start')
-
-
-        else:
-            context_data['happening_events'] = Event.objects.filter(internal=False).filter(time_end__gte=datetime.now()).filter(time_start__lte=datetime.now()).order_by('-time_start')
-            context_data['new_events'] = Event.objects.filter(internal=False).filter(time_end__gte=datetime.now()).order_by('time_end')
-            context_data['past_events'] = Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
-
-
-        return context_data
-
-
-
+            return Event.objects.filter(internal=False).order_by('-time_end')
 
 
 class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
@@ -151,7 +131,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = "/events/"
     permission_required = 'news.add_event'
     success_message = "Arrangementet er opprettet og publisert."
-    
+
     def get_success_url(self):
         return reverse('events:details', kwargs={'pk': self.object.id})
 
@@ -171,7 +151,7 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
     template_name = "news/edit_article.html"
     permission_required = "news.add_article"
     success_message = "Artikkelen er opprettet og publisert."
-    
+
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
 
@@ -181,7 +161,7 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
     permission_required = "news.change_article"
     success_message = "Artikkelen er oppdatert."
-    
+
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
 

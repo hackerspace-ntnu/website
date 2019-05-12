@@ -15,64 +15,27 @@
 	</div>
 </div>
 {% include "news/_list_admin_banner.html" %}
+{# Grupper events ut ifra Event.is_past_due som returnerer enten Pågående, Kommende, Tidligere #}
+{% regroup object_list|dictsort:"is_past_due" by is_past_due as status_list %}
 <div class="section block">
 	<div class="container">
-	{% if page_obj.number == 1 %}
-		<div class="row">
-			<div class="col s12">
-				<h5 class="subheader">Kommende Arrangementer</h5>
-				<p>Husk å logge på din konto for å se internarrangementer</p>
-				<div class="divider"></div>
-			</div>
-		</div>
-		{% if new_events %}
-			{% for event in new_events %}
-					{% if event in happening_events %}
-						{% include 'news/_event-list-element.html' with status='happening' %}
-					{% else %}
-						{% include 'news/_event-list-element.html' with status='coming' %}
-					{% endif %}
-			{% endfor %}
-		{% else %}
-		<div class="row">
-			<div class="col s12">
-				<p>Det er for tiden ingen nye arrangementer.</p>
-			</div>
-		</div>
-		{% endif %}
-	{% endif %}
 	<div class="row">
 		<div class="col s12">
-			<h5 class="subheader">Tidligere Arrangementer</h5>
+			<p>Husk å logge på din konto for å se internarrangementer</p>
 			<div class="divider"></div>
 		</div>
 	</div>
-	{% for event in past_events %}
-		{% include 'news/_event-list-element.html' with status='ended' %}
-	{% endfor%}
-	</div>
+	{% for status in status_list %}
+		<div class="row">
+			<div class="col s12">
+				<h5 class="subheader">{{ status.grouper|slice:"1:" }}</h5>
+				<div class="divider"></div>
+			</div>
+		</div>
+		{% for event in status.list %}
+			{% include 'news/_event-list-element.html' with status=status.grouper %}
+		{% endfor %}
+	{% endfor %}
 </div>
-<div class="section">
-	<div class="container">
-		<ul class="pagination">
-			{% if page_obj.has_previous %}
-			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
-			{% else %}
-			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-			{% endif %}
-			{% for page in page_obj.paginator.page_range %}
-				{% if page == page_obj.number %}
-				<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
-				{% else %}
-				<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
-				{% endif %}
-			{% endfor %}
-			{% if page_obj.has_next %}
-			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
-			{% else %}
-			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-			{% endif %}
-		</ul>
-	</div>
-</div>
+{% include 'website/_paginator.html' %}
 {% endblock %}

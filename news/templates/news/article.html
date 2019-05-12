@@ -27,6 +27,9 @@
 					<h5 class="hide-on-med-and-up">{{ article.title }}</h5>
 					<h3 class="hide-on-small-only">{{ article.title }}</h3>
 					<p>{{ article.pub_date }}</p>
+					{% if article.author %}
+					<p>Skrevet av <a href="{% url 'userprofile:profile_by_id' article.author.id %}">{{ article.author.get_full_name }}</a></p>
+					{% endif %}
 				</div>
 			</div>
 			<div class="row">

@@ -1,7 +1,5 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
-{% load picker_modal %}
-{% load modal_upload %}
 
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
@@ -19,29 +17,28 @@
 		</div>
 	</div>
 </div>
+<form enctype="multipart/form-data" method="post" novalidate>
 <div class="section">
-	<form action="" method="post">
-		{% csrf_token %}
-		{{ form.non_field_errors }}
-		{{ form.title.errors }}
 		<div class="container">
 			<div class="card-panel">
 				<div class="row">
-					<div class="col s12">
-						<h5>Innhold</h5>
-						<div class="divider"></div>
-					</div>
+						{% csrf_token %}
+						{{ form.non_field_errors }}
+						<div class="col s12">
+							<h5>Innhold</h5>
+							<div class="divider"></div>
+						</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
 						{{ form.title }}
-						<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-						<span class="helper-text hs-red-text">{{ form.title.errors }}</span>
+						{{ form.title.label_tag }}
+						{{ form.title.help_text }}
 					</div>
 					<div class="input-field col s12">
 						{{ form.ingress_content }}
-						<label for="{{ form.ingress_content.id_from_label }}">{{ form.ingress_content.label }}</label>
-						<span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
+						{{ form.ingress_content.label_tag }}
+						<span class="helper-text">{{ form.ingress_content.help_text }}</span>
 					</div>
 					<div class="input-field col s12">
 						<p>{{ form.main_content.label }}</p>
@@ -58,24 +55,8 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field hidden">
-						<input class="thumbnailPicker hidden" id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{{ form.thumbnail.value }}">
-					</div>
-					<div class="col s12 input-field">
-						<div id="thumbnailPicker" class="modal">
-							<div class="modal-content">
-								{% ImagePickModal request %}
-							</div>
-						</div>
-						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large btn-flat" data-target="uploadModal">Last opp nytt bilde</a>
-						<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large btn-flat" data-target="thumbnailPicker">Vis bildegalleri</a>
-						<span class="helper-text hs-red-text">{{ form.thumbnail.errors }}</span>
-						{% if form.thumbnail.value %}
-							<div id="thumb-preview" class="card small thumb-preview" style="background-image: url('/files/image/{{ form.thumbnail.value }}/view); background-repeat:no-repeat;">
-						{% else %}
-							<div id="thumb-preview" class="card small thumb-preview" style="background-image: none; background-repeat:no-repeat;">
-						{% endif %}
-						</div>
+					<div class="col s12">
+						{% include 'files/_gallery_include.html' %}
 					</div>
 				</div>
 			</div>
@@ -97,40 +78,35 @@
 						</p>
 						<span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
 					</div>
+					<div class="input-field col s12">
+						<i class="material-icons prefix">person</i>
+						{{ form.responsible }}
+						{{ form.responsible.label_tag }}
+						<span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
+					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">date_range</i>
-						<input id="{{ form.time_start.id_for_label }}" class="no-autoinit datepicker" name="time_start" value="{{ form.time_start.value }}">
-						<label class="active" for="{{ form.time_start.id_for_label }}">{{ form.time_start.label }}</label>
+						{{ form.time_start }}
+						{{ form.time_start.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.time_start.errors }}</span>
 					</div>
-					<div class="input-field col s12 m6">
-						<i class="material-icons prefix">hourglass_full</i>
-						<input type="text" id="{{ form.event_start_time.id_for_label }}" name="event_start_time" value="{{ form.event_start_time.value }}">
-						<label for="{{ form.event_start_time.id_for_label }}">{{ form.event_start_time.label }}</label>
-						<span class="helper-text hs-red-text">{{ form.event_start_time.errors }}</span>
-					</div>
+
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">date_range</i>
-						<input id="{{ form.time_end.id_for_label }}" class="no-autoinit datepicker" name="time_end" value="{{ form.time_end.value }}">
-						<label class="active" for="{{ form.time_end.id_for_label }}">{{ form.time_end.label }}</label>
+						{{ form.time_end }}
+						{{ form.time_end.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.time_end.errors }}</span>
-					</div>
-					<div class="input-field col s12 m6">
-						<i class="material-icons prefix">hourglass_empty</i>
-						<input type="text" id="{{ form.event_end_time.id_for_label }}" name="event_end_time" value="{{ form.event_end_time.value }}">
-						<label for="{{ form.event_end_time.id_for_label }}">{{ form.event_end_time.label }}</label>
-						<span class="helper-text hs-red-text">{{ form.event_end_time.errors }}</span>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">location_on</i>
 						{{ form.place }}
-						<label for="{{ form.place.id_for_label }}">{{ form.place.label }}</label>
+						{{ form.place.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.place.errors }}</span>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">link</i>
 						{{ form.place_href }}
-						<label for="{{ form.place_href.id_for_label }}">{{ form.place_href.label }}</label>
+						{{ form.place_href.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.place_href.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
@@ -154,12 +130,9 @@
 						<span class="helper-text hs-red-text">{{ form.registration.errors }}</span>
 					</div>
 					<div class="col s12 input-field ext-reg">
-						<p>Ikke velg påmelding ovenfor dersom ekstern påmelding skal benyttes. La stå tom for ingen påmelding i det hele tatt.</p>
-						<div class="input-field">
-							{{ form.external_registration.errors }}
-							{{ form.external_registration }}
-							<label for="{{ form.external_registration.id_for_label }}">{{ form.external_registration.label }}</label>
-						</div>
+						{{ form.external_registration }}
+						{{ form.external_registration.label_tag }}
+						<span class="helper-text">La stå tom dersom arrangementet ikke behøver påmelding.</span>
 						<span class="helper-text hs-red-text">{{ form.external_registration.errors }}</span>
 					</div>
 				</div>
@@ -175,33 +148,47 @@
 					<div class="input-field col s12">
 						<i class="material-icons prefix">event_seat</i>
 						{{ form.max_limit }}
-						<label for="{{ form.max_limit.id_for_label }}">{{ form.max_limit.label }}</label>
+						{{ form.max_limit.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.max_limit.errors }}</span>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">event_available</i>
-						<input id="{{ form.registration_start.id_for_label }}" class="no-autoinit datepicker" name="registration_start" value="{{ form.registration_start.value }}">
-						<label class="active" for="{{ form.registration_start.id_for_label }}">{{ form.registration_start.label }}</label>
+						{{ form.registration_start }}
+						{{ form.registration_start.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.registration_start.errors }}</span>
 					</div>
 					<div class="input-field col s12 m6">
-						<i class="material-icons prefix">hourglass_empty</i>
-						<label for="{{ form.registration_start_time.id_for_label }}">{{ form.registration_start_time.label }}</label>
-						{{ form.registration_start_time }}
-						<span class="helper-text hs-red-text">{{ form.registration_start_time.errors }}</span>
+						<i class="material-icons prefix">event_available</i>
+						{{ form.registration_end }}
+						{{ form.registration_end.label_tag }}
+						<span class="helper-text hs-red-text">{{ form.registration_end.errors }}</span>
 					</div>
 					<div class="input-field col s12 m6">
 						<i class="material-icons prefix">event_busy</i>
-						<label for="{{ form.deregistration_end.id_for_label }}">{{ form.deregistration_end.label }}</label>
-						<input type="text" id="{{ form.deregistration_end.id_for_label }}" class="no-autoinit datepicker" name="deregistration_end" value="{{ form.deregistration_end.value }}" />
+						{{ form.deregistration_end }}
+						{{ form.deregistration_end.label_tag }}
 						<span class="helper-text hs-red-text">{{ form.deregistration_end.errors }}</span>
 					</div>
-					<div class="input-field col s12 m6">
-						<i class="material-icons prefix">hourglass_full</i>
-						<label for="{{ form.deregistration_end_time.id_for_label }}">{{ form.deregistration_end_time.label }}</label>
-						{{ form.deregistration_end_time }}
-						<span class="helper-text hs-red-text">{{ form.deregistration_end_time.errors }}</span>
+				</div>
+			</div>
+			<div class="card-panel reg-box">
+				<div class="row">
+					<div class="col s12">
+						<h5>Filer</h5>
+						<p>Det kan være nyttig å legge ved powerpoint eller andre relevante filer i arrangementet. Da får deltakerene mulighet til å gjøre seg klare før arrangementet starter.</p>
+						<div class="divider"></div>
+						<br>
 					</div>
+					{{ uploads_form.management_form }}
+					{% for form in uploads_form %}
+					<div class="input-field col s12" >
+						{{ form.id }}
+						{{ form.title }}
+						{{ form.title.label_tag }}
+						{{ form.file }}
+						<span class="helper-text hs-red-text">{{ form.file.errors }}</span>
+					</div>
+					{% endfor %}
 				</div>
 			</div>
 			<div class="card-panel reg-box">
@@ -210,107 +197,14 @@
 						<h5>Ferdig</h5>
 						<div class="divider"></div>
 						<br>
-						<button id="submit" class="btn btn-large hs-green white-text waves-effect waves-light" type="submit" name="action">Lagre Arrangement</button>
-	</form>
-	{% UploadModal request %}
+						<button class="btn btn-large hs-green white-text waves-effect waves-light" type="submit">Lagre Arrangement</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+</form>
+<script src="{% static 'news/js/edit_event.js' %}"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function(event) {
-	var datepickers = document.querySelectorAll('.datepicker');
-
-	internationalization = {
-		months:	[
-			'Januar',
-			'Februar',
-			'Mars',
-			'April',
-			'Mai',
-			'Juni',
-			'Juli',
-			'August',
-			'September',
-			'Oktober',
-			'November',
-			'Desember'
-		],
-		weekdays: [
-			'Søndag',
-			'Mandag',
-			'Tirsdag',
-			'Onsdag',
-			'Torsdag',
-			'Fredag',
-			'Lørdag'
-		],
-		weekdaysShort: [
-			'Søn',
-			'Man',
-			'Tir',
-			'Ons',
-			'Tor',
-			'Fre',
-			'Lør'
-		],
-		weekdaysAbbrev: ['S','M','T','O','T','F','L']
-	}
-	options = {
-		format: 'yyyy-mm-dd',
-		firstDay: 1,
-		i18n: internationalization
-	}
-
-
-	// Vis og gjem deler som relateres til påmeldinger
-	var reg_box = document.getElementsByClassName('reg-box')[0];
-	var reg_check = document.getElementsByName('registration')[0]
-	var ext_reg = document.getElementsByClassName('ext-reg')[0];
-
-	if(reg_check.checked) {
-		reg_box.classList.remove('hide');
-		ext_reg.classList.add('hide');
-	}
-	else {
-		reg_box.classList.add('hide');
-		ext_reg.classList.remove('hide');
-	}
-		
-	reg_check.onchange = function() {
-		if(this.checked) {
-			reg_box.classList.remove('hide');
-			ext_reg.classList.add('hide');
-		}
-		else {
-			reg_box.classList.add('hide');
-			ext_reg.classList.remove('hide');
-			document.getElementById('id_external_registration').value = '';
-		}
-	};
-
-
-
-	var instance = M.Datepicker.init(datepickers, options);
-
-	var thumbModal = document.querySelector('#thumbnailPicker');
-	var instance = M.Modal.init(thumbModal);
-
-	var thumbnail_input = document.querySelector('#id_thumbnail');
-	var thumb_preview = document.querySelector('#thumb-preview');
-
-	document.addEventListener('click', function(e) {
-		if(e.target.innerText == "SELECT") {
-			var selectedImgId = e.target.attributes.value.value;
-			thumbnail_input.value = selectedImgId;
-			thumb_preview.style.backgroundImage = "url('/files/image/" + selectedImgId + "/view')";
-
-		}
-	});
-});
-
-</script>
 {% endblock content %}

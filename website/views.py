@@ -7,7 +7,7 @@ from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
 from applications.models import ApplicationPeriod
-from .models import Card
+from .models import Card, FaqQuestion
 from django.views.generic import ListView, TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
@@ -28,12 +28,13 @@ class AboutView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['committees'] = Committee.objects.all()
+        context['faq'] = FaqQuestion.objects.all()
         return context
 
 
 class AdminView(PermissionRequiredMixin, TemplateView):
     template_name = "website/admin.html"
-    permission_required = "can_view_admin"
+    permission_required = "userprofile.can_view_admin"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

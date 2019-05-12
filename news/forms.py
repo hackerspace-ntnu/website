@@ -1,4 +1,5 @@
 from django import forms
+from django.db.utils import OperationalError
 from news.models import Event, EventRegistration, Upload
 from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
@@ -60,6 +61,13 @@ class UploadForm(forms.ModelForm):
         model = Upload
         fields = ['title', 'file']
 
+
+def get_committees():
+    try:
+        return list(Committee.objects.values_list('name', flat=True))
+    except OperationalError:
+        return []
+
 class EventForm(forms.ModelForm):
     error_css_class = 'invalid'
     time_start = SplitDateTimeFieldCustom()
@@ -69,8 +77,8 @@ class EventForm(forms.ModelForm):
     registration_end = SplitDateTimeFieldCustom()
     deregistration_end = SplitDateTimeFieldCustom()
 
-    committee_array = Committee.objects.values_list('name', flat=True)
-    responsible = UserFullnameChoiceField(queryset=User.objects.all().filter(groups__name__in=list(committee_array)).order_by('first_name'))
+
+    responsible = UserFullnameChoiceField(queryset=User.objects.all().filter(groups__name__in=get_committees()).order_by('first_name'))
 
 
     class Meta:

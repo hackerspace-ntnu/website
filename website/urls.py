@@ -31,7 +31,8 @@ urlpatterns = [
     path('profile/', include('userprofile.urls')),
     path('members/', ProfileListView.as_view(), name='member-list'),
     path('internal/', include('internal.urls')),
-    path('admin-panel/', AdminView.as_view(), name='admin')
+    path('admin-panel/', AdminView.as_view(), name='admin'),
+    path('feide/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:

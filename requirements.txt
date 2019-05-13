@@ -13,3 +13,5 @@ django-filter
 markdown
 pillow
 django-sekizai
+python-dataporten-auth
+python-social-auth[django]

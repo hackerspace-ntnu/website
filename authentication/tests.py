@@ -1,6 +1,10 @@
 from django.apps import apps
+from django.contrib.auth.models import User, AnonymousUser
 from django.test import TestCase
 from authentication.apps import AuthenticationConfig
+
+from django.conf import settings
+
 
 
 class AuthenticationConfigTest(TestCase):

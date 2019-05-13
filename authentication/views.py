@@ -1,91 +1,90 @@
 from django.contrib.auth import logout
 from django.urls import reverse
 from django.shortcuts import redirect
-import requests
-from django.contrib.auth.models import User
-from userprofile.models import Profile
-from django.conf import settings
-from oauthlib.oauth2 import WebApplicationClient
-from django.contrib.auth import login as auth_login
 from django.views import View
-from django.contrib import messages
+from userprofile.models import Profile
+from social_core.pipeline.user import  get_username as social_get_username
 
-dataporten_oauth_client = WebApplicationClient(settings.DATAPORTEN_OAUTH_CLIENT_ID)
 
-def get_callback_redirect_url(request):
-    return request.build_absolute_uri(reverse('auth:login_callback'))
+
 
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
-        is_feide_login = request.session.get('feided', False)
         logout(request)
-        if is_feide_login:
-            return redirect("https://auth.dataporten.no/logout")
         return redirect(reverse('index'))
+
 
 class LoginView(View):
     def get(self, request, *args, **kwargs):
-        dataporten_auth_url = dataporten_oauth_client.prepare_request_uri(
-            settings.DATAPORTEN_OAUTH_AUTH_URL,
-            redirect_uri=get_callback_redirect_url(request))
-        request.session['feided'] = True
-
-        return redirect(dataporten_auth_url)
+        return redirect(reverse('index'))
 
 
-class LoginCallbackView(View):
-    def get(self, request, *args, **kwargs):
-        code = self.request.GET.get('code')
-        token_request_body = dataporten_oauth_client.prepare_request_body(
-            code=code,
-            redirect_uri=get_callback_redirect_url(request),
-            client_secret=settings.DATAPORTEN_OAUTH_CLIENT_SECRET)
+def save_profile(backend, user, response, is_new=False, *args, **kwargs):
+    if backend.name == 'dataporten_feide':
+        if is_new:
+            first, last = response.get('fullname').split(" ", 1)
 
-        token_request_response = requests.post(
-            settings.DATAPORTEN_OAUTH_TOKEN_URL,
-            data=token_request_body,
-            headers={
-                "content-type": "application/x-www-form-urlencoded",
-                "authorization": "Basic {}".format(settings.DATAPORTEN_OAUTH_CLIENT_SECRET),
-            })
+            user.first_name = first
+            user.last_name = last
+            user.email = response.get('username')
 
-        if token_request_response.status_code != 200:
-            raise Exception("invalid code")
-
-        response_json = token_request_response.json()
-        access_token = response_json['access_token']
-
-        # Lag session for bruker
-        session = requests.Session()
-        session.headers.update({'authorization': 'bearer {}'.format(access_token)})
-
-        user_info = session.get("https://auth.dataporten.no/userinfo").json()
-        user_email = user_info['user']['email']
-        first_name = " ".join(user_info['user']['name'].split(" ")[0:-1])
-        last_name = user_info['user']['name'].split(" ")[-1]
-        # Lag catch dersom feidebruker ikke har email. Mest sansynlig testuser.
-
-        try:
-            username = user_email.split("@")[0]
-        except AttributeError:
-            username = first_name.replace(" ", ".") + "_testuser_" + last_name.replace(" ", ".") 
-            user_email = first_name.replace(" ", ".") + "-" + last_name.replace(" ", ".") + "@hackerspace-ntnu-test.no"
-
-        try:
-            # Sjekk om det eksisterer en bruker med denne feide-eposten allerede, og logg inn
-            user = User.objects.get(email=user_email)
             try:
-                # Sjekk at bruker har profil
                 user.profile
             except Profile.DoesNotExist:
-                # Om bruker har bruker, men ikke profil, lag en
                 profile = Profile.objects.create(user=user, tos_accepted=False)
-        except User.DoesNotExist:
-            # Dersom brukeren ikke eksisterer, lag en ny User og Profile objekt
-            user = User.objects.create_user(username=username, email=user_email, first_name=first_name, last_name=last_name)
-            profile = Profile.objects.create(user=user,  tos_accepted=False)
 
-        # Logg brukeren inn
-        auth_login(request, user)
-        messages.add_message(request, 25, 'Du er nå logget inn som ' + first_name + " " + last_name)
-        return redirect('/')
+            user.save()
+        else:
+            try:
+                user.profile
+            except Profile.DoesNotExist:
+                profile = Profile.objects.create(user=user, tos_accepted=False)
+
+
+def associate_by_email(backend, details, user=None, *args, **kwargs):
+    """
+    Associate current auth with a user with the same email address in the DB.
+    This pipeline entry is not 100% secure unless you know that the providers
+    enabled enforce email verification on their side, otherwise a user can
+    attempt to take over another user account by using the same (not validated)
+    email address on some provider.  This pipeline entry is disabled by
+    default.
+    """
+    if user:
+        return None
+
+
+    email = details.get('username')
+
+    # In case its an older account with stud.ntnu.no
+    alt_email = email.split("@")[0] + "@stud.ntnu.no"
+
+
+    if email:
+        # Try to associate accounts registered with the same email address,
+        # only if it's a single object. AuthException is raised if multiple
+        # objects are returned.
+        users = list(backend.strategy.storage.user.get_users_by_email(email))
+        alt_users = list(backend.strategy.storage.user.get_users_by_email(alt_email))
+
+        if len(users) == 0 and len(alt_users) == 0:
+            return None
+        elif len(users) > 1 or len(alt_users) > 1:
+            raise AuthException(
+                backend,
+                'The given email address is associated with another account'
+            )
+        else:
+            if len(users) == 1:
+                return {'user': users[0],
+                        'is_new': False}
+            if len(alt_users) == 1:
+                # Convert old user to new feide email syntax
+                prison_user = alt_users[0]
+                prison_user.email = email
+                prison_user.save()
+
+                return {'user': alt_users[0],
+                        'is_new': False}
+
+

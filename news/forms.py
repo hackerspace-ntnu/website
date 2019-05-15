@@ -1,5 +1,5 @@
 from django import forms
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError, ProgrammingError
 from news.models import Event, EventRegistration, Upload
 from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
@@ -66,6 +66,8 @@ def get_committees():
     try:
         return list(Committee.objects.values_list('name', flat=True))
     except OperationalError:
+        return []
+    except ProgrammingError:
         return []
 
 class EventForm(forms.ModelForm):

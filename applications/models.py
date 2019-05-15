@@ -12,15 +12,6 @@ YEAR_CHOICES = (
     (5, 5),
 )
 
-GROUP_CHOICES = (
-    ("DEVOPS", "DevOps"),
-    ("LABOPS", "LabOps"),
-    ("ARCADE", "Prosjekt - Arkademaskin"),
-    ("BOARDGAME", "Prosjekt - Brettspill"),
-    ("MOBILEGAME", "Prosjekt - Mobilspill"),
-    ("VIDEOGAME", "Prosjekt - Videospill"),
-)
-
 class ApplicationPeriod(models.Model):
     name = models.CharField(max_length=50, verbose_name="Navn")
     period_start = models.DateTimeField(default=timezone.now, blank=False)

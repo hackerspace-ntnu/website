@@ -9,7 +9,7 @@ class ApplicationInfoView(ListView):
     template_name = "applications/application_info.html"
     queryset = ApplicationGroup.objects.all()
 
-    def get_context_data(self, **kwargs): 
+    def get_context_data(self, **kwargs):
         context = super(ApplicationInfoView, self).get_context_data(**kwargs)
         context['group_list'] = ApplicationGroup.objects.filter(project_group=True)
         context['main_list'] = ApplicationGroup.objects.filter(project_group=False)
@@ -28,6 +28,13 @@ class ApplicationView(FormView):
 
     def dispatch(self, request, *args, **kwargs):
         current_date = datetime.now()
+        if not ApplicationPeriod.objects.filter(name="Opptak"):
+            ap = ApplicationPeriod.objects.create(
+                name="Opptak",
+                period_start=datetime(2018,1,1),
+                period_end=datetime(2018,1,2)
+                ).save()
+
         start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
         end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
         context = {

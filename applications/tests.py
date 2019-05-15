@@ -22,6 +22,8 @@ class ApplicationValidatorTest(TestCase):
          with self.assertRaises(ValidationError):
              # Too long
              response = validate_phone_number("123123121")
+
+         with self.assertRaises(ValidationError):
              # No digit
              response = validate_phone_number("123123121asd")
 

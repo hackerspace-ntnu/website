@@ -15,7 +15,7 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('tos/', TemplateView.as_view(template_name="website/tos.html"), name='tos'),
     path('tos/returning-user/', TemplateView.as_view(template_name="website/tos-returningls.html"), name='tos'),
-    path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos'),
+    path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
     path('admin/', admin.site.urls),
     path('robots.txt', TemplateView.as_view(template_name='website/robots.txt',
                                              content_type='text/plain')),

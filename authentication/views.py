@@ -5,19 +5,10 @@ from django.views import View
 from userprofile.models import Profile
 from social_core.pipeline.user import  get_username as social_get_username
 
-
-
-
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
         return redirect(reverse('index'))
-
-
-class LoginView(View):
-    def get(self, request, *args, **kwargs):
-        return redirect(reverse('index'))
-
 
 def save_profile(backend, user, response, is_new=False, *args, **kwargs):
     if backend.name == 'dataporten_feide':

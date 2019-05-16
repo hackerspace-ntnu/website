@@ -7,6 +7,9 @@ from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView
 from userprofile.views import ProfileListView
+from django.contrib.auth.decorators import permission_required
+from django.views.decorators.cache import never_cache
+from ckeditor_uploader import views as ck_upload_views
 
 handler404 = 'website.views.handler404'
 handler500 = 'website.views.handler500'
@@ -21,7 +24,8 @@ urlpatterns = [
                                              content_type='text/plain')),
     path('news/', include('news.urls')),
     path('events/', include('news.event_urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor/upload', permission_required('news.add_article')(ck_upload_views.upload), name='ckeditor_upload'),
+    path('ckeditor/browse', permission_required('news.add_article')(ck_upload_views.browse), name='ckeditor_browse'),
     path('authentication/', include('authentication.urls', namespace='auth')),
     path('door/', include('door.urls')),
     path('opptak/', include('applications.urls'), name='opptak'),

@@ -1,15 +1,12 @@
 django<2.1>=2.0.2
 gunicorn
 django-ckeditor
-django-autocomplete-light
-django-smart-selects
-oauthlib
-requests
 coverage
 sorl-thumbnail
 python-coveralls
 djangorestframework
-django-filter
 markdown
 pillow
 django-sekizai
+python-dataporten-auth
+python-social-auth[django]

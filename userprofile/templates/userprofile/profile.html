@@ -1,13 +1,11 @@
 {% extends 'website/base.html' %}
 {% load staticfiles %}
-{% load check_user_group %}
-
 {% block content %}
 <div class="section hs-green">
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text">
-				<h4>Brukerprofilen til {{ profile.user.get_full_name }}</h4>
+				<h4>Brukerprofil</h4>
 				{% if user == profile.user %}
 				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Innstillinger</a>
 				{% endif %}
@@ -18,35 +16,55 @@
 <div class="section hs-gray-text">
 	<div class="container">
 		<div class="row">
-			<div class="col s6">
+			<div class="col s12 center-align">
 				{% if profile.image %}
-				<img class="circle" src="{{ profile.image.url }}">
+				<img class="circle responsive-img" src="{{ profile.image.url }}">
 				{% else %}
-				<img class="circle" src="{% static 'website/img/misc/default.png' %}" height="300">
+				<img class="circle responsive-img" src="{% static 'website/img/misc/default.png' %}" height="300">
 				{% endif %}
 			</div>
-			<div class="col s6">
-				<ul class="collection">
+			<div class="col s12 center-align">
+				<h4>{{ profile.user.get_full_name }}</h4>
+				<h5>{{ profile.get_main_group }}</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m6">
+				<ul class="collection with-header">
+					<li class="collection-header"><h5>Basisinformasjon</h5></li>
 					{% if profile.study %}
 						<li class="collection-item">Studerer {{ profile.study }}</li>
 					{% endif %}
-					{% if profile.user.email %}
+					{% if profile.user.email and profile.show_email %}
 						<li class="collection-item">{{ profile.user.email }}</li>
 					{% endif %}
-					{% if profile.social_discord %}
-						<li class="collection-item">Discord<span class="badge">{{ profile.social_discord }}</span></li>
+					{% if profile.limit_social %}
+						{% if perms.userprofile.can_view_social or profile.user ==  request.user %}
+						{% include "userprofile/_social_fields.html" %}
+						{% endif %}
+					{% else %}
+						{% include "userprofile/_social_fields.html" %}
 					{% endif %}
-					{% if profile.social_steam %}
-						<li class="collection-item">Steam<a target="_blank" class="secondary-content badge" href="https://steamcommunity.com/id/{{ profile.social_steam }}">{{ profile.social_steam }}</a></li>
-					{% endif %}
-					{% if profile.social_battlenet %}
-						<li class="collection-item">Battle.net<span class="badge">{{ profile.social_battlenet }}</span></li>
-					{% endif %}
-					{% if profile.social_git %}
-						<li class="collection-item">Github<a target="_blank" class="secondary-content badge" href="https://github.com/{{ profile.social_git }}">{{ profile.social_git }}</a></li>
-					{% endif %}
-
 				</ul>
+			</div>
+			<div class="col s12 m6">
+				<ul class="collection with-header">
+					<li class="collection-header"><h5>Ferdigheter</h5></li>
+					{% for skill in profile.skills.all %}
+					<li class="collection-item">{{ skill.title }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div class="divider"></div>
+				<br>
+				<a class="btn btn-flat hs-green white-text" href="{% url 'member-list' %}">Tilbake til medlemsliste</a>
 			</div>
 		</div>
 	</div>

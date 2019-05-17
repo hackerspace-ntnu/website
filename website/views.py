@@ -6,11 +6,10 @@ from door.models import DoorStatus
 from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
-from authentication.templatetags import check_user_group as groups
 from applications.models import ApplicationPeriod
-from .models import Card
+from .models import Card, FaqQuestion
 from django.views.generic import ListView, TemplateView, RedirectView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'index'
@@ -28,12 +27,25 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['committees'] = Committee.objects.all()
-
-
+        context['faq'] = FaqQuestion.objects.all()
         return context
 
+
+class AdminView(PermissionRequiredMixin, TemplateView):
+    template_name = "website/admin.html"
+    permission_required = "userprofile.can_view_admin"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Get all users belonging to a committee as well as pang
+        committee_array = list(Committee.objects.values_list('name', flat=True))
+        committee_array.append('Pang')
+        profiles = Profile.objects.filter(user__groups__name__in=committee_array).order_by('user__first_name')
+
+        context['profiles'] = profiles
+        return context
 
 class IndexView(TemplateView):
     template_name = "website/index.html"
@@ -42,14 +54,16 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Sjekk om bruker har medlemskap og kan se interne elementer
-        can_access_internal = groups.has_group(self.request.user, 'member')
+        can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
+        can_access_internal_event = self.request.user.has_perm('news.can_view_internal_event')
+
         # First sort, then grab 5 elements, then flip the list ordered by date
         event_list = Event.objects.filter(
-            internal__lte=can_access_internal).order_by('-time_start')[:5:-1]
+            internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
 
         # Get five articles
         article_list = Article.objects.filter(
-            internal__lte=can_access_internal).order_by('-pub_date')[:5]
+            internal__lte=can_access_internal_article).order_by('-pub_date')[:5]
 
         # Få dørstatus
         try:

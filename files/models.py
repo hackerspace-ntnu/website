@@ -10,6 +10,7 @@ class Image(models.Model):
     time = models.DateTimeField(default=timezone.now)
     file = models.ImageField(upload_to='images')
     thumb = models.ImageField(upload_to='thumbnails', null=True)
+    compressed = models.ImageField(upload_to='compressed', null=True)
     number = models.IntegerField(default=0)
 
     def __str__(self):
@@ -20,6 +21,9 @@ class Image(models.Model):
     def url(self):
         return '/media/' + str(self.file)
 
+    def abs_url(self):
+        return 'https://www.hackerspace-ntnu.no/media/' + str(self.file)
+
     def thumb_url(self):
         if not self.thumb:
             self.save()
@@ -27,10 +31,14 @@ class Image(models.Model):
         return '/media/' + str(self.thumb)
 
     def save(self, *args, **kwargs):
-        # Create a thumbnail for the image
         # Save file before creating thumbnail
         super(Image, self).save(*args, **kwargs)
-        thumb = get_thumbnail(self.file, '300x300', crop='center', quality=99)
+
+        # Create a thumbnail for the image
+        thumb = get_thumbnail(self.file, '300x300', crop='center', quality=70)
         self.thumb.save(thumb.name, ContentFile(thumb.read()), False)
-        # Save again with thumbnail
+
+        # Create a compressed version of the image
+        compressed = get_thumbnail(self.file, str(self.file.width) + "x" + str(self.file.height), quality=70)
+        self.compressed.save(compressed.name, ContentFile(compressed.read()), False)
         super(Image, self).save(*args, **kwargs)

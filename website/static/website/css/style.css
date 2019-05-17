@@ -261,3 +261,15 @@ a {
 		min-width:300px;
 		max-width:300px;
 }
+
+/* For mørkere bilder */
+.darken-50 {
+	-webkit-filter: brightness(50%);
+	filter: brightness(50%);
+}
+
+/* For gamle events, etc. Sett en linje gjennom tekst */
+.line-through {
+	text-decoration: line-through;
+}
+

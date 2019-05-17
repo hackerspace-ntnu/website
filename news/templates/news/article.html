@@ -1,9 +1,14 @@
 {% extends "website/base.html" %}
 {% load staticfiles %}
-{% load check_user_group %}
-{% block header %}
+{% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
-{% endblock header %}
+{# OpenGraph Metadata #}
+<meta property="og:title" content="{{ article.title }}" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="{{ article.thumbnail.abs_url }}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+{# OpenGraph Metadata End #}
+{% endblock head %}
 
 {% block content %}
 <div class="section no-pad hs-green hide-on-med-and-up">
@@ -22,6 +27,9 @@
 					<h5 class="hide-on-med-and-up">{{ article.title }}</h5>
 					<h3 class="hide-on-small-only">{{ article.title }}</h3>
 					<p>{{ article.pub_date }}</p>
+					{% if article.author %}
+					<p>Skrevet av <a href="{% url 'userprofile:profile_by_id' article.author.id %}">{{ article.author.get_full_name }}</a></p>
+					{% endif %}
 				</div>
 			</div>
 			<div class="row">
@@ -34,33 +42,37 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	{% if request.user|has_group:"member" %}
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<ul class='collection'>
-					<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i>Rediger artikkel</a></li>
-					<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
-				</ul>
+		{% if perms.news.change_article %}
+		<div class="card-panel">
+			<div class="row">
+				<div class="col s12">
+					<h4>Administrativ meny</h4>
+				</div>
+				<div class="col s12">
+					<ul class='collection'>
+						<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i>Rediger artikkel</a></li>
+						{% if perms.news.delete_article %}
+						<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
+						{% endif %}
+					</ul>
+				</div>
 			</div>
 		</div>
+		{% endif %}
 	</div>
-	{% endif %}
-</div>
-<script>
-// Prevent ckeditor hard fields to allow responsive images 
-window.addEventListener('DOMContentLoaded', function(event) {
-	var container = document.getElementsByClassName('card-panel')[0];
-	var images = container.getElementsByTagName("img");
-	console.log(images);
-	var i;
+	<script>
+		// Prevent ckeditor hard fields to allow responsive images 
+		window.addEventListener('DOMContentLoaded', function(event) {
+			var container = document.getElementsByClassName('card-panel')[0];
+			var images = container.getElementsByTagName("img");
+			console.log(images);
+			var i;
 
-	for(i = 0; i < images.length; i++) {
-		images[i].className = "responsive-img";
-		images[i].style.height = "";
-	}
-});
+			for(i = 0; i < images.length; i++) {
+				images[i].className = "responsive-img";
+				images[i].style.height = "";
+			}
+		});
 
-</script>
-{% endblock content %}
+	</script>
+	{% endblock content %}

@@ -1,19 +1,23 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
-from django.views.generic import TemplateView, DetailView, ListView, FormView, UpdateView, CreateView, DeleteView
+from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 from datetime import datetime
-from .forms import EventForm, eventformset
+from .forms import EventForm, eventformset, uploadformset
 from .models import Event, Article, EventRegistration
-from authentication.templatetags import check_user_group as groups
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+
 
 class EventView(DetailView):
     model = Event
     template_name = "news/event.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if self.get_object().internal and not groups.has_group(self.request.user, 'member'):
+        if self.get_object().internal and not request.user.has_perm('news.can_view_internal_event'):
             return redirect("/")
 
         return super(EventView, self).dispatch(request, *args, **kwargs)
@@ -24,10 +28,6 @@ class EventView(DetailView):
         context_data['expired_event'] = datetime.now() > self.object.time_end
 
         if self.request.user.is_authenticated:
-            context_data['registered'] = self.object.is_registered(self.request.user) or \
-                                         self.object.is_waiting(self.request.user)
-            context_data['registration_visible'] = self.object.can_edit_registration_status(
-                self.request.user)
             context_data['userstatus'] = self.object.userstatus(self.request.user)
             if(self.object.is_waiting(self.request.user)):
                 context_data['get_position'] = "Du er nummer " + str(self.object.get_position(user=self.request.user)) + " på ventelisten"
@@ -36,38 +36,19 @@ class EventView(DetailView):
 
         return context_data
 
+
 class EventListView(ListView):
     template_name = "news/events.html"
     paginate_by = 10
 
     def get_queryset(self):
-        if groups.has_group(self.request.user, 'member'):
-            return Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
+        if self.request.user.has_perm('news.can_view_internal_event'):
+            return Event.objects.order_by('-time_end')
         else:
-            return Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        # Split into two seperate lists
-        if groups.has_group(self.request.user, 'member'):
-            context_data['new_events'] = Event.objects.filter(time_end__gte=datetime.now()).order_by('time_end')
-            context_data['past_events'] = Event.objects.filter(time_end__lte=datetime.now()).order_by('-time_start')
-            context_data['happening_events'] = Event.objects.filter(time_start__lte=datetime.now()).filter(time_end__gt=datetime.now()).order_by('-time_start')
+            return Event.objects.filter(internal=False).order_by('-time_end')
 
 
-        else:
-            context_data['happening_events'] = Event.objects.filter(internal=False).filter(time_end__gte=datetime.now()).filter(time_start__lte=datetime.now()).order_by('-time_start')
-            context_data['new_events'] = Event.objects.filter(internal=False).filter(time_end__gte=datetime.now()).order_by('time_end')
-            context_data['past_events'] = Event.objects.filter(internal=False).filter(time_end__lte=datetime.now()).order_by('-time_start')
-
-
-        return context_data
-
-
-
-
-
-class EventAttendeeEditView(UpdateView):
+class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
     '''
         Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
         de har møtt opp eller ikke.
@@ -75,12 +56,7 @@ class EventAttendeeEditView(UpdateView):
     template_name = "news/attendee_form.html"
     model = Event
     fields = ['title']
-
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(EventAttendeeEditView, self).dispatch(request, *args, **kwargs)
+    permission_required = "news.can_see_attendees"
 
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
@@ -110,7 +86,7 @@ class ArticleListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        if groups.has_group(self.request.user, 'member'):
+        if self.request.user.has_perm("news.can_view_internal_article"):
             return Article.objects.order_by('-pub_date')
         else:
             return Article.objects.filter(internal=False).order_by('-pub_date')
@@ -121,110 +97,140 @@ class ArticleView(DetailView):
     template_name = "news/article.html"
 
     def dispatch(self, request, *args, **kwargs):
-        # Check if user is member if the article field internal is True
-        if self.get_object().internal and not groups.has_group(request.user, 'member'):
+        # If the article is internal, check if user has the permission to view.
+        if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
             return redirect("/")
 
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
 
 
-class EventUpdateView(UpdateView):
+class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
+    permission_required = 'news.change_event'
+    success_message = "Arrangementet er oppdatert."
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['uploads_form'] = uploadformset(self.request.POST, self.request.FILES, instance=self.object)
+        else:
+            context['uploads_form'] = uploadformset(instance=self.object)
 
-        return super(EventUpdateView, self).dispatch(request, *args, **kwargs)
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        context = self.get_context_data()
+
+        upload_form = context['uploads_form']
+
+        if upload_form.is_valid():
+            self.object = form.save()
+            upload_form.instance = self.object
+            upload_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            errors = upload_form.errors
+            raise
+            return self.render_to_response(self.get_context_data(form=form))
+
 
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()
-        initial['time_start'] = self.object.time_start.date().strftime('%Y-%m-%d')
-        initial['time_end'] = self.object.time_end.date().strftime('%Y-%m-%d')
-        initial['event_start_time'] = self.object.time_start.time()
-        initial['event_end_time'] = self.object.time_end.time()
-        initial['registration_start_time'] = self.object.registration_start.time()
-        initial['registration_start'] = self.object.registration_start.date().strftime('%Y-%m-%d')
-        initial['deregistration_end'] = self.object.deregistration_end.date().strftime('%Y-%m-%d')
-        initial['deregistration_end_time'] = self.object.deregistration_end.time()
+        initial['time_start'] = self.object.time_start
+        initial['time_end'] = self.object.time_end
+        initial['registration_start'] = self.object.registration_start
+        initial['registration_end'] = self.object.registration_end
+        initial['deregistration_end'] = self.object.deregistration_end
         return initial
 
     def get_success_url(self):
         return reverse('events:details', kwargs={'pk': self.object.id})
 
 
-class EventCreateView(CreateView):
+class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
     success_url = "/events/"
+    permission_required = 'news.add_event'
+    success_message = "Arrangementet er opprettet og publisert."
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
+    def get_success_url(self):
+        return reverse('events:details', kwargs={'pk': self.object.id})
 
-        return super(EventCreateView, self).dispatch(request, *args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(EventCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['uploads_form'] = uploadformset(self.request.POST, self.request.FILES)
+        else:
+            context['uploads_form'] = uploadformset(instance=self.object)
+        return context
 
     def get_initial(self):
-        today = datetime.strftime(timezone.now(), '%Y-%m-%d')
-
         initial = super(EventCreateView, self).get_initial()
-        initial['event_start_time'] = "00:00"
-        initial['event_end_time'] = "00:00"
-        initial['registration_start_time'] = "00:00"
-        initial['deregistration_end_time'] = "00:00"
+        initial['time_start'] = timezone.now()
+        initial['time_end'] = timezone.now()
 
-        initial['time_start'] = today
-        initial['time_end'] = today
-        initial['registration_start'] = today
-        initial['deregistration_end'] = today
+        initial['registration_start'] = timezone.now()
+        initial['registration_end'] = timezone.now()
+        initial['deregistration_end'] = timezone.now()
         return initial
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        self.object = form.save(commit=False)
+        context = self.get_context_data()
 
-class ArticleCreateView(CreateView):
+        upload_form = context['uploads_form']
+
+        if upload_form.is_valid():
+            self.object = form.save()
+            upload_form.instance = self.object
+            upload_form.save()
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+
+class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Article
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
     template_name = "news/edit_article.html"
-    success_url = "/news/"
+    permission_required = "news.add_article"
+    success_message = "Artikkelen er opprettet og publisert."
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-        return super(ArticleCreateView, self).dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse('news:details', kwargs={'pk': self.object.id})
 
-class ArticleUpdateView(UpdateView):
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Article
     template_name = "news/edit_article.html"
     fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
-    success_url = "/news/"
+    permission_required = "news.change_article"
+    success_message = "Artikkelen er oppdatert."
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
+    def get_success_url(self):
+        return reverse('news:details', kwargs={'pk': self.object.id})
 
-        return super(ArticleUpdateView, self).dispatch(request, *args, **kwargs)
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Article
     success_url = "/news/"
+    permission_required = "news.delete_article"
 
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
 
-        return super(ArticleDeleteView, self).dispatch(request, *args, **kwargs)
-
-class EventDeleteView(DeleteView):
+class EventDeleteView(PermissionRequiredMixin, DeleteView):
     model = Event
     success_url = "/events/"
-
-    def dispatch(self, request, *args, **kwargs):
-        if not groups.has_group(self.request.user, 'member'):
-            return redirect("/")
-
-        return super(EventDeleteView, self).dispatch(request, *args, **kwargs)
+    permission_required = "news.delete_event"
 
 
 @login_required
@@ -235,8 +241,10 @@ def register_on_event(request, event_id):
         er = EventRegistration.objects.get(user=request.user, event=event_object)
         if event_object.deregistration_end > now:
             er.delete()
+            messages.add_message(request, 25, 'Du er nå avmeldt')
     except EventRegistration.DoesNotExist:
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
+            messages.add_message(request, 25, 'Du er nå påmeldt')
 
     return redirect("/events/" + str(event_id))

@@ -48,8 +48,8 @@
 		<div class="row">
 			<div class="col s12 l6 white-text">
 				<h4>Hvem er vi?</h4>
-				<p>Hackerspace NTNU er en studentdrevet organisasjon åpen for alle studenter uavhengig av studieretning.</p>
-				<p>Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p><p>Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det.</p>
+				<p>Hackerspace NTNU er et studentdrevet prosjekt åpent for alle studenter uavhengig av studieretning.</p>
+				<p>Hos oss finner du ny teknologi til din disposisjon, blant annet droner, 3D-printere og Virtual Reality-utstyr.</p><p>Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace.</p>
 				<p>Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="hs-green-text" target="_blank" href="http://bit.ly/2Hzw7EO">vårt verksted</a> og slack-kanal.</p>
 				<p>Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å demonstrere utstyr eller hjelpe deg.</p>
 				<a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">Les mer om oss her</a>
@@ -58,10 +58,10 @@
 				<div class="row">
 					<br>
 					<div class="col s12 x12">
-						<ul class="collection with-header z-depth-1">
+						<ul class="collection with-header z-depth-0">
 							<li class="collection-header">
 								<div>
-									<p class="flow-text">Siste nytt <i class="material-icons hs-green-text">new_releases</i></p>
+									<p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">Siste Nytt</a></p>
 								</div>
 							</li>
 							{% for article in article_list %}
@@ -73,16 +73,16 @@
 						</ul>
 					</div>
 					<div class="col s12 xl12">
-						<ul class="collection with-header z-depth-1">
+						<ul class="collection with-header z-depth-0">
 							<li class="collection-header">
-								<p class="flow-text">Siste arrangementer <i class="material-icons hs-green-text">event</i></p>
+								<p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">Siste Arrangementer</a></p>
 							</li>
 							{% for event in event_list reversed %}
 								<li class="collection-item">
 									{% if event.time_start > current_date %}
 										<span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
 									{% else %}
-										<span class="secondary-content badge">{{ event.time_start|date:"d.m.Y" }}</span>
+										<span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
 
 									{% endif %}
 
@@ -103,7 +103,7 @@
 			<div class="col s12">
 				<div class="card horizontal">
 					<div class="card-image">
-						<img src="{{ card.thumbnail.url }}">
+						<img src="{{ card.thumbnail.compressed.url }}">
 						{% if card.thumbnail_dark_text %}
 						<span class="card-title black-text">{{ card.title }}</span>
 						{% else %}

@@ -31,6 +31,14 @@
 </div>
 <div class="section">
 	<div class="container">
+		{% if not perms.reservations.view_user_details and disable_reservations %}
+		<div class="row">
+			<div class="col s12">
+				<p>Hackerspace er i en tidsramme hvor reservasjonssystemet er stengt. Dette er som regel eksamenstid, ferie, etc.</p>
+				<p>Dersom du er medlem i Hackerspace, logg på din konto for å kunne reservere print utenom vanlige åpningstider.</p>
+			</div>
+		</div>
+		{% else %}
 		<div class="row">
 			<div class="col s6">
 				<div class="card-panel small hs-green white-text z-depth-0">
@@ -49,6 +57,7 @@
 				<div id='calendar'></div>
 			</div>
 		</div>
+		{% endif %}
 	</div>
 </div>
 

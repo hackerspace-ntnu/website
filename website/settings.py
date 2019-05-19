@@ -59,13 +59,11 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'authentication',
     'userprofile',
-    'vaktliste',
-    'material',
-    'kaffe',
     'seasonal_events',
     'committees',
     'reservations',
-    'rest_framework'
+    'django_filters',
+    'rest_framework',
     'social_django',
 ]
 
@@ -271,4 +269,12 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     }
+}
+
+
+#################################
+# Rest Framework                #
+#################################
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }

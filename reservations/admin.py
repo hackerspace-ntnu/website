@@ -6,7 +6,7 @@ from reservations.models import Queue, Reservation
 
 class ReservationAdmin(ModelAdmin):
     model = Reservation
-    ordering = ('-start_date', '-start_time')
+    ordering = ('-start', '-end')
 
 
 admin.site.register(Queue)

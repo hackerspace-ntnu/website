@@ -48,21 +48,16 @@ class Reservation(models.Model):
         null=True,
         blank=True,
     )
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
 
     def __str__(self):
-        return f'{self.parent_queue}: {self.start_date:%b %d} {self.start_time:%H:%M} - {self.end_time:%H:%M}'
+        return self.parent_queue + "(" + self.user.get_full_name + ")"
 
     def get_absolute_url(self):
         return reverse('reservations:queue_detail', kwargs={'pk': self.parent_queue.pk})
 
-    @property
-    def start(self):
-        return datetime.datetime.combine(self.start_date, self.start_time)
-
-    @property
-    def end(self):
-        return datetime.datetime.combine(self.end_date, self.end_time)
+    class Meta:
+        permissions = [
+            ("view_user_details", "Can view full name and phone number on reservation view"),
+        ]

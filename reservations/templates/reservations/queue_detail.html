@@ -133,7 +133,7 @@
 			scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
 
 			// hide hours when we are officially closed from non-members
-			{% if perm.reservations.view_user_details %}
+			{% if perms.reservations.view_user_details %}
 			minTime: "00:00:00",
 			maxTime: "23:59:59",
 			weekends: true,

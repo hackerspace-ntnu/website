@@ -1,0 +1,65 @@
+<div id="reservationModal" class="modal">
+        <div class="modal-content">
+		<h4>Ny reservasjon</h4>
+		<p>Vi av våre ressurser slik at du kan bruke utstyret når du reserverer. Dersom du ikke møter opp innenfor rimelig tid etter din reservasjon har startet vil noen andre kunne benytte utstyret.</p>
+		<p>Ditt fulle navn og telefonnummer vil assosieres med reservasjonen og være synlig for Hackerspace-medlemmer slik at de på vakt kan kontakte deg om det skulle hende noe. (For eksmepel en 3D print du har satt på feiler).</p>
+		<div class="row">
+			<div class="col s12 input-field">
+				<input type="text" disabled id="id_start" />
+				<label for="ex_start">Start-tidspunkt</label>
+			</div>
+			<div class="col s12 input-field">
+				<input type="text" disabled id="id_end" />
+				<label for="ex_end">Slutt-tidspunkt</label>
+			</div>
+			<div class="col s12 input-field">
+				<input type="text" id="id_comment" />
+				<label for="ex_comment">Kommentar</label>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button id="cancelButton" type="button" class="btn hs-yellow btn-flat white-text modal-close">Avbryt</button>
+		<a href="#/" id="createButton" value="opprett reservasjon" class="btn btn-flat hs-green white-text modal-close">OPPRETT</a>
+	</div>
+</div>
+
+<div id="updateModal" class="modal">
+        <div class="modal-content">
+		<h4>Endre reservasjon</h4>
+		<div class="row">
+			<div class="col s12 input-field">
+				<input type="text" disabled id="ex_start" />
+				<label for="ex_start">Start-tidspunkt</label>
+			</div>
+			<div class="col s12 input-field">
+				<input type="text" disabled id="ex_end" />
+				<label for="ex_end">Slutt-tidspunkt</label>
+			</div>
+			<div class="col s12 input-field">
+				<input type="text" id="ex_comment" />
+				<label for="ex_comment">Kommentar</label>
+			</div>
+			<input type="hidden" id="ex_id" />
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<a href="#/" id="deleteButton" class="btn btn-flat hs-red modal-close">Slett</a>
+		<button id="cancelButton" type="button" class="btn hs-yellow btn-flat white-text modal-close">Avbryt</button>
+		<a href="#/" id="updateButton" class="btn hs-green btn-flat white-text modal-close">Oppdater</a>
+	</div>
+</div>
+
+<div id="phoneNumberModal" class="modal">
+        <div class="modal-content">
+		<h4>Telefonnummer</h4>
+		<div class="row">
+			<div class="col s12 input-field">
+				<p>Vi ønsker at du legger inn ditt telefonnummer på din profil slik at vi kan kontakte deg dersom det skulle skje en hendelse.</p>
+				<p>Vennligst legg inn telefonnummer i din <a href="{% url 'userprofile:edit_profile' %}">brukerprofil</a> og oppdater denne siden igjen.</p>
+
+			</div>
+		</div>
+	</div>
+</div>

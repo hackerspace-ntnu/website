@@ -1,0 +1,315 @@
+{% extends 'website/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/nb.js'></script>
+    <style type='text/css'>
+    .fc h2 {
+	    font-size: 2.28rem;
+	    line-height: 110%;
+    }
+
+    .fc-time-grid .fc-slats td {
+	    height: 2.5em;
+	    border-bottom: 0;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row white-text">
+			<div class="col s12">
+				<h4>{{ queue.name }}</h4>
+				<p>På denne siden kan du reservere bruk av {{ queue.name }}.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		{% if not perms.reservations.view_user_details and disable_reservations %}
+		<div class="row">
+			<div class="col s12">
+				<p>Hackerspace er i en tidsramme hvor reservasjonssystemet er stengt. Dette er som regel eksamenstid, ferie, etc.</p>
+				<p>Dersom du er medlem i Hackerspace, logg på din konto for å kunne reservere print utenom vanlige åpningstider.</p>
+			</div>
+		</div>
+		{% else %}
+		<div class="row">
+			<div class="col s6">
+				<div class="card-panel small hs-green white-text z-depth-0">
+					<p>Grønne blokker er dine egne reservasjoner.</p>
+					<p>Trykk en av dine reservasjoner for å oppdatere kommentaren eller slette den.</p>
+				</div>
+			</div>
+			<div class="col s6">
+				<div class="card-panel small hs-gray white-text z-depth-0">
+					<p>Grå blokker er andre sine reservasjoner.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<div id='calendar'></div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+
+{% include 'reservations/reservation_modal.html' %}
+
+<script>
+	const requestUser = '{{ request.user.id }}';
+
+	let newStartField = $('#id_start')[0];
+	let newEndField = $('#id_end')[0];
+	let newCommentField = $('#id_comment')[0];
+	let exStartField = $('#ex_start')[0];
+	let exEndField = $('#ex_end')[0];
+	let exCommentField = $('#ex_comment')[0];
+	let exIdField = $('#ex_id')[0];
+	let selectedEvent = Object;
+	let createButton = document.getElementById('createButton');
+	let deleteButton = document.getElementById('deleteButton');
+	let updateButton = document.getElementById('updateButton');
+	let cancelButton = document.getElementById('cancelButton');
+
+	let selectedReservation = null;
+
+	document.addEventListener('DOMContentLoaded', function() {
+		let buttonTranslations = {cancel: 'Avbryt', clear: 'nullstill', done: 'Ok'};
+		let datepickerOptions = {
+			firstDay: 1,
+			container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
+			i18n: {
+				...buttonTranslations,
+				...{ // https://github.com/amsul/pickadate.js/blob/3.5.6/lib/translations/nb_NO.js
+					months: [ 'januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember' ],
+					monthsShort: [ 'jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des' ],
+					weekdaysFull: [ 'søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag' ],
+					weekdaysShort: [ 'søn','man','tir', 'ons', 'tor', 'fre', 'lør' ],
+					today: 'i dag',
+					clear: 'nullstill',
+					close: 'lukk',
+					firstDay: 1,
+					format: 'dd. mmm. yyyy',
+					formatSubmit: 'yyyy-mm-dd'
+				}
+			}
+		};
+		let datepickerElems = document.querySelectorAll('.datepicker');
+		M.Datepicker.init(datepickerElems, datepickerOptions);
+
+		let timepickerOptions = {
+			twelveHour: false,
+			i18n : buttonTranslations,
+			container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
+		};
+		let timepickerElems = document.querySelectorAll('.timepicker');
+		M.Timepicker.init(timepickerElems, timepickerOptions);
+	});
+
+	$(function () {
+
+		$('#calendar').fullCalendar({
+
+			locale: 'nb',
+			selectable: true,
+			height: "auto",
+			defaultView: 'agendaWeek',
+			allDaySlot: false,
+			header: {right: 'prev, next'},
+			refetchResourcesOnNavigate: true,
+			slotDuration: '00:30:00',
+			snapDuration: '00:10:00',
+			slotLabelInterval: {hours: 0.5},
+			eventBackgroundColor: '#5BBA47',
+			slotLabelFormat: "HH:mm",
+			scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
+
+			// hide hours when we are officially closed from non-members
+			{% if perm.reservations.view_user_details %}
+			minTime: "00:00:00",
+			maxTime: "23:59:59",
+			weekends: true,
+			{% else %}
+			minTime: "10:00:00",
+			maxTime: "18:00:00",
+			weekends: false,
+			{% endif %}
+			selectOverlap: false,
+			eventSources: [
+				{
+					url: '/api/reservations/',
+					method: 'GET',
+					extraParams: {
+						parent_queue: {{ queue.pk }},
+					},
+					failure: function() {
+						alert('there was an error while fetching events!');
+					},
+					color: '#4E4B46',
+					textColor: '#FFF',
+				}
+			],
+			eventClick: function(event, element) {
+				{% if not request.user.is_superuser %}
+				if (requestUser == event.user) {
+					let modal = $('#updateModal');
+					exStartField.value = DateTimeFormat(event.start);
+					exEndField.value = DateTimeFormat(event.end);
+					exCommentField.value = event.comment;
+					exIdField.value = event.id;
+					let instance = M.Modal.getInstance(modal);
+					instance.open();
+					M.updateTextFields();
+				}
+				{% else %}
+					let modal = $('#updateModal');
+					exStartField.value = DateTimeFormat(event.start);
+					exEndField.value = DateTimeFormat(event.end);
+					exCommentField.value = event.comment;
+					exIdField.value = event.id;
+					let instance = M.Modal.getInstance(modal);
+					instance.open();
+					M.updateTextFields();
+				{% endif %}
+			},
+
+			select: function (startTime, endTime) {
+				if(startTime.isBefore(moment())) {
+					$('#calendar').fullCalendar('unselect');
+					M.toast({'html': 'Du kan ikke opprette reservasjon i fortiden.'})
+					return false;
+				}
+				{% if request.user.is_authenticated %}
+					{% if not request.user.profile.phone_number %}
+					{# Hvis bruker ikke har lagt inn telefonnummer #}
+					let modal = $('#phoneNumberModal')
+					let instance = M.Modal.getInstance(modal);
+					instance.open();
+					M.updateTextFields();
+					{% else %}
+					let modal = $('#reservationModal')
+					newStartField.value = DateTimeFormat(startTime);
+					newEndField.value = DateTimeFormat(endTime);
+					newCommentField.value = "";
+					let instance = M.Modal.getInstance(modal);
+					instance.open();
+					M.updateTextFields();
+					{% endif %}
+				{% else %}
+				M.toast({'html': 'Du må være logget inn for å opprette reservasjoner.'})
+				{% endif %}
+			},
+
+			eventRender: function(event, element) {
+				// Add event owner and comment as tooltip for members
+				if (requestUser == event.user) {
+					element.addClass('hs-green center');
+					M.Tooltip.init(element, {html: "Trykk for å redigere" });
+				} else {
+					element.addClass('hs-gray center');
+				}
+				element.css('font-size', '1rem');
+				{% if perms.reservation.view_reservation_user_details %}
+				{# kun dersom en bruker har rettigheter til å se navn og nummer #}
+					event.title = event.fullname;
+					element.append("</br>" + event.title + "</br></br>");
+					M.Tooltip.init(element, {html: event.phone });
+				{% endif %}
+			},
+		})
+	});
+
+	function DateTimeFormat(datetime) {
+		return $.fullCalendar.formatDate(datetime, "Y-MM-DD HH:mm")
+	}
+
+
+	deleteButton.addEventListener('click', function() {
+		$.ajax({
+			url: '/api/reservations/' + $('#ex_id')[0].value + "/",
+			type: 'DELETE',
+			beforeSend: function (xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+			},
+			success: function(response) {
+				$('#calendar').fullCalendar('refetchEvents');
+				M.toast({html: "Reservasjonen er slettet."})
+			},
+			error: function(e) {
+				$('#calendar').fullCalendar('refetchEvents');
+				for (var error in e.responseJSON.non_field_errors) {
+					if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
+						M.toast({html: e.responseJSON.non_field_errors[error]})
+					}
+				}
+			},
+		});
+	});
+
+	updateButton.addEventListener('click', function() {
+		data = {
+			comment: $('#ex_comment')[0].value,
+		}
+		$.ajax({
+			url: '/api/reservations/' + $('#ex_id')[0].value + "/",
+			data: data,
+			type: 'PATCH',
+			beforeSend: function (xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+			},
+			success: function(response) {
+				$('#calendar').fullCalendar('refetchEvents');
+				M.toast({html: "Kommentaren er oppdatert."})
+			},
+			error: function(e) {
+				$('#calendar').fullCalendar('refetchEvents');
+				for (var error in e.responseJSON.non_field_errors) {
+					if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
+						M.toast({html: e.responseJSON.non_field_errors[error]})
+					}
+				}
+			},
+		});
+	});
+
+	createButton.addEventListener('click', function() {
+		data = {
+			comment: $('#id_comment')[0].value,
+			start: $('#id_start')[0].value,
+			end: $('#id_end')[0].value,
+			parent_queue: {{ queue.id }},
+			user: {{ request.user.pk }}
+		}
+		$.ajax({
+			url: '/api/reservations/',
+			data: data,
+			type: 'POST',
+			beforeSend: function (xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+			},
+			success: function() {
+				$('#calendar').fullCalendar('refetchEvents');
+				M.toast({html: "Reservasjonen var vellykket."})
+			},
+			error: function(e) {
+				$('#calendar').fullCalendar('refetchEvents');
+				for (var error in e.responseJSON.non_field_errors) {
+					if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
+						M.toast({html: e.responseJSON.non_field_errors[error]})
+					}
+				}
+			},
+		});
+	});
+
+</script>
+
+{% endblock content %}

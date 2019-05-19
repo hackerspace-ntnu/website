@@ -51,6 +51,12 @@
 						<span class="helper-text hs-red-text">{{ form.access_card.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
+						{{ form.phone_number }}
+						<label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+						<span class="helper-text">{{ form.phone_number.help_text }}</span>
+						<span class="helper-text hs-red-text">{{ form.phone_number.errors }}</span>
+					</div>
+					<div class="col s12 input-field">
 						{{ form.study }}
 						<label for="{{ form.study.id_for_label }}">{{ form.study.label }}</input>
 						<span class="helper-text hs-red-text">{{ form.study.errors }}</span>

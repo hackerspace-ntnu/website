@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from files.models import Image
 
 
 class Queue(models.Model):
@@ -21,6 +22,8 @@ class Queue(models.Model):
     hidden = models.BooleanField(
         default=False,
     )
+
+    thumbnail = models.ForeignKey(Image, null=True, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         return self.name

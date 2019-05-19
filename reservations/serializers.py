@@ -1,9 +1,6 @@
 import datetime
-
 from django.db.models import Q
 from rest_framework import serializers
-
-from authentication.templatetags.check_user_group import has_group
 from reservations.models import Reservation
 
 
@@ -25,7 +22,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
         # disallow weekend and late/early hour reservations to non-members
         user = self.context['request'].user
-        if not has_group(user, 'member') and not user.is_superuser:
+        if not user.has_perm('add_reservation') and not user.is_superuser:
             if attrs['start_time'].hour < 10 or attrs['end_time'].hour > 18 \
                     or attrs['start_date'].weekday() >= 6 or attrs['end_date'].weekday() >= 6:
                 raise serializers.ValidationError(

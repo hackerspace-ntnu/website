@@ -1,233 +1,253 @@
 {% extends 'website/base.html' %}
-{% load check_user_group %}
-
-
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/nb.js'></script>
+
+
+    <style type='text/css'>
+    .fc h2 {
+	    font-size: 2.28rem;
+	    line-height: 110%;
+    }
+    </style>
+
+
+
+
 {% endblock %}
 
 {% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row white-text">
+			<div class="col s12">
+				<h4>{{ queue.name }}</h4>
+				<p>På denne siden kan du reservere bruk av {{ queue.name }}.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<div id='calendar'></div>
+			</div>
+		</div>
+	</div>
+</div>
 
-    <div class="section block">
-        <div class="row">
-            <div class="col s10 offset-s1">
-                <div id='calendar'></div>
-            </div>
-        </div>
-    </div>
+{% include 'reservations/reservation_modal.html' %}
 
-    {% include 'reservations/reservation_modal.html' %}
+<script>
+	const requestUser = '{{ request.user }}';
 
-    {% include 'reservations/require_login_modal.html' %}
+	let startDateField = $('#id_start_date')[0];
+	let endDateField = $('#id_end_date')[0];
+	let startTimeField = $('#id_start_time')[0];
+	let endTimeField = $('#id_end_time')[0];
+	let commentField = $('#id_comment')[0];
+	let createButton = $('#createReservationInput')[0];
+	let deleteButton = $('#deleteReservationButton')[0];
+	let updateButton = $('#updateReservationButton')[0];
+	let cancelButton = $('#cancelButton')[0];
 
-    {% include 'reservations/display_messages_as_toast.html' %}
+	let selectedReservation = null;
 
-    <script>
-        const requestUser = '{{ request.user }}';
+	document.addEventListener('DOMContentLoaded', function() {
+		let buttonTranslations = {cancel: 'Avbryt', clear: 'nullstill', done: 'Ok'};
+		let datepickerOptions = {
+			firstDay: 1,
+			container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
+			i18n: {
+				...buttonTranslations,
+				...{ // https://github.com/amsul/pickadate.js/blob/3.5.6/lib/translations/nb_NO.js
+					months: [ 'januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember' ],
+					monthsShort: [ 'jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des' ],
+					weekdaysFull: [ 'søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag' ],
+					weekdaysShort: [ 'søn','man','tir', 'ons', 'tor', 'fre', 'lør' ],
+					today: 'i dag',
+					clear: 'nullstill',
+					close: 'lukk',
+					firstDay: 1,
+					format: 'dd. mmm. yyyy',
+					formatSubmit: 'yyyy-mm-dd'
+				}
+			}
+		};
+		let datepickerElems = document.querySelectorAll('.datepicker');
+		M.Datepicker.init(datepickerElems, datepickerOptions);
 
-        let startDateField = $('#id_start_date')[0];
-        let endDateField = $('#id_end_date')[0];
-        let startTimeField = $('#id_start_time')[0];
-        let endTimeField = $('#id_end_time')[0];
-        let commentField = $('#id_comment')[0];
-        let createButton = $('#createReservationInput')[0];
-        let deleteButton = $('#deleteReservationButton')[0];
-        let updateButton = $('#updateReservationButton')[0];
-        let cancelButton = $('#cancelButton')[0];
+		let timepickerOptions = {
+			twelveHour: false,
+			i18n : buttonTranslations,
+			container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
+		};
+		let timepickerElems = document.querySelectorAll('.timepicker');
+		M.Timepicker.init(timepickerElems, timepickerOptions);
+	});
 
-        let selectedReservation = null;
+	$(function () {
 
-        document.addEventListener('DOMContentLoaded', function() {
-            let buttonTranslations = {cancel: 'Avbryt', clear: 'nullstill', done: 'Ok'};
-            let datepickerOptions = {
-                firstDay: 1,
-                container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
-                i18n: {
-                    ...buttonTranslations,
-                    ...{ // https://github.com/amsul/pickadate.js/blob/3.5.6/lib/translations/nb_NO.js
-                        months: [ 'januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember' ],
-                        monthsShort: [ 'jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des' ],
-                        weekdaysFull: [ 'søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag' ],
-                        weekdaysShort: [ 'søn','man','tir', 'ons', 'tor', 'fre', 'lør' ],
-                        today: 'i dag',
-                        clear: 'nullstill',
-                        close: 'lukk',
-                        firstDay: 1,
-                        format: 'dd. mmm. yyyy',
-                        formatSubmit: 'yyyy-mm-dd'
-                    }
-                }
-            };
-            let datepickerElems = document.querySelectorAll('.datepicker');
-            M.Datepicker.init(datepickerElems, datepickerOptions);
+		$('#calendar').fullCalendar({
 
-            let timepickerOptions = {
-                twelveHour: false,
-                i18n : buttonTranslations,
-                container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
-            };
-            let timepickerElems = document.querySelectorAll('.timepicker');
-            M.Timepicker.init(timepickerElems, timepickerOptions);
-        });
+			locale: 'nb',
+			selectable: true,
+			height: "auto",
+			defaultView: 'agendaWeek',
+			allDaySlot: false,
+			header: {right: 'prev, next'},
+			refetchResourcesOnNavigate: true,
+			slotDuration: '00:30:00',
+			snapDuration: '00:05:00',
+			slotLabelInterval: {hours: 1},
+			eventBackgroundColor: '#5BBA47',
+			slotLabelFormat: "HH:mm",
+			scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
 
-        $(function () {
+			// hide hours when we are officially closed from non-members
+			{% if perm.reservations.add_reservation or request.user.is_superuser %}
+			minTime: "00:00:00",
+			maxTime: "23:59:59",
+			{% else %}
+			minTime: "10:00:00",
+			maxTime: "18:00:00",
+			hiddenDays: [6, 0],
+			{% endif %}
 
-            $('#calendar').fullCalendar({
+			events: {
+				url: '{% url 'reservations:reservation_api' pk=queue.pk %}',
+				type: 'GET',
+				error: function () {
+					console.log("Encountered error while retrieving reservation data!");
+				},
+				success: function (data) {
+					for (event of data) {
+						if (requestUser == event.user) {
+							event.color = '#5BBA47';
+						}
+					}
+				},
+				eventOverlap: false,
+			},
 
-                locale: 'nb',
-                selectable: true,
-                height: 500,
-                defaultView: 'agendaWeek',
-                allDaySlot: false,
-                header: {right: 'prev, next'},
-                refetchResourcesOnNavigate: true,
-                slotDuration: '00:30:00',
-                snapDuration: '00:05:00',
-                slotLabelInterval: {hours: 1},
-                eventColor: '#456990',
+			eventClick: function(event, element) {
+				if (requestUser == event.user) {
+					selectedReservation = event;
+					let modal = $('#reservationModal');
+					setupReservationModal(event.start, event.end, true, event.comment)
+					let instance = M.Modal.getInstance(modal);
+					instance.open();
+				}
+			},
 
-                slotLabelFormat: "HH:mm",
-                scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
+			select: function (startDateTime, endDateTime) {
+				{% if request.user.is_authenticated %}
+				let modal = $('#reservationModal')
+				setupReservationModal(startDateTime, endDateTime)
+				{% else %}
+				M.toast({'html': 'Du må være logget inn for å opprette reservasjoner.'})
+				{% endif %}
+				let instance = M.Modal.getInstance(modal);
+				instance.open();
+				M.updateTextFields();
+			},
 
-                // hide hours when we are officially closed from non-members
-                {% if request.user|has_group:"member" or request.user.is_superuser %}
-                    minTime: "00:00:00",
-                    maxTime: "23:59:59",
-                {% else %}
-                    minTime: "10:00:00",
-                    maxTime: "18:00:00",
-                    hiddenDays: [6, 0],
-                {% endif %}
+			{% if perms.reservation.add_reservation or request.user.is_superuser %}
+			eventRender: function(event, element) {
+				// Add event owner and comment as tooltip for members
+				event.title = event.user.first_name
+				tooltipText = (event.comment === "") ? event.user : event.user + ' - ' + event.comment;
+				M.Tooltip.init(element, {html: tooltipText});
+				element.append(event.user);
+				element.append(event.user);
+			},
+			{% endif %}
+		})
+	});
 
-                events: {
-                    url: '{% url 'reservations:reservation_api' pk=queue.pk %}',
-                    type: 'GET',
-                    error: function () {
-                        console.log("Encountered error while retrieving reservation data!");
-                    },
-                    success: function (data) {
-                        for (event of data) {
-                            if (requestUser == event.user) {
-                                event.color = '#7ABB7A';
-                            }
-                        }
-                    },
-                },
+	function ajaxPostCall(url, data, toastMessage) {
+		$.ajax({
+			url: url,
+			data: data,
+			type: 'POST',
+			beforeSend: function (xhr, settings) {
+				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+			},
+			success: function() {
+				$('#calendar').fullCalendar('refetchEvents');
+				M.toast({html: toastMessage})
+			},
+			error: function() {
+				alert("Noe gikk galt, vennligst prøv igjen. Kontakt DevOps på #dev-public dersom feilen vedvarer");
+			},
+		})
+	}
 
-                eventClick: function(event, element) {
-                    if (requestUser == event.user) {
-                        selectedReservation = event;
-                        let modal = $('#reservationModal');
-                        setupReservationModal(event.start, event.end, true, event.comment)
-                        let instance = M.Modal.getInstance(modal);
-                        instance.open();
-                    }
-                },
+	function htmlDateFormat(datetime) {
+		return $.fullCalendar.formatDate(datetime, "Y-MM-DD")
+	}
 
-                select: function (startDateTime, endDateTime) {
-                    {% if request.user.is_authenticated %}
-                        let modal = $('#reservationModal')
-                        setupReservationModal(startDateTime, endDateTime)
-                    {% else %}
-                        let modal = $('#requireLoginModal');
-                    {% endif %}
-                        let instance = M.Modal.getInstance(modal);
-                        instance.open();
-                },
+	function htmlTimeFormat(datetime) {
+		return $.fullCalendar.formatDate(datetime, "HH:mm")
+	}
 
-                {% if request.user|has_group:"member" or request.user.is_superuser %}
-                eventRender: function(event, element) {
-                    // Add event owner and comment as tooltip for members
-                    tooltipText = (event.comment === "") ? event.user : event.user + ' - ' + event.comment;
-                    M.Tooltip.init(element, {html: tooltipText});
-                },
-                {% endif %}
-            })
-        });
+	function setupReservationModal(startDateTime, endDateTime, update=false, comment="") {
+		startDateField.value = htmlDateFormat(startDateTime);
+		endDateField.value = htmlDateFormat(endDateTime);
+		startTimeField.value = htmlTimeFormat(startDateTime);
+		endTimeField.value = htmlTimeFormat(endDateTime);
+		commentField.value = comment;
 
-        function ajaxPostCall(url, data, toastMessage) {
-            $.ajax({
-                url: url,
-                data: data,
-                type: 'POST',
-                beforeSend: function (xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-                },
-                success: function() {
-                    $('#calendar').fullCalendar('refetchEvents');
-                    M.toast({html: toastMessage})
-                },
-                error: function() {
-                    alert("Noe gikk galt, vennligst prøv igjen. Kontakt DevOps på #dev-public dersom feilen vedvarer");
-                },
-            })
-        }
+		// disable all time-related fields when showing update form
+		if (update) {
+			// If updating comment field -> change button text, show cancel button.
+			commentField.oninput = function(){
+				updateButton.innerText = 'Oppdater';
+				cancelButton.style.display = 'inline';
 
-        function htmlDateFormat(datetime) {
-            return $.fullCalendar.formatDate(datetime, "Y-MM-DD")
-        }
+				// Make update button actually do something
+				updateButton.onclick = function(event) {
+					let url = '{% url 'reservations:reservation_update_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/',
+						data = {comment: $('#id_comment')[0].value};
+					ajaxPostCall(url, data, 'Reservasjon oppdatert!');
+				};
+			};
 
-        function htmlTimeFormat(datetime) {
-            return $.fullCalendar.formatDate(datetime, "HH:mm")
-        }
+			startDateField.disabled = true;
+			endDateField.disabled = true;
+			startTimeField.disabled = true;
+			endTimeField.disabled = true;
 
-        function setupReservationModal(startDateTime, endDateTime, update=false, comment="") {
-            startDateField.value = htmlDateFormat(startDateTime);
-            endDateField.value = htmlDateFormat(endDateTime);
-            startTimeField.value = htmlTimeFormat(startDateTime);
-            endTimeField.value = htmlTimeFormat(endDateTime);
-            commentField.value = comment;
+			updateButton.innerText = 'OK';
+			cancelButton.style.display = 'none';
+			updateButton.style.display = 'inline';
+			createButton.style.display = 'none';
+			deleteButton.style.display = 'inline';
+		} else {
+			commentField.oninput = function(){};
+			updateButton.onclick = function(){};
 
-            // disable all time-related fields when showing update form
-            if (update) {
-                // If updating comment field -> change button text, show cancel button.
-                commentField.oninput = function(){
-                    updateButton.innerText = 'Oppdater';
-                    cancelButton.style.display = 'inline';
+			startDateField.disabled = false;
+			endDateField.disabled = false;
+			startTimeField.disabled = false;
+			endTimeField.disabled = false;
 
-                    // Make update button actually do something
-                    updateButton.onclick = function(event) {
-                        let url = '{% url 'reservations:reservation_update_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/',
-                        data = {comment: $('#id_comment')[0].value};
-                        ajaxPostCall(url, data, 'Reservasjon oppdatert!');
-                    };
-                };
+			cancelButton.style.display = 'inline';
+			updateButton.style.display = 'none';
+			createButton.style.display = 'inline';
+			deleteButton.style.display = 'none';
+		}
+	}
 
-                startDateField.disabled = true;
-                endDateField.disabled = true;
-                startTimeField.disabled = true;
-                endTimeField.disabled = true;
+	deleteButton.onclick = function() {
+		let url = '{% url 'reservations:reservation_delete_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/';
+		ajaxPostCall(url, {}, 'Reservasjon slettet!');
+	};
 
-                updateButton.innerText = 'OK';
-                cancelButton.style.display = 'none';
-                updateButton.style.display = 'inline';
-                createButton.style.display = 'none';
-                deleteButton.style.display = 'inline';
-            } else {
-                commentField.oninput = function(){};
-                updateButton.onclick = function(){};
-
-                startDateField.disabled = false;
-                endDateField.disabled = false;
-                startTimeField.disabled = false;
-                endTimeField.disabled = false;
-
-                cancelButton.style.display = 'inline';
-                updateButton.style.display = 'none';
-                createButton.style.display = 'inline';
-                deleteButton.style.display = 'none';
-            }
-        }
-
-        deleteButton.onclick = function() {
-            let url = '{% url 'reservations:reservation_delete_api' pk=1%}'.slice(0, -2) + selectedReservation.id + '/';
-            ajaxPostCall(url, {}, 'Reservasjon slettet!');
-        };
-
-    </script>
+</script>
 
 {% endblock content %}

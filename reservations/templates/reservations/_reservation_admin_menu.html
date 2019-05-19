@@ -1,0 +1,15 @@
+{% if perms.reservations.add_queue %}
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<ul class='collection with-header'>
+					<li class="collection-header"><h5>Administrator-meny</h5></li>
+					<li class="collection-item"><a href="{% url 'reservations:create_queue' %}"><i class="material-icons">queue</i>Ny Kø</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+{% endif %}

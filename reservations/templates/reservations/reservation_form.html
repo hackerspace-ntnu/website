@@ -1,10 +1,20 @@
 <div class="row">
-    {% include 'reservations/reservation_form_std_field.html' with form_field=form.start_time %}
-    {% include 'reservations/reservation_form_std_field.html' with form_field=form.end_time %}
-</div>
-<div class="row">
-    {% include 'reservations/reservation_form_std_field.html' with form_field=form.start_date %}
-    {% include 'reservations/reservation_form_std_field.html' with form_field=form.end_date %}
+	<div class="col s12 input-field">
+		{{ form.start_time }}
+		{{ form.start_time.label_tag }}
+	</div>
+	<div class="col s12 input-field">
+		{{ form.end_time }}
+		{{ form.end_time.label_tag }}
+	</div>
+	<div class="col s12 input-field">
+		{{ form.start_date }}
+		{{ form.start_date.label_tag }}
+	</div>
+	<div class="col s12 input-field">
+		{{ form.end_date }}
+		{{ form.end_date.label_tag }}
+	</div>
 </div>
 <div class="row">
     <div class="col s12">

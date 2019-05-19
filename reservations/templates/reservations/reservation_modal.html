@@ -1,16 +1,16 @@
 <div id="reservationModal" class="modal">
     <form action="{% url 'reservations:reservation_api' pk=queue.pk %}" method="POST" id="reservationForm">
         <div class="modal-content">
-            {% csrf_token %}
-            {% include 'reservations/reservation_form.html' %}
-        </div>
-        <div class="modal-footer">
-            <button type="button" id="deleteReservationButton" style="display: none" class="btn left modal-close">
-                <i class="material-icons left">delete</i>Slett</button>
-
-            <button id="cancelButton" type="button" class="btn modal-close"><i class="material-icons left">cancel</i>Avbryt</button>
-            <button id="updateReservationButton" type="button" class="btn modal-close" style="display: none">Oppdater</button>
-            <input id="createReservationInput" type="submit" value="opprett reservasjon" class="btn">
-        </div>
+		<h4>Reservasjon</h4>
+		{% csrf_token %}
+		{% include 'reservations/reservation_form.html' %}
+	</div>
+	<div class="modal-footer">
+		<button type="button" id="deleteReservationButton" style="display: none" class="btn btn-flat hs-red modal-close">
+			<i class="material-icons left">delete</i>Slett</button>
+		<button id="cancelButton" type="button" class="btn hs-yellow btn-flat white-text modal-close">Avbryt</button>
+		<button id="updateReservationButton" type="button" class="btn hs-green btn-flat white-text modal-close" style="display: none">Oppdater</button>
+		<input id="createReservationInput" type="submit" value="opprett reservasjon" class="btn btn-flat hs-green white-text">
+	</div>
     </form>
 </div>

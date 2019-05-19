@@ -5,6 +5,7 @@ coverage
 sorl-thumbnail
 python-coveralls
 djangorestframework
+django-filter
 markdown
 pillow
 django-sekizai

@@ -1,11 +1,20 @@
 {% extends 'website/base.html' %}
+{% load staticfiles %}
 {% block head %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/locale/nb.js'></script>
-    <style type='text/css'>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="{% static "reservations/fullcalendar/moment/moment.js" %}"></script>
+<link rel="stylesheet" href="{% static "reservations/fullcalendar/core/main.min.css" %}">
+<link rel="stylesheet" href="{% static "reservations/fullcalendar/daygrid/main.min.css" %}">
+<link rel="stylesheet" href="{% static "reservations/fullcalendar/timegrid/main.min.css" %}">
+<script type="text/javascript" src="{% static "reservations/fullcalendar/core/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/moment/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/interaction/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/daygrid/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/timegrid/main.min.js" %}"></script>
+<script src="{% static "reservations/fullcalendar/core/locales/nb.js" %}"></script>
+<style type='text/css'>
     .fc h2 {
 	    font-size: 2.28rem;
 	    line-height: 110%;
@@ -23,8 +32,8 @@
 	<div class="container">
 		<div class="row white-text">
 			<div class="col s12">
-				<h4>{{ queue.name }}</h4>
-				<p>På denne siden kan du reservere bruk av {{ queue.name }}.</p>
+				<h4>{{ object.name }}</h4>
+				<p>På denne siden kan du reservere bruk av {{ object.name }}.</p>
 			</div>
 		</div>
 	</div>
@@ -65,14 +74,15 @@
 
 <script>
 	const requestUser = '{{ request.user.id }}';
+	const pk = '{{ object.id }}';
 
-	let newStartField = $('#id_start')[0];
-	let newEndField = $('#id_end')[0];
-	let newCommentField = $('#id_comment')[0];
-	let exStartField = $('#ex_start')[0];
-	let exEndField = $('#ex_end')[0];
-	let exCommentField = $('#ex_comment')[0];
-	let exIdField = $('#ex_id')[0];
+	let newStartField = document.getElementById('id_start');
+	let newEndField = document.getElementById('id_end');
+	let newCommentField = document.getElementById('id_comment');
+	let exStartField = document.getElementById('ex_start');
+	let exEndField = document.getElementById('ex_end');
+	let exCommentField = document.getElementById('ex_comment');
+	let exIdField = document.getElementById('ex_id');
 	let selectedEvent = Object;
 	let createButton = document.getElementById('createButton');
 	let deleteButton = document.getElementById('deleteButton');
@@ -82,57 +92,24 @@
 	let selectedReservation = null;
 
 	document.addEventListener('DOMContentLoaded', function() {
-		let buttonTranslations = {cancel: 'Avbryt', clear: 'nullstill', done: 'Ok'};
-		let datepickerOptions = {
-			firstDay: 1,
-			container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
-			i18n: {
-				...buttonTranslations,
-				...{ // https://github.com/amsul/pickadate.js/blob/3.5.6/lib/translations/nb_NO.js
-					months: [ 'januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember' ],
-					monthsShort: [ 'jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des' ],
-					weekdaysFull: [ 'søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag' ],
-					weekdaysShort: [ 'søn','man','tir', 'ons', 'tor', 'fre', 'lør' ],
-					today: 'i dag',
-					clear: 'nullstill',
-					close: 'lukk',
-					firstDay: 1,
-					format: 'dd. mmm. yyyy',
-					formatSubmit: 'yyyy-mm-dd'
-				}
-			}
-		};
-		let datepickerElems = document.querySelectorAll('.datepicker');
-		M.Datepicker.init(datepickerElems, datepickerOptions);
 
-		let timepickerOptions = {
-			twelveHour: false,
-			i18n : buttonTranslations,
-			container: 'body', // fix for tiny picker windows: https://github.com/Dogfalo/materialize/issues/1032
-		};
-		let timepickerElems = document.querySelectorAll('.timepicker');
-		M.Timepicker.init(timepickerElems, timepickerOptions);
-	});
+		var calendarEl = document.getElementById('calendar');
 
-	$(function () {
-
-		$('#calendar').fullCalendar({
-
+		var calendar = new FullCalendar.Calendar(calendarEl, {
 			locale: 'nb',
+			plugins: ['moment', 'interaction', 'timeGrid'],
+			defaultView: 'timeGridWeek',
 			selectable: true,
-			height: "auto",
-			defaultView: 'agendaWeek',
+			selectMirror: true,
+			selectAllow: function(info) {
+				return moment().diff(info.start) <= 0
+			},
+			height:"auto",
 			allDaySlot: false,
-			header: {right: 'prev, next'},
-			refetchResourcesOnNavigate: true,
 			slotDuration: '00:30:00',
 			snapDuration: '00:10:00',
 			slotLabelInterval: {hours: 0.5},
-			eventBackgroundColor: '#5BBA47',
-			slotLabelFormat: "HH:mm",
-			scrollTime: '10:00:00', // calendar will init scroll position to interval 10:00-18:00
-
-			// hide hours when we are officially closed from non-members
+			selectOverlap: false,
 			{% if perms.reservations.view_user_details %}
 			minTime: "00:00:00",
 			maxTime: "23:59:59",
@@ -142,173 +119,169 @@
 			maxTime: "18:00:00",
 			weekends: false,
 			{% endif %}
-			selectOverlap: false,
-			eventSources: [
-				{
-					url: '/api/reservations/',
-					method: 'GET',
-					extraParams: {
-						parent_queue: {{ queue.pk }},
-					},
-					failure: function() {
-						alert('there was an error while fetching events!');
-					},
-					color: '#4E4B46',
-					textColor: '#FFF',
-				}
-			],
-			eventClick: function(event, element) {
+			eventClick: function(eventClickInfo) {
+				console.log(eventClickInfo);
 				{% if not request.user.is_superuser %}
-				if (requestUser == event.user) {
-					let modal = $('#updateModal');
-					exStartField.value = DateTimeFormat(event.start);
-					exEndField.value = DateTimeFormat(event.end);
-					exCommentField.value = event.comment;
-					exIdField.value = event.id;
+				if (requestUser == eventClickInfo.event.extendedProps.user) {
+					let modal = document.getElementById("updateModal");
+					exStartField.value = DateTimeFormat(eventClickInfo.event.start);
+					exEndField.value = DateTimeFormat(eventClickInfo.event.end);
+					exCommentField.value = eventClickInfo.event.extendedProps.comment;
+					exIdField.value = eventClickInfo.event.id;
 					let instance = M.Modal.getInstance(modal);
 					instance.open();
 					M.updateTextFields();
 				}
 				{% else %}
-					let modal = $('#updateModal');
-					exStartField.value = DateTimeFormat(event.start);
-					exEndField.value = DateTimeFormat(event.end);
-					exCommentField.value = event.comment;
-					exIdField.value = event.id;
+					let modal = document.getElementById("updateModal");
+					exStartField.value = DateTimeFormat(eventClickInfo.event.start);
+					exEndField.value = DateTimeFormat(eventClickInfo.end);
+					exCommentField.value = eventClickInfo.event.comment;
+					exIdField.value = eventClickInfo.event.id;
 					let instance = M.Modal.getInstance(modal);
 					instance.open();
 					M.updateTextFields();
 				{% endif %}
 			},
-
-			select: function (startTime, endTime) {
-				if(startTime.isBefore(moment())) {
-					$('#calendar').fullCalendar('unselect');
-					M.toast({'html': 'Du kan ikke opprette reservasjon i fortiden.'})
-					return false;
-				}
+			select: function (selectionInfo) {
 				{% if request.user.is_authenticated %}
 					{% if not request.user.profile.phone_number %}
 					{# Hvis bruker ikke har lagt inn telefonnummer #}
-					let modal = $('#phoneNumberModal')
-					let instance = M.Modal.getInstance(modal);
-					instance.open();
-					M.updateTextFields();
-					{% else %}
-					let modal = $('#reservationModal')
-					newStartField.value = DateTimeFormat(startTime);
-					newEndField.value = DateTimeFormat(endTime);
-					newCommentField.value = "";
-					let instance = M.Modal.getInstance(modal);
-					instance.open();
-					M.updateTextFields();
-					{% endif %}
+				let modal = document.getElementById("phoneNumberModal");
+				let instance = M.Modal.getInstance(modal);
+				instance.open();
+				M.updateTextFields();
+				{% else %}
+				let modal = document.getElementById("reservationModal");
+				newStartField.value = DateTimeFormat(selectionInfo.start);
+				newEndField.value = DateTimeFormat(selectionInfo.end);
+				newCommentField.value = "";
+				let instance = M.Modal.getInstance(modal);
+				instance.open();
+				M.updateTextFields();
+				{% endif %}
 				{% else %}
 				M.toast({'html': 'Du må være logget inn for å opprette reservasjoner.'})
 				{% endif %}
 			},
-
-			eventRender: function(event, element) {
+			events: {
+				url: '/api/reservations/',
+				method: 'GET',
+				extraParams: {
+					parent_queue: {{ queue.pk }}, },
+				failure: function() {
+					alert('there was an error while fetching events!');
+				},
+				color: '#4E4B46',
+				textColor: '#FFF',
+			},
+			eventRender: function(info) {
+				console.log(info);
+				var elem = info.el
+				elem.setAttribute("style", 'font-size: 1rem;');
 				// Add event owner and comment as tooltip for members
-				if (requestUser == event.user) {
-					element.addClass('hs-green center');
-					M.Tooltip.init(element, {html: "Trykk for å redigere" });
+				if (requestUser == info.event.extendedProps.user) {
+					elem.setAttribute("style", "background-color: #5BBA47;");
+					M.Tooltip.init(info.el, {html: "Trykk for å redigere" });
 				} else {
-					element.addClass('hs-gray center');
+					elem.setAttribute("style", "background-color: #4E4B46;");
 				}
-				element.css('font-size', '1rem');
 				{% if perms.reservation.view_reservation_user_details %}
 				{# kun dersom en bruker har rettigheter til å se navn og nummer #}
-					event.title = event.fullname;
-					element.append("</br>" + event.title + "</br></br>");
-					M.Tooltip.init(element, {html: event.phone });
+					elem.append(info.event.extendedProps.fullname + "\n");
+					
+					elem.append(info.event.extendedProps.phone);
 				{% endif %}
-			},
-		})
+			}
+		});
+
+		calendar.render();
+
+		createButton.addEventListener('click', function() {
+			data = {
+				comment: $('#id_comment')[0].value,
+				start: $('#id_start')[0].value,
+				end: $('#id_end')[0].value,
+				parent_queue: {{ queue.id }},
+				user: {{ request.user.pk }}
+			}
+
+			$.ajax({
+				url: '/api/reservations/',
+				data: data,
+				type: 'POST',
+				beforeSend: function (xhr, settings) {
+					xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+				},
+				success: function() {
+					calendar.refetchEvents();
+					M.toast({html: "Reservasjonen var vellykket."})
+				},
+				error: function(e) {
+					calendar.refetchEvents();
+					for (var error in e.responseJSON.non_field_errors) {
+						if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
+							M.toast({html: e.responseJSON.non_field_errors[error]})
+						}
+					}
+				},
+			});
+		});
+		deleteButton.addEventListener('click', function() {
+			$.ajax({
+				url: '/api/reservations/' + $('#ex_id')[0].value + "/",
+				type: 'DELETE',
+				beforeSend: function (xhr, settings) {
+					xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+				},
+				success: function(response) {
+					calendar.refetchEvents();
+					M.toast({html: "Reservasjonen er slettet."})
+				},
+				error: function(e) {
+					calendar.refetchEvents();
+					for (var error in e.responseJSON.non_field_errors) {
+						if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
+							M.toast({html: e.responseJSON.non_field_errors[error]})
+						}
+					}
+				},
+			});
+		});
+
+		updateButton.addEventListener('click', function() {
+			data = {
+				comment: $('#ex_comment')[0].value,
+			}
+			$.ajax({
+				url: '/api/reservations/' + $('#ex_id')[0].value + "/",
+				data: data,
+				type: 'PATCH',
+				beforeSend: function (xhr, settings) {
+					xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+				},
+				success: function(response) {
+					calendar.refetchEvents();
+					M.toast({html: "Kommentaren er oppdatert."})
+				},
+				error: function(e) {
+					calendar.refetchEvents();
+					for (var error in e.responseJSON.non_field_errors) {
+						if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
+							M.toast({html: e.responseJSON.non_field_errors[error]})
+						}
+					}
+				},
+			});
+
+
+		});
 	});
 
 	function DateTimeFormat(datetime) {
-		return $.fullCalendar.formatDate(datetime, "Y-MM-DD HH:mm")
+		return moment(datetime).format('YYYY-MM-DDTHH:mm:ss');
 	}
 
-
-	deleteButton.addEventListener('click', function() {
-		$.ajax({
-			url: '/api/reservations/' + $('#ex_id')[0].value + "/",
-			type: 'DELETE',
-			beforeSend: function (xhr, settings) {
-				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-			},
-			success: function(response) {
-				$('#calendar').fullCalendar('refetchEvents');
-				M.toast({html: "Reservasjonen er slettet."})
-			},
-			error: function(e) {
-				$('#calendar').fullCalendar('refetchEvents');
-				for (var error in e.responseJSON.non_field_errors) {
-					if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
-						M.toast({html: e.responseJSON.non_field_errors[error]})
-					}
-				}
-			},
-		});
-	});
-
-	updateButton.addEventListener('click', function() {
-		data = {
-			comment: $('#ex_comment')[0].value,
-		}
-		$.ajax({
-			url: '/api/reservations/' + $('#ex_id')[0].value + "/",
-			data: data,
-			type: 'PATCH',
-			beforeSend: function (xhr, settings) {
-				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-			},
-			success: function(response) {
-				$('#calendar').fullCalendar('refetchEvents');
-				M.toast({html: "Kommentaren er oppdatert."})
-			},
-			error: function(e) {
-				$('#calendar').fullCalendar('refetchEvents');
-				for (var error in e.responseJSON.non_field_errors) {
-					if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
-						M.toast({html: e.responseJSON.non_field_errors[error]})
-					}
-				}
-			},
-		});
-	});
-
-	createButton.addEventListener('click', function() {
-		data = {
-			comment: $('#id_comment')[0].value,
-			start: $('#id_start')[0].value,
-			end: $('#id_end')[0].value,
-			parent_queue: {{ queue.id }},
-			user: {{ request.user.pk }}
-		}
-		$.ajax({
-			url: '/api/reservations/',
-			data: data,
-			type: 'POST',
-			beforeSend: function (xhr, settings) {
-				xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
-			},
-			success: function() {
-				$('#calendar').fullCalendar('refetchEvents');
-				M.toast({html: "Reservasjonen var vellykket."})
-			},
-			error: function(e) {
-				$('#calendar').fullCalendar('refetchEvents');
-				for (var error in e.responseJSON.non_field_errors) {
-					if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
-						M.toast({html: e.responseJSON.non_field_errors[error]})
-					}
-				}
-			},
-		});
-	});
 
 </script>
 

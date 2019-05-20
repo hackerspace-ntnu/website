@@ -26,15 +26,15 @@
 				<h4>Tilgjengelige køer</h4>
 
 				  <ul class="collection">
-					  {% for queue in queue_list %}
-					  {% if not queue.hidden or perms.reservations.edit_queue %}
+					  {% for queue in object_list %}
+					  {% if not queue.hidden %}
 					  <li class="collection-item avatar">
 						  <img src="{{ queue.thumbnail.thumb.url }}" alt="" class="circle">
-							  <span class="title">
-								  <a href="{% url 'reservations:queue_detail' pk=queue.pk %}">
+						  <span class="title">
+							  <a href="{% url 'reservations:queue_detail' pk=queue.pk %}">
 								  {{ queue.name }}
-								  </a>
-							  </span>
+							  </a>
+						  </span>
 						  {% endif %}
 						  <p>{{ queue.description|linebreaks }}</p>
 					  </li>
@@ -45,14 +45,14 @@
 				<h4>Mine reservasjoner</h4>
 				{% if user.is_authenticated %}
 					{% for queue in reservation_list %}
-					<ul class="collection with-header">
+						<ul class="collection with-header">
 						<li class="collection-header"><a href="{{ queue.grouper.get_absolute_url }}"><h5>{{ queue.grouper }}</h5></a></li>
 						{% for reservation in queue.list %}
-						<li class="collection-item">
-							<p>Fra {{ reservation.start }}<br>
-								til {{ reservation.end }}
-							</p>
-						</li>
+							<li class="collection-item">
+								<p>Fra {{ reservation.start }}<br>
+									til {{ reservation.end }}
+								</p>
+							</li>
 						{% empty %}
 						<p class="center grey-text">Du har ingen reservasjoner.</p>
 						{% endfor %}

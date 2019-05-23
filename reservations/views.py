@@ -1,14 +1,23 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 from reservations.permissions import IsOwnerOrReadOnly
 from reservations.models import Reservation, Queue
 from reservations.serializers import ReservationsSerializer, RestrictedReservationSerializer
 from django_filters import rest_framework as filters
+from datetime import datetime
 
 
 class QueueDetailView(DetailView):
     model = Queue
+
+class QueueListView(ListView):
+    model = Queue
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reservation_list'] = Reservation.objects.filter(user=self.request.user, end__gte=datetime.now())
+        return context
 
 
 class SearchDateFilter(filters.FilterSet):

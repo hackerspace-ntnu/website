@@ -16,7 +16,10 @@ class QueueListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['reservation_list'] = Reservation.objects.filter(user=self.request.user, end__gte=datetime.now())
+        if self.request.user.is_authenticated:
+            context['reservation_list'] = Reservation.objects.filter(user=self.request.user, end__gte=datetime.now())
+        else:
+            context['reservation_list'] = None
         return context
 
 

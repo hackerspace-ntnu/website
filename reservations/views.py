@@ -38,7 +38,7 @@ class ReservationsViewSet(ModelViewSet):
     filterset_class = SearchDateFilter
 
     def get_serializer_class(self):
-        if self.request.user.has_perm('view_user_details'):
+        if self.request.user.has_perm('reservations.view_user_details'):
             return ReservationsSerializer
         return RestrictedReservationSerializer
 

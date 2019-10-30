@@ -21,11 +21,8 @@ SITE_ID = 1
 APPEND_SLASH = True
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/authentication/login'
-
-DATAPORTEN_OAUTH_AUTH_URL = "https://auth.dataporten.no/oauth/authorization"
-DATAPORTEN_OAUTH_TOKEN_URL = "https://auth.dataporten.no/oauth/token"
-DATAPORTEN_OAUTH_CLIENT_ID = "SetThis"
-DATAPORTEN_OAUTH_CLIENT_SECRET = "MagicSealsAndNarwalsDancingTogetherInRainbows"
+SOCIAL_AUTH_DATAPORTEN_FEIDE_KEY = None
+SOCIAL_AUTH_DATAPORTEN_FEIDE_SECRET = None
 
 ADMINS = (
     ('devops', 'hackerspace-dev@idi.ntnu.no'),
@@ -64,6 +61,7 @@ INSTALLED_APPS = [
     'userprofile',
     'seasonal_events',
     'committees',
+    'social_django',
 ]
 
 
@@ -71,7 +69,7 @@ INSTALLED_APPS = [
 # App config                    #
 #################################
 
-THUMBNAIL_PRESERVE_FORMAT = True
+THUMBNAIL_PRESERVE_FORMAT = False
 
 #################################
 # Database                      #
@@ -115,6 +113,8 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
                 "sekizai.context_processors.sekizai",
             ],
             'debug': DEBUG,
@@ -134,8 +134,41 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    'dataporten.social.DataportenFeideOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_DATAPORTEN_FEIDE_SSL_PROTOCOL = True
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+
+# Keys defined before local import
+
+
+
+SOCIAL_AUTH_DATAPORTEN_FEIDE_EXTRA_DATA = ['fullname', 'username']
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'authentication.views.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'authentication.views.save_profile',  # <--- set the path to the function
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
+
 
 #################################
 # Static                        #
@@ -205,6 +238,7 @@ LANGUAGE_CODE = 'nb'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = False
+DATE_FORMAT = 'd. F Y'
 
 #################################
 # Logging                       #

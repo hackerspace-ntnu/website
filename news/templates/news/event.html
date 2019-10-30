@@ -20,22 +20,25 @@
 </div>
 <div class="section hs-green no-pad-top">
 	<div class="container">
-		<div class="card-panel cut-top white z-depth-2 no-top-shadow">
+		<div class="card-panel cut-top white z-depth-1 no-top-shadow">
 			<div class="row">
 				<div class="col s12">
 					<h5 class="hide-on-med-and-up">{{ event.title }}</h5>
 					<h3 class="hide-on-small-only">{{ event.title }}</h3>
 					{% if event.internal %}
-					<p>Dette er et internt arrangement.</p>
+						<p>Dette er et internt arrangement.</p>
 					{% else %}
-					<p>Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
+						<p>Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
 					{% endif %}
 					<div class="divider"></div>
 				</div>
-				<div class="col s12 m6">
+				<div class="col s12">
+					{% if event.responsible %}
+					<p>Arrangementansvarlig: <a href="{% url 'userprofile:profile_by_id' event.responsible.id %}">{{ event.responsible.get_full_name }}</a></p>
+					{% endif %}
 					{% if event.time_end|date:"d. F Y" != event.time_start|date:"d. F Y" %}
-					<p><i class="material-icons small">event</i> Fra {{ event.time_start|date:"d. F Y" }}, {{ event.time_start|date:"H:i" }}</p>
-					<p><i class="material-icons small">event_busy</i> Til {{ event.time_end|date:"d. F Y" }}, {{ event.time_end|date:"H:i" }}</p>
+						<p><i class="material-icons small">event</i> Fra {{ event.time_start }}</p>
+						<p><i class="material-icons small">event_busy</i> Til {{ event.time_end }}</p>
 					{% else %}
 					<p><i class="material-icons small">event</i> {{ event.time_start|date:"d. F Y" }}</p>
 					<p><i class="material-icons small">access_time</i> {{ event.time_start|date:"H:i" }} til {{ event.time_end|date:"H:i" }}</p>
@@ -48,153 +51,141 @@
 						{% endif %}
 					{% endif %}
 				</div>
-				<div class="col s12 m6 card-panel z-depth-0 ">
-					<div class="right-align">
-						{% if expired_event %}
-							<p>Arrangementet er over og du kan ikke melde deg på.</p>
-							<div class="progress hs-gray">
-								<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-								<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
-							</div>
-						{% else %}
-							{% if event.external_registration %}
-								<a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Meld deg på</a>
-							{% elif event.registration %}
-								{% if userstatus == "ikke pålogget" %}
-									<a class="hs-yellow btn btn-flat" href="{% url 'auth:login' %}">Logg inn for å melde deg på</a>
-								{% else %}
-									<p>Du er {{ userstatus }}</p>
-								{% endif %}
-								<div class="progress hs-gray">
-									<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-									<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
-								</div>
-								{% if userstatus == 'på ventelisten' %}
-									<p class="hs-grey-text">{{ get_position }}</p>
-								{% endif %}
-								{% if event.registration and request.user.is_authenticated and registration_visible %}
-									{% if registered %}
-									<button class="btn waves-effect btn-flat white-text waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</button><br><br>
-									{% else %}
-									<a class="btn btn-flat white-text waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a><br><br>
-								{% endif %}
-								<div id="registrationModal" class="modal">
-									<div class="modal-content">
-										<h4>Bekreft handling</h4>
-										<p>Eventen starter {{ event.time_start|date:"d M Y, H:i" }}</p>
-										<p>Du kan melde deg på mellom {{ event.registration_start|date:"d M Y, H:i" }} og {{ event.time_start |date:"d M Y, H:i" }} </p>
-										<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
-										{% if registered %}
-											<p>Obs! Dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
-										{% endif %}
-									</div>
-									<form method="post" action="/events/{{ event.id }}/register/">
-									<div class="modal-footer">
-											{% csrf_token %}
-											{% if registered %}
-												<button class="btn btn-flat white-text waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
-											{% else %}
-												<button class="btn waves-effect btn-flat white-text waves-light hs-green" type="submit" name="action">Meld deg på</button>
-											{% endif %}
-										<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
-									</div>
-									</form>
-								</div>
-								{% endif %}
-							{% endif %}
-						{% endif %}
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<div class="divider"></div>
-						<p><b>{{ event.ingress_content }}</b></p>
-						{% autoescape off %}
-						{{ event.main_content }}
-						{% endautoescape %}
-					</div>
+				<div class="col s12">
+					<div class="divider"></div>
+					<p><b>{{ event.ingress_content }}</b></p>
+					{% autoescape off %}
+					{{ event.main_content }}
+					{% endautoescape %}
 				</div>
 			</div>
 		</div>
-		{% if perms.news.change_event %}
-		<div class="card-panel">
+		<div class="card-panel white z-depth-1">
+			<div class="row">
+
+				<div class="col s12">
+					<h5>Påmelding</h5>
+				</div>
+				<div class="col s12">
+					{% if event.registration %}
+					<div class="progress hs-gray">
+						<div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
+						<p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
+					</div>
+					{% endif %}
+				</div>
+				<div class="col s12">
+						{% if event.registration %}
+						{% if userstatus == "ikke pålogget" %}
+						<a class="hs-yellow btn btn-flat" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn for å melde deg på</a>
+						{% elif userstatus == "ikke påmeldt" %}
+							{% if event.can_register == "ok" %}
+								<a class="btn btn-flat white-text waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a>
+							{% elif event.can_register == "tidlig" %}
+								<a class="btn disabled tooltipped">Meld deg på</a>
+								<p>Påmelding åpner {{ event.registration_start }}.</p>
+							{% else %}
+								<a class="btn disabled tooltipped">Meld deg på</a>
+								<p>Fristen for påmelding er ute.</p>
+							{% endif %}
+						{% elif userstatus == "påmeldt" or userstatus == "på ventelisten" %}
+							{% if event.can_deregister %}
+								<a class="btn waves-effect btn-flat white-text waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</a>
+							{% else %}
+								<a class="btn disabled tooltipped">Meld deg av</a>
+								<p>Fristen for avregistrering er ute.</p>
+							{% endif %}
+							<p class="hs-grey-text">{{ get_position }}</p>
+						{% endif %}
+						<p>Frist for påmelding er {{ event.registration_end }}</p>
+						<p>Frist for avmelding er {{ event.deregistration_end }}</p>
+
+						{% elif event.external_registration %}
+							<p>Arrangementet benytter ekstern nettside for pålogging.</p>
+							<a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Åpne påmeldingsside i ny fane</a>
+						{% elif event.expired %}
+							<p>Arrangementet er over og du kan ikke melde deg på.</p>
+						{% else %}
+							<p>Arrangementet krever ikke påmelding.</p>
+						{% endif %}
+				</div>
+			</div>
+		</div>
+		{% if event.files.all|length > 0 %}
+		<div class="card-panel white z-depth-1">
 			<div class="row">
 				<div class="col s12">
-					<h4>Administrativ meny</h4>
+					<h5>Filer</h5>
+					<p>Arrangøren har lagt ved følgende filer<p>
+					<div class="divider"></div>
 				</div>
-				<div class="row">
-					<div class="col s12">
-						<ul class='collection'>
-							{% if perms.news.change_event %}
-							<li class="collection-item"><a href="/events/{{ event.id }}/edit"><i class="material-icons">edit</i>Rediger event</a></li>
-							{% endif %}
-							{% if event.registration and perms.news.can_see_attendees %}
-							<li class="collection-item"><a href="/events/{{ event.id }}/attended"><i class="material-icons">check</i>Registrer oppmøte</a></li>
-							{% endif %}
-							{% if perms.news.delete_event %}
-							<li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Event</a></li>
-							{% endif %}
-						</ul>
-					</div>
-				</div>
-				{% if event.registration and perms.news.can_see_attendees %}
-				<div class="row">
-					<div class="col s12 m12 l6">
-						<ul class="collection with-header"> 
-							<li class="collection-header"><h4>Venteliste</h4></li>
-							{% for user in event.wait_list %}
-							<li class="collection-item">{{ user.get_full_name }}</li>
-							{% empty %}
-							<li class="collection-item">Det er ingen på ventelisten</li>
-							{% endfor %}
-						</ul>
-					</div>
-					<div class="col s12 m12 l6">
-						<ul class="collection with-header">
-							<li class="collection-header">
-								<h4>Alle Påmeldte</h4>
-							</li>
-							{% for user in event.registration_list %}
-							{% if user.is_waitlisted %}
-							{% else %}
-							<li class="collection-item">{{ user.user.get_full_name }}</li>
-							{% endif %}
-							{% empty %}
-							<li class="collection-item">Det er ingen påmeldte</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-				{% if event.servering %}
-				<div class="row">
-					<div class="col s12 m12">
-						<ul class="collection with-header"> 
-							<li class="collection-header"><h4>Allergier</h4></li>
-							<li class="collection-item">Foretrekker glutenfritt<span class="badge"> {{ event.get_allergies_registered.gluten }}</span></li>
-							<li class="collection-item">Foretrekker vegetar<span class="badge"> {{ event.get_allergies_registered.vegetar }}</span></li>
-							<li class="collection-item">Foretrekker vegansk<span class="badge"> {{ event.get_allergies_registered.vegan }}</span></li>
-							<li class="collection-item">Annet ønske 
-								{% for wish in event.get_allergies_registered.annet %}
-								<span class="badge hs-gray white-text">{{ wish }}</span>
-								{% endfor %}
-							</li>
-						</ul>
-					</div>
+			</div> 
+			<div class="row center">
+				{% for file in event.files.all %}
+				{% if file.file %}
+				<div class="col s12 m6 l6">
+					<a target="_blank" href="{{ file.file.url }}">
+					<i class="material-icons medium hs-gray-text">
+						{% if "pdf" in file.file.url %}
+						picture_as_pdf
+						{% elif "jpg" in file.file.url or "png" in file.file.url or "gif" in file.file.url %}
+						photo
+						{% elif "ppt" in file.file.url or "odp" in file.file.url %}
+						cast_for_education
+						{% else %}
+						attachment
+						{% endif %}
+					</i>
+					<p class="flow-text">{{ file.title }}</p>
+					<small>{{ file.file.name }}</small>
+					</a>
 				</div>
 				{% endif %}
-				{% endif %}
+				{% empty %}
+				<p>Ingen filer</p>
+				{% endfor %}
 			</div>
 		</div>
 		{% endif %}
+		{% if perms.news.change_event %}
+			{% include 'news/_event_admin_menu.html' %}
+		{% endif %}
 	</div>
 </div>
+
+
+<div id="registrationModal" class="modal">
+	<div class="modal-content">
+		<h4>Informasjon om påmelding</h4>
+			{% if userstatus == "påmeldt" or userstatus == "på ventelisten" %}
+				<p>Du forsøker å melde deg av arrangementet.</p>
+				<p>Merk at dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
+				{% if event.can_register == "sen" %}
+					<p><b>Arrangementets påmeldingsfrist er utløpt. Dersom du melder deg av, har du ikke mulighet til å melde deg på igjen.</b></p>
+				{% endif %}
+			{% else %}
+			<p>Ved å melde deg på dette arrangementet forventes det at du møter opp.</p>
+			<p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
+				{% if event.servering %}
+					<p>Dette arrangementet har servering. Sørg for at dine <a target="_blank" href="{% url 'userprofile:edit_profile' %}">innstillinger for matpreferanser</a> er oppdaterte.</p>
+				{% endif %}
+			{% endif %}
+	</div>
+	<form method="post" action="/events/{{ event.id }}/register/">
+		<div class="modal-footer">
+			{% csrf_token %}
+			{% if userstatus == "påmeldt" %}
+			<button class="btn btn-flat white-text waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
+			{% else %}
+			<button class="btn waves-effect btn-flat white-text waves-light hs-green" type="submit" name="action">Meld deg på</button>
+			{% endif %}
+			<a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
+		</div>
+	</form>
+</div>
+
+
 <script>
-	var collapsible = document.querySelector('.collapsible');
-var instance = M.Collapsible.init(collapsible);
-
-var parallax = document.querySelector('.parallax');
-var instance = M.Parallax.init(parallax);
-
 // Prevent ckeditor hard fields to allow responsive images 
 window.addEventListener('DOMContentLoaded', function(event) {
 	var container = document.getElementsByClassName('card-panel')[0];

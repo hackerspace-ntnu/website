@@ -1,0 +1,20 @@
+name: Test Command
+
+on:
+  pull_request:
+    types: [closed] 
+    
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      if: github.event.pull_request.merged == true
+      with:
+        host: ${{ secrets.host }}
+        username: ${{ secrets.user }}
+        password: ${{ secrets.id }}
+        port: ${{ secrets.port }}
+        script: ${{ secrets.script }}

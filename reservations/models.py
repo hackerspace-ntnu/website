@@ -5,6 +5,9 @@ from django.db import models
 from django.urls import reverse
 from files.models import Image
 
+from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator
+
 
 class Queue(models.Model):
     name = models.CharField(
@@ -16,10 +19,18 @@ class Queue(models.Model):
         max_length=512,
         default="",
     )
+    difficulty = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1),MaxValueValidator(5)],
+        default=3,
+        help_text="Velg et tall mellom 1-5, der 1 er lettest"
+    )
     internal = models.BooleanField(
         default=False,
     )
     hidden = models.BooleanField(
+        default=False,
+    )
+    out_of_order = models.BooleanField(
         default=False,
     )
 
@@ -30,6 +41,10 @@ class Queue(models.Model):
 
     def get_absolute_url(self):
         return reverse('reservations:queue_detail', kwargs={'pk': self.pk})
+
+    def get_difficulty_string(self):
+        return "★"*self.difficulty + "☆"*(5-self.difficulty)
+
 
 
 class Reservation(models.Model):
@@ -52,7 +67,7 @@ class Reservation(models.Model):
     end = models.DateTimeField()
 
     def __str__(self):
-        return self.parent_queue + "(" + self.user.get_full_name + ")"
+        return self.parent_queue.name + "(" + self.user.get_full_name() + ")"
 
     def get_absolute_url(self):
         return reverse('reservations:queue_detail', kwargs={'pk': self.parent_queue.pk})

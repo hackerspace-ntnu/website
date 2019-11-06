@@ -1,4 +1,5 @@
 {% extends 'website/base.html' %}
+
 {% block content %}
 <div class="section hs-green">
 	<div class="container">
@@ -27,17 +28,24 @@
 
 				  <ul class="collection">
 					  {% for queue in object_list %}
-					  {% if not queue.hidden %}
-					  <li class="collection-item avatar">
-						  <img src="{{ queue.thumbnail.thumb.url }}" alt="" class="circle">
-						  <span class="title">
-							  <a href="{% url 'reservations:queue_detail' pk=queue.pk %}">
-								  {{ queue.name }}
-							  </a>
-						  </span>
-						  {% endif %}
-						  <p>{{ queue.description|linebreaks }}</p>
-					  </li>
+						  {% if not queue.hidden %}
+						  <li class="collection-item avatar">
+							  <img src="{{ queue.thumbnail.thumb.url }}" alt="" class="circle">
+							  <span class="title">
+									{% if queue.out_of_order %}
+										{{ queue.name }} - <span class="hs-red-text">I ustand</span>
+									{% else %}
+									<a href="{% url 'reservations:queue_detail' pk=queue.pk %}">
+									  {{ queue.name }}
+								  </a>
+									{% endif %}
+							  </span>
+								<p>
+									Vanskelighetsgrad: {{ queue.get_difficulty_string }}
+								</p>
+							  <p>{{ queue.description|linebreaks }}</p>
+						  </li>
+							{% endif %}
 					  {% endfor %}
 				  </ul>
 			</div>

@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'website',
     'applications',
     'news',
-    'internal',
     'door',
     'files',
     'ckeditor',
@@ -61,6 +60,9 @@ INSTALLED_APPS = [
     'userprofile',
     'seasonal_events',
     'committees',
+    'reservations',
+    'django_filters',
+    'rest_framework',
     'social_django',
 ]
 
@@ -266,4 +268,12 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     }
+}
+
+
+#################################
+# Rest Framework                #
+#################################
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }

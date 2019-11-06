@@ -14,6 +14,7 @@ class Season(models.Model):
     active = models.BooleanField(default=True, verbose_name="aktiv")
     repeating = models.BooleanField(default=False, verbose_name="repeterende", help_text="Repeteres hvert år")
     manual_override = models.BooleanField(verbose_name="Manuel overskriving", help_text="Tving sesongen til å være aktiv")
+    disable_reservations = models.BooleanField(verbose_name="Hindre reservasjoner", help_text="Skru av mulighet for reservasjoner til ikke-medlemmer når denne sesongen er aktiv.")
 
     def isNow(self):
         if not self.active:

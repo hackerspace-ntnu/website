@@ -56,7 +56,7 @@ class ProfileDetailView(DetailView):
 class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
-    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social']
+    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social', 'phone_number']
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
     success_message = "Profilen er oppdatert."

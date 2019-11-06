@@ -5,7 +5,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 white-text">
-				<h4>Innsillinger</h4>
+				<h4>Innstillinger</h4>
 				<a href="{% url 'userprofile:profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Tilbake til profil</a>
 			</div>
 		</div>
@@ -49,6 +49,12 @@
 						{{ form.access_card }}
 						<label for="{{ form.access_card.id_for_label }}">{{ form.access_card.label }}</input>
 						<span class="helper-text hs-red-text">{{ form.access_card.errors }}</span>
+					</div>
+					<div class="col s12 input-field">
+						{{ form.phone_number }}
+						<label for="{{ form.phone_number.id_for_label }}">{{ form.phone_number.label }}</label>
+						<span class="helper-text">{{ form.phone_number.help_text }}</span>
+						<span class="helper-text hs-red-text">{{ form.phone_number.errors }}</span>
 					</div>
 					<div class="col s12 input-field">
 						{{ form.study }}

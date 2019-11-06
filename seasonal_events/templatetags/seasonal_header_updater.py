@@ -17,12 +17,13 @@ class CurrentSeason(template.Node):
         Om ingen seasons foregår gis standardlogoen og navnet "default".
     '''
     def render(self, context):
-        #Standard season
+        # Standard season
         context["logo_url"] = "/static/website/img/logo/hackerspace.svg"
         context["season"] = "default"
         context["bannertext"] = None
         context["bannercolor"] = None
         context["bannertextcolor"] = None
+        context["disable_reservations"] = None
 
         for s in Season.objects.filter(active=True).order_by("start_date"):
             if s.isNow():
@@ -34,6 +35,7 @@ class CurrentSeason(template.Node):
                 context["season"] = s.name
                 context["bannertext"] = s.banner_text
                 context["bannercolor"] = s.banner_color
+                context["disable_reservations"] = s.disable_reservations
 
                 # Set appropriate text-color depending on background
                 if s.banner_color == "hs-green":

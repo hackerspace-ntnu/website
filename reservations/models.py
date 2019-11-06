@@ -42,6 +42,10 @@ class Queue(models.Model):
     def get_absolute_url(self):
         return reverse('reservations:queue_detail', kwargs={'pk': self.pk})
 
+    def get_difficulty_string(self):
+        return "★"*self.difficulty + "☆"*(5-self.difficulty)
+
+
 
 class Reservation(models.Model):
     parent_queue = models.ForeignKey(

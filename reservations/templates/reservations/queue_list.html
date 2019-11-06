@@ -41,14 +41,7 @@
 									{% endif %}
 							  </span>
 								<p>
-									Vanskelighetsgrad:
-									{% for x in ""|ljust:5 %}
-										{% if forloop.counter > queue.difficulty %}
-											☆
-										{% else %}
-											★
-										{% endif %}
-									{% endfor %}
+									Vanskelighetsgrad: {{ queue.get_difficulty_string }}
 								</p>
 							  <p>{{ queue.description|linebreaks }}</p>
 						  </li>

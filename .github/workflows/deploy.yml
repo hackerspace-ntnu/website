@@ -17,4 +17,4 @@ jobs:
         username: ${{ secrets.user }}
         password: ${{ secrets.id }}
         port: ${{ secrets.port }}
-        script: whoami
+        script: ${{ secrets.script }}

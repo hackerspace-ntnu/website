@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.views import View
 from userprofile.models import Profile
 from social_core.pipeline.user import  get_username as social_get_username
+from social_core.exceptions import AuthException
 
 class LogoutView(View):
     def get(self, request, *args, **kwargs):

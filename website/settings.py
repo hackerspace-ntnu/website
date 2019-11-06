@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'website',
     'applications',
     'news',
-    'internal',
     'door',
     'files',
     'ckeditor',

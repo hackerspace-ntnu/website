@@ -1,8 +1,11 @@
-name: Test Command
+name: Deploy to Server
 
 on:
   pull_request:
+    # Change to merge when implemented (still beta)      
     types: [closed] 
+    branches:
+      - master
     
 jobs:
   build:

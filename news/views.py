@@ -103,6 +103,28 @@ class ArticleView(DetailView):
 
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        # Check user internal article view permission
+        can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
+
+        # Get permitted articles
+        article_list = Article.objects.filter(internal__lte=can_access_internal_article)
+
+        # Get oldest article that is newer than current (None if current is latest)
+        next_article = article_list.filter(pub_date__gt=self.get_object().pub_date).order_by('pub_date').first()
+
+        # Get latest article that is older than current (None if current is oldest)
+        previous_article = article_list.filter(pub_date__lt=self.get_object().pub_date).order_by('-pub_date').first()
+
+        context['next_article'] = next_article
+        context['previous_article'] = previous_article
+
+        return context
+
+
 
 class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Event

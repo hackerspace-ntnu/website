@@ -64,7 +64,7 @@
 
 			{% if previous_article %}
 
-				<div class="col s12 m6 {% if not next_article %}offset-m3{% endif %}">
+				<div class="col s12 m6">
 
 					<h5 class="hs-grey-text">Forrige artikkel</h5>
 
@@ -93,11 +93,23 @@
 
 				</div>
 
+			{% else %}
+
+			<div class="col m6 hide-on-small-only">
+				<h5 class="hs-grey-text">Forrige artikkel</h5>
+				<div class="valign-wrapper" style="height:250px;">
+						<div class="center-align container">
+							<i class="material-icons center-align hs-grey-text" style="font-size:48px">flip_to_front</i>
+							<p class="center-align hs-grey-text">Ingen eldre artikler</p>
+						</div>
+				</div>
+			</div>
+
 			{% endif %}
 
 			{% if next_article %}
 
-				<div class="col s12 m6 {% if not previous_article %}offset-m3{% endif %}">
+				<div class="col s12 m6">
 
 					<h5 class="hs-grey-text">Neste artikkel</h5>
 
@@ -125,6 +137,18 @@ color: inherit;" href="{% url 'news:details' next_article.id %}">
 
 					</div></a>
 
+				</div>
+
+			{% else %}
+
+				<div class="col m6 hide-on-small-only">
+					<h5 class="hs-grey-text">Neste artikkel</h5>
+					<div class="valign-wrapper" style="height:250px;">
+							<div class="center-align container">
+								<i class="material-icons center-align hs-grey-text" style="font-size:48px">flip_to_back</i>
+								<p class="center-align hs-grey-text">Ingen nyere artikler</p>
+							</div>
+					</div>
 				</div>
 
 			{% endif %}

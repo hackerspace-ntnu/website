@@ -61,6 +61,12 @@ class IndexView(TemplateView):
         event_list = Event.objects.filter(
             internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
 
+        # Determine number of hidden internal events
+        if not can_access_internal_event:
+            hidden_internal_events_count = len(Event.objects.filter(internal=True))
+        else:
+            hidden_internal_events_count = 0
+
         # Get five articles
         article_list = Article.objects.filter(
             internal__lte=can_access_internal_article).order_by('-pub_date')[:5]
@@ -91,12 +97,14 @@ class IndexView(TemplateView):
         context = {
             'article_list': article_list,
             'event_list': event_list,
+            'hidden_internal_events_count': hidden_internal_events_count,
             'door_status': door_status,
             'app_start_date': app_start_date,
             'app_end_date': app_end_date,
             'is_application': is_application,
             'index_cards': Card.objects.all(),
             'current_date': current_date
+
         }
 
         return context

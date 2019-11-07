@@ -69,7 +69,7 @@
 					<h5 class="hs-grey-text">Forrige artikkel</h5>
 
 					<a style="text-decoration:inherit; color:inherit;" href="{% url 'news:details' previous_article.id %}">
-					<div class="card hoverable">
+					<div class="card z-depth-1">
 
 						{% if previous_article.thumbnail %}
 						<div class="card-image">
@@ -116,7 +116,7 @@
 					<a style="text-decoration: inherit;
 color: inherit;" href="{% url 'news:details' next_article.id %}">
 
-					<div class="card hoverable">
+					<div class="card z-depth-1">
 
 						{% if next_article.thumbnail %}
 						<div class="card-image">

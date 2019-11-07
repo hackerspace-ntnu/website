@@ -1,10 +1,11 @@
-django<2.1>=2.0.2
+django>=2.2
 gunicorn
 django-ckeditor
 coverage
 sorl-thumbnail
 python-coveralls
 djangorestframework
+django-filter
 markdown
 pillow
 django-sekizai

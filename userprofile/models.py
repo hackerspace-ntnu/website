@@ -6,6 +6,7 @@ from django.db import models
 from django.shortcuts import reverse
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
+from applications.validators import validate_phone_number
 
 
 class Skill(models.Model):
@@ -38,9 +39,12 @@ class Profile(models.Model):
     limit_social = models.BooleanField(default=False, verbose_name="Vis sosiale profiler kun for andre Hackerspace-medlemmer")
 
     access_card = models.CharField(max_length=20, null=True, blank=True, verbose_name="NTNU Adgangskort (EMXXXXXXXXXX)")
-    study = models.CharField(max_length=50, null=True, blank=True)
+    study = models.CharField(max_length=50, null=True, blank=True, verbose_name="Studieretning")
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
     tos_accepted = models.BooleanField(default=False)
+
+    phone_number = models.CharField(max_length=8, null=True, blank=True, validators=[validate_phone_number], verbose_name="Telefonnummer",
+                                    help_text="Brukes til reservasjonssystem i tilfelle du må kontaktes.")
 
     show_email = models.BooleanField(default=False, verbose_name="Vis epostadresse i din profil")
 

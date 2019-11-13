@@ -84,9 +84,15 @@
 											<span class="badge new hs-green white-text tooltipped" data-badge-caption=""
 											data-position="top" data-tooltip="Trykk for å logge på og se interne arrangementer">
 												{{upcoming_internal_events_count}}
-												<span class="hide-on-med-and-down"> interne skjult</span>
-												<span class="hide-on-small-only hide-on-large-only"> interne arrangementer skjult</span>
-												<span class="hide-on-med-and-up"> skjult</span>
+												{% if upcoming_internal_events_count > 1 %}
+													<span class="hide-on-med-and-down"> interne skjult</span>
+													<span class="hide-on-small-only hide-on-large-only"> interne arrangementer skjult</span>
+													<span class="hide-on-med-and-up"> skjult</span>
+												{% else %}
+													<span class="hide-on-med-and-down"> internt skjult</span>
+													<span class="hide-on-small-only hide-on-large-only"> internt arrangement skjult</span>
+													<span class="hide-on-med-and-up"> skjult</span>
+												{% endif %}
 											</span>
 
 										</a>

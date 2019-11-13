@@ -77,13 +77,13 @@
 							<li class="collection-header">
 								<p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">Siste Arrangementer</a>
 
-									{% if hidden_internal_events_count > 0 %}
+									{% if upcoming_internal_events_count > 0 %}
 
 										<a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
 
 											<span class="badge new hs-green white-text tooltipped" data-badge-caption=""
 											data-position="top" data-tooltip="Trykk for å logge på og se interne arrangementer">
-												{{hidden_internal_events_count}}
+												{{upcoming_internal_events_count}}
 												<span class="hide-on-med-and-down"> interne skjult</span>
 												<span class="hide-on-small-only hide-on-large-only"> interne arrangementer skjult</span>
 												<span class="hide-on-med-and-up"> skjult</span>

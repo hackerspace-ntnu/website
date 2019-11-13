@@ -61,11 +61,13 @@ class IndexView(TemplateView):
         event_list = Event.objects.filter(
             internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
 
-        # Determine number of hidden internal events
+        current_date = datetime.now()
+
+        # Determine number of upcoming internal events
         if not can_access_internal_event:
-            hidden_internal_events_count = len(Event.objects.filter(internal=True))
+            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
         else:
-            hidden_internal_events_count = 0
+            upcoming_internal_events_count = 0
 
         # Get five articles
         article_list = Article.objects.filter(
@@ -76,8 +78,6 @@ class IndexView(TemplateView):
             door_status = DoorStatus.objects.get(name='hackerspace').status
         except DoorStatus.DoesNotExist:
             door_status = True
-
-        current_date = datetime.now()
 
         # hvis det ikke eksisterer en ApplicationPeriod, lag en.
         if not ApplicationPeriod.objects.filter(name="Opptak"):
@@ -97,7 +97,7 @@ class IndexView(TemplateView):
         context = {
             'article_list': article_list,
             'event_list': event_list,
-            'hidden_internal_events_count': hidden_internal_events_count,
+            'upcoming_internal_events_count': upcoming_internal_events_count,
             'door_status': door_status,
             'app_start_date': app_start_date,
             'app_end_date': app_end_date,

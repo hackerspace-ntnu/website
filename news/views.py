@@ -20,7 +20,7 @@ class EventView(DetailView):
         if self.get_object().internal and not request.user.has_perm('news.can_view_internal_event'):
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.INFO, 'Logg inn for å se internt arrangement')
+            messages.add_message(request, messages.WARNING, 'Logg inn for å se internt arrangement')
 
             return redirect("/")
 
@@ -106,7 +106,7 @@ class ArticleView(DetailView):
         if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.INFO, 'Logg inn for å se intern artikkel')
+            messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
 
             return redirect("/")
 

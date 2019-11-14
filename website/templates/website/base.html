@@ -46,7 +46,15 @@
 		{% if messages %}
 		<script>
 			{% for message in messages %}
-			M.toast({html: '{{ message }}', classes: 'hs-grey'});
+
+				{% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+					M.toast({html: '{{ message }}', classes: 'hs-yellow black-text'});
+				{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+					M.toast({html: '{{ message }}', classes: 'hs-red black-text'});
+				{% else %}
+					M.toast({html: '{{ message }}', classes: 'hs-grey white-text'});
+				{% endif %}
+
 			{% endfor %}
 		</script>
 		</ul>

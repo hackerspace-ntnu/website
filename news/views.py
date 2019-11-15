@@ -18,6 +18,10 @@ class EventView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().internal and not request.user.has_perm('news.can_view_internal_event'):
+
+            # Stores log-in prompt message to be displayed with redirect request
+            messages.add_message(request, messages.WARNING, 'Logg inn for å se internt arrangement')
+
             return redirect("/")
 
         return super(EventView, self).dispatch(request, *args, **kwargs)
@@ -97,8 +101,13 @@ class ArticleView(DetailView):
     template_name = "news/article.html"
 
     def dispatch(self, request, *args, **kwargs):
+
         # If the article is internal, check if user has the permission to view.
         if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
+
+            # Stores log-in prompt message to be displayed with redirect request
+            messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
+
             return redirect("/")
 
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
@@ -263,10 +272,10 @@ def register_on_event(request, event_id):
         er = EventRegistration.objects.get(user=request.user, event=event_object)
         if event_object.deregistration_end > now:
             er.delete()
-            messages.add_message(request, 25, 'Du er nå avmeldt')
+            messages.add_message(request, messages.SUCCESS, 'Du er nå avmeldt')
     except EventRegistration.DoesNotExist:
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
-            messages.add_message(request, 25, 'Du er nå påmeldt')
+            messages.add_message(request, messages.SUCCESS, 'Du er nå påmeldt')
 
     return redirect("/events/" + str(event_id))

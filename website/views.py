@@ -47,8 +47,65 @@ class AdminView(PermissionRequiredMixin, TemplateView):
         context['profiles'] = profiles
         return context
 
+
 class IndexView(TemplateView):
     template_name = "website/index.html"
+
+    def get_internal_articles_indicator(self):
+
+        # Determine number of hidden internal articles
+        if not self.request.user.has_perm('news.can_view_internal_article'):
+            internal_articles_count = len(Article.objects.filter(internal=True))
+        else:
+            internal_articles_count = 0
+
+        badge_text = {
+            "plural":{
+                "large":"interne skjult",
+                "medium":"interne artikler skjult",
+                "small":"skjult"
+            },
+            "singular":{
+                "large":"intern skjult",
+                "medium":"intern artikkel skjult",
+                "small":"skjult"
+            }
+        }
+
+        return {
+            'count': internal_articles_count,
+            'badge_text': badge_text,
+            'tooltip_text': "Trykk for å logge på og se interne artikler"
+        }
+
+    def get_internal_events_indicator(self):
+
+        current_date = datetime.now()
+
+        # Determine number of hidden internal events
+        if not self.request.user.has_perm('news.can_view_internal_event'):
+            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
+        else:
+            upcoming_internal_events_count = 0
+
+        badge_text = {
+            "plural":{
+                "large":"interne skjult",
+                "medium":"interne arrangementer skjult",
+                "small":"skjult"
+            },
+            "singular":{
+                "large":"intern skjult",
+                "medium":"internt arrangement skjult",
+                "small":"skjult"
+            }
+        }
+
+        return {
+            'count': upcoming_internal_events_count,
+            'badge_text': badge_text,
+            'tooltip_text': "Trykk for å logge på og se interne arrangementer"
+        }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,12 +119,6 @@ class IndexView(TemplateView):
             internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
 
         current_date = datetime.now()
-
-        # Determine number of upcoming internal events
-        if not can_access_internal_event:
-            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
-        else:
-            upcoming_internal_events_count = 0
 
         # Get five articles
         article_list = Article.objects.filter(
@@ -97,14 +148,14 @@ class IndexView(TemplateView):
         context = {
             'article_list': article_list,
             'event_list': event_list,
-            'upcoming_internal_events_count': upcoming_internal_events_count,
+            'internal_articles_indicator': self.get_internal_articles_indicator(),
+            'internal_events_indicator': self.get_internal_events_indicator(),
             'door_status': door_status,
             'app_start_date': app_start_date,
             'app_end_date': app_end_date,
             'is_application': is_application,
             'index_cards': Card.objects.all(),
             'current_date': current_date
-
         }
 
         return context

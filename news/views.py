@@ -45,11 +45,48 @@ class EventListView(ListView):
     template_name = "news/events.html"
     paginate_by = 10
 
+    def get_internal_events_indicator(self):
+
+        current_date = datetime.now()
+
+        # Determine number of hidden internal events
+        if not self.request.user.has_perm('news.can_view_internal_event'):
+            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
+        else:
+            upcoming_internal_events_count = 0
+
+        badge_text = {
+            "plural":{
+                "large":"interne arrangementer skjult",
+                "medium":"interne skjult",
+                "small":"skjult"
+            },
+            "singular":{
+                "large":"internt arrangement skjult",
+                "medium":"internt skjult",
+                "small":"skjult"
+            }
+        }
+
+        return {
+            'count': upcoming_internal_events_count,
+            'badge_text': badge_text,
+            'tooltip_text': "Trykk for å logge på og se interne arrangementer"
+        }
+
     def get_queryset(self):
         if self.request.user.has_perm('news.can_view_internal_event'):
             return Event.objects.order_by('-time_end')
         else:
             return Event.objects.filter(internal=False).order_by('-time_end')
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['internal_events_indicator'] = self.get_internal_events_indicator()
+
+        return context
 
 
 class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
@@ -89,11 +126,47 @@ class ArticleListView(ListView):
     template_name = "news/news.html"
     paginate_by = 10
 
+    def get_internal_articles_indicator(self):
+
+        # Determine number of hidden internal articles
+        if not self.request.user.has_perm('news.can_view_internal_article'):
+            internal_articles_count = len(Article.objects.filter(internal=True))
+        else:
+            internal_articles_count = 0
+
+        badge_text = {
+            "plural":{
+                "large":"interne artikler skjult",
+                "medium":"interne skjult",
+                "small":"skjult"
+            },
+            "singular":{
+                "large":"intern artikkel skjult",
+                "medium":"intern skjult",
+                "small":"skjult"
+            }
+        }
+
+        return {
+            'count': internal_articles_count,
+            'badge_text': badge_text,
+            'tooltip_text': "Trykk for å logge på og se interne artikler"
+        }
+
     def get_queryset(self):
         if self.request.user.has_perm("news.can_view_internal_article"):
             return Article.objects.order_by('-pub_date')
         else:
             return Article.objects.filter(internal=False).order_by('-pub_date')
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['internal_articles_indicator'] = self.get_internal_articles_indicator()
+
+        return context
+
 
 
 class ArticleView(DetailView):

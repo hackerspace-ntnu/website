@@ -61,13 +61,13 @@ class IndexView(TemplateView):
 
         badge_text = {
             "plural":{
-                "large":"interne skjult",
-                "medium":"interne artikler skjult",
+                "large":"interne artikler skjult",
+                "medium":"interne skjult",
                 "small":"skjult"
             },
             "singular":{
-                "large":"intern skjult",
-                "medium":"intern artikkel skjult",
+                "large":"intern artikkel skjult",
+                "medium":"intern skjult",
                 "small":"skjult"
             }
         }
@@ -90,13 +90,13 @@ class IndexView(TemplateView):
 
         badge_text = {
             "plural":{
-                "large":"interne skjult",
-                "medium":"interne arrangementer skjult",
+                "large":"interne arrangementer skjult",
+                "medium":"interne skjult",
                 "small":"skjult"
             },
             "singular":{
-                "large":"intern skjult",
-                "medium":"internt arrangement skjult",
+                "large":"internt arrangement skjult",
+                "medium":"internt skjult",
                 "small":"skjult"
             }
         }

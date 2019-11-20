@@ -10,7 +10,10 @@
 	<div class="container">
 		<div class="row white-text">
 			<div class="col s12">
-				<h4>Nyheter</h4>
+				<h4>
+					Nyheter
+					{% include "news/internal_indicator.html" with indicator=internal_articles_indicator %}
+				</h4>
 			</div>
 		</div>
 	</div>
@@ -72,7 +75,7 @@
 			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
 			{% else %}
 			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
-			{% endif %}	
+			{% endif %}
 			{% endfor %}
 
 			{% if page_obj.has_next %}

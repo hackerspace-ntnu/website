@@ -12,9 +12,9 @@
 				<h4>
 					Arrangementer
 				</h4>
-			</div>
-			<div class="col s12">
-				{% include "news/internal_indicator.html" with indicator=internal_events_indicator %}
+				{% if indicator_text %}
+				{% include "news/internal_indicator.html" %}
+				{% endif %}
 			</div>
 		</div>
 	</div>

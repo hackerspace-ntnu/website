@@ -52,27 +52,9 @@ class EventListView(ListView):
         # Determine number of hidden internal events
         if not self.request.user.has_perm('news.can_view_internal_event'):
             upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
-        else:
-            upcoming_internal_events_count = 0
+            return "Du har ikke rettigheter til å se interne arrangementer."
 
-        badge_text = {
-            "plural":{
-                "large":"interne arrangementer skjult",
-                "medium":"interne skjult",
-                "small":"skjult"
-            },
-            "singular":{
-                "large":"internt arrangement skjult",
-                "medium":"internt skjult",
-                "small":"skjult"
-            }
-        }
-
-        return {
-            'count': upcoming_internal_events_count,
-            'badge_text': badge_text,
-            'tooltip_text': "Trykk for å logge på og se interne arrangementer"
-        }
+        return None
 
     def get_queryset(self):
         if self.request.user.has_perm('news.can_view_internal_event'):
@@ -84,7 +66,7 @@ class EventListView(ListView):
 
         context = super().get_context_data(**kwargs)
 
-        context['internal_events_indicator'] = self.get_internal_events_indicator()
+        context['indicator_text'] = self.get_internal_events_indicator()
 
         return context
 
@@ -131,27 +113,10 @@ class ArticleListView(ListView):
         # Determine number of hidden internal articles
         if not self.request.user.has_perm('news.can_view_internal_article'):
             internal_articles_count = len(Article.objects.filter(internal=True))
-        else:
-            internal_articles_count = 0
+            return "Du har ikke rettigheter til å se interne artikler."
 
-        badge_text = {
-            "plural":{
-                "large":"interne artikler skjult",
-                "medium":"interne skjult",
-                "small":"skjult"
-            },
-            "singular":{
-                "large":"intern artikkel skjult",
-                "medium":"intern skjult",
-                "small":"skjult"
-            }
-        }
+        return None
 
-        return {
-            'count': internal_articles_count,
-            'badge_text': badge_text,
-            'tooltip_text': "Trykk for å logge på og se interne artikler"
-        }
 
     def get_queryset(self):
         if self.request.user.has_perm("news.can_view_internal_article"):
@@ -163,7 +128,7 @@ class ArticleListView(ListView):
 
         context = super().get_context_data(**kwargs)
 
-        context['internal_articles_indicator'] = self.get_internal_articles_indicator()
+        context['indicator_text'] = self.get_internal_articles_indicator()
 
         return context
 

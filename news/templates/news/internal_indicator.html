@@ -1,19 +1,10 @@
-{% if indicator.count > 0 %}
-
-  <a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
-    <div class="white-text hs-gray tooltipped card-panel z-depth-0 right" style="margin:0;padding:12px"
-    data-position="bottom"  data-tooltip="{{indicator.tooltip_text}}">
-      {{indicator.count}}
-      {% if indicator.count > 1 %}
-        <span class="hide-on-med-and-down"> {{indicator.badge_text.plural.large}}</span>
-        <span class="hide-on-small-only hide-on-large-only"> {{indicator.badge_text.plural.medium}}</span>
-        <span class="hide-on-med-and-up"> {{indicator.badge_text.plural.small}}</span>
-      {% else %}
-        <span class="hide-on-med-and-down"> {{indicator.badge_text.singular.large}}</span>
-        <span class="hide-on-small-only hide-on-large-only"> {{indicator.badge_text.singular.medium}}</span>
-        <span class="hide-on-med-and-up"> {{indicator.badge_text.singular.small}}</span>
-      {% endif %}
-    </div>
-  </a>
-
-{% endif %}
+<a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+	<div class="row valign-wrapper">
+		<div class="col s12">
+			<div class="card-panel hs-gray-text white tooltipped z-depth-0" data-position="bottom"  data-tooltip="Trykk for å logge inn">
+				<i class="material-icons blue-text text-lighten-3">info</i>
+				<span> {{ indicator_text }}</span>
+			</div>
+		</div>
+	</div>
+</a>

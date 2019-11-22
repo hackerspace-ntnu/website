@@ -12,9 +12,6 @@
 				<h4>
 					Arrangementer
 				</h4>
-				{% if indicator_text %}
-				{% include "news/internal_indicator.html" %}
-				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -24,17 +21,21 @@
 {% regroup object_list|dictsort:"is_past_due" by is_past_due as status_list %}
 <div class="section block">
 	<div class="container">
-	{% for status in status_list %}
-		<div class="row">
-			<div class="col s12">
-				<h5 class="subheader">{{ status.grouper|slice:"1:" }}</h5>
-				<div class="divider"></div>
+		{% if indicator_text %}
+			{% include "news/internal_indicator.html" %}
+		{% endif %}
+		{% for status in status_list %}
+			<div class="row">
+				<div class="col s12">
+					<h5 class="subheader">{{ status.grouper|slice:"1:" }}</h5>
+					<div class="divider"></div>
+				</div>
 			</div>
-		</div>
-		{% for event in status.list %}
-			{% include 'news/_event-list-element.html' with status=status.grouper %}
+			{% for event in status.list %}
+				{% include 'news/_event-list-element.html' with status=status.grouper %}
+			{% endfor %}
 		{% endfor %}
-	{% endfor %}
+	</div>
 </div>
 {% include 'website/_paginator.html' %}
 {% endblock %}

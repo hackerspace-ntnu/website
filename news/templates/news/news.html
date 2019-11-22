@@ -8,9 +8,11 @@
 {% block content %}
 <div class="section hs-green">
 	<div class="container">
-		<div class="row white-text">
+		<div class="row valign-wrapper white-text">
 			<div class="col s12">
-				<h4>Nyheter</h4>
+				<h4>
+					Nyheter
+				</h4>
 			</div>
 		</div>
 	</div>
@@ -18,6 +20,9 @@
 {% include "news/_list_admin_banner.html" %}
 <div class="section">
 	<div class="container">
+		{% if indicator_text %}
+			{% include "news/internal_indicator.html" %}
+		{% endif %}
 		<div class="row">
 			<div class="col s12">
 				{% for news in object_list %}
@@ -72,7 +77,7 @@
 			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
 			{% else %}
 			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
-			{% endif %}	
+			{% endif %}
 			{% endfor %}
 
 			{% if page_obj.has_next %}

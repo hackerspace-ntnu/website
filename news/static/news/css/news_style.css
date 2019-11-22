@@ -69,3 +69,9 @@
 strong {
 	font-weight: bolder !important;
 }
+.listview-indicator{
+	padding: 14px 20px
+}
+.listview-indicator .material-icons {
+	padding: 0 10px 0 0
+}

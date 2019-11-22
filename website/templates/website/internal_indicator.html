@@ -1,0 +1,21 @@
+{% if indicator.count > 0 %}
+
+  <a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+
+    <span class="badge new hs-green white-text tooltipped" data-badge-caption=""
+    data-position="top" data-tooltip="{{indicator.tooltip_text}}">
+      {{indicator.count}}
+      {% if indicator.count > 1 %}
+        <span class="hide-on-med-and-down"> {{indicator.badge_text.plural.medium}}</span>
+        <span class="hide-on-small-only hide-on-large-only"> {{indicator.badge_text.plural.large}}</span>
+        <span class="hide-on-med-and-up"> {{indicator.badge_text.plural.small}}</span>
+      {% else %}
+        <span class="hide-on-med-and-down"> {{indicator.badge_text.singular.medium}}</span>
+        <span class="hide-on-small-only hide-on-large-only">  {{indicator.badge_text.singular.large}}</span>
+        <span class="hide-on-med-and-up"> {{indicator.badge_text.singular.small}}</span>
+      {% endif %}
+    </span>
+
+  </a>
+
+{% endif %}

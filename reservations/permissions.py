@@ -11,7 +11,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        if request.user.is_superuser or request.user.has_perm('delete_permission'):
+        if request.user.is_superuser or request.user.has_perm('reservations.delete_permission'):
             return True
         # Instance must have an attribute named `owner`.
         return obj.user == request.user

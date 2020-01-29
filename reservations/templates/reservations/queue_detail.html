@@ -203,10 +203,10 @@
 				} else {
 					elem.setAttribute("style", "background-color: #4E4B46;");
 				}
-				{% if perms.reservation.view_reservation_user_details %}
+				{% if perms.reservations.view_user_details %}
 				{# kun dersom en bruker har rettigheter til å se navn og nummer #}
 					elem.append(info.event.extendedProps.fullname + "\n");
-					
+
 					elem.append(info.event.extendedProps.phone);
 				{% endif %}
 			}

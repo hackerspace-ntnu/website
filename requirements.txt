@@ -1,5 +1,4 @@
-django>=2.2
-gunicorn
+django>=3.0
 django-ckeditor
 coverage
 git+https://github.com/jazzband/sorl-thumbnail.git # Temporary git-link for sorl-thumbnail 12.6.1

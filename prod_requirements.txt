@@ -1,4 +1,4 @@
 -r requirements.txt
 
-psycopg2==2.7.1
+psycopg2-binary==2.7.1
 gunicorn>=19.7,<19.8

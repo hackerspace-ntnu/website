@@ -2,7 +2,7 @@ django>=2.2
 gunicorn
 django-ckeditor
 coverage
-sorl-thumbnail
+git+https://github.com/jazzband/sorl-thumbnail.git # Temporary git-link for sorl-thumbnail 12.6.1
 python-coveralls
 djangorestframework
 django-filter

@@ -21,7 +21,7 @@
 		{% if event.registration and perms.news.can_see_attendees %}
 		<div class="row">
 			<div class="col s12 m12 l6">
-				<ul class="collection with-header"> 
+				<ul class="collection with-header">
 					<li class="collection-header"><h4>Venteliste</h4></li>
 					{% for user in event.wait_list %}
 					<li class="collection-item">{{ user.get_full_name }}</li>
@@ -36,24 +36,30 @@
 						<h4>Alle Påmeldte</h4>
 					</li>
 					{% for user in event.registration_list %}
-					{% if user.is_waitlisted %}
-					{% else %}
-					<li class="collection-item">{{ user.user.get_full_name }}
-						{% if user.attended %}
-						<span class="secondary-content tooltipped" data-position="top" data-tooltip="Møtte opp!">
-							😇
-						</span>
-						{% else %}
-						<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
-							😈
-						</span>
+
+						{% if not user.is_waitlisted %}
+						<li class="collection-item">{{ user.user.get_full_name }}
+
+							{% if event.is_past_start %}
+
+								{% if user.attended %}
+								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Møtte opp!">
+									😇
+								</span>
+								{% else %}
+								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
+									😈
+								</span>
+								{% endif %}
+
+							{% endif %}
+
+						</li>
 						{% endif %}
 
+						{% empty %}
+						<li class="collection-item">Det er ingen påmeldte</li>
 
-					</li>
-					{% endif %}
-					{% empty %}
-					<li class="collection-item">Det er ingen påmeldte</li>
 					{% endfor %}
 				</ul>
 			</div>
@@ -61,12 +67,12 @@
 		{% if event.servering %}
 		<div class="row">
 			<div class="col s12 m12">
-				<ul class="collection with-header"> 
+				<ul class="collection with-header">
 					<li class="collection-header"><h4>Allergier</h4></li>
 					<li class="collection-item">Foretrekker glutenfritt<span class="badge"> {{ event.get_allergies_registered.gluten }}</span></li>
 					<li class="collection-item">Foretrekker vegetar<span class="badge"> {{ event.get_allergies_registered.vegetar }}</span></li>
 					<li class="collection-item">Foretrekker vegansk<span class="badge"> {{ event.get_allergies_registered.vegan }}</span></li>
-					<li class="collection-item">Annet ønske 
+					<li class="collection-item">Annet ønske
 						{% for wish in event.get_allergies_registered.annet %}
 						<span class="badge hs-gray white-text">{{ wish }}</span>
 						{% endfor %}

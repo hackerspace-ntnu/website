@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 {% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
 	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
 	{% else %}

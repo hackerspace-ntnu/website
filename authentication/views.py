@@ -23,14 +23,14 @@ def save_profile(backend, user, response, is_new=False, *args, **kwargs):
             try:
                 user.profile
             except Profile.DoesNotExist:
-                profile = Profile.objects.create(user=user, tos_accepted=False)
+                profile = Profile.objects.create(user=user)
 
             user.save()
         else:
             try:
                 user.profile
             except Profile.DoesNotExist:
-                profile = Profile.objects.create(user=user, tos_accepted=False)
+                profile = Profile.objects.create(user=user)
 
 
 def associate_by_email(backend, details, user=None, *args, **kwargs):
@@ -78,5 +78,3 @@ def associate_by_email(backend, details, user=None, *args, **kwargs):
 
                 return {'user': alt_users[0],
                         'is_new': False}
-
-

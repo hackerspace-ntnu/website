@@ -1,6 +1,7 @@
 {% load static %}
-{% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
-	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
+{% if request.user.is_authenticated and not request.user.profile.has_accepted_most_recent_tos %}
+	{# Checks if path should display TOS prompt. Slicing covers paths for all tos objects #}
+	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" or request.path|slice:":5" == "/tos/" %}
 	{% else %}
 		<meta http-equiv="refresh" content="1;url=/tos/returning-user/">
 	{% endif %}
@@ -101,7 +102,7 @@
 						<li class="tooltipped" data-position="left" data-tooltip="Administratorpanel for viktige folk">
 							<a href="{% url 'admin' %}">Administrator</a>
 						</li>
-							
+
 						{% endif %}
 					</ul>
 				</ul>

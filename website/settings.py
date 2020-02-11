@@ -201,9 +201,11 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
             ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
             ['Maximize', 'Find', 'Replace'],
-            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', '-', 'Source'],
         ],
+        'fullPage': True,
         'extraPlugins': 'blockquote',
+        'allowedContent': 'h1 h2 h3 h4 p ul li div (*); a(*)[*]'
     },
 }
 

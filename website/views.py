@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
+from userprofile.models import TermsOfService
 from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
@@ -11,13 +12,26 @@ from .models import Card, FaqQuestion
 from django.views.generic import ListView, TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+class AcceptTosView(TemplateView):
+
+    template_name = 'website/tos-returningls.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tos'] = TermsOfService.objects.order_by('-pub_date').first()
+        return context
+
+
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'index'
 
     def get_redirect_url(self, *args, **kwargs):
         profileobj = get_object_or_404(Profile, pk=self.request.user.profile.id)
         if(profileobj != None):
-            profileobj.tos_accepted = True
+
+            mostRecentTos = TermsOfService.objects.order_by('-pub_date').first();
+
+            profileobj.accepted_tos = mostRecentTos
             profileobj.save()
 
         return super().get_redirect_url(*args, **kwargs)

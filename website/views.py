@@ -16,11 +16,6 @@ class AcceptTosView(TemplateView):
 
     template_name = 'website/tos-returningls.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['tos'] = TermsOfService.objects.order_by('-pub_date').first()
-        return context
-
 
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'index'

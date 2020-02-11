@@ -77,6 +77,12 @@ class TermsOfServiceView(DetailView):
     model = TermsOfService
     template_name = "userprofile/tos_detail.html"
 
+class MostRecentTermsOfServiceView(TermsOfServiceView):
+
+    def get_object(self):
+        return TermsOfService.objects.order_by('-pub_date').first()
+
+
 class TermsOfServiceCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 
     model = TermsOfService
@@ -99,3 +105,8 @@ class TermsOfServiceEditView(PermissionRequiredMixin, SuccessMessageMixin, Updat
 
     def get_success_url(self):
         return reverse('tos-details', kwargs={'pk': self.object.id})
+
+class MostRecentTermsOfServiceEditView(TermsOfServiceEditView):
+
+    def get_object(self):
+        return TermsOfService.objects.order_by('-pub_date').first()

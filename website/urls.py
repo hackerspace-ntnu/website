@@ -6,7 +6,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView
-from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, TermsOfServiceEditView
+from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, TermsOfServiceEditView, MostRecentTermsOfServiceView, MostRecentTermsOfServiceEditView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.cache import never_cache
@@ -28,7 +28,8 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
     path('robots.txt', TemplateView.as_view(template_name='website/robots.txt', content_type='text/plain')),
-    path('tos/', TemplateView.as_view(template_name="website/tos.html"), name='tos'),
+    path('tos/', MostRecentTermsOfServiceView.as_view(), name='tos'),
+    path('tos/edit', MostRecentTermsOfServiceEditView.as_view(), name='tos'),
     path('tos/returning-user/', AcceptTosView.as_view(), name='tos-returningls'),
     path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
     path('tos/create/', TermsOfServiceCreateView.as_view(), name='tos-create'),

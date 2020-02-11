@@ -13,7 +13,7 @@ from ckeditor.fields import RichTextField
 
 class TermsOfService(models.Model):
 
-    text = RichTextField()
+    text = RichTextField(config_name="tos_editor")
     pub_date = models.DateField(default=timezone.now, verbose_name='Publiseringsdato');
 
     def __str__(self):

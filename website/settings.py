@@ -201,12 +201,22 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
             ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
             ['Maximize', 'Find', 'Replace'],
+            ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'],
+        ],
+        'extraPlugins': 'blockquote'
+    },
+    'tos_editor': {
+        'width': '100%',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', '-', 'Undo', 'Redo', '-', 'PasteText'],
+            ['NumberedList', 'BulletedList', '-', 'Link', '-', 'Outdent', 'Indent', '-', 'Blockquote'],
+            ['Maximize', 'Find', 'Replace'],
             ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', '-', 'Source'],
         ],
-        'fullPage': True,
         'extraPlugins': 'blockquote',
-        'allowedContent': 'h1 h2 h3 h4 p ul li div (*); a(*)[*]'
-    },
+        'allowedContent': 'h1 h2 h3 h4 p b i strong ul li div (*); a [*](*)'
+    }
 }
 
 DEFAULT_CONFIG = CKEDITOR_CONFIGS

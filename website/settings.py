@@ -214,6 +214,7 @@ CKEDITOR_CONFIGS = {
             ['Maximize', 'Find', 'Replace'],
             ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', '-', 'Source'],
         ],
+        'fullPage': True,
         'extraPlugins': 'blockquote',
         'allowedContent': 'h1 h2 h3 h4 p b i strong ul li div (*); a [*](*)'
     }

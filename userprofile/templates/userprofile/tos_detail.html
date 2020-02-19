@@ -1,0 +1,21 @@
+{% extends "website/base.html" %}
+
+{% block content %}
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row center-align">
+          <h3>Vilkår for bruk av nettside</h3>
+          <p>Oppdatert {{ termsofservice.pub_date }}</p>
+        </div>
+    </div>
+</div>
+	<div class="container">
+			<div class="row">
+				<div class="col s12">
+					{% autoescape off %}
+						{{ termsofservice.text }}
+					{% endautoescape %}
+				</div>
+			</div>
+	</div>
+{% endblock content %}

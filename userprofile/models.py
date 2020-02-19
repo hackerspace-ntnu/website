@@ -7,6 +7,17 @@ from django.shortcuts import reverse
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
 from applications.validators import validate_phone_number
+from django.utils import timezone
+from ckeditor.fields import RichTextField
+
+
+class TermsOfService(models.Model):
+
+    text = RichTextField(config_name="tos_editor")
+    pub_date = models.DateField(default=timezone.now, verbose_name='Publiseringsdato');
+
+    def __str__(self):
+        return self.pub_date.strftime('%d. %B %Y')
 
 
 class Skill(models.Model):
@@ -41,7 +52,8 @@ class Profile(models.Model):
     access_card = models.CharField(max_length=20, null=True, blank=True, verbose_name="NTNU Adgangskort (EMXXXXXXXXXX)")
     study = models.CharField(max_length=50, null=True, blank=True, verbose_name="Studieretning")
     skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
-    tos_accepted = models.BooleanField(default=False)
+
+    accepted_tos = models.ForeignKey(TermsOfService, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Seneste aksepterte TOS")
 
     phone_number = models.CharField(max_length=8, null=True, blank=True, validators=[validate_phone_number], verbose_name="Telefonnummer",
                                     help_text="Brukes til reservasjonssystem i tilfelle du må kontaktes.")
@@ -75,3 +87,6 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse('userprofile:profile', args=(self.pk,))
+
+    def has_accepted_most_recent_tos(self):
+        return self.accepted_tos == TermsOfService.objects.order_by('-pub_date').first();

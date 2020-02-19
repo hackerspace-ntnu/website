@@ -10,7 +10,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView, RedirectView
 from django.shortcuts import redirect
 from django.urls import reverse
 
@@ -77,10 +77,11 @@ class TermsOfServiceView(DetailView):
     model = TermsOfService
     template_name = "userprofile/tos_detail.html"
 
-class MostRecentTermsOfServiceView(TermsOfServiceView):
+class MostRecentTermsOfServiceView(RedirectView):
 
-    def get_object(self):
-        return TermsOfService.objects.order_by('-pub_date').first()
+    def get_redirect_url(self, *args, **kwargs):
+        termsofservice = TermsOfService.objects.order_by('-pub_date').first()
+        return reverse('tos-details', kwargs={'pk': termsofservice.id})
 
 
 class TermsOfServiceCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -106,7 +107,9 @@ class TermsOfServiceEditView(PermissionRequiredMixin, SuccessMessageMixin, Updat
     def get_success_url(self):
         return reverse('tos-details', kwargs={'pk': self.object.id})
 
-class MostRecentTermsOfServiceEditView(TermsOfServiceEditView):
 
-    def get_object(self):
-        return TermsOfService.objects.order_by('-pub_date').first()
+class MostRecentTermsOfServiceEditView(RedirectView):
+
+    def get_redirect_url(self, *args, **kwargs):
+        termsofservice = TermsOfService.objects.order_by('-pub_date').first()
+        return reverse('tos-edit', kwargs={'pk': termsofservice.id})

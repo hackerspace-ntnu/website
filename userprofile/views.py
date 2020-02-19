@@ -94,22 +94,3 @@ class TermsOfServiceCreateView(PermissionRequiredMixin, SuccessMessageMixin, Cre
 
     def get_success_url(self):
         return reverse('tos-details', kwargs={'pk': self.object.id})
-
-
-class TermsOfServiceEditView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
-
-    model = TermsOfService
-    template_name = "userprofile/edit_tos.html"
-    fields = ['text', 'pub_date']
-    permission_required = "userprofile.change_termsofservice"
-    success_message = "TOS er oppdatert"
-
-    def get_success_url(self):
-        return reverse('tos-details', kwargs={'pk': self.object.id})
-
-
-class MostRecentTermsOfServiceEditView(RedirectView):
-
-    def get_redirect_url(self, *args, **kwargs):
-        termsofservice = TermsOfService.objects.order_by('-pub_date').first()
-        return reverse('tos-edit', kwargs={'pk': termsofservice.id})

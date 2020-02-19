@@ -6,7 +6,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView
-from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, TermsOfServiceEditView, MostRecentTermsOfServiceView, MostRecentTermsOfServiceEditView
+from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.cache import never_cache
@@ -29,12 +29,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('robots.txt', TemplateView.as_view(template_name='website/robots.txt', content_type='text/plain')),
     path('tos/', MostRecentTermsOfServiceView.as_view(), name='tos'),
-    path('tos/edit', MostRecentTermsOfServiceEditView.as_view(), name='tos'),
     path('tos/returning-user/', AcceptTosView.as_view(), name='tos-returningls'),
     path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
     path('tos/create/', TermsOfServiceCreateView.as_view(), name='tos-create'),
     path('tos/<int:pk>/', TermsOfServiceView.as_view(), name='tos-details'),
-    path('tos/<int:pk>/edit', TermsOfServiceEditView.as_view(), name='tos-edit'),
     path('news/', include('news.urls')),
     path('events/', include('news.event_urls')),
     path('ckeditor/upload', permission_required('news.add_article')(ck_upload_views.upload), name='ckeditor_upload'),

@@ -11,10 +11,19 @@ from applications.models import ApplicationPeriod
 from .models import Card, FaqQuestion
 from django.views.generic import ListView, TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from urllib import parse as urlparse
 
 class AcceptTosView(TemplateView):
 
     template_name = 'website/tos-returningls.html'
+
+    def get(self,request, *args, **kwargs):
+
+        # Save users pre-TOS path in session variable
+        # Parse converts from absolute to relative path
+        request.session['redirect_after_tos_accept'] = urlparse.urlparse(request.META.get('HTTP_REFERER')).path
+
+        return super().get(self,request,*args, **kwargs)
 
 
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
@@ -29,7 +38,9 @@ class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
             profileobj.accepted_tos = mostRecentTos
             profileobj.save()
 
-        return super().get_redirect_url(*args, **kwargs)
+        # Pop and redirect to pre-TOS path stored in session variable
+        # Redirects to '/' if pop fails
+        return self.request.session.pop('redirect_after_tos_accept', super().get_redirect_url(*args, **kwargs))
 
 class AboutView(TemplateView):
     template_name = "website/about.html"

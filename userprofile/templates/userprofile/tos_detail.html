@@ -6,6 +6,11 @@
         <div class="row center-align">
           <h3>Vilkår for bruk av nettside</h3>
           <p>Oppdatert {{ termsofservice.pub_date }}</p>
+          {% if perms.userprofile.add_termsofservice %}
+            <a class="btn-flat white" href="{% url 'tos-create-id' termsofservice.id %}"><i class="material-icons">edit</i>
+              Ny TOS basert på denne
+            </a>
+          {% endif %}
         </div>
     </div>
 </div>

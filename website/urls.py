@@ -32,6 +32,7 @@ urlpatterns = [
     path('tos/returning-user/', AcceptTosView.as_view(), name='tos-returningls'),
     path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
     path('tos/create/', TermsOfServiceCreateView.as_view(), name='tos-create'),
+    path('tos/create/<int:pk>/', TermsOfServiceCreateView.as_view(), name='tos-create-id'),
     path('tos/<int:pk>/', TermsOfServiceView.as_view(), name='tos-details'),
     path('news/', include('news.urls')),
     path('events/', include('news.event_urls')),

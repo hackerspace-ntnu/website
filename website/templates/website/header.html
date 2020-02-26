@@ -98,11 +98,10 @@
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 							<a href="{% url 'about' %}">Om Oss</a>
 						</li>
-						{% if perms.userprofile.can_view_admin %}
+						{% if user.is_staff %}
 						<li class="tooltipped" data-position="left" data-tooltip="Administratorpanel for viktige folk">
-							<a href="{% url 'admin' %}">Administrator</a>
+							<a href="/admin">Adminpanel</a>
 						</li>
-
 						{% endif %}
 					</ul>
 				</ul>

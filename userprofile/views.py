@@ -79,6 +79,7 @@ class TermsOfServiceView(DetailView):
 
 class MostRecentTermsOfServiceView(RedirectView):
 
+    # Redirect url without primary key to detail view of the latest TOS
     def get_redirect_url(self, *args, **kwargs):
         termsofservice = TermsOfService.objects.order_by('-pub_date').first()
         return reverse('tos-details', kwargs={'pk': termsofservice.id})
@@ -88,9 +89,21 @@ class TermsOfServiceCreateView(PermissionRequiredMixin, SuccessMessageMixin, Cre
 
     model = TermsOfService
     fields = ['text', 'pub_date']
-    template_name = "userprofile/edit_tos.html"
+    template_name = "userprofile/create_tos.html"
     permission_required = "userprofile.add_termsofservice"
     success_message = "TOS er opprettet"
 
     def get_success_url(self):
+
+        # Redirect to detail view of newly created TOS
         return reverse('tos-details', kwargs={'pk': self.object.id})
+
+    def get_initial(self):
+        initial = super().get_initial()
+
+        # Check if new TOS should be based on an old TOS
+        if('pk' in self.kwargs):
+            # Prepopulate new TOS with text from old TOS given in URL
+            initial['text'] = TermsOfService.objects.get(id=self.kwargs['pk']).text
+
+        return initial

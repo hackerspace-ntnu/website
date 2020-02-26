@@ -22,7 +22,9 @@
 		<div class="row">
 			<div class="col s12 m12 l6">
 				<ul class="collection with-header">
-					<li class="collection-header"><h4>Venteliste</h4></li>
+					<li class="collection-header">
+						<h4>Venteliste</h4>
+					</li>
 					{% for user in event.wait_list %}
 					<li class="collection-item">{{ user.get_full_name }}</li>
 					{% empty %}
@@ -31,40 +33,51 @@
 				</ul>
 			</div>
 			<div class="col s12 m12 l6">
+
 				<ul class="collection with-header">
+
 					<li class="collection-header">
-						<h4>Alle Påmeldte</h4>
+						<h4>Alle påmeldte</h4>
 					</li>
+					
 					{% for user in event.registration_list %}
 
-						{% if not user.is_waitlisted %}
-						<li class="collection-item">{{ user.user.get_full_name }}
+					{% if not user.is_waitlisted %}
+					<li class="collection-item event-attendee-row">
 
-							{% if event.is_past_start %}
+						<a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' user.user.id %}">
+							{{ user.user.get_full_name }}
+						</a>
 
-								{% if user.attended %}
-								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Møtte opp!">
-									😇
-								</span>
-								{% else %}
-								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
-									😈
-								</span>
-								{% endif %}
+						{% if event.is_past_start %}
 
-							{% else %}
+						<a class="event-attendee-icon" href="/events/{{ event.id }}/attended">
 
-							<span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
-								⌛
+							{% if user.attended %}
+							<span class="secondary-content tooltipped" data-position="top" data-tooltip="Oppmøte registrert!">
+								😇
 							</span>
-
+							{% else %}
+							<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
+								😈
+							</span>
 							{% endif %}
 
-						</li>
+						</a>
+
+						{% else %}
+
+						<span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
+							⌛
+						</span>
+
 						{% endif %}
 
-						{% empty %}
-						<li class="collection-item">Det er ingen påmeldte</li>
+					</li>
+					{% endif %}
+
+					{% empty %}
+					<li class="collection-item">Det er ingen påmeldte</li>
 
 					{% endfor %}
 				</ul>
@@ -74,7 +87,9 @@
 		<div class="row">
 			<div class="col s12 m12">
 				<ul class="collection with-header">
-					<li class="collection-header"><h4>Allergier</h4></li>
+					<li class="collection-header">
+						<h4>Allergier</h4>
+					</li>
 					<li class="collection-item">Foretrekker glutenfritt<span class="badge"> {{ event.get_allergies_registered.gluten }}</span></li>
 					<li class="collection-item">Foretrekker vegetar<span class="badge"> {{ event.get_allergies_registered.vegetar }}</span></li>
 					<li class="collection-item">Foretrekker vegansk<span class="badge"> {{ event.get_allergies_registered.vegan }}</span></li>

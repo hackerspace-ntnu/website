@@ -39,7 +39,7 @@
 					<li class="collection-header">
 						<h4>Alle påmeldte</h4>
 					</li>
-					
+
 					{% for user in event.registration_list %}
 
 					{% if not user.is_waitlisted %}
@@ -49,29 +49,29 @@
 							{{ user.user.get_full_name }}
 						</a>
 
-						{% if event.is_past_start %}
-
 						<a class="event-attendee-icon" href="/events/{{ event.id }}/attended">
 
-							{% if user.attended %}
-							<span class="secondary-content tooltipped" data-position="top" data-tooltip="Oppmøte registrert!">
-								😇
-							</span>
+							{% if event.is_past_start %}
+
+								{% if user.attended %}
+									<span class="secondary-content tooltipped" data-position="top" data-tooltip="Oppmøte registrert!">
+										😇
+									</span>
+								{% else %}
+									<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
+										😈
+									</span>
+								{% endif %}
+
 							{% else %}
-							<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
-								😈
-							</span>
+
+								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
+									⌛
+								</span>
+
 							{% endif %}
 
 						</a>
-
-						{% else %}
-
-						<span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
-							⌛
-						</span>
-
-						{% endif %}
 
 					</li>
 					{% endif %}

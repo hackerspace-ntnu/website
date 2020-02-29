@@ -3,8 +3,23 @@
 }
 .ingress {
 	font-weight: 700;
-
 }
+
+.event-attendee-row{
+	display:table;
+	width:100%;
+}
+
+.event-attendee-name{
+	display:table-cell;
+}
+
+.event-attendee-icon{
+	display:table-cell;
+	vertical-align:middle;
+	padding-left: 1em;
+}
+
 @media only screen and (max-width: 600px) {
 	.cut-top {
 		margin-top: -96px !important;

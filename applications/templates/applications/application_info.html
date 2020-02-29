@@ -10,13 +10,32 @@
 		</div>
 	</div>
 </div>
+
 <div class="section hs-gray">
 	<div class="container">
 		<div class="row">
 			<div class="col s12 center-align">
 				<br>
 				<br>
-				<a href="/opptak/application" class="hs-green btn btn-large">Gå til søknad</a>
+
+				{% if is_too_early %}
+
+					<h4 class="white-text center-align">Det er ikke åpnet for søknader enda</h4>
+					<p class="white-text center-align">
+						Søknadsskjema vil være tilgjengelig på denne nettsiden mellom <br>
+						{{ start_date }} og {{ end_date }}
+					</p>
+
+				{% elif is_too_late %}
+
+					<h4 class="white-text center-align">Opptaket er over for i år</h4>
+					<h6 class="white-text center-align">Du er hjertelig velkommen til å søke igjen ved neste opptak</h6>
+
+				{% else %}
+
+					<a href="/opptak/application" class="hs-green btn btn-large">Gå til søknad</a>
+
+				{% endif %}
 				<br>
 				<br>
 			</div>
@@ -29,18 +48,22 @@
 			<div class="col s12">
 				<h4>Praktisk informasjon om medlemskap</h4>
 				<p class="flow-text">Tusen takk for din interesse!<p>
-				<p class="flow-text">På denne nettsiden får du informasjon om medlemskap og gruppene i Hackerspace.</p>
-				<p class="flow-text">Dersom du blir tatt opp i en av våre grupper, blir du selvsagt også  medlem av Hackerspace.</p>
-				<p><b>Erfaring</b></p>
-				<blockquote><p class="flow-text">Man trenger ikke være en verdensmester for å søke i Hackerspace.<br>Både nybegynnere og viderekommende er velkommen til å søke hos oss. Vi er først og fremst ute etter engasjementet ditt.<br>Alle som blir tatt opp i Hackerspace kommer til å bli lært opp i det mest brukte utstyret vi har på verkstedet, og spesifikk kursing for gruppen de blir med i.</p></blockquote>
-				<p><b>Vaktlisten</b></p>
-				<blockquote>
-				<p class="flow-text">Alle medlemmer av Hackerspace er med på å holde verkstedet åpent. På vakt hjelper du nyskjerrige studenter som stikker innom og vil bruke utstyret vårt. Det er også lagt opp til at du kan gjøre det samme selv! Ellers på vaktene blir det også en del kaffedrikking og sosialt med de andre på verkstedet. Alle medlemer sitter to timer på vakt i uken.</p>
-				</blockquote>
-				<p><b>Stander</b></p>
-				<blockquote>
-				<p class="flow-text">Du har kanskje møtt Hackerspace på en stand på NTNU? Det er fordi Hackerspace står mye på stand for å spre ordet om hvem vi er og hva vi gjør. Dette er noe alle i Hackerspace er med på.</p>
-				</blockquote>
+						<p class="flow-text">På denne nettsiden får du informasjon om medlemskap og gruppene i Hackerspace.</p>
+						<p class="flow-text">Dersom du blir tatt opp i en av våre grupper, blir du selvsagt også medlem av Hackerspace.</p>
+						<p><b>Erfaring</b></p>
+						<blockquote>
+							<p class="flow-text">Man trenger ikke være en verdensmester for å søke i Hackerspace.<br>Både nybegynnere og viderekommende er velkommen til å søke hos oss. Vi er først og fremst ute etter engasjementet ditt.<br>Alle som blir tatt opp i
+								Hackerspace kommer til å bli lært opp i det mest brukte utstyret vi har på verkstedet, og spesifikk kursing for gruppen de blir med i.</p>
+						</blockquote>
+						<p><b>Vaktlisten</b></p>
+						<blockquote>
+							<p class="flow-text">Alle medlemmer av Hackerspace er med på å holde verkstedet åpent. På vakt hjelper du nyskjerrige studenter som stikker innom og vil bruke utstyret vårt. Det er også lagt opp til at du kan gjøre det samme selv!
+								Ellers på vaktene blir det også en del kaffedrikking og sosialt med de andre på verkstedet. Alle medlemer sitter to timer på vakt i uken.</p>
+						</blockquote>
+						<p><b>Stander</b></p>
+						<blockquote>
+							<p class="flow-text">Du har kanskje møtt Hackerspace på en stand på NTNU? Det er fordi Hackerspace står mye på stand for å spre ordet om hvem vi er og hva vi gjør. Dette er noe alle i Hackerspace er med på.</p>
+						</blockquote>
 			</div>
 		</div>
 	</div>
@@ -80,12 +103,13 @@
 				<h4>Prosjektgruppen</h4>
 				<p>Prosjektgruppen gjennomfører en rekke prosjekter som varierer fra år til år. Prosjektene varer som oftest i to semestre.</p>
 				<p>Som medlem av Prosjektgruppen jobber du konkret på et prosjekt sammen med andre på gruppen. Du vil få kjennskap til ulike teknologier innen spillutvikling, men ikke begrenset til det.
-				<p>Under finner du informasjon om prosjektene som har opptak nå.</p> </div>
+					<p>Under finner du informasjon om prosjektene som har opptak nå.</p>
+			</div>
 		</div>
 	</div>
 </div>
 {% for group in group_list %}
-	{% include "applications/_group_description.html" %}
+{% include "applications/_group_description.html" %}
 {% empty %}
 <div class="section white">
 	<div class="container">

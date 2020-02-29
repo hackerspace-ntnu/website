@@ -11,6 +11,17 @@ class ApplicationInfoView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApplicationInfoView, self).get_context_data(**kwargs)
+
+        current_date = datetime.now()
+        start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
+        end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
+
+        context['start_date'] = start_date
+        context['end_date'] = end_date
+
+        context['is_too_early'] = current_date < start_date
+        context['is_too_late'] = end_date < current_date
+
         context['group_list'] = ApplicationGroup.objects.filter(project_group=True)
         context['main_list'] = ApplicationGroup.objects.filter(project_group=False)
 

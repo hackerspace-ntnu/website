@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from applications.forms import ApplicationForm
 from datetime import datetime
 from django.views.generic import ListView
@@ -53,10 +54,8 @@ class ApplicationView(FormView):
             'end_date': end_date
         }
 
-
-        if current_date < start_date:
-            return render(request, 'applications/application_too_early.html', context=context)
-        elif current_date > end_date:
-            return render(request, 'applications/application_too_late.html', context=context)
+        if current_date < start_date or current_date > end_date:
+            # Outside application period, go back to info page
+            return redirect('application:application_info')
         else:
             return super(ApplicationView, self).dispatch(request, *args, **kwargs)

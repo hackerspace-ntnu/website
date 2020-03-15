@@ -52,10 +52,13 @@ urlpatterns = [
     path('api/', include(router.urls)),
 ]
 
-
+admin.site.site_header = "Adminpanel for Viktige Folk"
+admin.site.site_title = "Admin hackerspace-ntnu.no"
+admin.site.index_title = "Vennligst ikke ødelegg noe"
 if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', static_serve,
             {'document_root': settings.MEDIA_ROOT}),
     ]
+    admin.site.index_title = "Velkommen tilbake, Mester"

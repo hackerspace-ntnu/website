@@ -1,0 +1,44 @@
+.profile-img{
+
+  height: 150px;
+  margin-right: 20px;
+
+}
+
+@media only screen and (min-width: 600px) {
+
+  .profile-basic{
+    padding: 20px;
+  }
+
+}
+
+.category-level-item{
+
+  margin: 0;
+  padding: 0;
+
+}
+
+.category-level-thumb, .category-level{
+
+  width:50px;
+  height:50px;
+
+}
+
+.category-level{
+
+  background-color: black;
+  color: white;
+  padding: 10px;
+
+}
+
+.category-level-name{
+
+  font-size: 20px;
+  margin-left: 8px;
+  padding: 0;
+
+}

@@ -1,0 +1,43 @@
+.skill_acquired {
+    background: #eeeeee;
+    text-decoration: line-through;
+}
+
+.skill_reachable {
+    opacity: 1;
+}
+
+.skill_unreachable {
+    background: #eeeeee;
+    opacity: 0.5;
+}
+
+
+/* Tabs styling */
+
+.tabs .tab a {
+    color: #454545;
+}
+
+.tabs .tab a:hover,
+.tabs .tab a:focus {
+    background-color: #eee;
+    color: #454545;
+}
+
+.tabs .tab a.active,
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+    background-color: #fff;
+    color: #454545;
+}
+
+.tabs .tab.disabled a,
+.tabs .tab.disabled a:hover {
+  color: #21212188;
+  cursor: default;
+}
+
+.tabs .indicator {
+    background-color: #454545;
+}

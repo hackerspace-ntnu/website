@@ -4,9 +4,10 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from committees.models import Committee
 from .forms import ProfileSearchForm
-from .models import Profile, Skill, TermsOfService
+from .models import Profile, TermsOfService, Category, Skill
+from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
+from django.views.generic.detail import DetailView, SingleObjectMixin
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -33,10 +34,53 @@ class ProfileListView(ListView):
         context['filter'] = self.request.GET.get('filter', '')
         return context
 
-class SelfProfileDetailView(DetailView):
+
+# Class providing a method for retrieving skill category levels
+class CategoryLevelsMixin():
+
+    def get_category_levels(self):
+
+        # Tuple list (category, level)
+        levels = []
+
+        for category in Category.objects.all():
+
+            # Total acquired skills in category
+            level = Skill.objects.filter(categories__pk = category.pk, pk__in = self.object.skills.all()).count()
+
+            levels.append((category, level))
+
+        # Sort tuple list by category level (descending)
+        levels.sort(key=lambda tup: tup[1], reverse=True);
+
+        return levels
+
+
+class ProfileDetailView(DetailView, CategoryLevelsMixin):
+    # Vis en spesifikk profil.
+    # Endpointet her er /profile/<id>
+    template_name = "userprofile/profile.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['all_categories'] = Category.objects.all()
+
+        context['category_levels'] = self.get_category_levels()
+
+        return context
+
+    def get_object(self):
+        # Get the user for the pk, then return the user profile
+        pk = self.kwargs['pk']
+        user = get_object_or_404(User, pk=pk)
+        return get_object_or_404(Profile, pk=user.profile.pk)
+
+
+class SelfProfileDetailView(ProfileDetailView):
     # Vis egen profil.
     # Endpointet her er /profile/
-    template_name = "userprofile/profile.html"
     model = Profile
 
     def get_object(self):
@@ -46,10 +90,49 @@ class SelfProfileDetailView(DetailView):
         except AttributeError:
             raise Http404("Profile not found")
 
-class ProfileDetailView(DetailView):
-    # Vis en spesifikk profil.
-    # Endpointet her er /profile/<id>
-    template_name = "userprofile/profile.html"
+
+class ProfileUpdateView(SuccessMessageMixin, UpdateView):
+    # Klasse for å oppdatere brukerprofilen sin
+    model = Profile
+    fields = ['image', 'access_card', 'study', 'show_email', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social', 'phone_number']
+    template_name = "userprofile/edit_profile.html"
+    success_url = "/profile"
+    success_message = "Profilen er oppdatert."
+
+    def get_object(self):
+        try:
+            userprofile = self.request.user.profile
+            return userprofile
+        except AttributeError:
+            raise Http404("Profile not found")
+
+
+class SkillsView(DetailView, CategoryLevelsMixin):
+
+    template_name = "userprofile/skills.html"
+
+    # Retrieves skills that can be acquired without intermediate skills
+    def get_reachable_skills(self):
+
+        reachable_skills = []
+
+        # Check all unacquired skills
+        for skill in Skill.objects.exclude(id__in = self.object.skills.all()):
+
+            # Make sure all prerequisite skills are acquired
+            # (checks if prerequisites set is empty after excluding acquired skills)
+            if not skill.prerequisites.exclude(id__in = self.object.skills.all()).exists():
+                reachable_skills.append(skill)
+
+        return reachable_skills
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['all_skills'] = Skill.objects.all()
+        context['reachable_skills'] = self.get_reachable_skills()
+        context['category_levels'] = self.get_category_levels()
+        return context
 
     def get_object(self):
         # Get the user for the pk, then return the user profile
@@ -57,13 +140,8 @@ class ProfileDetailView(DetailView):
         user = get_object_or_404(User, pk=pk)
         return get_object_or_404(Profile, pk=user.profile.pk)
 
-class ProfileUpdateView(SuccessMessageMixin, UpdateView):
-    # Klasse for å oppdatere brukerprofilen sin
-    model = Profile
-    fields = ['image', 'access_card', 'study', 'show_email', 'skills', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social', 'phone_number']
-    template_name = "userprofile/edit_profile.html"
-    success_url = "/profile"
-    success_message = "Profilen er oppdatert."
+
+class SelfSkillsView(SkillsView):
 
     def get_object(self):
         try:

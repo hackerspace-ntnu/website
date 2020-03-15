@@ -1,0 +1,145 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block header %}
+  <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/skills_style.css' %}">
+{% endblock %}
+{% block content %}
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row">
+      		<div class="col s12">
+      			<h4>Ferdigheter</h4>
+      		</div>
+        </div>
+    </div>
+</div>
+<div class="section">
+  <div class="container">
+    <div class="row profile-basic">
+      <div class="hide-on-small-only">
+        <div class="col left-align">
+          <a href="{% url 'userprofile:profile_by_id' profile.id %}">
+          {% if profile.image %}
+            <img class="circle profile-img" src="{{ profile.image.url }}">
+          {% else %}
+            <img class="circle profile-img" src="{% static 'website/img/misc/default.png' %}" height="300">
+          {% endif %}
+          </a>
+        </div>
+        <div class="col left-align">
+          <h4>{{ profile.user.get_full_name }}</h4>
+          <div class="row">
+            {% for category, level in category_levels %}
+              <div class="col tooltipped" data-position="bottom" data-tooltip="{{category.name}}">
+                <a class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
+                  <span>
+                    {{ level }}
+                  </span>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="hide-on-med-and-up">
+        <div class="col center-align">
+          {% if profile.image %}
+            <img class="circle profile-img" src="{{ profile.image.url }}">
+          {% else %}
+            <img class="circle profile-img" src="{% static 'website/img/misc/default.png' %}" height="300">
+          {% endif %}
+          <h4>{{ profile.user.get_full_name }}</h4>
+          <div class="row">
+            {% for category, level in category_levels %}
+              <div class="col" class="tooltipped" data-position="top" data-tooltip="{{category.name}}">
+                <a class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
+                  <span>
+                    {{ level }}
+                  </span>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s4"><a class="active" href="#reachable_skills">Neste nivå</a></li>
+              <li class="tab col s4"><a href="#unreachable_skills">Høyere nivåer</a></li>
+              <li class="tab col s4 {% if not profile.skills.all %}disabled{% endif %}"><a href="#acquired_skills">Oppnådde ferdigheter</a></li>
+            </ul>
+          </div>
+          <div id="reachable_skills" class="col s12">
+            <ul class="collection collapsible expandable z-depth-0">
+              {% for skill in reachable_skills %}
+                <li>
+                  <div class="collapsible-header skill_reachable">
+                    {{skill}}
+                    {% include "userprofile/skill_badges.html" %}
+                  </div>
+                  <div class="collapsible-body">
+                    {% include "userprofile/skill_description.html" %}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div id="unreachable_skills" class="col s12">
+            <ul class="collection collapsible expandable z-depth-0">
+              {% for skill in all_skills %}
+                {% if skill not in profile.skills.all and skill not in reachable_skills %}
+                  <li>
+                    <div class="collapsible-header skill_unreachable">
+                      {{skill}}
+                      {% include "userprofile/skill_badges.html" %}
+                    </div>
+                    <div class="collapsible-body">
+                      {% include "userprofile/skill_description.html" %}
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <div id="acquired_skills" class="col s12">
+            {% if profile.skills.all %}
+              <ul class="collection collapsible expandable z-depth-0">
+                {% for skill in profile.skills.all %}
+                  <li>
+                    <div class="collapsible-header skill_acquired">
+                      {{skill}}
+                      {% include "userprofile/skill_badges.html" %}
+                    </div>
+                    <div class="collapsible-body">
+                      {% include "userprofile/skill_description.html" %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.collapsible');
+      var instances = M.Collapsible.init(elems, {
+        accordion: false
+      });
+  });
+
+</script>
+
+{% endblock content %}

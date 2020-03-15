@@ -26,21 +26,27 @@ class Skill(models.Model):
     description = models.TextField()
     thumb = models.ForeignKey('files.Image', blank=True, null=True, on_delete=models.SET_NULL)
 
-    category = models.ManyToManyField(blank=False, to='userprofile.Category')
+    categories = models.ManyToManyField(blank=False, to='userprofile.Category')
 
     prerequisites = models.ManyToManyField(blank=True, to='userprofile.Skill')
 
     def __str__(self):
-        return self.name
+        return self.name + " (" + ", ".join(category.name for category in self.categories.all()) + ")"
+
 
 class Category(models.Model):
 
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=50)
     description = models.TextField()
     thumb = models.ForeignKey('files.Image', blank=True, null=True, on_delete=models.SET_NULL)
 
+    color = models.CharField(max_length=20, default="", blank=False)
+
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 class Profile(models.Model):

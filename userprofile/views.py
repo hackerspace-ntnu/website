@@ -132,6 +132,11 @@ class SkillsView(DetailView, CategoryLevelsMixin):
         context['all_skills'] = Skill.objects.all()
         context['reachable_skills'] = self.get_reachable_skills()
         context['category_levels'] = self.get_category_levels()
+        try:
+            context['redirect_skill'] = Skill.objects.get(id=self.kwargs['skill_pk'])
+        except:
+            pass
+            
         return context
 
     def get_object(self):
@@ -149,6 +154,17 @@ class SelfSkillsView(SkillsView):
             return userprofile
         except AttributeError:
             raise Http404("Profile not found")
+
+class SkillsCategoryView(DetailView):
+
+    model = Category
+    template_name = "userprofile/skills_category.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['category_skills'] = Skill.objects.filter(categories__pk = self.object.pk)
+        return context
 
 
 class TermsOfServiceView(DetailView):

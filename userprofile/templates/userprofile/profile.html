@@ -65,6 +65,9 @@
 							</div>
 							<div class="col category-level-name">
 								<span>{{ category }}</span>
+								<a class="hs-gray-text" href="{% url 'userprofile:profile_skills_category' category.id %}">
+									<i class="material-icons info-button">info</i>
+								</a>
 							</div>
 						</li>
 					{% endfor %}

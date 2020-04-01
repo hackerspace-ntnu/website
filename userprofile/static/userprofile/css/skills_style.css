@@ -12,6 +12,28 @@
     opacity: 0.5;
 }
 
+.skill-category-btn{
+
+  margin-top: 5px;
+
+}
+
+.skill-category-img {
+
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Position skill anchor some distance
+over the actual skill item to compensate
+for the fixed header */
+.skill-anchor{
+  position: relative;
+  top: -200px;
+}
+
 
 /* Tabs styling */
 

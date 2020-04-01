@@ -3,6 +3,8 @@
 {% block header %}
   <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/skills_style.css' %}">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="{% static 'userprofile/javascript/approve_skill.js' %}"></script>
 {% endblock %}
 {% block content %}
 <div class="section hs-green white-text">
@@ -79,12 +81,20 @@
             <ul class="collection collapsible expandable z-depth-0">
               {% for skill in reachable_skills %}
                 <li>
-                  <div class="collapsible-header skill-reachable hs-gray white-text">
-                    {{skill}}
-                    {% include "userprofile/skill_badges.html" %}
+                  <div class="collapsible-header skill-reachable hs-gray white-text valign-wrapper">
+                    <span>{{skill}}
+                    {% if skill in approvable_skills %}
+                      <i class="material-icons right tooltipped hs-green-text approve-checkmark" data-position="right" data-tooltip="Du kan godkjenne">check_circle</i>
+                    {% endif %}
+                    </span>
+                    {% include "userprofile/skill_badges.html"  with approvable=False %}
                   </div>
                   <div class="collapsible-body grey lighten-2">
                     {% include "userprofile/skill_description.html" %}
+                    {% if skill in approvable_skills %}
+                      {% csrf_token %}
+                      <a class="waves-effect waves-light btn-small hs-green approve-btn" data-skillid="{{skill.pk}}"><i class="material-icons left">check</i>Godkjenn</a>
+                    {% endif %}
                   </div>
                 </li>
               {% endfor %}

@@ -6,7 +6,7 @@
     {% for prereq in skill.prerequisites.all %}
       <li class="collection-item skill_reachable">
         {{prereq}}
-        {% include "userprofile/skill_badges.html" %}
+        {% include "userprofile/skill_badges.html" with skill=prereq %}
       </li>
     {% endfor %}
   </ul>

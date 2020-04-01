@@ -79,11 +79,11 @@
             <ul class="collection collapsible expandable z-depth-0">
               {% for skill in reachable_skills %}
                 <li>
-                  <div class="collapsible-header skill_reachable">
+                  <div class="collapsible-header skill-reachable hs-gray white-text">
                     {{skill}}
                     {% include "userprofile/skill_badges.html" %}
                   </div>
-                  <div class="collapsible-body">
+                  <div class="collapsible-body grey lighten-2">
                     {% include "userprofile/skill_description.html" %}
                   </div>
                 </li>
@@ -95,11 +95,11 @@
               {% for skill in all_skills %}
                 {% if skill not in profile.skills.all and skill not in reachable_skills %}
                   <li>
-                    <div class="collapsible-header skill_unreachable">
+                    <div class="collapsible-header skill-unreachable hs-gray white-text">
                       {{skill}}
                       {% include "userprofile/skill_badges.html" %}
                     </div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-body grey lighten-2">
                       {% include "userprofile/skill_description.html" %}
                     </div>
                   </li>
@@ -112,11 +112,11 @@
               <ul class="collection collapsible expandable z-depth-0">
                 {% for skill in profile.skills.all %}
                   <li>
-                    <div class="collapsible-header skill_acquired">
+                    <div class="collapsible-header skill-acquired hs-gray white-text">
                       {{skill}}
-                      {% include "userprofile/skill_badges.html" %}
+                      {% include "userprofile/skill_badges.html"%}
                     </div>
-                    <div class="collapsible-body">
+                    <div class="collapsible-body grey lighten-2">
                       {% include "userprofile/skill_description.html" %}
                     </div>
                   </li>

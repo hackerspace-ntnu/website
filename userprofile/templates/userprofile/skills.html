@@ -5,24 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/skills_style.css' %}">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="{% static 'userprofile/javascript/approve_skill.js' %}"></script>
-  <script src="{% static 'userprofile/javascript/display_skill.js' %}"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('.collapsible.expandable');
-        M.Collapsible.init(elems, {
-          accordion: false
-        });
-        M.Tabs.init(document.querySelectorAll('.tabs'));
-    });
-  </script>
-  {% if redirect_skill %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          displaySkill({{redirect_skill.id}})
-      });
-    </script>
-  {% endif %}
+  <script id="display_skill" src="{% static 'userprofile/javascript/display_skill.js' %}" data-redirect-to={{redirect_skill.id}}></script>
 {% endblock %}
 {% block content %}
 <div class="section hs-green white-text">

@@ -117,7 +117,9 @@
                     {% include "userprofile/skill_description.html" %}
                     {% if skill in approvable_skills %}
                       {% csrf_token %}
-                      <a class="waves-effect waves-light btn-small hs-green approve-btn" data-skillid="{{skill.pk}}"><i class="material-icons left">check</i>Godkjenn</a>
+                      <a class="waves-effect waves-light btn-small hs-green approve-btn" data-skillid="{{skill.pk}}" data-apiurl="{% url 'userprofile:approve_skill_api_endpoint' profile.id %}">
+                        <i class="material-icons left">check</i> Godkjenn
+                      </a>
                     {% endif %}
                   </div>
                 </li>

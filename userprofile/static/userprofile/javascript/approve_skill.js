@@ -21,6 +21,7 @@ $(function () {
 
     $(".approve-btn").click(function () {
         skillID = parseInt($(this).data('skillid'));
+        apiURL = $(this).data('apiurl');
         button = $(this)
         payload = JSON.stringify(
             {
@@ -28,7 +29,7 @@ $(function () {
             }
         )
         $.ajax({
-            url: window.location.href + "approve/",
+            url: apiURL,
             method: 'POST',
             data: payload,
             dataType: 'json',

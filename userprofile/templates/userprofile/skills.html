@@ -5,6 +5,24 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/skills_style.css' %}">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="{% static 'userprofile/javascript/approve_skill.js' %}"></script>
+  <script src="{% static 'userprofile/javascript/display_skill.js' %}"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible.expandable');
+        M.Collapsible.init(elems, {
+          accordion: false
+        });
+        M.Tabs.init(document.querySelectorAll('.tabs'));
+    });
+  </script>
+  {% if redirect_skill %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          displaySkill({{redirect_skill.id}})
+      });
+    </script>
+  {% endif %}
 {% endblock %}
 {% block content %}
 <div class="section hs-green white-text">
@@ -34,7 +52,7 @@
           <div class="row">
             {% for category, level in category_levels %}
               <div class="col tooltipped" data-position="bottom" data-tooltip="{{category.name}}">
-                <a class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
+                <a href="{% url 'userprofile:profile_skills_category' category.id %}" class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
                   <span>
                     {{ level }}
                   </span>
@@ -54,8 +72,8 @@
           <h4>{{ profile.user.get_full_name }}</h4>
           <div class="row">
             {% for category, level in category_levels %}
-              <div class="col" class="tooltipped" data-position="top" data-tooltip="{{category.name}}">
-                <a class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
+              <div class="col skill-category-btn" class="tooltipped" data-position="top" data-tooltip="{{category.name}}">
+                <a href="{% url 'userprofile:profile_skills_category' category.id %}" class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
                   <span>
                     {{ level }}
                   </span>
@@ -71,23 +89,29 @@
       <div class="col s12">
         <div class="row">
           <div class="col s12">
-            <ul class="tabs">
-              <li class="tab col s4"><a class="active" href="#reachable_skills">Neste nivå</a></li>
-              <li class="tab col s4"><a href="#unreachable_skills">Høyere nivåer</a></li>
-              <li class="tab col s4 {% if not profile.skills.all %}disabled{% endif %}"><a href="#acquired_skills">Oppnådde ferdigheter</a></li>
+            <ul class="tabs hide-on-med-and-down">
+              <li id="nextLevelTabSmall" class="tab col s4"><a class="active" href="#reachable_skills">Neste nivå</a></li>
+              <li id="higherLevelsTabSmall" class="tab col s4"><a href="#unreachable_skills">Høyere nivåer</a></li>
+              <li id="acquiredSkillsTabSmall" class="tab col s4 {% if not profile.skills.all %}disabled{% endif %}"><a href="#acquired_skills">Oppnådde ferdigheter</a></li>
+            </ul>
+            <ul class="tabs hide-on-large-only">
+              <li id="nextLevelTab" class="tab col"><a class="active" href="#reachable_skills">Neste</a></li>
+              <li id="higherLevelsTab" class="tab col"><a href="#unreachable_skills">Høyere</a></li>
+              <li id="acquiredSkillsTab" class="tab col {% if not profile.skills.all %}disabled{% endif %}"><a href="#acquired_skills">Oppnådd</a></li>
             </ul>
           </div>
-          <div id="reachable_skills" class="col s12">
+          <div id="reachable_skills" class="tab-body col s12">
             <ul class="collection collapsible expandable z-depth-0">
               {% for skill in reachable_skills %}
                 <li>
+                  <span id="skill{{skill.id}}" class="skill-anchor"></span>
                   <div class="collapsible-header skill-reachable hs-gray white-text valign-wrapper">
                     <span>{{skill}}
                     {% if skill in approvable_skills %}
                       <i class="material-icons right tooltipped hs-green-text approve-checkmark" data-position="right" data-tooltip="Du kan godkjenne">check_circle</i>
                     {% endif %}
                     </span>
-                    {% include "userprofile/skill_badges.html"  with approvable=False %}
+                    {% include "userprofile/skill_badges.html"%}
                   </div>
                   <div class="collapsible-body grey lighten-2">
                     {% include "userprofile/skill_description.html" %}
@@ -100,11 +124,12 @@
               {% endfor %}
             </ul>
           </div>
-          <div id="unreachable_skills" class="col s12">
+          <div id="unreachable_skills" class="tab-body col s12">
             <ul class="collection collapsible expandable z-depth-0">
               {% for skill in all_skills %}
                 {% if skill not in profile.skills.all and skill not in reachable_skills %}
                   <li>
+                    <span id="skill{{skill.id}}" class="skill-anchor"></span>
                     <div class="collapsible-header skill-unreachable hs-gray white-text">
                       {{skill}}
                       {% include "userprofile/skill_badges.html" %}
@@ -117,11 +142,12 @@
               {% endfor %}
             </ul>
           </div>
-          <div id="acquired_skills" class="col s12">
+          <div id="acquired_skills" class="tab-body col s12">
             {% if profile.skills.all %}
               <ul class="collection collapsible expandable z-depth-0">
                 {% for skill in profile.skills.all %}
                   <li>
+                    <span id="skill{{skill.id}}" class="skill-anchor"></span>
                     <div class="collapsible-header skill-acquired hs-gray white-text">
                       {{skill}}
                       {% include "userprofile/skill_badges.html"%}
@@ -140,16 +166,5 @@
 
   </div>
 </div>
-
-<script>
-
-  document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.collapsible');
-      var instances = M.Collapsible.init(elems, {
-        accordion: false
-      });
-  });
-
-</script>
 
 {% endblock content %}

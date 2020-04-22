@@ -144,6 +144,11 @@ class SkillsView(DetailView, CategoryLevelsMixin):
             reachable_skill_ids = [skill.pk for skill in context['reachable_skills']]
             approvable_skills = self.request.user.profile.skills.filter(pk__in=reachable_skill_ids)
             context['approvable_skills'] = approvable_skills
+        try:
+            context['redirect_skill'] = Skill.objects.get(id=self.kwargs['skill_pk'])
+        except:
+            pass
+            
         return context
 
     def get_object(self):
@@ -185,6 +190,16 @@ class ApproveSkillAPIView(APIView):
         user.profile.skills.add(skill)
         return Response({'Status': f'Skill {skill} approved for user {user}'})
 
+class SkillsCategoryView(DetailView):
+
+    model = Category
+    template_name = "userprofile/skills_category.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        context['category_skills'] = Skill.objects.filter(categories__pk = self.object.pk)
+        return context
 
 
 class TermsOfServiceView(DetailView):

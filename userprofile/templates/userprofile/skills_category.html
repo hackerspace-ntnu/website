@@ -1,0 +1,63 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block header %}
+  <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/skills_style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+
+{% endblock %}
+{% block content %}
+
+<div class="section hs-green">
+	<div class="container">
+    <div class="section no-pad">
+      <img class="responsive-img skill-category-img" src="{{ category.thumb.url }}" />
+    </div>
+		<div class="section card-panel cut-top z-depth-2">
+  		<div class="section container">
+        <div class="row">
+    			<div class="col s12">
+    				<h3 class="center-align hide-on-small-only">{{category}}</h3>
+      			<h5 class="center-align hide-on-med-and-up">{{category}}</h5>
+    			</div>
+    		</div>
+        <div class="row">
+          <div class="col s12">
+            <p class="flow-text">{{category.description}}</p>
+          </div>
+        </div>
+        {% if category_skills %}
+        <div class="row">
+          <div class="col s12">
+    				<h5>Ferdigheter</h5>
+            <ul class="collection collapsible expandable z-depth-0">
+              {% for skill in category_skills %}
+                <li>
+                  <div class="collapsible-header skill-reachable hs-gray white-text">
+                    {{skill}}
+                    {% include "userprofile/skill_badges.html" %}
+                  </div>
+                  <div class="collapsible-body grey lighten-2">
+                    {% include "userprofile/skill_description.html" %}
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+	   </div>
+  </div>
+</div>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.collapsible');
+      var instances = M.Collapsible.init(elems, {
+        accordion: false
+      });
+  });
+
+</script>
+
+{% endblock content %}

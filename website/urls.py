@@ -47,7 +47,6 @@ urlpatterns = [
     path('profile/', include('userprofile.urls')),
     path('reservations/', include('reservations.urls')),
     path('members/', ProfileListView.as_view(), name='member-list'),
-    path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),
 ]

@@ -1,3 +1,22 @@
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Initalize collapsibles (one per skill)
+    var collapsibles = document.querySelectorAll('.collapsible.expandable');
+    M.Collapsible.init(collapsibles, {
+      accordion: false
+    });
+
+    // Initalize tabs (for skill categories: reachable, unreachable, acquired)
+    M.Tabs.init(document.querySelectorAll('.tabs'));
+
+    // Retrieve redirect skill id from custom attribute in script tag
+    const id = document.getElementById("display_skill").getAttribute('data-redirect-to');
+    if(id){
+      displaySkill(id);
+    }
+
+});
+
 function displaySkill(id){
 
   // Iterate both tabs for small and med/large
@@ -11,8 +30,14 @@ function displaySkill(id){
 
       const collapsibleDiv = document.querySelector(tab.querySelector('a').getAttribute("href"));
 
+      const collapsible = collapsibleDiv.querySelector('.collapsible');
+
+      if(!collapsible){
+        continue;
+      }
+
       // Collapsible controller instance
-      const collapsibleInstance = M.Collapsible.getInstance(collapsibleDiv.querySelector('.collapsible'));
+      const collapsibleInstance = M.Collapsible.getInstance(collapsible);
 
       // Collapsible items (represented by their headers)
       const collapsibleItems = collapsibleDiv.querySelectorAll('.skill-anchor');
@@ -33,7 +58,10 @@ function displaySkill(id){
           collapsibleInstance.open(i);
 
           // Scroll to item position
-          window.location.hash = collapsibleItems[i].id;
+          document.getElementById(collapsibleItems[i].id).scrollIntoView();
+
+          // Update url skill id
+          window.history.replaceState(null, '', id);
 
         }
       }

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 # For merging user and profile forms
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from committees.models import Committee
@@ -14,6 +15,12 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import CreateView, RedirectView
 from django.shortcuts import redirect
 from django.urls import reverse
+
+# For approving skills
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 class ProfileListView(ListView):
     # Lister opp alle brukerprofiler med pagination
@@ -127,11 +134,16 @@ class SkillsView(DetailView, CategoryLevelsMixin):
         return reachable_skills
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
         context['all_skills'] = Skill.objects.all()
         context['reachable_skills'] = self.get_reachable_skills()
         context['category_levels'] = self.get_category_levels()
+
+        #Sjekker hvilke skills brukeren som er logget inn kan godkjenne 
+        if self.request.user.is_authenticated:
+            reachable_skill_ids = [skill.pk for skill in context['reachable_skills']]
+            approvable_skills = self.request.user.profile.skills.filter(pk__in=reachable_skill_ids)
+            context['approvable_skills'] = approvable_skills
         try:
             context['redirect_skill'] = Skill.objects.get(id=self.kwargs['skill_pk'])
         except:
@@ -154,6 +166,29 @@ class SelfSkillsView(SkillsView):
             return userprofile
         except AttributeError:
             raise Http404("Profile not found")
+
+class ApproveSkillAPIView(APIView):
+  
+    def post(self, request, pk, format=None):
+        if not request.user.is_authenticated:
+            return Response({'Status': 'User not logged in'}, status=status.HTTP_401_UNAUTHORIZED)
+        approver = request.user
+        try:
+            user = User.objects.get(pk=pk)
+        except ObjectDoesNotExist:
+            return Response({'Status': f'No user with id {pk} found'}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            skill_id = request.data['skill_id']
+        except KeyError:
+            return Response({'Status': 'Request missing field skill_id'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            skill = Skill.objects.get(pk=skill_id)
+        except ObjectDoesNotExist:
+            return Response({'Status': f'No skill with id {skill_id} found'}, status=status.HTTP_404_NOT_FOUND)
+        if skill not in approver.profile.skills.all():
+            return Response({'Status': 'Logged in user cannot approve that skill'}, status=status.HTTP_401_UNAUTHORIZED)
+        user.profile.skills.add(skill)
+        return Response({'Status': f'Skill {skill} approved for user {user}'})
 
 class SkillsCategoryView(DetailView):
 

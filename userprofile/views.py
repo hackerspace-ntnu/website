@@ -4,11 +4,15 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from committees.models import Committee
 from .forms import ProfileSearchForm
-from .models import Profile, Skill
+from .models import Profile, Skill, TermsOfService
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.generic import CreateView, RedirectView
+from django.shortcuts import redirect
+from django.urls import reverse
 
 class ProfileListView(ListView):
     # Lister opp alle brukerprofiler med pagination
@@ -67,3 +71,39 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
             return userprofile
         except AttributeError:
             raise Http404("Profile not found")
+
+
+class TermsOfServiceView(DetailView):
+    model = TermsOfService
+    template_name = "userprofile/tos_detail.html"
+
+class MostRecentTermsOfServiceView(RedirectView):
+
+    # Redirect url without primary key to detail view of the latest TOS
+    def get_redirect_url(self, *args, **kwargs):
+        termsofservice = TermsOfService.objects.order_by('-pub_date').first()
+        return reverse('tos-details', kwargs={'pk': termsofservice.id})
+
+
+class TermsOfServiceCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+
+    model = TermsOfService
+    fields = ['text', 'pub_date']
+    template_name = "userprofile/create_tos.html"
+    permission_required = "userprofile.add_termsofservice"
+    success_message = "TOS er opprettet"
+
+    def get_success_url(self):
+
+        # Redirect to detail view of newly created TOS
+        return reverse('tos-details', kwargs={'pk': self.object.id})
+
+    def get_initial(self):
+        initial = super().get_initial()
+
+        # Check if new TOS should be based on an old TOS
+        if('pk' in self.kwargs):
+            # Prepopulate new TOS with text from old TOS given in URL
+            initial['text'] = TermsOfService.objects.get(id=self.kwargs['pk']).text
+
+        return initial

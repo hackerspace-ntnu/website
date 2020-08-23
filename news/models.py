@@ -84,6 +84,10 @@ class Event(models.Model):
         return False
 
     @property
+    def is_past_start(self):
+        return self.time_start < timezone.now()
+
+    @property
     def is_past_due(self):
         '''
             Denne brukes i regroup og tallene strippes vekk, kun brukt for

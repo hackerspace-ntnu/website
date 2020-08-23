@@ -18,6 +18,10 @@ class EventView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.get_object().internal and not request.user.has_perm('news.can_view_internal_event'):
+
+            # Stores log-in prompt message to be displayed with redirect request
+            messages.add_message(request, messages.WARNING, 'Logg inn for å se internt arrangement')
+
             return redirect("/")
 
         return super(EventView, self).dispatch(request, *args, **kwargs)
@@ -41,11 +45,30 @@ class EventListView(ListView):
     template_name = "news/events.html"
     paginate_by = 10
 
+    def get_internal_events_indicator(self):
+
+        current_date = datetime.now()
+
+        # Determine number of hidden internal events
+        if not self.request.user.has_perm('news.can_view_internal_event'):
+            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
+            return "Du har ikke rettigheter til å se interne arrangementer."
+
+        return None
+
     def get_queryset(self):
         if self.request.user.has_perm('news.can_view_internal_event'):
             return Event.objects.order_by('-time_end')
         else:
             return Event.objects.filter(internal=False).order_by('-time_end')
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['indicator_text'] = self.get_internal_events_indicator()
+
+        return context
 
 
 class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
@@ -85,11 +108,30 @@ class ArticleListView(ListView):
     template_name = "news/news.html"
     paginate_by = 10
 
+    def get_internal_articles_indicator(self):
+
+        # Determine number of hidden internal articles
+        if not self.request.user.has_perm('news.can_view_internal_article'):
+            internal_articles_count = len(Article.objects.filter(internal=True))
+            return "Du har ikke rettigheter til å se interne artikler."
+
+        return None
+
+
     def get_queryset(self):
         if self.request.user.has_perm("news.can_view_internal_article"):
             return Article.objects.order_by('-pub_date')
         else:
             return Article.objects.filter(internal=False).order_by('-pub_date')
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['indicator_text'] = self.get_internal_articles_indicator()
+
+        return context
+
 
 
 class ArticleView(DetailView):
@@ -97,11 +139,38 @@ class ArticleView(DetailView):
     template_name = "news/article.html"
 
     def dispatch(self, request, *args, **kwargs):
+
         # If the article is internal, check if user has the permission to view.
         if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
+
+            # Stores log-in prompt message to be displayed with redirect request
+            messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
+
             return redirect("/")
 
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        # Check user internal article view permission
+        can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
+
+        # Get permitted articles
+        article_list = Article.objects.filter(internal__lte=can_access_internal_article)
+
+        # Get oldest article that is newer than current (None if current is latest)
+        next_article = article_list.filter(pub_date__gt=self.get_object().pub_date).order_by('pub_date').first()
+
+        # Get latest article that is older than current (None if current is oldest)
+        previous_article = article_list.filter(pub_date__lt=self.get_object().pub_date).order_by('-pub_date').first()
+
+        context['next_article'] = next_article
+        context['previous_article'] = previous_article
+
+        return context
+
 
 
 class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -241,10 +310,10 @@ def register_on_event(request, event_id):
         er = EventRegistration.objects.get(user=request.user, event=event_object)
         if event_object.deregistration_end > now:
             er.delete()
-            messages.add_message(request, 25, 'Du er nå avmeldt')
+            messages.add_message(request, messages.SUCCESS, 'Du er nå avmeldt')
     except EventRegistration.DoesNotExist:
         if now > event_object.registration_start and event_object.time_end > now:
             EventRegistration.objects.create(event=event_object, user=request.user).save()
-            messages.add_message(request, 25, 'Du er nå påmeldt')
+            messages.add_message(request, messages.SUCCESS, 'Du er nå påmeldt')
 
     return redirect("/events/" + str(event_id))

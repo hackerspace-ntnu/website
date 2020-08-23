@@ -1,8 +1,7 @@
-django>=2.2
-gunicorn
+django>=3.0
 django-ckeditor
 coverage
-sorl-thumbnail
+sorl-thumbnail>=12.6
 python-coveralls
 djangorestframework
 django-filter

@@ -1,5 +1,5 @@
 {% extends "website/base.html" %}
-{% load staticfiles %}
+{% load static %}
 
 {% block content %}
 <div class="section hs-green white-text">
@@ -39,7 +39,7 @@
 					{% else %}
 					<input type="checkbox" id="attended" name="{{ instance.attended.html_name }}"/>
 					{% endif %}
-					<span>{{ instance.attended.label }}</span>
+					<span>Oppmøtt</span>
 				</label>
 				</div>
 			</div>

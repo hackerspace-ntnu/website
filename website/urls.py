@@ -5,7 +5,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView
+from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView
+from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.cache import never_cache
@@ -25,12 +26,14 @@ urlpatterns = router.urls
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
-    path('tos/', TemplateView.as_view(template_name="website/tos.html"), name='tos'),
-    path('tos/returning-user/', TemplateView.as_view(template_name="website/tos-returningls.html"), name='tos'),
-    path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
     path('admin/', admin.site.urls),
-    path('robots.txt', TemplateView.as_view(template_name='website/robots.txt',
-                                             content_type='text/plain')),
+    path('robots.txt', TemplateView.as_view(template_name='website/robots.txt', content_type='text/plain')),
+    path('tos/', MostRecentTermsOfServiceView.as_view(), name='tos'),
+    path('tos/returning-user/', AcceptTosView.as_view(), name='tos-returningls'),
+    path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
+    path('tos/create/', TermsOfServiceCreateView.as_view(), name='tos-create'),
+    path('tos/create/<int:pk>/', TermsOfServiceCreateView.as_view(), name='tos-create-id'),
+    path('tos/<int:pk>/', TermsOfServiceView.as_view(), name='tos-details'),
     path('news/', include('news.urls')),
     path('events/', include('news.event_urls')),
     path('ckeditor/upload', permission_required('news.add_article')(ck_upload_views.upload), name='ckeditor_upload'),
@@ -44,7 +47,6 @@ urlpatterns = [
     path('profile/', include('userprofile.urls')),
     path('reservations/', include('reservations.urls')),
     path('members/', ProfileListView.as_view(), name='member-list'),
-    path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),
 ]

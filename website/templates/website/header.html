@@ -1,7 +1,7 @@
-{% load staticfiles %}
-{% if request.user.is_authenticated and not request.user.profile.tos_accepted %}
-	{% if request.path == "/tos/returning-user/" or request.path == "/tos/" %}
-	{% else %}
+{% load static %}
+{% if request.user.is_authenticated and not request.user.profile.has_accepted_most_recent_tos %}
+	<!-- Checks if path should display TOS prompt. Slice check disables TOS display for all tos-related pages -->
+	{% if request.path != "/tos/returning-user/" and request.path|slice:":5" != "/tos/" %}
 		<meta http-equiv="refresh" content="1;url=/tos/returning-user/">
 	{% endif %}
 {% endif %}
@@ -86,7 +86,7 @@
 					<!-- Dropdown for resurser -->
 					<ul id="resourcedropdown" class="dropdown-content">
 						<li class="tooltipped" data-position="left" data-tooltip="Trykk meg for å se hvor vi befinner oss">
-							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="http://bit.ly/2Hzw7EO">Kart</a>
+							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="http://bit.ly/2RXBJMd">Kart</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se liste over medlemmer">
 							<a href="{% url 'member-list' %}">Medlemmer</a>
@@ -97,11 +97,10 @@
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 							<a href="{% url 'about' %}">Om Oss</a>
 						</li>
-						{% if perms.userprofile.can_view_admin %}
+						{% if user.is_staff %}
 						<li class="tooltipped" data-position="left" data-tooltip="Administratorpanel for viktige folk">
-							<a href="{% url 'admin' %}">Administrator</a>
+							<a href="/admin">Adminpanel</a>
 						</li>
-							
 						{% endif %}
 					</ul>
 				</ul>

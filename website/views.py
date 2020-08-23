@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from news.models import Article, Event
 from door.models import DoorStatus
+from userprofile.models import TermsOfService
 from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
@@ -10,6 +11,20 @@ from applications.models import ApplicationPeriod
 from .models import Card, FaqQuestion
 from django.views.generic import ListView, TemplateView, RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from urllib import parse as urlparse
+
+class AcceptTosView(TemplateView):
+
+    template_name = 'website/tos-returningls.html'
+
+    def get(self,request, *args, **kwargs):
+
+        # Save users pre-TOS path in session variable
+        # Parse converts from absolute to relative path
+        request.session['redirect_after_tos_accept'] = urlparse.urlparse(request.META.get('HTTP_REFERER')).path
+
+        return super().get(self,request,*args, **kwargs)
+
 
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = 'index'
@@ -17,17 +32,22 @@ class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         profileobj = get_object_or_404(Profile, pk=self.request.user.profile.id)
         if(profileobj != None):
-            profileobj.tos_accepted = True
+
+            mostRecentTos = TermsOfService.objects.order_by('-pub_date').first();
+
+            profileobj.accepted_tos = mostRecentTos
             profileobj.save()
 
-        return super().get_redirect_url(*args, **kwargs)
+        # Pop and redirect to pre-TOS path stored in session variable
+        # Redirects to '/' if pop fails
+        return self.request.session.pop('redirect_after_tos_accept', super().get_redirect_url(*args, **kwargs))
 
 class AboutView(TemplateView):
     template_name = "website/about.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['committees'] = Committee.objects.all()
+        context['committees'] = Committee.objects.filter(active=True)
         context['faq'] = FaqQuestion.objects.all()
         return context
 
@@ -47,8 +67,65 @@ class AdminView(PermissionRequiredMixin, TemplateView):
         context['profiles'] = profiles
         return context
 
+
 class IndexView(TemplateView):
     template_name = "website/index.html"
+
+    def get_internal_articles_indicator(self):
+
+        # Determine number of hidden internal articles
+        if not self.request.user.has_perm('news.can_view_internal_article'):
+            internal_articles_count = len(Article.objects.filter(internal=True))
+        else:
+            internal_articles_count = 0
+
+        badge_text = {
+            "plural":{
+                "large":"interne artikler skjult",
+                "medium":"interne skjult",
+                "small":"skjult"
+            },
+            "singular":{
+                "large":"intern artikkel skjult",
+                "medium":"intern skjult",
+                "small":"skjult"
+            }
+        }
+
+        return {
+            'count': internal_articles_count,
+            'badge_text': badge_text,
+            'tooltip_text': "Trykk for å logge på og se interne artikler"
+        }
+
+    def get_internal_events_indicator(self):
+
+        current_date = datetime.now()
+
+        # Determine number of hidden internal events
+        if not self.request.user.has_perm('news.can_view_internal_event'):
+            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
+        else:
+            upcoming_internal_events_count = 0
+
+        badge_text = {
+            "plural":{
+                "large":"interne arrangementer skjult",
+                "medium":"interne skjult",
+                "small":"skjult"
+            },
+            "singular":{
+                "large":"internt arrangement skjult",
+                "medium":"internt skjult",
+                "small":"skjult"
+            }
+        }
+
+        return {
+            'count': upcoming_internal_events_count,
+            'badge_text': badge_text,
+            'tooltip_text': "Trykk for å logge på og se interne arrangementer"
+        }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,6 +138,8 @@ class IndexView(TemplateView):
         event_list = Event.objects.filter(
             internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
 
+        current_date = datetime.now()
+
         # Get five articles
         article_list = Article.objects.filter(
             internal__lte=can_access_internal_article).order_by('-pub_date')[:5]
@@ -70,8 +149,6 @@ class IndexView(TemplateView):
             door_status = DoorStatus.objects.get(name='hackerspace').status
         except DoorStatus.DoesNotExist:
             door_status = True
-
-        current_date = datetime.now()
 
         # hvis det ikke eksisterer en ApplicationPeriod, lag en.
         if not ApplicationPeriod.objects.filter(name="Opptak"):
@@ -91,6 +168,8 @@ class IndexView(TemplateView):
         context = {
             'article_list': article_list,
             'event_list': event_list,
+            'internal_articles_indicator': self.get_internal_articles_indicator(),
+            'internal_events_indicator': self.get_internal_events_indicator(),
             'door_status': door_status,
             'app_start_date': app_start_date,
             'app_end_date': app_end_date,

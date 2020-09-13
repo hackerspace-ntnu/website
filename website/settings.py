@@ -37,7 +37,10 @@ except ImportError:
 # Installed apps                #
 #################################
 
+# Dal must be before django.contrib because of jQuery must be overwriten
 INSTALLED_APPS = [
+    'dal',
+    'dal_select2',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -61,6 +64,7 @@ INSTALLED_APPS = [
     'seasonal_events',
     'committees',
     'reservations',
+    'inventory',
     'django_filters',
     'rest_framework',
     'social_django',

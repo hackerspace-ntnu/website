@@ -9,3 +9,4 @@ markdown
 pillow
 python-dataporten-auth
 python-social-auth[django]
+django-autocomplete-light==3.7.0.dev0

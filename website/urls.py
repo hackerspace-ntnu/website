@@ -49,6 +49,7 @@ urlpatterns = [
     path('members/', ProfileListView.as_view(), name='member-list'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),
+    path('inventory/', include('inventory.urls')),
 ]
 
 

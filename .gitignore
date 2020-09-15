@@ -13,3 +13,6 @@ profilepictures/
 
 # For Rope Project settings
 .ropeproject
+
+# For vscode project settings
+.vscode/

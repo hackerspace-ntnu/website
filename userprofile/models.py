@@ -21,25 +21,39 @@ class TermsOfService(models.Model):
 
 
 class Skill(models.Model):
-    title = models.CharField(max_length=30)
-    icon = models.ImageField(upload_to="skillicons", blank=True)
-    description = models.TextField()
 
-    def save(self, *args, **kwargs):
-        if self.icon:
-            # Make sure image is saved before tumbnailing
-            super(Skill, self).save(*args, **kwargs)
-            thumb = get_thumbnail(self.icon, '50x50', crop='center', quality=99)
-            self.icon.save(thumb.name, ContentFile(thumb.read()), False)
-        super(Skill, self).save(*args, **kwargs)
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    thumb = models.ForeignKey('files.Image', blank=True, null=True, on_delete=models.SET_NULL)
+
+    categories = models.ManyToManyField(blank=False, to='userprofile.Category')
+
+    prerequisites = models.ManyToManyField(blank=True, to='userprofile.Skill')
 
     def __str__(self):
-        return self.title
+        return self.name + " (" + ", ".join(category.name for category in self.categories.all()) + ")"
+
+
+class Category(models.Model):
+
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    thumb = models.ForeignKey('files.Image', blank=True, null=True, on_delete=models.SET_NULL)
+
+    color = models.CharField(max_length=20, default="", blank=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
     image = models.ImageField(upload_to="profilepictures", verbose_name="Profilbilde", default=None, blank=True)
+
+    skills = models.ManyToManyField(blank=True, verbose_name="Ferdigheter", to='userprofile.Skill')
 
     # Felter for sosiale konti
     social_discord = models.CharField(max_length=30, null=True, blank=True, verbose_name="Discord-tag")
@@ -51,7 +65,6 @@ class Profile(models.Model):
 
     access_card = models.CharField(max_length=20, null=True, blank=True, verbose_name="NTNU Adgangskort (EMXXXXXXXXXX)")
     study = models.CharField(max_length=50, null=True, blank=True, verbose_name="Studieretning")
-    skills = models.ManyToManyField(Skill, related_name="skills", blank=True)
 
     accepted_tos = models.ForeignKey(TermsOfService, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Seneste aksepterte TOS")
 

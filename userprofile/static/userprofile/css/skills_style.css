@@ -1,0 +1,65 @@
+.skill_acquired {
+    background: #eeeeee;
+    text-decoration: line-through;
+}
+
+.skill_reachable {
+    opacity: 1;
+}
+
+.skill_unreachable {
+    background: #eeeeee;
+    opacity: 0.5;
+}
+
+.skill-category-btn{
+
+  margin-top: 5px;
+
+}
+
+.skill-category-img {
+
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Position skill anchor some distance
+over the actual skill item to compensate
+for the fixed header */
+.skill-anchor{
+  position: relative;
+  top: -200px;
+}
+
+
+/* Tabs styling */
+
+.tabs .tab a {
+    color: #454545;
+}
+
+.tabs .tab a:hover,
+.tabs .tab a:focus {
+    background-color: #eee;
+    color: #454545;
+}
+
+.tabs .tab a.active,
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+    background-color: #fff;
+    color: #454545;
+}
+
+.tabs .tab.disabled a,
+.tabs .tab.disabled a:hover {
+  color: #21212188;
+  cursor: default;
+}
+
+.tabs .indicator {
+    background-color: #454545;
+}

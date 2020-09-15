@@ -1,5 +1,8 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% block header %}
+	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
+{% endblock %}
 {% block content %}
 <div class="section hs-green">
 	<div class="container">
@@ -7,7 +10,7 @@
 			<div class="col s12 white-text">
 				<h4>Brukerprofil</h4>
 				{% if user == profile.user %}
-				<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Innstillinger</a>
+					<a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Innstillinger</a>
 				{% endif %}
 			</div>
 		</div>
@@ -15,21 +18,62 @@
 </div>
 <div class="section hs-gray-text">
 	<div class="container">
-		<div class="row">
-			<div class="col s12 center-align">
-				{% if profile.image %}
-				<img class="circle responsive-img" src="{{ profile.image.url }}">
-				{% else %}
-				<img class="circle responsive-img" src="{% static 'website/img/misc/default.png' %}" height="300">
-				{% endif %}
+		<div class="row profile-basic">
+			<div class="hide-on-small-only">
+				<div class="col left-align">
+					{% if profile.image %}
+						<img class="circle profile-img" src="{{ profile.image.url }}">
+					{% else %}
+						<img class="circle profile-img" src="{% static 'website/img/misc/default.png' %}" height="300">
+					{% endif %}
+				</div>
+				<div class="col left-align">
+					<h4>{{ profile.user.get_full_name }}</h4>
+					<h5>{{ profile.get_main_group }}</h5>
+				</div>
 			</div>
-			<div class="col s12 center-align">
-				<h4>{{ profile.user.get_full_name }}</h4>
-				<h5>{{ profile.get_main_group }}</h5>
+			<div class="hide-on-med-and-up">
+				<div class="col center-align">
+					{% if profile.image %}
+						<img class="circle profile-img" src="{{ profile.image.url }}">
+					{% else %}
+						<img class="circle profile-img" src="{% static 'website/img/misc/default.png' %}" height="300">
+					{% endif %}
+					<h4>{{ profile.user.get_full_name }}</h4>
+					<h5>{{ profile.get_main_group }}</h5>
+				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s12 m6">
+			<div class="col s12">
+				<ul class="collection with-header">
+					<li class="collection-header">
+						<h5>
+							Ferdigheter
+							<a href="{% url 'userprofile:profile_skills_by_id' profile.id %}">
+								<i class="material-icons prefix">open_in_new</i>
+							</a>
+						</h5>
+					</li>
+					{% for category, level in category_levels %}
+						<li class="collection-item valign-wrapper row category-level-item">
+							<!-- <img class="circle category-level-thumb" src="{{ category.thumb.thumb_url }}"/> -->
+							<div class="col">
+								<a class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
+									<span>{{ level }}</span>
+								</a>
+							</div>
+							<div class="col category-level-name">
+								<span>{{ category }}</span>
+								<a class="hs-gray-text" href="{% url 'userprofile:profile_skills_category' category.id %}">
+									<i class="material-icons info-button">info</i>
+								</a>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="col s12">
 				<ul class="collection with-header">
 					<li class="collection-header"><h5>Basisinformasjon</h5></li>
 					{% if profile.study %}
@@ -45,14 +89,6 @@
 					{% else %}
 						{% include "userprofile/_social_fields.html" %}
 					{% endif %}
-				</ul>
-			</div>
-			<div class="col s12 m6">
-				<ul class="collection with-header">
-					<li class="collection-header"><h5>Ferdigheter</h5></li>
-					{% for skill in profile.skills.all %}
-					<li class="collection-item">{{ skill.title }}</li>
-					{% endfor %}
 				</ul>
 			</div>
 		</div>

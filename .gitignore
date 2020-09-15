@@ -14,5 +14,7 @@ profilepictures/
 # For Rope Project settings
 .ropeproject
 
-# For vscode project settings
+
+env/
 .vscode/
+**/__pycache__

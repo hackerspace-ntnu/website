@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from news.models import Article, Event
@@ -19,9 +19,19 @@ class AcceptTosView(TemplateView):
 
     def get(self,request, *args, **kwargs):
 
-        # Save users pre-TOS path in session variable
-        # Parse converts from absolute to relative path
-        request.session['redirect_after_tos_accept'] = urlparse.urlparse(request.META.get('HTTP_REFERER')).path
+        if not self.request.user.is_authenticated or self.request.user.profile.has_accepted_most_recent_tos():
+            # No user logged in, or user has already accepted TOS, return to main page
+            return redirect("/")
+
+        # Get originally visited page before TOS "pop-up"
+        refererUrl = request.META.get('HTTP_REFERER')
+
+        # Make sure page is valid before storing it for later
+        if refererUrl:
+
+            # Save users pre-TOS page path in session variable
+            # Parse converts from absolute to relative path
+            request.session['redirect_after_tos_accept'] = urlparse.urlparse(refererUrl).path
 
         return super().get(self,request,*args, **kwargs)
 

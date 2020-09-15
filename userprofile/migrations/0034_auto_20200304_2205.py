@@ -17,6 +17,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='color',
-            field=models.CharField(default='hs-green', max_length=7),
+            field=models.CharField(default='green', max_length=7),
         ),
     ]

@@ -22,7 +22,7 @@
     <div class="row profile-basic">
       <div class="hide-on-small-only">
         <div class="col left-align">
-          <a href="{% url 'userprofile:profile_by_id' profile.id %}">
+          <a href="{% url 'userprofile:profile_by_id' profile.user.id %}">
           {% if profile.image %}
             <img class="circle profile-img" src="{{ profile.image.url }}">
           {% else %}
@@ -100,7 +100,7 @@
                     {% include "userprofile/skill_description.html" %}
                     {% if skill in approvable_skills %}
                       {% csrf_token %}
-                      <a class="waves-effect waves-light btn-small hs-green approve-btn" data-skillid="{{skill.pk}}" data-apiurl="{% url 'userprofile:approve_skill_api_endpoint' profile.id %}">
+                      <a class="waves-effect waves-light btn-small hs-green approve-btn" data-skillid="{{skill.pk}}" data-apiurl="{% url 'userprofile:approve_skill_api_endpoint' profile.user.id %}">
                         <i class="material-icons left">check</i> Godkjenn
                       </a>
                     {% endif %}

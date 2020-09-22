@@ -99,8 +99,9 @@
                   <div class="collapsible-body grey lighten-2">
                     {% include "userprofile/skill_description.html" %}
                     {% if skill in approvable_skills %}
+                      <div class="invisible-divider-large"></div>
                       {% csrf_token %}
-                      <a class="waves-effect waves-light btn-small hs-green approve-btn" data-skillid="{{skill.pk}}" data-apiurl="{% url 'userprofile:approve_skill_api_endpoint' profile.user.id %}">
+                      <a class="hs-green waves-effect waves-light btn btn-flat white-text approve-btn" data-skillid="{{skill.pk}}" data-apiurl="{% url 'userprofile:approve_skill_api_endpoint' profile.user.id %}">
                         <i class="material-icons left">check</i> Godkjenn
                       </a>
                     {% endif %}

@@ -172,29 +172,34 @@ class Event(models.Model):
         else:
             return 100
 
-    def get_allergies_registered(self):
-        gluten_count = 0
-        vegetar_count = 0
-        vegan_count = 0
-        annet_list = []
+    def get_profiles_with_preferences(self):
+
+        profiles_with_prefs = []
+
+        for reg in self.registration_list():
+            profile = reg.user.profile
+            if profile.has_food_preferences():
+                profiles_with_prefs.append(profile)
+
+        return profiles_with_prefs
+
+    def get_allergies_count(self):
+
+        count = {
+            'glutenfritt': 0,
+            'vegetar': 0,
+            'vegan': 0
+        }
 
         for reg in self.registration_list():
             if reg.user.profile.allergi_gluten:
-                gluten_count += 1
+                count['glutenfritt'] += 1
             if reg.user.profile.allergi_vegetar:
-                vegetar_count += 1
+                count['vegetar'] += 1
             if reg.user.profile.allergi_vegan:
-                vegan_count += 1
-            if reg.user.profile.allergi_annet:
-                annet_list.append(reg.user.profile.allergi_annet)
+                count['vegan'] += 1
 
-        result = {
-                'gluten': gluten_count,
-                'vegetar': vegetar_count,
-                'vegan': vegan_count,
-                'annet': annet_list
-                }
-        return result
+        return count
 
     def registration_list(self):
         '''

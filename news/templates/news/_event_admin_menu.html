@@ -19,89 +19,111 @@
 			</div>
 		</div>
 		{% if event.registration and perms.news.can_see_attendees %}
-		<div class="row">
-			<div class="col s12 m12 l6">
-				<ul class="collection with-header">
-					<li class="collection-header">
-						<h4>Venteliste</h4>
-					</li>
-					{% for user in event.wait_list %}
-					<li class="collection-item">{{ user.get_full_name }}</li>
-					{% empty %}
-					<li class="collection-item">Det er ingen på ventelisten</li>
-					{% endfor %}
-				</ul>
-			</div>
-			<div class="col s12 m12 l6">
+			<div class="row">
+				<div class="col s12 m12 l6">
+					<ul class="collection with-header">
+						<li class="collection-header">
+							<h4>Venteliste</h4>
+						</li>
+						{% for user in event.wait_list %}
+						<li class="collection-item">{{ user.get_full_name }}</li>
+						{% empty %}
+						<li class="collection-item">Det er ingen på ventelisten</li>
+						{% endfor %}
+					</ul>
+				</div>
+				<div class="col s12 m12 l6">
 
-				<ul class="collection with-header">
+					<ul class="collection with-header">
 
-					<li class="collection-header">
-						<h4>Alle påmeldte</h4>
-					</li>
+						<li class="collection-header">
+							<h4>Alle påmeldte</h4>
+						</li>
 
-					{% for user in event.registration_list %}
+						{% for user in event.registration_list %}
 
-					{% if not user.is_waitlisted %}
-					<li class="collection-item event-attendee-row">
+						{% if not user.is_waitlisted %}
+						<li class="collection-item event-attendee-row">
 
-						<a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' user.user.id %}">
-							{{ user.user.get_full_name }}
-						</a>
+							<a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' user.user.id %}">
+								{{ user.user.get_full_name }}
+							</a>
 
-						<a class="event-attendee-icon" href="/events/{{ event.id }}/attended">
+							<a class="event-attendee-icon" href="/events/{{ event.id }}/attended">
 
-							{% if event.is_past_start %}
+								{% if event.is_past_start %}
 
-								{% if user.attended %}
-									<span class="secondary-content tooltipped" data-position="top" data-tooltip="Oppmøte registrert!">
-										😇
-									</span>
+									{% if user.attended %}
+										<span class="secondary-content tooltipped" data-position="top" data-tooltip="Oppmøte registrert!">
+											😇
+										</span>
+									{% else %}
+										<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
+											😈
+										</span>
+									{% endif %}
+
 								{% else %}
-									<span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
-										😈
+
+									<span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
+										⌛
 									</span>
+
 								{% endif %}
 
-							{% else %}
+							</a>
 
-								<span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
-									⌛
-								</span>
+						</li>
+						{% endif %}
 
-							{% endif %}
+						{% empty %}
+						<li class="collection-item">Det er ingen påmeldte</li>
 
-						</a>
-
-					</li>
-					{% endif %}
-
-					{% empty %}
-					<li class="collection-item">Det er ingen påmeldte</li>
-
-					{% endfor %}
-				</ul>
-			</div>
-		</div>
-		{% if event.servering %}
-		<div class="row">
-			<div class="col s12 m12">
-				<ul class="collection with-header">
-					<li class="collection-header">
-						<h4>Allergier</h4>
-					</li>
-					<li class="collection-item">Foretrekker glutenfritt<span class="badge"> {{ event.get_allergies_registered.gluten }}</span></li>
-					<li class="collection-item">Foretrekker vegetar<span class="badge"> {{ event.get_allergies_registered.vegetar }}</span></li>
-					<li class="collection-item">Foretrekker vegansk<span class="badge"> {{ event.get_allergies_registered.vegan }}</span></li>
-					<li class="collection-item">Annet ønske
-						{% for wish in event.get_allergies_registered.annet %}
-						<span class="badge hs-gray white-text">{{ wish }}</span>
 						{% endfor %}
-					</li>
-				</ul>
+					</ul>
+				</div>
 			</div>
-		</div>
-		{% endif %}
+			{% if event.servering %}
+				{% if user == event.responsible or user.is_superuser %}
+					<div class="row">
+						<div class="col s12 m12">
+							<ul class="collection with-header">
+								<li class="collection-header">
+									<h4>Allergier</h4>
+									<span>{{event.get_allergies_count.glutenfritt}} glutenfritt</span>,
+									<span>{{event.get_allergies_count.vegetar}} vegetar</span>,
+									<span>{{event.get_allergies_count.vegan}} vegan</span>
+									<div class="invisible-divider"></div>
+								</li>
+
+								{% for profile in event.get_profiles_with_preferences %}
+
+									<li class="collection-item">
+
+										<a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' profile.user.id %}">
+											<h6>{{ profile.user.get_full_name }}</h6>
+										</a>
+										
+										<div class="invisible-divider"></div>
+										{% for preference in profile.get_food_preferences_of_predefined %}
+											<a class="food-preference hs-gray white-text">{{preference}}</a>
+										{% endfor %}
+										<div class="invisible-divider"></div>
+
+										{% if profile.allergi_annet %}
+											<span>{{profile.allergi_annet}}</span>
+											<div class="invisible-divider"></div>
+										{% endif %}
+
+									</li>
+
+								{% endfor %}
+
+							</ul>
+						</div>
+					</div>
+				{% endif %}
+			{% endif %}
 		{% endif %}
 	</div>
 </div>

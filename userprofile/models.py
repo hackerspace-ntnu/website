@@ -101,5 +101,22 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('userprofile:profile', args=(self.pk,))
 
+    def get_food_preferences_of_predefined(self):
+
+        preferences = []
+
+        if self.allergi_gluten:
+            preferences.append("glutenfritt")
+        if self.allergi_vegetar:
+            preferences.append("vegetar")
+        if self.allergi_vegan:
+            preferences.append("vegan")
+
+        return preferences
+
+
+    def has_food_preferences(self):
+        return self.allergi_gluten or self.allergi_vegetar or self.allergi_vegan or self.allergi_annet
+
     def has_accepted_most_recent_tos(self):
         return self.accepted_tos == TermsOfService.objects.order_by('-pub_date').first();

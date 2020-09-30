@@ -172,16 +172,16 @@ class Event(models.Model):
         else:
             return 100
 
-    def get_profiles_with_preferences(self):
+    def get_food_preferences_of_registered(self):
 
-        profiles_with_prefs = []
+        preferences = []
 
         for reg in self.registration_list():
             profile = reg.user.profile
             if profile.has_food_preferences():
-                profiles_with_prefs.append(profile)
+                preferences.append(profile.get_food_preferences())
 
-        return profiles_with_prefs
+        return preferences
 
     def get_allergies_count(self):
 

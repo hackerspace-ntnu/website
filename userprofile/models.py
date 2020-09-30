@@ -101,18 +101,21 @@ class Profile(models.Model):
     def get_absolute_url(self):
         return reverse('userprofile:profile', args=(self.pk,))
 
-    def get_food_preferences_of_predefined(self):
+    def get_food_preferences(self):
 
-        preferences = []
+        preferences_of_predefined = []
 
         if self.allergi_gluten:
-            preferences.append("glutenfritt")
+            preferences_of_predefined.append("glutenfritt")
         if self.allergi_vegetar:
-            preferences.append("vegetar")
+            preferences_of_predefined.append("vegetar")
         if self.allergi_vegan:
-            preferences.append("vegan")
+            preferences_of_predefined.append("vegan")
 
-        return preferences
+        return {
+            "predefined":preferences_of_predefined,
+            "other":self.allergi_annet
+        }
 
 
     def has_food_preferences(self):

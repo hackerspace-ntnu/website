@@ -97,20 +97,24 @@
 									<div class="invisible-divider"></div>
 								</li>
 
-								{% for profile in event.get_profiles_with_preferences %}
+								{% for preferences in event.get_food_preferences_of_registered %}
 
 									<li class="collection-item">
-
-										<div class="invisible-divider"></div>
-										{% for preference in profile.get_food_preferences_of_predefined %}
-											<a class="food-preference hs-gray white-text">{{preference}}</a>
-										{% endfor %}
 										<div class="invisible-divider"></div>
 
-										{% if profile.allergi_annet %}
-											<span><i>{{profile.allergi_annet}}</i></span>
+										{% if preferences.predefined %}
+											<div class="invisible-divider"></div>
+											{% for preference in preferences.predefined %}
+												<a class="food-preference hs-gray white-text">{{preference}}</a>
+											{% endfor %}
+											<div class="invisible-divider"></div>
 										{% endif %}
 
+										{% if preferences.other %}
+											<span><i>{{preferences.other}}</i></span>
+										{% endif %}
+
+										<div class="invisible-divider"></div>
 									</li>
 
 								{% endfor %}

@@ -90,3 +90,9 @@ strong {
 .listview-indicator .material-icons {
 	padding: 0 10px 0 0
 }
+
+.food-preference {
+	font-size: 14px;
+	padding: 4px 6px;
+	border-radius: 2px;
+}

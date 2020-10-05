@@ -49,14 +49,14 @@ class Event(models.Model):
 
     internal = models.BooleanField(default=False, verbose_name='Intern')
     registration = models.BooleanField(default=False, verbose_name='Påmelding')
-    max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Max påmeldte')
-    registration_start = models.DateTimeField(default=timezone.now, verbose_name='Påmelding start')
-    registration_end = models.DateTimeField(default=timezone.now, verbose_name='Påmelding slutt')
-    deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avregistrering slutt')
+    max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Maks påmeldte')
+    registration_start = models.DateTimeField(default=timezone.now, verbose_name='Påmeldingsstart')
+    registration_end = models.DateTimeField(default=timezone.now, verbose_name='Påmeldingsfrist')
+    deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avmeldingsfrist')
     external_registration = models.CharField(blank=True, max_length=200, default='', verbose_name='Lenke for ekstern påmelding')
 
-    time_start = models.DateTimeField(verbose_name='Start tidspunkt', null=True)
-    time_end = models.DateTimeField(verbose_name='Slutt tidspunkt', null=True)
+    time_start = models.DateTimeField(verbose_name='Starttidspunkt', null=True)
+    time_end = models.DateTimeField(verbose_name='Sluttidspunkt', null=True)
 
     servering = models.BooleanField(default=False)
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')

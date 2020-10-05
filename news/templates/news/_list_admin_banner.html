@@ -6,10 +6,10 @@
 				<ul class='collection with-header'>
 					<li class="collection-header"><h5>Administrator-meny</h5></li>
 					{% if perms.news.add_event %}
-					<li class="collection-item"><a href="{% url 'events:new' %}"><i class="material-icons">event</i>Ny Event</a></li>
+					<li class="collection-item"><a href="{% url 'events:new' %}"><i class="material-icons">event</i>Nytt arrangement</a></li>
 					{% endif %}
 					{% if perms.news.add_article %}
-					<li class="collection-item"><a href="{% url 'news:new' %}"><i class="material-icons">note_add</i>Ny Artikkel</a></li>
+					<li class="collection-item"><a href="{% url 'news:new' %}"><i class="material-icons">note_add</i>Ny artikkel</a></li>
 					{% endif %}
 				</ul>
 			</div>

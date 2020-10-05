@@ -18,7 +18,7 @@
 				<ul>
 					<li><a href="/news/">Nyheter</a></li>
 					<li><a href="/events/">Arrangementer</a></li>
-					<li><a href="/about/">Om Oss</a></li>
+					<li><a href="/about/">Om oss</a></li>
 				</ul>
 				<ul>
 					<li><a href="/tos/">Vilkår for bruk av nettside</a></li>
@@ -29,7 +29,7 @@
 				<div class="divider"></div>
 						<ul>
 							{% if user.is_authenticated %}
-							<li><a href="{% url 'auth:logout' %}">Logg Ut</a></li>
+							<li><a href="{% url 'auth:logout' %}">Logg ut</a></li>
 							{% else %}
 							<li><a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
 							{% endif %}

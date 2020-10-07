@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
-from datetime import datetime
+from datetime import datetime, timedelta
 from .forms import EventForm, eventformset, uploadformset
 from .models import Event, Article, EventRegistration
 from django.contrib.auth.decorators import login_required
@@ -244,8 +244,8 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         initial['time_end'] = timezone.now()
 
         initial['registration_start'] = timezone.now()
-        initial['registration_end'] = timezone.now()
-        initial['deregistration_end'] = timezone.now()
+        initial['registration_end'] = timezone.now() + timedelta(days=7)
+        initial['deregistration_end'] = timezone.now() + timedelta(days=7)
         return initial
 
     def form_valid(self, form):

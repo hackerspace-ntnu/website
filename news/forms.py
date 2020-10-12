@@ -72,15 +72,15 @@ def get_committees():
 
 class EventForm(forms.ModelForm):
     error_css_class = 'invalid'
-    time_start = SplitDateTimeFieldCustom()
-    time_end = SplitDateTimeFieldCustom()
+    time_start = SplitDateTimeFieldCustom(label='Starttidspunkt')
+    time_end = SplitDateTimeFieldCustom(label='Sluttidspunkt')
 
-    registration_start = SplitDateTimeFieldCustom()
-    registration_end = SplitDateTimeFieldCustom()
-    deregistration_end = SplitDateTimeFieldCustom()
+    registration_start = SplitDateTimeFieldCustom(label='Påmeldingsstart')
+    registration_end = SplitDateTimeFieldCustom(label='Påmeldingsfrist')
+    deregistration_end = SplitDateTimeFieldCustom(label='Avmeldingsfrist')
 
 
-    responsible = UserFullnameChoiceField(queryset=User.objects.all().filter(groups__name__in=get_committees()).order_by('first_name'))
+    responsible = UserFullnameChoiceField(label="Arrangementansvarlig", queryset=User.objects.all().filter(groups__name__in=get_committees()).order_by('first_name'))
 
 
     class Meta:
@@ -92,14 +92,3 @@ class EventForm(forms.ModelForm):
 
 uploadformset = inlineformset_factory(Event, Upload,
         form=UploadForm, extra=3)
-
-
-
-
-
-
-
-
-
-
-

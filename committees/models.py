@@ -15,3 +15,5 @@ class Committee(Group):
     economy = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="Økonomiansvarlig")
 
     active = models.BooleanField()
+
+    priority = models.IntegerField(default=0)

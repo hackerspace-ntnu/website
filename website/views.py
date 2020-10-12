@@ -57,7 +57,7 @@ class AboutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['committees'] = Committee.objects.filter(active=True)
+        context['committees'] = Committee.objects.filter(active=True).order_by("-priority")
         context['faq'] = FaqQuestion.objects.all()
         return context
 

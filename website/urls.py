@@ -50,6 +50,7 @@ urlpatterns = [
     path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),
+    path('inventory/', include('inventory.urls')),
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"

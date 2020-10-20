@@ -1,0 +1,34 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="section hs-green">
+    {% if item.image %}
+    <div class="container center no-margin-top">
+        <img class="responsive-img" src="{{ item.image.url }}"/>
+    </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="card-panel no-margin-top">
+            <h4>
+                {{ item.name }}
+                {% if item.in_stock %}
+                <i class="material-icons hs-green-text">done</i>
+                {% else %}
+                <i class="material-icons hs-red-text">do_not_disturb</i>
+                {% endif %}
+            </h4>
+            <h6>
+                <i class="material-icons">local_shipping</i>
+                <b>{{ item.stock }}</b> stk. på lager
+            </h6>
+            {% if item.description %}
+            <div class="divider"></div>
+            <p>{{ item.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

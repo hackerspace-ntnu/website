@@ -1,0 +1,65 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="section">
+    <div class="container">
+        {% if items %}
+            <div class="row">
+                {% for item in items %}
+                <div class="col s4">
+                    <div class="card horizontal">
+                        <div class="card-content">
+                            <a href="{% url 'inventory:item' item.id %}">
+                                <h5>
+                                    {{ item.name }}
+                                    {% if item.in_stock %}
+                                    <i class="material-icons hs-green-text">done</i>
+                                    {% else %}
+                                    <i class="material-icons hs-red-text">do_not_disturb</i>
+                                    {% endif %}
+                                </h5>
+                            </a>
+                            <p>
+                                Lagerbeholdning: <b>{{ item.stock }} stk.</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+        <div class="row center">
+            <h3>Lageret er dessverre tomt :(</h3>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="section">
+	<div class="container">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			{% endif %}
+
+			{% for page in page_obj.paginator.page_range %}
+			{% if page == page_obj.number %}
+			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
+			{% endif %}	
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+
+{% endblock %}

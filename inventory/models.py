@@ -1,13 +1,15 @@
+from ckeditor_uploader.fields import RichTextUploadingField
+from files.models import Image
 from django.db import models
 
 
 class Item(models.Model):
     '''Represents a single item in inventory'''
 
-    name = models.CharField('Navn', max_length=100)
+    name = models.CharField('Navn', max_length=50)
     stock = models.IntegerField('Lagerbeholdning')
-    description = models.TextField('Beskrivelse', max_length=200, blank=True)
-    image = models.ImageField('Bilde', blank=True)
+    description = RichTextUploadingField('Beskrivelse', blank=True)
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
 
     views = models.IntegerField('Detaljsidevisninger', default=0, editable=True)
 
@@ -27,5 +29,3 @@ class Item(models.Model):
         how frequently the item is loaned.
         '''
         return self.views
-    
-

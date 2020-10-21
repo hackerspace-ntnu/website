@@ -297,14 +297,6 @@ a {
 	opacity: 0;
 }
 
-.no-pad-top {
-	padding-top: 0;
-}
-
-.no-margin-top {
-	margin-top: 0;
-}
-
 .word-wrap {
 	word-wrap: break-word;
 }

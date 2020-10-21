@@ -25,6 +25,8 @@ class InventoryListView(ListView):
             items = items.order_by('-stock')
         elif sorting_criteria == 'stock_asc':
             items = items.order_by('stock')
+        elif sorting_criteria == 'popularity':
+            items = sorted(items, key=lambda item: -item.popularity())
 
         return items
 

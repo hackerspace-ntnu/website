@@ -1,7 +1,7 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% block content %}
-<!-- Temporary notice about possibly missing items -->
+<!-- Temporary notice about possibly missing items. Remove when LabOps has added everything -->
 <div class="section hs-yellow">
     <div class="container center">
         <p>Lagersystemet er nytt, og vi jobber med å føre inn alt vi har på verkstedet. Derfor kan det hende at enkelte ting ikke er oppført.</p>
@@ -33,6 +33,7 @@
                 <div class="input-field col s12 m6 l5">
                     <select name="sort_by">
                         <option value="" disabled {% if not sort_by %}selected{% endif %}>Velg sorteringskriterie</option>
+                        <option value="popularity" {% if sort_by == "popularity" %}selected{% endif %}>Populæritet</option>
                         <option value="stock_dsc" {% if sort_by == "stock_dsc" %}selected{% endif %}>Lagerbeholdning (Synkende)</option>
                         <option value="stock_asc" {% if sort_by == "stock_asc" %}selected{% endif %}>Lagerbeholdning (Stigende)</option>
                         <option value="name" {% if sort_by == "name" %}selected{% endif %}>Navn</option>
@@ -74,6 +75,7 @@
             {% endfor %}
         </div>
 
+        {% if page_obj.paginator.num_pages > 1 %}
         <ul class="pagination">
             {% if page_obj.has_previous %}
             <li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
@@ -95,11 +97,12 @@
             <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
             {% endif %}
         </ul>
+        {% endif %}
         {% else %}
         <div class="row center">
             <div class="col s12">
-                <h3>Fant ingenting på lageret :(</h3>
-                <p>Men vi fyller nok på ganske snart :)</p>
+                <h3>Fant ingenting på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
+                <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a href="http://bit.ly/2RXBJMd">verkstedet</a> og spør oss!</p>
             </div>
         </div>
         {% endif %}

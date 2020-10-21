@@ -1,44 +1,40 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% block header %}
-  <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}">
 {% endblock %}
 {% block content %}
 
 <div class="section">
-    {% if item.image %}
+    {% if item.thumbnail %}
     <div class="container center">
-        <div class="row">
-            <div class="col s12">
-                <img class="responsive-img item-img" src="{{ item.image.url }}"/>
-            </div>
-        </div>
+        <img class="responsive-img item-img" src="{{ item.thumbnail.url }}"/>
     </div>
     {% endif %}
 
     <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <div class="card-panel">
-                    <h4>{{ item.name }}</h4>
-                    <h6>
-                        {% if item.in_stock %}
-                        <i class="material-icons hs-green-text">done</i>
-                        <b>{{ item.stock }} stk.</b>
-                        {% else %}
-                        <i class="material-icons hs-red-text">do_not_disturb</i>
-                        <b>Ingen</b>
-                        {% endif %}
-                         på lager
-                    </h6>
-                    {% if item.description %}
-                    <div class="divider"></div>
-                    <p>{{ item.description|linebreaksbr }}</p>
-                    {% endif %}
-                </div>
-            </div>
+        <div class="card-panel">
+            <h4 class="word-wrap">{{ item.name }}</h4>
+            <h6>
+                {% if item.in_stock %}
+                <i class="material-icons hs-green-text">done</i>
+                <b>{{ item.stock }} stk.</b>
+                {% else %}
+                <i class="material-icons hs-red-text">do_not_disturb</i>
+                <b>Ingen</b>
+                {% endif %}
+                 på lager
+            </h6>
+            {% if item.description %}
+            <div class="divider"></div>
+			{% autoescape off %}
+			{{ item.description }}
+			{% endautoescape %}
+            {% endif %}
         </div>
     </div>
 </div>
+
+{% include "inventory/_detail_admin_banner.html" %}
 
 {% endblock %}

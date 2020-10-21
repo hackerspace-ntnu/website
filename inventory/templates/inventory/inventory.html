@@ -1,6 +1,14 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% block content %}
+<!-- Temporary notice about possibly missing items -->
+<div class="section hs-yellow">
+    <div class="container center">
+        <p>Lagersystemet er nytt, og vi jobber med å føre inn alt vi har på verkstedet. Derfor kan det hende at enkelte ting ikke er oppført.</p>
+        <p>Hvis du lurer på om vi har spesifikt utstyr eller ønsker å låne noe som ikke ligger i lagersystemet kan du komme innom <a class="white-text" href="http://bit.ly/2RXBJMd">verkstedet</a> og spørre om vi har det likevel!</p>
+    </div>
+</div>
+
 <div class="section hs-green white-text">
     <div class="container">
         <div class="row">
@@ -11,6 +19,8 @@
         </div>
     </div>
 </div>
+
+{% include "inventory/_list_admin_banner.html" %}
 
 <div class="section">
     <div class="container">
@@ -23,7 +33,8 @@
                 <div class="input-field col s12 m6 l5">
                     <select name="sort_by">
                         <option value="" disabled {% if not sort_by %}selected{% endif %}>Velg sorteringskriterie</option>
-                        <option value="stock" {% if sort_by == "stock" %}selected{% endif %}>Lagerbeholdning</option>
+                        <option value="stock_dsc" {% if sort_by == "stock_dsc" %}selected{% endif %}>Lagerbeholdning (Synkende)</option>
+                        <option value="stock_asc" {% if sort_by == "stock_asc" %}selected{% endif %}>Lagerbeholdning (Stigende)</option>
                         <option value="name" {% if sort_by == "name" %}selected{% endif %}>Navn</option>
                     </select>
                     <label>Sorter etter</label>
@@ -38,14 +49,19 @@
             {% for item in items %}
             <div class="col s12 m6 l4">
                 <div class="card horizontal">
-                    <div class="card-content">
+                    <div class="card-content truncate">
                         <a href="{% url 'inventory:item' item.id %}">
-                            <h5>{{ item.name }}</h5>
+                            <h5 class="truncate">{{ item.name }}</h5>
                         </a>
                         <p>
                             {% if item.in_stock %}
                             <i class="material-icons hs-green-text">done</i>
+                            {% if item.stock > 1000 %}
+                            <!-- tar ingen sjanser ok -->
+                            <b>>1000 stk.</b>
+                            {% else %}
                             <b>{{ item.stock }} stk.</b>
+                            {% endif %}
                             {% else %}
                             <i class="material-icons hs-red-text">do_not_disturb</i>
                             <b>Ingen</b>

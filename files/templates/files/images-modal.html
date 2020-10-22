@@ -1,16 +1,29 @@
+{% regroup images by tags as tag_group%}
+
 <a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
 <div id="thumbnailPicker" class="modal">
 	<div class="modal-content">
 		<div class="row">
 			<div class="col s12">
 				<h4>Velg bilde</h4>
-				<a class="btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">Last opp nytt bilde</a>
-				<a class="btn hs-yellow btn-small btn-flat hs-gray-text" href="/files/images" target="_blank">Administrer bilder</a>
+				<div class="row">
+					<a class="col s12 l5 btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">Last opp nytt bilde</a>
+					<div class="col s12 hide-on-large-only">
+						<div class="invisible-divider-large"></div>
+					</div>
+					<a class="col s12 l5 push-l2 btn hs-yellow btn-small btn-flat hs-gray-text" href="/files/images" target="_blank">Administrer bilder</a>
+				</div>
 			</div>
-			<div class="imageList">
-				{% for image in images %}
-				{% include 'files/single-image.html' %}
+			<div class="row">
+				{% for tag in tag_group %}
+					<div class="col s12">
+						<h4>{{ tag.grouper }}</h4>
+						{% for image in tag.list %}
+						{% include 'files/single-image.html' %}
+						{% endfor %}
+					</div>
 				{% endfor %}
+
 			</div>
 		</div>
 	</div>

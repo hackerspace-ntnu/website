@@ -6,7 +6,7 @@ from django.core.files.base import ContentFile
 class Image(models.Model):
     title = models.CharField(max_length=100, verbose_name='Tittel')
     description = models.TextField(max_length=100, blank=True, verbose_name='Beskrivelse')
-    tags = models.CharField(max_length=100, verbose_name='Tag/kategori')
+    tags = models.CharField(max_length=100, verbose_name='Tag/kategori', default='Usortert')
     time = models.DateTimeField(default=timezone.now)
     file = models.ImageField(upload_to='images')
     thumb = models.ImageField(upload_to='thumbnails', null=True)

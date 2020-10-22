@@ -47,32 +47,34 @@
 
         {% if items %}
         <div class="row">
-            {% for item in items %}
-            <div class="col s12 m6 l4">
-                <div class="card horizontal">
-                    <div class="card-content truncate">
-                        <a href="{% url 'inventory:item' item.id %}">
-                            <h5 class="truncate">{{ item.name }}</h5>
+            <div class="col s12">
+                <ul class="collection">
+                    {% for item in items %}
+                    <li class="collection-item avatar">
+                        <img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}"/ class="circle">
+                        <a href="{% url 'inventory:item' item.id %}" class="truncate">
+                            {{ item.name }}
+                            <p style="color: #000 !important">
+                                {% if item.in_stock %}
+                                <i class="material-icons hs-green-text">done</i>
+
+                                {% if item.stock > 1000 %}
+                                <b>>1000 stk.</b>
+                                {% else %}
+                                <b>{{ item.stock }} stk.</b>
+                                {% endif %}
+
+                                {% else %}
+                                <i class="material-icons hs-red-text">do_not_disturb</i>
+                                <b>Ingen</b>
+                                {% endif %}
+                                på lager
+                            </p>
                         </a>
-                        <p>
-                            {% if item.in_stock %}
-                            <i class="material-icons hs-green-text">done</i>
-                            {% if item.stock > 1000 %}
-                            <!-- tar ingen sjanser ok -->
-                            <b>>1000 stk.</b>
-                            {% else %}
-                            <b>{{ item.stock }} stk.</b>
-                            {% endif %}
-                            {% else %}
-                            <i class="material-icons hs-red-text">do_not_disturb</i>
-                            <b>Ingen</b>
-                            {% endif %}
-                             på lager
-                        </p>
-                    </div>
-                </div>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
-            {% endfor %}
         </div>
 
         {% if page_obj.paginator.num_pages > 1 %}

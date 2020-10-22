@@ -6,6 +6,6 @@ register = template.Library()
 
 @register.inclusion_tag('files/images-modal.html')
 def ImagePickModal(request):
-    images = Image.objects.order_by('-time')
+    images = Image.objects.order_by('tags', '-time')
 
     return {'UploadForm': ImageForm(prefix="img"), 'images': images}

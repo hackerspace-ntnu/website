@@ -1,0 +1,114 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Temporary notice about possibly missing items. Remove when LabOps has added everything -->
+<div class="section hs-yellow">
+    <div class="container center">
+        <p>Lagersystemet er nytt, og vi jobber med å føre inn alt vi har på verkstedet. Derfor kan det hende at enkelte ting ikke er oppført.</p>
+        <p>Hvis du lurer på om vi har spesifikt utstyr eller ønsker å låne noe som ikke ligger i lagersystemet kan du komme innom <a class="white-text" href="http://bit.ly/2RXBJMd">verkstedet</a> og spørre om vi har det likevel!</p>
+    </div>
+</div>
+
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h4>Lager</h4>
+                <p>Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "inventory/_list_admin_banner.html" %}
+
+<div class="section">
+    <div class="container">
+		<form method="get">
+            <div class="row">
+			    <div class="file-field input-field col s12 m6 l6">
+                    <input id="filter_name" name="filter_name" type="text" placeholder="Ting, tang og tare" value="{{ filter_name }}">
+                    <label for="filter">Navn</label>
+                </div>
+                <div class="input-field col s12 m6 l5">
+                    <select name="sort_by">
+                        <option value="" disabled {% if not sort_by %}selected{% endif %}>Velg sorteringskriterie</option>
+                        <option value="popularity" {% if sort_by == "popularity" %}selected{% endif %}>Populæritet</option>
+                        <option value="stock_dsc" {% if sort_by == "stock_dsc" %}selected{% endif %}>Lagerbeholdning (Synkende)</option>
+                        <option value="stock_asc" {% if sort_by == "stock_asc" %}selected{% endif %}>Lagerbeholdning (Stigende)</option>
+                        <option value="name" {% if sort_by == "name" %}selected{% endif %}>Navn</option>
+                    </select>
+                    <label>Sorter etter</label>
+                </div>
+                <br>
+                <button type="submit" class="waves-effect btn-flat btn-medium waves-light btn white-text hs-green col s12 m12 l1">SØK</button>
+			</div>
+		</form>
+
+        {% if items %}
+        <div class="row">
+            <div class="col s12">
+                <ul class="collection">
+                    {% for item in items %}
+                    <li class="collection-item avatar  valign-wrapper">
+                        <img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
+                        <a href="{% url 'inventory:item' item.id %}" class="truncate">
+                            {{ item.name }}
+                            <p style="color: #000 !important">
+                                {% if item.in_stock %}
+                                <i class="material-icons hs-green-text">done</i>
+
+                                {% if item.stock > 1000 %}
+                                <b>>1000 stk.</b>
+                                {% else %}
+                                <b>{{ item.stock }} stk.</b>
+                                {% endif %}
+
+                                {% else %}
+                                <i class="material-icons hs-red-text">do_not_disturb</i>
+                                <b>Ingen</b>
+                                {% endif %}
+                                på lager
+                            </p>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+            {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+            {% if page == page_obj.number %}
+            <li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+            {% else %}
+            <li><a href="?page={{ page }}&filter_name={{ filter_name }}&sort_by={{ sort_by }}">{{ page }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+            {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+        {% else %}
+        <div class="row center">
+            <div class="col s12">
+                <h3>Fant ingenting på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
+                <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a href="http://bit.ly/2RXBJMd">verkstedet</a> og spør oss!</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

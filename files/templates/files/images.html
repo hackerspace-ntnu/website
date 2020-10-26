@@ -8,18 +8,18 @@
 {% include "files/_image_admin_banner.html" %}
 
 {% if images %}
-{% regroup images by tags as tag_groups %}
-{% for tag in tag_groups %}
+{% regroup images by img_category as categories %}
+{% for category in categories %}
 <div class="section hs-green white-text">
 	<div class="container">
-		<h4 class="category-header">{{ tag.grouper }}</h4>
+		<h4 class="category-header">{{ category.grouper }}</h4>
 	</div>
 </div>
 
 <div class="section">
 	<div class="container">
 		<div class="row">
-			{% for image in tag.list %}
+			{% for image in category.list %}
 			{% include 'files/single-image-edit.html' %}
 			{% endfor %}
 		</div>

@@ -20,7 +20,11 @@
     </div>
 </div>
 
+<div class="invisible-divider-large"></div>
+
 {% include "inventory/_list_admin_banner.html" %}
+
+<div class="invisible-divider-large"></div>
 
 <div class="section">
     <div class="container">
@@ -50,7 +54,7 @@
             <div class="col s12">
                 <ul class="collection">
                     {% for item in items %}
-                    <li class="collection-item avatar">
+                    <li class="collection-item avatar  valign-wrapper">
                         <img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}"/ class="circle">
                         <a href="{% url 'inventory:item' item.id %}" class="truncate">
                             {{ item.name }}
@@ -90,7 +94,7 @@
             <li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
             {% else %}
             <li><a href="?page={{ page }}&filter_name={{ filter_name }}&sort_by={{ sort_by }}">{{ page }}</a></li>
-            {% endif %}	
+            {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}

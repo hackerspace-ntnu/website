@@ -101,12 +101,9 @@
 						<li class="collection-header"><h5>Medlemsliste</h5></li>
 						{% for user in group.user_set.all %}
 						<li class="collection-item">
-							<span>{{ user.get_full_name }}</span>
-							<span class="right">
-								<a href="{% url 'userprofile:profile_by_id' user.id %}">
-									<i class="material-icons">account_circle</i>
-								</a>
-							</span>
+							<a href="{% url 'userprofile:profile_by_id' user.id %}">
+                <span>{{ user.get_full_name }}</span>
+              </a>
 						</li>
 						{% empty %}
 						<li class="collection-item">Ingen medlemmer er lagt til enda.</li>

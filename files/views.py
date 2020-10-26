@@ -14,7 +14,7 @@ class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "files.delete_image"
 
 class ImageListView(PermissionRequiredMixin, ListView):
-    queryset = Image.objects.order_by('category', '-time')
+    queryset = Image.objects.order_by('img_category', '-time')
     template_name = 'files/images.html'
     permission_required = 'files.view_image'
     context_object_name = 'images'

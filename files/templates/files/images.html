@@ -1,21 +1,34 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
+{% endblock %}
 
 {% block content %}
 {% include "files/_image_admin_banner.html" %}
 
-<div class="section">
+{% if images %}
+{% regroup images by tags as tag_groups %}
+{% for tag in tag_groups %}
+<div class="section hs-green white-text">
 	<div class="container">
-		{% if object_list %}
-		<div class="row imageList">
-		{% for image in object_list %}
-		{% include "files/single-image-edit.html" %}
-		{% endfor %}
-		{% else %}
-		<div class="center">
-			<h4>Galleriet er tomt</h4>
-		</div>
-		{% endif %}
+		<h4 class="category-header">{{ tag.grouper }}</h4>
 	</div>
 </div>
+
+<div class="section">
+	<div class="container">
+		<div class="row">
+			{% for image in tag.list %}
+			{% include 'files/single-image-edit.html' %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% else %}
+<div class="center">
+	<h4>Galleriet er tomt</h4>
+</div>
+{% endif %}
 {% endblock content %}

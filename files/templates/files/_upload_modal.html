@@ -4,30 +4,32 @@
 
 <div class="modal" id="uploadModal">
 	<div class="modal-content">
-		<h4>Last opp nytt bilde til galleriet</h4>
-		{% csrf_token %}
-		<div class="input-field col s12">
-			{{ UploadForm.title }}
-			<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
-		</div>
-		<div class="input-field col s12">
-			{{ UploadForm.description }}
-			<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
-		</div>
-		<div class="input-field col s12">
-			{{ UploadForm.tags }}
-			<label for="{{ UploadForm.tags.id_for_label }}">{{ UploadForm.tags.label }}</label>
-		</div>
-		<div class="file-field input-field col s12">
-			<div class="btn btn-flat white-text hs-green">
-				<span>Velg bilde</span>
-				{{ UploadForm.file }}
+		<div class="row">
+			<h4 class="col s12">Last opp til galleriet</h4>
+			{% csrf_token %}
+			<div class="input-field col s12">
+				{{ UploadForm.title }}
+				<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
 			</div>
-			<div class="file-path-wrapper">
-				<input id="{{ UploadForm.file.id_for_label }}-path" class="file-path validate" type="text">
+			<div class="input-field col s12">
+				{{ UploadForm.description }}
+				<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
 			</div>
+			<div class="input-field col s12">
+				{{ UploadForm.tags }}
+				<label for="{{ UploadForm.tags.id_for_label }}">{{ UploadForm.tags.label }}</label>
+			</div>
+			<div class="file-field input-field col s12">
+				<div class="btn btn-flat white-text hs-green">
+					<span>Velg bilde</span>
+					{{ UploadForm.file }}
+				</div>
+				<div class="file-path-wrapper">
+					<input id="{{ UploadForm.file.id_for_label }}-path" class="file-path validate" type="text">
+				</div>
+			</div>
+			<a href="#" class="btn btn-flat btn-large hs-green white-text col s12" id="uploadBtn">Last opp bilde</a>
 		</div>
-		<a href="#" class="btn btn-flat btn-large hs-green white-text" id="uploadBtn">Last opp bilde til galleri</a>
 	</div>
 </div>
 

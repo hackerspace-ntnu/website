@@ -1,5 +1,6 @@
 {% regroup images by tags as tag_groups %}
 
+{% load gallery_modals %}
 {% load static %}
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{% static 'files/css/modal.css' %}">
@@ -39,109 +40,41 @@
 	</div>
 </div>
 
-<div class="modal" id="uploadModal">
-	<div class="modal-content">
-		<h4>Last opp nytt bilde til galleriet</h4>
-		{% csrf_token %}
-		<div class="input-field col s12">
-			{{ UploadForm.title }}
-			<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
-		</div>
-		<div class="input-field col s12">
-			{{ UploadForm.description }}
-			<label for="{{ UploadForm.description.id_for_label }}">{{ UploadForm.description.label }}</label>
-		</div>
-		<div class="input-field col s12">
-			{{ UploadForm.tags }}
-			<label for="{{ UploadForm.tags.id_for_label }}">{{ UploadForm.tags.label }}</label>
-		</div>
-		<div class="file-field input-field col s12">
-			<div class="btn btn-flat white-text hs-green">
-				<span>Velg bilde</span>
-				{{ UploadForm.file }}
-			</div>
-			<div class="file-path-wrapper">
-				<input id="{{ UploadForm.file.id_for_label }}-path" class="file-path validate" type="text">
-			</div>
-		</div>
-		<a href="#" class="btn btn-flat btn-large hs-green white-text" id="uploadBtn">Last opp bilde til galleri</a>
-	</div>
-</div>
+{% ImageUploadModal request %}
 
 <script>
-var thumbModal = document.querySelector('#thumbnailPicker');
-var uploadModal = document.querySelector('#uploadModal');
-var submitBtn = document.getElementById('uploadBtn');
+const thumbModal = document.querySelector('#thumbnailPicker');
 
-submitBtn.addEventListener('click', function(e) {
-	e.preventDefault();
+subscribeToUpload(thumbModal);
+thumbModal.addEventListener('galleryUploadSuccess', function(e) {
+	// Add the uploaded image to the gallery immediately
+	const tag = e.detail.tag;
+	const gallery = $('.tag-' + tag);
+	if (!gallery || !gallery.length)
+	{
+		// New tag/category, so we need to make a new gallery for it
+		const galleries = $('.tag-galleries');
+		const column = $('<div>', {'class': 'col s12'});
+		const gallery_row = $('<div>', {'class': 'row'});
+		const gallery_header = $('<div>', {'class': 'col s12 hs-green white-text'});
+		const gallery_title = $('<h4>', {'class': 'category-header'});
 
-	// Grab all the form data
-	var title_field = document.getElementById('id_img-title');
-	var desc_field = document.getElementById('id_img-description');
-	var tag_field = document.getElementById('id_img-tags');
-	var img_field = document.getElementById('id_img-file');
-	var img_field_path = document.getElementById('id_img-file-path');
+		gallery_title.append(tag);
+		const tag_gallery = $('<div>', {'class': 'gallery tag-' + tag});
+		tag_gallery.prepend(response);
 
-	var formdata = new FormData();
-	formdata.append("img-file", img_field.files[0]);
-	formdata.append("img-title", title_field.value);
-	formdata.append('img-tags', tag_field.value);
-	formdata.append("img-description", desc_field.value);
+		gallery_header.append(gallery_title);
+		gallery_row.append(gallery_header);
+		gallery_row.append(tag_gallery);
+		column.append(gallery_row);
+		galleries.append(column);
+	}
+	else
+	{
+		const response = e.detail.response;
+		gallery.prepend(response);
+	}
 
-	// Upload the image
-	var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-	$.ajax({
-		type:'POST',
-		url: "/files/image-upload/",
-		headers: {
-			'X-CSRFToken': csrftoken 
-		},
-		data: formdata,
-		contentType: false,
-		processData: false,
-		success: function(response){
-			// Add the uploaded image to the gallery immediately
-			const gallery = $('.tag-' + tag_field.value);
-			if (!gallery || !gallery.length)
-			{
-				// New tag/category, so we need to make a new gallery for it
-				const galleries = $('.tag-galleries');
-
-				const column = $('<div>', {'class': 'col s12'});
-				const gallery_row = $('<div>', {'class': 'row'});
-				const gallery_header = $('<div>', {'class': 'col s12 hs-green white-text'});
-				const gallery_title = $('<h4>', {'class': 'category-header'});
-				gallery_title.append(tag_field.value);
-
-				const tag_gallery = $('<div>', {'class': 'gallery tag-' + tag_field.value});
-				tag_gallery.prepend(response);
-
-				gallery_header.append(gallery_title);
-				gallery_row.append(gallery_header);
-				gallery_row.append(tag_gallery);
-				column.append(gallery_row);
-				galleries.append(column);
-			}
-			else
-			{
-				gallery.prepend(response);
-			}
-
-			M.toast( { html: 'Bildet er lastet opp og kan velges fra galleriet' });
-			M.Modal.getInstance(uploadModal).close();
-
-			// Clear the form
-			title_field.value = '';
-			desc_field.value = '';
-			tag_field.value = 'Usortert';
-			img_field_path.value = '';
-			img_field.value = null;
-		},
-		error: function(response) {
-			M.toast( { html: 'Noe gikk galt under bildeopplastningen' });
-			console.log(response);
-		}
-	});
+	M.toast({ html: 'Bildet er lastet opp og kan velges fra galleriet' });
 });
 </script>

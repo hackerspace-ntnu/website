@@ -66,11 +66,11 @@
 					<li><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
 					<li><a class="waves-effect" href="{% url 'member-list' %}">Medlemmer</a></li>
 					<li><a class="waves-effect" href="{% url 'reservations:queue_list' %}">Reservasjoner</a></li>
-					<li><a class="waves-effect" href="{% url 'about' %}">Om Oss</a></li>
+					<li><a class="waves-effect" href="{% url 'about' %}">Om oss</a></li>
 
 					<li><div class="divider"></div></li>
 					{% if user.is_authenticated %}
-					<li><a class="waves-effect" href="{% url 'auth:logout' %}">Logg Ut</a></li>
+					<li><a class="waves-effect" href="{% url 'auth:logout' %}">Logg ut</a></li>
 					{% else %}
 					<li><a class="waves-effect" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
 					{% endif %}
@@ -78,14 +78,14 @@
 					<ul id="userdropdown" class="dropdown-content">
 						{% if user.is_authenticated %}
 						<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
-						<li><a href="{% url 'auth:logout' %}">Logg Ut</a></li>
+						<li><a href="{% url 'auth:logout' %}">Logg ut</a></li>
 						{% else %}
-						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg Inn</a></li>
+						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
 						{% endif %}
 					</ul>
 					<!-- Dropdown for resurser -->
 					<ul id="resourcedropdown" class="dropdown-content">
-						<li class="tooltipped" data-position="left" data-tooltip="Trykk meg for å se hvor vi befinner oss">
+						<li class="tooltipped" data-position="left" data-tooltip="Se hvor vi befinner oss">
 							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="http://bit.ly/2RXBJMd">Kart</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se liste over medlemmer">
@@ -95,7 +95,7 @@
 							<a href="{% url 'reservations:queue_list' %}">Reservasjoner</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
-							<a href="{% url 'about' %}">Om Oss</a>
+							<a href="{% url 'about' %}">Om oss</a>
 						</li>
 						{% if user.is_staff %}
 						<li class="tooltipped" data-position="left" data-tooltip="Administratorpanel for viktige folk">

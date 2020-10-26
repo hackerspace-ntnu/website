@@ -7,16 +7,17 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
+
 class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image
     success_url = '/files/images'
     permission_required = "files.delete_image"
 
 class ImageListView(PermissionRequiredMixin, ListView):
-    queryset = Image.objects.order_by('-time')
+    queryset = Image.objects.order_by('tags', '-time')
     template_name = 'files/images.html'
-    permission_required = "files.view_image"
-
+    permission_required = 'files.view_image'
+    context_object_name = 'images'
 
 class ImageView(PermissionRequiredMixin, View):
     permission_required = "files.view_image"

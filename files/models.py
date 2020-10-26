@@ -5,10 +5,7 @@ from django.core.files.base import ContentFile
 
 
 def get_default_category():
-    return FileCategory.objects.get_or_create(name='Diverse')[0]
-
-def get_default_category_id():
-    return get_default_category().id
+    return FileCategory.objects.get_or_create(name='Diverse')[0].id
 
 
 class FileCategory(models.Model):
@@ -29,7 +26,7 @@ class Image(models.Model):
 
     img_category = models.ForeignKey(
         FileCategory,
-        default=get_default_category().id,
+        default=get_default_category,
         on_delete=models.CASCADE,
         verbose_name='Kategori',
     )

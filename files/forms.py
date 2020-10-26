@@ -5,9 +5,4 @@ from .models import Image
 class ImageForm(ModelForm):
     class Meta:
         model = Image
-        fields = ['description', 'title', 'tags', 'file']
-        widgets = {
-            'description': TextInput()
-        }
-
-
+        fields = ['title', 'img_category', 'file']

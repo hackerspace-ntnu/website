@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Image
 from .forms import ImageForm
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView, View
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, View
 from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,7 @@ class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "files.delete_image"
 
 class ImageListView(PermissionRequiredMixin, ListView):
-    queryset = Image.objects.order_by('tags', '-time')
+    queryset = Image.objects.order_by('category', '-time')
     template_name = 'files/images.html'
     permission_required = 'files.view_image'
     context_object_name = 'images'
@@ -30,7 +30,7 @@ def imageUpload(request):
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES, prefix='img')
         if form.is_valid():
-            image = form.save(commit = False)
+            image = form.save(commit=False)
             image.save()
             return render(request, 'files/single-image.html', {'image':image})
         else:

@@ -11,7 +11,8 @@ function resize(e){
 
 //konstanter
 const pull = 0.5
-const g = 0.5
+const g = 0.3
+const gameSpeed = 2
 resize()
 window.addEventListener("resize", resize)
 
@@ -49,7 +50,7 @@ let player = {
     grounded: true,
     pos: new Vector2(0, h-15),
     vel: new Vector2(0, 0),
-    groundedVel: new Vector2(2, 0),
+    groundedVel: new Vector2(0, 0),
     attachedHook: undefined
 
 }
@@ -66,7 +67,7 @@ function update(){
         }
         else{
             player.vel.y += g
-            player.vel.x *= 0.99
+            player.vel.x *= 0.994
             
             player.pos.add(player.vel)
 

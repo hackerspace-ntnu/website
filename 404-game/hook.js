@@ -28,11 +28,11 @@ function keyDownHandler(e){
     //space
     if(e.keyCode == 32 && !player.attachedHook){
         player.grounded = false
-        player.vel = new Vector2(0, 0)
+        // player.vel = new Vector2(0, 0)
         player.attachedHook = findClosestHook()
     }
 }
-let hooks = [new Hook(300, h/2), new Hook(1200, h/2)]
+let hooks = [new Hook(0, h/2), new Hook(w/3, h/2), new Hook(w/3*2, h/2)]
 
 function findClosestHook(){
     let closestHook;

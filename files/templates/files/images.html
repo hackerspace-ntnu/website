@@ -2,12 +2,20 @@
 {% load static %}
 
 {% block content %}
+{% include "files/_image_admin_banner.html" %}
+
 <div class="section">
 	<div class="container">
+		{% if object_list %}
 		<div class="row imageList">
 		{% for image in object_list %}
 		{% include "files/single-image-edit.html" %}
 		{% endfor %}
+		{% else %}
+		<div class="center">
+			<h4>Galleriet er tomt</h4>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock content %}

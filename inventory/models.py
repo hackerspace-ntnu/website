@@ -10,7 +10,7 @@ class Item(models.Model):
     name = models.CharField('Navn', max_length=50)
     stock = models.IntegerField('Lagerbeholdning', validators=[MinValueValidator(0)])
     description = RichTextUploadingField('Beskrivelse', blank=True)
-    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
+    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Bilde')
 
     views = models.IntegerField('Detaljsidevisninger', default=0, editable=True)
 

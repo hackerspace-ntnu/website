@@ -51,7 +51,7 @@
                 <ul class="collection">
                     {% for item in items %}
                     <li class="collection-item avatar  valign-wrapper">
-                        <img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
+                        <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
                         <a href="{% url 'inventory:item' item.id %}" class="truncate">
                             {{ item.name }}
                             <p style="color: #000 !important">

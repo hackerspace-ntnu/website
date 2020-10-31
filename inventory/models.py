@@ -1,13 +1,14 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from files.models import Image
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 class Item(models.Model):
     '''Represents a single item in inventory'''
 
     name = models.CharField('Navn', max_length=50)
-    stock = models.IntegerField('Lagerbeholdning')
+    stock = models.IntegerField('Lagerbeholdning', validators=[MinValueValidator(0)])
     description = RichTextUploadingField('Beskrivelse', blank=True)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True)
 

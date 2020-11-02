@@ -3,15 +3,33 @@ from django.utils import timezone
 from sorl.thumbnail import get_thumbnail
 from django.core.files.base import ContentFile
 
+
+def get_default_category():
+    return FileCategory.objects.get_or_create(name='Diverse')[0].id
+
+
+class FileCategory(models.Model):
+    '''General purpose category for files'''
+    name = models.CharField(max_length=50, unique=True, verbose_name='Kategori')
+
+    def __str__(self):
+        return self.name
+
+
 class Image(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Title')
-    description = models.TextField(max_length=100, blank=True, verbose_name='Description')
-    tags = models.CharField(max_length=100, verbose_name='Tags')
+    title = models.CharField(max_length=100, verbose_name='Tittel')
     time = models.DateTimeField(default=timezone.now)
     file = models.ImageField(upload_to='images')
     thumb = models.ImageField(upload_to='thumbnails', null=True)
     compressed = models.ImageField(upload_to='compressed', null=True)
     number = models.IntegerField(default=0)
+
+    img_category = models.ForeignKey(
+        FileCategory,
+        default=get_default_category,
+        on_delete=models.CASCADE,
+        verbose_name='Kategori',
+    )
 
     def __str__(self):
         if self.number > 1:

@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .models import Image
+from .models import Image, FileCategory
 from .forms import ImageForm
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView, View
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, View
 from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+
 
 class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image
@@ -13,10 +14,20 @@ class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "files.delete_image"
 
 class ImageListView(PermissionRequiredMixin, ListView):
-    queryset = Image.objects.order_by('-time')
+    queryset = Image.objects.order_by('img_category', '-time')
     template_name = 'files/images.html'
-    permission_required = "files.view_image"
+    permission_required = 'files.view_image'
+    context_object_name = 'categories'
 
+    def get_queryset(self):
+        images = Image.objects.all()
+        categorized = {}
+
+        for category in FileCategory.objects.all().order_by('name'):
+            category_images = Image.objects.filter(img_category=category).order_by('-time')
+            if category_images:
+                categorized[category.name] = category_images
+        return categorized
 
 class ImageView(PermissionRequiredMixin, View):
     permission_required = "files.view_image"
@@ -29,7 +40,7 @@ def imageUpload(request):
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES, prefix='img')
         if form.is_valid():
-            image = form.save(commit = False)
+            image = form.save(commit=False)
             image.save()
             return render(request, 'files/single-image.html', {'image':image})
         else:

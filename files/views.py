@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Image
+from .models import Image, FileCategory
 from .forms import ImageForm
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, View
 from django.shortcuts import redirect, get_object_or_404
@@ -17,7 +17,17 @@ class ImageListView(PermissionRequiredMixin, ListView):
     queryset = Image.objects.order_by('img_category', '-time')
     template_name = 'files/images.html'
     permission_required = 'files.view_image'
-    context_object_name = 'images'
+    context_object_name = 'categories'
+
+    def get_queryset(self):
+        images = Image.objects.all()
+        categorized = {}
+
+        for category in FileCategory.objects.all().order_by('name'):
+            category_images = Image.objects.filter(img_category=category).order_by('-time')
+            if category_images:
+                categorized[category.name] = category_images
+        return categorized
 
 class ImageView(PermissionRequiredMixin, View):
     permission_required = "files.view_image"

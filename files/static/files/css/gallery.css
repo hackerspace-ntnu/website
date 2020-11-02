@@ -1,0 +1,16 @@
+.gallery-content {
+    padding: 0 0 !important;
+    overflow-x: hidden;
+}
+
+.gallery-header {
+    padding: 24px;
+}
+
+.category-header {
+    margin: 1rem 1rem !important;
+}
+
+.gallery {
+    padding: 0 1rem;
+}

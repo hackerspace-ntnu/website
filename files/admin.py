@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Image
+from .models import Image, FileCategory
+
+admin.site.register(FileCategory)
 
 @admin.register(Image)
 class IllustrationAdmin(admin.ModelAdmin):
@@ -7,7 +9,7 @@ class IllustrationAdmin(admin.ModelAdmin):
         ('Image', {
             'fields': [
                 'title',
-                'tags',
+                'img_category',
                 'file',
             ]
         }),

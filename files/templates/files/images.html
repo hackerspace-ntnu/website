@@ -1,13 +1,33 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="section">
+{% include "files/_image_admin_banner.html" %}
+
+{% if categories %}
+{% for category, images in categories.items %}
+<div class="section hs-green white-text">
 	<div class="container">
-		<div class="row imageList">
-		{% for image in object_list %}
-		{% include "files/single-image-edit.html" %}
-		{% endfor %}
+		<h4 class="category-header">{{ category }}</h4>
 	</div>
 </div>
+
+<div class="section">
+	<div class="container">
+		<div class="row">
+			{% for image in images %}
+			{% include 'files/single-image-edit.html' %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% else %}
+<div class="center">
+	<h4>Galleriet er tomt</h4>
+</div>
+{% endif %}
 {% endblock content %}

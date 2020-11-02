@@ -55,13 +55,12 @@
                                 {{ app.contact_name }}
                             </p>
                             <p style="color: #000 !important">
-                                {% if app.overdue %}
-                                <div class="hs-red-text">
-                                {% endif %}
-                                <i class="material-icons">access_alarm</i>
+                                {% if not app.returned_date %}
+                                <i class="material-icons {% if app.overdue %}hs-red-text{% endif %}">access_alarm</i>
                                 {{ app.loan_to }}
-                                {% if app.overdue %}
-                                </div>
+                                {% else %}
+                                <i class="material-icons hs-green-text">check</i>
+                                Levert
                                 {% endif %}
                             </p>
                         </a>

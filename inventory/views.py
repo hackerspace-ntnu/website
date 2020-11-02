@@ -1,13 +1,17 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.http import HttpResponseRedirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from .models import Item
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
+from .models import Item, ItemLoan
 
 
 class InventoryListView(ListView):
+    '''Searchable list of items in inventory'''
+
     model = Item
     paginate_by = 15
     template_name = 'inventory/inventory.html'
@@ -40,6 +44,8 @@ class InventoryListView(ListView):
         return context
 
 class ItemDetailView(DetailView):
+    '''Detail view for individual inventory items'''
+
     model = Item
     template_name = 'inventory/item_detail.html'
 
@@ -54,6 +60,8 @@ class ItemDetailView(DetailView):
         return obj
 
 class ItemCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+    '''View for creating new inventory items'''
+
     model = Item
     fields = ['name', 'stock', 'description', 'thumbnail']
     template_name = 'inventory/edit_item.html'
@@ -73,6 +81,8 @@ class ItemCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         return super().form_invalid(form)
 
 class ItemUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+    '''View for updating inventory items'''
+
     model = Item
     fields = ['name', 'stock', 'description', 'thumbnail']
     template_name = 'inventory/edit_item.html'
@@ -89,6 +99,8 @@ class ItemUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
         return super().form_valid(form)
 
 class ItemDeleteView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+    '''View for deleting inventory items'''
+
     model = Item
     permission_required = 'inventory.delete_item'
     success_url = reverse_lazy('inventory:inventory')
@@ -97,3 +109,83 @@ class ItemDeleteView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+
+
+class ItemLoanListView(ListView, PermissionRequiredMixin):
+    '''View for viewing all loan applications'''
+
+    model = ItemLoan
+    permission_required = 'inventory.view_itemloan'
+    template_name = 'inventory/loan_applications.html'
+    context_object_name = 'applications'
+
+    def get_queryset(self):
+        application_filter = self.request.GET.get('filter', '')
+        name_filter = self.request.GET.get('filter_name', '')
+
+        applications = ItemLoan.objects.all()
+        if application_filter == 'overdue':
+            # very roundabout way but we need applications to be a queryset
+            applications = ItemLoan.objects.filter(id__in=[app for app in applications if app.overdue()])
+        elif application_filter == 'not_approved':
+            applications = ItemLoan.objects.filter(approver__isnull=True)
+        elif application_filter == 'open':
+            applications = ItemLoan.objects.filter(returned_date__isnull=True)
+        elif application_filter == 'closed':
+            applications = ItemLoan.objects.filter(returned_date__isnull=False)
+        
+        # Additionally filter by the name of the applicant
+        if name_filter:
+            applications = applications.filter(contact_name__contains=name_filter)
+
+        return applications.order_by('loan_to')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.request.GET.get('filter', '')
+        context['filter_name'] = self.request.GET.get('filter_name', '')
+        return context
+
+
+class ItemLoanDetailView(DetailView, PermissionRequiredMixin):
+    '''View for a single loan application'''
+    
+    model = ItemLoan
+    permission_required = 'inventory.view_itemloan'
+    template_name = 'inventory/loan_detail.html'
+    context_object_name = 'app'
+
+
+class ItemLoanApproveView(TemplateView, PermissionRequiredMixin, SuccessMessageMixin):
+    '''Endpoint for approving loans'''
+
+    permission_required = 'inventory.view_itemloan'
+    success_message = 'Lånet er godkjent'
+
+    def get(self, request, pk=None):
+        if not pk:
+            return HttpResponseRedirect(reverse('inventory:loans'))
+
+        application = get_object_or_404(ItemLoan, id=pk)
+        application.loan_from = timezone.now()
+        application.approver = request.user
+        application.save()
+
+        return HttpResponseRedirect(reverse('inventory:loan_application', kwargs={'pk': pk}))
+
+
+class ItemLoanReturnedView(TemplateView, PermissionRequiredMixin, SuccessMessageMixin):
+    '''Endpoint for marking loans as returned'''
+
+    permission_required = 'inventory.view_itemloan'
+    success_message = 'Lånet er markert som levert'
+
+    def get(self, request, pk=None):
+        if not pk:
+            return HttpResponseRedirect(reverse('inventory:loans'))
+
+        application = get_object_or_404(ItemLoan, id=pk)
+        application.returned_date = timezone.now()
+        application.save()
+
+        return HttpResponseRedirect(reverse('inventory:loan_application', kwargs={'pk': pk}))

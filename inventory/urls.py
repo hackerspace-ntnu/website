@@ -9,4 +9,9 @@ urlpatterns = [
     path('new', views.ItemCreateView.as_view(), name='new'),
     path('edit/<int:pk>', views.ItemUpdateView.as_view(), name='edit'),
     path('delete/<int:pk>', views.ItemDeleteView.as_view(), name='delete'),
+
+    path('loans/', views.ItemLoanListView.as_view(), name='loans'),
+    path('loans/<int:pk>', views.ItemLoanDetailView.as_view(), name='loan_application'),
+    path('loans/approve/<int:pk>', views.ItemLoanApproveView.as_view(), name='loan_approve'),
+    path('loans/returned/<int:pk>', views.ItemLoanReturnedView.as_view(), name='loan_returned'),
 ]

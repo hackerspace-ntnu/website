@@ -10,10 +10,10 @@ function resize(e){
 
 
 //konstanter
-const pull = 0.5
+const pull = 0.1
 const g = 0.2
 const gameSpeed = 3
-const hookDistance = 800
+const hookDistance = 500
 resize()
 window.addEventListener("resize", resize)
 
@@ -47,22 +47,26 @@ class Vector2{
     }
 }
 
-let player = {
-    grounded: true,
-    pos: new Vector2(0, h-15),
-    vel: new Vector2(0, 0),
-    groundedVel: new Vector2(0, 0),
-    attachedHook: undefined,
-    closestHook: undefined
-
+function reset(){
+    player.grounded = true
+    player.pos = new Vector2(0, h/2)
+    player.vel = new Vector2(0, 0)
+    player.attachedHook = undefined
+    player.closestHook = undefined
 }
+
+let player = {}
+reset()
+console.log(player)
 
 function update(){
     if(player.attachedHook){
         if(player.attachedHook.pos.subtract(player.pos).mag() > hookDistance) player.attachedHook = undefined
         else{
             const deltaVector = player.attachedHook.pos.subtract(player.pos)
-            player.acc = deltaVector.normalized(pull) 
+            player.acc = deltaVector.normalized(pull)
+            if(player.acc.x > 0) player.acc.x *= 4
+            if(player.acc.y < 0) player.acc.y *= 6
             player.vel.add(player.acc)
             player.vel.y += g
             player.pos.add(player.vel)
@@ -70,7 +74,7 @@ function update(){
     }
     else{
         if(player.grounded){
-            player.pos.add(player.groundedVel)
+            player.vel = new Vector2(0, 0)
         }
         else{
             player.vel.y += g
@@ -83,8 +87,8 @@ function update(){
                 player.grounded = true
             }
         }
-
     }
+    if(player.pos.x < 0) reset()
 }
 
 function draw(){
@@ -102,6 +106,8 @@ function draw(){
         c.closePath()
     }
 }
+
+
 
 
 

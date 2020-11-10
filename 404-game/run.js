@@ -1,27 +1,25 @@
 
 function loop(){
     requestAnimationFrame(loop)
+    // c.clearRect(0, 0, w, h)
+    c.fillStyle = "beige"
+    c.rect(0, 0, w, h)
+    c.fill()
+
+    
+
     c.save()
     //translate camera
     if(player.pos.y < 0){
         c.translate(0, -player.pos.y + 30)
     }
-    else if(player.pos.y > h){
-        c.translate(0, h-player.pos.y - 30)
-    }
-    if(player.pos.x < 0){
-        c.translate(-player.pos.x + 30, 0)
-    }
     else if(player.pos.x > w){
-        c.translate(0, w-player.pos.x - 30)
+        c.translate(w-player.pos.x + 30, 0)
     }
 
-    // c.clearRect(0, 0, w, h)
-    c.fillStyle = "beige"
-    c.rect(0, 0, w, h)
-    c.fill()
     update()
     draw()
+
 
     let closest = undefined
     let smallestdist = Infinity
@@ -37,7 +35,7 @@ function loop(){
         }
         hooks[i].draw()
     }
-    if(closest){
+    if(closest && !player.attachedHook){
         //tegn linje til nærmeste path
         c.beginPath()
         c.save()

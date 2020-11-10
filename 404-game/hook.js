@@ -32,7 +32,7 @@ function keyDownHandler(e){
         player.attachedHook = findClosestHook()
     }
 }
-let hooks = [new Hook(0, h/2), new Hook(w/3, h/2), new Hook(w/3*2, h/2)]
+let hooks = [new Hook(0, 100), new Hook(w/3, 100), new Hook(w/3*2, 100)]
 
 function findClosestHook(){
     let closestHook;

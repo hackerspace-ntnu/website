@@ -13,5 +13,7 @@ urlpatterns = [
     path('loans/', views.ItemLoanListView.as_view(), name='loans'),
     path('loans/<int:pk>', views.ItemLoanDetailView.as_view(), name='loan_application'),
     path('loans/approve/<int:pk>', views.ItemLoanApproveView.as_view(), name='loan_approve'),
+    path('loans/deny/<int:pk>', views.ItemLoanDeclineView.as_view(), name='loan_deny'),
     path('loans/returned/<int:pk>', views.ItemLoanReturnedView.as_view(), name='loan_returned'),
+    path('loans/apply/<int:pk>', views.ItemLoanApplicationView.as_view(), name='loan_apply'),
 ]

@@ -126,14 +126,12 @@ class ItemLoanListView(ListView, PermissionRequiredMixin):
         applications = ItemLoan.objects.all()
         if application_filter == 'overdue':
             # very roundabout way but we need applications to be a queryset
-            applications = ItemLoan.objects.filter(id__in=[app for app in applications if app.overdue()])
+            applications = ItemLoan.objects.filter(id__in=[app.id for app in applications if app.overdue()])
         elif application_filter == 'not_approved':
             applications = ItemLoan.objects.filter(approver__isnull=True)
         elif application_filter == 'open':
-            applications = ItemLoan.objects.filter(returned_date__isnull=True)
-        elif application_filter == 'closed':
-            applications = ItemLoan.objects.filter(returned_date__isnull=False)
-        
+            applications = ItemLoan.objects.filter(approver__isnull=False)
+
         # Additionally filter by the name of the applicant
         if name_filter:
             applications = applications.filter(contact_name__contains=name_filter)
@@ -174,18 +172,44 @@ class ItemLoanApproveView(TemplateView, PermissionRequiredMixin, SuccessMessageM
         return HttpResponseRedirect(reverse('inventory:loan_application', kwargs={'pk': pk}))
 
 
-class ItemLoanReturnedView(TemplateView, PermissionRequiredMixin, SuccessMessageMixin):
-    '''Endpoint for marking loans as returned'''
+class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin, SuccessMessageMixin):
+    '''Endpoint for deleting/rejecting loans'''
 
-    permission_required = 'inventory.view_itemloan'
-    success_message = 'Lånet er markert som levert'
+    model = ItemLoan
+    permission_required = 'inventory.delete_itemloan'
+    success_message = 'Lånet er avslått'
+    success_url = reverse_lazy('inventory:loans')
 
-    def get(self, request, pk=None):
-        if not pk:
-            return HttpResponseRedirect(reverse('inventory:loans'))
+    # Bypass the confirmation (we use a modal)
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
-        application = get_object_or_404(ItemLoan, id=pk)
-        application.returned_date = timezone.now()
-        application.save()
 
-        return HttpResponseRedirect(reverse('inventory:loan_application', kwargs={'pk': pk}))
+class ItemLoanReturnedView(DeleteView, PermissionRequiredMixin, SuccessMessageMixin):
+    '''Endpoint for returning loans (deletes them)'''
+
+    model = ItemLoan
+    permission_required = 'inventory.delete_itemloan'
+    success_message = 'Lånesøknaden er lukket'
+    success_url = reverse_lazy('inventory:loans')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
+class ItemLoanApplicationView(CreateView, SuccessMessageMixin):
+    '''View for applying for loans'''
+
+    model = ItemLoan
+    fields = [
+        'item', 'amount', 'loan_to', 'purpose',
+        'contact_name', 'contact_phone', 'contact_email', 'consent'
+    ]
+    template_name = 'inventory/loan_apply.html'
+    success_message = 'Søknaden er registrert!'
+    success_url = reverse_lazy('inventory:inventory')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['item'] = Item.objects.get(id=self.kwargs['pk'])
+        return context

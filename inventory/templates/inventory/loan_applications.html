@@ -28,7 +28,6 @@
                         <option value="not_approved" {% if filter == "not_approved" %}selected{% endif %}>Ikke godkjent</option>
                         <option value="overdue" {% if filter == "overdue" %}selected{% endif %}>På overtid</option>
                         <option value="open" {% if filter == "open" %}selected{% endif %}>Ikke levert</option>
-                        <option value="closed" {% if filter == "closed" %}selected{% endif %}>Lukket</option>
                     </select>
                     <label>Filter</label>
                 </div>
@@ -55,10 +54,7 @@
                                 {{ app.contact_name }}
                             </p>
                             <p style="color: #000 !important">
-                                {% if app.returned_date %}
-                                <i class="material-icons hs-green-text">check</i>
-                                Levert
-                                {% elif not app.approver %}
+                                {% if not app.approver %}
                                 <i class="material-icons hs-red-text">close</i>
                                 Ikke godkjent
                                 {% else %}

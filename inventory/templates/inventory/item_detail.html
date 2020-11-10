@@ -25,6 +25,7 @@
                 {% endif %}
                  på lager
             </h6>
+            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
             {% if item.description %}
             <div class="divider"></div>
             {% autoescape off %}

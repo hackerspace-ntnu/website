@@ -24,17 +24,6 @@
                         {% endif %}
                     </p>
                 </div>
-                <div class="col s12 m12">
-                    <p>
-                        {% if app.returned_date %}
-                            <i class="material-icons hs-green-text">check</i>
-                            Levert tilbake {{ app.returned_date }}
-                        {% else %}
-                            <i class="material-icons hs-red-text">close</i>
-                            Ikke levert
-                        {% endif %}
-                    </p>
-                </div>
             </div>
 
             <div class="divider"></div>
@@ -91,18 +80,23 @@
             </div>
 
             <div class="divider"></div>
-            {% if app.approver and not app.returned_date or not app.approver %}
             <div class="invisible-divider-large"></div>
             <div class="row">
                 <div class="col s12">
-                    {% if app.approver and not app.returned_date %}
-                        <a class="waves-effect waves-light btn modal-trigger hs-green" href="#return-loan-modal">Marker som levert</a>
-                    {% elif not app.approver %}
-                    <a class="waves-effect waves-light btn modal-trigger hs-green" href="#approve-loan-modal">Godkjenn søknad</a>
-                    {% endif %}
+                    <div class="row">
+                        {% if app.approver %}
+                        <a class="waves-effect waves-light btn modal-trigger hs-green col s12" href="#return-loan-modal">Marker som levert</a>
+                        {% elif not app.approver %}
+                        <a class="waves-effect waves-light btn modal-trigger hs-green col s12 m5" href="#approve-loan-modal">Godkjenn søknad</a>
+                        <div class="col s12 hide-on-med-and-up">
+                            <div class="invisible-divider-large"></div>
+                        </div>
+                        <a class="waves-effect waves-light btn modal-trigger hs-red col s12 m5 offset-m2" href="#reject-loan-modal">Avslå søknad</a>
+                        {% endif %}
+                    </div>
+                    
                 </div>
             </div>
-            {% endif %}
         </div>
     </div>
 </div>

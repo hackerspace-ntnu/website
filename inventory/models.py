@@ -35,9 +35,9 @@ class Item(models.Model):
         return self.views
 
 
-def validate_true(boolean):
+def validate_consent(boolean):
     if boolean is not True:
-        raise ValidationError('{} is not True'.format(boolean))
+        raise ValidationError('Du må samtykke til at vi kan lagre kontaktinformasjon')
 
 
 class ItemLoan(models.Model):
@@ -48,7 +48,7 @@ class ItemLoan(models.Model):
 
     # Automatically set once the application is accepted
     loan_from = models.DateField('Utlånt fra', default=timezone.now, blank=True)
-    loan_to = models.DateField('Utlånt til')
+    loan_to = models.DateField('Lån til')
     purpose = models.CharField('Formål', max_length=50)
 
     # Personal information
@@ -61,16 +61,10 @@ class ItemLoan(models.Model):
     contact_email = models.EmailField('Utlåners epost')
     # Simply to store and prove that the user consented to having
     # their personal info stored for the duration of the loan
-    consent = models.BooleanField('Datalagringssamtykke', blank=False, validators=[validate_true])
+    consent = models.BooleanField('Datalagringssamtykke', blank=False, validators=[validate_consent])
 
     approver = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Godkjenner')
-    returned_date = models.DateField('Tilbakelevert på dato', default=None, null=True, blank=True)
 
     def overdue(self):
         '''Checks if the loan is overdue for return'''
-        return timezone.now().date() > self.loan_to and not self.returned_date
-
-    def returned(self):
-        '''Marks the item as returned, closing the application'''
-        self.returned_date = timezone.now()
-        self.save()
+        return timezone.now().date() > self.loan_to

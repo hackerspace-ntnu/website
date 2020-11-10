@@ -10,10 +10,22 @@
     </div>
 </div>
 
+<div id="reject-loan-modal" class="modal">
+    <div class="modal-content">
+        <h4>Avslå søknad</h4>
+        <p>Er du sikker? Søknaden slettes når den blir avslått.</p>
+    </div>
+
+    <div class="modal-footer">
+        <a href="{% url 'inventory:loan_deny' app.id %}" class="btn hs-red">Ja</a>
+        <a href="#!" class="modal-close btn hs-green">Nei</a>
+    </div>
+</div>
+
 <div id="return-loan-modal" class="modal">
     <div class="modal-content">
         <h4>Marker som levert</h4>
-        <p>Før du markerer søknaden som levert er det viktig at du sjekker at utlånsobjektet er i god tilstand.</p>
+        <p>Før du markerer søknaden som levert er det viktig at du sjekker at utlånsobjektet er i god tilstand. Søknaden slettes når den markeres som levert.</p>
     </div>
 
     <div class="modal-footer">

@@ -91,6 +91,7 @@ class ItemUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = 'Lagerinnslaget er oppdatert.'
 
     def get_success_url(self):
+        messages.success(self.request, self.success_message)
         return reverse('inventory:item', kwargs={'pk': self.object.id})
 
     def form_valid(self, form):
@@ -99,13 +100,18 @@ class ItemUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
             return self.render_to_response(self.get_context_data(form=form))
         return super().form_valid(form)
 
-class ItemDeleteView(PermissionRequiredMixin, SuccessMessageMixin, DeleteView):
+
+class ItemDeleteView(PermissionRequiredMixin, DeleteView):
     '''View for deleting inventory items'''
 
     model = Item
     permission_required = 'inventory.delete_item'
     success_url = reverse_lazy('inventory:inventory')
     success_message = 'Lagerinnslaget er fjernet.'
+
+    def get_success_url(self):
+        messages.success(self.request, self.success_message)
+        return self.success_url
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
@@ -148,18 +154,22 @@ class ItemLoanListView(ListView, PermissionRequiredMixin):
 
 class ItemLoanDetailView(DetailView, PermissionRequiredMixin):
     '''View for a single loan application'''
-    
+
     model = ItemLoan
     permission_required = 'inventory.view_itemloan'
     template_name = 'inventory/loan_detail.html'
     context_object_name = 'app'
 
 
-class ItemLoanApproveView(TemplateView, PermissionRequiredMixin, SuccessMessageMixin):
+class ItemLoanApproveView(TemplateView, PermissionRequiredMixin):
     '''Endpoint for approving loans'''
 
     permission_required = 'inventory.view_itemloan'
     success_message = 'Lånet er godkjent'
+
+    def get_success_url(self, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super().get_success_url(self, *args, **kwargs)
 
     def get(self, request, pk=None):
         if not pk:
@@ -173,7 +183,7 @@ class ItemLoanApproveView(TemplateView, PermissionRequiredMixin, SuccessMessageM
         return HttpResponseRedirect(reverse('inventory:loan_application', kwargs={'pk': pk}))
 
 
-class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin, SuccessMessageMixin):
+class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin):
     '''Endpoint for deleting/rejecting loans'''
 
     model = ItemLoan
@@ -181,18 +191,26 @@ class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin, SuccessMessageMix
     success_message = 'Lånet er avslått'
     success_url = reverse_lazy('inventory:loans')
 
+    def get_success_url(self):
+        messages.success(self.request, self.success_message)
+        return self.success_url
+
     # Bypass the confirmation (we use a modal)
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
 
-class ItemLoanReturnedView(DeleteView, PermissionRequiredMixin, SuccessMessageMixin):
+class ItemLoanReturnedView(DeleteView, PermissionRequiredMixin):
     '''Endpoint for returning loans (deletes them)'''
 
     model = ItemLoan
     permission_required = 'inventory.delete_itemloan'
     success_message = 'Lånesøknaden er lukket'
     success_url = reverse_lazy('inventory:loans')
+
+    def get_success_url(self):
+        messages.success(self.request, self.success_message)
+        return self.success_url
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)

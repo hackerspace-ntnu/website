@@ -18,19 +18,26 @@
             <h6>
                 {% if item.in_stock %}
                 <i class="material-icons hs-green-text">done</i>
-                <b>{{ item.stock }} stk.</b>
+                <b>{{ item.available }} stk.</b>
                 {% else %}
                 <i class="material-icons hs-red-text">do_not_disturb</i>
                 <b>Ingen</b>
                 {% endif %}
-                 på lager
+                 på lager{% if item.amount_loaned > 0 %},{% endif %}
+                {% if item.amount_loaned > 0 %}
+                <b>{{ item.amount_loaned }} stk.</b>
+                er lånt ut
+                {% endif %}
             </h6>
-            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
             {% if item.description %}
             <div class="divider"></div>
             {% autoescape off %}
             {{ item.description }}
             {% endautoescape %}
+            {% endif %}
+
+            {% if item.in_stock %}
+            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
             {% endif %}
         </div>
     </div>

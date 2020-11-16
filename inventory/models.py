@@ -22,12 +22,24 @@ class Item(models.Model):
 
     def in_stock(self):
         '''Whether or not the item is in stock'''
-        return self.stock > 0
+        return self.available() > 0
+    
+    def amount_loaned(self):
+        '''Returns how many of this item was loaned out'''
+        try:
+            loans = ItemLoan.objects.filter(item=self.id, approver__isnull=False)
+            return len(loans)
+        except ItemLoan.DoesNotExist:
+            return 0
+
+    def available(self):
+        '''Returns how many items are realistically available'''
+        return self.stock - self.amount_loaned()
 
     def popularity(self):
         '''
         Returns a measure of popularity for this item
-        
+
         For now, this is just the amount of detail page views the item has gotten
         In the future, this may be expanded to weigh other statistics, such as
         how frequently the item is loaned.

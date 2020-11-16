@@ -1,7 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
@@ -60,7 +59,7 @@ class ItemDetailView(DetailView):
         obj.save()
         return obj
 
-class ItemCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
+class ItemCreateView(PermissionRequiredMixin, CreateView):
     '''View for creating new inventory items'''
 
     model = Item
@@ -70,6 +69,7 @@ class ItemCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = 'Gjenstanden er ført inn i lagersystemet.'
 
     def get_success_url(self):
+        messages.success(self.request, self.success_message)
         return reverse('inventory:item', kwargs={'pk': self.object.id})
 
     def form_valid(self, form):
@@ -81,7 +81,7 @@ class ItemCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
 
-class ItemUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
+class ItemUpdateView(PermissionRequiredMixin, UpdateView):
     '''View for updating inventory items'''
 
     model = Item

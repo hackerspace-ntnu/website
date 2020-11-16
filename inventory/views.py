@@ -209,6 +209,16 @@ class ItemLoanApplicationView(CreateView, SuccessMessageMixin):
     success_message = 'Søknaden er registrert!'
     success_url = reverse_lazy('inventory:inventory')
 
+    def get(self, *args, **kwargs):
+        pk = kwargs.get('pk', -1)
+        if pk == -1:
+            return super().get(*args, **kwargs)
+        
+        item = get_object_or_404(Item, id=pk)
+        if not item.available():
+            return HttpResponseRedirect(self.success_url)
+        return super().get(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['item'] = Item.objects.get(id=self.kwargs['pk'])

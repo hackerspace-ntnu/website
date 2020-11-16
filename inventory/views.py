@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -197,7 +198,7 @@ class ItemLoanReturnedView(DeleteView, PermissionRequiredMixin, SuccessMessageMi
         return self.post(request, *args, **kwargs)
 
 
-class ItemLoanApplicationView(CreateView, SuccessMessageMixin):
+class ItemLoanApplicationView(CreateView):
     '''View for applying for loans'''
 
     model = ItemLoan
@@ -209,11 +210,16 @@ class ItemLoanApplicationView(CreateView, SuccessMessageMixin):
     success_message = 'Søknaden er registrert!'
     success_url = reverse_lazy('inventory:inventory')
 
+    def get_success_url(self):
+        # SuccessMessageMixin doesn't actually work so fuck it
+        messages.success(self.request, self.success_message)
+        return self.success_url
+
     def get(self, *args, **kwargs):
         pk = kwargs.get('pk', -1)
         if pk == -1:
             return super().get(*args, **kwargs)
-        
+
         item = get_object_or_404(Item, id=pk)
         if not item.available():
             return HttpResponseRedirect(self.success_url)

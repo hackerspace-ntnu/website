@@ -18,6 +18,21 @@
 	</div>
 </div>
 {% include "news/_list_admin_banner.html" %}
+{% if drafts %}
+    <div class="section grey lighten-3">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h5 class="subheader">Dine utkast</h5>
+                    <div class="invisible-divider"></div>
+                    {% for news in drafts %}
+                        {% include "news/article_item.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 <div class="section">
 	<div class="container">
 		{% if indicator_text %}
@@ -25,37 +40,12 @@
 		{% endif %}
 		<div class="row">
 			<div class="col s12">
+                {% if drafts and object_list %}
+                    <h5 class="subheader">Publiserte artikler</h5>
+                    <div class="invisible-divider"></div>
+                {% endif %}
 				{% for news in object_list %}
-				<div class="section">
-					<div class="row no-pad-bot">
-						<div class="col s2 center hide-on-med-and-down">
-							{% if news.thumbnail %}
-							<img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.thumb_url }}">
-							{% else %}
-							<img class="circle" style="width:100px; height:100px;" src="">
-							{% endif %}
-						</div>
-						<div class="col s10 hide-on-med-and-down">
-							<span class="right badge">Publisert {{ news.pub_date }}</span>
-							<a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
-							<p>
-								{% autoescape off %}
-								{{ news.ingress_content|truncatechars:200 }}
-								{% endautoescape %}
-							</p>
-						</div>
-						<div class="col s12 show-on-med-and-down hide-on-large-only">
-							<a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
-							<p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
-							<p>
-								{% autoescape off %}
-								{{ news.ingress_content|truncatechars:200 }}
-								{% endautoescape %}
-							</p>
-						</div>
-					</div>
-				<div class="divider"></div>
-				</div>
+					{% include "news/article_item.html" %}
 				{% endfor %}
 			</div>
 		</div>

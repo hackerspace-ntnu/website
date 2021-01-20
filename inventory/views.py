@@ -6,6 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from userprofile.models import Profile
 from .models import Item, ItemLoan
 
 
@@ -233,6 +234,23 @@ class ItemLoanApplicationView(CreateView):
         messages.success(self.request, self.success_message)
         return self.success_url
 
+    def get_initial(self, *args, **kwargs):
+        user = self.request.user
+        if user and user.is_authenticated:
+            initial_form = {
+                'contact_name': '{} {}'.format(user.first_name, user.last_name),
+                'contact_email': user.email
+            }
+
+            # Phone numbers are stored separately in the associated user profile
+            profile = Profile.objects.get(user=user)
+            if profile:
+                initial_form['contact_phone'] = profile.phone_number
+
+            return initial_form
+        
+        return None
+
     def get(self, *args, **kwargs):
         pk = kwargs.get('pk', -1)
         if pk == -1:
@@ -242,6 +260,7 @@ class ItemLoanApplicationView(CreateView):
         # Go back to the inventory view if the item has no stock in inventory
         if not item.available():
             return HttpResponseRedirect(self.success_url)
+
         return super().get(*args, **kwargs)
 
     def get_context_data(self, **kwargs):

@@ -119,6 +119,8 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 #"sekizai.context_processors.sekizai",
+
+                "website.context_processors.common_info",
             ],
             'debug': DEBUG,
         }

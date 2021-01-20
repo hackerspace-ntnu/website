@@ -1,0 +1,90 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="section">
+    <div class="container">
+        <div class="card-panel">
+            <h4>Lånesøknad - {{ item.name }}</h4>
+            <p>
+                <i class="material-icons hs-green-text">done</i>
+                <b>{{ item.stock }} stk.</b> på lager
+            </p>
+            <p>Etter at du har sendt inn søknaden må du komme til verkstedet og få søknaden godkjent av vakthavende.</p>
+            <div class="divider"></div>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="item" value="{{ item.id }}">
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Lånedetaljer</h5>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        {{ form.amount }}
+                        <label for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.amount.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">date_range</i>
+                        <input type="text" class="datepicker" name="{{ form.loan_to.name }}" id="loan_to">
+                        <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_to.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.loan_to.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m12">
+                        {{ form.purpose }}
+                        <label for="{{ form.purpose.id_for_label }}">{{ form.purpose.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.purpose.errors }}</span>
+                    </div>
+
+                    <div class="col s12">
+                        <h5>Kontaktinformasjon</h5>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">person</i>
+                        {{ form.contact_name }}
+                        <label for="{{ form.contact_name.id_for_label }}">Navn</label>
+                        <span class="helper-text hs-red-text">{{ form.contact_name.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">phone</i>
+                        {{ form.contact_phone }}
+                        <label for="{{ form.contact_phone.id_for_label }}">Telefonnummer</label>
+                        <span class="helper-text hs-red-text">{{ form.contact_phone.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">email</i>
+                        {{ form.contact_email }}
+                        <label for="{{ form.contact_email.id_for_label }}">E-post</label>
+                        <span class="helper-text hs-red-text">{{ form.contact_email.errors }}</span>
+                    </div>
+
+                    <div class="col s12">
+                        <h5>Samtykke</h5>
+                        <p>
+                            Ved å sende inn denne søknaden godtar du at Hackerspace lagrer navn, telefonnummer og e-post frem til lånesøknaden lukkes.
+                            Informasjonen brukes til å loggføre hvem som har Hackerspace sine ressurser, og til å ta kontakt med deg dersom du ikke leverer tilbake lånegjenstanden til angitt tid.
+                            Søknader lukkes og informasjonen slettes permanent sammen med all kontaktinformasjon hvis de blir avslått, eller når lånegjenstanden leveres tilbake til verkstedet.
+                        </p>
+                        <label>
+                        {{ form.consent }}
+                        <span>Jeg samtykker</span>
+                        <span class="helper-text hs-red-text">{{ form.consent.errors }}</span>
+                        </label>
+                    </div>
+
+                    <div class="invisible-divider-huge col s12"></div>
+
+                    <button class="btn btn-large hs-green white-text waves-effect waves-light col s12" type="submit">Send søknad</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'inventory/js/loan_app.js' %}"></script>
+
+{% endblock %}

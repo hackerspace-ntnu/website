@@ -66,6 +66,8 @@ class ArticleAdmin(admin.ModelAdmin):
         ('Advanced', {
             'fields': [
                 'redirect',
+                'internal',
+                'draft'
             ]
         }),
     ]

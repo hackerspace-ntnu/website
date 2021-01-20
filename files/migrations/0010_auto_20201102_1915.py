@@ -17,9 +17,4 @@ class Migration(migrations.Migration):
             name='name',
             field=models.CharField(max_length=50, unique=True, verbose_name='Kategori'),
         ),
-        migrations.AlterField(
-            model_name='image',
-            name='img_category',
-            field=models.ForeignKey(default=files.models.get_default_category, on_delete=django.db.models.deletion.CASCADE, to='files.filecategory', verbose_name='Kategori'),
-        ),
     ]

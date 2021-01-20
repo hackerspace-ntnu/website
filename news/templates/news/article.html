@@ -24,6 +24,12 @@
 		<div class="card-panel cut-top z-depth-2">
 			<div class="row">
 				<div class="col s12">
+					{% if article.draft %}
+                  <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="Denne artikkelen er lagret som utkast og dermed kun synlig for deg">
+                        <i class="material-icons">info</i>
+                        <span>Lagret som utkast</span>
+			            </div>
+					{% endif %}
 					<h5 class="hide-on-med-and-up">{{ article.title }}</h5>
 					<h3 class="hide-on-small-only">{{ article.title }}</h3>
 					<p>{{ article.pub_date }}</p>

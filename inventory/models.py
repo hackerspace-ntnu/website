@@ -28,7 +28,8 @@ class Item(models.Model):
         '''Returns how many of this item was loaned out'''
         try:
             loans = ItemLoan.objects.filter(item=self.id, approver__isnull=False)
-            return len(loans)
+            loaned_amount = [loan.amount for loan in loans]
+            return sum(loaned_amount)
         except ItemLoan.DoesNotExist:
             return 0
 

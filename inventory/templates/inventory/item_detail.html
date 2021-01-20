@@ -37,7 +37,9 @@
             {% endif %}
 
             {% if item.in_stock %}
-            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
+            <div class="row">
+                <a class="col s12 btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
+            </div>
             {% endif %}
         </div>
     </div>

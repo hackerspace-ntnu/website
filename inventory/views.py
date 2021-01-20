@@ -188,7 +188,7 @@ class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin):
 
     model = ItemLoan
     permission_required = 'inventory.delete_itemloan'
-    success_message = 'Lånet er avslått'
+    success_message = 'Lånesøknaden er avslått'
     success_url = reverse_lazy('inventory:loans')
 
     def get_success_url(self):
@@ -225,7 +225,7 @@ class ItemLoanApplicationView(CreateView):
         'contact_name', 'contact_phone', 'contact_email', 'consent'
     ]
     template_name = 'inventory/loan_apply.html'
-    success_message = 'Søknaden er registrert!'
+    success_message = 'Lånesøknaden er registrert!'
     success_url = reverse_lazy('inventory:inventory')
 
     def get_success_url(self):
@@ -239,6 +239,7 @@ class ItemLoanApplicationView(CreateView):
             return super().get(*args, **kwargs)
 
         item = get_object_or_404(Item, id=pk)
+        # Go back to the inventory view if the item has no stock in inventory
         if not item.available():
             return HttpResponseRedirect(self.success_url)
         return super().get(*args, **kwargs)
@@ -247,3 +248,10 @@ class ItemLoanApplicationView(CreateView):
         context = super().get_context_data(**kwargs)
         context['item'] = Item.objects.get(id=self.kwargs['pk'])
         return context
+
+    def form_valid(self, form):
+        item = self.get_context_data().get('item')
+        if form.instance.amount > item.stock:
+            form.errors['amount'] = 'Du kan ikke be om å låne mer enn vi har på lager'
+            return self.render_to_response(self.get_context_data(form=form))
+        return super().form_valid(form)

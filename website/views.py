@@ -150,9 +150,9 @@ class IndexView(TemplateView):
 
         current_date = datetime.now()
 
-        # Get five published articles
+        # Get five articles
         article_list = Article.objects.filter(
-            internal__lte=can_access_internal_article).filter(draft=False).order_by('-pub_date')[:5]
+            internal__lte=can_access_internal_article).order_by('-pub_date')[:5]
 
         # Få dørstatus
         try:

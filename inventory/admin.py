@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, ItemLoan
+from .models import Item
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
@@ -21,5 +21,3 @@ class ItemAdmin(admin.ModelAdmin):
     search_fields = [
         'name',
     ]
-
-admin.site.register(ItemLoan)

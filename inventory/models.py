@@ -1,10 +1,7 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from files.models import Image
 from django.db import models
-from django.core.validators import MinValueValidator, RegexValidator
-from django.utils import timezone
-from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 
 
 class Item(models.Model):
@@ -22,62 +19,14 @@ class Item(models.Model):
 
     def in_stock(self):
         '''Whether or not the item is in stock'''
-        return self.available() > 0
-    
-    def amount_loaned(self):
-        '''Returns how many of this item was loaned out'''
-        try:
-            loans = ItemLoan.objects.filter(item=self.id, approver__isnull=False)
-            loaned_amount = [loan.amount for loan in loans]
-            return sum(loaned_amount)
-        except ItemLoan.DoesNotExist:
-            return 0
-
-    def available(self):
-        '''Returns how many items are realistically available'''
-        return self.stock - self.amount_loaned()
+        return self.stock > 0
 
     def popularity(self):
         '''
         Returns a measure of popularity for this item
-
+        
         For now, this is just the amount of detail page views the item has gotten
         In the future, this may be expanded to weigh other statistics, such as
         how frequently the item is loaned.
         '''
         return self.views
-
-
-def validate_consent(boolean):
-    if boolean is not True:
-        raise ValidationError('Du må samtykke til at vi kan lagre kontaktinformasjon')
-
-
-class ItemLoan(models.Model):
-    '''Contains information about borrowing an item in inventory'''
-
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Lånegjenstand')
-    amount = models.IntegerField('Antall', validators=[MinValueValidator(1)])
-
-    # Automatically set once the application is accepted
-    loan_from = models.DateField('Utlånt fra', default=timezone.now, blank=True)
-    loan_to = models.DateField('Lån til')
-    purpose = models.CharField('Formål', max_length=50)
-
-    # Personal information
-    contact_name = models.CharField('Utlåners navn', max_length=100)
-    contact_phone = models.CharField(
-        'Utlåners tlf.',
-        max_length=8,
-        validators=[RegexValidator('^\d{8}$', message='Skriv inn et gyldig telefonnummer')]
-    )
-    contact_email = models.EmailField('Utlåners epost')
-    # Simply to store and prove that the user consented to having
-    # their personal info stored for the duration of the loan
-    consent = models.BooleanField('Datalagringssamtykke', blank=False, validators=[validate_consent])
-
-    approver = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Godkjenner')
-
-    def overdue(self):
-        '''Checks if the loan is overdue for return'''
-        return timezone.now().date() > self.loan_to

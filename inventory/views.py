@@ -177,6 +177,11 @@ class ItemLoanApproveView(TemplateView, PermissionRequiredMixin):
             return HttpResponseRedirect(reverse('inventory:loans'))
 
         application = get_object_or_404(ItemLoan, id=pk)
+
+        # trust no-one. not even hackerspace members
+        if application.amount > application.item.available():
+            return HttpResponseRedirect(reverse('inventory:loans'))
+
         application.loan_from = timezone.now()
         application.approver = request.user
         application.save()

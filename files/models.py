@@ -27,7 +27,7 @@ class Image(models.Model):
     img_category = models.ForeignKey(
         FileCategory,
         default=get_default_category,
-        on_delete=models.SET_DEFAULT,
+        on_delete=models.CASCADE,
         verbose_name='Kategori',
     )
 

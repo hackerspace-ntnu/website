@@ -1,0 +1,35 @@
+<div id="approve-loan-modal" class="modal">
+    <div class="modal-content">
+        <h4>Godkjenn søknad</h4>
+        <p>Sørg for at all kontaktinformasjon er korrekt før du godkjenner søknaden.</p>
+    </div>
+
+    <div class="modal-footer">
+        <a href="{% url 'inventory:loan_approve' app.id %}" class="btn hs-green">Godkjenn</a>
+        <a href="#!" class="modal-close btn hs-red">Avbryt</a>
+    </div>
+</div>
+
+<div id="reject-loan-modal" class="modal">
+    <div class="modal-content">
+        <h4>Avslå søknad</h4>
+        <p>Er du sikker? <b>Søknaden slettes permanent</b> når den blir avslått.</p>
+    </div>
+
+    <div class="modal-footer">
+        <a href="{% url 'inventory:loan_deny' app.id %}" class="btn hs-red">Avslå</a>
+        <a href="#!" class="modal-close btn hs-green">Avbryt</a>
+    </div>
+</div>
+
+<div id="return-loan-modal" class="modal">
+    <div class="modal-content">
+        <h4>Marker som levert</h4>
+        <p>Før du markerer søknaden som levert er det viktig at du sjekker at utlånsobjektet er i god tilstand. <b>Søknaden slettes permanent</b> når den markeres som levert.</p>
+    </div>
+
+    <div class="modal-footer">
+        <a href="{% url 'inventory:loan_returned' app.id %}" class="btn hs-green">Levert!</a>
+        <a href="#!" class="modal-close btn hs-red">Avbryt</a>
+    </div>
+</div>

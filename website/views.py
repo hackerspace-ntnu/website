@@ -85,7 +85,7 @@ class IndexView(TemplateView):
 
         # Determine number of hidden internal articles
         if not self.request.user.has_perm('news.can_view_internal_article'):
-            internal_articles_count = len(Article.objects.filter(internal=True))
+            internal_articles_count = len(Article.objects.filter(internal=True,draft=False))
         else:
             internal_articles_count = 0
 
@@ -150,9 +150,10 @@ class IndexView(TemplateView):
 
         current_date = datetime.now()
 
-        # Get five articles
+        # Get five published articles
         article_list = Article.objects.filter(
-            internal__lte=can_access_internal_article).order_by('-pub_date')[:5]
+            internal__lte=can_access_internal_article,draft=False
+        ).order_by('-pub_date')[:5]
 
         # Få dørstatus
         try:

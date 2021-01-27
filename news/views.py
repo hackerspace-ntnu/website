@@ -110,25 +110,31 @@ class ArticleListView(ListView):
 
     def get_internal_articles_indicator(self):
 
-        # Determine number of hidden internal articles
         if not self.request.user.has_perm('news.can_view_internal_article'):
-            internal_articles_count = len(Article.objects.filter(internal=True))
             return "Du har ikke rettigheter til å se interne artikler."
 
         return None
 
 
     def get_queryset(self):
+        # Retrieve published articles (so no drafts)
+        articles = Article.objects.order_by('-pub_date').filter(draft=False)
+
+        # Decide if visitor should see internal articles
         if self.request.user.has_perm("news.can_view_internal_article"):
-            return Article.objects.order_by('-pub_date')
+            return articles
         else:
-            return Article.objects.filter(internal=False).order_by('-pub_date')
+            return articles.filter(internal=False)
 
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
 
         context['indicator_text'] = self.get_internal_articles_indicator()
+
+        # Retrieve any user drafts if logged in
+        if self.request.user.has_perm("news.add_article"):
+            context['drafts'] = Article.objects.order_by('-pub_date').filter(author=self.request.user,draft=True)
 
         return context
 
@@ -140,11 +146,21 @@ class ArticleView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
 
+        article = self.get_object()
+
         # If the article is internal, check if user has the permission to view.
         if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
 
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
+
+            return redirect("/")
+
+        # If the article is a draft, check if user is the author
+        if article.draft and not request.user == article.author:
+
+            # Stores log-in prompt message to be displayed with redirect request
+            messages.add_message(request, messages.WARNING, 'Du har ikke tilgang til artikkelen')
 
             return redirect("/")
 
@@ -158,7 +174,7 @@ class ArticleView(DetailView):
         can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
 
         # Get permitted articles
-        article_list = Article.objects.filter(internal__lte=can_access_internal_article)
+        article_list = Article.objects.filter(internal__lte=can_access_internal_article,draft=False)
 
         # Get oldest article that is newer than current (None if current is latest)
         next_article = article_list.filter(pub_date__gt=self.get_object().pub_date).order_by('pub_date').first()
@@ -267,10 +283,14 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Article
-    fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
+    fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal', 'draft']
     template_name = "news/edit_article.html"
     permission_required = "news.add_article"
-    success_message = "Artikkelen er opprettet og publisert."
+
+    def get_success_message(self, cleaned_data):
+        if self.object.draft:
+            return "Artikkelen er opprettet som utkast"
+        return "Artikkelen er opprettet og publisert"
 
     def get_success_url(self):
         return reverse('news:details', kwargs={'pk': self.object.id})
@@ -282,7 +302,7 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
 class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Article
     template_name = "news/edit_article.html"
-    fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal']
+    fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal', 'draft']
     permission_required = "news.change_article"
     success_message = "Artikkelen er oppdatert."
 

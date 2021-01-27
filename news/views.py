@@ -174,7 +174,7 @@ class ArticleView(DetailView):
         can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
 
         # Get permitted articles
-        article_list = Article.objects.filter(internal__lte=can_access_internal_article)
+        article_list = Article.objects.filter(internal__lte=can_access_internal_article,draft=False)
 
         # Get oldest article that is newer than current (None if current is latest)
         next_article = article_list.filter(pub_date__gt=self.get_object().pub_date).order_by('pub_date').first()

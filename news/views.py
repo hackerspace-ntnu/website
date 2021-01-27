@@ -110,9 +110,7 @@ class ArticleListView(ListView):
 
     def get_internal_articles_indicator(self):
 
-        # Determine number of hidden internal articles
         if not self.request.user.has_perm('news.can_view_internal_article'):
-            internal_articles_count = len(Article.objects.filter(internal=True))
             return "Du har ikke rettigheter til å se interne artikler."
 
         return None

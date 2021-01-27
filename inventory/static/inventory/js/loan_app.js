@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		weekdaysAbbrev: ['S','M','T','O','T','F','L']
 	}
 	options = {
-		format: 'yyyy-mm-dd',
+		format: 'dd.mm.yyyy',
 		firstDay: 1,
         i18n: internationalization,
         minDate: new Date()

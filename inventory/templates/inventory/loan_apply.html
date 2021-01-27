@@ -30,7 +30,7 @@
                     </div>
                     <div class="input-field col s12 m6">
                         <i class="material-icons prefix">date_range</i>
-                        <input type="text" class="datepicker" name="{{ form.loan_to.name }}" id="loan_to">
+                        {{ form.loan_to }}
                         <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_to.label }}</label>
                         <span class="helper-text hs-red-text">{{ form.loan_to.errors }}</span>
                     </div>

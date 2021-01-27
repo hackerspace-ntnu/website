@@ -268,6 +268,14 @@ class ItemLoanApplicationView(CreateView):
 
         return super().get(*args, **kwargs)
 
+    def get_form(self, *args, **kwargs):
+        # Add the datepicker class to the loan to field before it's sent off
+        form = super().get_form(*args, **kwargs)
+        form.fields['loan_to'].widget.attrs = {
+            'class': 'datepicker'
+        }
+        return form
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['item'] = Item.objects.get(id=self.kwargs['pk'])
@@ -282,12 +290,9 @@ class ItemLoanApplicationView(CreateView):
         # bit ugly but it works
         user = self.request.user
         if self.request.POST.get('autoapprove') and user.has_perm('inventory.view_itemloan'):
-            super().form_valid(form)
             application = form.instance
             application.loan_from = timezone.now()
             application.approver = user
             application.save()
-
-            return HttpResponseRedirect(self.success_url)
 
         return super().form_valid(form)

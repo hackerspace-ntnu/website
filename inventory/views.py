@@ -278,4 +278,16 @@ class ItemLoanApplicationView(CreateView):
         if form.instance.amount > item.stock:
             form.errors['amount'] = 'Du kan ikke be om å låne mer enn vi har på lager'
             return self.render_to_response(self.get_context_data(form=form))
+
+        # bit ugly but it works
+        user = self.request.user
+        if self.request.POST.get('autoapprove') and user.has_perm('inventory.view_itemloan'):
+            super().form_valid(form)
+            application = form.instance
+            application.loan_from = timezone.now()
+            application.approver = user
+            application.save()
+
+            return HttpResponseRedirect(self.success_url)
+
         return super().form_valid(form)

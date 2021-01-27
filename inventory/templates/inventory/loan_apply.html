@@ -76,6 +76,17 @@
                         </label>
                     </div>
 
+                    {% if perms.inventory.view_itemloan %}
+                    <div class="col s12">
+                        <h5>Medlemsfordeler</h5>
+                        <p>Siden du er Hackerspace-medlem kan du godkjenne søknaden umiddelbart.</p>
+                        <label>
+                            <input type="checkbox" name="autoapprove" id="id_autoapprove">
+                            <span>Turbogodkjenn!</span>
+                        </label>
+                    </div>
+                    {% endif %}
+
                     <div class="invisible-divider-huge col s12"></div>
 
                     <button class="btn btn-large hs-green white-text waves-effect waves-light col s12" type="submit">Send søknad</button>

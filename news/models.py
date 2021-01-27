@@ -17,6 +17,8 @@ class Article(models.Model):
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
     redirect = models.IntegerField('Redirect', default=0)
 
+    draft = models.BooleanField(default=False, verbose_name='Utkast')
+
     def __str__(self):
         return self.title
 

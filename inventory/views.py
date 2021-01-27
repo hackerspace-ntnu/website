@@ -119,7 +119,7 @@ class ItemDeleteView(PermissionRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class ItemLoanListView(ListView, PermissionRequiredMixin):
+class ItemLoanListView(PermissionRequiredMixin, ListView):
     '''View for viewing all loan applications'''
 
     model = ItemLoan
@@ -153,7 +153,7 @@ class ItemLoanListView(ListView, PermissionRequiredMixin):
         return context
 
 
-class ItemLoanDetailView(DetailView, PermissionRequiredMixin):
+class ItemLoanDetailView(PermissionRequiredMixin, DetailView):
     '''View for a single loan application'''
 
     model = ItemLoan
@@ -162,7 +162,7 @@ class ItemLoanDetailView(DetailView, PermissionRequiredMixin):
     context_object_name = 'app'
 
 
-class ItemLoanApproveView(TemplateView, PermissionRequiredMixin):
+class ItemLoanApproveView(PermissionRequiredMixin, TemplateView):
     '''Endpoint for approving loans'''
 
     permission_required = 'inventory.view_itemloan'
@@ -189,7 +189,7 @@ class ItemLoanApproveView(TemplateView, PermissionRequiredMixin):
         return HttpResponseRedirect(reverse('inventory:loan_application', kwargs={'pk': pk}))
 
 
-class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin):
+class ItemLoanDeclineView(PermissionRequiredMixin, DeleteView):
     '''Endpoint for deleting/rejecting loans'''
 
     model = ItemLoan
@@ -206,7 +206,7 @@ class ItemLoanDeclineView(DeleteView, PermissionRequiredMixin):
         return self.post(request, *args, **kwargs)
 
 
-class ItemLoanReturnedView(DeleteView, PermissionRequiredMixin):
+class ItemLoanReturnedView(PermissionRequiredMixin, DeleteView):
     '''Endpoint for returning loans (deletes them)'''
 
     model = ItemLoan

@@ -66,6 +66,9 @@
 					<li><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
 					<li><a class="waves-effect" href="{% url 'member-list' %}">Medlemmer</a></li>
 					<li><a class="waves-effect" href="{% url 'inventory:inventory' %}">Lager</a></li>
+					{% if user.is_authenticated and perms.inventory.view_itemloan %}
+					<li><a class="waves-effect" href="{% url 'inventory:loans' %}">Lånesøknader</a></li>
+					{% endif %}
 					<li><a class="waves-effect" href="{% url 'reservations:queue_list' %}">Reservasjoner</a></li>
 					<li><a class="waves-effect" href="{% url 'about' %}">Om oss</a></li>
 

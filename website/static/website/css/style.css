@@ -297,6 +297,11 @@ a {
 	opacity: 0;
 }
 
+.invisible-divider-huge{
+	height: 36px;
+	opacity: 0;
+}
+
 .word-wrap {
 	word-wrap: break-word;
 }

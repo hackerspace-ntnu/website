@@ -20,80 +20,80 @@
                 <h4>Intranytt</h4>
                 <div class="row">
                     <div class="col s12 m6">
-						<ul class="collection with-header z-depth-0">
-							<li class="collection-header">
-								<div>
-									<p class="flow-text">
+                        <ul class="collection with-header z-depth-0">
+                            <li class="collection-header">
+                                <div>
+                                    <p class="flow-text">
                                         <a class="hs-gray-text" href="{% url 'news:all' %}">Siste internnytt</a>
-									</p>
-								</div>
+                                    </p>
+                                </div>
                             </li>
                             
                             {% if article_list %}
-							{% for article in article_list %}
-							<li class="collection-item">
-								<span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
-								<a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
-							</li>
-							{% endfor %}
+                            {% for article in article_list %}
+                            <li class="collection-item">
+                                <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+                                <a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
+                            </li>
+                            {% endfor %}
                             {% else %}
                             <li class="collection-item">
                                 <span>Her var det intetnytt <i class="material-icons">sentiment_dissatisfied</i></span>
                             </li>
                             {% endif %}
-						</ul>
+                        </ul>
                     </div>
 
                     <div class="col s12 m6">
-						<ul class="collection with-header z-depth-0">
-							<li class="collection-header">
-								<p class="flow-text">
+                        <ul class="collection with-header z-depth-0">
+                            <li class="collection-header">
+                                <p class="flow-text">
                                     <a class="hs-gray-text" href="{% url 'events:all' %}">Siste interne arrangementer</a>
-								</p>
+                                </p>
                             </li>
                             
                             {% if event_list %}
-							{% for event in event_list reversed %}
-								<li class="collection-item">
-									{% if event.time_start > current_date %}
-										<span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
-									{% else %}
-										<span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
+                            {% for event in event_list reversed %}
+                                <li class="collection-item">
+                                    {% if event.time_start > current_date %}
+                                        <span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
+                                    {% else %}
+                                        <span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
 
-									{% endif %}
+                                    {% endif %}
 
-								<a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
-							</li>
+                                <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+                            </li>
                             {% endfor %}
                             {% else %}
                             <li class="collection-item">
                                 <span>Ingen interne arrangementer <i class="material-icons">sentiment_dissatisfied</i></span>
                             </li>
                             {% endif %}
-						</ul>
+                        </ul>
                     </div>
 
                     <div class="col s12">
-						<ul class="collection with-header z-depth-0">
-							<li class="collection-header">
-								<p class="flow-text">
+                        <ul class="collection with-header z-depth-0">
+                            <li class="collection-header">
+                                <p class="flow-text">
                                     <a class="hs-gray-text" href="{% url 'inventory:loans' %}">Åpne lånesøknader</a>
-								</p>
+                                </p>
                             </li>
                             
                             {% if loan_app_list %}
-							{% for app in loan_app_list reversed %}
-								<li class="collection-item">
-								<span class="badge hs-green-text">{{ app.contact_name }}</span>
-								<a href="{% url 'inventory:loan_application' app.id %}" class="title">{{ app.item.name }}, {{ app.amount }} stk.</a>
-							</li>
+                            {% for app in loan_app_list reversed %}
+                                <li class="collection-item">
+                                <span class="badge hs-green-text">{{ app.contact_name }}</span>
+                                <a href="{% url 'inventory:loan_application' app.id %}" class="title">{{ app.item.name }}, {{ app.amount }} stk.</a>
+                            </li>
                             {% endfor %}
                             {% else %}
                             <li class="collection-item">
                                 <span>Ingen lånesøknader <i class="material-icons">sentiment_dissatisfied</i></span>
                             </li>
                             {% endif %}
-						</ul>
+                        </ul>
                     </div>
                 </div>
             </div>

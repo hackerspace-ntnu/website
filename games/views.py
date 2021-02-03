@@ -3,5 +3,5 @@ from django.views.generic import TemplateView
 # Create your views here.
 
 
-class GameView(TemplateView):
+class SlingerView(TemplateView):
     template_name = 'games/slinger/game.html'

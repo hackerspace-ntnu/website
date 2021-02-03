@@ -27,17 +27,21 @@ urlpatterns = router.urls
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
-    path('robots.txt', TemplateView.as_view(template_name='website/robots.txt', content_type='text/plain')),
+    path('robots.txt', TemplateView.as_view(
+        template_name='website/robots.txt', content_type='text/plain')),
     path('tos/', MostRecentTermsOfServiceView.as_view(), name='tos'),
     path('tos/returning-user/', AcceptTosView.as_view(), name='tos-returningls'),
     path('tos/accept/', AcceptTosRedirectView.as_view(), name='tos-accept'),
     path('tos/create/', TermsOfServiceCreateView.as_view(), name='tos-create'),
-    path('tos/create/<int:pk>/', TermsOfServiceCreateView.as_view(), name='tos-create-id'),
+    path('tos/create/<int:pk>/',
+         TermsOfServiceCreateView.as_view(), name='tos-create-id'),
     path('tos/<int:pk>/', TermsOfServiceView.as_view(), name='tos-details'),
     path('news/', include('news.urls')),
     path('events/', include('news.event_urls')),
-    path('ckeditor/upload', permission_required('news.add_article')(ck_upload_views.upload), name='ckeditor_upload'),
-    path('ckeditor/browse', permission_required('news.add_article')(ck_upload_views.browse), name='ckeditor_browse'),
+    path('ckeditor/upload', permission_required('news.add_article')
+         (ck_upload_views.upload), name='ckeditor_upload'),
+    path('ckeditor/browse', permission_required('news.add_article')
+         (ck_upload_views.browse), name='ckeditor_browse'),
     path('authentication/', include('authentication.urls', namespace='auth')),
     path('door/', include('door.urls')),
     path('opptak/', include('applications.urls'), name='opptak'),
@@ -60,6 +64,8 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', static_serve,
-            {'document_root': settings.MEDIA_ROOT}),
+                {'document_root': settings.MEDIA_ROOT}),
+
+        path('games/', include('games.urls'))
     ]
     admin.site.index_title = "Velkommen tilbake, Mester"

@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'seasonal_events',
     'committees',
     'reservations',
+    'games',
     'django_filters',
     'rest_framework',
     'social_django',

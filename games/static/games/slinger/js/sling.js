@@ -1,4 +1,4 @@
-const canvas = document.querySelector("canvas")
+const canvas = document.getElementById("gameCanvas")
 const c = canvas.getContext("2d")
 let w, h
 function resize(e){
@@ -10,7 +10,7 @@ function resize(e){
 
 
 //konstanter
-const pull = 0.1
+const pull = 0.2
 const g = 0.2
 const gameSpeed = 3
 const hookDistance = 500

@@ -1,0 +1,16 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block head %}
+
+<script src="{% static 'games/slinger/js/sling.js' %}" defer></script>
+<script src="{% static 'games/slinger/js/hook.js' %}" defer></script>
+<script src="{% static 'games/slinger/js/run.js' %}" defer></script>
+
+<title>Spill</title>
+
+{% endblock %}
+
+{% block content %}
+<canvas id="gameCanvas"></canvas>
+{% endblock %}

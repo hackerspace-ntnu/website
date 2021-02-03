@@ -6,7 +6,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView, RulesView, \
-    RuleDetailsView
+    RulesDetailView, IntranetView
 from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
@@ -53,7 +53,8 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/inventory/', inventory_views.InventoryListAPIView.as_view(), name='inventory-api'),
     path('inventory/', include('inventory.urls')),
-    path('vaktliste/', include('watchlist.urls'))
+    path('vaktliste/', include('watchlist.urls')),
+    path('intranet/', IntranetView.as_view(), name='intranet'),
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"

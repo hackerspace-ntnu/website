@@ -2,12 +2,17 @@ const canvas = document.getElementById("gameCanvas")
 const c = canvas.getContext("2d")
 let w, h
 function resize(e){
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
+    canvas.width = canvas.parentElement.clientWidth
+    canvas.height = canvas.width*0.5
     w = canvas.width
     h = canvas.height
 }
 
+window.onkeydown = function(e){
+    if (e.key === ' '){
+        e.preventDefault();
+    }
+}
 
 //konstanter
 const pull = 0.2

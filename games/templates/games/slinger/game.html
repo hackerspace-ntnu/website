@@ -3,6 +3,7 @@
 
 {% block head %}
 
+<link rel="stylesheet" href="{% static 'games/slinger/css/main.css' %}">
 <script src="{% static 'games/slinger/js/sling.js' %}" defer></script>
 <script src="{% static 'games/slinger/js/hook.js' %}" defer></script>
 <script src="{% static 'games/slinger/js/run.js' %}" defer></script>
@@ -12,5 +13,7 @@
 {% endblock %}
 
 {% block content %}
-<canvas id="gameCanvas"></canvas>
+<div class="container">
+    <canvas id="gameCanvas"></canvas>
+</div>
 {% endblock %}

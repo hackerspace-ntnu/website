@@ -64,6 +64,8 @@ class Event(models.Model):
     place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
 
+    draft = models.BooleanField(default=False, verbose_name='Utkast')
+
 
     @property
     def can_register(self):

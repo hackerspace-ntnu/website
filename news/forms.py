@@ -86,7 +86,7 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['title', 'main_content', 'ingress_content', 'thumbnail', 'responsible', 'internal', 'registration', 'max_limit', 'registration_start', 'registration_end', 'deregistration_end', 'external_registration',
-                  'time_start', 'time_end', 'place', 'servering', 'place_href']
+                  'time_start', 'time_end', 'place', 'servering', 'place_href', 'draft']
 
 
 

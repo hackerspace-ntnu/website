@@ -114,7 +114,7 @@ class IndexView(TemplateView):
 
         # Determine number of hidden internal events
         if not self.request.user.has_perm('news.can_view_internal_event'):
-            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
+            upcoming_internal_events_count = len(Event.objects.filter(internal=True,draft=False).filter(time_start__gte=current_date))
         else:
             upcoming_internal_events_count = 0
 
@@ -146,7 +146,7 @@ class IndexView(TemplateView):
 
         # First sort, then grab 5 elements, then flip the list ordered by date
         event_list = Event.objects.filter(
-            internal__lte=can_access_internal_event).order_by('-time_start')[:5:-1]
+            internal__lte=can_access_internal_event,draft=False).order_by('-time_start')[:5:-1]
 
         current_date = datetime.now()
 

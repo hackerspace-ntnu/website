@@ -17,6 +17,21 @@
 	</div>
 </div>
 {% include "news/_list_admin_banner.html" %}
+{% if drafts %}
+    <div class="section grey lighten-3">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h5 class="subheader">Dine utkast</h5>
+                    <div class="invisible-divider"></div>
+                    {% for event in drafts %}
+                        {% include 'news/_event-list-element.html' with status=status.grouper %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {# Grupper events ut ifra Event.is_past_due som returnerer enten Pågående, Kommende, Tidligere #}
 {% regroup object_list|dictsort:"is_past_due" by is_past_due as status_list %}
 <div class="section block">

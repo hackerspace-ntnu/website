@@ -14,6 +14,7 @@ from ckeditor_uploader import views as ck_upload_views
 from rest_framework import routers
 from reservations import views as reservation_views
 
+import website.views
 
 handler404 = 'website.views.handler404'
 handler500 = 'website.views.handler500'
@@ -65,7 +66,9 @@ if settings.DEBUG:
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', static_serve,
                 {'document_root': settings.MEDIA_ROOT}),
-
-        path('games/', include('games.urls'))
+        path('games/', include('games.urls')),
+        # Allow access to error pages when developing
+        path('error/404/', website.views.handler404),
+        path('error/500/', website.views.handler500),
     ]
     admin.site.index_title = "Velkommen tilbake, Mester"

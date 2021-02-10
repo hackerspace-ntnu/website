@@ -11,7 +11,7 @@ class Article(models.Model):
     main_content = RichTextUploadingField(blank=True, verbose_name='Brødtekst')
     ingress_content = models.TextField(
         max_length=400, blank=True, validators=[MaxLengthValidator(400)],
-        verbose_name='Ingress', help_text="Et kort avsnitt om hva artikkelen handler om"
+        verbose_name='Ingress', help_text="En kort introduksjon til teksten"
     )
 
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
@@ -45,10 +45,10 @@ class Article(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name='Tittel')
-    main_content = RichTextUploadingField(blank=True, verbose_name='Artikkel')
+    main_content = RichTextUploadingField(blank=True, verbose_name='Hovedtekst')
     ingress_content = models.TextField(
         max_length=400, blank=True, validators=[MaxLengthValidator(400)],
-        verbose_name='Ingress', help_text="Et kort avsnitt om hva artikkelen handler om"
+        verbose_name='Ingress', help_text="En kort introduksjon til teksten"
     )
 
     pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')

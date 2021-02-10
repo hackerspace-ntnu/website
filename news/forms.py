@@ -76,7 +76,7 @@ class EventForm(forms.ModelForm):
 
     ingress_content = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'materialize-textarea'}),
-        label='Ingress', help_text="Et kort avsnitt om hva artikkelen handler om"
+        label='Ingress', help_text="En kort introduksjon til teksten"
     )
 
     time_start = SplitDateTimeFieldCustom(label='Starttidspunkt')
@@ -100,7 +100,7 @@ class ArticleForm(forms.ModelForm):
 
     ingress_content = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'materialize-textarea'}),
-        label='Ingress', help_text="Et kort avsnitt om hva artikkelen handler om"
+        label='Ingress', help_text="En kort introduksjon til teksten"
     )
 
     class Meta:

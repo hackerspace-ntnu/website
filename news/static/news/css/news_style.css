@@ -96,3 +96,11 @@ strong {
 	padding: 4px 6px;
 	border-radius: 2px;
 }
+
+.no-bottom-margin{
+    margin-bottom: 0;
+}
+
+.collection-icon-text{
+    margin-left: 8px;
+}

@@ -31,13 +31,15 @@
                     <div class="row">
                         <div class="input-field col s12">
                             {{ form.title }}
-                            {{ form.title.label_tag }}
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.title.errors }}</span>
                             {{ form.title.help_text }}
                         </div>
                         <div class="input-field col s12">
                             {{ form.ingress_content }}
-                            {{ form.ingress_content.label_tag }}
+                            <label for="id_ingress_content">{{ form.ingress_content.label }}</label>
                             <span class="helper-text">{{ form.ingress_content.help_text }}</span>
+                            <span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
                         </div>
                         <div class="input-field col s12">
                             <p>{{ form.main_content.label }}</p>

@@ -1,6 +1,6 @@
 from django import forms
 from django.db.utils import OperationalError, ProgrammingError
-from news.models import Event, EventRegistration, Upload
+from news.models import Event, EventRegistration, Upload, Article
 from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
 from committees.models import Committee
@@ -70,8 +70,15 @@ def get_committees():
     except ProgrammingError:
         return []
 
+
 class EventForm(forms.ModelForm):
     error_css_class = 'invalid'
+
+    ingress_content = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'materialize-textarea'}),
+        label='Ingress', help_text="Et kort avsnitt om hva artikkelen handler om"
+    )
+
     time_start = SplitDateTimeFieldCustom(label='Starttidspunkt')
     time_end = SplitDateTimeFieldCustom(label='Sluttidspunkt')
 
@@ -88,6 +95,17 @@ class EventForm(forms.ModelForm):
         fields = ['title', 'main_content', 'ingress_content', 'thumbnail', 'responsible', 'internal', 'registration', 'max_limit', 'registration_start', 'registration_end', 'deregistration_end', 'external_registration',
                   'time_start', 'time_end', 'place', 'servering', 'place_href', 'draft']
 
+
+class ArticleForm(forms.ModelForm):
+
+    ingress_content = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'materialize-textarea'}),
+        label='Ingress', help_text="Et kort avsnitt om hva artikkelen handler om"
+    )
+
+    class Meta:
+        model = Article
+        fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal', 'draft']
 
 
 uploadformset = inlineformset_factory(Event, Upload,

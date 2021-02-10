@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 from datetime import datetime, timedelta
-from .forms import EventForm, eventformset, uploadformset
+from .forms import EventForm, eventformset, uploadformset, ArticleForm
 from .models import Event, Article, EventRegistration
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -303,7 +303,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Article
-    fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal', 'draft']
+    form_class = ArticleForm
     template_name = "news/edit_article.html"
     permission_required = "news.add_article"
 
@@ -319,10 +319,11 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Article
+    form_class = ArticleForm
     template_name = "news/edit_article.html"
-    fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal', 'draft']
     permission_required = "news.change_article"
     success_message = "Artikkelen er oppdatert."
 

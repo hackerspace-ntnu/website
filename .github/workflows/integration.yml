@@ -18,9 +18,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Initialize Django
-      run: |
         # Stop the build if migrations are not committed to repo. If action stops here,
         # run `pt manage.py makemigrations` and commit the generated files.
+      run: |
         python manage.py makemigrations --check
         python manage.py migrate
     - name: Lint with flake8

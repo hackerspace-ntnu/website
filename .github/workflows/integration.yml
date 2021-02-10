@@ -19,7 +19,7 @@ jobs:
         pip install -r requirements.txt
     - name: Initialize Django
       run: |
-        python manage.py makemigrations
+        python manage.py makemigrations --check
         python manage.py migrate
     - name: Lint with flake8
       run: |

@@ -23,6 +23,12 @@
 		<div class="card-panel cut-top white z-depth-1 no-top-shadow">
 			<div class="row">
 				<div class="col s12">
+                    {% if event.draft %}
+                  <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="Dette arrangementet er lagret som utkast og dermed kun synlig for deg">
+                        <i class="material-icons">info</i>
+                        <span>Lagret som utkast</span>
+			            </div>
+					{% endif %}
 					<h5 class="hide-on-med-and-up">{{ event.title }}</h5>
 					<h3 class="hide-on-small-only">{{ event.title }}</h3>
 					{% if event.internal %}

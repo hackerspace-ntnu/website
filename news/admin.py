@@ -38,6 +38,11 @@ class Eventadmin(admin.ModelAdmin):
                 'deregistration_end',
             ]
         }),
+        ('Advanced', {
+            'fields': [
+                'draft'
+            ]
+        }),
     ]
     search_fields = [
         'title'

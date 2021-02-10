@@ -17,10 +17,21 @@ class EventView(DetailView):
     template_name = "news/event.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if self.get_object().internal and not request.user.has_perm('news.can_view_internal_event'):
+
+        event = self.get_object()
+
+        if event.internal and not request.user.has_perm('news.can_view_internal_event'):
 
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(request, messages.WARNING, 'Logg inn for å se internt arrangement')
+
+            return redirect("/")
+
+        # If the event is a draft, check if user is the author
+        if event.draft and not request.user == event.author:
+
+            # Stores log-in prompt message to be displayed with redirect request
+            messages.add_message(request, messages.WARNING, 'Du har ikke tilgang til arrangementet')
 
             return redirect("/")
 
@@ -47,26 +58,31 @@ class EventListView(ListView):
 
     def get_internal_events_indicator(self):
 
-        current_date = datetime.now()
-
-        # Determine number of hidden internal events
         if not self.request.user.has_perm('news.can_view_internal_event'):
-            upcoming_internal_events_count = len(Event.objects.filter(internal=True).filter(time_start__gte=current_date))
             return "Du har ikke rettigheter til å se interne arrangementer."
 
         return None
 
     def get_queryset(self):
+
+        # Retrieve published events (so no drafts)
+        events = Event.objects.order_by('-time_end').filter(draft=False)
+
+        # Decide if visitor should see internal events
         if self.request.user.has_perm('news.can_view_internal_event'):
-            return Event.objects.order_by('-time_end')
+            return events
         else:
-            return Event.objects.filter(internal=False).order_by('-time_end')
+            return events.filter(internal=False)
 
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
 
         context['indicator_text'] = self.get_internal_events_indicator()
+
+        # Retrieve any user drafts if logged in
+        if self.request.user.has_perm("news.add_event"):
+            context['drafts'] = Event.objects.order_by('-time_end').filter(author=self.request.user, draft=True)
 
         return context
 
@@ -241,7 +257,11 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = EventForm
     success_url = "/events/"
     permission_required = 'news.add_event'
-    success_message = "Arrangementet er opprettet og publisert."
+
+    def get_success_message(self, cleaned_data):
+        if self.object.draft:
+            return "Arrangementet er opprettet som utkast"
+        return "Arrangementet er opprettet og publisert"
 
     def get_success_url(self):
         return reverse('events:details', kwargs={'pk': self.object.id})

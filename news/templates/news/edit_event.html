@@ -31,13 +31,15 @@
                     <div class="row">
                         <div class="input-field col s12">
                             {{ form.title }}
-                            {{ form.title.label_tag }}
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.title.errors }}</span>
                             {{ form.title.help_text }}
                         </div>
                         <div class="input-field col s12">
                             {{ form.ingress_content }}
-                            {{ form.ingress_content.label_tag }}
+                            <label for="id_ingress_content">{{ form.ingress_content.label }}</label>
                             <span class="helper-text">{{ form.ingress_content.help_text }}</span>
+                            <span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
                         </div>
                         <div class="input-field col s12">
                             <p>{{ form.main_content.label }}</p>
@@ -80,32 +82,32 @@
                         <div class="input-field col s12">
                             <i class="material-icons prefix">person</i>
                             {{ form.responsible }}
-                            {{ form.responsible.label_tag }}
+                            <label for="id_responsible">{{ form.responsible.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
                             {{ form.time_start }}
-                            {{ form.time_start.label_tag }}
+                            <label for="id_time_start">{{ form.time_start.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.time_start.errors }}</span>
                         </div>
 
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
                             {{ form.time_end }}
-                            {{ form.time_end.label_tag }}
+                            <label for="id_time_end">{{ form.time_end.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.time_end.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">location_on</i>
                             {{ form.place }}
-                            {{ form.place.label_tag }}
+                            <label for="id_place">{{ form.place.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.place.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">link</i>
                             {{ form.place_href }}
-                            {{ form.place_href.label_tag }}
+                            <label for="id_place_href">{{ form.place_href.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.place_href.errors }}</span>
                         </div>
                         <div class="col s12 input-field">
@@ -130,7 +132,7 @@
                         </div>
                         <div class="col s12 input-field ext-reg">
                             {{ form.external_registration }}
-                            {{ form.external_registration.label_tag }}
+                            <label for="id_external_registration">{{ form.external_registration.label }}</label>
                             <span class="helper-text">La stå tom dersom arrangementet ikke behøver påmelding.</span>
                             <span class="helper-text hs-red-text">{{ form.external_registration.errors }}</span>
                         </div>
@@ -147,25 +149,25 @@
                         <div class="input-field col s12">
                             <i class="material-icons prefix">event_seat</i>
                             {{ form.max_limit }}
-                            {{ form.max_limit.label_tag }}
+                            <label for="id_max_limit">{{ form.max_limit.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.max_limit.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">event_available</i>
                             {{ form.registration_start }}
-                            {{ form.registration_start.label_tag }}
+                            <label for="id_registration_start">{{ form.registration_start.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.registration_start.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">event_available</i>
                             {{ form.registration_end }}
-                            {{ form.registration_end.label_tag }}
+                            <label for="id_registration_end">{{ form.registration_end.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.registration_end.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">event_busy</i>
                             {{ form.deregistration_end }}
-                            {{ form.deregistration_end.label_tag }}
+                            <label for="id_deregistration_end">{{ form.deregistration_end.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.deregistration_end.errors }}</span>
                         </div>
                     </div>
@@ -184,7 +186,7 @@
                             <div class="input-field col s12">
                                 {{ form.id }}
                                 {{ form.title }}
-                                {{ form.title.label_tag }}
+                                <label for="id_title">{{ form.title.label }}</label>
                                 {{ form.file }}
                                 <span class="helper-text hs-red-text">{{ form.file.errors }}</span>
                             </div>

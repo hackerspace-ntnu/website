@@ -3,16 +3,20 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.contrib.auth.admin import User
 from files.models import Image
+from django.core.validators import MaxLengthValidator
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Title')
-    main_content = RichTextUploadingField(blank=True)
-    ingress_content = models.CharField(max_length=300, blank=True)
+    title = models.CharField(max_length=100, verbose_name='Tittel')
+    main_content = RichTextUploadingField(blank=True, verbose_name='Brødtekst')
+    ingress_content = models.TextField(
+        max_length=400, blank=True, validators=[MaxLengthValidator(400)],
+        verbose_name='Ingress', help_text="En kort introduksjon til teksten"
+    )
 
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
-    internal = models.BooleanField(default=False, verbose_name='Intern')
+    internal = models.BooleanField(default=False, verbose_name='Intern artikkel')
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
     redirect = models.IntegerField('Redirect', default=0)
@@ -30,8 +34,8 @@ class Article(models.Model):
         app_label = 'news'
         ordering = ('-pub_date',)
         permissions = (
-                ("can_view_internal_article", "Can see internal articles"),
-                )
+            ("can_view_internal_article", "Can see internal articles"),
+        )
 
     def redirect_id(self):
         if self.redirect:
@@ -41,11 +45,16 @@ class Article(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name='Tittel')
-    main_content = RichTextUploadingField(blank=True, verbose_name='Artikkel')
-    ingress_content = models.CharField(max_length=300, blank=True, verbose_name='Ingress', help_text="En kort setning om hva artikkelen inneholder")
+    main_content = RichTextUploadingField(blank=True, verbose_name='Hovedtekst')
+    ingress_content = models.TextField(
+        max_length=400, blank=True, validators=[MaxLengthValidator(400)],
+        verbose_name='Ingress', help_text="En kort introduksjon til teksten"
+    )
+
     pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    responsible = models.ForeignKey(User, related_name="responsible", on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Arrangementansvarlig")
+    responsible = models.ForeignKey(User, related_name="responsible", on_delete=models.SET_NULL, blank=True, null=True,
+                                    verbose_name="Arrangementansvarlig")
 
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -55,7 +64,8 @@ class Event(models.Model):
     registration_start = models.DateTimeField(default=timezone.now, verbose_name='Påmeldingsstart')
     registration_end = models.DateTimeField(default=timezone.now, verbose_name='Påmeldingsfrist')
     deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avmeldingsfrist')
-    external_registration = models.CharField(blank=True, max_length=200, default='', verbose_name='Lenke for ekstern påmelding')
+    external_registration = models.CharField(blank=True, max_length=200, default='',
+                                             verbose_name='Lenke for ekstern påmelding')
 
     time_start = models.DateTimeField(verbose_name='Starttidspunkt', null=True)
     time_end = models.DateTimeField(verbose_name='Sluttidspunkt', null=True)
@@ -65,7 +75,6 @@ class Event(models.Model):
     place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
 
     draft = models.BooleanField(default=False, verbose_name='Utkast')
-
 
     @property
     def can_register(self):
@@ -221,14 +230,13 @@ class Event(models.Model):
         '''
         return [registration.user for registration in EventRegistration.get_waitlist(self)]
 
-
     class Meta:
         app_label = 'news'
         ordering = ("time_start",)
         permissions = (
-                ("can_see_attendees", "Can see attending, waitlist, register meetup in a event"),
-                ("can_view_internal_event", "Can see internal events"),
-                )
+            ("can_see_attendees", "Can see attending, waitlist, register meetup in a event"),
+            ("can_view_internal_event", "Can see internal events"),
+        )
 
 
 class Upload(models.Model):
@@ -246,7 +254,7 @@ class Upload(models.Model):
 
     def save(self, *args, **kwargs):
         # Dersom fjern er huket av i event_edit, slettes hele objektet.
-        if self.file ==  "":
+        if self.file == "":
             self.delete()
         else:
             return super(Upload, self).save(*args, **kwargs)

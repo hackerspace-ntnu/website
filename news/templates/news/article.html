@@ -50,15 +50,15 @@
 		</div>
 		{% if perms.news.change_article %}
 		<div class="card-panel">
-			<div class="row">
+			<div class="row no-bottom-margin">
 				<div class="col s12">
-					<h4>Administrativ meny</h4>
+					<h5>Administrator-meny</h5>
 				</div>
 				<div class="col s12">
 					<ul class='collection'>
-						<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i>Rediger artikkel</a></li>
+						<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i><span class="collection-icon-text">Rediger artikkel</span></a></li>
 						{% if perms.news.delete_article %}
-						<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i>Slett Artikkel</a></li>
+						<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span class="collection-icon-text">Slett artikkel</span></a></li>
 						{% endif %}
 					</ul>
 				</div>

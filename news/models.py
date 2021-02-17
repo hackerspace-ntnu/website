@@ -102,10 +102,10 @@ class Event(models.Model):
 
     @property
     def is_past_due(self):
-        '''
+        """
             Denne brukes i regroup og tallene strippes vekk, kun brukt for
             dictsort i regroup.
-        '''
+        """
         if self.time_start < timezone.now() < self.time_end:
             return "1 Pågående arrangementer"
         if self.time_end > timezone.now():
@@ -117,48 +117,48 @@ class Event(models.Model):
         return self.title
 
     def registered_count(self):
-        '''
+        """
         Finds the number of registered users not in the waiting list for the event.
 
         :return: The number of registered users for the event, excluding waitlisted
-        '''
+        """
         return len(EventRegistration.get_registrations(self)) - len(EventRegistration.get_waitlist(self))
 
     def waiting_count(self):
-        '''
+        """
         Finds the number of waitlisted users for the event. Does not count any user that is in
         the normal list for the event.
 
         :return: The number of registered users for the event
-        '''
+        """
         return len(EventRegistration.get_waitlist(self))
 
     def is_registered(self, user):
-        '''
+        """
         Check if the user is registered for the event and not on the waiting list
 
         :param user: The user to check
         :return: A boolean indicating if the user is registered for the event
-        '''
+        """
         return user in [registration.user for registration in
                         EventRegistration.get_registrations(self)]
 
     def is_waiting(self, user):
-        '''
+        """
         Checks if the user is registered for the event and on the waiting list
 
         :param user: The user to check
         :return: A boolean indicating if the user is on the waiting list
-        '''
+        """
         return user in [registration.user for registration in EventRegistration.get_waitlist(self)]
 
     def userstatus(self, user):
-        '''
+        """
         Finds the registration status of the user
 
         :param user: The user to get registration status for
         :return: A string representing the user status
-        '''
+        """
         if self.is_waiting(user):
             return "på ventelisten"
         if self.is_registered(user):
@@ -166,20 +166,20 @@ class Event(models.Model):
         return "ikke påmeldt"
 
     def get_position(self, user):
-        '''
+        """
         Retreives the position in waitlist for a given event
 
         eparam event: The event to retrieve the waitlist for
         :return: The waitlist
-        '''
+        """
         return self.wait_list().index(user) + 1
 
     def registered_percentage(self):
-        '''
+        """
         Finds the percentage of the slots taken. If limit is 0, return 100% instead
 
         :return: Percentage of slots taken
-        '''
+        """
         if self.max_limit:
             return round(self.registered_count() / self.max_limit * 100)
         else:
@@ -215,19 +215,19 @@ class Event(models.Model):
         return count
 
     def registration_list(self):
-        '''
+        """
         Create a list of the registered users for the event
 
         :return: A list of the registered users for the event
-        '''
+        """
         return [registration for registration in EventRegistration.get_registrations(self)]
 
     def wait_list(self):
-        '''
+        """
         Creates a list containing the full name and priority of the users in the waiting list
 
         :return: Simplified waiting list
-        '''
+        """
         return [registration.user for registration in EventRegistration.get_waitlist(self)]
 
     class Meta:
@@ -268,32 +268,32 @@ class EventRegistration(models.Model):
 
     @staticmethod
     def get_waitlist(event):
-        '''
+        """
         Retreives the waitlist for a given event
 
         :param event: The event to retrieve the waitlist for
         :return: The waitlist
-        '''
+        """
         return EventRegistration.get_registrations(event).order_by('date')[event.max_limit:]
 
     @staticmethod
     def get_registrations(event):
-        '''
+        """
         Retrieves all registrations for a given event
 
         :param event: The event to get registrations for
         :return: A list of all registrations for an event
-        '''
+        """
         return EventRegistration.objects.filter(event=event)
 
     def username(self):
         return self.user.username
 
     def is_waitlisted(self):
-        '''
+        """
         Retreives the waitlist for a given event
 
         :param event: The event to retrieve the waitlist for
         :return: The waitlist
-        '''
+        """
         return self.event.is_waiting(self.user)

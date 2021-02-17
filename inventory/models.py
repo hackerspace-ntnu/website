@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 
 
 class Item(models.Model):
-    '''Represents a single item in inventory'''
+    """Represents a single item in inventory"""
 
     name = models.CharField('Navn', max_length=50)
     stock = models.IntegerField('Lagerbeholdning', validators=[MinValueValidator(0)])
@@ -21,11 +21,11 @@ class Item(models.Model):
         return self.name + ' (x' + str(self.stock) + ')'
 
     def in_stock(self):
-        '''Whether or not the item is in stock'''
+        """Whether or not the item is in stock"""
         return self.available() > 0
     
     def amount_loaned(self):
-        '''Returns how many of this item was loaned out'''
+        """Returns how many of this item was loaned out"""
         try:
             loans = ItemLoan.objects.filter(item=self.id, approver__isnull=False)
             loaned_amount = [loan.amount for loan in loans]
@@ -34,17 +34,17 @@ class Item(models.Model):
             return 0
 
     def available(self):
-        '''Returns how many items are realistically available'''
+        """Returns how many items are realistically available"""
         return self.stock - self.amount_loaned()
 
     def popularity(self):
-        '''
+        """
         Returns a measure of popularity for this item
 
         For now, this is just the amount of detail page views the item has gotten
         In the future, this may be expanded to weigh other statistics, such as
         how frequently the item is loaned.
-        '''
+        """
         return self.views
 
 
@@ -54,7 +54,7 @@ def validate_consent(boolean):
 
 
 class ItemLoan(models.Model):
-    '''Contains information about borrowing an item in inventory'''
+    """Contains information about borrowing an item in inventory"""
 
     item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Lånegjenstand')
     amount = models.IntegerField('Antall', validators=[MinValueValidator(1)])
@@ -79,5 +79,5 @@ class ItemLoan(models.Model):
     approver = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Godkjenner')
 
     def overdue(self):
-        '''Checks if the loan is overdue for return'''
+        """Checks if the loan is overdue for return"""
         return timezone.now().date() > self.loan_to

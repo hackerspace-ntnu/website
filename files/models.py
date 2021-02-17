@@ -9,7 +9,7 @@ def get_default_category():
 
 
 class FileCategory(models.Model):
-    '''General purpose category for files'''
+    """General purpose category for files"""
     name = models.CharField(max_length=50, unique=True, verbose_name='Kategori')
 
     def __str__(self):

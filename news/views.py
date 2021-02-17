@@ -88,10 +88,10 @@ class EventListView(ListView):
 
 
 class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
-    '''
+    """
         Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
         de har møtt opp eller ikke.
-    '''
+    """
     template_name = "news/attendee_form.html"
     model = Event
     fields = ['title']

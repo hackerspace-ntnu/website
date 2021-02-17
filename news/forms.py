@@ -26,9 +26,9 @@ eventformset = inlineformset_factory(Event, EventRegistration,
 
 
 class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
-    '''
+    """
         Dette er en custom SplitDateTimeField som respekterer norske datoformat
-    '''
+    """
     widget = forms.SplitDateTimeWidget(
             date_attrs=({
                 'class': 'no-autoinit datepicker',
@@ -42,10 +42,10 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
 
 
 class UserFullnameChoiceField(forms.ModelChoiceField):
-    '''
+    """
         Denne klassen overrider ModelChoiceField for å vise vanlige
         fulle navn istedenfor brukernavn
-    '''
+    """
     def label_from_instance(self, obj):
         return obj.get_full_name()
 

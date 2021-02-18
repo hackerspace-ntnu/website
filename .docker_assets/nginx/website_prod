@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    server_name www.hackerspace-ntnu.no;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /app/;
+    }
+    location /media/ {
+        root /app/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}

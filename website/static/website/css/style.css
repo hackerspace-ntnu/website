@@ -36,25 +36,34 @@ main {
 
 
 /* Resize og posisjonering av header bilder */
-.mobile-img img {
+.mobile-img .brand-logo-coglight {
+	width: 32px;
 	height: 56px;
 }
 
-.brand-logo img {
-	width: 200px;
+.mobile-img .brand-logo-text {
+	width: 120px;
+	height: 56px;
+}
+
+.brand-logo-coglight {
+	width: 48px;
 	height: 64px;
+	padding: 0.3em 0;
 	margin-left:16px;
 }
+
+.brand-logo-text {
+	width: 152px;
+	height: 64px;
+}
+
 .tab-img img {
 	margin-left:0px;
 }
 .mobile-img img {
 	margin-left:0px;
 	height:54px;
-}
-
-nav .brand-logo {
-	display: flex;
 }
 
 

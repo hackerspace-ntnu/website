@@ -37,7 +37,6 @@ main {
 
 /* Resize og posisjonering av header bilder */
 .mobile-img .brand-logo-text {
-	width: 120px;
 	height: 56px;
 	margin-left: 16px;
 }

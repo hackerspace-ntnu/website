@@ -12,19 +12,10 @@
 				<div class="container">
 					<!-- Hamburger -->
 					<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-					<!-- Tre logoer for å styre margin så det ser pent ut og responsivt -->
-					<a href="/" class="hide-on-med-and-down valign-wrapper">
-						<img class="brand-logo-coglight" src="{{ coglight_url }}"/>
-						<img class="brand-logo-text" src="{{ logo_url }}"/>
-					</a>
-					<a href="/" class="tab-img hide-on-large-only hide-on-small-only valign-wrapper">
-						<img class="brand-logo-coglight" src="{{ coglight_url }}"/>
-						<img class="brand-logo-text" src="{{ logo_url }}"/>
-					</a>
-					<a href="/" class="mobile-img hide-on-med-and-up show-on-small valign-wrapper">
-						<img class="brand-logo-coglight" src="{{ coglight_url }}"/>
-						<img class="brand-logo-text" src="{{ logo_url }}"/>
-					</a>
+					<!-- To logoer for å styre margin så det ser pent ut og responsivt -->
+					<a href="/" class="brand-logo hide-on-med-and-down valign-wrapper"><img src="{{ logo_url }}"/></a>
+					<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only"><img src="{{ logo_url }}"/></a>
+					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small"><img src="{{ logo_url }}"/></a>
 					<!-- Hovedmeny -->
 					<ul class="right hide-on-med-and-down">
 						<li id="news"><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>

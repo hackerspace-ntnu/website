@@ -19,7 +19,6 @@ class CurrentSeason(template.Node):
     def render(self, context):
         # Standard season
         context["logo_url"] = "/static/website/img/logo/hackerspace.svg"
-        context["coglight_url"] = "/static/website/img/logo/coglight.svg"
         context["season"] = "default"
         context["bannertext"] = None
         context["bannercolor"] = None

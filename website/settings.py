@@ -121,6 +121,7 @@ TEMPLATES = [
                 #"sekizai.context_processors.sekizai",
 
                 "website.context_processors.common_info",
+                "website.context_processors.banner_context"
             ],
             'debug': DEBUG,
         }

@@ -21,9 +21,6 @@ class CurrentSeason(template.Node):
         context["logo_url"] = "/static/website/img/logo/hackerspace.svg"
         context["coglight_url"] = "/static/website/img/logo/coglight.svg"
         context["season"] = "default"
-        context["bannertext"] = None
-        context["bannercolor"] = None
-        context["bannertextcolor"] = None
         context["disable_reservations"] = None
 
         for s in Season.objects.filter(active=True).order_by("start_date"):
@@ -34,17 +31,7 @@ class CurrentSeason(template.Node):
                 except ValueError:
                     pass
                 context["season"] = s.name
-                context["bannertext"] = s.banner_text
-                context["bannercolor"] = s.banner_color
                 context["disable_reservations"] = s.disable_reservations
-
-                # Set appropriate text-color depending on background
-                if s.banner_color == "hs-green":
-                    context["bannertextcolor"] = "white-text"
-                elif s.banner_color == "hs-red":
-                    context["bannertextcolor"] = "white-text"
-                else:
-                    context["bannertextcolor"] = "black-text"
 
         print(context["season"]+"  "+context["logo_url"])
 

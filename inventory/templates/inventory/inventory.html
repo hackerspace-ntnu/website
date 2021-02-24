@@ -35,7 +35,7 @@
             <form method="get">
                 <div class="row">
                     <div class="file-field input-field col s12 m6 l6">
-                        <input oninput="updateSearch(this.value)" name="search" type="text"
+                        <input id="search_field" name="search" type="text"
                                placeholder="Ting, tang og tare" value="{{ search }}">
                         <label for="filter">Navn</label>
                     </div>
@@ -66,6 +66,21 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             updateList();
+        });
+
+        // Listen for keystroke events
+        let timeout = null;
+        let search_field = document.getElementById("search_field");
+        search_field.addEventListener('keyup', () => {
+            // Clear the timeout if it has already been set.
+            // This will prevent the previous task from executing
+            // if user is still typing
+            clearTimeout(timeout);
+
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout(function () {
+                updateSearch(search_field.value)
+            }, 100);
         });
 
         function updateSearch(s) {

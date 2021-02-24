@@ -1,0 +1,64 @@
+{% load static %}
+{% if items %}
+    <div class="row">
+        <div class="col s12">
+            <ul class="collection">
+                {% for item in items %}
+                    <li class="collection-item avatar  valign-wrapper">
+                        <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
+                        <a href="{% url 'inventory:item' item.id %}" class="truncate">
+                            {{ item.name }}
+                            <p style="color: #000 !important">
+                                {% if item.in_stock %}
+                                    <i class="material-icons hs-green-text">done</i>
+
+                                    {% if item.stock > 1000 %}
+                                        <b>>1000 stk.</b>
+                                    {% else %}
+                                        <b>{{ item.available }} stk.</b>
+                                    {% endif %}
+
+                                {% else %}
+                                    <i class="material-icons hs-red-text">do_not_disturb</i>
+                                    <b>Ingen</b>
+                                {% endif %}
+                                på lager
+                            </p>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li><a class=pagination-number onclick="updatePageNumber({{ page_obj.previous_page_number }})"><i class="material-icons">chevron_left</i></a></li>
+            {% else %}
+                <li class="disabled"><a class=pagination-number><i class="material-icons">chevron_left</i></a></li>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+                {% if page == page_obj.number %}
+                    <li class="active hs-green"><a class=pagination-number>{{ page_obj.number }}</a></li>
+                {% else %}
+                    <li><a class=pagination-number onclick="updatePageNumber({{ page }})">{{ page }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li><a class=pagination-number onclick="updatePageNumber({{ page_obj.next_page_number }})"><i class="material-icons">chevron_right</i></a></li>
+            {% else %}
+                <li class="disabled"><a class=pagination-number><i class="material-icons">chevron_right</i></a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% else %}
+    <div class="row center">
+        <div class="col s12">
+            <h3>Fant ingenting på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
+            <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a target="_blank" href="{{ mazemap_link }}">verkstedet</a> og spør oss!</p>
+        </div>
+    </div>
+{% endif %}

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls import include, path, re_path
+from django.urls import include, re_path
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
@@ -9,11 +9,10 @@ from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView
 from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
-from django.views.decorators.cache import never_cache
 from ckeditor_uploader import views as ck_upload_views
 from rest_framework import routers
 from reservations import views as reservation_views
-
+from inventory import views as inventory_views
 
 handler404 = 'website.views.handler404'
 handler500 = 'website.views.handler500'
@@ -21,8 +20,6 @@ handler500 = 'website.views.handler500'
 # Add rest framework urls
 router = routers.DefaultRouter()
 router.register(r'reservations', reservation_views.ReservationsViewSet)
-
-urlpatterns = router.urls
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -50,6 +47,7 @@ urlpatterns = [
     path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),
+    path('api/inventory/', inventory_views.InventoryListAPIView.as_view(), name='inventory-api'),
     path('inventory/', include('inventory.urls')),
 ]
 
@@ -60,6 +58,6 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', static_serve,
-            {'document_root': settings.MEDIA_ROOT}),
+                {'document_root': settings.MEDIA_ROOT}),
     ]
     admin.site.index_title = "Velkommen tilbake, Mester"

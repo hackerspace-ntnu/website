@@ -9,13 +9,13 @@ def season_data(parser,token):
 
 
 class CurrentSeason(template.Node):
-    '''
+    """
         Denne klassen gir navnet på en tidsbestemt season og en tilhørende
         logo-url til context. Dersom det er overlapp mellom datoer vil
         season med senest startdato prioriteres.
 
         Om ingen seasons foregår gis standardlogoen og navnet "default".
-    '''
+    """
     def render(self, context):
         # Standard season
         context["logo_url"] = "/static/website/img/logo/hackerspace.svg"

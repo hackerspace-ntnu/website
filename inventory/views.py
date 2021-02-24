@@ -1,7 +1,10 @@
 from django.http import HttpResponseRedirect
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.core.paginator import Paginator
+from rest_framework.renderers import TemplateHTMLRenderer
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -10,48 +13,66 @@ from userprofile.models import Profile
 from .models import Item, ItemLoan
 
 
-class InventoryListView(ListView):
-    '''Searchable list of items in inventory'''
-
-    model = Item
-    paginate_by = 15
+class InventoryListView(TemplateView):
+    """
+    Main view for the inventory page, containing a search module and utilizing
+    the InventoryListAPIView to display a list of search result items
+    """
     template_name = 'inventory/inventory.html'
 
-    context_object_name = 'items'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search'] = self.request.GET.get('search', '')
+        context['page'] = self.request.GET.get('page', 1)
+        context['sort_by'] = self.request.GET.get('sort_by', '')
+        return context
 
-    def get_queryset(self):
-        name_filter = self.request.GET.get('filter_name', '')
-        sorting_criteria = self.request.GET.get('sort_by', '')
 
-        items = Item.objects.filter(name__icontains=name_filter)
-        if sorting_criteria == 'name':
+class InventoryListAPIView(APIView):
+    """
+    API view returning an HTML response containing paginated items
+    based on search, sorting and page number
+    """
+    renderer_classes = [TemplateHTMLRenderer]
+    template_name = 'inventory/items_list.html'
+    paginate_by = 15
+
+    def get(self, request):
+
+        # Filter items based on search term
+        search = self.request.GET.get('search', '')
+        items = Item.objects.filter(name__icontains=search)
+
+        # Sort according to url parameter
+        sort_by = self.request.GET.get('sort_by', '')
+        if sort_by == 'name':
             items = items.order_by('name')
-        elif sorting_criteria == 'stock_dsc':
+        elif sort_by == 'stock_dsc':
             items = items.order_by('-stock')
-        elif sorting_criteria == 'stock_asc':
+        elif sort_by == 'stock_asc':
             items = items.order_by('stock')
-        elif sorting_criteria == 'popularity':
+        elif sort_by == 'popularity':
             items = sorted(items, key=lambda item: -item.popularity())
         else:
             # Default to sorting by ID (i.e. newest first)
             items = items.order_by('-id')
 
-        return items
+        # Paginate items
+        paginator = Paginator(items, self.paginate_by)
+        page_number = self.request.GET.get('page', 1)
+        page_obj = paginator.page(page_number)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter_name'] = self.request.GET.get('filter_name', '')
-        context['sort_by'] = self.request.GET.get('sort_by', '')
-        return context
+        return Response({'items': page_obj.object_list, 'sort_by': sort_by, 'page_obj': page_obj})
+
 
 class ItemDetailView(DetailView):
-    '''Detail view for individual inventory items'''
+    """Detail view for individual inventory items"""
 
     model = Item
     template_name = 'inventory/item_detail.html'
 
     def get_object(self, *args, **kwargs):
-        '''Returns the result of the supercall, but tracks a view on the object'''
+        """Returns the result of the supercall, but tracks a view on the object"""
         obj = super().get_object(*args, **kwargs)
         if obj is None:
             return obj
@@ -60,8 +81,9 @@ class ItemDetailView(DetailView):
         obj.save()
         return obj
 
+
 class ItemCreateView(PermissionRequiredMixin, CreateView):
-    '''View for creating new inventory items'''
+    """View for creating new inventory items"""
 
     model = Item
     fields = ['name', 'stock', 'description', 'thumbnail']
@@ -78,12 +100,13 @@ class ItemCreateView(PermissionRequiredMixin, CreateView):
             form.errors['stock'] = 'Lagerbeholdningen kan ikke være negativ'
             return self.render_to_response(self.get_context_data(form=form))
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
         return super().form_invalid(form)
 
+
 class ItemUpdateView(PermissionRequiredMixin, UpdateView):
-    '''View for updating inventory items'''
+    """View for updating inventory items"""
 
     model = Item
     fields = ['name', 'stock', 'description', 'thumbnail']
@@ -103,7 +126,7 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 class ItemDeleteView(PermissionRequiredMixin, DeleteView):
-    '''View for deleting inventory items'''
+    """View for deleting inventory items"""
 
     model = Item
     permission_required = 'inventory.delete_item'
@@ -120,7 +143,7 @@ class ItemDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 class ItemLoanListView(PermissionRequiredMixin, ListView):
-    '''View for viewing all loan applications'''
+    """View for viewing all loan applications"""
 
     model = ItemLoan
     permission_required = 'inventory.view_itemloan'
@@ -154,7 +177,7 @@ class ItemLoanListView(PermissionRequiredMixin, ListView):
 
 
 class ItemLoanDetailView(PermissionRequiredMixin, DetailView):
-    '''View for a single loan application'''
+    """View for a single loan application"""
 
     model = ItemLoan
     permission_required = 'inventory.view_itemloan'
@@ -163,7 +186,7 @@ class ItemLoanDetailView(PermissionRequiredMixin, DetailView):
 
 
 class ItemLoanApproveView(PermissionRequiredMixin, TemplateView):
-    '''Endpoint for approving loans'''
+    """Endpoint for approving loans"""
 
     permission_required = 'inventory.view_itemloan'
     success_message = 'Lånet er godkjent'
@@ -172,7 +195,7 @@ class ItemLoanApproveView(PermissionRequiredMixin, TemplateView):
         messages.success(self.request, self.success_message)
         return super().get_success_url(self, *args, **kwargs)
 
-    def get(self, request, pk=None):
+    def get(self, request, pk=None, **kwargs):
         if not pk:
             return HttpResponseRedirect(reverse('inventory:loans'))
 
@@ -190,7 +213,7 @@ class ItemLoanApproveView(PermissionRequiredMixin, TemplateView):
 
 
 class ItemLoanDeclineView(PermissionRequiredMixin, DeleteView):
-    '''Endpoint for deleting/rejecting loans'''
+    """Endpoint for deleting/rejecting loans"""
 
     model = ItemLoan
     permission_required = 'inventory.delete_itemloan'
@@ -207,7 +230,7 @@ class ItemLoanDeclineView(PermissionRequiredMixin, DeleteView):
 
 
 class ItemLoanReturnedView(PermissionRequiredMixin, DeleteView):
-    '''Endpoint for returning loans (deletes them)'''
+    """Endpoint for returning loans (deletes them)"""
 
     model = ItemLoan
     permission_required = 'inventory.delete_itemloan'
@@ -223,7 +246,7 @@ class ItemLoanReturnedView(PermissionRequiredMixin, DeleteView):
 
 
 class ItemLoanApplicationView(CreateView):
-    '''View for applying for loans'''
+    """View for applying for loans"""
 
     model = ItemLoan
     fields = [
@@ -253,7 +276,7 @@ class ItemLoanApplicationView(CreateView):
                 initial_form['contact_phone'] = profile.phone_number
 
             return initial_form
-        
+
         return None
 
     def get(self, *args, **kwargs):

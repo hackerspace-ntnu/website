@@ -1,3 +1,6 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
-# Create your views here.
+
+class watchlistView(TemplateView):
+    template_name = 'watchlist/watchlist.html'

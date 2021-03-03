@@ -5,10 +5,20 @@
 
 {% block head %}
 <title> Vaktliste </title>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/moment/moment.js" %}"></script>
+<link rel="stylesheet" href="{% static "reservations/fullcalendar/core/main.min.css" %}">
+<link rel="stylesheet" href="{% static "reservations/fullcalendar/daygrid/main.min.css" %}">
+<link rel="stylesheet" href="{% static "reservations/fullcalendar/timegrid/main.min.css" %}">
+<script type="text/javascript" src="{% static "reservations/fullcalendar/core/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/moment/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/interaction/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/daygrid/main.min.js" %}"></script>
+<script type="text/javascript" src="{% static "reservations/fullcalendar/timegrid/main.min.js" %}"></script>
+<script src="{% static "reservations/fullcalendar/core/locales/nb.js" %}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    Hello, World!
+    <div id='calendar'></div>
 </div>
 {% endblock %}

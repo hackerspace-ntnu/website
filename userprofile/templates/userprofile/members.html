@@ -1,0 +1,147 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+{% endblock %}
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4 class="white-text">Medlemmer i Hackerspace</h4>
+				<p class="flow-text white-text">For oversikt over gruppene og deres medlemmer, se <a class="hs-gray-text" href="{% url 'about' %}"> Om oss</a>.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<form method="get">
+					{% csrf_token %}
+					<div class="card-panel z-depth-0">
+						<div class="file-field input-field">
+							<button id="searchButton" type="submit" name="action" class="right waves-effect btn-flat btn-medium waves-light btn white-text hs-green">SØK</button>
+							<div class="file-path-wrapper" style="padding-right:10px; padding-left:0px;">
+								<input id="search-field" name="filter" placeholder="Søk" value="{{ filter }}" type="text">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div id="members_list"></div>
+		</div>
+	</div>
+</div>
+
+<div class="section">
+	<div class="container">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			{% endif %}
+
+			{% for page in page_obj.paginator.page_range %}
+			{% if page == page_obj.number %}
+			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
+			{% endif %}
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+
+<script>
+
+	let search = "{{ search }}";
+	let page_number = {{ page }};
+
+	document.addEventListener('DOMContentLoaded', function () {
+		updateList();
+	});
+
+	// Listen for keystroke events
+	let timeout = null;
+	let search_field = document.getElementById("search-field");
+	search_field.addEventListener('keyup', () => {
+		// Clear the timeout if it has already been set.
+		// This will prevent the previous task from executing
+		// if user is still typing
+		clearTimeout(timeout);
+
+		// Make a new timeout set to go off in 1000ms (1 second)
+		timeout = setTimeout(function () {
+			updateSearch(search_field.value)
+		}, 100);
+	});
+
+	function updateSearch(s) {
+		search = s;
+		page_number = 1;
+		updateList();
+	}
+
+	function updatePageNumber(p) {
+		page_number = p;
+		updateList();
+	}
+
+	function updateList() {
+
+		// Refresh list content from api
+		$.ajax({
+			url: '/api/reservations/',
+			type: 'GET',
+			success: function (data) {
+				window.props = data
+				$('#members_list').html(data);
+			}
+		});
+
+		// Update url to allow direct links to search
+		let state = window.history.state;
+		let title = window.document.title;
+		let url = '/members/?s=' + search + '&p=' + page_number;
+		window.history.pushState(state, title, url);
+
+	}
+
+</script>
+
+<script type="text/babel">
+
+	const Leaderboard = ({users}) =>
+			<div>
+				<h1>Featured Players</h1>
+
+				{users.map(user =>
+						<a href={`/user/${user.username}/`}>
+							{user.username}
+						</a>)}
+			</div>
+
+	ReactDOM.render(
+			React.createElement(Leaderboard, window.props),    // gets the props that are passed in the template
+			window.react_mount,                                // a reference to the #react div that we render to
+	)
+
+</script>
+
+
+
+{% endblock %}

@@ -6,8 +6,12 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView
-from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
-from userprofile.views import ProfileListView
+from userprofile.views import \
+    TermsOfServiceCreateView, \
+    TermsOfServiceView, \
+    MostRecentTermsOfServiceView, \
+    MembersView, \
+    MembersAPIView
 from django.contrib.auth.decorators import permission_required
 from ckeditor_uploader import views as ck_upload_views
 from rest_framework import routers
@@ -43,7 +47,8 @@ urlpatterns = [
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
     path('reservations/', include('reservations.urls')),
-    path('members/', ProfileListView.as_view(), name='member-list'),
+    path('members/', MembersView.as_view(), name='member-list'),
+    path('api/members/', MembersAPIView.as_view(), name='members-api'),
     path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),

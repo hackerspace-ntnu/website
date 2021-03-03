@@ -1,6 +1,6 @@
 from django.db import models
 from enum import Enum
-from datetime import time
+from datetime import time, timedelta
 
 from django.contrib.auth.models import User
 
@@ -14,12 +14,14 @@ class Weekdays(Enum):
     SUNDAY = 6
 weekday_loc = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag']
 
-def generate_shift_slots(shift_length, limit):
+def generate_watchlist(shift_length, day_start, day_end, limit):
     '''
     Generates timeslots for all weekdays
     
     Args:
         shift_length: How many minutes a single shift lasts for.
+        day_start: A timedelta object describing when the first shift starts.
+        day_end: A timedelta object describing when the last shift ends.
         limit: The limit on how many people can be registered to a single shift.
     '''
     # Sanity check
@@ -31,17 +33,22 @@ def generate_shift_slots(shift_length, limit):
         slot.delete()
     
     # Generate and save timeslots
-    shifts_per_day = minutes_per_day // shift_length
+    shifts_per_day = ((day_end - day_start).seconds // 60) // shift_length
     for day in Weekdays:
-        start = time()
+        start = day_start
         for slot in range(shifts_per_day):
-            end = start + time(minute=shift_length)
+            end = start + timedelta(minutes=shift_length)
 
-            time_slot = ShiftSlot(day)
-            time_slot.start = start
-            time_slot.end = end
-            time_slot.limit = limit
+            time_slot = ShiftSlot(
+                weekday=day.value,
+                # whoever wrote the datetime module is an idiot
+                start=time(hour=(start.seconds // 3600), minute=(start.seconds // 60)%60),
+                end=time(hour=(end.seconds // 3600), minute=(end.seconds // 60)%60),
+                limit=limit
+            )
             time_slot.save()
+
+            start = end
 
 class ShiftSlot(models.Model):
     # Which day of the week does this slot belong to
@@ -59,8 +66,8 @@ class ShiftSlot(models.Model):
     def __str__(self):
         return "{} - {}-{} (x{})".format(
             weekday_loc[self.weekday],
-            self.start.strftime('HH:MM'),
-            self.end.strftime('HH:MM'),
+            self.start.strftime('%H:%M'),
+            self.end.strftime('%H:%M'),
             self.limit
         )
 

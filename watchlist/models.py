@@ -3,6 +3,9 @@ from enum import Enum
 from datetime import time, timedelta
 
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
+from userprofile.models import Profile, Skill
 
 class Weekdays(Enum):
     MONDAY = 0
@@ -58,7 +61,7 @@ class ShiftSlot(models.Model):
     # Time of day when the shift ends
     end = models.TimeField('Sluttid', null=False)
     # Who's taking this shift?
-    watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige')
+    watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige', validators=[self.validate_limit])
 
     # How many can register for this shift
     limit = models.IntegerField('Antallsbegrensing', null=False, blank=False)
@@ -73,4 +76,24 @@ class ShiftSlot(models.Model):
 
     def validate_limit(self):
         '''Checks that there are <= limit watchers registered to this shift'''
-        return self.watchers.count() <= self.limit
+        watchers = self.watchers.count()
+        if watchers > self.limit:
+            raise ValidationError(
+                'Watchlist shift has too many registered people (%(amt)/%(max))',
+                params={'amt': watchers, 'max': self.limit}
+                )
+
+    def get_shift_skills(self):
+        '''Returns a dictionary of the skills of the watchers on this shift'''
+        profiles = [Profile.objects.filter(user=watch_user) for watch_user in self.watchers]
+        shift_skills = {}
+        for profile in profiles:
+            if not profile or not profile.skills:
+                continue
+
+            for watcher_skill in profile.skills:
+                if not watcher_skill in shift_skills:
+                    shift_skills[watcher_skill.name] = watcher_skill
+                    continue
+        
+        return shift_skills

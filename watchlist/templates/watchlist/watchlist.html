@@ -23,21 +23,27 @@
 
 <div class="section">
     <div class="container">
-        <div class="hs-green watchlist">
-            <div class="row watchlistRow watchlistHeaderRow">
-                <div class="col s1 valign-wrapper watchlistItem watchlistHeaderItem"><!--empty upper left corner--></div>
-                {% for day in columns %}
-                <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">{{ day }}</div>
-                {% endfor %}
-            </div>
+        <table class="striped watchlist">
+            <thead>
+                <tr class="watchlist-row watchlist-header-row">
+                    <th>Tid</div>
+                    {% for day in columns %}
+                    <th>{{ day }}</div>
+                    {% endfor %}
+                </tr>
+            </thead>
 
-            {% for time in rows %}
-            <div class="row watchlistRow">
-                <div class="col s1 watchlistItem">{{ time|linebreaksbr }}</div>
-                <!-- #columns shift slots go here -->
-            </div>
-            {% endfor %}
-        </div>
+            <tbody>
+                {% for time in rows %}
+                <tr class="watchlist-row">
+                    <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</div>
+                    {% for day in columns %}
+                    <td class="watchlist-cell"><!--actual slot--></div>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

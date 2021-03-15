@@ -1,24 +1,3 @@
-.watchlist {
-    border-radius: 20px;
-}
-
-.watchlistRow {
-    height: 6em;
-    padding-top: 0.8em;
-    margin: 0;
-}
-
-.watchlistHeaderRow {
-    font-size: large;
-    font-weight: bold;
-}
-
-.watchlistItem {
-    background-color: ;
-    height: 100%;
-    width: 100%;
-}
-
-.watchlistHeaderItem {
-    background-color: ;
+.watchlist-cell {
+    border: 1px solid lightgray;
 }

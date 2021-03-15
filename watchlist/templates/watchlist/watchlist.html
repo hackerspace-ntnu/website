@@ -26,19 +26,27 @@
         <table class="striped watchlist">
             <thead>
                 <tr class="watchlist-row watchlist-header-row">
-                    <th>Tid</div>
+                    <th>Tid</th>
                     {% for day in columns %}
-                    <th>{{ day }}</div>
+                    <th>{{ day }}</th>
                     {% endfor %}
                 </tr>
             </thead>
 
             <tbody>
-                {% for time in rows %}
+                {% for time, shifts in rows.items %}
                 <tr class="watchlist-row">
-                    <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</div>
-                    {% for day in columns %}
-                    <td class="watchlist-cell"><!--actual slot--></div>
+                    <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
+                    {% for shift in shifts %}
+                    <td class="watchlist-cell {% if shift.watchers.count == 0 %}hs-red{% else %}hs-green{% endif %}">
+                        <p>
+                            {% if shift.watchers.count == 0 %}
+                            Stengt
+                            {% else %}
+                            {{ shift.watchers.count }} på vakt
+                            {% endif %}
+                        </p>
+                    </td>
                     {% endfor %}
                 </tr>
                 {% endfor %}

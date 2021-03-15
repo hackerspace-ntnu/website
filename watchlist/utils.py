@@ -1,22 +1,23 @@
 from .models import ShiftSlot, weekday_loc
 
 def get_shift_weekview_rows():
-    '''Returns a list of timeslot row headers to populate a weekview table with'''
+    '''Returns a dictionary of shifts for each timeslot, for each weekday'''
     slots = ShiftSlot.objects.all()
     if not slots:
         return None
 
-    rows = []
+    # Could be troublesome wrt. sorting of dictionary keys. Doesn't *seem* to be an issue right now but it *technically* already is!
+    rows = {}
     for slot in slots:
-        row_header = (slot.start, slot.end)
+        row_header = "{} -\n{}".format(slot.start.strftime("%H:%M"), slot.end.strftime("%H:%M"))
         if row_header not in rows:
-            rows.append(row_header)
-
-    # Sort by start time
-    rows.sort(key=lambda r: r[0])
-    # Reformat into strings
-    rows = ["{} -\n{}".format(row[0].strftime("%H:%M"), row[1].strftime("%H:%M")) for row in rows]
+            rows[row_header] = []
+        rows[row_header].append(slot)
     
+    # Sort each list in the dict by weekday
+    for time in rows.keys():
+        rows[time].sort(key=lambda slot: slot.weekday)
+
     return rows
 
 def get_shift_weekview_columns():

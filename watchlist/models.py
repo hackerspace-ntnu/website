@@ -61,7 +61,7 @@ class ShiftSlot(models.Model):
     # Time of day when the shift ends
     end = models.TimeField('Sluttid', null=False)
     # Who's taking this shift?
-    watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige', validators=[self.validate_limit])
+    watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige')
 
     # How many can register for this shift
     limit = models.IntegerField('Antallsbegrensing', null=False, blank=False)
@@ -74,14 +74,9 @@ class ShiftSlot(models.Model):
             self.limit
         )
 
-    def validate_limit(self):
-        '''Checks that there are <= limit watchers registered to this shift'''
-        watchers = self.watchers.count()
-        if watchers > self.limit:
-            raise ValidationError(
-                'Watchlist shift has too many registered people (%(amt)/%(max))',
-                params={'amt': watchers, 'max': self.limit}
-                )
+    def get_weekday_name(self):
+        '''Returns the name of the weekday tied to this slot'''
+        return weekday_loc[self.weekday]
 
     def get_shift_skills(self):
         '''Returns a dictionary of the skills of the watchers on this shift'''
@@ -95,5 +90,5 @@ class ShiftSlot(models.Model):
                 if not watcher_skill in shift_skills:
                     shift_skills[watcher_skill.name] = watcher_skill
                     continue
-        
+
         return shift_skills

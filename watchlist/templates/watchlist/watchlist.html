@@ -21,51 +21,22 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="hs-green watchlist">
-        <div class="row watchlistRow watchlistHeaderRow">
-            <div class="col s1 valign-wrapper watchlistItem watchlistHeaderItem"></div>
-            <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">Mandag</div>
-            <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">Tirsdag</div>
-            <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">Onsdag</div>
-            <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">Torsdag</div>
-            <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">Fredag</div>
-        </div>
-        <div class="row watchlistRow">
-            <div class="col s1 watchlistItem">10.15 <br> 12.15</div>
-            <div class="col s2 watchlistItem">
-                <span class="truncate">Navn Navnesen</span>
-                <span class="truncate">Haftor Arne</span>
-                <span class="truncate">Otto von Bismarck</span>
+<div class="section">
+    <div class="container">
+        <div class="hs-green watchlist">
+            <div class="row watchlistRow watchlistHeaderRow">
+                <div class="col s1 valign-wrapper watchlistItem watchlistHeaderItem"><!--empty upper left corner--></div>
+                {% for day in columns %}
+                <div class="col s2 valign-wrapper watchlistItem watchlistHeaderItem">{{ day }}</div>
+                {% endfor %}
             </div>
-            <div class="col s2 watchlistItem">3</div>
-            <div class="col s2 watchlistItem">4</div>
-            <div class="col s2 watchlistItem">5</div>
-            <div class="col s2 watchlistItem">6</div>
-        </div>
-        <div class="row watchlistRow">
-            <div class="col s1 watchlistItem">12.15 <br> 14.15</div>
-            <div class="col s2 watchlistItem">2</div>
-            <div class="col s2 watchlistItem">3</div>
-            <div class="col s2 watchlistItem">4</div>
-            <div class="col s2 watchlistItem">5</div>
-            <div class="col s2 watchlistItem">6</div>
-        </div>
-        <div class="row watchlistRow">
-            <div class="col s1 watchlistItem">14.15 <br> 16.15</div>
-            <div class="col s2 watchlistItem">2</div>
-            <div class="col s2 watchlistItem">3</div>
-            <div class="col s2 watchlistItem">4</div>
-            <div class="col s2 watchlistItem">5</div>
-            <div class="col s2 watchlistItem">6</div>
-        </div>
-        <div class="row watchlistRow">
-            <div class="col s1 watchlistItem">16.15 <br> 18.15</div>
-            <div class="col s2 watchlistItem">2</div>
-            <div class="col s2 watchlistItem">3</div>
-            <div class="col s2 watchlistItem">4</div>
-            <div class="col s2 watchlistItem">5</div>
-            <div class="col s2 watchlistItem">6</div>
+
+            {% for time in rows %}
+            <div class="row watchlistRow">
+                <div class="col s1 watchlistItem">{{ time|linebreaksbr }}</div>
+                <!-- #columns shift slots go here -->
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

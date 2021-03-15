@@ -184,7 +184,6 @@
 			},
 			{% if not perms.reservations.view_user_details %}
 			selectAllow: function (selectAllowInfo){
-				console.log("SelectAllow called");
 				return selectAllowInfo.start.getDate() === selectAllowInfo.end.getDate()
 			},
 			{% endif %}

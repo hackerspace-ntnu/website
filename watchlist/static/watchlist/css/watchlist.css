@@ -1,3 +1,11 @@
 .watchlist-cell {
     border: 1px solid lightgray;
 }
+
+.watchlist-open {
+    background-color: #5BBA47;
+}
+
+.watchlist-closed {
+    background-color: #E25E48;
+}

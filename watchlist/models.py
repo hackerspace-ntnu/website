@@ -61,7 +61,7 @@ class ShiftSlot(models.Model):
     # Time of day when the shift ends
     end = models.TimeField('Sluttid', null=False)
     # Who's taking this shift?
-    watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige')
+    watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige', blank=True)
 
     # How many can register for this shift
     limit = models.IntegerField('Antallsbegrensing', null=False, blank=False)

@@ -38,7 +38,7 @@
                 <tr class="watchlist-row">
                     <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
                     {% for shift in shifts %}
-                    <td class="watchlist-cell {% if shift.watchers.count == 0 %}hs-red{% else %}hs-green{% endif %}">
+                    <td class="watchlist-cell {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                         <p>
                             {% if shift.watchers.count == 0 %}
                             Stengt

@@ -80,15 +80,16 @@ class ShiftSlot(models.Model):
 
     def get_shift_skills(self):
         '''Returns a dictionary of the skills of the watchers on this shift'''
-        profiles = [Profile.objects.filter(user=watch_user) for watch_user in self.watchers]
-        shift_skills = {}
+
+        profiles = [Profile.objects.get(user=watch_user) for watch_user in self.watchers.all()]
+        shift_skills = []
         for profile in profiles:
             if not profile or not profile.skills:
                 continue
 
-            for watcher_skill in profile.skills:
+            for watcher_skill in profile.skills.all():
                 if not watcher_skill in shift_skills:
-                    shift_skills[watcher_skill.name] = watcher_skill
+                    shift_skills.append(watcher_skill)
                     continue
 
         return shift_skills

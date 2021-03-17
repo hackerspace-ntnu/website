@@ -294,3 +294,8 @@ LOGGING = {
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
+
+#################################
+# Website-specific              #
+#################################
+WORKSHOP_OPEN_DAYS = 5

@@ -1,4 +1,5 @@
 from .models import ShiftSlot, weekday_loc
+from website.settings import WORKSHOP_OPEN_DAYS
 
 def get_shift_weekview_rows():
     '''Returns a dictionary of shifts for each timeslot, for each weekday'''
@@ -9,7 +10,7 @@ def get_shift_weekview_rows():
     # Could be troublesome wrt. sorting of dictionary keys. Doesn't *seem* to be an issue right now but it *technically* already is!
     rows = {}
     for slot in slots:
-        row_header = "{} -\n{}".format(slot.start.strftime("%H:%M"), slot.end.strftime("%H:%M"))
+        row_header = '{} -\n{}'.format(slot.start.strftime('%H:%M'), slot.end.strftime('%H:%M'))
         if row_header not in rows:
             rows[row_header] = []
         rows[row_header].append(slot)

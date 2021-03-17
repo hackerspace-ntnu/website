@@ -38,14 +38,18 @@
                 <tr class="watchlist-row">
                     <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
                     {% for shift in shifts %}
-                    <td class="watchlist-cell {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
-                        <p>
+                    <td class="watchlist-cell watchlist-slot">
+                        <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                             {% if shift.watchers.count == 0 %}
-                            Stengt
+                            <i class="material-icons">block</i>
+                            {% elif shift.watchers.count == 1 %}
+                            <i class="material-icons">person</i>
+                            {% elif shift.watchers.count == 2 %}
+                            <i class="material-icons">group</i>
                             {% else %}
-                            {{ shift.watchers.count }} på vakt
+                            <i class="material-icons">group_add</i>
                             {% endif %}
-                        </p>
+                        </div>
                     </td>
                     {% endfor %}
                 </tr>

@@ -1,5 +1,27 @@
 .watchlist-cell {
     border: 1px solid lightgray;
+    vertical-align: top;
+}
+
+.watchlist-slot {
+    margin: 0;
+    padding: 0;
+}
+
+.watchlist-tag {
+    margin-top: .3rem;
+    margin-left: .3rem;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+}
+
+.watchlist-tag i {
+    font-size: 1.4rem;
+    text-align: center;
+    width: inherit;
 }
 
 .watchlist-open {

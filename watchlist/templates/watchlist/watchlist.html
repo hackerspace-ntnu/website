@@ -50,6 +50,14 @@
                             <i class="material-icons">group_add</i>
                             {% endif %}
                         </div>
+
+                        <div class="watchlist-skills">
+                            {% for category, data in shift.get_shift_skills.items %}
+							<div class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{data.color}} !important;">
+								<span>{{ data.level }}</span>
+							</div>
+                            {% endfor %}
+                        </div>
                     </td>
                     {% endfor %}
                 </tr>

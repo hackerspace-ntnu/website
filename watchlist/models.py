@@ -79,17 +79,20 @@ class ShiftSlot(models.Model):
         return weekday_loc[self.weekday]
 
     def get_shift_skills(self):
-        '''Returns a dictionary of the skills of the watchers on this shift'''
+        '''Returns a dictionary of skill categories and their color & maximal level among the watchers on this shift'''
 
         profiles = [Profile.objects.get(user=watch_user) for watch_user in self.watchers.all()]
-        shift_skills = []
+        shift_skills = {}
         for profile in profiles:
             if not profile or not profile.skills:
                 continue
 
             for watcher_skill in profile.skills.all():
-                if not watcher_skill in shift_skills:
-                    shift_skills.append(watcher_skill)
-                    continue
+                for category in watcher_skill.categories.all():
+                    level = profile.skills.filter(categories__pk = category.pk).count()
+                    if not category.name in shift_skills:
+                        shift_skills[category.name] = {'color': category.color, 'level': level}
+                        continue
+                    shift_skills[category.name]['level'] = max(shift_skills[category.name]['level'], level)
 
         return shift_skills

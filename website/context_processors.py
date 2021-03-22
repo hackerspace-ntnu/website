@@ -9,11 +9,18 @@ def common_info(request):
 def banner_context(request):
     banners = []
     for banner in Banner.objects.all():
-        if not banner.active:
+        if not banner.is_active():
             continue
-        
-        site_pattern = re.compile(banner.site.replace('*', '.*'))
-        if site_pattern.match(request.resolver_match.view_name):
+
+        # Match against the site patterns
+        should_show = False
+        for site in banner.site.split(','):
+            site_pattern = re.compile(site.replace('*', '.*'))
+            if site_pattern.match(request.resolver_match.view_name):
+                should_show = True
+                break
+
+        if should_show:
             color = banner.color
             if color == 'hs-green':
                 color = '#5bba47'

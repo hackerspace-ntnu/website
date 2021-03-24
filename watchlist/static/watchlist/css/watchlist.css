@@ -1,6 +1,25 @@
 .watchlist-cell {
     border: 1px solid lightgray;
     vertical-align: top;
+    user-select: none;
+}
+
+.watchlist-skills {
+    margin-top: .3rem;
+    margin-right: .3rem;
+    float: right;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.skill-icon {
+    margin: .1rem;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 9px;
+    text-align: center;
 }
 
 .watchlist-slot {
@@ -9,6 +28,7 @@
 }
 
 .watchlist-tag {
+    float: left;
     margin-top: .3rem;
     margin-left: .3rem;
     padding: 0;
@@ -30,4 +50,11 @@
 
 .watchlist-closed {
     background-color: #E25E48;
+}
+
+.legend-symbol {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
 }

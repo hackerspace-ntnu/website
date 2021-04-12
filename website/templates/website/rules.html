@@ -1,0 +1,58 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="section hs-green">
+    <div class="container">
+        <div class="row valign-wrapper white-text">
+            <div class="col s12">
+                <h4>
+                    Regler
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                {% for rule in rules %}
+                    <div class="section">
+                        <div class="row no-pad-bot">
+                            <div class="col s2 center hide-on-med-and-down">
+                                {% if rule.thumb %}
+                                    <img class="circle" style="width:100px; height:100px;" src="{{ rule.thumb.thumb_url }}">
+                                {% else %}
+                                    <img class="circle" style="width:100px; height:100px;" src="">
+                                {% endif %}
+                            </div>
+                            <div class="col s10 hide-on-med-and-down">
+                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate">{{ rule.title }}</h5></a>
+                                <p>
+                                    {% autoescape off %}
+                                        {{ rule.ingress_content|truncatechars:200 }}
+                                    {% endautoescape %}
+                                </p>
+                            </div>
+                            <div class="col s12 show-on-med-and-down hide-on-large-only">
+                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate">{{ rule.title }}</h5></a>
+                                <p>
+                                    {% autoescape off %}
+                                        {{ rule.ingress_content|truncatechars:200 }}
+                                    {% endautoescape %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

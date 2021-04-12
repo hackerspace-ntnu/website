@@ -306,3 +306,9 @@ a {
 .word-wrap {
 	word-wrap: break-word;
 }
+
+/* Rule details */
+
+.rule-body{
+    font-size: 1.25rem;
+}

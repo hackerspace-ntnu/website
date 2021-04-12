@@ -1,0 +1,28 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block content %}
+
+    <div class="section hs-green">
+        <div class="container">
+            <div class="section no-pad">
+                <img class="responsive-img skill-category-img" src="{{ rule.thumb.url }}"/>
+            </div>
+            <div class="section card-panel cut-top z-depth-2">
+                <div class="section container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h3 class="center-align hide-on-small-only">{{ rule.title }}</h3>
+                            <h5 class="center-align hide-on-med-and-up">{{ rule.title }}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 rule-body">
+                            {{ rule.body | safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

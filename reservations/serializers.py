@@ -45,6 +45,12 @@ class ReservationsSerializer(serializers.ModelSerializer):
         fields = ('start', 'end', 'user', 'parent_queue', 'comment', 'id', 'fullname', 'phone')
 
     def validate(self, attrs):
+
+        # Kalenderen viser ikke reservasjoner som slutter 00:00. Erstatter derfor 00:00 med 23:59.
+        if (attrs['end'].time().hour == 0) and (attrs['end'].time().minute == 0) and (attrs['end'].time().second == 0):
+            new_time = attrs['end'] - datetime.timedelta(seconds=1)
+            attrs['end'] = new_time
+
         # Dersom man skal oppdatere og sender kun kommentar, bruker man HTTP
         # PATCH og da kan man ikke validere de andre feltene.
         if self.context['request'].method == 'PATCH':

@@ -78,6 +78,7 @@
 					<li><a class="waves-effect" href="{% url 'inventory:loans' %}">Lånesøknader</a></li>
 					{% endif %}
 					<li><a class="waves-effect" href="{% url 'reservations:queue_list' %}">Reservasjoner</a></li>
+					<li><a class="waves-effect" href="{% url 'rules' %}">Regler</a></li>
 					<li><a class="waves-effect" href="{% url 'about' %}">Om oss</a></li>
 
 					<li><div class="divider"></div></li>
@@ -95,7 +96,7 @@
 						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
 						{% endif %}
 					</ul>
-					<!-- Dropdown for resurser -->
+					<!-- Dropdown for ressurser -->
 					<ul id="resourcedropdown" class="dropdown-content">
 						<li class="tooltipped" data-position="left" data-tooltip="Se hvor vi befinner oss">
 							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="{{ mazemap_link }}">Kart</a>
@@ -108,6 +109,9 @@
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se utstyr og reserver tid">
 							<a href="{% url 'reservations:queue_list' %}">Reservasjoner</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="Se regler">
+							<a href="{% url 'rules' %}">Regler</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 							<a href="{% url 'about' %}">Om oss</a>

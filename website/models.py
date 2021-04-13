@@ -30,6 +30,7 @@ class Rule(models.Model):
     body = RichTextField()
     thumb = models.ForeignKey('files.Image', blank=True, null=True, verbose_name='Bilde', on_delete=models.SET_NULL)
     internal = models.BooleanField(default=False, verbose_name='Intern regel')
+    printer_rule = models.BooleanField(default=False, verbose_name='Regel for bruk av printer')
     priority = models.IntegerField(default=0)
 
     def __str__(self):

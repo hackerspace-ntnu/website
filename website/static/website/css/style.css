@@ -141,6 +141,20 @@ main {
 	padding: 0px !important;
 }
 
+/* Rule details */
+
+.rules-list{
+    display: flex;
+}
+
+.rule-body{
+    font-size: 1.25rem;
+}
+
+.rule-item{
+    align-self: center;
+}
+
 /* CKEditor override */
 .django-ckeditor-widget {
 	width: 100%;
@@ -151,7 +165,7 @@ main {
 }
 .slider .slides {
 	background-color: none;
-	background: rgba(0,0,0,0); 
+	background: rgba(0,0,0,0);
 
 }
 .slider .slides:before {
@@ -307,8 +321,11 @@ a {
 	word-wrap: break-word;
 }
 
-/* Rule details */
+.circle{
+    border-radius: 50%;
+    padding: 1px; /* Fix curving outside content issue */
+}
 
-.rule-body{
-    font-size: 1.25rem;
+.material-icons.md-48 {
+    font-size: 48px;
 }

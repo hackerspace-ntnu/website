@@ -29,6 +29,7 @@ class Rule(models.Model):
     title = models.CharField(max_length=100, verbose_name='Tittel', blank=False)
     body = RichTextField()
     thumb = models.ForeignKey('files.Image', blank=True, null=True, verbose_name='Bilde', on_delete=models.SET_NULL)
+    internal = models.BooleanField(default=False, verbose_name='Intern regel')
     priority = models.IntegerField(default=0)
 
     def __str__(self):

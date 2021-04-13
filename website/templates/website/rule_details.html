@@ -13,6 +13,12 @@
                         <div class="col s12">
                             <h3 class="center-align hide-on-small-only">{{ rule.title }}</h3>
                             <h5 class="center-align hide-on-med-and-up">{{ rule.title }}</h5>
+                            {% if rule.internal %}
+                            <div class="black-text z-depth-0 center-align hs-gray-text">
+                                <i class="material-icons">info</i>
+                                <span>Denne regelen er intern og dermed kun synlig for medlemmer</span>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row">

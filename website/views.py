@@ -66,7 +66,10 @@ class RulesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['rules'] = Rule.objects.order_by("-priority")
+        if not self.request.user.has_perm('news.can_view_internal_event'):
+            context['rules'] = Rule.objects.order_by("-priority").filter(internal=False)
+        else:
+            context['rules'] = Rule.objects.order_by("-priority")
         return context
 
 
@@ -74,6 +77,12 @@ class RuleDetailsView(DetailView):
 
     model = Rule
     template_name = "website/rule_details.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        rule = self.get_object()
+        if rule.internal and not request.user.has_perm('news.can_view_internal_event'):
+            return redirect("/")
+        return super(RuleDetailsView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

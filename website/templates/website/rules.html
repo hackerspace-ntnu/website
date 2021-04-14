@@ -37,13 +37,13 @@
                                 {% endif %}
                             </div>
                             <div class="col s10 hide-on-med-and-down valign-wrapper rule-item">
-                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate">{{ rule.title }}</h5></a>
+                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate py-s">{{ rule.title }}</h5></a>
                                 {% if rule.internal %}
                                     <p style="margin:0"><span class="badge hs-green white-text">Intern</span></p>
                                 {% endif %}
                             </div>
                             <div class="col s12 show-on-med-and-down hide-on-large-only valign-wrapper rule-item">
-                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate">{{ rule.title }}</h5></a>
+                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate py-s">{{ rule.title }}</h5></a>
                                 {% if rule.internal %}
                                     <p style="margin:0"><span class="badge hs-green white-text">Intern</span></p>
                                 {% endif %}

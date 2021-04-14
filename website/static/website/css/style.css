@@ -326,6 +326,12 @@ a {
     padding: 1px; /* Fix curving outside content issue */
 }
 
+/* Vertical padding (small) */
+.py-s {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
 .material-icons.md-48 {
     font-size: 48px;
 }

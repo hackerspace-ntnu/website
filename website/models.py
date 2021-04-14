@@ -36,6 +36,11 @@ class Rule(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        permissions = (
+            ("can_view_internal_rule", "Can view internal rule"),
+        )
+
 
 # Banners that can appear on the top of specific sites
 class Banner(models.Model):

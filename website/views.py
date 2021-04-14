@@ -66,7 +66,7 @@ class RulesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if not self.request.user.has_perm('news.can_view_internal_event'):
+        if not self.request.user.has_perm('website.can_view_internal_rule'):
             context['rules'] = Rule.objects.order_by("-priority").filter(internal=False)
         else:
             context['rules'] = Rule.objects.order_by("-priority")
@@ -80,7 +80,7 @@ class RuleDetailsView(DetailView):
 
     def dispatch(self, request, *args, **kwargs):
         rule = self.get_object()
-        if rule.internal and not request.user.has_perm('news.can_view_internal_event'):
+        if rule.internal and not request.user.has_perm('website.can_view_internal_rule'):
             return redirect("/")
         return super(RuleDetailsView, self).dispatch(request, *args, **kwargs)
 

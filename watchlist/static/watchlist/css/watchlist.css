@@ -4,6 +4,10 @@
     user-select: none;
 }
 
+.watchlist-my-shift {
+    background-color: #FFEEC6;
+}
+
 .watchlist-skills {
     margin-top: .3rem;
     margin-right: .3rem;

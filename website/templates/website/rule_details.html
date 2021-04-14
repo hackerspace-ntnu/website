@@ -1,11 +1,25 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+    {# OpenGraph Metadata #}
+    <meta property="og:title" content="{{ rule.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{ rule.thumb.abs_url }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    {# OpenGraph Metadata End #}
+{% endblock head %}
 {% block content %}
 
     <div class="section hs-green">
         <div class="container">
-            <div class="section no-pad">
-                <img class="responsive-img skill-category-img" src="{{ rule.thumb.url }}"/>
+            <div class="section no-pad hs-green hide-on-med-and-up">
+                <img class="header-image" src="{{ rule.thumb.url }}" />
+            </div>
+            <div class="section no-pad hs-green hide-on-small-only">
+                <div class="container center">
+                    <img class="responsive-img" src="{{ rule.thumb.url }}" />
+                </div>
             </div>
             <div class="section card-panel cut-top z-depth-2">
                 <div class="section container">

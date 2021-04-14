@@ -23,52 +23,109 @@
 
 <div class="section">
     <div class="container">
-        <table class="striped watchlist">
-            <thead>
-                <tr class="watchlist-row watchlist-header-row">
-                    <th>Tid</th>
-                    {% for day in columns %}
-                    <th>{{ day }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
+        <div class="row">
+            <!-- Tablet and desktop get full tables -->
+            <div class="col m12 hide-on-small-only">
+                <table class="striped watchlist">
+                    <thead>
+                        <tr class="watchlist-row watchlist-header-row">
+                            <th>Tid</th>
+                            {% for day in columns %}
+                            <th>{{ day }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
 
-            <tbody>
-                {% for time, shifts in rows.items %}
-                <tr class="watchlist-row">
-                    <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
-                    {% for shift in shifts %}
-                    <td class="watchlist-cell watchlist-slot">
-                        <div class="watchlist-cell-content">
-                            <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
-                                {% if shift.watchers.count == 0 %}
-                                <i class="material-icons">block</i>
-                                {% elif shift.watchers.count == 1 %}
-                                <i class="material-icons">person</i>
-                                {% elif shift.watchers.count == 2 %}
-                                <i class="material-icons">group</i>
-                                {% else %}
-                                <i class="material-icons">group_add</i>
-                                {% endif %}
-                            </div>
+                    <tbody>
+                        {% for time, shifts in rows.items %}
+                        <tr class="watchlist-row">
+                            <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
+                            {% for shift in shifts %}
+                            <td class="watchlist-cell watchlist-slot">
+                                <div class="watchlist-cell-content">
+                                    <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
+                                        {% if shift.watchers.count == 0 %}
+                                        <i class="material-icons">block</i>
+                                        {% elif shift.watchers.count == 1 %}
+                                        <i class="material-icons">person</i>
+                                        {% elif shift.watchers.count == 2 %}
+                                        <i class="material-icons">group</i>
+                                        {% else %}
+                                        <i class="material-icons">group_add</i>
+                                        {% endif %}
+                                    </div>
 
-                            <div class="watchlist-skills">
-                                {% for category, data in shift.get_shift_skills.items %}
-                                <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
-                                    <span>{{ data.level }}</span>
+                                    <div class="watchlist-skills">
+                                        {% for category, data in shift.get_shift_skills.items %}
+                                        <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
+                                            <span>{{ data.level }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </td>
-                    {% endfor %}
-                </tr>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile gets one table per day -->
+            <div class="col s12 hide-on-med-and-up">
+                {% for day in columns %}
+                <table>
+                    <thead>
+                        <tr class="watchlist-row watchlist-header-row">
+                            <th>Tid</th>
+                            <th>{{ day }}</th>
+                        </tr>
+                    </thead>
+                    
+
+                    <tbody>
+                        {% for time, shifts in rows.items %}
+                        <tr class="watchlist-row">
+                            <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
+                            {% for shift in shifts %}
+                            <!-- Bare vis skift fra dagen som denne tabellen tilhører til -->
+                            {% if forloop.parentloop.parentloop.counter0 ==  shift.weekday %}
+                            <td class="watchlist-cell watchlist-slot">
+                                <div class="watchlist-cell-content">
+                                    <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
+                                        {% if shift.watchers.count == 0 %}
+                                        <i class="material-icons">block</i>
+                                        {% elif shift.watchers.count == 1 %}
+                                        <i class="material-icons">person</i>
+                                        {% elif shift.watchers.count == 2 %}
+                                        <i class="material-icons">group</i>
+                                        {% else %}
+                                        <i class="material-icons">group_add</i>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="watchlist-skills">
+                                        {% for category, data in shift.get_shift_skills.items %}
+                                        <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
+                                            <span>{{ data.level }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- Tegnforklaring -->
 <div class="section hs-gray white-text">
     <div class="container">
         <div class="row">

@@ -1,6 +1,8 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 from files.models import Image
 from datetime import datetime
+
 
 class Card(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title', blank=False)
@@ -11,13 +13,34 @@ class Card(models.Model):
     def __str__(self):
         return self.title
 
+
 class FaqQuestion(models.Model):
     question = models.CharField(max_length=100, verbose_name='Spørsmål', blank=False)
     text = models.TextField(max_length=1000, verbose_name='Svar', blank=False)
-    icon = models.CharField(max_length=30, verbose_name='Ikon', help_text="Eksempel 'note_add' fra https://material.io/tools/icons/?style=baseline", blank=False)
+    icon = models.CharField(max_length=30, verbose_name='Ikon',
+                            help_text="Eksempel 'note_add' fra https://material.io/tools/icons/?style=baseline",
+                            blank=False)
 
     def __str__(self):
         return self.question
+
+
+class Rule(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Tittel', blank=False)
+    body = RichTextField()
+    thumb = models.ForeignKey('files.Image', blank=True, null=True, verbose_name='Bilde', on_delete=models.SET_NULL)
+    internal = models.BooleanField(default=False, verbose_name='Intern regel')
+    printer_rule = models.BooleanField(default=False, verbose_name='Regel for bruk av printer')
+    priority = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        permissions = (
+            ("can_view_internal_rule", "Can view internal rule"),
+        )
+
 
 # Banners that can appear on the top of specific sites
 class Banner(models.Model):
@@ -65,7 +88,7 @@ class Banner(models.Model):
 
     def __str__(self):
         return 'Banner - {} {}'.format(self.site, '(Aktiv)' if self.active else '')
-    
+
     def is_active(self):
         '''Returns whether or not this banner should be shown'''
         expired = self.end_date is not None and datetime.now().date() > self.end_date

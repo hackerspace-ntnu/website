@@ -8,16 +8,16 @@ from committees.models import Committee
 from userprofile.models import Profile
 from datetime import datetime
 from applications.models import ApplicationPeriod
-from .models import Card, FaqQuestion
-from django.views.generic import ListView, TemplateView, RedirectView
+from .models import Card, FaqQuestion, Rule
+from django.views.generic import ListView, TemplateView, RedirectView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from urllib import parse as urlparse
 
-class AcceptTosView(TemplateView):
 
+class AcceptTosView(TemplateView):
     template_name = 'website/tos-returningls.html'
 
-    def get(self,request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
 
         if not self.request.user.is_authenticated or self.request.user.profile.has_accepted_most_recent_tos():
             # No user logged in, or user has already accepted TOS, return to main page
@@ -28,12 +28,11 @@ class AcceptTosView(TemplateView):
 
         # Make sure page is valid before storing it for later
         if refererUrl:
-
             # Save users pre-TOS page path in session variable
             # Parse converts from absolute to relative path
             request.session['redirect_after_tos_accept'] = urlparse.urlparse(refererUrl).path
 
-        return super().get(self,request,*args, **kwargs)
+        return super().get(self, request, *args, **kwargs)
 
 
 class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
@@ -41,8 +40,7 @@ class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         profileobj = get_object_or_404(Profile, pk=self.request.user.profile.id)
-        if(profileobj != None):
-
+        if (profileobj != None):
             mostRecentTos = TermsOfService.objects.order_by('-pub_date').first();
 
             profileobj.accepted_tos = mostRecentTos
@@ -52,6 +50,7 @@ class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
         # Redirects to '/' if pop fails
         return self.request.session.pop('redirect_after_tos_accept', super().get_redirect_url(*args, **kwargs))
 
+
 class AboutView(TemplateView):
     template_name = "website/about.html"
 
@@ -59,6 +58,35 @@ class AboutView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['committees'] = Committee.objects.filter(active=True).order_by("-priority")
         context['faq'] = FaqQuestion.objects.all()
+        return context
+
+
+class RulesView(TemplateView):
+    template_name = "website/rules.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not self.request.user.has_perm('website.can_view_internal_rule'):
+            context['rules'] = Rule.objects.order_by("-priority").filter(internal=False)
+        else:
+            context['rules'] = Rule.objects.order_by("-priority")
+        return context
+
+
+class RuleDetailsView(DetailView):
+
+    model = Rule
+    template_name = "website/rule_details.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        rule = self.get_object()
+        if rule.internal and not request.user.has_perm('website.can_view_internal_rule'):
+            return redirect("/")
+        return super(RuleDetailsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rule'] = Rule.objects.get(id=self.object.pk)
         return context
 
 
@@ -85,20 +113,20 @@ class IndexView(TemplateView):
 
         # Determine number of hidden internal articles
         if not self.request.user.has_perm('news.can_view_internal_article'):
-            internal_articles_count = len(Article.objects.filter(internal=True,draft=False))
+            internal_articles_count = len(Article.objects.filter(internal=True, draft=False))
         else:
             internal_articles_count = 0
 
         badge_text = {
-            "plural":{
-                "large":"interne artikler skjult",
-                "medium":"interne skjult",
-                "small":"skjult"
+            "plural": {
+                "large": "interne artikler skjult",
+                "medium": "interne skjult",
+                "small": "skjult"
             },
-            "singular":{
-                "large":"intern artikkel skjult",
-                "medium":"intern skjult",
-                "small":"skjult"
+            "singular": {
+                "large": "intern artikkel skjult",
+                "medium": "intern skjult",
+                "small": "skjult"
             }
         }
 
@@ -114,20 +142,21 @@ class IndexView(TemplateView):
 
         # Determine number of hidden internal events
         if not self.request.user.has_perm('news.can_view_internal_event'):
-            upcoming_internal_events_count = len(Event.objects.filter(internal=True,draft=False).filter(time_start__gte=current_date))
+            upcoming_internal_events_count = len(
+                Event.objects.filter(internal=True, draft=False).filter(time_start__gte=current_date))
         else:
             upcoming_internal_events_count = 0
 
         badge_text = {
-            "plural":{
-                "large":"interne arrangementer skjult",
-                "medium":"interne skjult",
-                "small":"skjult"
+            "plural": {
+                "large": "interne arrangementer skjult",
+                "medium": "interne skjult",
+                "small": "skjult"
             },
-            "singular":{
-                "large":"internt arrangement skjult",
-                "medium":"internt skjult",
-                "small":"skjult"
+            "singular": {
+                "large": "internt arrangement skjult",
+                "medium": "internt skjult",
+                "small": "skjult"
             }
         }
 
@@ -146,13 +175,13 @@ class IndexView(TemplateView):
 
         # First sort, then grab 5 elements, then flip the list ordered by date
         event_list = Event.objects.filter(
-            internal__lte=can_access_internal_event,draft=False).order_by('-time_start')[:5:-1]
+            internal__lte=can_access_internal_event, draft=False).order_by('-time_start')[:5:-1]
 
         current_date = datetime.now()
 
         # Get five published articles
         article_list = Article.objects.filter(
-            internal__lte=can_access_internal_article,draft=False
+            internal__lte=can_access_internal_article, draft=False
         ).order_by('-pub_date')[:5]
 
         # Få dørstatus
@@ -165,9 +194,9 @@ class IndexView(TemplateView):
         if not ApplicationPeriod.objects.filter(name="Opptak"):
             ap = ApplicationPeriod.objects.create(
                 name="Opptak",
-                period_start=datetime(2018,1,1),
-                period_end=datetime(2018,1,2)
-                ).save()
+                period_start=datetime(2018, 1, 1),
+                period_end=datetime(2018, 1, 2)
+            ).save()
 
         app_start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
         app_end_date = ApplicationPeriod.objects.get(name="Opptak").period_end

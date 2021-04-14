@@ -19,6 +19,11 @@
 		<div class="row">
 			<div class="col s12">
 				<h4>Viktig informasjon</h4>
+				{% if printer_rule %}
+					<blockquote>
+						Les <a href="/rules/{{printer_rule.id}}">regler for bruk av 3D-printer</a> før du starter.
+					</blockquote>
+				{% endif %}
 				<blockquote>Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både printer og folk på vakt som følger med). Det er derfor forventet at du møter opp tidsnok (gjerne 5 minutter før avsatt  tid) og ikke går over tiden du har booket.
 				</blockquote>
 			</div>

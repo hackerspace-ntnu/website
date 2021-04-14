@@ -7,9 +7,18 @@ from reservations.serializers import ReservationsSerializer, RestrictedReservati
 from django_filters import rest_framework as filters
 from datetime import datetime
 
+from website.models import Rule
+
 
 class QueueDetailView(DetailView):
     model = Queue
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if Rule.objects.filter(printer_rule=True).exists():
+            # Get first rule marked as printer rule
+            context['printer_rule'] = Rule.objects.filter(printer_rule=True)[0]
+        return context
 
 class QueueListView(ListView):
     model = Queue
@@ -20,6 +29,9 @@ class QueueListView(ListView):
             context['reservation_list'] = Reservation.objects.filter(user=self.request.user, end__gte=datetime.now())
         else:
             context['reservation_list'] = None
+        if Rule.objects.filter(printer_rule=True).exists():
+            # Get first rule marked as printer rule
+            context['printer_rule'] = Rule.objects.filter(printer_rule=True)[0]
         return context
 
 

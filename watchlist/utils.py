@@ -3,7 +3,7 @@ from website.settings import WORKSHOP_OPEN_DAYS
 
 def get_shift_weekview_rows():
     '''Returns a dictionary of shifts for each timeslot, for each weekday'''
-    slots = ShiftSlot.objects.all()
+    slots = ShiftSlot.objects.all().order_by('start')
     if not slots:
         return None
 

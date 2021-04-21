@@ -106,7 +106,23 @@
                             {% for shift in shifts %}
                             <!-- Bare vis skift fra dagen som denne tabellen tilhører til -->
                             {% if forloop.parentloop.parentloop.counter0 ==  shift.weekday %}
-                            <td class="watchlist-cell watchlist-slot">
+                            <td
+                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} {% if perms.watchlist.view_shiftslot %} modal-trigger {% endif %}"
+                                {% if perms.watchlist.view_shiftslot %}
+                                href="#change-registration-modal"
+                                {# modal_time = '{{ time|linebreaksbr }}' er ei litta hack ;) Ta en titt på _watchlist_modals.html #}
+                                onClick="
+                                    modal_shift_id = {{ shift.id }};
+                                    modal_day = '{{ shift.weekday }}';
+                                    modal_time = '{{ time|linebreaksbr }}';
+                                    modal_watchers = [{% for usr in shift.watchers.all %}'{{ usr.first_name }} {{ usr.last_name }}',{% endfor %}];
+                                    modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
+                                    modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
+
+                                    updateModalInformation();
+                                    "
+                                {% endif %}
+                            >
                                 <div class="watchlist-cell-content">
                                     <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                                         {% if shift.watchers.count == 0 %}

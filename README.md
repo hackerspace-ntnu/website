@@ -26,8 +26,7 @@ Alternatives:
 
 Instead of installing a bunch of python files system-wide, we will use a virtual environment to install the packages in a single folder instead.
 
-### For Linux
-
+### For Linux/Mac
 
 1. Create virtualenv:
 `python3 -m venv NAME_OF_VENV`

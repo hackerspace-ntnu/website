@@ -3,48 +3,11 @@
         <h4 id="registration-modal-day"></h4>
         <p id="registration-modal-time">{{ time }}</p>
         <hr>
-
-        <div id="registration-modal-watchlist">
-
-        </div>
+        <div id="registration-modal-watchlist"></div>
     </div>
 
-    <div class="modal-footer">
-        <a href="#!" class="modal-close btn hs-red">Avbryt</a>
-    </div>
+    <div class="modal-footer" id="registration-modal-footer"></div>
 </div>
 
-<script>
-const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag'];
-let modal_shift_id = 0;
-let modal_day = 0;
-let modal_time = '';
-let modal_watchers = [];
-function updateModalInformation()
-{
-    $('#registration-modal-day').text(weekdays[modal_day]);
-    // Tiden til vakten inneholder i utgangspunktet en newline. Dette er vanligvis en syntaksfeil fordi vi ikke kan escape den
-    // Så vi setter inn tiden med <br> for newlines i templaten, så fjerner vi den her for å få tidsrammen på en linje
-    modal_time = modal_time.replace('<br>', '');
-    $('#registration-modal-time').text(modal_time);
-
-    const watchlist_div = $('#registration-modal-watchlist');
-    // Tøm div-en
-    watchlist_div.empty();
-    if (modal_watchers.length > 0)
-    {
-        watchlist_div.append($('<h5>Vakthavende</h5>'));
-        // Legg til navnet på alle vakthavende
-        const watchlist_names = $('<p></p>');
-        for (let i = 0; i < modal_watchers.length; i++)
-        {
-            watchlist_names.append($('<span>' + modal_watchers[i] + '</span><br>'));
-        }
-        watchlist_div.append(watchlist_names);
-    }
-    else
-    {
-        watchlist_div.append($('<p>Ingen på vakt!</p>'));
-    }
-}
-</script>
+{% load static %}
+<script src="{% static "watchlist/js/watchlist_modal.js" %}"></script>

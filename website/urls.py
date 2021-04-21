@@ -53,6 +53,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/inventory/', inventory_views.InventoryListAPIView.as_view(), name='inventory-api'),
     path('inventory/', include('inventory.urls')),
+    path('vaktliste/', include('watchlist.urls'))
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"

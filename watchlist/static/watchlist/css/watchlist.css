@@ -1,0 +1,64 @@
+.watchlist-cell {
+    border: 1px solid lightgray;
+    vertical-align: top;
+    user-select: none;
+}
+
+.watchlist-my-shift {
+    background-color: #FFEEC6;
+}
+
+.watchlist-skills {
+    margin-top: .3rem;
+    margin-right: .3rem;
+    float: right;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.skill-icon {
+    margin: .1rem;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    border-radius: 9px;
+    text-align: center;
+}
+
+.watchlist-slot {
+    margin: 0;
+    padding: 0;
+}
+
+.watchlist-tag {
+    float: left;
+    margin-top: .3rem;
+    margin-left: .3rem;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+}
+
+.watchlist-tag i {
+    font-size: 1.4rem;
+    text-align: center;
+    width: inherit;
+}
+
+.watchlist-open {
+    background-color: #5BBA47;
+}
+
+.watchlist-closed {
+    background-color: #E25E48;
+}
+
+.legend-symbol {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+}

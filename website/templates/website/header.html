@@ -73,6 +73,7 @@
 					<li><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
 					<li><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
 					<li><a class="waves-effect" href="{% url 'member-list' %}">Medlemmer</a></li>
+					<li><a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">Vaktliste</a></li>
 					<li><a class="waves-effect" href="{% url 'inventory:inventory' %}">Lager</a></li>
 					{% if user.is_authenticated and perms.inventory.view_itemloan %}
 					<li><a class="waves-effect" href="{% url 'inventory:loans' %}">Lånesøknader</a></li>
@@ -103,6 +104,9 @@
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se liste over medlemmer">
 							<a href="{% url 'member-list' %}">Medlemmer</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="Se vaktlista vår">
+							<a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">Vaktliste</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se lagerbeholdningen vår">
 							<a href="{% url 'inventory:inventory' %}">Lager</a>

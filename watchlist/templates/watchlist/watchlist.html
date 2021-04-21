@@ -1,0 +1,206 @@
+
+{% extends 'website/base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>Vaktliste</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{% static "watchlist/css/watchlist.css" %}">
+{% endblock %}
+
+{% block content %}
+<div class="section hs-green white-text">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h4>Vaktliste</h4>
+                <p>Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+        <div class="row">
+            {# Tablet og desktop får en hel tabell #}
+            <div class="col m12 hide-on-small-only">
+                <table class="striped watchlist">
+                    <thead>
+                        <tr class="watchlist-row watchlist-header-row">
+                            <th>Tid</th>
+                            {% for day in columns %}
+                            <th>{{ day }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for time, shifts in rows.items %}
+                        <tr class="watchlist-row">
+                            <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
+                            {% for shift in shifts %}
+                            <td
+                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} {% if perms.watchlist.view_shiftslot %} modal-trigger {% endif %}"
+                                {% if perms.watchlist.view_shiftslot %}
+                                href="#change-registration-modal"
+                                {# modal_time = '{{ time|linebreaksbr }}' er ei litta hack ;) Ta en titt på _watchlist_modals.html #}
+                                onClick="
+                                    modal_shift_id = {{ shift.id }};
+                                    modal_day = '{{ shift.weekday }}';
+                                    modal_time = '{{ time|linebreaksbr }}';
+                                    modal_watchers = [{% for usr in shift.watchers.all %}'{{ usr.first_name }} {{ usr.last_name }}',{% endfor %}];
+                                    modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
+                                    modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
+
+                                    updateModalInformation();
+                                    "
+                                {% endif %}
+                            >
+                                <div class="watchlist-cell-content">
+                                    <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
+                                        {% if shift.watchers.count == 0 %}
+                                        <i class="material-icons">block</i>
+                                        {% elif shift.watchers.count == 1 %}
+                                        <i class="material-icons">person</i>
+                                        {% elif shift.watchers.count == 2 %}
+                                        <i class="material-icons">group</i>
+                                        {% else %}
+                                        <i class="material-icons">group_add</i>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="watchlist-skills">
+                                        {% for category, data in shift.get_shift_skills.items %}
+                                        <div class="skill-icon white-text hs-green" style="background-color: {{data.color}} !important;">
+                                            <span>{{ data.level }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {# Mobil får en tabell per dag #}
+            <div class="col s12 hide-on-med-and-up">
+                {% for day in columns %}
+                <table>
+                    <thead>
+                        <tr class="watchlist-row watchlist-header-row">
+                            <th>Tid</th>
+                            <th>{{ day }}</th>
+                        </tr>
+                    </thead>
+                    
+
+                    <tbody>
+                        {% for time, shifts in rows.items %}
+                        <tr class="watchlist-row">
+                            <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
+                            {% for shift in shifts %}
+                            <!-- Bare vis skift fra dagen som denne tabellen tilhører til -->
+                            {% if forloop.parentloop.parentloop.counter0 ==  shift.weekday %}
+                            <td class="watchlist-cell watchlist-slot">
+                                <div class="watchlist-cell-content">
+                                    <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
+                                        {% if shift.watchers.count == 0 %}
+                                        <i class="material-icons">block</i>
+                                        {% elif shift.watchers.count == 1 %}
+                                        <i class="material-icons">person</i>
+                                        {% elif shift.watchers.count == 2 %}
+                                        <i class="material-icons">group</i>
+                                        {% else %}
+                                        <i class="material-icons">group_add</i>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="watchlist-skills">
+                                        {% for category, data in shift.get_shift_skills.items %}
+                                        <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
+                                            <span>{{ data.level }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tegnforklaring -->
+<div class="section hs-gray white-text">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h4>Tegnforklaring</h4>
+                <div class="row">
+                    <div class="legend-symbol col s12 m6 l3">
+                        <div class="watchlist-tag watchlist-closed">
+                            <i class="material-icons">block</i>
+                        </div>
+                        <p>
+                            Verkstedet er <b>stengt</b><br>
+                            Ingen på vakt
+                        </p>
+                    </div>
+                    <div class="legend-symbol col s12 m6 l3">
+                        <div class="watchlist-tag watchlist-open">
+                            <i class="material-icons">person</i>
+                        </div>
+                        <p>
+                            Verkstedet er <b>åpent</b><br>
+                            1 person på vakt
+                        </p>
+                    </div>
+                    <div class="legend-symbol col s12 m6 l3">
+                        <div class="watchlist-tag watchlist-open">
+                            <i class="material-icons">group</i>
+                        </div>
+                        <p>
+                            Verkstedet er <b>åpent</b><br>
+                            2 personer på vakt
+                        </p>
+                    </div>
+                    <div class="legend-symbol col s12 m6 l3">
+                        <div class="watchlist-tag watchlist-open">
+                            <i class="material-icons">group_add</i>
+                        </div>
+                        <p>
+                            Verkstedet er <b>åpent</b><br>
+                            3+ personer på vakt
+                        </p>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    {% for category in skill_categories %}
+                    <div class="legend-symbol col s12 m6 l3">
+                        <div class="watchlist-tag" style="background-color:{{category.color}} !important;"></div>
+                        <p>{{ category }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if perms.watchlist.view_shiftslot %}
+{% include 'watchlist/_watchlist_modals.html' %}
+{% endif %}
+
+{% endblock %}

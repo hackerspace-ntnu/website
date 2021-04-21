@@ -1,0 +1,13 @@
+<div id="change-registration-modal" class="modal">
+    <div class="modal-content">
+        <h4 id="registration-modal-day"></h4>
+        <p id="registration-modal-time">{{ time }}</p>
+        <hr>
+        <div id="registration-modal-watchlist"></div>
+    </div>
+
+    <div class="modal-footer" id="registration-modal-footer"></div>
+</div>
+
+{% load static %}
+<script src="{% static "watchlist/js/watchlist_modal.js" %}"></script>

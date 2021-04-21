@@ -23,7 +23,7 @@ def get_shift_weekview_rows():
 
 def get_shift_weekview_columns():
     '''Returns a list of weekday name column headers to populate a weekview table with'''
-    slots = ShiftSlot.objects.all()
+    slots = ShiftSlot.objects.all().order_by('weekday')
     if not slots:
         return None
 

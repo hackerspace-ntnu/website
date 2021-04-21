@@ -17,7 +17,7 @@ class Weekdays(Enum):
     SUNDAY = 6
 weekday_loc = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag']
 
-def generate_watchlist(shift_length, day_start, day_end, limit):
+def generate_watchlist(shift_length, day_start, day_end):
     '''
     Generates timeslots for all weekdays
     
@@ -25,7 +25,6 @@ def generate_watchlist(shift_length, day_start, day_end, limit):
         shift_length: How many minutes a single shift lasts for.
         day_start: A timedelta object describing when the first shift starts.
         day_end: A timedelta object describing when the last shift ends.
-        limit: The limit on how many people can be registered to a single shift.
     '''
     # Sanity check
     if shift_length < 0 or shift_length > (24*60):
@@ -47,7 +46,6 @@ def generate_watchlist(shift_length, day_start, day_end, limit):
                 # whoever wrote the datetime module is an idiot
                 start=time(hour=(start.seconds // 3600), minute=(start.seconds // 60)%60),
                 end=time(hour=(end.seconds // 3600), minute=(end.seconds // 60)%60),
-                limit=limit
             )
             time_slot.save()
 
@@ -63,15 +61,11 @@ class ShiftSlot(models.Model):
     # Who's taking this shift?
     watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige', blank=True)
 
-    # How many can register for this shift
-    limit = models.IntegerField('Antallsbegrensing', null=False, blank=False)
-
     def __str__(self):
         return "{} - {}-{} (x{})".format(
             weekday_loc[self.weekday],
             self.start.strftime('%H:%M'),
             self.end.strftime('%H:%M'),
-            self.limit
         )
 
     def get_weekday_name(self):

@@ -62,7 +62,7 @@ class ShiftSlot(models.Model):
     watchers = models.ManyToManyField(User, 'watches', verbose_name='Vaktansvarlige', blank=True)
 
     def __str__(self):
-        return "{} - {}-{} (x{})".format(
+        return "{} - {}-{}".format(
             weekday_loc[self.weekday],
             self.start.strftime('%H:%M'),
             self.end.strftime('%H:%M'),

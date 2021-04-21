@@ -122,6 +122,7 @@ TEMPLATES = [
                 #"sekizai.context_processors.sekizai",
 
                 "website.context_processors.common_info",
+                "website.context_processors.banner_context"
             ],
             'debug': DEBUG,
         }
@@ -191,7 +192,7 @@ if not DEBUG:
     MEDIA_ROOT = '../media'
 
 CKEDITOR_UPLOAD_PATH = "ck_uploads"
-CKEDITOR_BASEPATH = "ckeditor"
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False

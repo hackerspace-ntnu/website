@@ -182,6 +182,11 @@
 				M.toast({'html': 'Du må være logget inn for å opprette reservasjoner.'})
 				{% endif %}
 			},
+			{% if not perms.reservations.view_user_details %}
+			selectAllow: function (selectAllowInfo){
+				return selectAllowInfo.start.getDate() === selectAllowInfo.end.getDate()
+			},
+			{% endif %}
 			events: {
 				url: '/api/reservations/',
 				method: 'GET',

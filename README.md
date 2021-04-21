@@ -12,9 +12,7 @@ This projects uses Django with Python 3. Make sure you have Python3 and pip3 ins
 
 ### For Linux
 
-`apt-get install python3`
-
-`apt-get install python3-pip`
+`sudo apt install python3 python3-pip python3-venv`
 
 ### For Windows
 Alternatives:
@@ -28,14 +26,20 @@ Alternatives:
 
 Instead of installing a bunch of python files system-wide, we will use a virtual environment to install the packages in a single folder instead.
 
-1. Install virtualenv:
-`pip3 install virtualenv`
+### For Linux/Mac
 
-2. Create virtualenv:
-`virtualenv venv`
+1. Create virtualenv:
+`python3 -m venv NAME_OF_VENV`
 
-3. Activate virtualenv:
-`source venv/bin/activate`
+2. Activate virtualenv:
+`source NAME_OF_VENV/bin/activate`
+
+### For Windows
+1. Create virtualenv:
+`python -m venv NAME_OF_VENV`
+
+2. Activate virtualenv:
+`.\NAME_OF_VENV\Scripts\activate`
 
 ## Download and initialize the project
 

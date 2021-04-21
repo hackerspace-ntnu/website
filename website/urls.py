@@ -5,7 +5,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView
+from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView, RulesView, \
+    RuleDetailsView
 from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
@@ -33,6 +34,7 @@ urlpatterns = [
     path('tos/<int:pk>/', TermsOfServiceView.as_view(), name='tos-details'),
     path('news/', include('news.urls')),
     path('events/', include('news.event_urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('ckeditor/upload', permission_required('news.add_article')(ck_upload_views.upload), name='ckeditor_upload'),
     path('ckeditor/browse', permission_required('news.add_article')(ck_upload_views.browse), name='ckeditor_browse'),
     path('authentication/', include('authentication.urls', namespace='auth')),
@@ -40,6 +42,8 @@ urlpatterns = [
     path('opptak/', include('applications.urls'), name='opptak'),
     path('files/', include('files.urls')),
     path('about/', AboutView.as_view(), name='about'),
+    path('rules/', RulesView.as_view(), name='rules'),
+    path('rules/<int:pk>/', RuleDetailsView.as_view(), name='rule_details'),
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
     path('reservations/', include('reservations.urls')),

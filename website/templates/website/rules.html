@@ -1,0 +1,61 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="section hs-green">
+    <div class="container">
+        <div class="row valign-wrapper white-text">
+            <div class="col s12">
+                <h4>
+                    Regler
+                </h4>
+                <p>Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                {% for rule in rules %}
+                    <div class="section">
+                        <div class="row no-pad-bot rules-list">
+                            <div class="col s2 center hide-on-med-and-down">
+                                {% if rule.thumb %}
+                                    <img class="circle" style="width:100px; height:100px;" src="{{ rule.thumb.thumb_url }}">
+                                {% else %}
+                                    <div class="circle grey lighten-2" style="width:100px; height:100px; display:inline-block">
+                                        <div class="valign-wrapper" style="display:flex;height:100%">
+                                            <i class="material-icons align-center md-48 grey-text" style="width:100%;margin-bottom:4px">gavel</i>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col s10 hide-on-med-and-down valign-wrapper rule-item">
+                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate py-s">{{ rule.title }}</h5></a>
+                                {% if rule.internal %}
+                                    <p style="margin:0"><span class="badge hs-green white-text">Intern</span></p>
+                                {% endif %}
+                            </div>
+                            <div class="col s12 show-on-med-and-down hide-on-large-only valign-wrapper rule-item">
+                                <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate py-s">{{ rule.title }}</h5></a>
+                                {% if rule.internal %}
+                                    <p style="margin:0"><span class="badge hs-green white-text">Intern</span></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                {% empty %}
+                <h5>Fant ingen regler 🤠</h5>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

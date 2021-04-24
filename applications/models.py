@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db import models
 from django.utils import timezone
 from applications.validators import validate_phone_number
@@ -12,6 +10,7 @@ YEAR_CHOICES = (
     (5, 5),
 )
 
+
 class ApplicationPeriod(models.Model):
     name = models.CharField(max_length=50, verbose_name="Navn")
     period_start = models.DateTimeField(default=timezone.now, blank=False)
@@ -20,6 +19,7 @@ class ApplicationPeriod(models.Model):
     def __str__(self):
         return self.name
 
+
 class ApplicationGroup(models.Model):
     name = models.CharField(max_length=50, verbose_name="Gruppenavn")
     text_main = models.TextField(verbose_name="Om gruppen generelt", blank=False)
@@ -27,9 +27,9 @@ class ApplicationGroup(models.Model):
     text_workload = models.TextField(verbose_name="Om gruppens arbeidsmengde", blank=True)
     project_group = models.BooleanField(verbose_name="Gruppen tilhører prosjektgruppen", default=False)
 
-
     def __str__(self):
         return self.name
+
 
 class Application(models.Model):
     name = models.CharField(max_length=50, verbose_name="Navn")
@@ -38,7 +38,8 @@ class Application(models.Model):
     study = models.CharField(max_length=255, verbose_name="Studieprogram")
 
     year = models.IntegerField(blank=False, verbose_name="Årstrinn", choices=YEAR_CHOICES, default=YEAR_CHOICES[0])
-    group_choice = models.ManyToManyField(ApplicationGroup, related_name="groups")
+    group_choice = models.ManyToManyField(ApplicationGroup, through='ApplicationGroupChoice')
+
     knowledge_of_hs = models.CharField(max_length=1000, verbose_name="Hvordan fikk du vite om Hackerspace?")
 
     about = models.TextField(verbose_name="Litt om deg selv")
@@ -47,3 +48,10 @@ class Application(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ApplicationGroupChoice(models.Model):
+    """Intermediate model to add priority attribute to application group choices"""
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    group = models.ForeignKey(ApplicationGroup, on_delete=models.CASCADE)
+    priority = models.PositiveIntegerField(null=True)

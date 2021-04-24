@@ -1,0 +1,18 @@
+/* Group chooser */
+
+#group-chooser {
+    margin-top: 0.5em;
+}
+
+.group-option {
+    padding: 1em 1.5em 1em 1.5em;
+}
+
+.group-option.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.group-option-remove {
+    cursor: pointer;
+}

@@ -1,5 +1,9 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'applications/css/applications.css' %}">
+    <script src="{% static 'applications/js/group_chooser.js' %}"></script>
+{% endblock %}
 {% block content %}
 
 <div class="section hs-green">
@@ -56,12 +60,20 @@
 					<span class="helper-text hs-red-text">{{ form.year.errors }}</span>
 					{% endif %}
 				</div>
-				<div id="group_choice" class="input-field col s12">
-					{{ form.group_choice }}
-					<label for="{{ form.group_choice.id_for_label }}">{{ form.group_choice.label }}</label>
-					{% if form.group_choice.errors %}
-					<span class="helper-text hs-red-text">{{ form.group_choice.errors }}</span>
-					{% endif %}
+				<div class="col s12">
+                    <label>Legg til grupper du vil søke på (i prioritert rekkefølge)</label>
+                    <div id="group-chooser" class="row" style="max-width: 500px">
+                        <div class="col">
+                            <a class='dropdown-trigger btn hs-green waves-effect waves-light' href='#' data-target='group-options'>Legg til</a>
+                            <ul id='group-options' class='dropdown-content collection'>
+                                {% for group in group_choices %}
+                                    <li class="group-option" data-group-id={{ group.id }}>{{ group }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <ul id="groups-chosen" class="collection grey lighten-4" style="max-width: 500px; display: none;"></ul>
+                    {{ form.group_choice }}
 				</div>
 				<div class="input-field col s12">
 					{{ form.knowledge_of_hs }}

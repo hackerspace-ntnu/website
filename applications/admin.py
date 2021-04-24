@@ -1,11 +1,25 @@
 from django.contrib import admin
-from .models import Application, ApplicationGroup, ApplicationPeriod
+from .models import Application, ApplicationGroup, ApplicationPeriod, ApplicationGroupChoice
 
-class ApplicationAdmin(admin.ModelAdmin):
+
+@admin.register(
+    ApplicationGroup,
+    ApplicationPeriod,
+    ApplicationGroupChoice
+)
+class BaseApplicationAdmin(admin.ModelAdmin):
     list_display = [
         '__str__',
     ]
 
-admin.site.register(Application, ApplicationAdmin)
-admin.site.register(ApplicationGroup, ApplicationAdmin)
-admin.site.register(ApplicationPeriod, ApplicationAdmin)
+
+class ApplicationGroupChoiceInline(admin.TabularInline):
+    model = Application.group_choice.through
+    ordering = ['priority']
+
+
+@admin.register(Application)
+class ApplicationAdmin(BaseApplicationAdmin):
+    inlines = [
+        ApplicationGroupChoiceInline
+    ]

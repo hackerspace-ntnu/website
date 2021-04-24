@@ -26,6 +26,11 @@ class ApplicationView(FormView):
         form.save()
         return super(ApplicationView, self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['group_choices'] = ApplicationGroup.objects.all()
+        return context
+
     def dispatch(self, request, *args, **kwargs):
         current_date = datetime.now()
         if not ApplicationPeriod.objects.filter(name="Opptak"):

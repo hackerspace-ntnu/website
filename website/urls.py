@@ -6,7 +6,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView, RulesView, \
-    RulesDetailView, IntranetView
+    RuleDetailsView, IntranetView
 from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required

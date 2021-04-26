@@ -7,8 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     );
 
-    const chosenGroupsInput = document.getElementById("groups-chosen-input")
-    const persistedChosenGroups = chosenGroupsInput.value.split(",")
+
+    // Convert persisted group id array string to actual array
+    const persistedChosenGroups = document.getElementById("groups-chosen-input").value.match(/\d+/g)
 
     for (const groupOption of document.getElementsByClassName("group-option")) {
         groupOption.onclick = () => {

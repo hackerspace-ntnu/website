@@ -76,7 +76,7 @@ class WatchListResetView(PermissionRequiredMixin, View):
     """Endpoint for unregistering everyone from every shift"""
 
     permission_required = 'watchlist.delete_shiftslot'
-    success_message = 'Alle vakter er frigjort'
+    success_message = '☢️ scorched earth ☢️'
     success_url = reverse_lazy('watchlist:vaktliste')
 
     def get_success_url(self):

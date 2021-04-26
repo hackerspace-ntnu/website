@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='application',
             name='group_choice',
-            field=models.ManyToManyField(blank=True, through='applications.ApplicationGroupChoice', to='applications.ApplicationGroup'),
+            field=models.ManyToManyField(through='applications.ApplicationGroupChoice', to='applications.ApplicationGroup'),
         ),
         migrations.AlterField(
             model_name='applicationgroupchoice',

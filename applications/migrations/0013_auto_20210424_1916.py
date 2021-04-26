@@ -20,7 +20,11 @@ class Migration(migrations.Migration):
                 ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='applications.applicationgroup')),
             ],
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='application',
+            name='group_choice',
+        ),
+        migrations.AddField(
             model_name='application',
             name='group_choice',
             field=models.ManyToManyField(through='applications.ApplicationGroupChoice', to='applications.ApplicationGroup'),

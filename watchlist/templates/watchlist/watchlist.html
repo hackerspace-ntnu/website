@@ -21,6 +21,10 @@
     </div>
 </div>
 
+{% if perms.watchlist.delete_shiftslot %}
+{% include "watchlist/_watchlist_admin_banner.html" %}
+{% endif %}
+
 <div class="section">
     <div class="container">
         <div class="row">

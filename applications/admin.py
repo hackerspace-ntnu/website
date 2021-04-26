@@ -1,11 +1,28 @@
 from django.contrib import admin
 from .models import Application, ApplicationGroup, ApplicationPeriod
 
-class ApplicationAdmin(admin.ModelAdmin):
+
+@admin.register(
+    ApplicationGroup,
+    ApplicationPeriod
+)
+class BaseApplicationAdmin(admin.ModelAdmin):
     list_display = [
         '__str__',
     ]
 
-admin.site.register(Application, ApplicationAdmin)
-admin.site.register(ApplicationGroup, ApplicationAdmin)
-admin.site.register(ApplicationPeriod, ApplicationAdmin)
+
+class ApplicationGroupChoiceInline(admin.TabularInline):
+    model = Application.group_choice.through
+    ordering = ['priority']
+    extra = 0
+
+    class Media:
+        css = {"all": ("applications/css/hide_admin_original.css",)}
+
+
+@admin.register(Application)
+class ApplicationAdmin(BaseApplicationAdmin):
+    inlines = [
+        ApplicationGroupChoiceInline
+    ]

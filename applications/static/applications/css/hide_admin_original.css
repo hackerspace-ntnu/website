@@ -1,0 +1,9 @@
+/* Hide object name in admin tabular inline */
+
+td.original p {
+    visibility: hidden;
+}
+
+.inline-group .tabular tr.has_original td {
+    padding-top: 10px;
+}

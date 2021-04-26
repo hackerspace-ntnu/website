@@ -49,11 +49,16 @@ class ApplicationFormViewTest(TestCase):
         self.assertIsNotNone(self.response.context['end_date'])
 
     def test_forms(self):
-        self.group = ApplicationGroup.objects.create(
-            name = 'devops',
+
+        ApplicationGroup.objects.create(
+            name = 'DevOps',
             text_main = 'asd'
         )
 
+        ApplicationGroup.objects.create(
+            name = 'LabOps',
+            text_main = 'asd'
+        )
 
         data = {
             'name': 'Testesson Test',
@@ -61,7 +66,7 @@ class ApplicationFormViewTest(TestCase):
             'phone': '12312312',
             'study': 'informatikk',
             'year': 2,
-            'group_choice': [1,],
+            'group_choice': '1,2',
             'knowledge_of_hs': 'blabla',
             'about': 'blabla',
             'application_text': 'blabla'

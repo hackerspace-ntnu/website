@@ -332,6 +332,10 @@ a {
     padding-bottom: 0.2em;
 }
 
+.material-icons.md-24 {
+    font-size: 24px;
+}
+
 .material-icons.md-48 {
     font-size: 48px;
 }

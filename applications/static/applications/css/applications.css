@@ -1,0 +1,43 @@
+/* Group chooser */
+
+.group-chooser-field {
+    margin-bottom: 0.5em;
+}
+
+#group-chooser {
+    max-width: 500px;
+    margin-top: 0.5em;
+}
+
+.group-option {
+    padding: 1em 1.5em 1em 1.5em;
+}
+
+.group-option.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.group-chosen{
+    padding: 1em 0.75em 1em 1.5em !important;
+    display:table;
+    width:100%;
+}
+
+.group-chosen-title {
+    display:table-cell;
+}
+
+.group-chosen-remove-container {
+    display:table-cell;
+    vertical-align:middle;
+    padding-left: 1em;
+}
+
+.group-chosen-remove {
+    cursor: pointer;
+}
+
+.group-chooser-error {
+    font-size: 12px;
+}

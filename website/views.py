@@ -227,8 +227,7 @@ class IndexView(TemplateView):
 
 class IntranetView(PermissionRequiredMixin, TemplateView):
     template_name = 'website/intranet.html'
-    # Equivalent to requiring that the user is a hackerspace member
-    permission_required = 'userprofile.can_view_social'
+    permission_required = 'userprofile.is_active_member'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

@@ -75,7 +75,7 @@
 					<li><a class="waves-effect" href="{% url 'member-list' %}">Medlemmer</a></li>
 					<li><a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">Vaktliste</a></li>
 					<li><a class="waves-effect" href="{% url 'inventory:inventory' %}">Lager</a></li>
-					{% if user.is_authenticated and perms.userprofile.can_view_social %}
+					{% if user.is_authenticated and perms.userprofile.is_active_member %}
 					<li><a class="waves-effect" href="{% url 'intranet' %}">Internportal</a></li>
 					{% endif %}
 					<li><a class="waves-effect" href="{% url 'reservations:queue_list' %}">Reservasjoner</a></li>
@@ -120,7 +120,7 @@
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 							<a href="{% url 'about' %}">Om oss</a>
 						</li>
-						{% if user.is_authenticated and perms.userprofile.can_view_social %}
+						{% if user.is_authenticated and perms.userprofile.is_active_member %}
 						<li class="tooltipped" data-position="left" data-tooltip="Dashbord for medlemmer av Hackerspace">
 							<a href="{% url 'intranet' %}">Internportal</a>
 						</li>

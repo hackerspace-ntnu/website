@@ -46,7 +46,7 @@ urlpatterns = [
     path('rules/<int:pk>/', RuleDetailsView.as_view(), name='rule_details'),
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
-    path('reservations/', include('reservations.urls')),
+    path('reservations/', include('reservations.urls'), name='reservations'),
     path('members/', ProfileListView.as_view(), name='member-list'),
     path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),

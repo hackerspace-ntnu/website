@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     );
 
+    // Drag and drop priorities
+    $('#groups-chosen').sortable({
+        axis: "y",
+        update: () => {
+            updateChosenGroups()
+            updateGroupsPriority()
+        }
+    });
+
     // Convert persisted group id array string to actual array
     const persistedChosenGroups = document.getElementById("groups-chosen-input").value.match(/\d+/g)
 
@@ -33,17 +42,17 @@ const chooseGroup = (chosenGroupElement) => {
     groupsChosen.style.display = "block"
 
     const groupItem = document.createElement("div")
-    groupItem.classList.add("collection-item", "groups-chosen-item")
+    groupItem.className = "collection-item group-chosen"
     groupItem.dataset.groupId = chosenGroupElement.dataset.groupId
     groupItem.value = chosenGroup
 
     const groupTitle = document.createElement("span")
-    groupTitle.className = "groups-chosen-item-title"
+    groupTitle.className = "group-chosen-title"
     groupTitle.textContent = (groupsChosen.children.length + 1) + ". " + chosenGroup
     groupItem.appendChild(groupTitle)
 
     const removeButton = document.createElement("span")
-    removeButton.className = "material-icons md-24 badge group-option-remove"
+    removeButton.className = "material-icons md-24 badge group-chosen-remove"
     removeButton.textContent = "clear"
     removeButton.onclick = () => {
         groupItem.remove()
@@ -55,7 +64,11 @@ const chooseGroup = (chosenGroupElement) => {
         // Re-enable option to select
         chosenGroupElement.classList.remove("disabled")
     }
-    groupItem.appendChild(removeButton)
+
+    const removeButtonContainer = document.createElement("div")
+    removeButtonContainer.className = "group-chosen-remove-container"
+    removeButtonContainer.appendChild(removeButton)
+    groupItem.appendChild(removeButtonContainer)
 
     groupsChosen.appendChild(groupItem)
 
@@ -74,7 +87,7 @@ const updateGroupsPriority = () => {
     const groupsChosen = document.getElementById("groups-chosen")
     for (let i = 0; i < groupsChosen.children.length; i++) {
         const group = groupsChosen.children.item(i)
-        const groupTitle = group.getElementsByClassName("groups-chosen-item-title")[0]
+        const groupTitle = group.getElementsByClassName("group-chosen-title")[0]
         groupTitle.textContent = (i + 1) + ". " + group.value
     }
 
@@ -87,7 +100,7 @@ const updateChosenGroups = () => {
 
     let chosenGroupsString = ""
 
-    for (const chosenGroup of document.getElementsByClassName("groups-chosen-item")) {
+    for (const chosenGroup of document.getElementsByClassName("group-chosen")) {
         const groupId = chosenGroup.dataset.groupId
         if (chosenGroupsString === "") {
             chosenGroupsString = groupId

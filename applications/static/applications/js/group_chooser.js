@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     );
 
-
     // Convert persisted group id array string to actual array
     const persistedChosenGroups = document.getElementById("groups-chosen-input").value.match(/\d+/g)
 
@@ -15,15 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
         groupOption.onclick = () => {
             chooseGroup(groupOption)
         }
-        if(persistedChosenGroups.includes(groupOption.dataset.groupId)){
+        if (persistedChosenGroups != null && persistedChosenGroups.includes(groupOption.dataset.groupId)) {
             chooseGroup(groupOption)
         }
     }
 
 }, false);
 
-// Add chosen group to collection
-chooseGroup = (chosenGroupElement) => {
+/**
+ * Add chosen group to collection
+ * @param chosenGroupElement dropdown element for chosen group
+ */
+const chooseGroup = (chosenGroupElement) => {
 
     const chosenGroup = chosenGroupElement.textContent
 
@@ -45,8 +47,8 @@ chooseGroup = (chosenGroupElement) => {
     removeButton.textContent = "clear"
     removeButton.onclick = () => {
         groupItem.remove()
-        updateGroupsPriority()
         updateChosenGroups()
+        updateGroupsPriority()
         if (groupsChosen.children.length === 0) {
             groupsChosen.style.display = "none"
         }
@@ -64,8 +66,10 @@ chooseGroup = (chosenGroupElement) => {
 
 }
 
-// Update chosen group items with correct priority numbers
-updateGroupsPriority = () => {
+/**
+ * Update chosen group items with correct priority numbers
+ */
+const updateGroupsPriority = () => {
 
     const groupsChosen = document.getElementById("groups-chosen")
     for (let i = 0; i < groupsChosen.children.length; i++) {
@@ -76,16 +80,18 @@ updateGroupsPriority = () => {
 
 }
 
-// Update hidden text input field with chosen group ids
-updateChosenGroups = () => {
+/**
+ * Update hidden text input field with chosen group ids
+ */
+const updateChosenGroups = () => {
 
     let chosenGroupsString = ""
 
     for (const chosenGroup of document.getElementsByClassName("groups-chosen-item")) {
         const groupId = chosenGroup.dataset.groupId
-        if (chosenGroupsString === ""){
+        if (chosenGroupsString === "") {
             chosenGroupsString = groupId
-        }else{
+        } else {
             chosenGroupsString += "," + groupId
         }
     }

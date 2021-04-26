@@ -31,13 +31,18 @@ class ApplicationForm(ModelForm):
             'application_text': Textarea(attrs={'class': 'materialize-textarea'}),
             'group_choice': ApplicationGroupChoiceField(attrs={'id': 'groups-chosen-input', 'type': 'hidden'})
         }
+        error_messages = {
+            'group_choice': {
+                'required': 'Gruppeønske er obligatorisk'
+            }
+        }
 
     def save(self, commit=True):
         super().save(commit)
         # Attach priority to group choices
         group_choice = list(map(int, self.data['group_choice'].split(",")))
         for choice in ApplicationGroupChoice.objects.filter(application=self.instance.id):
-            choice.priority = group_choice.index(choice.group.id)
+            choice.priority = group_choice.index(choice.group.id) + 1
             choice.save()
 
     def send_email(self):

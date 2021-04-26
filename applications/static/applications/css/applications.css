@@ -1,6 +1,11 @@
 /* Group chooser */
 
+.group-chooser-field {
+    margin-bottom: 0.5em;
+}
+
 #group-chooser {
+    max-width: 500px;
     margin-top: 0.5em;
 }
 
@@ -15,4 +20,8 @@
 
 .group-option-remove {
     cursor: pointer;
+}
+
+.group-chooser-error {
+    font-size: 12px;
 }

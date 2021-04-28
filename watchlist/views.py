@@ -71,3 +71,21 @@ class WatchListUnregisterView(PermissionRequiredMixin, View):
         shift.save()
 
         return HttpResponseRedirect(self.get_success_url())
+
+class WatchListResetView(PermissionRequiredMixin, View):
+    """Endpoint for unregistering everyone from every shift"""
+
+    permission_required = 'watchlist.delete_shiftslot'
+    success_message = '☢️ scorched earth ☢️'
+    success_url = reverse_lazy('watchlist:vaktliste')
+
+    def get_success_url(self):
+        messages.success(self.request, self.success_message)
+        return self.success_url
+
+    def get(self, request, *args, **kwargs):
+        for shift in ShiftSlot.objects.all():
+            for user in shift.watchers.all():
+                shift.watchers.remove(user)
+            shift.save()
+        return HttpResponseRedirect(self.get_success_url())

@@ -232,6 +232,8 @@ class IntranetView(PermissionRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
+        context['current_date'] = datetime.now()
+
         # Random greeting for the intranet header banner. Just for fun
         greeting = INTRANET_GREETINGS[randint(0, len(INTRANET_GREETINGS) - 1)]
         # cba doing a regex or some other fancy stuff to check if the string has formatting

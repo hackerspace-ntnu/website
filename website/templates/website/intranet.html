@@ -53,7 +53,7 @@
                             </li>
                             
                             {% if event_list %}
-                            {% for event in event_list reversed %}
+                            {% for event in event_list %}
                                 <li class="collection-item">
                                     {% if event.time_start > current_date %}
                                         <span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>

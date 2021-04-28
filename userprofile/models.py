@@ -80,6 +80,7 @@ class Profile(models.Model):
 
     class Meta:
         permissions =  (
+                ("is_active_member", "Is an active member. Catchall permission"),
                 ("can_view_social", "Can see social fields on UserProfile"),
                 ("can_view_admin", "Can see information for admin panel"),
                 )

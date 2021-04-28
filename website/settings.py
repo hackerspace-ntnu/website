@@ -296,6 +296,17 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
+# Random greetings that are displayed to the user on the intranet page
+# Just for fun. The user's first name is formatted in
+INTRANET_GREETINGS = [
+    'Hei, {}', # zzz
+    'Heisann, {}', # zzzzzz
+    'Halla, {}', # zzzzzzzzzzzzzzzzz
+    'Og et rungende tjo-bing til deg, {}!', # real shit?
+    'Husket å skru av ovnen, {}?',
+    'Dette er en tilfeldig melding. Plukket tilfeldig, altså. Selve meldingen er ikke tilfeldig generert ved å drive å plukke bokstaver og sånt. Du skjønner hva jeg mener, {}.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit... Oi, vent, dette er jo i produksjon!',
+]
 #################################
 # Website-specific              #
 #################################

@@ -6,12 +6,16 @@ from door.models import DoorStatus
 from userprofile.models import TermsOfService
 from committees.models import Committee
 from userprofile.models import Profile
+from inventory.models import ItemLoan
 from datetime import datetime
+from django.utils import timezone
 from applications.models import ApplicationPeriod
 from .models import Card, FaqQuestion, Rule
 from django.views.generic import ListView, TemplateView, RedirectView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from urllib import parse as urlparse
+from random import randint
+from .settings import INTRANET_GREETINGS
 
 
 class AcceptTosView(TemplateView):
@@ -220,6 +224,39 @@ class IndexView(TemplateView):
 
         return context
 
+
+class IntranetView(PermissionRequiredMixin, TemplateView):
+    template_name = 'website/intranet.html'
+    permission_required = 'userprofile.is_active_member'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        # Random greeting for the intranet header banner. Just for fun
+        greeting = INTRANET_GREETINGS[randint(0, len(INTRANET_GREETINGS) - 1)]
+        # cba doing a regex or some other fancy stuff to check if the string has formatting
+        # just break it till it works
+        try:
+            context['greeting'] = greeting.format(self.request.user.first_name)
+        except IndexError:
+            context['greeting'] = greeting
+
+        # Find the 5 loan apps that have gone unapproved the longest
+        context['loan_app_list'] = ItemLoan.objects.filter(
+            approver__isnull=True,
+        ).order_by('-loan_from')[:5]
+
+        # Same as in the index view
+        context['event_list'] = Event.objects.filter(
+            internal=True
+        ).order_by('-time_start')[:5]
+
+        context['article_list'] = Article.objects.filter(
+            internal=True,
+            draft=False
+        ).order_by('-pub_date')[:5]
+
+        return context
 
 def handler404(request, exception=None):
     return render(request, 'website/404.html', status=404)

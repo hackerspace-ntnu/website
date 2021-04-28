@@ -40,12 +40,6 @@
 				<div class="divider"></div>
 						<ul>
 							{% if user.is_authenticated %}
-							{% if perms.inventory.view_itemloan %}
-							<li><a href="{% url 'inventory:loans' %}">Lånesøknader</a></li>
-							{% endif %}
-							{% if perms.files.view_image %}
-							<li><a href="{% url 'files:images' %}">Bildegalleri</a></li>
-							{% endif %}
 							<li><a href="{% url 'auth:logout' %}">Logg ut</a></li>
 							{% else %}
 							<li><a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>

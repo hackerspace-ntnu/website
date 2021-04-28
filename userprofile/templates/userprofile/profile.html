@@ -83,7 +83,7 @@
 						<li class="collection-item">{{ profile.user.email }}</li>
 					{% endif %}
 					{% if profile.limit_social %}
-						{% if perms.userprofile.can_view_social or profile.user ==  request.user %}
+						{% if perms.userprofile.is_active_member or profile.user ==  request.user %}
 						{% include "userprofile/_social_fields.html" %}
 						{% endif %}
 					{% else %}

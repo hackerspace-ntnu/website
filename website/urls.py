@@ -6,7 +6,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from website.views import IndexView, AcceptTosRedirectView, AboutView, AdminView, AcceptTosView, RulesView, \
-    RuleDetailsView
+    RuleDetailsView, IntranetView
 from userprofile.views import TermsOfServiceCreateView, TermsOfServiceView, MostRecentTermsOfServiceView
 from userprofile.views import ProfileListView
 from django.contrib.auth.decorators import permission_required
@@ -46,14 +46,15 @@ urlpatterns = [
     path('rules/<int:pk>/', RuleDetailsView.as_view(), name='rule_details'),
     path('s/', include('django.contrib.flatpages.urls')),
     path('profile/', include('userprofile.urls')),
-    path('reservations/', include('reservations.urls')),
+    path('reservations/', include('reservations.urls'), name='reservations'),
     path('members/', ProfileListView.as_view(), name='member-list'),
     path('admin-panel/', AdminView.as_view(), name='admin'),
     path('feide/', include('social_django.urls', namespace='social')),
     path('api/', include(router.urls)),
     path('api/inventory/', inventory_views.InventoryListAPIView.as_view(), name='inventory-api'),
     path('inventory/', include('inventory.urls')),
-    path('vaktliste/', include('watchlist.urls'))
+    path('vaktliste/', include('watchlist.urls')),
+    path('intranet/', IntranetView.as_view(), name='intranet'),
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"

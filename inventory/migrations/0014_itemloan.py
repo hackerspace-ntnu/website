@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('purpose', models.CharField(max_length=50, verbose_name='Formål')),
                 ('contact_name', models.CharField(max_length=100, verbose_name='Utlåners navn')),
                 ('contact_phone', models.CharField(max_length=8, validators=[django.core.validators.RegexValidator('^\\d{8}$', message='Skriv inn et gyldig telefonnummer')], verbose_name='Utlåners tlf.')),
-                ('contact_email', models.EmailField(max_length=254, verbose_name='Utlåners epost')),
+                ('contact_email', models.EmailField(max_length=254, verbose_name='Utlåners e-post')),
                 ('consent', models.BooleanField(validators=[inventory.models.validate_consent], verbose_name='Datalagringssamtykke')),
                 ('returned', models.BooleanField(default=False, verbose_name='Levert tilbake?')),
                 ('approver', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Godkjenner')),

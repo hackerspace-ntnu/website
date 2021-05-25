@@ -55,7 +55,7 @@ class MaterialFileWidget(ClearableFileInput):
 
 
 class UploadForm(forms.ModelForm):
-    file =  forms.FileField(label="Legg ved fil", required=False, widget=MaterialFileWidget)
+    file = forms.FileField(label="Legg ved fil", required=False, widget=MaterialFileWidget)
 
     class Meta:
         model = Upload

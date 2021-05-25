@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from committees.models import Committee
-from .forms import ProfileSearchForm
+from .forms import ProfileSearchForm, ProfileForm
 from .models import Profile, TermsOfService, Category, Skill
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -101,7 +101,7 @@ class SelfProfileDetailView(ProfileDetailView):
 class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     # Klasse for å oppdatere brukerprofilen sin
     model = Profile
-    fields = ['image', 'access_card', 'study', 'show_email', 'social_discord', 'social_steam', 'social_battlenet', 'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social', 'phone_number']
+    form_class = ProfileForm
     template_name = "userprofile/edit_profile.html"
     success_url = "/profile"
     success_message = "Profilen er oppdatert."

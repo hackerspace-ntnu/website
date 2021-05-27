@@ -33,6 +33,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='profile',
             name='show_email',
-            field=models.BooleanField(default=False, verbose_name='Vis epostadresse i din profil'),
+            field=models.BooleanField(default=False, verbose_name='Vis e-postadresse i din profil'),
         ),
     ]

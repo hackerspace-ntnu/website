@@ -71,7 +71,7 @@ class ItemLoan(models.Model):
         max_length=8,
         validators=[RegexValidator('^\d{8}$', message='Skriv inn et gyldig telefonnummer')]
     )
-    contact_email = models.EmailField('Utlåners epost')
+    contact_email = models.EmailField('Utlåners e-post')
     # Simply to store and prove that the user consented to having
     # their personal info stored for the duration of the loan
     consent = models.BooleanField('Datalagringssamtykke', blank=False, validators=[validate_consent])

@@ -71,7 +71,7 @@ class Profile(models.Model):
     phone_number = models.CharField(max_length=8, null=True, blank=True, validators=[validate_phone_number], verbose_name="Telefonnummer",
                                     help_text="Brukes til reservasjonssystem i tilfelle du må kontaktes.")
 
-    show_email = models.BooleanField(default=False, verbose_name="Vis epostadresse i din profil")
+    show_email = models.BooleanField(default=False, verbose_name="Vis e-postadresse i din profil")
 
     allergi_gluten = models.BooleanField(default=False, verbose_name="Ønsker glutenfritt alternativ")
     allergi_vegetar = models.BooleanField(default=False, verbose_name="Ønsker vegetar alternativ")

@@ -199,15 +199,17 @@
 				textColor: '#FFF',
 			},
 			eventRender: function(info) {
-				var elem = info.el
-				elem.setAttribute("style", 'font-size: 1rem;');
+				const elem = info.el
+				let elemStyle = "white-space: pre-line;";
 				// Add event owner and comment as tooltip for members
 				if (requestUser == info.event.extendedProps.user) {
-					elem.setAttribute("style", "background-color: #5BBA47;");
+					elemStyle += "background-color: #5BBA47;";
 					M.Tooltip.init(info.el, {html: "Trykk for å redigere" });
 				} else {
-					elem.setAttribute("style", "background-color: #4E4B46;");
+					elemStyle += "background-color: #4E4B46;";
 				}
+				elem.setAttribute("style", elemStyle);
+
 				{% if perms.reservations.view_user_details %}
 				{# kun dersom en bruker har rettigheter til å se navn og nummer #}
 					elem.append((info.event.extendedProps.fullname ?? "") + "\n");

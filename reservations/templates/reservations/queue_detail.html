@@ -210,9 +210,9 @@
 				}
 				{% if perms.reservations.view_user_details %}
 				{# kun dersom en bruker har rettigheter til å se navn og nummer #}
-					elem.append(info.event.extendedProps.fullname + "\n");
+					elem.append((info.event.extendedProps.fullname ?? "") + "\n");
 
-					elem.append(info.event.extendedProps.phone);
+					elem.append(info.event.extendedProps.phone ?? "");
 				{% endif %}
 			}
 		});

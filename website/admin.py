@@ -14,8 +14,8 @@ class WatchlistFilter(EmptyFieldListFilter):
     def choices(self, changelist):
         for lookup, title in (
             (None, 'Alle'),
-            ('1', 'På vaktliste'),
-            ('0', 'Ikke på vaktliste'),
+            ('0', 'På vaktliste'),
+            ('1', 'Ikke på vaktliste'),
         ):
             yield {
                 'selected': self.lookup_val == lookup,

@@ -6,7 +6,7 @@ from social_django.models import UserSocialAuth
 from django.contrib.auth import get_user_model
 
 from django.conf import settings
-from social_django.compat import reverse
+from django.urls import reverse
 from authentication.views import associate_by_email, save_profile
 from social_django.utils import load_strategy, load_backend
 

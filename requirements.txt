@@ -8,4 +8,4 @@ django-filter
 markdown
 pillow
 python-dataporten-auth
-python-social-auth[django]
+social-auth-app-django==5.0.0

@@ -104,9 +104,9 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		var calendarEl = document.getElementById('calendar');
+		const calendarEl = document.getElementById('calendar');
 
-		var calendar = new FullCalendar.Calendar(calendarEl, {
+		const calendar = new FullCalendar.Calendar(calendarEl, {
 			locale: 'nb',
 			plugins: ['moment', 'interaction', 'timeGrid'],
 			defaultView: window.mobilecheck() ? "timeGridDay" : "timeGridWeek",
@@ -211,7 +211,7 @@
 		calendar.render();
 
 		createButton.addEventListener('click', function() {
-			data = {
+			const data = {
 				comment: $('#id_comment')[0].value,
 				start: $('#id_start')[0].value,
 				end: $('#id_end')[0].value,
@@ -232,7 +232,7 @@
 				},
 				error: function(e) {
 					calendar.refetchEvents();
-					for (var error in e.responseJSON.non_field_errors) {
+					for (const error in e.responseJSON.non_field_errors) {
 						if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
 							M.toast({html: e.responseJSON.non_field_errors[error]})
 						}
@@ -253,7 +253,7 @@
 				},
 				error: function(e) {
 					calendar.refetchEvents();
-					for (var error in e.responseJSON.non_field_errors) {
+					for (const error in e.responseJSON.non_field_errors) {
 						if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
 							M.toast({html: e.responseJSON.non_field_errors[error]})
 						}
@@ -263,7 +263,7 @@
 		});
 
 		updateButton.addEventListener('click', function() {
-			data = {
+			const data = {
 				comment: document.getElementById('ex_comment').value,
 			}
 			$.ajax({
@@ -279,7 +279,7 @@
 				},
 				error: function(e) {
 					calendar.refetchEvents();
-					for (var error in e.responseJSON.non_field_errors) {
+					for (const error in e.responseJSON.non_field_errors) {
 						if (e.responseJSON.non_field_errors.hasOwnProperty(error)) {
 							M.toast({html: e.responseJSON.non_field_errors[error]})
 						}

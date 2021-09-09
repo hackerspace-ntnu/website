@@ -79,7 +79,7 @@
 
 {% include 'reservations/reservation_modal.html' %}
 <script>
-	const requestUser = '{{ request.user.id }}';
+	const requestUser = {{ request.user.id }};
 	const pk = '{{ object.id }}';
 
 	let newStartField = document.getElementById('id_start');
@@ -138,9 +138,8 @@
 			weekends: false,
 			{% endif %}
 			eventClick: function(eventClickInfo) {
-				console.log(eventClickInfo);
-				{% if not request.user.is_superuser %}
-				if (requestUser == eventClickInfo.event.extendedProps.user) {
+				const isSuperuser = {% if request.user.is_superuser %} true {% else %} false {% endif %};
+				if (requestUser === eventClickInfo.event.extendedProps.user || isSuperuser) {
 					let modal = document.getElementById("updateModal");
 					exStartField.value = DateTimeFormat(eventClickInfo.event.start);
 					exEndField.value = DateTimeFormat(eventClickInfo.event.end);
@@ -150,16 +149,6 @@
 					instance.open();
 					M.updateTextFields();
 				}
-				{% else %}
-					let modal = document.getElementById("updateModal");
-					exStartField.value = DateTimeFormat(eventClickInfo.event.start);
-					exEndField.value = DateTimeFormat(eventClickInfo.end);
-					exCommentField.value = eventClickInfo.event.extendedProps.comment;
-					exIdField.value = eventClickInfo.event.id;
-					let instance = M.Modal.getInstance(modal);
-					instance.open();
-					M.updateTextFields();
-				{% endif %}
 			},
 			select: function (selectionInfo) {
 				{% if request.user.is_authenticated %}

@@ -27,15 +27,6 @@ class PrivacyCharField(serializers.CharField):
         return None
 
 
-class RestrictedReservationSerializer(serializers.ModelSerializer):
-    user = PrivacyUserField(queryset=User.objects.all())
-    comment = PrivacyCharField(required=False, allow_blank=True)
-
-    class Meta:
-        model = Reservation
-        fields = ('start', 'end', 'user', 'parent_queue', 'comment', 'id')
-
-
 class ReservationsSerializer(serializers.ModelSerializer):
     fullname = serializers.ReadOnlyField(source="user.get_full_name")
     phone = serializers.ReadOnlyField(source="user.profile.phone_number")

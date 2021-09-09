@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 from reservations.permissions import IsOwnerOrReadOnly
 from reservations.models import Reservation, Queue
-from reservations.serializers import ReservationsSerializer, RestrictedReservationSerializer
+from reservations.serializers import ReservationsSerializer
 from django_filters import rest_framework as filters
 from datetime import datetime
 
@@ -50,9 +50,7 @@ class ReservationsViewSet(ModelViewSet):
     filterset_class = SearchDateFilter
 
     def get_serializer_class(self):
-        if self.request.user.has_perm('reservations.view_user_details'):
-            return ReservationsSerializer
-        return RestrictedReservationSerializer
+        return ReservationsSerializer
 
     def get_permissions(self):
         if self.action == 'list':

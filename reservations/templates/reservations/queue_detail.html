@@ -108,6 +108,8 @@
 
 		const calendar = new FullCalendar.Calendar(calendarEl, {
 			locale: 'nb',
+            timeZone: false,
+            now: "{% now "c" %}", // use server time
 			plugins: ['moment', 'interaction', 'timeGrid'],
 			defaultView: window.mobilecheck() ? "timeGridDay" : "timeGridWeek",
 			selectLongPressDelay: 350,
@@ -115,7 +117,7 @@
 			selectable: true,
 			selectMirror: true,
 			selectAllow: function(info) {
-				return moment().diff(info.start) <= 0
+				return moment.utc().diff(info.start) <= 0
 			},
 			height:"auto",
 			allDaySlot: false,
@@ -292,7 +294,7 @@
 	});
 
 	function DateTimeFormat(datetime) {
-		return moment(datetime).format('YYYY-MM-DDTHH:mm:ss');
+		return moment.utc(datetime).format('YYYY-MM-DDTHH:mm:ss');
 	}
 </script>
 {% endblock content %}

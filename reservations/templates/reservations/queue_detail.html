@@ -119,7 +119,8 @@
 			selectable: true,
 			selectMirror: true,
 			selectAllow: function(info) {
-				return moment.utc().diff(info.start) <= 0
+				return moment.utc().diff(info.startStr) <= 0
+                    && (isMember || info.start.getDate() === info.end.getDate())
 			},
 			height:"auto",
 			allDaySlot: false,

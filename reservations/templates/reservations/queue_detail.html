@@ -200,7 +200,7 @@
 			},
 			eventRender: function(info) {
 				const elem = info.el
-				let elemStyle = "white-space: pre-line;";
+				let elemStyle = "white-space: pre-line; overflow-wrap: break-word;";
 				// Add event owner and comment as tooltip for members
 				if (requestUser == info.event.extendedProps.user) {
 					elemStyle += "background-color: #5BBA47;";

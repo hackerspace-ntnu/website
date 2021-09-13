@@ -81,6 +81,8 @@
 <script>
 	const requestUser = {{ request.user.id }};
 	const pk = '{{ object.id }}';
+    const isSuperuser = {{ request.user.is_superuser|yesno:"true,false" }};
+    const isMember = {{ perms.reservations.view_user_details|yesno:"true,false" }};
 
 	let newStartField = document.getElementById('id_start');
 	let newEndField = document.getElementById('id_end');
@@ -130,17 +132,10 @@
 				omitZeroMinute: false,
 			},
 			selectOverlap: false,
-			{% if perms.reservations.view_user_details %}
-			minTime: "00:00:00",
-			maxTime: "23:59:59",
-			weekends: true,
-			{% else %}
-			minTime: "10:00:00",
-			maxTime: "18:00:00",
-			weekends: false,
-			{% endif %}
+			minTime: isMember ? "00:00:00" : "10:00:00",
+			maxTime: isMember ? "23:59:59" : "18:00:00",
+			weekends: isMember,
 			eventClick: function(eventClickInfo) {
-				const isSuperuser = {% if request.user.is_superuser %} true {% else %} false {% endif %};
 				if (requestUser === eventClickInfo.event.extendedProps.user || isSuperuser) {
 					let modal = document.getElementById("updateModal");
 					exStartField.value = DateTimeFormat(eventClickInfo.event.start);
@@ -154,35 +149,31 @@
 			},
 			select: function (selectionInfo) {
 				{% if request.user.is_authenticated %}
-				{% if not request.user.profile.phone_number %}
-				{# Hvis bruker ikke har lagt inn telefonnummer #}
-				let modal = document.getElementById("phoneNumberModal");
-				let instance = M.Modal.getInstance(modal);
-				instance.open();
-				M.updateTextFields();
+                    {% if not request.user.profile.phone_number %}
+                        {# Hvis bruker ikke har lagt inn telefonnummer #}
+                        let modal = document.getElementById("phoneNumberModal");
+                        let instance = M.Modal.getInstance(modal);
+                        instance.open();
+                        M.updateTextFields();
+                    {% else %}
+                        let modal = document.getElementById("reservationModal");
+                        newStartField.value = DateTimeFormat(selectionInfo.start);
+                        newEndField.value = DateTimeFormat(selectionInfo.end);
+                        newCommentField.value = "";
+                        let instance = M.Modal.getInstance(modal);
+                        instance.open();
+                        M.updateTextFields();
+                    {% endif %}
 				{% else %}
-				let modal = document.getElementById("reservationModal");
-				newStartField.value = DateTimeFormat(selectionInfo.start);
-				newEndField.value = DateTimeFormat(selectionInfo.end);
-				newCommentField.value = "";
-				let instance = M.Modal.getInstance(modal);
-				instance.open();
-				M.updateTextFields();
-				{% endif %}
-				{% else %}
-				M.toast({'html': 'Du må være logget inn for å opprette reservasjoner.'})
+				    M.toast({'html': 'Du må være logget inn for å opprette reservasjoner.'})
 				{% endif %}
 			},
-			{% if not perms.reservations.view_user_details %}
-			selectAllow: function (selectAllowInfo){
-				return selectAllowInfo.start.getDate() === selectAllowInfo.end.getDate()
-			},
-			{% endif %}
 			events: {
 				url: '/api/reservations/',
 				method: 'GET',
 				extraParams: {
-					parent_queue: {{ queue.pk }}, },
+					parent_queue: {{ queue.pk }}
+                },
 				failure: function() {
 					alert('there was an error while fetching events!');
 				},
@@ -193,7 +184,7 @@
 				const elem = info.el
 				let elemStyle = "white-space: pre-line; overflow-wrap: break-word;";
 				// Add event owner and comment as tooltip for members
-				if (requestUser == info.event.extendedProps.user) {
+				if (requestUser === info.event.extendedProps.user) {
 					elemStyle += "background-color: #5BBA47;";
 					M.Tooltip.init(info.el, {html: "Trykk for å redigere" });
 				} else {

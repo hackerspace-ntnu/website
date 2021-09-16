@@ -36,8 +36,8 @@ class QueueListView(ListView):
 
 
 class SearchDateFilter(filters.FilterSet):
-    start = filters.IsoDateTimeFilter(field_name="start", lookup_expr='gt')
-    end = filters.IsoDateTimeFilter(field_name="end", lookup_expr='lt')
+    end = filters.IsoDateTimeFilter(field_name="start", lookup_expr='lt')
+    start = filters.IsoDateTimeFilter(field_name="end", lookup_expr='gt')
 
     class Meta:
         model = Reservation

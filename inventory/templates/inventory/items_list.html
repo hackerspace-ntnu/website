@@ -4,7 +4,7 @@
         <div class="col s12">
             <ul class="collection">
                 {% for item in items %}
-                    <li class="collection-item avatar  valign-wrapper">
+                    <li class="collection-item avatar valign-wrapper">
                         <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
                         <a href="{% url 'inventory:item' item.id %}" class="truncate">
                             {{ item.name }}
@@ -24,6 +24,10 @@
                                 {% endif %}
                                 på lager
                             </p>
+                        </a>
+
+                        <a class="secondary-content btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">
+                            <span class="white-text">Lån</span>
                         </a>
                     </li>
                 {% endfor %}

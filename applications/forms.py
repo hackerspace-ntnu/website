@@ -46,9 +46,13 @@ class ApplicationForm(ModelForm):
             choice.save()
 
     def send_email(self):
+
+        # Retrieve group choice with priorities (assumes that save() has been run first)
+        group_choice = ApplicationGroupChoice.objects.filter(application=self.instance.id).order_by("priority")
+
         plain_message = render_to_string('applications/application_success_mail.txt', {
-            'navn': self.cleaned_data['name'],
-            'grupper': self.cleaned_data['group_choice']
+            'name': self.cleaned_data['name'],
+            'group_choice': group_choice
         })
 
         send_mail(

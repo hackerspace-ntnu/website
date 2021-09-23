@@ -1,10 +1,10 @@
-Hei {{ navn }}!
+Hei {{ name }}!
 
 Dette er en bekreftelse på at din søknad er registrert.
 
 Du har søkt følgende grupper:
-{% for group in grupper %}
-- {{ group }}
+{% for choice in group_choice %}
+{{ choice.priority }}. {{ choice.group }}
 {% endfor %}
 
 Vi svarer på søknader fortløpende etter søknadsfristen går ut.

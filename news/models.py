@@ -23,6 +23,8 @@ class Article(models.Model):
 
     draft = models.BooleanField(default=False, verbose_name='Utkast')
 
+    views = models.IntegerField('Sidevisninger', default=0, editable=True)
+
     def __str__(self):
         return self.title
 

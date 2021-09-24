@@ -79,3 +79,30 @@ class ApplicationFormViewTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, '[Hackerspace NTNU] Søknad er registrert!')
         self.assertEqual(mail.outbox[0].to[0], data.get('email'))
+        self.assertEqual(
+            mail.outbox[0].body,
+            """Hei Testesson Test!
+
+Dette er en bekreftelse på at din søknad er registrert.
+
+Du har søkt følgende grupper:
+
+1. DevOps
+
+2. LabOps
+
+
+Vi svarer på søknader fortløpende etter søknadsfristen går ut.
+Denne mailen kan ikke besvares.
+
+Dersom du skulle ha noen spørsmål vedrørende din søknad, ta kontakt med
+hackerspace-styret@idi.ntnu.no
+
+
+Tusen takk for din interesse. :-)
+
+
+Mvh,
+Styret i Hackerspace NTNU
+"""
+        )

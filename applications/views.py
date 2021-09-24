@@ -22,8 +22,8 @@ class ApplicationView(FormView):
     success_url = '/opptak/success'
 
     def form_valid(self, form):
+        form.save()  # must save before sending email in order to access group choice priorities
         form.send_email()
-        form.save()
         return super(ApplicationView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):

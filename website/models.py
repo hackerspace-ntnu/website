@@ -3,6 +3,11 @@ from django.db import models
 from files.models import Image
 from datetime import datetime
 
+from django.contrib.auth.models import User
+
+# Set custom User string representation
+User.add_to_class("__str__", lambda u: f"{u.get_full_name()} ({u.username})")
+
 
 class Card(models.Model):
     title = models.CharField(max_length=100, verbose_name='Title', blank=False)

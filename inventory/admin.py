@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Item, ItemLoan
 
+
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -22,4 +23,9 @@ class ItemAdmin(admin.ModelAdmin):
         'name',
     ]
 
-admin.site.register(ItemLoan)
+
+class ItemLoanAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['approver']
+
+
+admin.site.register(ItemLoan, ItemLoanAdmin)

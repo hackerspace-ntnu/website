@@ -180,6 +180,10 @@ class ArticleView(DetailView):
 
             return redirect("/")
 
+        # Very basic article hit registration
+        article.views += 1
+        article.save()
+
         return super(ArticleView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

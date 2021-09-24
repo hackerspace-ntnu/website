@@ -75,6 +75,11 @@ class ArticleAdmin(admin.ModelAdmin):
                 'draft'
             ]
         }),
+        ('Meta', {
+            'fields': [
+                'views',
+            ]
+        }),
     ]
     search_fields = [
         'title'

@@ -36,11 +36,12 @@ class ReservationsSerializer(serializers.ModelSerializer):
         fields = ('start', 'end', 'user', 'parent_queue', 'comment', 'id', 'fullname', 'phone')
 
     def validate(self, attrs):
-        # Dersom man skal oppdatere og sender kun kommentar, bruker man HTTP
-        # PATCH og da kan man ikke validere de andre feltene.
+        # Updating comment requires PATCH
         if self.context['request'].method == 'PATCH':
-            return attrs
-        # disallow reservations into the past, but be slightly forgiving
+            # Allow comment update, ignore any other attributes
+            return {'comment': attrs['comment']}
+
+        # Disallow reservations into the past, but be slightly forgiving
         now = datetime.datetime.now() - datetime.timedelta(minutes=15)
         if attrs['start'] == attrs['end']:
             raise serializers.ValidationError("Reservasjonen begynner samtidig som den slutter.")
@@ -48,7 +49,7 @@ class ReservationsSerializer(serializers.ModelSerializer):
         if attrs['start'] <= now:
             raise serializers.ValidationError("Du kan ikke reservere i fortiden.")
 
-        # disallow weekend and late/early hour reservations to non-members
+        # Disallow weekend and late/early hour reservations to non-members
         user = self.context['request'].user
         if not user.has_perm('reservations.view_user_details') and not user.is_superuser:
             if attrs['start'].time().hour < 10 or attrs['end'].time().hour > 18 \

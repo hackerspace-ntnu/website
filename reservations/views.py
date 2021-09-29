@@ -36,7 +36,10 @@ class QueueListView(ListView):
 
 
 class SearchDateFilter(filters.FilterSet):
+    # filter out events that start after the end time of the search
     end = filters.IsoDateTimeFilter(field_name="start", lookup_expr='lt')
+
+    # filter out events that end before the start time of the search
     start = filters.IsoDateTimeFilter(field_name="end", lookup_expr='gt')
 
     class Meta:

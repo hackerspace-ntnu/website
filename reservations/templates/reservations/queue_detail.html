@@ -209,8 +209,7 @@
 				comment: $('#id_comment')[0].value,
 				start: $('#id_start')[0].value,
 				end: $('#id_end')[0].value,
-				parent_queue: {{ queue.id }},
-				user: {{ request.user.pk }}
+				parent_queue: {{ queue.id }}
 			}
 
 			$.ajax({

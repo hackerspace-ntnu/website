@@ -28,6 +28,7 @@ class PrivacyCharField(serializers.CharField):
 
 
 class ReservationsSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.id")
     fullname = serializers.ReadOnlyField(source="user.get_full_name")
     phone = serializers.ReadOnlyField(source="user.profile.phone_number")
 
@@ -72,5 +73,8 @@ class ReservationsSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('Valgt slutttid overlapper med annen reservasjon.')
             elif (attrs['start'] <= r.start) and (attrs['end'] >= r.end):
                 raise serializers.ValidationError('Valgt start og slutttid overlapper med annen reservasjon.')
+
+        # Specify the reservee here instead of in the request (to prevent someone from reserving for someone else...)
+        attrs['user'] = self.context['request'].user
 
         return attrs

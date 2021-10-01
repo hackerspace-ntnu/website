@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 from reservations.permissions import IsOwnerOrReadOnly
 from reservations.models import Reservation, Queue
-from reservations.serializers import ReservationsSerializer, RestrictedReservationSerializer
+from reservations.serializers import ReservationsSerializer
 from django_filters import rest_framework as filters
 from datetime import datetime
 
@@ -36,8 +36,11 @@ class QueueListView(ListView):
 
 
 class SearchDateFilter(filters.FilterSet):
-    start = filters.IsoDateTimeFilter(field_name="start", lookup_expr='gt')
-    end = filters.IsoDateTimeFilter(field_name="end", lookup_expr='lt')
+    # filter out events that start after the end time of the search
+    end = filters.IsoDateTimeFilter(field_name="start", lookup_expr='lt')
+
+    # filter out events that end before the start time of the search
+    start = filters.IsoDateTimeFilter(field_name="end", lookup_expr='gt')
 
     class Meta:
         model = Reservation
@@ -50,9 +53,7 @@ class ReservationsViewSet(ModelViewSet):
     filterset_class = SearchDateFilter
 
     def get_serializer_class(self):
-        if self.request.user.has_perm('reservations.view_user_details'):
-            return ReservationsSerializer
-        return RestrictedReservationSerializer
+        return ReservationsSerializer
 
     def get_permissions(self):
         if self.action == 'list':

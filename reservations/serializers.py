@@ -27,16 +27,8 @@ class PrivacyCharField(serializers.CharField):
         return None
 
 
-class RestrictedReservationSerializer(serializers.ModelSerializer):
-    user = PrivacyUserField(queryset=User.objects.all())
-    comment = PrivacyCharField(required=False, allow_blank=True)
-
-    class Meta:
-        model = Reservation
-        fields = ('start', 'end', 'user', 'parent_queue', 'comment', 'id')
-
-
 class ReservationsSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source="user.id")
     fullname = serializers.ReadOnlyField(source="user.get_full_name")
     phone = serializers.ReadOnlyField(source="user.profile.phone_number")
 
@@ -45,11 +37,12 @@ class ReservationsSerializer(serializers.ModelSerializer):
         fields = ('start', 'end', 'user', 'parent_queue', 'comment', 'id', 'fullname', 'phone')
 
     def validate(self, attrs):
-        # Dersom man skal oppdatere og sender kun kommentar, bruker man HTTP
-        # PATCH og da kan man ikke validere de andre feltene.
+        # Updating comment requires PATCH
         if self.context['request'].method == 'PATCH':
-            return attrs
-        # disallow reservations into the past, but be slightly forgiving
+            # Allow comment update, ignore any other attributes
+            return {'comment': attrs['comment']}
+
+        # Disallow reservations into the past, but be slightly forgiving
         now = datetime.datetime.now() - datetime.timedelta(minutes=15)
         if attrs['start'] == attrs['end']:
             raise serializers.ValidationError("Reservasjonen begynner samtidig som den slutter.")
@@ -57,12 +50,12 @@ class ReservationsSerializer(serializers.ModelSerializer):
         if attrs['start'] <= now:
             raise serializers.ValidationError("Du kan ikke reservere i fortiden.")
 
-        # disallow weekend and late/early hour reservations to non-members
+        # Disallow weekend and late/early hour reservations to non-members
         user = self.context['request'].user
-        if not user.has_perm('reservations.add_reservation') and not user.is_superuser:
+        if not user.has_perm('reservations.view_user_details') and not user.is_superuser:
             if attrs['start'].time().hour < 10 or attrs['end'].time().hour > 18 \
-                    or attrs['start'].date().weekday() >= 6 or attrs['end'].date().weekday() >= 6 \
-                    or attrs['start'].date() != attrs['end'].date():
+                or attrs['start'].date().weekday() >= 6 or attrs['end'].date().weekday() >= 6 \
+                or attrs['start'].date() != attrs['end'].date():
                 raise serializers.ValidationError(
                     "Non-members are not allowed to make reservations outside opening hours"
                 )
@@ -80,5 +73,8 @@ class ReservationsSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('Valgt slutttid overlapper med annen reservasjon.')
             elif (attrs['start'] <= r.start) and (attrs['end'] >= r.end):
                 raise serializers.ValidationError('Valgt start og slutttid overlapper med annen reservasjon.')
+
+        # Specify the reservee here instead of in the request (to prevent someone from reserving for someone else...)
+        attrs['user'] = self.context['request'].user
 
         return attrs

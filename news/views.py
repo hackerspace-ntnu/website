@@ -50,6 +50,17 @@ class EventView(DetailView):
 
         return super(EventView, self).dispatch(request, *args, **kwargs)
 
+    def get_unreachable_skills(self, skills):
+        unreachable_skills = []
+
+        for skill in skills:
+            if skill.prerequisites.exclude(
+                id__in=self.request.user.profile.skills.all()
+            ).exists():
+                unreachable_skills.append(skill)
+
+        return unreachable_skills
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data["userstatus"] = "ikke pålogget"
@@ -68,6 +79,12 @@ class EventView(DetailView):
                 )
             else:
                 context_data["get_position"] = "Du er ikke på ventelisten."
+
+            if self.object.skills.all():
+                context_data["user_skills"] = self.request.user.profile.skills.all()
+                context_data["unreachable_skills"] = self.get_unreachable_skills(
+                    self.object.skills.all()
+                )
 
         return context_data
 

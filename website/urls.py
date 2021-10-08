@@ -16,6 +16,7 @@ from reservations import views as reservation_views
 from inventory import views as inventory_views
 
 handler404 = 'website.views.handler404'
+handler403 = 'website.views.handler403'
 handler500 = 'website.views.handler500'
 
 # Add rest framework urls

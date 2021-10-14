@@ -12,7 +12,7 @@
                                 {% if item.in_stock %}
                                     <i class="material-icons hs-green-text">done</i>
 
-                                    {% if item.stock > 1000 %}
+                                    {% if item.available > 1000 %}
                                         <b>>1000 stk.</b>
                                     {% else %}
                                         <b>{{ item.available }} stk.</b>
@@ -22,11 +22,7 @@
                                     <i class="material-icons hs-red-text">do_not_disturb</i>
                                     <b>Ingen</b>
                                 {% endif %}
-                                på lager{% if item.has_location %}.{% endif %}
-                                {% if item.has_location %}
-                                    Hylleplass 
-                                    <b>{{ item.location }}</b>
-                                {% endif %}
+                                på lager{% if item.has_location %}. Hylleplass <b>{{ item.location }}</b> {% endif %}
                             </p>
                         </a>
                         {% if item.available > 0 %}

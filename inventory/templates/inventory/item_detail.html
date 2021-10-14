@@ -23,14 +23,10 @@
                     <i class="material-icons hs-red-text">do_not_disturb</i>
                     <b>Ingen</b>
                 {% endif %}
-                    på lager{% if item.amount_loaned > 0 %},{% elif item.has_location %}.{% endif %}
+                    på lager{% if item.amount_loaned > 0 %},{% elif item.has_location %}. Hylleplass <b>{{ item.location }}</b>{% endif %}
                 {% if item.amount_loaned > 0 %}
                     <b>{{ item.amount_loaned }} stk.</b>
-                    er lånt ut{%if item.has_location %}.{% endif %}
-                {% endif %}
-                {% if item.has_location %}
-                    Hylleplass 
-                    <b>{{ item.location }}</b>
+                    er lånt ut{%if item.has_location %}. Hylleplass <b>{{ item.location }}</b>{% endif %}
                 {% endif %}
                 </h6>
             {% if item.description %}

@@ -27,12 +27,12 @@
                 {% if item.amount_loaned > 0 %}
                     <b>{{ item.amount_loaned }} stk.</b>
                     er lånt ut{%if item.has_location %}.{% endif %}
-                        {% if item.has_location %}
-                            Hylleplass 
-                            <b>{{ item.location }}</b>
-                        {% endif %}
                 {% endif %}
-            </h6>
+                {% if item.has_location %}
+                    Hylleplass 
+                    <b>{{ item.location }}</b>
+                {% endif %}
+                </h6>
             {% if item.description %}
             <div class="divider"></div>
             {% autoescape off %}

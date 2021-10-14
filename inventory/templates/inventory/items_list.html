@@ -29,10 +29,11 @@
                                 {% endif %}
                             </p>
                         </a>
-
+                        {% if item.available > 0 %}
                         <a class="secondary-content btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">
                             <span class="white-text">Lån</span>
                         </a>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>

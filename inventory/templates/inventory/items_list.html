@@ -22,7 +22,11 @@
                                     <i class="material-icons hs-red-text">do_not_disturb</i>
                                     <b>Ingen</b>
                                 {% endif %}
-                                på lager
+                                på lager{% if item.has_location %}.{% endif %}
+                                {% if item.has_location %}
+                                    Hylleplass 
+                                    <b>{{ item.location }}</b>
+                                {% endif %}
                             </p>
                         </a>
 

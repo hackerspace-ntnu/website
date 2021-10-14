@@ -14,6 +14,7 @@ class Item(models.Model):
     stock = models.IntegerField('Lagerbeholdning', validators=[MinValueValidator(0)])
     description = RichTextUploadingField('Beskrivelse', blank=True)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Bilde')
+    location = models.CharField(max_length=50, blank=True)
 
     views = models.IntegerField('Detaljsidevisninger', default=0, editable=True)
 
@@ -23,6 +24,10 @@ class Item(models.Model):
     def in_stock(self):
         """Whether or not the item is in stock"""
         return self.available() > 0
+
+    def has_location(self):
+        "Return True if location is not blank"
+        return self.location != ""
     
     def amount_loaned(self):
         """Returns how many of this item was loaned out"""
@@ -47,10 +52,15 @@ class Item(models.Model):
         """
         return self.views
 
+    def save(self, *args, **kwargs):
+        self.location = self.location.lower()
+        return super(Item, self).save(*args, **kwargs)
+
 
 def validate_consent(boolean):
     if boolean is not True:
         raise ValidationError('Du må samtykke til at vi kan lagre kontaktinformasjon')
+
 
 
 class ItemLoan(models.Model):

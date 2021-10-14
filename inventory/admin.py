@@ -10,7 +10,8 @@ class ItemAdmin(admin.ModelAdmin):
                 'name',
                 'stock',
                 'description',
-                'thumbnail'
+                'thumbnail',
+                'location',
             ]
         }),
         ('Meta', {

@@ -86,7 +86,7 @@ class ItemCreateView(PermissionRequiredMixin, CreateView):
     """View for creating new inventory items"""
 
     model = Item
-    fields = ['name', 'stock', 'description', 'thumbnail']
+    fields = ['name', 'stock', "location",  'description', 'thumbnail']
     template_name = 'inventory/edit_item.html'
     permission_required = 'inventory.add_item'
     success_message = 'Gjenstanden er ført inn i lagersystemet.'
@@ -109,7 +109,7 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
     """View for updating inventory items"""
 
     model = Item
-    fields = ['name', 'stock', 'description', 'thumbnail']
+    fields = ['name', 'stock', "location", 'description', 'thumbnail']
     template_name = 'inventory/edit_item.html'
     permission_required = 'inventory.change_item'
     success_message = 'Lagerinnslaget er oppdatert.'

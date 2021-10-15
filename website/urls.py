@@ -55,6 +55,8 @@ urlpatterns = [
     path('inventory/', include('inventory.urls')),
     path('vaktliste/', include('watchlist.urls')),
     path('intranet/', IntranetView.as_view(), name='intranet'),
+    path('project/', include('project.urls'), name='project'),
+    
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"
@@ -67,3 +69,4 @@ if settings.DEBUG:
                 {'document_root': settings.MEDIA_ROOT}),
     ]
     admin.site.index_title = "Velkommen tilbake, Mester"
+

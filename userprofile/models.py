@@ -63,7 +63,6 @@ class Profile(models.Model):
 
     limit_social = models.BooleanField(default=False, verbose_name="Vis sosiale profiler kun for andre Hackerspace-medlemmer")
 
-    access_card = models.CharField(max_length=20, null=True, blank=True, verbose_name="NTNU Adgangskort (EMXXXXXXXXXX)")
     study = models.CharField(max_length=50, null=True, blank=True, verbose_name="Studieretning")
 
     accepted_tos = models.ForeignKey(TermsOfService, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Seneste aksepterte TOS")

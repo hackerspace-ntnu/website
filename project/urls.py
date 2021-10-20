@@ -9,7 +9,8 @@ urlpatterns = [
     # url(r'archive/new', views.ProjectCreateView.as_view(), name='Project_Create'),
 
     url(r'', views.ProjectListView.as_view(), name='Project_List'),
-    url(r'/<int:pk>', views.ProjectView.as_view(), name='Project_View'),
+    url('/detail/   <int:pk>', views.ProjectView.as_view(), name='Project_View'),
+    # url(r'^(?P<pk>[0-9]+)/$', views.ProjectView.as_view(), name='Project_View'),
     url(r'/new', views.ProjectCreateView.as_view(), name='Project_Create'),
 
 

@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 
 
 class EventView(DetailView):
@@ -25,7 +26,7 @@ class EventView(DetailView):
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(request, messages.WARNING, 'Logg inn for å se internt arrangement')
 
-            return redirect("/")
+            raise PermissionDenied
 
         # If the event is a draft, check if user is the author
         if event.draft and not request.user == event.author:
@@ -170,7 +171,7 @@ class ArticleView(DetailView):
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
 
-            return redirect("/")
+            raise PermissionDenied
 
         # If the article is a draft, check if user is the author
         if article.draft and not request.user == article.author:

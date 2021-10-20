@@ -14,7 +14,7 @@ class Item(models.Model):
     stock = models.IntegerField('Lagerbeholdning', validators=[MinValueValidator(0)])
     description = RichTextUploadingField('Beskrivelse', blank=True)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Bilde')
-    location = models.CharField(max_length=50, blank=True)
+    location = models.CharField('Hylleplass', max_length=50, blank=True)
 
     views = models.IntegerField('Detaljsidevisninger', default=0, editable=True)
 

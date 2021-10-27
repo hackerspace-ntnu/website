@@ -5,6 +5,7 @@ from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
 from committees.models import Committee
 from django.forms.widgets import ClearableFileInput
+from django.utils import timezone
 
 class EventAttendeeForm(forms.ModelForm):
     # Til registrering av attendees
@@ -71,7 +72,22 @@ def get_committees():
         return []
 
 
-class EventForm(forms.ModelForm):
+class UpdatePubDateOnDraftPublishMixin(forms.ModelForm):
+    """
+    Form mixin for updating publishing date when draft is published
+    """
+
+    def save(self, commit=True):
+        # Check if draft status has been changed
+        if 'draft' in self.changed_data:
+            # Check if changed to non-draft (i.e. published)
+            if not self.cleaned_data['draft']:
+                # Update publishing date
+                self.instance.pub_date = timezone.now()
+        return super().save(commit)
+
+
+class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     error_css_class = 'invalid'
 
     ingress_content = forms.CharField(
@@ -86,9 +102,7 @@ class EventForm(forms.ModelForm):
     registration_end = SplitDateTimeFieldCustom(label='Påmeldingsfrist')
     deregistration_end = SplitDateTimeFieldCustom(label='Avmeldingsfrist')
 
-
     responsible = UserFullnameChoiceField(label="Arrangementansvarlig", queryset=User.objects.all().filter(groups__name__in=get_committees()).order_by('first_name'))
-
 
     class Meta:
         model = Event
@@ -96,7 +110,7 @@ class EventForm(forms.ModelForm):
                   'time_start', 'time_end', 'place', 'servering', 'place_href', 'draft']
 
 
-class ArticleForm(forms.ModelForm):
+class ArticleForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
 
     ingress_content = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'materialize-textarea'}),

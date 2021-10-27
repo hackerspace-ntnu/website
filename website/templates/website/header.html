@@ -146,11 +146,19 @@
 		coverTrigger: false,
 		constrainWidth: false
 	});
-	var instance = M.Dropdown.init(dropdown_resources, {
+	var dropdown_nav_instance = M.Dropdown.init(dropdown_resources, {
 		hover: true,
 		coverTrigger: false,
 		constrainWidth: false
 	});
+
+	// fix for not being able to re-open the dropdown when clicked
+	dropdown_resources.addEventListener("click", () => {
+		if (!dropdown_nav_instance.isOpen) {
+			dropdown_nav_instance.open()
+		}
+	});
+
 	switch(window.location.pathname) {
 		case '/news/':
 			var element = document.getElementById("news");

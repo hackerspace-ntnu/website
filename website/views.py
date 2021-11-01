@@ -179,7 +179,7 @@ class IndexView(TemplateView):
 
         # Get the 5 events closest to starting
         event_list = list(Event.objects.filter(
-            time_end__gt=timezone.now(),
+            time_start__gt=timezone.now(),
             internal__lte=can_access_internal_event,
             draft=False,
         ).order_by('time_start')[:5])
@@ -188,7 +188,7 @@ class IndexView(TemplateView):
         if len(event_list) < 5:
             to_fill = 5 - len(event_list)
             expired_events = Event.objects.filter(
-                time_end__lte=timezone.now(),
+                time_start__lte=timezone.now(),
                 internal__lte=can_access_internal_event,
                 draft=False,
             ).order_by('time_start')[:to_fill]

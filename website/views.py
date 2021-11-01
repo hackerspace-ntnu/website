@@ -177,9 +177,22 @@ class IndexView(TemplateView):
         can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
         can_access_internal_event = self.request.user.has_perm('news.can_view_internal_event')
 
-        # First sort, then grab 5 elements, then flip the list ordered by date
-        event_list = Event.objects.filter(
-            internal__lte=can_access_internal_event, draft=False).order_by('-time_start')[:5:-1]
+        # Get the 5 events closest to starting
+        event_list = list(Event.objects.filter(
+            time_end__gt=timezone.now(),
+            internal__lte=can_access_internal_event,
+            draft=False,
+        ).order_by('time_start')[:5])
+
+        # Add expired events if we couldn't fill the 5 slots
+        if len(event_list) < 5:
+            to_fill = 5 - len(event_list)
+            expired_events = Event.objects.filter(
+                time_end__lte=timezone.now(),
+                internal__lte=can_access_internal_event,
+                draft=False,
+            ).order_by('time_start')[:to_fill]
+            event_list += list(expired_events)
 
         current_date = datetime.now()
 

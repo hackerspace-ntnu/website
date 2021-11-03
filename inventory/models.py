@@ -39,8 +39,7 @@ class Item(models.Model):
             return 0
 
     def next_loan(self):
-        loans = ItemLoan.objects.filter(item__name = self.name)
-        loans_sorted = sorted(loans, key = lambda loan: loan.loan_to)
+        loans_sorted = ItemLoan.objects.filter(item__name = self.name).order_by('loan_to')
         for loan in loans_sorted:
             if not loan.overdue():
                 return loan

@@ -24,12 +24,12 @@
                                 {% endif %}
                                 på lager.
 
-                                {% if item.has_location%}
+                                {% if item.has_location %}
                                     Hylleplass <b>{{ item.location }}</b>.
                                 {% endif %}
 
                                 {% if not item.in_stock and item.next_loan_done is not None %}
-                                    Den  <b>{{ item.next_loan_done }}</b> kommer <b>{{ item.next_loan_amount }} stk.</b>.
+                                    Den  <b>{{ item.next_loan_done }}</b> kommer det <b>{{ item.next_loan_amount }} stk.</b>
                                 {% endif %}
 
                             </p>

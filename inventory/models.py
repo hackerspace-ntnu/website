@@ -44,6 +44,7 @@ class Item(models.Model):
         for loan in loans_sorted:
             if not loan.overdue():
                 return loan
+        return None
 
     def next_loan_done(self):
         return self.next_loan().loan_to

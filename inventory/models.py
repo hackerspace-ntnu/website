@@ -47,7 +47,8 @@ class Item(models.Model):
         return None
 
     def next_loan_done(self):
-        return self.next_loan().loan_to
+        formatted_date = str(self.next_loan().loan_to.day) + "." + str(self.next_loan().loan_to.month) + "."
+        return formatted_date
 
     def next_loan_amount(self):
         return self.next_loan().amount

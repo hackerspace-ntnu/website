@@ -38,6 +38,19 @@ class Item(models.Model):
         except ItemLoan.DoesNotExist:
             return 0
 
+    def next_loan(self):
+        loans = ItemLoan.objects.filter(item__name = self.name)
+        loans_sorted = sorted(loans, key = lambda loan: loan.loan_to)
+        for loan in loans_sorted:
+            if not loan.overdue():
+                return loan
+
+    def next_loan_done(self):
+        return self.next_loan().loan_to
+
+    def next_loan_amount(self):
+        return self.next_loan().amount
+
     def available(self):
         """Returns how many items are realistically available"""
         return self.stock - self.amount_loaned()

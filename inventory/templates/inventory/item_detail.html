@@ -32,7 +32,11 @@
                 {%if item.has_location and item.in_stock %}
                     Hylleplass <b>{{ item.location }}</b>.
                 {% endif %}
-                
+
+                {% if not item.in_stock and item.next_loan_done is not None %}
+                    <b>{{ item.next_loan_amount }} stk.</b> kommer <b>{{ item.next_loan_done }}</b>.
+                {% endif %}
+
                 </h6>
             {% if item.description %}
             <div class="divider"></div>

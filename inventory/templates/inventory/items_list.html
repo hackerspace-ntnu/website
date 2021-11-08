@@ -12,7 +12,7 @@
                                 {% if item.in_stock %}
                                     <i class="material-icons hs-green-text">done</i>
 
-                                    {% if item.stock > 1000 %}
+                                    {% if item.available > 1000 %}
                                         <b>>1000 stk.</b>
                                     {% else %}
                                         <b>{{ item.available }} stk.</b>
@@ -22,13 +22,23 @@
                                     <i class="material-icons hs-red-text">do_not_disturb</i>
                                     <b>Ingen</b>
                                 {% endif %}
-                                på lager
+                                på lager.
+
+                                {% if item.has_location %}
+                                    Hylleplass <b>{{ item.location }}</b>.
+                                {% endif %}
+
+                                {% if not item.in_stock and item.next_loan_done is not None %}
+                                    Den  <b>{{ item.next_loan_done }}</b> kommer det <b>{{ item.next_loan_amount }} stk.</b>
+                                {% endif %}
+
                             </p>
                         </a>
-
+                        {% if item.available > 0 %}
                         <a class="secondary-content btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">
                             <span class="white-text">Lån</span>
                         </a>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>

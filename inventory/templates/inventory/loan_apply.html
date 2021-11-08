@@ -11,7 +11,8 @@
             <h4>Lånesøknad - {{ item.name }}</h4>
             <p>
                 <i class="material-icons hs-green-text">done</i>
-                <b>{{ item.stock }} stk.</b> på lager
+                <b>{{ item.available }} stk.</b> på lager{% if item.has_location %}. Hylleplass <b>{{ item.location }}</b>{% endif %}
+                
             </p>
             <p>Etter at du har sendt inn søknaden må du komme til verkstedet og få søknaden godkjent av vakthavende.</p>
             <div class="divider"></div>

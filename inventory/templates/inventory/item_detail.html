@@ -20,15 +20,24 @@
                 <i class="material-icons hs-green-text">done</i>
                 <b>{{ item.available }} stk.</b>
                 {% else %}
-                <i class="material-icons hs-red-text">do_not_disturb</i>
-                <b>Ingen</b>
+                    <i class="material-icons hs-red-text">do_not_disturb</i>
+                    <b>Ingen</b>
                 {% endif %}
-                 på lager{% if item.amount_loaned > 0 %},{% endif %}
-                {% if item.amount_loaned > 0 %}
-                <b>{{ item.amount_loaned }} stk.</b>
-                er lånt ut
+                    på lager.
+                    {% if item.amount_loaned > 0 %}
+                    <b>{{ item.amount_loaned }} stk.</b>
+                    er lånt ut.
+                    {% endif %}
+
+                {%if item.has_location %}
+                    Hylleplass <b>{{ item.location }}</b>.
                 {% endif %}
-            </h6>
+
+                {% if not item.in_stock and item.next_loan_done is not None %}
+                    Den  <b>{{ item.next_loan_done }}</b> kommer det <b>{{ item.next_loan_amount }} stk.</b>
+                {% endif %}
+
+                </h6>
             {% if item.description %}
             <div class="divider"></div>
             {% autoescape off %}

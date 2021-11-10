@@ -191,7 +191,7 @@ class IndexView(TemplateView):
                 time_start__lte=timezone.now(),
                 internal__lte=can_access_internal_event,
                 draft=False,
-            ).order_by('time_start')[:to_fill]
+            ).order_by('-time_start')[:to_fill]
             event_list += list(expired_events)
 
         current_date = datetime.now()

@@ -42,6 +42,7 @@ class EventView(DetailView):
         context_data = super().get_context_data(**kwargs)
         context_data['userstatus'] = "ikke pålogget"
         context_data['expired_event'] = datetime.now() > self.object.time_end
+        context_data['food_preferences'] = self.object.get_food_preferences_of_registered()
 
         if self.request.user.is_authenticated:
             context_data['userstatus'] = self.object.userstatus(self.request.user)

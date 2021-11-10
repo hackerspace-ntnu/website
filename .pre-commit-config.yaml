@@ -1,13 +1,16 @@
+exclude: '^website/wsgi.py|^.*\b(migrations)\b.*$'
 repos:
 -   repo: https://github.com/ambv/black
     rev: 21.10b0
     hooks:
     - id: black
       language_version: python3
-      exclude: '^.*\b(migrations)\b.*$'
 -   repo: https://github.com/pre-commit/mirrors-isort
     rev: v5.9.3
     hooks:
     - id: isort
       entry: isort --profile=black
-      exclude: '^.*\b(migrations)\b.*$'
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: 3.7.9
+    hooks:
+    - id: flake8

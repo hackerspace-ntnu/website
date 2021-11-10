@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, Event, Upload, EventRegistration
+from .models import Article, Event, EventRegistration, Upload
 
 
 @admin.register(Event)

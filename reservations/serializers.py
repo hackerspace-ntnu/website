@@ -1,8 +1,10 @@
 import datetime
+
+from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework import serializers
+
 from reservations.models import Reservation
-from django.contrib.auth.models import User
 
 
 class PrivacyUserField(serializers.PrimaryKeyRelatedField):

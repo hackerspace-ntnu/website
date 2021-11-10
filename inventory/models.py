@@ -1,10 +1,11 @@
 from ckeditor_uploader.fields import RichTextUploadingField
-from files.models import Image
-from django.db import models
-from django.core.validators import MinValueValidator, RegexValidator
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, RegexValidator
+from django.db import models
+from django.utils import timezone
+
+from files.models import Image
 
 
 class Item(models.Model):

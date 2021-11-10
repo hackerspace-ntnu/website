@@ -1,14 +1,16 @@
-from django.contrib.auth.admin import User
-from django.db.models.signals import post_save
-from django.core.files.base import ContentFile
-from django.dispatch import receiver
-from django.db import models
-from django.shortcuts import reverse
 from datetime import datetime
-from sorl.thumbnail import get_thumbnail
-from applications.validators import validate_phone_number
-from django.utils import timezone
+
 from ckeditor.fields import RichTextField
+from django.contrib.auth.admin import User
+from django.core.files.base import ContentFile
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.shortcuts import reverse
+from django.utils import timezone
+from sorl.thumbnail import get_thumbnail
+
+from applications.validators import validate_phone_number
 
 
 class TermsOfService(models.Model):

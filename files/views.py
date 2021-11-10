@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from .models import Image, FileCategory
-from .forms import ImageForm
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView, View
-from django.shortcuts import redirect, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, View
+
+from .forms import ImageForm
+from .models import FileCategory, Image
 
 
 class ImageDeleteView(PermissionRequiredMixin, DeleteView):

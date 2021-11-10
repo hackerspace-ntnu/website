@@ -1,9 +1,10 @@
-from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.utils import timezone
 from django.contrib.auth.admin import User
-from files.models import Image
 from django.core.validators import MaxLengthValidator
+from django.db import models
+from django.utils import timezone
+
+from files.models import Image
 
 
 class Article(models.Model):

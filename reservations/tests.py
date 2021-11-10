@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User, Permission
-from django.test import TestCase, Client
+from django.contrib.auth.models import Permission, User
+from django.test import Client, TestCase
 
-from reservations.models import Reservation, Queue
+from reservations.models import Queue, Reservation
 
 
 class ReservationsTestCase(TestCase):

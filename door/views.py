@@ -1,11 +1,14 @@
+import html.parser
 import json
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils import timezone
-from website import settings
-from .models import DoorStatus, OpenData
-import html.parser
 from django.views import View
+
+from website import settings
+
+from .models import DoorStatus, OpenData
 
 DOOR_NAME = "hackerspace"
 

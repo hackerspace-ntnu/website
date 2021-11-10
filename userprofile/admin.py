@@ -1,7 +1,8 @@
+from django import forms
 from django.contrib import admin
 from django.db import models
-from django import forms
-from .models import Profile, TermsOfService, Skill, Category
+
+from .models import Category, Profile, Skill, TermsOfService
 
 
 class ProfileAdmin(admin.ModelAdmin):

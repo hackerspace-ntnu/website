@@ -1,9 +1,10 @@
-from ckeditor.fields import RichTextField
-from django.db import models
-from files.models import Image
 from datetime import datetime
 
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+from django.db import models
+
+from files.models import Image
 
 # Set custom User string representation
 User.add_to_class("__str__", lambda u: f"{u.get_full_name()} ({u.username})")

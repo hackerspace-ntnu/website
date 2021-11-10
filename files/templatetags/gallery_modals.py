@@ -1,6 +1,7 @@
 from django import template
-from files.models import Image, FileCategory
+
 from files.forms import ImageForm
+from files.models import FileCategory, Image
 
 register = template.Library()
 

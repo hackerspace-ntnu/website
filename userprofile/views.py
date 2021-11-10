@@ -1,27 +1,28 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 
 # For merging user and profile forms
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
 from django.http import Http404
-from committees.models import Committee
-from .forms import ProfileSearchForm, ProfileForm
-from .models import Profile, TermsOfService, Category, Skill
-from django.views.generic.base import TemplateView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView, SingleObjectMixin
-from django.views.generic.edit import UpdateView
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic import CreateView, RedirectView
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 
 # For approving skills
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from django.views.generic import CreateView, RedirectView
+from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.edit import UpdateView
+from django.views.generic.list import ListView
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from committees.models import Committee
+
+from .forms import ProfileForm, ProfileSearchForm
+from .models import Category, Profile, Skill, TermsOfService
 
 
 class ProfileListView(ListView):

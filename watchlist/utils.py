@@ -1,5 +1,6 @@
-from .models import ShiftSlot, weekday_loc
 from website.settings import WORKSHOP_OPEN_DAYS
+
+from .models import ShiftSlot, weekday_loc
 
 
 def get_shift_weekview_rows():

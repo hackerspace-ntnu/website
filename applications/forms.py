@@ -1,5 +1,5 @@
-from django.forms import ModelForm, Textarea, TextInput
 from django.core.mail import send_mail
+from django.forms import ModelForm, Textarea, TextInput
 from django.template.loader import render_to_string
 
 from .models import Application, ApplicationGroupChoice

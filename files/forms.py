@@ -1,5 +1,5 @@
-from django.forms import ModelForm
-from django.forms import TextInput
+from django.forms import ModelForm, TextInput
+
 from .models import Image
 
 

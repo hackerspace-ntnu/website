@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+
 from applications.validators import validate_phone_number
 
 YEAR_CHOICES = (

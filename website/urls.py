@@ -1,31 +1,31 @@
+from ckeditor_uploader import views as ck_upload_views
 from django.conf import settings
-from django.urls import include, re_path
 from django.contrib import admin
+from django.contrib.auth.decorators import permission_required
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.urls import path
+from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from website.views import (
-    IndexView,
-    AcceptTosRedirectView,
-    AboutView,
-    AdminView,
-    AcceptTosView,
-    RulesView,
-    RuleDetailsView,
-    IntranetView,
-)
+from rest_framework import routers
+
+from inventory import views as inventory_views
+from reservations import views as reservation_views
 from userprofile.views import (
+    MostRecentTermsOfServiceView,
+    ProfileListView,
     TermsOfServiceCreateView,
     TermsOfServiceView,
-    MostRecentTermsOfServiceView,
 )
-from userprofile.views import ProfileListView
-from django.contrib.auth.decorators import permission_required
-from ckeditor_uploader import views as ck_upload_views
-from rest_framework import routers
-from reservations import views as reservation_views
-from inventory import views as inventory_views
+from website.views import (
+    AboutView,
+    AcceptTosRedirectView,
+    AcceptTosView,
+    AdminView,
+    IndexView,
+    IntranetView,
+    RuleDetailsView,
+    RulesView,
+)
 
 handler404 = "website.views.handler404"
 handler403 = "website.views.handler403"

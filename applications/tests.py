@@ -1,14 +1,13 @@
 from django.apps import apps
+from django.core import mail
+from django.core.exceptions import ValidationError
+from django.test import Client, TestCase
 from django.urls import reverse
-from django.test import TestCase, Client
-from applications.models import ApplicationPeriod, ApplicationGroup
+
 from applications.apps import ApplicationsConfig
 from applications.forms import ApplicationForm
-from django.core import mail
-
-
+from applications.models import ApplicationGroup, ApplicationPeriod
 from applications.validators import validate_phone_number
-from django.core.exceptions import ValidationError
 
 
 class ApplicationsConfigTest(TestCase):

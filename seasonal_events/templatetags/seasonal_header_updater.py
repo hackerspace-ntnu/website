@@ -1,4 +1,5 @@
 from django import template
+
 from seasonal_events.models import Season
 
 register = template.Library()

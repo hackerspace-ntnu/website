@@ -3,7 +3,7 @@ from django.contrib.admin import EmptyFieldListFilter
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from .models import Card, FaqQuestion, Banner, Rule
+from .models import Banner, Card, FaqQuestion, Rule
 
 
 class WatchlistFilter(EmptyFieldListFilter):

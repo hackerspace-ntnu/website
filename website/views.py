@@ -1,20 +1,22 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect, Http404
-from django.urls import reverse
-from news.models import Article, Event
-from door.models import DoorStatus
-from userprofile.models import TermsOfService
-from committees.models import Committee
-from userprofile.models import Profile
-from inventory.models import ItemLoan
 from datetime import datetime
-from django.utils import timezone
-from applications.models import ApplicationPeriod
-from .models import Card, FaqQuestion, Rule
-from django.views.generic import ListView, TemplateView, RedirectView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from urllib import parse as urlparse
 from random import randint
+from urllib import parse as urlparse
+
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import Http404, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
+from django.views.generic import DetailView, ListView, RedirectView, TemplateView
+
+from applications.models import ApplicationPeriod
+from committees.models import Committee
+from door.models import DoorStatus
+from inventory.models import ItemLoan
+from news.models import Article, Event
+from userprofile.models import Profile, TermsOfService
+
+from .models import Card, FaqQuestion, Rule
 from .settings import INTRANET_GREETINGS
 
 

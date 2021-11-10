@@ -1,9 +1,12 @@
-from django.shortcuts import render
-from applications.forms import ApplicationForm
 from datetime import datetime
+
+from django.shortcuts import render
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
-from .models import ApplicationPeriod, ApplicationGroup
+
+from applications.forms import ApplicationForm
+
+from .models import ApplicationGroup, ApplicationPeriod
 
 
 class ApplicationInfoView(ListView):

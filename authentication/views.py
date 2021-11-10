@@ -1,10 +1,11 @@
 from django.contrib.auth import logout
-from django.urls import reverse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.views import View
-from userprofile.models import Profile
-from social_core.pipeline.user import get_username as social_get_username
 from social_core.exceptions import AuthException
+from social_core.pipeline.user import get_username as social_get_username
+
+from userprofile.models import Profile
 
 
 class LogoutView(View):

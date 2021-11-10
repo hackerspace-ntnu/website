@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
+
 from applications import views
 
 app_name = "application"

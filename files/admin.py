@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Image, FileCategory
+
+from .models import FileCategory, Image
 
 admin.site.register(FileCategory)
 

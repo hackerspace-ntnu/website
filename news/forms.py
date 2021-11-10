@@ -1,11 +1,12 @@
 from django import forms
-from django.db.utils import OperationalError, ProgrammingError
-from news.models import Event, EventRegistration, Upload, Article
-from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
-from committees.models import Committee
+from django.db.utils import OperationalError, ProgrammingError
+from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
 from django.utils import timezone
+
+from committees.models import Committee
+from news.models import Article, Event, EventRegistration, Upload
 
 
 class EventAttendeeForm(forms.ModelForm):

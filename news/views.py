@@ -1,22 +1,24 @@
+from datetime import datetime, timedelta
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import (
+    CreateView,
+    DeleteView,
     DetailView,
     ListView,
     UpdateView,
-    CreateView,
-    DeleteView,
 )
-from datetime import datetime, timedelta
-from .forms import EventForm, eventformset, uploadformset, ArticleForm
-from .models import Event, Article, EventRegistration
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
-from django.core.exceptions import PermissionDenied
+
+from .forms import ArticleForm, EventForm, eventformset, uploadformset
+from .models import Article, Event, EventRegistration
 
 
 class EventView(DetailView):

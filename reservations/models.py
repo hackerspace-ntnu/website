@@ -1,12 +1,11 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
-from files.models import Image
 
-from django.core.validators import MaxValueValidator
-from django.core.validators import MinValueValidator
+from files.models import Image
 
 
 class Queue(models.Model):

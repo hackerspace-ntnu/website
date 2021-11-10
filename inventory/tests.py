@@ -1,8 +1,10 @@
+import time
+
 from django.test import TestCase
 from django.urls import reverse
+
 from .models import Item
-from .views import InventoryListView, InventoryListAPIView
-import time
+from .views import InventoryListAPIView, InventoryListView
 
 
 class ItemTests(TestCase):

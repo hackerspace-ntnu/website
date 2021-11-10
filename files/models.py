@@ -1,7 +1,7 @@
+from django.core.files.base import ContentFile
 from django.db import models
 from django.utils import timezone
 from sorl.thumbnail import get_thumbnail
-from django.core.files.base import ContentFile
 
 
 def get_default_category():

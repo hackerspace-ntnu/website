@@ -1,12 +1,13 @@
-from django.views.generic import DetailView, ListView
-from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ModelViewSet
-from reservations.permissions import IsOwnerOrReadOnly
-from reservations.models import Reservation, Queue
-from reservations.serializers import ReservationsSerializer
-from django_filters import rest_framework as filters
 from datetime import datetime
 
+from django.views.generic import DetailView, ListView
+from django_filters import rest_framework as filters
+from rest_framework.permissions import AllowAny
+from rest_framework.viewsets import ModelViewSet
+
+from reservations.models import Queue, Reservation
+from reservations.permissions import IsOwnerOrReadOnly
+from reservations.serializers import ReservationsSerializer
 from website.models import Rule
 
 

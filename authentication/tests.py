@@ -1,14 +1,14 @@
 from django.apps import apps
-from django.contrib.auth.models import User, AnonymousUser
-from django.test import TestCase, RequestFactory, Client
-from authentication.apps import AuthenticationConfig
-from social_django.models import UserSocialAuth
-from django.contrib.auth import get_user_model
-
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser, User
+from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
+from social_django.models import UserSocialAuth
+from social_django.utils import load_backend, load_strategy
+
+from authentication.apps import AuthenticationConfig
 from authentication.views import associate_by_email, save_profile
-from social_django.utils import load_strategy, load_backend
 
 
 class AuthenticationConfigTest(TestCase):

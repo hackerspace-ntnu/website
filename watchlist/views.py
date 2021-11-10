@@ -1,13 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.views.generic import TemplateView
-from .utils import get_shift_weekview_rows, get_shift_weekview_columns
-from django.views.generic import View
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from userprofile.models import Skill, Category
-from .models import ShiftSlot
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView, View
+
+from userprofile.models import Category, Skill
+
+from .models import ShiftSlot
+from .utils import get_shift_weekview_columns, get_shift_weekview_rows
 
 
 class watchlistView(TemplateView):

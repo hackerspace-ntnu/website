@@ -39,7 +39,7 @@ class ApplicationView(FormView):
     def dispatch(self, request, *args, **kwargs):
         current_date = datetime.now()
         if not ApplicationPeriod.objects.filter(name="Opptak"):
-            ap = ApplicationPeriod.objects.create(
+            ApplicationPeriod.objects.create(
                 name="Opptak",
                 period_start=datetime(2018, 1, 1),
                 period_end=datetime(2018, 1, 2),

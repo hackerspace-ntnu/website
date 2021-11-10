@@ -54,7 +54,9 @@ class EventView(DetailView):
         context_data = super().get_context_data(**kwargs)
         context_data["userstatus"] = "ikke pålogget"
         context_data["expired_event"] = datetime.now() > self.object.time_end
-        context_data["food_preferences"] = self.object.get_food_preferences_of_registered()
+        context_data[
+            "food_preferences"
+        ] = self.object.get_food_preferences_of_registered()
 
         if self.request.user.is_authenticated:
             context_data["userstatus"] = self.object.userstatus(self.request.user)
@@ -278,10 +280,6 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
             upload_form.instance = self.object
             upload_form.save()
             return HttpResponseRedirect(self.get_success_url())
-        else:
-            errors = upload_form.errors
-            raise
-            return self.render_to_response(self.get_context_data(form=form))
 
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()

@@ -2,7 +2,6 @@ import datetime
 
 from django.db import models
 
-# Create your models here.
 
 # Date conflicts can arise
 class Season(models.Model):

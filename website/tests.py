@@ -1,9 +1,5 @@
-from django.contrib.auth.models import User
-from django.test import Client, RequestFactory, TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
-from social_django.utils import load_backend, load_strategy
-
-from authentication.views import save_profile
 
 
 class WebsiteAboutTests(TestCase):

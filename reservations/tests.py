@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Permission, User
 from django.test import Client, TestCase
 
-from reservations.models import Queue, Reservation
+from reservations.models import Queue
 
 
 class ReservationsTestCase(TestCase):

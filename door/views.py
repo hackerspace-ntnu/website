@@ -1,8 +1,6 @@
-import html.parser
 import json
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
 from django.utils import timezone
 from django.views import View
 

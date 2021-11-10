@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from applications.apps import ApplicationsConfig
 from applications.forms import ApplicationForm
-from applications.models import ApplicationGroup, ApplicationPeriod
+from applications.models import ApplicationGroup
 from applications.validators import validate_phone_number
 
 
@@ -21,11 +21,11 @@ class ApplicationValidatorTest(TestCase):
 
         with self.assertRaises(ValidationError):
             # Too long
-            response = validate_phone_number("123123121")
+            validate_phone_number("123123121")
 
         with self.assertRaises(ValidationError):
             # No digit
-            response = validate_phone_number("123123121asd")
+            validate_phone_number("123123121asd")
 
 
 class ApplicationInfoViewTest(TestCase):

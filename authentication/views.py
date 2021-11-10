@@ -3,7 +3,6 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
 from social_core.exceptions import AuthException
-from social_core.pipeline.user import get_username as social_get_username
 
 from userprofile.models import Profile
 
@@ -26,14 +25,14 @@ def save_profile(backend, user, response, is_new=False, *args, **kwargs):
             try:
                 user.profile
             except Profile.DoesNotExist:
-                profile = Profile.objects.create(user=user)
+                Profile.objects.create(user=user)
 
             user.save()
         else:
             try:
                 user.profile
             except Profile.DoesNotExist:
-                profile = Profile.objects.create(user=user)
+                Profile.objects.create(user=user)
 
 
 def associate_by_email(backend, details, user=None, *args, **kwargs):

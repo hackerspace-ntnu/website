@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView, View
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import DeleteView, ListView, View
 
 from .forms import ImageForm
 from .models import FileCategory, Image
@@ -21,7 +21,6 @@ class ImageListView(PermissionRequiredMixin, ListView):
     context_object_name = "categories"
 
     def get_queryset(self):
-        images = Image.objects.all()
         categorized = {}
 
         for category in FileCategory.objects.all().order_by("name"):

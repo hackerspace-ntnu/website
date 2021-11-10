@@ -3,11 +3,9 @@ from random import randint
 from urllib import parse as urlparse
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import DetailView, ListView, RedirectView, TemplateView
+from django.views.generic import DetailView, RedirectView, TemplateView
 
 from applications.models import ApplicationPeriod
 from committees.models import Committee
@@ -50,12 +48,12 @@ class AcceptTosRedirectView(LoginRequiredMixin, RedirectView):
     pattern_name = "index"
 
     def get_redirect_url(self, *args, **kwargs):
-        profileobj = get_object_or_404(Profile, pk=self.request.user.profile.id)
-        if profileobj != None:
-            mostRecentTos = TermsOfService.objects.order_by("-pub_date").first()
+        profile = get_object_or_404(Profile, pk=self.request.user.profile.id)
+        if profile is not None:
+            most_recent_tos = TermsOfService.objects.order_by("-pub_date").first()
 
-            profileobj.accepted_tos = mostRecentTos
-            profileobj.save()
+            profile.accepted_tos = most_recent_tos
+            profile.save()
 
         # Pop and redirect to pre-TOS path stored in session variable
         # Redirects to '/' if pop fails
@@ -202,11 +200,13 @@ class IndexView(TemplateView):
         )
 
         # Get the 5 events closest to starting
-        event_list = list(Event.objects.filter(
-            time_start__gt=timezone.now(),
-            internal__lte=can_access_internal_event,
-            draft=False,
-        ).order_by("time_start")[:5])
+        event_list = list(
+            Event.objects.filter(
+                time_start__gt=timezone.now(),
+                internal__lte=can_access_internal_event,
+                draft=False,
+            ).order_by("time_start")[:5]
+        )
 
         # Add expired events if we couldn't fill the 5 slots
         if len(event_list) < 5:
@@ -233,7 +233,7 @@ class IndexView(TemplateView):
 
         # hvis det ikke eksisterer en ApplicationPeriod, lag en.
         if not ApplicationPeriod.objects.filter(name="Opptak"):
-            ap = ApplicationPeriod.objects.create(
+            ApplicationPeriod.objects.create(
                 name="Opptak",
                 period_start=datetime(2018, 1, 1),
                 period_end=datetime(2018, 1, 2),

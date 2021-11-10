@@ -1,11 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, View
 
-from userprofile.models import Category, Skill
+from userprofile.models import Skill
 
 from .models import ShiftSlot
 from .utils import get_shift_weekview_columns, get_shift_weekview_rows

@@ -5,14 +5,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 # For merging user and profile forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
 # For approving skills
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, RedirectView
-from django.views.generic.base import TemplateView
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 from rest_framework import status
@@ -155,10 +153,8 @@ class SkillsView(DetailView, CategoryLevelsMixin):
                 pk__in=reachable_skill_ids
             )
             context["approvable_skills"] = approvable_skills
-        try:
-            context["redirect_skill"] = Skill.objects.get(id=self.kwargs["skill_pk"])
-        except:
-            pass
+
+        context["redirect_skill"] = Skill.objects.get(id=self.kwargs["skill_pk"])
 
         return context
 

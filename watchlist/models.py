@@ -2,10 +2,9 @@ from datetime import time, timedelta
 from enum import Enum
 
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.db import models
 
-from userprofile.models import Profile, Skill
+from userprofile.models import Profile
 
 
 class Weekdays(Enum):
@@ -95,7 +94,7 @@ class ShiftSlot(models.Model):
             for watcher_skill in profile.skills.all():
                 for category in watcher_skill.categories.all():
                     level = profile.skills.filter(categories__pk=category.pk).count()
-                    if not category.name in shift_skills:
+                    if category.name not in shift_skills:
                         shift_skills[category.name] = {
                             "color": category.color,
                             "level": level,

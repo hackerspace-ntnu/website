@@ -1,6 +1,5 @@
 from django.apps import apps
-from django.template import Context, Template
-from django.test import SimpleTestCase, TestCase
+from django.test import TestCase
 
 from seasonal_events.apps import SeasonalEventsConfig
 

@@ -27,7 +27,7 @@ SOCIAL_AUTH_DATAPORTEN_FEIDE_SECRET = None
 ADMINS = (("devops", "hackerspace-dev@idi.ntnu.no"),)
 
 try:
-    from website.local_settings import *
+    from website.local_settings import *  # noqa: F403
 except ImportError:
     pass
 
@@ -81,9 +81,9 @@ if DB == "postgres":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": DATABASE_NAME,
-            "USER": DATABASE_USER,
-            "PASSWORD": DATABASE_PASSWORD,
+            "NAME": DATABASE_NAME,  # noqa: F405
+            "USER": DATABASE_USER,  # noqa: F405
+            "PASSWORD": DATABASE_PASSWORD,  # noqa: F405
             "HOST": "localhost",
             "PORT": "",
         }

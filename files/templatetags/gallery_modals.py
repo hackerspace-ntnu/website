@@ -8,7 +8,6 @@ register = template.Library()
 
 @register.inclusion_tag("files/images-modal.html")
 def ImagePickModal(request):
-    images = Image.objects.all()
     categorized = {}
 
     for category in FileCategory.objects.all().order_by("name"):

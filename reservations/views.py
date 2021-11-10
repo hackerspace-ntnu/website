@@ -17,8 +17,9 @@ class QueueDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         if Rule.objects.filter(printer_rule=True).exists():
             # Get first rule marked as printer rule
-            context['printer_rule'] = Rule.objects.filter(printer_rule=True)[0]
+            context["printer_rule"] = Rule.objects.filter(printer_rule=True)[0]
         return context
+
 
 class QueueListView(ListView):
     model = Queue
@@ -26,25 +27,29 @@ class QueueListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['reservation_list'] = Reservation.objects.filter(user=self.request.user, end__gte=datetime.now())
+            context["reservation_list"] = Reservation.objects.filter(
+                user=self.request.user, end__gte=datetime.now()
+            )
         else:
-            context['reservation_list'] = None
+            context["reservation_list"] = None
         if Rule.objects.filter(printer_rule=True).exists():
             # Get first rule marked as printer rule
-            context['printer_rule'] = Rule.objects.filter(printer_rule=True)[0]
+            context["printer_rule"] = Rule.objects.filter(printer_rule=True)[0]
         return context
 
 
 class SearchDateFilter(filters.FilterSet):
     # filter out events that start after the end time of the search
-    end = filters.IsoDateTimeFilter(field_name="start", lookup_expr='lt')
+    end = filters.IsoDateTimeFilter(field_name="start", lookup_expr="lt")
 
     # filter out events that end before the start time of the search
-    start = filters.IsoDateTimeFilter(field_name="end", lookup_expr='gt')
+    start = filters.IsoDateTimeFilter(field_name="end", lookup_expr="gt")
 
     class Meta:
         model = Reservation
-        fields = ['parent_queue', ]
+        fields = [
+            "parent_queue",
+        ]
 
 
 class ReservationsViewSet(ModelViewSet):
@@ -56,7 +61,7 @@ class ReservationsViewSet(ModelViewSet):
         return ReservationsSerializer
 
     def get_permissions(self):
-        if self.action == 'list':
+        if self.action == "list":
             permission_classes = [AllowAny]
         else:
             # Kan ikke delete eller patche andre reservasjoner

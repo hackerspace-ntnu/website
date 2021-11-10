@@ -7,23 +7,28 @@ from django.core.validators import MaxLengthValidator
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Tittel')
-    main_content = RichTextUploadingField(blank=True, verbose_name='Brødtekst')
+    title = models.CharField(max_length=100, verbose_name="Tittel")
+    main_content = RichTextUploadingField(blank=True, verbose_name="Brødtekst")
     ingress_content = models.TextField(
-        max_length=400, blank=True, validators=[MaxLengthValidator(400)],
-        verbose_name='Ingress', help_text="En kort introduksjon til teksten"
+        max_length=400,
+        blank=True,
+        validators=[MaxLengthValidator(400)],
+        verbose_name="Ingress",
+        help_text="En kort introduksjon til teksten",
     )
 
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
-    internal = models.BooleanField(default=False, verbose_name='Intern artikkel')
-    pub_date = models.DateTimeField('Publication date', default=timezone.now)
-    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
-    redirect = models.IntegerField('Redirect', default=0)
+    internal = models.BooleanField(default=False, verbose_name="Intern artikkel")
+    pub_date = models.DateTimeField("Publication date", default=timezone.now)
+    thumbnail = models.ForeignKey(
+        Image, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    redirect = models.IntegerField("Redirect", default=0)
 
-    draft = models.BooleanField(default=False, verbose_name='Utkast')
+    draft = models.BooleanField(default=False, verbose_name="Utkast")
 
-    views = models.IntegerField('Sidevisninger', default=0, editable=True)
+    views = models.IntegerField("Sidevisninger", default=0, editable=True)
 
     def __str__(self):
         return self.title
@@ -33,11 +38,9 @@ class Article(models.Model):
         return "Article"
 
     class Meta:
-        app_label = 'news'
-        ordering = ('-pub_date',)
-        permissions = (
-            ("can_view_internal_article", "Can see internal articles"),
-        )
+        app_label = "news"
+        ordering = ("-pub_date",)
+        permissions = (("can_view_internal_article", "Can see internal articles"),)
 
     def redirect_id(self):
         if self.redirect:
@@ -46,37 +49,62 @@ class Article(models.Model):
 
 
 class Event(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Tittel')
-    main_content = RichTextUploadingField(blank=True, verbose_name='Hovedtekst')
+    title = models.CharField(max_length=100, verbose_name="Tittel")
+    main_content = RichTextUploadingField(blank=True, verbose_name="Hovedtekst")
     ingress_content = models.TextField(
-        max_length=400, blank=True, validators=[MaxLengthValidator(400)],
-        verbose_name='Ingress', help_text="En kort introduksjon til teksten"
+        max_length=400,
+        blank=True,
+        validators=[MaxLengthValidator(400)],
+        verbose_name="Ingress",
+        help_text="En kort introduksjon til teksten",
     )
 
-    pub_date = models.DateTimeField(default=timezone.now, verbose_name='Publiseringsdato')
+    pub_date = models.DateTimeField(
+        default=timezone.now, verbose_name="Publiseringsdato"
+    )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    responsible = models.ForeignKey(User, related_name="responsible", on_delete=models.SET_NULL, blank=True, null=True,
-                                    verbose_name="Arrangementansvarlig")
+    responsible = models.ForeignKey(
+        User,
+        related_name="responsible",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Arrangementansvarlig",
+    )
 
-    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
+    thumbnail = models.ForeignKey(
+        Image, on_delete=models.SET_NULL, blank=True, null=True
+    )
 
-    internal = models.BooleanField(default=False, verbose_name='Intern')
-    registration = models.BooleanField(default=False, verbose_name='Påmelding')
-    max_limit = models.PositiveIntegerField(blank=True, null=True, default=0, verbose_name='Maks påmeldte')
-    registration_start = models.DateTimeField(default=timezone.now, verbose_name='Påmeldingsstart')
-    registration_end = models.DateTimeField(default=timezone.now, verbose_name='Påmeldingsfrist')
-    deregistration_end = models.DateTimeField(default=timezone.now, verbose_name='Avmeldingsfrist')
-    external_registration = models.CharField(blank=True, max_length=200, default='',
-                                             verbose_name='Lenke for ekstern påmelding')
+    internal = models.BooleanField(default=False, verbose_name="Intern")
+    registration = models.BooleanField(default=False, verbose_name="Påmelding")
+    max_limit = models.PositiveIntegerField(
+        blank=True, null=True, default=0, verbose_name="Maks påmeldte"
+    )
+    registration_start = models.DateTimeField(
+        default=timezone.now, verbose_name="Påmeldingsstart"
+    )
+    registration_end = models.DateTimeField(
+        default=timezone.now, verbose_name="Påmeldingsfrist"
+    )
+    deregistration_end = models.DateTimeField(
+        default=timezone.now, verbose_name="Avmeldingsfrist"
+    )
+    external_registration = models.CharField(
+        blank=True,
+        max_length=200,
+        default="",
+        verbose_name="Lenke for ekstern påmelding",
+    )
 
-    time_start = models.DateTimeField(verbose_name='Starttidspunkt', null=True)
-    time_end = models.DateTimeField(verbose_name='Sluttidspunkt', null=True)
+    time_start = models.DateTimeField(verbose_name="Starttidspunkt", null=True)
+    time_end = models.DateTimeField(verbose_name="Sluttidspunkt", null=True)
 
     servering = models.BooleanField(default=False)
-    place = models.CharField(max_length=100, blank=True, verbose_name='Sted')
-    place_href = models.CharField(max_length=200, blank=True, verbose_name='Sted URL')
+    place = models.CharField(max_length=100, blank=True, verbose_name="Sted")
+    place_href = models.CharField(max_length=200, blank=True, verbose_name="Sted URL")
 
-    draft = models.BooleanField(default=False, verbose_name='Utkast')
+    draft = models.BooleanField(default=False, verbose_name="Utkast")
 
     @property
     def can_register(self):
@@ -105,8 +133,8 @@ class Event(models.Model):
     @property
     def is_past_due(self):
         """
-            Denne brukes i regroup og tallene strippes vekk, kun brukt for
-            dictsort i regroup.
+        Denne brukes i regroup og tallene strippes vekk, kun brukt for
+        dictsort i regroup.
         """
         if self.time_start < timezone.now() < self.time_end:
             return "1 Pågående arrangementer"
@@ -124,7 +152,9 @@ class Event(models.Model):
 
         :return: The number of registered users for the event, excluding waitlisted
         """
-        return len(EventRegistration.get_registrations(self)) - len(EventRegistration.get_waitlist(self))
+        return len(EventRegistration.get_registrations(self)) - len(
+            EventRegistration.get_waitlist(self)
+        )
 
     def waiting_count(self):
         """
@@ -142,8 +172,10 @@ class Event(models.Model):
         :param user: The user to check
         :return: A boolean indicating if the user is registered for the event
         """
-        return user in [registration.user for registration in
-                        EventRegistration.get_registrations(self)]
+        return user in [
+            registration.user
+            for registration in EventRegistration.get_registrations(self)
+        ]
 
     def is_waiting(self, user):
         """
@@ -152,7 +184,9 @@ class Event(models.Model):
         :param user: The user to check
         :return: A boolean indicating if the user is on the waiting list
         """
-        return user in [registration.user for registration in EventRegistration.get_waitlist(self)]
+        return user in [
+            registration.user for registration in EventRegistration.get_waitlist(self)
+        ]
 
     def userstatus(self, user):
         """
@@ -200,19 +234,15 @@ class Event(models.Model):
 
     def get_allergies_count(self):
 
-        count = {
-            'glutenfritt': 0,
-            'vegetar': 0,
-            'vegan': 0
-        }
+        count = {"glutenfritt": 0, "vegetar": 0, "vegan": 0}
 
         for reg in self.registration_list():
             if reg.user.profile.allergi_gluten:
-                count['glutenfritt'] += 1
+                count["glutenfritt"] += 1
             if reg.user.profile.allergi_vegetar:
-                count['vegetar'] += 1
+                count["vegetar"] += 1
             if reg.user.profile.allergi_vegan:
-                count['vegan'] += 1
+                count["vegan"] += 1
 
         return count
 
@@ -222,7 +252,9 @@ class Event(models.Model):
 
         :return: A list of the registered users for the event
         """
-        return [registration for registration in EventRegistration.get_registrations(self)]
+        return [
+            registration for registration in EventRegistration.get_registrations(self)
+        ]
 
     def wait_list(self):
         """
@@ -230,21 +262,26 @@ class Event(models.Model):
 
         :return: Simplified waiting list
         """
-        return [registration.user for registration in EventRegistration.get_waitlist(self)]
+        return [
+            registration.user for registration in EventRegistration.get_waitlist(self)
+        ]
 
     class Meta:
-        app_label = 'news'
+        app_label = "news"
         ordering = ("time_start",)
         permissions = (
-            ("can_see_attendees", "Can see attending, waitlist, register meetup in a event"),
+            (
+                "can_see_attendees",
+                "Can see attending, waitlist, register meetup in a event",
+            ),
             ("can_view_internal_event", "Can see internal events"),
         )
 
 
 class Upload(models.Model):
-    title = models.CharField(max_length=100, verbose_name='Filnavn')
-    time = models.DateTimeField(default=timezone.now, verbose_name='Tittel')
-    file = models.FileField(upload_to='event-uploads', blank=True)
+    title = models.CharField(max_length=100, verbose_name="Filnavn")
+    time = models.DateTimeField(default=timezone.now, verbose_name="Tittel")
+    file = models.FileField(upload_to="event-uploads", blank=True)
     number = models.IntegerField(default=0)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="files")
 
@@ -252,7 +289,7 @@ class Upload(models.Model):
         return self.title
 
     class Meta:
-        app_label = 'news'
+        app_label = "news"
 
     def save(self, *args, **kwargs):
         # Dersom fjern er huket av i event_edit, slettes hele objektet.
@@ -264,7 +301,9 @@ class Upload(models.Model):
 
 class EventRegistration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="registrations")
+    event = models.ForeignKey(
+        Event, on_delete=models.CASCADE, related_name="registrations"
+    )
     date = models.DateTimeField(default=timezone.now, verbose_name="Registration time")
     attended = models.BooleanField(default=False)
 
@@ -276,7 +315,9 @@ class EventRegistration(models.Model):
         :param event: The event to retrieve the waitlist for
         :return: The waitlist
         """
-        return EventRegistration.get_registrations(event).order_by('date')[event.max_limit:]
+        return EventRegistration.get_registrations(event).order_by("date")[
+            event.max_limit :
+        ]
 
     @staticmethod
     def get_registrations(event):

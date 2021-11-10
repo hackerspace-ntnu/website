@@ -7,6 +7,7 @@ from .models import Profile, TermsOfService, Skill, Category
 class ProfileAdmin(admin.ModelAdmin):
     pass
 
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(TermsOfService)
 admin.site.register(Skill)

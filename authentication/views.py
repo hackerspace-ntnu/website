@@ -3,22 +3,24 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.views import View
 from userprofile.models import Profile
-from social_core.pipeline.user import  get_username as social_get_username
+from social_core.pipeline.user import get_username as social_get_username
 from social_core.exceptions import AuthException
+
 
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
-        return redirect(reverse('index'))
+        return redirect(reverse("index"))
+
 
 def save_profile(backend, user, response, is_new=False, *args, **kwargs):
-    if backend.name == 'dataporten_feide':
+    if backend.name == "dataporten_feide":
         if is_new:
-            first, last = response.get('fullname').split(" ", 1)
+            first, last = response.get("fullname").split(" ", 1)
 
             user.first_name = first
             user.last_name = last
-            user.email = response.get('username')
+            user.email = response.get("username")
 
             try:
                 user.profile
@@ -45,12 +47,10 @@ def associate_by_email(backend, details, user=None, *args, **kwargs):
     if user:
         return None
 
-
-    email = details.get('username')
+    email = details.get("username")
 
     # In case its an older account with stud.ntnu.no
     alt_email = email.split("@")[0] + "@stud.ntnu.no"
-
 
     if email:
         # Try to associate accounts registered with the same email address,
@@ -63,18 +63,15 @@ def associate_by_email(backend, details, user=None, *args, **kwargs):
             return None
         elif len(users) > 1 or len(alt_users) > 1:
             raise AuthException(
-                backend,
-                'The given email address is associated with another account'
+                backend, "The given email address is associated with another account"
             )
         else:
             if len(users) == 1:
-                return {'user': users[0],
-                        'is_new': False}
+                return {"user": users[0], "is_new": False}
             if len(alt_users) == 1:
                 # Convert old user to new feide email syntax
                 prison_user = alt_users[0]
                 prison_user.email = email
                 prison_user.save()
 
-                return {'user': alt_users[0],
-                        'is_new': False}
+                return {"user": alt_users[0], "is_new": False}

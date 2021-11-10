@@ -13,14 +13,16 @@ class WatchlistFilter(EmptyFieldListFilter):
 
     def choices(self, changelist):
         for lookup, title in (
-            (None, 'Alle'),
-            ('0', 'På vaktliste'),
-            ('1', 'Ikke på vaktliste'),
+            (None, "Alle"),
+            ("0", "På vaktliste"),
+            ("1", "Ikke på vaktliste"),
         ):
             yield {
-                'selected': self.lookup_val == lookup,
-                'query_string': changelist.get_query_string({self.lookup_kwarg: lookup}),
-                'display': title,
+                "selected": self.lookup_val == lookup,
+                "query_string": changelist.get_query_string(
+                    {self.lookup_kwarg: lookup}
+                ),
+                "display": title,
             }
 
 

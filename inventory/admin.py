@@ -5,28 +5,34 @@ from .models import Item, ItemLoan
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Item', {
-            'fields': [
-                'name',
-                'stock',
-                'description',
-                'thumbnail',
-                'location',
-            ]
-        }),
-        ('Meta', {
-            'fields': [
-                'views',
-            ]
-        }),
+        (
+            "Item",
+            {
+                "fields": [
+                    "name",
+                    "stock",
+                    "description",
+                    "thumbnail",
+                    "location",
+                ]
+            },
+        ),
+        (
+            "Meta",
+            {
+                "fields": [
+                    "views",
+                ]
+            },
+        ),
     ]
     search_fields = [
-        'name',
+        "name",
     ]
 
 
 class ItemLoanAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['approver']
+    autocomplete_fields = ["approver"]
 
 
 admin.site.register(ItemLoan, ItemLoanAdmin)

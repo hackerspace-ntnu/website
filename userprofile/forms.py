@@ -13,6 +13,18 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['image', 'study', 'show_email', 'social_discord', 'social_steam', 'social_battlenet',
-                  'social_git', 'allergi_gluten', 'allergi_vegetar', 'allergi_vegan', 'allergi_annet', 'limit_social',
-                  'phone_number']
+        fields = [
+            "image",
+            "study",
+            "show_email",
+            "social_discord",
+            "social_steam",
+            "social_battlenet",
+            "social_git",
+            "allergi_gluten",
+            "allergi_vegetar",
+            "allergi_vegan",
+            "allergi_annet",
+            "limit_social",
+            "phone_number",
+        ]

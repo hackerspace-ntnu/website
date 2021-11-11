@@ -9,29 +9,32 @@
                         <a href="{% url 'inventory:item' item.id %}" class="truncate">
                             {{ item.name }}
                             <p style="color: #000 !important">
-                                {% if item.in_stock %}
-                                    <i class="material-icons hs-green-text">done</i>
-
-                                    {% if item.available > 1000 %}
-                                        <b>>1000 stk.</b>
-                                    {% else %}
-                                        <b>{{ item.available }} stk.</b>
-                                    {% endif %}
-
+                                {% if item.unknown_stock %}
+                                    Ukjent lagerbeholdning.
                                 {% else %}
-                                    <i class="material-icons hs-red-text">do_not_disturb</i>
-                                    <b>Ingen</b>
+                                    {% if item.in_stock %}
+                                        <i class="material-icons hs-green-text">done</i>
+
+                                        {% if item.available > 1000 %}
+                                            <b>>1000 stk.</b>
+                                        {% else %}
+                                            <b>{{ item.available }} stk.</b>
+                                        {% endif %}
+
+                                    {% else %}
+                                        <i class="material-icons hs-red-text">do_not_disturb</i>
+                                        <b>Ingen</b>
+                                    {% endif %}
+                                    på lager.
                                 {% endif %}
-                                på lager.
 
                                 {% if item.has_location %}
                                     Hylleplass <b>{{ item.location }}</b>.
                                 {% endif %}
 
                                 {% if not item.in_stock and item.next_loan_done is not None %}
-                                    Den  <b>{{ item.next_loan_done }}</b> kommer det <b>{{ item.next_loan_amount }} stk.</b>
+                                    <b>{{ item.next_loan_amount }} stk.</b> tilbake på lager <b>{{ item.next_loan_done }}.
                                 {% endif %}
-
                             </p>
                         </a>
                         {% if item.available > 0 %}

@@ -30,14 +30,21 @@
                         <span class="helper-text hs-red-text">{{ form.name.errors }}</span>
                     </div>
                     <div class="input-field col s12 m6">
+                        {{ form.location }}
+                        <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m6">
                         {{ form.stock }}
                         <label for="{{ form.stock.id_for_label }}">{{ form.stock.label }}</label>
                         <span class="helper-text hs-red-text">{{ form.stock.errors }}</span>
                     </div>
                     <div class="input-field col s12 m6">
-                        {{ form.location }}
-                        <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
+                        <p><label>
+                            {{ form.unknown_stock }}
+                            <span for="{{ form.unknown_stock.id_for_label }}">{{ form.unknown_stock.label }}</span>
+                            <span class="helper-text hs-red-text">{{ form.unknown_stock.errors }}</span>
+                        </p></label>
                     </div>
                 </div>
 

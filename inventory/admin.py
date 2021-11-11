@@ -12,6 +12,7 @@ class ItemAdmin(admin.ModelAdmin):
                 "fields": [
                     "name",
                     "stock",
+                    'unknown_stock',
                     "description",
                     "thumbnail",
                     "location",

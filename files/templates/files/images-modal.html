@@ -4,7 +4,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
 {% endblock %}
 
-<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large col s12" data-target="thumbnailPicker">Vis bildegalleri</a>
+<a class="waves-effect hs-red white-text waves-light btn btn-large" id="delete-img">Slett bilde</a>
+<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
 
 <div id="thumbnailPicker" class="modal">
 	<div class="modal-content gallery-content">
@@ -43,6 +44,18 @@
 {% ImageUploadModal request %}
 
 <script>
+const deleteBtn = document.querySelector('#delete-img');
+const img_input = document.querySelector('#id_thumbnail');
+const img = document.querySelector('#thumb-preview');
+
+deleteBtn.addEventListener('click', function() {
+	if (img.style.backgroundImage != "none") {
+		img_input.value = null;
+		img.style.backgroundImage = "none";
+		M.toast({html: 'Bildet er slettet'});
+	}
+});
+
 const thumbModal = document.querySelector('#thumbnailPicker');
 
 subscribeToUpload(thumbModal);

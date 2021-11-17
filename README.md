@@ -12,7 +12,9 @@ This projects uses Django with Python 3. Make sure you have Python3 and pip3 ins
 
 ### For Linux
 
-`sudo apt install python3 python3-pip python3-venv`
+```
+sudo apt install python3 python3-pip python3-venv
+```
 
 ### For Windows
 Alternatives:
@@ -29,31 +31,54 @@ Instead of installing a bunch of python files system-wide, we will use a virtual
 ### For Linux/Mac
 
 1. Create virtualenv:
-`python3 -m venv NAME_OF_VENV`
+   ```
+   python3 -m venv NAME_OF_VENV
+   ```
 
 2. Activate virtualenv:
-`source NAME_OF_VENV/bin/activate`
+   ```
+   source NAME_OF_VENV/bin/activate
+   ```
 
 ### For Windows
 1. Create virtualenv:
-`python -m venv NAME_OF_VENV`
+   ```
+   python -m venv NAME_OF_VENV
+   ```
 
 2. Activate virtualenv:
-`.\NAME_OF_VENV\Scripts\activate`
+   ```
+   .\NAME_OF_VENV\Scripts\activate
+   ```
 
 ## Download and initialize the project
 
 Clone the project:
-`git clone https://github.com/hackerspace-ntnu/website.git`
+```
+git clone https://github.com/hackerspace-ntnu/website.git
+```
 
 Go into the project:
-`cd website/`
+```
+cd website/
+```
 
 Install required python packages:
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
+
+Install pre-commit hooks for automatic code formatting and various code style checks:
+```
+pre-commit install
+```
 
 Migrate the database:
-`python manage.py migrate`
+```
+python manage.py migrate
+```
 
 After installing the required packages and initializing the database, you can run the server with the following command:
-`python manage.py runserver`
+```
+python manage.py runserver
+```

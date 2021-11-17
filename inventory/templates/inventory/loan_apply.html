@@ -10,9 +10,21 @@
         <div class="card-panel">
             <h4>Lånesøknad - {{ item.name }}</h4>
             <p>
+                {% if item.unknown_stock %}
+                Ukjent lagerbeholdning.
+                {% else %}
                 <i class="material-icons hs-green-text">done</i>
-                <b>{{ item.available }} stk.</b> på lager{% if item.has_location %}. Hylleplass <b>{{ item.location }}</b>{% endif %}
-                
+                {% if item.available > 1000 %}
+                    <b>>1000 stk.</b>
+                {% else %}
+                    <b>{{ item.available }} stk.</b>
+                {% endif %}
+                på lager.
+                {% endif %}
+
+                {% if item.has_location %}
+                    Hylleplass <b>{{ item.location }}</b>.
+                {% endif %}
             </p>
             <p>Etter at du har sendt inn søknaden må du komme til verkstedet og få søknaden godkjent av vakthavende.</p>
             <div class="divider"></div>

@@ -33,11 +33,11 @@
                                 {% endif %}
 
                                 {% if not item.in_stock and item.next_loan_done is not None %}
-                                    <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}.
+                                    <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
                                 {% endif %}
                             </p>
                         </a>
-                        {% if item.available > 0 %}
+                        {% if item.can_loan and item.in_stock %}
                         <a class="secondary-content btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">
                             <span class="white-text">Lån</span>
                         </a>

@@ -33,15 +33,15 @@
                     <b>Ingen</b>
                 {% endif %}
                 på lager.
-            {% endif %}
+                {% endif %}
 
-            {% if item.has_location %}
-                Hylleplass <b>{{ item.location }}</b>.
-            {% endif %}
+                {% if item.has_location %}
+                    Hylleplass <b>{{ item.location }}</b>.
+                {% endif %}
 
-            {% if not item.in_stock and item.next_loan_done is not None %}
-                <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}.
-            {% endif %}
+                {% if not item.in_stock and item.next_loan_done is not None %}
+                    <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
+                {% endif %}
                 </h6>
             {% if item.description %}
             <div class="divider"></div>
@@ -50,7 +50,7 @@
             {% endautoescape %}
             {% endif %}
 
-            {% if item.in_stock %}
+            {% if item.can_loan and item.in_stock %}
             <div class="row">
                 <a class="col s12 btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
             </div>

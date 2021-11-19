@@ -99,7 +99,15 @@ class ItemCreateView(PermissionRequiredMixin, CreateView):
     """View for creating new inventory items"""
 
     model = Item
-    fields = ["name", "stock", "location", "description", "thumbnail"]
+    fields = [
+        "name",
+        "stock",
+        "unknown_stock",
+        "can_loan",
+        "location",
+        "description",
+        "thumbnail",
+    ]
     template_name = "inventory/edit_item.html"
     permission_required = "inventory.add_item"
     success_message = "Gjenstanden er ført inn i lagersystemet."
@@ -122,7 +130,15 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
     """View for updating inventory items"""
 
     model = Item
-    fields = ["name", "stock", "location", "description", "thumbnail"]
+    fields = [
+        "name",
+        "stock",
+        "unknown_stock",
+        "can_loan",
+        "location",
+        "description",
+        "thumbnail",
+    ]
     template_name = "inventory/edit_item.html"
     permission_required = "inventory.change_item"
     success_message = "Lagerinnslaget er oppdatert."
@@ -217,7 +233,10 @@ class ItemLoanApproveView(PermissionRequiredMixin, TemplateView):
         application = get_object_or_404(ItemLoan, id=pk)
 
         # trust no-one. not even hackerspace members
-        if application.amount > application.item.available():
+        if (
+            application.amount > application.item.available()
+            and not application.item.unknown_stock
+        ):
             return HttpResponseRedirect(reverse("inventory:loans"))
 
         application.loan_from = timezone.now()
@@ -309,7 +328,8 @@ class ItemLoanApplicationView(CreateView):
 
         item = get_object_or_404(Item, id=pk)
         # Go back to the inventory view if the item has no stock in inventory
-        if not item.available():
+        # Same if you're not allowed to loan the item
+        if not item.in_stock() or not item.can_loan:
             return HttpResponseRedirect(self.success_url)
 
         return super().get(*args, **kwargs)
@@ -327,7 +347,11 @@ class ItemLoanApplicationView(CreateView):
 
     def form_valid(self, form):
         item = self.get_context_data().get("item")
-        if form.instance.amount > item.stock:
+        if not item.can_loan:
+            return HttpResponseRedirect(reverse("inventory:inventory"))
+
+        # can always loan items whose stock is unknown
+        if form.instance.amount > item.stock and not item.unknown_stock:
             form.errors["amount"] = "Du kan ikke be om å låne mer enn vi har på lager"
             return self.render_to_response(self.get_context_data(form=form))
 

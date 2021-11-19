@@ -13,6 +13,10 @@ class Item(models.Model):
 
     name = models.CharField("Navn", max_length=50)
     stock = models.IntegerField("Lagerbeholdning", validators=[MinValueValidator(0)])
+    unknown_stock = models.BooleanField(
+        "Ukjent lagerbeholdning", null=False, blank=False, default=False
+    )
+    can_loan = models.BooleanField("Kan lånes", null=False, blank=False, default=True)
     description = RichTextUploadingField("Beskrivelse", blank=True)
     thumbnail = models.ForeignKey(
         Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Bilde"
@@ -26,7 +30,7 @@ class Item(models.Model):
 
     def in_stock(self):
         """Whether or not the item is in stock"""
-        return self.available() > 0
+        return self.available() > 0 or self.unknown_stock
 
     def has_location(self):
         "Return True if location is not blank"

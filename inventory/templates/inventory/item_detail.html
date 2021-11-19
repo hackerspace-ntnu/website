@@ -16,27 +16,32 @@
         <div class="card-panel">
             <h4 class="word-wrap">{{ item.name }}</h4>
             <h6>
+                {% if item.unknown_stock %}
+                Ukjent lagerbeholdning.
+                {% else %}
                 {% if item.in_stock %}
-                <i class="material-icons hs-green-text">done</i>
-                <b>{{ item.available }} stk.</b>
+                    <i class="material-icons hs-green-text">done</i>
+
+                    {% if item.available > 1000 %}
+                        <b>>1000 stk.</b>
+                    {% else %}
+                        <b>{{ item.available }} stk.</b>
+                    {% endif %}
+
                 {% else %}
                     <i class="material-icons hs-red-text">do_not_disturb</i>
                     <b>Ingen</b>
                 {% endif %}
-                    på lager.
-                    {% if item.amount_loaned > 0 %}
-                    <b>{{ item.amount_loaned }} stk.</b>
-                    er lånt ut.
-                    {% endif %}
+                på lager.
+                {% endif %}
 
-                {%if item.has_location %}
+                {% if item.has_location %}
                     Hylleplass <b>{{ item.location }}</b>.
                 {% endif %}
 
                 {% if not item.in_stock and item.next_loan_done is not None %}
-                    Den  <b>{{ item.next_loan_done }}</b> kommer det <b>{{ item.next_loan_amount }} stk.</b>
+                    <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
                 {% endif %}
-
                 </h6>
             {% if item.description %}
             <div class="divider"></div>
@@ -45,7 +50,7 @@
             {% endautoescape %}
             {% endif %}
 
-            {% if item.in_stock %}
+            {% if item.can_loan and item.in_stock %}
             <div class="row">
                 <a class="col s12 btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>
             </div>

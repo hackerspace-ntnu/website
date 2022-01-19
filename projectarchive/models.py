@@ -6,30 +6,9 @@ from files.models import Image
 from django.core.validators import MaxLengthValidator
 
 
-# class Project(models.Model):
-#     name = models.CharField(max_length=100, verbose_name='Name', blank=False)
-#     body = models.TextField(blank=False)
-#     thumbnail = models.ForeignKey(Image, on_delete=models.CASCADE, blank=False)
-#     thumbnail_dark_text = models.BooleanField(default=False)
-#     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-
-#     pub_date = models.DateTimeField('Publication date', default=timezone.now)
-#     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
-#     redirect = models.IntegerField('Redirect', default=0)
-
-#     draft = models.BooleanField(default=False, verbose_name='Utkast')
-
-#     def __str__(self):
-#         return self.name
-
-
-class Project(models.Model):
-    # title = models.CharField(max_length=100, verbose_name='Tittel')
-    # main_content = RichTextUploadingField(blank=True, verbose_name='Brødtekst')
-    
-    name = models.CharField(max_length=100, verbose_name='Name', blank=False)
-    body = models.TextField(blank=False)
-
+class Projectarticle(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Tittel')
+    main_content = RichTextUploadingField(blank=True, verbose_name='Brødtekst')
     ingress_content = models.TextField(
         max_length=400, blank=True, validators=[MaxLengthValidator(400)],
         verbose_name='Ingress', help_text="En kort introduksjon til teksten"
@@ -37,7 +16,9 @@ class Project(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
-    # internal = models.BooleanField(default=False, verbose_name='Intern artikkel')
+# Fjerne internal senere
+    internal = models.BooleanField(default=False, verbose_name='Intern artikkel')
+
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
     redirect = models.IntegerField('Redirect', default=0)
@@ -52,11 +33,11 @@ class Project(models.Model):
         return "Article"
 
     class Meta:
-        app_label = 'project'
+        app_label = 'projectarchive'
         ordering = ('-pub_date',)
-        # permissions = (
-        #     ("can_view_internal_article", "Can see internal articles"),
-        # )
+        permissions = (
+            ("can_view_internal_article", "Can see internal articles"),
+        )
 
     def redirect_id(self):
         if self.redirect:
@@ -75,7 +56,7 @@ class Upload(models.Model):
         return self.title
 
     class Meta:
-        app_label = 'project'
+        app_label = 'projectarchive'
 
     def save(self, *args, **kwargs):
         # Dersom fjern er huket av i event_edit, slettes hele objektet.
@@ -83,6 +64,4 @@ class Upload(models.Model):
             self.delete()
         else:
             return super(Upload, self).save(*args, **kwargs)
-
-
 

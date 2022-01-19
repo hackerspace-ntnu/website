@@ -66,7 +66,7 @@ INSTALLED_APPS = [
     'social_django',
     'inventory',
     'watchlist',
-    'project',
+    'projectarchive',
 ]
 
 

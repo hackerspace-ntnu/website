@@ -61,6 +61,12 @@
                             <span class="helper-text hs-red-text">{{ form.can_loan.errors }}</span>
                         </p></label>
                     </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">date_range</i>
+                        {{ form.max_loan_duration }}
+                        <label for="{{ form.max_loan_duration.id_for_label }}">{{ form.max_loan_duration.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.max_loan_duration.errors }}</span>
+                    </div>
                 </div>
 
                 <div class="input-field">

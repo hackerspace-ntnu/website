@@ -1,0 +1,89 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block content %}
+	<div class="section hs-green white-text">
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<h3>Ferdigheter</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="section">
+			<form method="post">
+				<ul class="collection with-header">
+					<li class="collection-header">
+						<h4>
+							Godkjenn ferdigheter
+							<button
+									class="btn btn-flat hs-green secondary-content"
+									style="margin-left: 5px;"
+									onClick="selectAllAttendees()"
+									type="button"
+							>
+								<span class="white-text">Velg alle oppmøtte</span>
+							</button>
+							<button
+									class="btn btn-flat hs-green secondary-content"
+									onClick="selectAll()"
+									type="button"
+							>
+								<span class="white-text">Velg alle</span>
+							</button>
+						</h4>
+					</li>
+					{% csrf_token %}
+					<div class="hide">{{ form }}</div>
+					{{ skillsformset.management_form }}
+					{% for instance in skillsformset %}
+						<li class="collection-item">
+							<div>
+								<div class="hide">
+									{{ instance.user }}
+									{{ instance.event }}
+									{{ instance.id }}
+								</div>
+								{{ instance.user.label }}
+								<div class="secondary-content">
+									{{ instance.user.waiting }}
+									<label>
+										<input
+												class="userCheckbox {% if instance.attended.value %}attendee{% endif %}"
+												type="checkbox"
+												name="{{ instance.give_skills.html_name }}"
+										/>
+										<span>
+											{% if instance.attended.value %}
+												<i class="material-icons green-text tooltipped" data-position="left" data-tooltip="Oppmøte registrert">
+													how_to_reg
+												</i>
+											{% else %}
+												<i class="material-icons red-text tooltipped" data-position="left" data-tooltip="Oppmøte ikke registrert">
+													person_off
+												</i>
+											{% endif %}
+										</span>
+									</label>
+								</div>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+				<div class="row">
+					<div class="col s12">
+						<button
+								class="right btn btn-flat btn-large hs-green white-text"
+								type="submit"
+						>
+							Lagre
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script src="{% static 'news/js/attendee_skills.js' %}"></script>
+{% endblock %}

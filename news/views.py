@@ -17,7 +17,13 @@ from django.views.generic import (
     UpdateView,
 )
 
-from .forms import ArticleForm, EventForm, eventformset, uploadformset
+from .forms import (
+    ArticleForm,
+    EventForm,
+    eventAttendeeFormSet,
+    eventSkillFormSet,
+    uploadformset,
+)
 from .models import Article, Event, EventRegistration
 
 
@@ -131,16 +137,51 @@ class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context["registrations"] = eventformset(
+            context["registrations"] = eventAttendeeFormSet(
                 self.request.POST, instance=self.object
             )
         else:
-            context["registrations"] = eventformset(instance=self.object)
+            context["registrations"] = eventAttendeeFormSet(instance=self.object)
         return context
 
     def form_valid(self, form):
         context = self.get_context_data(form=form)
         formset = context["registrations"]
+        if formset.is_valid():
+            response = super().form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        else:
+            return super().form_invalid(form)
+
+    def get_success_url(self):
+        return reverse("events:details", kwargs={"pk": self.object.id})
+
+
+class EventAttendeeSkillsView(PermissionRequiredMixin, UpdateView):
+    """
+    Denne klassen lar deg gi deltakere i en event de ferdighetene som eventen lærer bort.
+    """
+
+    template_name = "news/skills_form.html"
+    model = Event
+    fields = ["title"]
+    permission_required = "news.can_see_attendees"
+
+    def get_context_data(self, **kwargs):
+        context = super(EventAttendeeSkillsView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["skillsformset"] = eventSkillFormSet(
+                self.request.POST, instance=self.object
+            )
+        else:
+            context["skillsformset"] = eventSkillFormSet(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        formset = context["skillsformset"]
         if formset.is_valid():
             response = super().form_valid(form)
             formset.instance = self.object

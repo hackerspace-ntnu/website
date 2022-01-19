@@ -26,8 +26,43 @@ class EventAttendeeForm(forms.ModelForm):
         fields = ["attended", "user", "event", "date"]
 
 
-eventformset = inlineformset_factory(
+eventAttendeeFormSet = inlineformset_factory(
     Event, EventRegistration, form=EventAttendeeForm, extra=0
+)
+
+
+class EventAttendeeSkillsForm(forms.ModelForm):
+    # Til registrering av skills til attendees
+    def __init__(self, *args, **kwargs):
+        super(EventAttendeeSkillsForm, self).__init__(*args, **kwargs)
+        if kwargs.get("instance"):
+            if kwargs.get("instance").is_waitlisted():
+                self.fields["user"].label = (
+                    kwargs.get("instance").user.get_full_name() + " (Venteliste) "
+                )
+            else:
+                self.fields["user"].label = kwargs.get("instance").user.get_full_name()
+
+    def save(self, *args, **kwargs):
+        if self.cleaned_data["give_skills"]:
+            profile = self.cleaned_data["user"].profile
+            event_skills = self.cleaned_data["event"].skills.all()
+            unreachable_skills = profile.filter_skills_reachability(
+                event_skills, reachable=False
+            )
+            for skill in event_skills:
+                if skill not in unreachable_skills:
+                    profile.skills.add(skill)
+
+    give_skills = forms.BooleanField(required=False)
+
+    class Meta:
+        model = EventRegistration
+        fields = ["attended", "user", "event"]
+
+
+eventSkillFormSet = inlineformset_factory(
+    Event, EventRegistration, form=EventAttendeeSkillsForm, extra=0
 )
 
 

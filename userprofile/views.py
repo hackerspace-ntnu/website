@@ -154,7 +154,9 @@ class SkillsView(DetailView, CategoryLevelsMixin):
             )
             context["approvable_skills"] = approvable_skills
 
-        context["redirect_skill"] = Skill.objects.get(id=self.kwargs["skill_pk"])
+        # Check if request includes specific skill id
+        if "skill_pk" in self.kwargs:
+            context["redirect_skill"] = Skill.objects.get(id=self.kwargs["skill_pk"])
 
         return context
 

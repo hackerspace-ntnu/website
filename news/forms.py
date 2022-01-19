@@ -151,7 +151,7 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
             "servering",
             "place_href",
             "draft",
-			"skills",
+            "skills",
         ]
 
 

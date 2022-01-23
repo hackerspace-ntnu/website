@@ -1,0 +1,16 @@
+<ul class="collection with-header z-depth-0">
+    <li class="collection-header">
+        <p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">Siste arrangementer</a>
+        </p>
+    </li>
+    {% for event in event_list %}
+        <li class="collection-item">
+            {% if event.time_start > current_time %}
+                <span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
+            {% else %}
+                <span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
+            {% endif %}
+        <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+    </li>
+    {% endfor %}
+</ul>

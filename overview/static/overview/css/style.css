@@ -1,0 +1,26 @@
+body {
+    background-color:  #4E4B46;
+}
+
+
+
+#watchlist h5 {
+   padding-top: 30px;
+   padding-left: 30px;
+
+}
+
+#watchlist div {
+    padding: 5px;
+    font-size: 20px;
+}
+
+#watchlist #currentShift {
+    border: 10px solid #5BBA47
+}
+
+.container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}

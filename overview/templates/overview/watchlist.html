@@ -1,0 +1,24 @@
+{% load overview_tags %}
+
+<div class="white row card-panel">
+    <h5 class=""><b>Vakthavende - {{ weekday }}</b></h5>
+    {% for time, shift in shifts.items %}
+    {% green_if_current_shift shift %}
+        <div class="center-align"><b>{{ time }}</b></div>
+        <hr>
+        <div> 
+            {% if shift.watchers.count > 0 %}
+                <div class="row center-align">
+                    {% for user in shift.watchers.all %}
+                        <div class="col s12 m6 l3 center-align">'{{ user.first_name }} {{ user.last_name }}',</div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Ingen på vakt!</p>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+        <h5 id="no-time-slots">Ingen vakter satt for i dag</h5>
+    {% endfor %}
+</div>

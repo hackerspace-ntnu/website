@@ -56,6 +56,7 @@ urlpatterns = [
     path('inventory/', include('inventory.urls')),
     path('vaktliste/', include('watchlist.urls')),
     path('intranet/', IntranetView.as_view(), name='intranet'),
+    path('overview/', include('overview.urls'))
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"

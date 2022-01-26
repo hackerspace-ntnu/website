@@ -39,7 +39,7 @@
 					<div class="hide">{{ form }}</div>
 					{{ skillsformset.management_form }}
 					{% for instance in skillsformset %}
-						<li class="collection-item">
+						<li class="collection-item" {% if instance.waiting.value %}style="background-color: #F2F2F2"{% endif %}>
 							<div>
 								<div class="hide">
 									{{ instance.user }}
@@ -47,11 +47,13 @@
 									{{ instance.id }}
 								</div>
 								{{ instance.user.label }}
+								{% if instance.waiting.value %}<i class="material-icons green-text tooltipped" style="padding-bottom: 0" data-position="left" data-tooltip="På ventelisten">
+									hourglass_bottom
+								</i>{% endif %}
 								<div class="secondary-content">
-									{{ instance.user.waiting }}
 									<label>
 										<input
-												class="userCheckbox {% if instance.attended.value %}attendee{% endif %}"
+												class="userCheckbox {% if instance.attended.value %}attendee{% endif %} {% if instance.waiting.value %}waiting{% endif %}"
 												type="checkbox"
 												name="{{ instance.give_skills.html_name }}"
 										/>

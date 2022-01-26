@@ -1,5 +1,5 @@
 function selectAll() {
-    selectAllWithSelector('.userCheckbox');
+    selectAllWithSelector('.userCheckbox:not(.waiting)');
 }
 
 function selectAllAttendees() {

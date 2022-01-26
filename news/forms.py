@@ -37,9 +37,8 @@ class EventAttendeeSkillsForm(forms.ModelForm):
         super(EventAttendeeSkillsForm, self).__init__(*args, **kwargs)
         if kwargs.get("instance"):
             if kwargs.get("instance").is_waitlisted():
-                self.fields["user"].label = (
-                    kwargs.get("instance").user.get_full_name() + " (Venteliste) "
-                )
+                self.fields["waiting"].initial = True
+                self.fields["user"].label = kwargs.get("instance").user.get_full_name()
             else:
                 self.fields["user"].label = kwargs.get("instance").user.get_full_name()
 
@@ -55,6 +54,7 @@ class EventAttendeeSkillsForm(forms.ModelForm):
                     profile.skills.add(skill)
 
     give_skills = forms.BooleanField(required=False)
+    waiting = forms.BooleanField(required=False)
 
     class Meta:
         model = EventRegistration

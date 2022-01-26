@@ -38,6 +38,12 @@ class HSEventFeed(ICalFeed):
     def item_link(self, item):
         return reverse('events:details', kwargs={'pk': item.pk})
 
+    def item_location(self, item):
+        return item.place
+
+    def item_organizer(self, item):
+        return f'{item.responsible.first_name} {item.responsible.last_name}'
+
 class HSEventSingleFeed(HSEventFeed):
     """
     Feed for a single event

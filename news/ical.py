@@ -2,9 +2,9 @@ from django_ical.views import ICalFeed
 from .models import Event
 from django.urls import reverse
 
-class EventFeed(ICalFeed):
+class HSEventFeed(ICalFeed):
     """
-    A simple event calender
+    ICal feed for Hackerspace events
     """
 
     product_id = '-//hackerspace-ntnu.no//Hackerspace//NB'
@@ -31,9 +31,30 @@ class EventFeed(ICalFeed):
 
     def item_start_datetime(self, item):
         return item.time_start
-    
+
     def item_end_datetime(self, item):
         return item.time_end
-    
+
     def item_link(self, item):
         return reverse('events:details', kwargs={'pk': item.pk})
+
+class HSEventSingleFeed(HSEventFeed):
+    """
+    Feed for a single event
+    """
+
+    def get_object(self, request, pk=None):
+        attrs = super().get_object(request)
+        attrs['id'] = pk
+        return attrs
+
+    def items(self, attrs):
+        items = super().items(attrs)
+        return items.filter(pk=attrs['id'])
+
+    def file_name(self, attrs):
+        items = self.items(attrs)
+        if not items:
+            return "error_contact_devops.ics"
+        title = items[0].title
+        return f'{title}.ics'

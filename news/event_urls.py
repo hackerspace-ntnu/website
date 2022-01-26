@@ -1,5 +1,5 @@
 from django.urls import path
-from .ical import EventFeed
+from .ical import HSEventFeed, HSEventSingleFeed
 
 from . import views
 
@@ -12,5 +12,6 @@ urlpatterns = [
     path("new", views.EventCreateView.as_view(), name="new"),
     path("<int:pk>/delete/", views.EventDeleteView.as_view(), name="delete"),
     path("<int:event_id>/register/", views.register_on_event, name="register"),
-    path("feed.ics", EventFeed()),
+    path("feed.ics", HSEventFeed()),
+    path("<int:pk>/feed.ics", HSEventSingleFeed()),
 ]

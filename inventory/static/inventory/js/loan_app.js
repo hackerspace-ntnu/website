@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", function(event) {
-	var datepickers = document.querySelectorAll('.datepicker');
+document.addEventListener("DOMContentLoaded", function() {
+	const datepickers = document.querySelectorAll('.datepicker');
 
 	internationalization = {
 		months:	[
@@ -36,13 +36,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		],
 		weekdaysAbbrev: ['S','M','T','O','T','F','L']
 	}
-	options = {
-		format: 'dd.mm.yyyy',
-		firstDay: 1,
-        i18n: internationalization,
-        minDate: new Date()
-	}
-	var instance = M.Datepicker.init(datepickers, options);
+
+	for (dp of datepickers) {
+        options = {
+            format: 'dd.mm.yyyy',
+            firstDay: 1,
+            i18n: internationalization,
+            minDate: new Date()
+        }
+        const maxDateStr = dp.getAttribute('data-max-date')
+        if (maxDateStr) {
+            options.maxDate = new Date(maxDateStr)
+        }
+        M.Datepicker.init(dp, options);
+    }
 
 
 	// Vis og gjem deler som relateres til påmeldinger

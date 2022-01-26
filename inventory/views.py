@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.paginator import Paginator
@@ -105,6 +107,7 @@ class ItemCreateView(PermissionRequiredMixin, CreateView):
         "unknown_stock",
         "can_loan",
         "location",
+        "max_loan_duration",
         "description",
         "thumbnail",
     ]
@@ -136,6 +139,7 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
         "unknown_stock",
         "can_loan",
         "location",
+        "max_loan_duration",
         "description",
         "thumbnail",
     ]
@@ -337,7 +341,11 @@ class ItemLoanApplicationView(CreateView):
     def get_form(self, *args, **kwargs):
         # Add the datepicker class to the loan to field before it's sent off
         form = super().get_form(*args, **kwargs)
-        form.fields["loan_to"].widget.attrs = {"class": "datepicker"}
+        max_duration = Item.objects.get(id=self.kwargs["pk"]).max_loan_duration
+        if max_duration is not None:
+            max_date = datetime.now() + timedelta(days=max_duration)
+            form.fields["loan_to"].widget.attrs["data-max-date"] = max_date
+        form.fields["loan_to"].widget.attrs["class"] = "datepicker"
         return form
 
     def get_context_data(self, **kwargs):
@@ -353,6 +361,16 @@ class ItemLoanApplicationView(CreateView):
         # can always loan items whose stock is unknown
         if form.instance.amount > item.stock and not item.unknown_stock:
             form.errors["amount"] = "Du kan ikke be om å låne mer enn vi har på lager"
+            return self.render_to_response(self.get_context_data(form=form))
+
+        max_duration = Item.objects.get(id=self.kwargs["pk"]).max_loan_duration
+        # Convert 'loan to' date from datetime.date to datetime.datetime (i.e. add time 00:00)
+        # (because same type is required for the comparison check)
+        loan_to_datetime = datetime.combine(form.instance.loan_to, datetime.min.time())
+        if loan_to_datetime > datetime.now() + timedelta(days=max_duration):
+            form.errors[
+                "loan_to"
+            ] = f"Du kan ikke låne denne gjenstanden lenger enn {max_duration} dager"
             return self.render_to_response(self.get_context_data(form=form))
 
         # bit ugly but it works

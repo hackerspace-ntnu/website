@@ -22,6 +22,9 @@ class Item(models.Model):
         Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Bilde"
     )
     location = models.CharField("Hylleplass", max_length=50, blank=True)
+    max_loan_duration = models.PositiveIntegerField(
+        "Maks lånevarighet (dager)", blank=True, null=True
+    )
 
     views = models.IntegerField("Detaljsidevisninger", default=0, editable=True)
 

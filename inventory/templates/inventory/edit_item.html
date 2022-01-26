@@ -26,16 +26,19 @@
                 {% csrf_token %}
                 <div class="row">
                     <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">label</i>
                         {{ form.name }}
                         <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
                         <span class="helper-text hs-red-text">{{ form.name.errors }}</span>
                     </div>
                     <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">room</i>
                         {{ form.location }}
                         <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
                         <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
                     </div>
                     <div class="input-field col s12 m12">
+                        <i class="material-icons prefix">layers</i>
                         {{ form.stock }}
                         <label for="{{ form.stock.id_for_label }}">{{ form.stock.label }}</label>
                         <span class="helper-text hs-red-text">{{ form.stock.errors }}</span>
@@ -57,6 +60,12 @@
                             <span for="{{ form.can_loan.id_for_label }}">{{ form.can_loan.label }}</span>
                             <span class="helper-text hs-red-text">{{ form.can_loan.errors }}</span>
                         </p></label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">date_range</i>
+                        {{ form.max_loan_duration }}
+                        <label for="{{ form.max_loan_duration.id_for_label }}">{{ form.max_loan_duration.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.max_loan_duration.errors }}</span>
                     </div>
                 </div>
 

@@ -16,6 +16,8 @@ class ItemAdmin(admin.ModelAdmin):
                     "description",
                     "thumbnail",
                     "location",
+                    "can_loan",
+                    "max_loan_duration",
                 ]
             },
         ),

@@ -24,6 +24,7 @@
 	</div>
 </div>
 
+<!-- Artikkelen -->
 <div class="section hs-green no-pad-top">
 	<div class="container">
 		<div class="card-panel cut-top z-depth-2">
@@ -53,7 +54,10 @@
 				</div>
 			</div>
 		</div>
+		
 		{% if perms.projectarticle.change_projectarticle %}
+
+		<!-- Adminpanel -->
 		<div class="card-panel">
 			<div class="row no-bottom-margin">
 				<div class="col s12">
@@ -62,11 +66,9 @@
 				</div>
 				<div class="col s12">
 					<ul class='collection'>
-																	<!-- url 'projectarchive:edit' projectarchive.id -->
 						<li class="collection-item"><a href="{% url 'projectarchive:edit' projectarticle.id %}"><i class="material-icons">edit</i><span class="collection-icon-text">Rediger artikkel</span></a></li>
 						{% if perms.projectarticle.delete_projectarticle %}
 						<li class="collection-item"><a href="{% url 'projectarchive:delete' projectarticle.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span class="collection-icon-text">Slett artikkel</span></a></li>
-																	<!-- url 'projectarchive:delete' projectarchive.id -->
 						{% endif %}
 					</ul>
 				</div>

@@ -16,9 +16,6 @@ class Projectarticle(models.Model):
 
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
 
-# Fjerne internal senere
-    internal = models.BooleanField(default=False, verbose_name='Intern artikkel')
-
     pub_date = models.DateTimeField('Publication date', default=timezone.now)
     thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, blank=True, null=True)
     redirect = models.IntegerField('Redirect', default=0)
@@ -35,9 +32,6 @@ class Projectarticle(models.Model):
     class Meta:
         app_label = 'projectarchive'
         ordering = ('-pub_date',)
-        permissions = (
-            ("can_view_internal_article", "Can see internal articles"),
-        )
 
     def redirect_id(self):
         if self.redirect:
@@ -50,7 +44,6 @@ class Upload(models.Model):
     time = models.DateTimeField(default=timezone.now, verbose_name='Tittel')
     file = models.FileField(upload_to='event-uploads', blank=True)
     number = models.IntegerField(default=0)
-    # event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="files")
 
     def __str__(self):
         return self.title

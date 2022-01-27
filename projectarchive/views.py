@@ -1,12 +1,8 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.utils import timezone
+from django.shortcuts import redirect
 from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
-from datetime import datetime, timedelta
 from .forms import ArticleForm
 from .models import Projectarticle
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -22,11 +18,7 @@ class ArticleListView(ListView):
         # Retrieve published articles (so no drafts)
         articles = Projectarticle.objects.order_by('-pub_date').filter(draft=False)
 
-        # Decide if visitor should see internal articles
-        if self.request.user.has_perm("projectarchive.can_view_internal_article"):
-            return articles
-        else:
-            return articles.filter(internal=False)
+        return articles
 
     def get_context_data(self, **kwargs):
 
@@ -46,14 +38,6 @@ class ArticleView(DetailView):
     def dispatch(self, request, *args, **kwargs):
 
         article = self.get_object()
-
-        # If the article is internal, check if user has the permission to view.
-        if self.get_object().internal and not request.user.has_perm("projectarchive.can_view_internal_article"):
-
-            # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
-
-            return redirect("/")
 
         # If the article is a draft, check if user is the author
         if article.draft and not request.user == article.author:

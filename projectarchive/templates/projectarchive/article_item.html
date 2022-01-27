@@ -1,27 +1,27 @@
 <div class="section">
   <div class="row no-pad-bot">
     <div class="col s2 center hide-on-med-and-down">
-      {% if news.thumbnail %}
-      <img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.thumb_url }}">
+      {% if projectarchive.thumbnail %}
+      <img class="circle" style="width:100px; height:100px;" src="{{ projectarchive.thumbnail.thumb_url }}">
       {% else %}
       <img class="circle" style="width:100px; height:100px;" src="">
       {% endif %}
     </div>
     <div class="col s10 hide-on-med-and-down">
-      <span class="right badge">Publisert {{ news.pub_date }}</span>
-      <a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+      <span class="right badge">Publisert {{ projectarchive.pub_date }}</span>
+      <a href="{% url 'projectarchive:details' projectarchive.id %}"><h5 class="no-margin truncate">{{ projectarchive.title }}</h5></a>
       <p>
         {% autoescape off %}
-        {{ news.ingress_content|truncatechars:200 }}
+        {{ projectarchive.ingress_content|truncatechars:200 }}
         {% endautoescape %}
       </p>
     </div>
     <div class="col s12 show-on-med-and-down hide-on-large-only">
-      <a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
-      <p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
+      <a href="{% url 'projectarchive:details' projectarchive.id %}"><h5 class="no-margin truncate">{{ projectarchive.title }}</h5></a>
+      <p class="badge"><i>Publisert {{ projectarchive.pub_date }}</i><br></p>
       <p>
         {% autoescape off %}
-        {{ news.ingress_content|truncatechars:200 }}
+        {{ projectarchive.ingress_content|truncatechars:200 }}
         {% endautoescape %}
       </p>
     </div>

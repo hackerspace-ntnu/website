@@ -1,10 +1,12 @@
 from django import forms
 from django.db.utils import OperationalError, ProgrammingError
-from news.models import Upload, Article
+from projectarchive.models import Upload, Projectarticle
 from django.forms import inlineformset_factory
 from django.contrib.auth.models import User
 from committees.models import Committee
 from django.forms.widgets import ClearableFileInput
+
+from projectarchive.models import Projectarticle
 
 
 class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
@@ -61,8 +63,8 @@ class ArticleForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Article
-        fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'internal', 'draft']
+        model = Projectarticle
+        fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'draft']
 
 
 # uploadformset = inlineformset_factory(Event, Upload,

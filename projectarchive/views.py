@@ -18,20 +18,10 @@ class ArticleListView(ListView):
     template_name = "projectarchive/projectarchive.html"
     paginate_by = 10
 
-# Fjerne internal senere
-    def get_internal_articles_indicator(self):
-
-        if not self.request.user.has_perm('projectarchive.can_view_internal_article'):
-            return "Du har ikke rettigheter til å se interne artikler."
-
-        return None
-
-
     def get_queryset(self):
         # Retrieve published articles (so no drafts)
         articles = Projectarticle.objects.order_by('-pub_date').filter(draft=False)
 
-# Fjerne internal seneter
         # Decide if visitor should see internal articles
         if self.request.user.has_perm("projectarchive.can_view_internal_article"):
             return articles
@@ -41,9 +31,6 @@ class ArticleListView(ListView):
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-
-# Fjerne internal senere
-        context['indicator_text'] = self.get_internal_articles_indicator()
 
         # Retrieve any user drafts if logged in
         if self.request.user.has_perm("projectarchive.add_article"):
@@ -60,7 +47,6 @@ class ArticleView(DetailView):
 
         article = self.get_object()
 
-# Fjerne internal senere
         # If the article is internal, check if user has the permission to view.
         if self.get_object().internal and not request.user.has_perm("projectarchive.can_view_internal_article"):
 
@@ -83,24 +69,8 @@ class ArticleView(DetailView):
 
         context = super().get_context_data(**kwargs)
 
-# Fjerne internal senere
-        # Check user internal article view permission
-        can_access_internal_article = self.request.user.has_perm('projectarchive.can_view_internal_article')
-
-# Fjerne internal senere
-        # Get permitted articles
-        article_list = Projectarticle.objects.filter(internal__lte=can_access_internal_article,draft=False)
-
-        # Get oldest article that is newer than current (None if current is latest)
-        next_article = article_list.filter(pub_date__gt=self.get_object().pub_date).order_by('pub_date').first()
-
-        # Get latest article that is older than current (None if current is oldest)
-        previous_article = article_list.filter(pub_date__lt=self.get_object().pub_date).order_by('-pub_date').first()
-
-        context['next_article'] = next_article
-        context['previous_article'] = previous_article
-
         return context
+
 
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):

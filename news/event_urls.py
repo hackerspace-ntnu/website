@@ -1,7 +1,7 @@
 from django.urls import path
-from .ical import HSEventFeed, HSEventSingleFeed
 
 from . import views
+from .ical import HSEventFeed, HSEventSingleFeed
 
 app_name = "events"
 urlpatterns = [

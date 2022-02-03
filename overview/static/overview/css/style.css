@@ -1,26 +1,27 @@
 body {
     background-color:  #4E4B46;
+    overflow: hidden;
 }
 
-
-
-#watchlist h5 {
-   padding-top: 30px;
-   padding-left: 30px;
-
+.panel h3 {
+   padding: 10px;
 }
 
-#watchlist div {
+.panel div {
     padding: 5px;
-    font-size: 20px;
+    font-size: 12px;
+}
+
+.panel {
+    margin: 20px;
 }
 
 #watchlist #currentShift {
-    border: 10px solid #5BBA47
+    border: 5px solid #5BBA47
 }
 
-.container {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+#rule-body {
+    font-size: 1.25rem;
+    height: 55rem;
+    overflow: hidden;
 }

@@ -1,7 +1,6 @@
-<ul class="collection with-header z-depth-0">
+<ul class="collection with-header card-panel">
     <li class="collection-header">
-        <p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">Siste arrangementer</a>
-        </p>
+        <p class="flow-text"><a class="hs-gray-text">Siste arrangementer</a></p>
     </li>
     {% for event in event_list %}
         <li class="collection-item">
@@ -10,7 +9,7 @@
             {% else %}
                 <span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
             {% endif %}
-        <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+        <a class="title">{{ event.title }}</a>
     </li>
     {% endfor %}
 </ul>

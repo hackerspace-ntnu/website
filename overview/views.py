@@ -4,12 +4,12 @@ from django.views.generic import TemplateView
 from django.utils import timezone
 from news.models import Article, Event
 from watchlist.models import ShiftSlot
+from website.models import Rule
 
 WEEKDAYS = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag', 'Søndag']
 
-class OverviewView(PermissionRequiredMixin, TemplateView):
+class OverviewView(TemplateView):
     template_name = 'overview/overview.html'
-    permission_required = 'userprofile.is_active_member'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -18,6 +18,7 @@ class OverviewView(PermissionRequiredMixin, TemplateView):
         event_list = list(Event.objects.filter(
             time_start__gt=timezone.now(),
             draft=False,
+            internal=False,
         ).order_by('time_start')[:5])
 
         # Add expired events if we couldn't fill the 5 slots
@@ -25,14 +26,15 @@ class OverviewView(PermissionRequiredMixin, TemplateView):
             to_fill = 5 - len(event_list)
             expired_events = Event.objects.filter(
                 time_start__lte=timezone.now(),
+                internal=False,
                 draft=False,
             ).order_by('-time_start')[:to_fill]
             event_list += list(expired_events)
 
-        current_time = datetime.now() + timedelta(days=3, hours=-5)
+        current_time = datetime.now() + timedelta(days=1, hours=-5)
 
         # Get five published articles
-        article_list = Article.objects.filter(draft=False).order_by('-pub_date')[:5]
+        article_list = Article.objects.filter(draft=False, internal=False).order_by('-pub_date')[:5]
 
         # Get shifts from today
         valid_shifts = ShiftSlot.objects.filter(weekday=current_time.weekday()).order_by("start")
@@ -49,6 +51,7 @@ class OverviewView(PermissionRequiredMixin, TemplateView):
             'shifts' : shift_dict,
             'today' : current_time.weekday(),
             'weekday' :  WEEKDAYS[current_time.weekday()],
+            'rule': Rule.objects.filter(title="Regler for verkstedet").first()
         }
 
         return context

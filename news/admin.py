@@ -40,7 +40,8 @@ class Eventadmin(admin.ModelAdmin):
         }),
         ('Advanced', {
             'fields': [
-                'draft'
+                'draft',
+                'internal',
             ]
         }),
     ]

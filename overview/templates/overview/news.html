@@ -1,15 +1,11 @@
-<ul class="collection with-header z-depth-0">
+<ul class="collection with-header card-panel">
     <li class="collection-header">
-        <div>
-            <p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">Siste nytt</a>
-                {% include "website/internal_indicator.html" %}
-            </p>
-        </div>
+        <p class="flow-text"><a class="hs-gray-text">Siste nytt</a></p>
     </li>
     {% for article in article_list %}
-    <li class="collection-item ">
-        <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
-        <a href="{% url 'news:details' article.id %}" class="">{{ article.title }}</a>
-    </li>
+        <li class="collection-item ">
+            <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+            <a class="">{{ article.title }}</a>
+        </li>
     {% endfor %}
 </ul>

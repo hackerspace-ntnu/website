@@ -100,7 +100,7 @@
 
 								<li class="collection-header">
 									<h5>Allergier</h5>
-									{% if preferences %}
+									{% if food_preferences %}
                                         <span>{{event.get_allergies_count.glutenfritt}} glutenfritt</span>,
                                         <span>{{event.get_allergies_count.vegetar}} vegetar</span>,
                                         <span>{{event.get_allergies_count.vegan}} vegan</span>
@@ -110,7 +110,7 @@
 									<div class="invisible-divider"></div>
 								</li>
 
-								{% for preferences in event.get_food_preferences_of_registered %}
+								{% for preferences in food_preferences %}
 
 									<li class="collection-item">
 										<div class="invisible-divider"></div>

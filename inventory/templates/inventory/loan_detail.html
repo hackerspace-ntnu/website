@@ -87,7 +87,7 @@
                         {% if app.approver %}
                         <a class="waves-effect waves-light btn modal-trigger hs-green col s12" href="#return-loan-modal">Marker som levert</a>
                         {% elif not app.approver %}
-                        {% if app.item.available >= app.amount %}
+                        {% if app.item.available >= app.amount or app.item.unknown_stock %}
                         <a class="waves-effect waves-light btn modal-trigger hs-green col s12 m5" href="#approve-loan-modal">Godkjenn søknad</a>
                         {% else %}
                         <div class="btn hs-gray disabled col s12 m5">For lav lagerbeholdning</div>

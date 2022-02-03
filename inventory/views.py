@@ -367,7 +367,9 @@ class ItemLoanApplicationView(CreateView):
         # Convert 'loan to' date from datetime.date to datetime.datetime (i.e. add time 00:00)
         # (because same type is required for the comparison check)
         loan_to_datetime = datetime.combine(form.instance.loan_to, datetime.min.time())
-        if max_duration and loan_to_datetime > datetime.now() + timedelta(days=max_duration):
+        if max_duration and loan_to_datetime > datetime.now() + timedelta(
+            days=max_duration
+        ):
             form.errors[
                 "loan_to"
             ] = f"Du kan ikke låne denne gjenstanden lenger enn {max_duration} dager"

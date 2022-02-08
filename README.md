@@ -1,6 +1,5 @@
 # Hackerspace Website
-[![Build Status](https://travis-ci.org/hackerspace-ntnu/website.svg?branch=master)](https://travis-ci.org/hackerspace-ntnu/website)
-[![Coverage Status](https://coveralls.io/repos/github/hackerspace-ntnu/website/badge.svg?branch=master)](https://coveralls.io/github/hackerspace-ntnu/website?branch=master)
+[![Python Integration](https://github.com/hackerspace-ntnu/website/actions/workflows/integration.yml/badge.svg)](https://github.com/hackerspace-ntnu/website/actions/workflows/integration.yml)
 
 The code running [hackerspace-ntnu.no](http://hackerspace-ntnu.no).
 

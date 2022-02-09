@@ -1,13 +1,15 @@
 import json
+
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
 from django.utils import timezone
-from website import settings
-from .models import DoorStatus, OpenData
-import html.parser
 from django.views import View
 
+from website import settings
+
+from .models import DoorStatus, OpenData
+
 DOOR_NAME = "hackerspace"
+
 
 class DoorView(View):
     def get(self, request):
@@ -15,13 +17,13 @@ class DoorView(View):
 
     def post(self, request):
         # Decode data
-        unico = request.body.decode('utf-8')
+        unico = request.body.decode("utf-8")
         data = json.loads(unico)
-        
+
         # Authenticate message
-        if 'key' in data and 'status' in data:
-            if data['key'] == settings.DOOR_KEY:
-                status = data['status']
+        if "key" in data and "status" in data:
+            if data["key"] == settings.DOOR_KEY:
+                status = data["status"]
                 door_status_object = DoorStatus.get_door_by_name(DOOR_NAME)
 
                 # Door open
@@ -35,8 +37,7 @@ class DoorView(View):
                 elif status is False and door_status_object.status is True:
                     # Create OpenData object with open and close datetime
                     open_data = OpenData(
-                        opened=door_status_object.datetime,
-                        closed=timezone.now()
+                        opened=door_status_object.datetime, closed=timezone.now()
                     )
                     open_data.save()
 
@@ -52,16 +53,11 @@ class DoorView(View):
         return HttpResponse(" ")
 
 
-
-
 class DoorJsonView(View):
     def get(self, request):
         door = DoorStatus.get_door_by_name(DOOR_NAME)
         status = door.status
         last_changed = str(door.datetime)
 
-        data = {'status': status,
-                'lastChanged': last_changed}
+        data = {"status": status, "lastChanged": last_changed}
         return JsonResponse(data)
-
-

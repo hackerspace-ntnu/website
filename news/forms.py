@@ -36,6 +36,14 @@ class EventAttendeeSkillsForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventAttendeeSkillsForm, self).__init__(*args, **kwargs)
         if kwargs.get("instance"):
+            if kwargs.get("instance").user.profile.has_skills(
+                kwargs.get("instance").event.skills.all()
+            ):
+                self.fields["has_skills"].initial = True
+            for skill in kwargs.get("instance").event.skills.all():
+                if kwargs.get("instance").user.profile.is_unreachable_skill(skill):
+                    self.fields["missing_prerequisites"].initial = True
+                    break
             if kwargs.get("instance").is_waitlisted():
                 self.fields["waiting"].initial = True
                 self.fields["user"].label = kwargs.get("instance").user.get_full_name()
@@ -55,6 +63,8 @@ class EventAttendeeSkillsForm(forms.ModelForm):
 
     give_skills = forms.BooleanField(required=False)
     waiting = forms.BooleanField(required=False)
+    has_skills = forms.BooleanField(required=False)
+    missing_prerequisites = forms.BooleanField(required=False)
 
     class Meta:
         model = EventRegistration

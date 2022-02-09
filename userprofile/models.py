@@ -179,6 +179,12 @@ class Profile(models.Model):
     def has_accepted_most_recent_tos(self):
         return self.accepted_tos == TermsOfService.objects.order_by("-pub_date").first()
 
+    def has_skills(self, skills: Iterable[Skill]) -> bool:
+        for skill in skills:
+            if skill not in self.skills.all():
+                return False
+        return True
+
     def is_unreachable_skill(self, skill):
         return skill.prerequisites.exclude(id__in=self.skills.all()).exists()
 

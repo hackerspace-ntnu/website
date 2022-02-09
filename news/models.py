@@ -107,6 +107,10 @@ class Event(models.Model):
 
     draft = models.BooleanField(default=False, verbose_name="Utkast")
 
+    skills = models.ManyToManyField(
+        blank=True, verbose_name="Ferdigheter", to="userprofile.Skill"
+    )
+
     @property
     def can_register(self):
         if self.registration_start < timezone.now() < self.registration_end:

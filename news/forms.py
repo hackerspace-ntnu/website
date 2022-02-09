@@ -26,8 +26,53 @@ class EventAttendeeForm(forms.ModelForm):
         fields = ["attended", "user", "event", "date"]
 
 
-eventformset = inlineformset_factory(
+eventAttendeeFormSet = inlineformset_factory(
     Event, EventRegistration, form=EventAttendeeForm, extra=0
+)
+
+
+class EventAttendeeSkillsForm(forms.ModelForm):
+    # Til registrering av skills til attendees
+    def __init__(self, *args, **kwargs):
+        super(EventAttendeeSkillsForm, self).__init__(*args, **kwargs)
+        if kwargs.get("instance"):
+            if kwargs.get("instance").user.profile.has_skills(
+                kwargs.get("instance").event.skills.all()
+            ):
+                self.fields["has_skills"].initial = True
+            for skill in kwargs.get("instance").event.skills.all():
+                if kwargs.get("instance").user.profile.is_unreachable_skill(skill):
+                    self.fields["missing_prerequisites"].initial = True
+                    break
+            if kwargs.get("instance").is_waitlisted():
+                self.fields["waiting"].initial = True
+                self.fields["user"].label = kwargs.get("instance").user.get_full_name()
+            else:
+                self.fields["user"].label = kwargs.get("instance").user.get_full_name()
+
+    def save(self, *args, **kwargs):
+        if self.cleaned_data["give_skills"]:
+            profile = self.cleaned_data["user"].profile
+            event_skills = self.cleaned_data["event"].skills.all()
+            unreachable_skills = profile.filter_skills_reachability(
+                event_skills, reachable=False
+            )
+            for skill in event_skills:
+                if skill not in unreachable_skills:
+                    profile.skills.add(skill)
+
+    give_skills = forms.BooleanField(required=False)
+    waiting = forms.BooleanField(required=False)
+    has_skills = forms.BooleanField(required=False)
+    missing_prerequisites = forms.BooleanField(required=False)
+
+    class Meta:
+        model = EventRegistration
+        fields = ["attended", "user", "event"]
+
+
+eventSkillFormSet = inlineformset_factory(
+    Event, EventRegistration, form=EventAttendeeSkillsForm, extra=0
 )
 
 
@@ -151,6 +196,7 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
             "servering",
             "place_href",
             "draft",
+            "skills",
         ]
 
 

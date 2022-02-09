@@ -1,0 +1,94 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'projectarticle/css/projectarchive_style.css' %}">
+{# OpenGraph Metadata #}
+<meta property="og:title" content="{{ projectarticle.title }}" />
+<meta property="og:type" content="projectarticle" />
+<meta property="og:image" content="{{ projectarticle.thumbnail.abs_url }}" />
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+{# OpenGraph Metadata End #}
+{% endblock head %}
+
+{% block content %}
+
+<!-- mobil bilde -->
+<div class="section no-pad hs-green hide-on-med-and-up">
+	<img class="header-image" src="{{ object.thumbnail.url }}" />
+</div>
+
+<!-- desktop bilde -->
+<div class="section no-pad hs-green hide-on-small-only">
+	<div class="container center">
+		<img class="responsive-img" src="{{ object.thumbnail.url }}" />
+	</div>
+</div>
+
+<div class="section hs-green no-pad-top">
+	<div class="container">
+		<div class="card-panel cut-top z-depth-2">
+			<div class="row">
+				<div class="col s12">
+					{% if projectarticle.draft %}
+                  <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="Denne artikkelen er lagret som utkast og dermed kun synlig for deg">
+                        <i class="material-icons">info</i>
+                        <span>Lagret som utkast</span>
+			            </div>
+					{% endif %}
+					<h5 class="hide-on-med-and-up">{{ projectarticle.title }}</h5>
+					<h3 class="hide-on-small-only">{{ projectarticle.title }}</h3>
+					<p>{{ projectarticle.pub_date }}</p>
+					{% if projectarticle.author %}
+					<p>Skrevet av <a href="{% url 'userprofile:profile_by_id' projectarticle.author.id %}">{{ projectarticle.author.get_full_name }}</a></p>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12">
+					<div class="divider"></div>
+					<p><b>{{ projectarticle.ingress_content }}</b></p>
+					{% autoescape off %}
+						{{ projectarticle.main_content }}
+					{% endautoescape %}
+				</div>
+			</div>
+		</div>
+		{% if perms.projectarticle.change_projectarticle %}
+		<div class="card-panel">
+			<div class="row no-bottom-margin">
+				<div class="col s12">
+					<h5>Administrator-meny</h5>
+					<br>
+				</div>
+				<div class="col s12">
+					<ul class='collection'>
+																	<!-- url 'projectarchive:edit' projectarchive.id -->
+						<li class="collection-item"><a href="{% url 'projectarchive:edit' projectarticle.id %}"><i class="material-icons">edit</i><span class="collection-icon-text">Rediger artikkel</span></a></li>
+						{% if perms.projectarticle.delete_projectarticle %}
+						<li class="collection-item"><a href="{% url 'projectarchive:delete' projectarticle.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span class="collection-icon-text">Slett artikkel</span></a></li>
+																	<!-- url 'projectarchive:delete' projectarchive.id -->
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+
+	</div>
+	<script>
+		// Prevent ckeditor hard fields to allow responsive images
+		window.addEventListener('DOMContentLoaded', function(event) {
+			var container = document.getElementsByClassName('card-panel')[0];
+			var images = container.getElementsByTagName("img");
+			console.log(images);
+			var i;
+
+			for(i = 0; i < images.length; i++) {
+				images[i].className = "responsive-img";
+				images[i].style.height = "";
+			}
+		});
+
+	</script>
+	{% endblock content %}

@@ -1,16 +1,24 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.utils import timezone
-from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
 from datetime import datetime, timedelta
-from .forms import EventForm, eventformset, uploadformset, ArticleForm
-from .models import Event, Article, EventRegistration
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
+from django.utils import timezone
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
+
+from .forms import ArticleForm, EventForm, eventformset, uploadformset
+from .models import Article, Event, EventRegistration
 
 
 class EventView(DetailView):
@@ -21,10 +29,12 @@ class EventView(DetailView):
 
         event = self.get_object()
 
-        if event.internal and not request.user.has_perm('news.can_view_internal_event'):
+        if event.internal and not request.user.has_perm("news.can_view_internal_event"):
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.WARNING, 'Logg inn for å se internt arrangement')
+            messages.add_message(
+                request, messages.WARNING, "Logg inn for å se internt arrangement"
+            )
 
             raise PermissionDenied
 
@@ -32,7 +42,9 @@ class EventView(DetailView):
         if event.draft and not request.user == event.author:
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.WARNING, 'Du har ikke tilgang til arrangementet')
+            messages.add_message(
+                request, messages.WARNING, "Du har ikke tilgang til arrangementet"
+            )
 
             return redirect("/")
 
@@ -40,16 +52,22 @@ class EventView(DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['userstatus'] = "ikke pålogget"
-        context_data['expired_event'] = datetime.now() > self.object.time_end
-        context_data['food_preferences'] = self.object.get_food_preferences_of_registered()
+        context_data["userstatus"] = "ikke pålogget"
+        context_data["expired_event"] = datetime.now() > self.object.time_end
+        context_data[
+            "food_preferences"
+        ] = self.object.get_food_preferences_of_registered()
 
         if self.request.user.is_authenticated:
-            context_data['userstatus'] = self.object.userstatus(self.request.user)
-            if(self.object.is_waiting(self.request.user)):
-                context_data['get_position'] = "Du er nummer " + str(self.object.get_position(user=self.request.user)) + " på ventelisten"
+            context_data["userstatus"] = self.object.userstatus(self.request.user)
+            if self.object.is_waiting(self.request.user):
+                context_data["get_position"] = (
+                    "Du er nummer "
+                    + str(self.object.get_position(user=self.request.user))
+                    + " på ventelisten"
+                )
             else:
-                context_data['get_position'] = "Du er ikke på ventelisten."
+                context_data["get_position"] = "Du er ikke på ventelisten."
 
         return context_data
 
@@ -60,7 +78,7 @@ class EventListView(ListView):
 
     def get_internal_events_indicator(self):
 
-        if not self.request.user.has_perm('news.can_view_internal_event'):
+        if not self.request.user.has_perm("news.can_view_internal_event"):
             return "Du har ikke rettigheter til å se interne arrangementer."
 
         return None
@@ -68,10 +86,10 @@ class EventListView(ListView):
     def get_queryset(self):
 
         # Retrieve published events (so no drafts)
-        events = Event.objects.order_by('-time_end').filter(draft=False)
+        events = Event.objects.order_by("-time_end").filter(draft=False)
 
         # Decide if visitor should see internal events
-        if self.request.user.has_perm('news.can_view_internal_event'):
+        if self.request.user.has_perm("news.can_view_internal_event"):
             return events
         else:
             return events.filter(internal=False)
@@ -80,36 +98,41 @@ class EventListView(ListView):
 
         context = super().get_context_data(**kwargs)
 
-        context['indicator_text'] = self.get_internal_events_indicator()
+        context["indicator_text"] = self.get_internal_events_indicator()
 
         # Retrieve any user drafts if logged in
         if self.request.user.has_perm("news.add_event"):
-            context['drafts'] = Event.objects.order_by('-time_end').filter(author=self.request.user, draft=True)
+            context["drafts"] = Event.objects.order_by("-time_end").filter(
+                author=self.request.user, draft=True
+            )
 
         return context
 
 
 class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
     """
-        Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
-        de har møtt opp eller ikke.
+    Denne klassen lar deg liste opp alle deltakere i en event og deretter huke av om
+    de har møtt opp eller ikke.
     """
+
     template_name = "news/attendee_form.html"
     model = Event
-    fields = ['title']
+    fields = ["title"]
     permission_required = "news.can_see_attendees"
 
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['registrations'] = eventformset(self.request.POST, instance=self.object)
+            context["registrations"] = eventformset(
+                self.request.POST, instance=self.object
+            )
         else:
-            context['registrations'] = eventformset(instance=self.object)
+            context["registrations"] = eventformset(instance=self.object)
         return context
 
     def form_valid(self, form):
         context = self.get_context_data(form=form)
-        formset = context['registrations']
+        formset = context["registrations"]
         if formset.is_valid():
             response = super().form_valid(form)
             formset.instance = self.object
@@ -119,7 +142,7 @@ class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
             return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('events:details', kwargs={'pk': self.object.id})
+        return reverse("events:details", kwargs={"pk": self.object.id})
 
 
 class ArticleListView(ListView):
@@ -128,15 +151,14 @@ class ArticleListView(ListView):
 
     def get_internal_articles_indicator(self):
 
-        if not self.request.user.has_perm('news.can_view_internal_article'):
+        if not self.request.user.has_perm("news.can_view_internal_article"):
             return "Du har ikke rettigheter til å se interne artikler."
 
         return None
 
-
     def get_queryset(self):
         # Retrieve published articles (so no drafts)
-        articles = Article.objects.order_by('-pub_date').filter(draft=False)
+        articles = Article.objects.order_by("-pub_date").filter(draft=False)
 
         # Decide if visitor should see internal articles
         if self.request.user.has_perm("news.can_view_internal_article"):
@@ -148,14 +170,15 @@ class ArticleListView(ListView):
 
         context = super().get_context_data(**kwargs)
 
-        context['indicator_text'] = self.get_internal_articles_indicator()
+        context["indicator_text"] = self.get_internal_articles_indicator()
 
         # Retrieve any user drafts if logged in
         if self.request.user.has_perm("news.add_article"):
-            context['drafts'] = Article.objects.order_by('-pub_date').filter(author=self.request.user,draft=True)
+            context["drafts"] = Article.objects.order_by("-pub_date").filter(
+                author=self.request.user, draft=True
+            )
 
         return context
-
 
 
 class ArticleView(DetailView):
@@ -167,10 +190,14 @@ class ArticleView(DetailView):
         article = self.get_object()
 
         # If the article is internal, check if user has the permission to view.
-        if self.get_object().internal and not request.user.has_perm("news.can_view_internal_article"):
+        if self.get_object().internal and not request.user.has_perm(
+            "news.can_view_internal_article"
+        ):
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.WARNING, 'Logg inn for å se intern artikkel')
+            messages.add_message(
+                request, messages.WARNING, "Logg inn for å se intern artikkel"
+            )
 
             raise PermissionDenied
 
@@ -178,7 +205,9 @@ class ArticleView(DetailView):
         if article.draft and not request.user == article.author:
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.WARNING, 'Du har ikke tilgang til artikkelen')
+            messages.add_message(
+                request, messages.WARNING, "Du har ikke tilgang til artikkelen"
+            )
 
             return redirect("/")
 
@@ -193,37 +222,50 @@ class ArticleView(DetailView):
         context = super().get_context_data(**kwargs)
 
         # Check user internal article view permission
-        can_access_internal_article = self.request.user.has_perm('news.can_view_internal_article')
+        can_access_internal_article = self.request.user.has_perm(
+            "news.can_view_internal_article"
+        )
 
         # Get permitted articles
-        article_list = Article.objects.filter(internal__lte=can_access_internal_article,draft=False)
+        article_list = Article.objects.filter(
+            internal__lte=can_access_internal_article, draft=False
+        )
 
         # Get oldest article that is newer than current (None if current is latest)
-        next_article = article_list.filter(pub_date__gt=self.get_object().pub_date).order_by('pub_date').first()
+        next_article = (
+            article_list.filter(pub_date__gt=self.get_object().pub_date)
+            .order_by("pub_date")
+            .first()
+        )
 
         # Get latest article that is older than current (None if current is oldest)
-        previous_article = article_list.filter(pub_date__lt=self.get_object().pub_date).order_by('-pub_date').first()
+        previous_article = (
+            article_list.filter(pub_date__lt=self.get_object().pub_date)
+            .order_by("-pub_date")
+            .first()
+        )
 
-        context['next_article'] = next_article
-        context['previous_article'] = previous_article
+        context["next_article"] = next_article
+        context["previous_article"] = previous_article
 
         return context
-
 
 
 class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
-    permission_required = 'news.change_event'
+    permission_required = "news.change_event"
     success_message = "Arrangementet er oppdatert."
 
     def get_context_data(self, **kwargs):
         context = super(EventUpdateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['uploads_form'] = uploadformset(self.request.POST, self.request.FILES, instance=self.object)
+            context["uploads_form"] = uploadformset(
+                self.request.POST, self.request.FILES, instance=self.object
+            )
         else:
-            context['uploads_form'] = uploadformset(instance=self.object)
+            context["uploads_form"] = uploadformset(instance=self.object)
 
         return context
 
@@ -231,30 +273,25 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
         self.object = form.save(commit=False)
         context = self.get_context_data()
 
-        upload_form = context['uploads_form']
+        upload_form = context["uploads_form"]
 
         if upload_form.is_valid():
             self.object = form.save()
             upload_form.instance = self.object
             upload_form.save()
             return HttpResponseRedirect(self.get_success_url())
-        else:
-            errors = upload_form.errors
-            raise
-            return self.render_to_response(self.get_context_data(form=form))
-
 
     def get_initial(self):
         initial = super(EventUpdateView, self).get_initial()
-        initial['time_start'] = self.object.time_start
-        initial['time_end'] = self.object.time_end
-        initial['registration_start'] = self.object.registration_start
-        initial['registration_end'] = self.object.registration_end
-        initial['deregistration_end'] = self.object.deregistration_end
+        initial["time_start"] = self.object.time_start
+        initial["time_end"] = self.object.time_end
+        initial["registration_start"] = self.object.registration_start
+        initial["registration_end"] = self.object.registration_end
+        initial["deregistration_end"] = self.object.deregistration_end
         return initial
 
     def get_success_url(self):
-        return reverse('events:details', kwargs={'pk': self.object.id})
+        return reverse("events:details", kwargs={"pk": self.object.id})
 
 
 class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -262,7 +299,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "news/edit_event.html"
     form_class = EventForm
     success_url = "/events/"
-    permission_required = 'news.add_event'
+    permission_required = "news.add_event"
 
     def get_success_message(self, cleaned_data):
         if self.object.draft:
@@ -270,24 +307,26 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         return "Arrangementet er opprettet og publisert"
 
     def get_success_url(self):
-        return reverse('events:details', kwargs={'pk': self.object.id})
+        return reverse("events:details", kwargs={"pk": self.object.id})
 
     def get_context_data(self, **kwargs):
         context = super(EventCreateView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['uploads_form'] = uploadformset(self.request.POST, self.request.FILES)
+            context["uploads_form"] = uploadformset(
+                self.request.POST, self.request.FILES
+            )
         else:
-            context['uploads_form'] = uploadformset(instance=self.object)
+            context["uploads_form"] = uploadformset(instance=self.object)
         return context
 
     def get_initial(self):
         initial = super(EventCreateView, self).get_initial()
-        initial['time_start'] = timezone.now()
-        initial['time_end'] = timezone.now()
+        initial["time_start"] = timezone.now()
+        initial["time_end"] = timezone.now()
 
-        initial['registration_start'] = timezone.now()
-        initial['registration_end'] = timezone.now() + timedelta(days=7)
-        initial['deregistration_end'] = timezone.now() + timedelta(days=7)
+        initial["registration_start"] = timezone.now()
+        initial["registration_end"] = timezone.now() + timedelta(days=7)
+        initial["deregistration_end"] = timezone.now() + timedelta(days=7)
         return initial
 
     def form_valid(self, form):
@@ -295,7 +334,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
         self.object = form.save(commit=False)
         context = self.get_context_data()
 
-        upload_form = context['uploads_form']
+        upload_form = context["uploads_form"]
 
         if upload_form.is_valid():
             self.object = form.save()
@@ -304,7 +343,6 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
-
 
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -319,7 +357,7 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
         return "Artikkelen er opprettet og publisert"
 
     def get_success_url(self):
-        return reverse('news:details', kwargs={'pk': self.object.id})
+        return reverse("news:details", kwargs={"pk": self.object.id})
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -334,7 +372,7 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
     success_message = "Artikkelen er oppdatert."
 
     def get_success_url(self):
-        return reverse('news:details', kwargs={'pk': self.object.id})
+        return reverse("news:details", kwargs={"pk": self.object.id})
 
 
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
@@ -357,10 +395,12 @@ def register_on_event(request, event_id):
         er = EventRegistration.objects.get(user=request.user, event=event_object)
         if event_object.deregistration_end > now:
             er.delete()
-            messages.add_message(request, messages.SUCCESS, 'Du er nå avmeldt')
+            messages.add_message(request, messages.SUCCESS, "Du er nå avmeldt")
     except EventRegistration.DoesNotExist:
         if now > event_object.registration_start and event_object.time_end > now:
-            EventRegistration.objects.create(event=event_object, user=request.user).save()
-            messages.add_message(request, messages.SUCCESS, 'Du er nå påmeldt')
+            EventRegistration.objects.create(
+                event=event_object, user=request.user
+            ).save()
+            messages.add_message(request, messages.SUCCESS, "Du er nå påmeldt")
 
     return redirect("/events/" + str(event_id))

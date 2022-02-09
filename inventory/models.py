@@ -1,34 +1,44 @@
 from ckeditor_uploader.fields import RichTextUploadingField
-from files.models import Image
-from django.db import models
-from django.core.validators import MinValueValidator, RegexValidator
-from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, RegexValidator
+from django.db import models
+from django.utils import timezone
+
+from files.models import Image
 
 
 class Item(models.Model):
     """Represents a single item in inventory"""
 
-    name = models.CharField('Navn', max_length=50)
-    stock = models.IntegerField('Lagerbeholdning', validators=[MinValueValidator(0)])
-    description = RichTextUploadingField('Beskrivelse', blank=True)
-    thumbnail = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Bilde')
-    location = models.CharField('Hylleplass', max_length=50, blank=True)
+    name = models.CharField("Navn", max_length=50)
+    stock = models.IntegerField("Lagerbeholdning", validators=[MinValueValidator(0)])
+    unknown_stock = models.BooleanField(
+        "Ukjent lagerbeholdning", null=False, blank=False, default=False
+    )
+    can_loan = models.BooleanField("Kan lånes", null=False, blank=False, default=True)
+    description = RichTextUploadingField("Beskrivelse", blank=True)
+    thumbnail = models.ForeignKey(
+        Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Bilde"
+    )
+    location = models.CharField("Hylleplass", max_length=50, blank=True)
+    max_loan_duration = models.PositiveIntegerField(
+        "Maks lånevarighet (dager)", blank=True, null=True
+    )
 
-    views = models.IntegerField('Detaljsidevisninger', default=0, editable=True)
+    views = models.IntegerField("Detaljsidevisninger", default=0, editable=True)
 
     def __str__(self):
-        return self.name + ' (x' + str(self.stock) + ')'
+        return self.name + " (x" + str(self.stock) + ")"
 
     def in_stock(self):
         """Whether or not the item is in stock"""
-        return self.available() > 0
+        return self.available() > 0 or self.unknown_stock
 
     def has_location(self):
         "Return True if location is not blank"
         return self.location != ""
-    
+
     def amount_loaned(self):
         """Returns how many of this item was loaned out"""
         try:
@@ -39,14 +49,19 @@ class Item(models.Model):
             return 0
 
     def next_loan(self):
-        loans_sorted = ItemLoan.objects.filter(item__name = self.name).order_by('loan_to')
+        loans_sorted = ItemLoan.objects.filter(item__name=self.name).order_by("loan_to")
         for loan in loans_sorted:
             if not loan.overdue():
                 return loan
         return None
 
     def next_loan_done(self):
-        formatted_date = str(self.next_loan().loan_to.day) + "." + str(self.next_loan().loan_to.month) + "."
+        formatted_date = (
+            str(self.next_loan().loan_to.day)
+            + "."
+            + str(self.next_loan().loan_to.month)
+            + "."
+        )
         return formatted_date
 
     def next_loan_amount(self):
@@ -73,34 +88,45 @@ class Item(models.Model):
 
 def validate_consent(boolean):
     if boolean is not True:
-        raise ValidationError('Du må samtykke til at vi kan lagre kontaktinformasjon')
-
+        raise ValidationError("Du må samtykke til at vi kan lagre kontaktinformasjon")
 
 
 class ItemLoan(models.Model):
     """Contains information about borrowing an item in inventory"""
 
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, verbose_name='Lånegjenstand')
-    amount = models.IntegerField('Antall', validators=[MinValueValidator(1)])
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, verbose_name="Lånegjenstand"
+    )
+    amount = models.IntegerField("Antall", validators=[MinValueValidator(1)])
 
     # Automatically set once the application is accepted
-    loan_from = models.DateField('Utlånt fra', default=timezone.now, blank=True)
-    loan_to = models.DateField('Lån til')
-    purpose = models.CharField('Formål', max_length=50)
+    loan_from = models.DateField("Utlånt fra", default=timezone.now, blank=True)
+    loan_to = models.DateField("Lån til")
+    purpose = models.CharField("Formål", max_length=50)
 
     # Personal information
-    contact_name = models.CharField('Utlåners navn', max_length=100)
+    contact_name = models.CharField("Utlåners navn", max_length=100)
     contact_phone = models.CharField(
-        'Utlåners tlf.',
+        "Utlåners tlf.",
         max_length=8,
-        validators=[RegexValidator('^\d{8}$', message='Skriv inn et gyldig telefonnummer')]
+        validators=[
+            RegexValidator("^\d{8}$", message="Skriv inn et gyldig telefonnummer")
+        ],
     )
-    contact_email = models.EmailField('Utlåners e-post')
+    contact_email = models.EmailField("Utlåners e-post")
     # Simply to store and prove that the user consented to having
     # their personal info stored for the duration of the loan
-    consent = models.BooleanField('Datalagringssamtykke', blank=False, validators=[validate_consent])
+    consent = models.BooleanField(
+        "Datalagringssamtykke", blank=False, validators=[validate_consent]
+    )
 
-    approver = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Godkjenner')
+    approver = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Godkjenner",
+    )
 
     def overdue(self):
         """Checks if the loan is overdue for return"""

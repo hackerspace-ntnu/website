@@ -339,3 +339,12 @@ a {
 .material-icons.md-48 {
     font-size: 48px;
 }
+
+.pagination-number {
+    cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

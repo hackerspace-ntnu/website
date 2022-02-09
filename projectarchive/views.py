@@ -1,11 +1,18 @@
-from django.shortcuts import redirect
-from django.views.generic import DetailView, ListView, UpdateView, CreateView, DeleteView
-from .forms import ArticleForm
-from .models import Projectarticle
-from django.urls import reverse
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
+
+from .forms import ArticleForm
+from .models import Projectarticle
 
 
 # class ArticleListView(ListView):
@@ -16,7 +23,7 @@ class ArticleListView(ListView):
 
     def get_queryset(self):
         # Retrieve published articles (so no drafts)
-        articles = Projectarticle.objects.order_by('-pub_date').filter(draft=False)
+        articles = Projectarticle.objects.order_by("-pub_date").filter(draft=False)
 
         return articles
 
@@ -26,7 +33,9 @@ class ArticleListView(ListView):
 
         # Retrieve any user drafts if logged in
         if self.request.user.has_perm("projectarchive.add_article"):
-            context['drafts'] = Projectarticle.objects.order_by('-pub_date').filter(author=self.request.user,draft=True)
+            context["drafts"] = Projectarticle.objects.order_by("-pub_date").filter(
+                author=self.request.user, draft=True
+            )
 
         return context
 
@@ -43,7 +52,9 @@ class ArticleView(DetailView):
         if article.draft and not request.user == article.author:
 
             # Stores log-in prompt message to be displayed with redirect request
-            messages.add_message(request, messages.WARNING, 'Du har ikke tilgang til artikkelen')
+            messages.add_message(
+                request, messages.WARNING, "Du har ikke tilgang til artikkelen"
+            )
 
             return redirect("/")
 
@@ -54,7 +65,6 @@ class ArticleView(DetailView):
         context = super().get_context_data(**kwargs)
 
         return context
-
 
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
@@ -69,7 +79,7 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
         return "Artikkelen er opprettet og publisert"
 
     def get_success_url(self):
-        return reverse('projectarchive:details', kwargs={'pk': self.object.id})
+        return reverse("projectarchive:details", kwargs={"pk": self.object.id})
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -84,12 +94,10 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
     success_message = "Artikkelen er oppdatert."
 
     def get_success_url(self):
-        return reverse('projectarchive:details', kwargs={'pk': self.object.id})
+        return reverse("projectarchive:details", kwargs={"pk": self.object.id})
 
 
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Projectarticle
     success_url = "/projectarchive/"
     permission_required = "projectarchive.delete_article"
-
-

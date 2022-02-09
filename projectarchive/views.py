@@ -15,7 +15,6 @@ from .forms import ArticleForm
 from .models import Projectarticle
 
 
-# class ArticleListView(ListView):
 class ArticleListView(ListView):
     Model = Projectarticle
     template_name = "projectarchive/projectarchive.html"

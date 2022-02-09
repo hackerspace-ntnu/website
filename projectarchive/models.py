@@ -33,7 +33,7 @@ class Projectarticle(models.Model):
 
     @staticmethod
     def get_class():
-        return "Article"
+        return "Projectarticle"
 
     class Meta:
         app_label = "projectarchive"

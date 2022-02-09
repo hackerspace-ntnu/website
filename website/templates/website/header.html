@@ -81,6 +81,7 @@
 					<li><a class="waves-effect" href="{% url 'reservations:queue_list' %}">Reservasjoner</a></li>
 					<li><a class="waves-effect" href="{% url 'rules' %}">Regler</a></li>
 					<li><a class="waves-effect" href="{% url 'application:application_info' %}">Opptak</a></li>
+					<li><a class="waves-effect" href="{% url 'projectarchive:Article_List' %}">Prosjektarkiv</a></li>
 					<li><a class="waves-effect" href="{% url 'about' %}">Om oss</a></li>
 
 					<li><div class="divider"></div></li>
@@ -120,6 +121,9 @@
 						</li>
 						<li>
 							<a class="waves-effect" href="{% url 'application:application_info' %}">Opptak</a>
+						</li>
+						<li class="tooltipped" data-position="left" data-tooltip="Les om våres tidligere prosjekter her">
+							<a href="{% url 'projectarchive:Article_List' %}">Prosjektarkiv</a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
 							<a href="{% url 'about' %}">Om oss</a>

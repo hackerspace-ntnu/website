@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "inventory",
     "watchlist",
     "overview",
+    "projectarchive",
 ]
 
 

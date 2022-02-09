@@ -11,8 +11,9 @@ from rest_framework import routers
 from inventory import views as inventory_views
 from reservations import views as reservation_views
 from userprofile.views import (
+    MembersAPIView,
+    MembersView,
     MostRecentTermsOfServiceView,
-    ProfileListView,
     TermsOfServiceCreateView,
     TermsOfServiceView,
 )
@@ -75,7 +76,8 @@ urlpatterns = [
     path("s/", include("django.contrib.flatpages.urls")),
     path("profile/", include("userprofile.urls")),
     path("reservations/", include("reservations.urls"), name="reservations"),
-    path("members/", ProfileListView.as_view(), name="member-list"),
+    path("members/", MembersView.as_view(), name="member-list"),
+    path("api/members/", MembersAPIView.as_view(), name="members-api"),
     path("admin-panel/", AdminView.as_view(), name="admin"),
     path("feide/", include("social_django.urls", namespace="social")),
     path("api/", include(router.urls)),
@@ -88,6 +90,7 @@ urlpatterns = [
     path("vaktliste/", include("watchlist.urls")),
     path("intranet/", IntranetView.as_view(), name="intranet"),
     path("overview/", include("overview.urls")),
+    path("projectarchive/", include("projectarchive.urls"), name="projectarchive"),
 ]
 
 admin.site.site_header = "Adminpanel for Viktige Folk"

@@ -174,6 +174,23 @@
                 </div>
                 <div class="card-panel reg-box">
                     <div class="row">
+                      <div class="col s12">
+                        <h5>Ferdigheter</h5>
+                        <p>Dersom arrangementet er et kurs, kan du legge inn ferdighetene som læres bort her. 
+                            De vil automatisk legges til alle med registrert oppmøte.</p>
+                        <div class="divider"></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            {{ form.skills }}
+                            <label for="id_skills">{{ form.skills.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.skills.errors }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-panel">
+                    <div class="row">
                         <div class="col s12">
                             <h5>Filer</h5>
                             <p>Det kan være nyttig å legge ved powerpoint eller andre relevante filer i arrangementet.
@@ -193,7 +210,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="card-panel reg-box">
+                <div class="card-panel">
                     <div class="row">
                         <div class="col s12">
                             <h5>Ferdig</h5>

@@ -16,10 +16,6 @@ body {
     margin: 20px;
 }
 
-#watchlist #currentShift {
-    border: 5px solid #5BBA47
-}
-
 #rule-body {
     font-size: 1.25rem;
     height: 55rem;

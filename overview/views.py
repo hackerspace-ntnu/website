@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import TemplateView
 from django.utils import timezone
 from news.models import Article, Event
@@ -31,7 +30,7 @@ class OverviewView(TemplateView):
             ).order_by('-time_start')[:to_fill]
             event_list += list(expired_events)
 
-        current_time = datetime.now() + timedelta(days=1, hours=-5)
+        current_time = datetime.now()
 
         # Get five published articles
         article_list = Article.objects.filter(draft=False, internal=False).order_by('-pub_date')[:5]

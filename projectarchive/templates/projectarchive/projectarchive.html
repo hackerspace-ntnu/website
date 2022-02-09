@@ -1,0 +1,82 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block header %}
+<link rel="stylesheet" type="text/css" href="{% static 'projectarchive/css/projectarchive_style.css' %}">
+{% endblock header %}
+
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row valign-wrapper white-text">
+			<div class="col s12">
+				<h4>
+					Prosjektarkiv
+				</h4>
+			</div>
+		</div>
+	</div>
+</div>
+{% include "projectarchive/_list_admin_banner.html" %}
+{% if drafts %}
+    <div class="section grey lighten-3">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h5 class="subheader">Dine utkast</h5>
+                    <div class="invisible-divider"></div>
+                    {% for projectarchive in drafts %}
+                        {% include "projectarchive/article_item.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<div class="section">
+	<div class="container">
+		{% if indicator_text %}
+			{% include "projectarchive/internal_indicator.html" %}
+		{% endif %}
+		<div class="row">
+			<div class="col s12">
+                {% if drafts and object_list %}
+                    <h5 class="subheader">Publiserte artikler</h5>
+                    <div class="invisible-divider"></div>
+                {% endif %}
+				{% for projectarchive in object_list %}
+					{% include "projectarchive/article_item.html" %}
+				{% endfor %}
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="section">
+	<div class="container">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			{% endif %}
+
+			{% for page in page_obj.paginator.page_range %}
+			{% if page == page_obj.number %}
+			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
+			{% endif %}
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			{% endif %}
+
+			{% endblock %}
+		</ul>
+	</div>
+</div>

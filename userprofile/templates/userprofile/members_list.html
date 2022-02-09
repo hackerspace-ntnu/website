@@ -1,0 +1,60 @@
+{% load static %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/members_list.css' %}">
+{% endblock %}
+
+<div class="row">
+
+    {% for profile in members %}
+        <div class="col s12 m6 l4">
+            <div class="card member-card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <a href="{% url 'userprofile:profile_by_id' profile.user.id %}">
+                        {% if profile.image %}
+                            {# profile has image, show picture #}
+                            <img class="activator" src="{{ profile.image.url }}" />
+                        {% else %}
+                            {# profile.images is None, show default.png #}
+                            <img class="activator" src="{% static "website/img/misc/default.png" %}" />
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="card-content">
+                    <a href="{% url 'userprofile:profile_by_id' profile.user.id %}">
+                        <span class="card-title activator">{{ profile.user.get_full_name }}</span>
+                    </a>
+                    <p>{{ profile.get_main_group }}</p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <h5>Det finnes ingen profiler etter dine søkekriterier</h5>
+    {% endfor %}
+
+</div>
+
+{% if page_obj.paginator.num_pages > 1 %}
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+            <li><a class=pagination-number onclick="updatePageNumber({{ page_obj.previous_page_number }})"><i class="material-icons">chevron_left</i></a></li>
+        {% else %}
+            <li class="disabled"><a class=pagination-number><i class="material-icons">chevron_left</i></a></li>
+        {% endif %}
+
+        {% for page in page_obj.paginator.page_range %}
+            {% if page == page_obj.number %}
+                <li class="active hs-green"><a class=pagination-number>{{ page_obj.number }}</a></li>
+            {% else %}
+                <li><a class=pagination-number onclick="updatePageNumber({{ page }})">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li><a class=pagination-number onclick="updatePageNumber({{ page_obj.next_page_number }})"><i class="material-icons">chevron_right</i></a></li>
+        {% else %}
+            <li class="disabled"><a class=pagination-number><i class="material-icons">chevron_right</i></a></li>
+        {% endif %}
+    </ul>
+{% endif %}
+
+

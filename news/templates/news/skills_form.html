@@ -52,11 +52,21 @@
 								</i>{% endif %}
 								<div class="secondary-content">
 									<label>
-										<input
-												class="userCheckbox {% if instance.attended.value %}attendee{% endif %} {% if instance.waiting.value %}waiting{% endif %}"
-												type="checkbox"
-												name="{{ instance.give_skills.html_name }}"
-										/>
+                    {% if instance.has_skills.value %}
+                      <i class="material-icons green-text tooltipped" style="margin-right: 10px;" data-position="left" data-tooltip="Har allerede ferdighetene :)">
+                        check
+                      </i>
+                    {% elif instance.missing_prerequisites.value %}
+                      <i class="material-icons red-text tooltipped" style="margin-right: 10px;" data-position="left" data-tooltip="Mangler forkunnskaper">
+                        clear
+                      </i>
+                    {% else %}
+                      <input
+                          class="userCheckbox {% if instance.attended.value %}attendee{% endif %} {% if instance.waiting.value %}waiting{% endif %}"
+                          type="checkbox"
+                          name="{{ instance.give_skills.html_name }}"
+                      />
+                    {% endif %}
 										<span>
 											{% if instance.attended.value %}
 												<i class="material-icons green-text tooltipped" data-position="left" data-tooltip="Oppmøte registrert">

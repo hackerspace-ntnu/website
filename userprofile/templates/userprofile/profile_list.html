@@ -1,0 +1,86 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+<div class="section hs-green">
+	<div class="container">
+		<div class="row">
+			<div class="col s12">
+				<h4 class="white-text">Medlemmer i Hackerspace</h4>
+				<p class="flow-text white-text">For oversikt over gruppene og deres medlemmer, se <a class="hs-gray-text" href="{% url 'about' %}"> Om oss</a>.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<form method="get">
+					{% csrf_token %}
+					<div class="card-panel z-depth-0">
+						<div class="file-field input-field">
+							<button id="searchButton" type="submit" name="action" class="right waves-effect btn-flat btn-medium waves-light btn white-text hs-green">SØK</button>
+							<div class="file-path-wrapper" style="padding-right:10px; padding-left:0px;">
+								<input name="filter" placeholder="Fornavnesen" value="{{ filter }}" type="text">
+								<label class="active" for="filter">Fornavn på medlem</label>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="section">
+	<div class="container">
+		<div class="row">
+			{% for profile in object_list %}
+			<div class="col s12 m6 l4">
+				<div class="card medium">
+					<div class="card-image waves-effect waves-block waves-light">
+						<a href={% url 'userprofile:profile_by_id' profile.user.id %}>
+							{% if profile.image %}
+							{# profile has image, show picture #}
+							<img class="activator" src="{{ profile.image.url }}">
+							{% else %}
+							{# profile.images is None, show default.png #}
+							<img class="activator" src="{% static "website/img/misc/default.png" %}">
+							{% endif %}
+						</a>
+					</div>
+					<div class="card-content">
+						<a href={% url 'userprofile:profile_by_id' profile.user.id %}><span class="card-title activator">{{ profile.user.get_full_name }}</span></a>
+						<p>{{ profile.get_main_group }}</p>
+					</div>
+				</div>
+			</div>
+			{% empty %}
+			<h5>Det finnes ingen profiler etter dine søkekriterier</h5>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div class="section">
+	<div class="container">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+			{% endif %}
+
+			{% for page in page_obj.paginator.page_range %}
+			{% if page == page_obj.number %}
+			<li class="active hs-green"><a href="#!">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class=""><a href="?page={{ page }}">{{ page }}</a></li>
+			{% endif %}	
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+			{% else %}
+			<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			{% endif %}
+
+			{% endblock %}
+		</ul>
+	</div>
+</div>

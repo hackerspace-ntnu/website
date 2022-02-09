@@ -6,6 +6,7 @@ app_name = "userprofile"
 
 urlpatterns = [
     path("", views.SelfProfileDetailView.as_view(), name="profile"),
+    path("list/", views.ProfileListView.as_view(), name="members"),
     path("edit/", views.ProfileUpdateView.as_view(), name="edit_profile"),
     path("skills/", views.SelfSkillsView.as_view(), name="profile_skills"),
     path(

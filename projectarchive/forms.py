@@ -1,8 +1,6 @@
 from django import forms
 from django.db.utils import OperationalError, ProgrammingError
 from projectarchive.models import Upload, Projectarticle
-from django.forms import inlineformset_factory
-from django.contrib.auth.models import User
 from committees.models import Committee
 from django.forms.widgets import ClearableFileInput
 
@@ -66,6 +64,3 @@ class ArticleForm(forms.ModelForm):
         model = Projectarticle
         fields = ['title', 'ingress_content', 'main_content', 'thumbnail', 'draft']
 
-
-# uploadformset = inlineformset_factory(Event, Upload,
-#         form=UploadForm, extra=3)

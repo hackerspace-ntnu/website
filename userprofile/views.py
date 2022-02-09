@@ -4,7 +4,6 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 # For merging user and profile forms
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -14,11 +13,7 @@ from django.views.generic import CreateView, RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
-
-# Member list search
-from rapidfuzz import fuzz
 from rest_framework import status
-from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -28,72 +23,38 @@ from .forms import ProfileForm, ProfileSearchForm
 from .models import Category, Profile, Skill, TermsOfService
 
 
-def _get_user_profiles_from_search(users: [User], search: str):
-    """
-    Determine full name similarity for each user, and return a list of corresponding profiles, ordered by best match
-    """
-
-    search_matches = []
-    for user in users:
-        match_score = fuzz.token_set_ratio(user.get_full_name(), search)
-        if match_score > 10:
-            search_matches.append((match_score, user))
-    # Order by best match, descending
-    search_matches.sort(key=lambda t: t[0], reverse=True)
-    # Ordered profiles
-    return [s[1].profile for s in search_matches]
-
-
-class MembersAPIView(APIView):
-    """
-    API view returning an HTML response containing paginated profiles
-    based on member name search
-    """
-
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = "userprofile/members_list.html"
-    paginate_by = 9
-
-    def get(self, request):
-        # Start with all member users, sorted by full name
-        committee_array = Committee.objects.values_list("name", flat=True)
-        users = sorted(
-            User.objects.filter(groups__name__in=list(committee_array)),
-            key=lambda a: a.get_full_name(),
-        )
-        search = self.request.GET.get("s", "")
-        if search == "":
-            profiles = [user.profile for user in users]
-        else:
-            profiles = _get_user_profiles_from_search(users, search)
-        # Paginate profiles
-        paginator = Paginator(profiles, self.paginate_by)
-        page_number = self.request.GET.get("p", 1)
-        page_obj = paginator.page(page_number)
-        return Response({"members": page_obj.object_list, "page_obj": page_obj})
-
-
-class MembersView(ListView):
+class ProfileListView(ListView):
     # Lister opp alle brukerprofiler med pagination
     model = Profile
     form_class = ProfileSearchForm
     paginate_by = 9
-    template_name = "userprofile/members.html"
+    template_name = "userprofile/profile_list.html"
+
+    # Søkefunksjonalitet som filtrerer queryset
+    def get_queryset(self):
+        filter_val = self.request.GET.get("filter", "")
+        committee_array = Committee.objects.values_list("name", flat=True)
+        profiles = Profile.objects.filter(
+            user__groups__name__in=list(committee_array),
+            user__first_name__icontains=filter_val,
+        ).order_by("user__first_name")
+        return profiles
 
     def get_context_data(self, **kwargs):
-        context = super(MembersView, self).get_context_data(**kwargs)
-        context["search"] = self.request.GET.get("s", "")
-        context["page"] = self.request.GET.get("p", 1)
+        context = super(ProfileListView, self).get_context_data(**kwargs)
+        context["filter"] = self.request.GET.get("filter", "")
         return context
 
 
 # Class providing a method for retrieving skill category levels
 class CategoryLevelsMixin:
     def get_category_levels(self):
+
         # Tuple list (category, level)
         levels = []
 
         for category in Category.objects.all():
+
             # Total acquired skills in category
             level = Skill.objects.filter(
                 categories__pk=category.pk, pk__in=self.object.skills.all()
@@ -113,6 +74,7 @@ class ProfileDetailView(DetailView, CategoryLevelsMixin):
     template_name = "userprofile/profile.html"
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
 
         context["all_categories"] = Category.objects.all()
@@ -121,7 +83,7 @@ class ProfileDetailView(DetailView, CategoryLevelsMixin):
 
         return context
 
-    def get_object(self, **kwargs):
+    def get_object(self):
         # Get the user for the pk, then return the user profile
         pk = self.kwargs["pk"]
         user = get_object_or_404(User, pk=pk)
@@ -149,7 +111,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     success_url = "/profile"
     success_message = "Profilen er oppdatert."
 
-    def get_object(self, **kwargs):
+    def get_object(self):
         try:
             userprofile = self.request.user.profile
             return userprofile
@@ -158,6 +120,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 
 
 class SkillsView(DetailView, CategoryLevelsMixin):
+
     template_name = "userprofile/skills.html"
 
     # Retrieves skills that can be acquired without intermediate skills
@@ -197,7 +160,7 @@ class SkillsView(DetailView, CategoryLevelsMixin):
 
         return context
 
-    def get_object(self, **kwargs):
+    def get_object(self):
         # Get the user for the pk, then return the user profile
         pk = self.kwargs["pk"]
         user = get_object_or_404(User, pk=pk)
@@ -214,7 +177,7 @@ class SelfSkillsView(SkillsView):
 
 
 class ApproveSkillAPIView(APIView):
-    def post(self, request, pk):
+    def post(self, request, pk, format=None):
         if not request.user.is_authenticated:
             return Response(
                 {"Status": "User not logged in"}, status=status.HTTP_401_UNAUTHORIZED
@@ -251,10 +214,12 @@ class ApproveSkillAPIView(APIView):
 
 
 class SkillsCategoryView(DetailView):
+
     model = Category
     template_name = "userprofile/skills_category.html"
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
         context["category_skills"] = Skill.objects.filter(categories__pk=self.object.pk)
         return context
@@ -276,6 +241,7 @@ class MostRecentTermsOfServiceView(RedirectView):
 class TermsOfServiceCreateView(
     PermissionRequiredMixin, SuccessMessageMixin, CreateView
 ):
+
     model = TermsOfService
     fields = ["text", "pub_date"]
     template_name = "userprofile/create_tos.html"
@@ -283,6 +249,7 @@ class TermsOfServiceCreateView(
     success_message = "TOS er opprettet"
 
     def get_success_url(self):
+
         # Redirect to detail view of newly created TOS
         return reverse("tos-details", kwargs={"pk": self.object.id})
 

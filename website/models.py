@@ -49,6 +49,7 @@ class Rule(models.Model):
         default=False, verbose_name="Regel for bruk av printer"
     )
     priority = models.IntegerField(default=0)
+    pub_date = models.DateField(verbose_name="Publiseringsdato", auto_now=True)
 
     def __str__(self):
         return self.title

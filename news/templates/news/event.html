@@ -64,32 +64,6 @@
 					{{ event.main_content }}
 					{% endautoescape %}
 				</div>
-				{% if event.skills.all %}
-				<div class="col s12">
-					<div class="divider"></div>
-					<p>Ved å delta på arrangementet vil du få følgende ferdigheter godkjent:</p>
-					<ul class="collection collapsible expandable z-depth-0">
-						{% for skill in event.skills.all %}
-						<li>
-							<span id="skill{{skill.id}}" class="skill-anchor"></span>
-							<div class="collapsible-header skill-reachable hs-gray white-text valign-wrapper">
-								<span>{{skill}}
-								{% if skill in user_skills %}
-								<i class="material-icons right tooltipped hs-green-text" data-position="right" data-tooltip="Du har allerede denne ferdigheten">check</i>
-								{% elif skill in unreachable_skills %}
-								<i class="material-icons right tooltipped hs-red-text" data-position="right" data-tooltip="Du mangler en forutsetning for denne ferdigheten">warning</i>
-								{% endif %}
-								</span>
-								{% include "userprofile/skill_badges.html"%}
-							</div>
-							<div class="collapsible-body grey lighten-2">
-								{% include "userprofile/skill_description.html" %}
-							</div>
-						</li>
-						{% endfor %}
-					</ul>
-				</div>
-				{% endif %}
 			</div>
 		</div>
 		<div class="card-panel white z-depth-1">

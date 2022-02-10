@@ -1,5 +1,3 @@
-from typing import Iterable, List
-
 from ckeditor.fields import RichTextField
 from django.contrib.auth.admin import User
 from django.core.files.base import ContentFile
@@ -178,30 +176,3 @@ class Profile(models.Model):
 
     def has_accepted_most_recent_tos(self):
         return self.accepted_tos == TermsOfService.objects.order_by("-pub_date").first()
-
-    def has_skills(self, skills: Iterable[Skill]) -> bool:
-        for skill in skills:
-            if skill not in self.skills.all():
-                return False
-        return True
-
-    def is_unreachable_skill(self, skill):
-        return skill.prerequisites.exclude(id__in=self.skills.all()).exists()
-
-    # Retrieves skills that can be acquired without intermediate skills
-    def get_reachable_skills(self):
-        return self.filter_skills_reachability(
-            Skill.objects.exclude(id__in=self.skills.all()), reachable=True
-        )
-
-    # Filters skills based on whether they can be acquired without intermediate skills
-    def filter_skills_reachability(
-        self, skills: Iterable[Skill], reachable: bool
-    ) -> List[Skill]:
-        filtered_skills = []
-
-        for skill in skills:
-            if reachable ^ self.is_unreachable_skill(skill):
-                filtered_skills.append(skill)
-
-        return filtered_skills

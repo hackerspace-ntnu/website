@@ -11,3 +11,4 @@ pillow
 python-dataporten-auth
 social-auth-app-django==5.0.0
 rapidfuzz==1.8.2
+django-ical>=1.8.3

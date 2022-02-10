@@ -24,6 +24,7 @@ class QueueDetailView(DetailView):
 
 class QueueListView(ListView):
     model = Queue
+    ordering = "difficulty"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

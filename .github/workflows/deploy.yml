@@ -20,4 +20,14 @@ jobs:
         username: ${{ secrets.user }}
         password: ${{ secrets.id }}
         port: ${{ secrets.port }}
-        script: ${{ secrets.script }}
+        script: |
+          cd ${{ secrets.deploy_dir }}
+          . venv/bin/activate
+          cd website
+          git pull
+          python -m pip install --upgrade pip
+          pip install -r prod_requirements.txt
+          python manage.py migrate
+          python manage.py collectstatic --noinput
+          sudo systemctl restart gunicorn
+

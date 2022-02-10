@@ -160,10 +160,27 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
 class SkillsView(DetailView, CategoryLevelsMixin):
     template_name = "userprofile/skills.html"
 
+    # Retrieves skills that can be acquired without intermediate skills
+    def get_reachable_skills(self):
+
+        reachable_skills = []
+
+        # Check all unacquired skills
+        for skill in Skill.objects.exclude(id__in=self.object.skills.all()):
+
+            # Make sure all prerequisite skills are acquired
+            # (checks if prerequisites set is empty after excluding acquired skills)
+            if not skill.prerequisites.exclude(
+                id__in=self.object.skills.all()
+            ).exists():
+                reachable_skills.append(skill)
+
+        return reachable_skills
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["all_skills"] = Skill.objects.all()
-        context["reachable_skills"] = self.request.user.profile.get_reachable_skills()
+        context["reachable_skills"] = self.get_reachable_skills()
         context["category_levels"] = self.get_category_levels()
 
         # Sjekker hvilke skills brukeren som er logget inn kan godkjenne

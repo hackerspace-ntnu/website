@@ -1,7 +1,6 @@
 <div class="">
     <h3 class=""><b>Vakthavende - {{ weekday }}</b></h3>
     {% for time, shift in shifts.items %}
-    {% green_if_current_shift shift %}
         <div class="center-align"><b>{{ time }}</b></div>
         <hr>
         <div> 

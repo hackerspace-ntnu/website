@@ -1,12 +1,12 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 app_name = "news"
 urlpatterns = [
-    url(r"^$", views.ArticleListView.as_view(), name="all"),
-    url(r"^(?P<pk>[0-9]+)/$", views.ArticleView.as_view(), name="details"),
-    url(r"^(?P<pk>[0-9]+)/edit", views.ArticleUpdateView.as_view(), name="edit"),
-    url(r"^new", views.ArticleCreateView.as_view(), name="new"),
-    url(r"^(?P<pk>[0-9]+)/delete", views.ArticleDeleteView.as_view(), name="delete"),
+    path("", views.ArticleListView.as_view(), name="all"),
+    path("<int:pk>/", views.ArticleView.as_view(), name="details"),
+    path("<int:pk>/edit", views.ArticleUpdateView.as_view(), name="edit"),
+    path("new", views.ArticleCreateView.as_view(), name="new"),
+    path("<int:pk>/delete", views.ArticleDeleteView.as_view(), name="delete"),
 ]

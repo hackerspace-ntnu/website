@@ -71,7 +71,6 @@ urlpatterns = [
     path("about/", AboutView.as_view(), name="about"),
     path("rules/", RulesView.as_view(), name="rules"),
     path("rules/<int:pk>/", RuleDetailsView.as_view(), name="rule_details"),
-    path("s/", include("django.contrib.flatpages.urls")),
     path("profile/", include("userprofile.urls")),
     path("reservations/", include("reservations.urls"), name="reservations"),
     path("members/", MembersView.as_view(), name="member-list"),

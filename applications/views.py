@@ -1,6 +1,4 @@
-from datetime import datetime
-
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
@@ -14,11 +12,15 @@ class ApplicationInfoView(ListView):
     queryset = ApplicationGroup.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super(ApplicationInfoView, self).get_context_data(**kwargs)
-        context["group_list"] = ApplicationGroup.objects.filter(project_group=True)
-        context["main_list"] = ApplicationGroup.objects.filter(project_group=False)
-
-        return context
+        period = ApplicationPeriod.objects.filter(name="Opptak").first()
+        return {
+            **super().get_context_data(**kwargs),
+            "group_list": ApplicationGroup.objects.filter(project_group=True),
+            "main_list": ApplicationGroup.objects.filter(project_group=False),
+            "start_date": period.period_start if period else None,
+            "end_date": period.period_end if period else None,
+            "period_status": period.status() if period else None,
+        }
 
 
 class ApplicationView(FormView):
@@ -37,25 +39,7 @@ class ApplicationView(FormView):
         return context
 
     def dispatch(self, request, *args, **kwargs):
-        current_date = datetime.now()
-        if not ApplicationPeriod.objects.filter(name="Opptak"):
-            ApplicationPeriod.objects.create(
-                name="Opptak",
-                period_start=datetime(2018, 1, 1),
-                period_end=datetime(2018, 1, 2),
-            ).save()
-
-        start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
-        end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
-        context = {"start_date": start_date, "end_date": end_date}
-
-        if current_date < start_date:
-            return render(
-                request, "applications/application_too_early.html", context=context
-            )
-        elif current_date > end_date:
-            return render(
-                request, "applications/application_too_late.html", context=context
-            )
-        else:
-            return super(ApplicationView, self).dispatch(request, *args, **kwargs)
+        period = ApplicationPeriod.objects.filter(name="Opptak").first()
+        if not period or not period.is_open():
+            return redirect("application:application_info")
+        return super(ApplicationView, self).dispatch(request, *args, **kwargs)

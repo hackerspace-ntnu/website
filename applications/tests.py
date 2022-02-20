@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.apps import apps
 from django.core import mail
 from django.core.exceptions import ValidationError
@@ -6,7 +8,7 @@ from django.urls import reverse
 
 from applications.apps import ApplicationsConfig
 from applications.forms import ApplicationForm
-from applications.models import ApplicationGroup
+from applications.models import ApplicationGroup, ApplicationPeriod
 from applications.validators import validate_phone_number
 
 
@@ -40,19 +42,24 @@ class ApplicationInfoViewTest(TestCase):
 
 class ApplicationFormViewTest(TestCase):
     def setUp(self):
+        ApplicationPeriod.objects.create(
+            name="Opptak",
+            period_start=datetime.now() - timedelta(days=1),
+            period_end=datetime.now() + timedelta(days=1),
+        ).save()
+        self.group_choices = [
+            ApplicationGroup.objects.create(name="DevOps", text_main="asd"),
+            ApplicationGroup.objects.create(name="LabOps", text_main="asd"),
+        ]
         self.client = Client()
         self.response = self.client.get(reverse("application:application_form"))
 
     def test_context(self):
-        self.assertIsNotNone(self.response.context["start_date"])
-        self.assertIsNotNone(self.response.context["end_date"])
+        self.assertEqual(
+            list(self.response.context["group_choices"]), self.group_choices
+        )
 
     def test_forms(self):
-
-        ApplicationGroup.objects.create(name="DevOps", text_main="asd")
-
-        ApplicationGroup.objects.create(name="LabOps", text_main="asd")
-
         data = {
             "name": "Testesson Test",
             "email": "blabb@blab.no",

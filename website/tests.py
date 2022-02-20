@@ -29,7 +29,6 @@ class WebsiteIndexTests(TestCase):
     def test_context(self):
         self.assertIsNotNone(self.response.context["article_list"])
         self.assertIsNotNone(self.response.context["event_list"])
-        self.assertIsNotNone(self.response.context["door_status"])
         self.assertIsNotNone(self.response.context["is_application"])
         self.assertIsNotNone(self.response.context["app_end_date"])
         self.assertIsNotNone(self.response.context["index_cards"])

@@ -9,7 +9,6 @@ from django.views.generic import DetailView, RedirectView, TemplateView
 
 from applications.models import ApplicationPeriod
 from committees.models import Committee
-from door.models import DoorStatus
 from inventory.models import ItemLoan
 from news.models import Article, Event
 from userprofile.models import Profile, TermsOfService
@@ -224,12 +223,6 @@ class IndexView(TemplateView):
             internal__lte=can_access_internal_article, draft=False
         ).order_by("-pub_date")[:5]
 
-        # Få dørstatus
-        try:
-            door_status = DoorStatus.objects.get(name="hackerspace").status
-        except DoorStatus.DoesNotExist:
-            door_status = True
-
         app_period = ApplicationPeriod.objects.filter(name="Opptak").first()
 
         return {
@@ -238,7 +231,6 @@ class IndexView(TemplateView):
             "event_list": event_list,
             "internal_articles_indicator": self.get_internal_articles_indicator(),
             "internal_events_indicator": self.get_internal_events_indicator(),
-            "door_status": door_status,
             "app_end_date": app_period.period_end if app_period else None,
             "is_application": app_period and app_period.is_open(),
             "index_cards": Card.objects.all(),

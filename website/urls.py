@@ -67,7 +67,6 @@ urlpatterns = [
         name="ckeditor_browse",
     ),
     path("authentication/", include("authentication.urls", namespace="auth")),
-    path("door/", include("door.urls")),
     path("opptak/", include("applications.urls"), name="opptak"),
     path("files/", include("files.urls")),
     path("about/", AboutView.as_view(), name="about"),

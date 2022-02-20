@@ -12,7 +12,6 @@ SECRET_KEY = "SECRET_KEY"
 DB = "sqlite"
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
-DOOR_KEY = "DOOR_KEY"
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_URLCONF = "website.urls"
@@ -50,7 +49,6 @@ INSTALLED_APPS = [
     "website",
     "applications",
     "news",
-    "door",
     "files",
     "ckeditor",
     "ckeditor_uploader",

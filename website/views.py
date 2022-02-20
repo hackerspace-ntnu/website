@@ -189,7 +189,6 @@ class IndexView(TemplateView):
         }
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
 
         # Sjekk om bruker har medlemskap og kan se interne elementer
         can_access_internal_article = self.request.user.has_perm(
@@ -231,35 +230,20 @@ class IndexView(TemplateView):
         except DoorStatus.DoesNotExist:
             door_status = True
 
-        # hvis det ikke eksisterer en ApplicationPeriod, lag en.
-        if not ApplicationPeriod.objects.filter(name="Opptak"):
-            ApplicationPeriod.objects.create(
-                name="Opptak",
-                period_start=datetime(2018, 1, 1),
-                period_end=datetime(2018, 1, 2),
-            ).save()
+        app_period = ApplicationPeriod.objects.filter(name="Opptak").first()
 
-        app_start_date = ApplicationPeriod.objects.get(name="Opptak").period_start
-        app_end_date = ApplicationPeriod.objects.get(name="Opptak").period_end
-        if (current_date < app_start_date) or (current_date > app_end_date):
-            is_application = False
-        else:
-            is_application = True
-
-        context = {
+        return {
+            **super().get_context_data(**kwargs),
             "article_list": article_list,
             "event_list": event_list,
             "internal_articles_indicator": self.get_internal_articles_indicator(),
             "internal_events_indicator": self.get_internal_events_indicator(),
             "door_status": door_status,
-            "app_start_date": app_start_date,
-            "app_end_date": app_end_date,
-            "is_application": is_application,
+            "app_end_date": app_period.period_end if app_period else None,
+            "is_application": app_period and app_period.is_open(),
             "index_cards": Card.objects.all(),
             "current_date": current_date,
         }
-
-        return context
 
 
 class IntranetView(PermissionRequiredMixin, TemplateView):

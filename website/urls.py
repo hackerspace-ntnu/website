@@ -21,7 +21,6 @@ from website.views import (
     AboutView,
     AcceptTosRedirectView,
     AcceptTosView,
-    AdminView,
     IndexView,
     IntranetView,
     RuleDetailsView,
@@ -77,7 +76,6 @@ urlpatterns = [
     path("reservations/", include("reservations.urls"), name="reservations"),
     path("members/", MembersView.as_view(), name="member-list"),
     path("api/members/", MembersAPIView.as_view(), name="members-api"),
-    path("admin-panel/", AdminView.as_view(), name="admin"),
     path("feide/", include("social_django.urls", namespace="social")),
     path("api/", include(router.urls)),
     path(

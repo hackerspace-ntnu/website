@@ -86,7 +86,6 @@ class RulesView(TemplateView):
 
 
 class RuleDetailsView(DetailView):
-
     model = Rule
     template_name = "website/rule_details.html"
 
@@ -101,24 +100,6 @@ class RuleDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["rule"] = Rule.objects.get(id=self.object.pk)
-        return context
-
-
-class AdminView(PermissionRequiredMixin, TemplateView):
-    template_name = "website/admin.html"
-    permission_required = "userprofile.can_view_admin"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Get all users belonging to a committee as well as pang
-        committee_array = list(Committee.objects.values_list("name", flat=True))
-        committee_array.append("Pang")
-        profiles = Profile.objects.filter(
-            user__groups__name__in=committee_array
-        ).order_by("user__first_name")
-
-        context["profiles"] = profiles
         return context
 
 

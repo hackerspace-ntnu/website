@@ -162,19 +162,8 @@ color: inherit;" href="{% url 'news:details' next_article.id %}">
 		</div>
 
 	</div>
-	<script>
-		// Prevent ckeditor hard fields to allow responsive images
-		window.addEventListener('DOMContentLoaded', function(event) {
-			var container = document.getElementsByClassName('card-panel')[0];
-			var images = container.getElementsByTagName("img");
-			console.log(images);
-			var i;
+</div>
 
-			for(i = 0; i < images.length; i++) {
-				images[i].className = "responsive-img";
-				images[i].style.height = "";
-			}
-		});
+<script src="{% static 'news/js/ckeditor_responsive_fix.js' %}"></script>
 
-	</script>
-	{% endblock content %}
+{% endblock content %}

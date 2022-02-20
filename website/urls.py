@@ -37,7 +37,7 @@ router.register(r"reservations", reservation_views.ReservationsViewSet)
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
-    path("admin/", admin.site.urls),
+    path("admin/", admin.site.urls, name="admin"),
     path(
         "robots.txt",
         TemplateView.as_view(

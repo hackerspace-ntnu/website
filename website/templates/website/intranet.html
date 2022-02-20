@@ -148,7 +148,7 @@
 
                     {% if user.is_superuser %}
                     <div class="col s12 m4">
-                        <a href="/admin">
+                        <a href="{% url 'admin:index' %}">
                             <div class="card-panel center">
                                 <i class="material-icons large black-text">engineering</i>
                                 <h5>Adminpanel</h5>

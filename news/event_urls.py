@@ -13,6 +13,6 @@ urlpatterns = [
     path("new", views.EventCreateView.as_view(), name="new"),
     path("<int:pk>/delete/", views.EventDeleteView.as_view(), name="delete"),
     path("<int:event_id>/register/", views.register_on_event, name="register"),
-    path("feed.ics", HSEventFeed()),
-    path("<int:pk>/feed.ics", HSEventSingleFeed()),
+    path("feed.ics", HSEventFeed(), name="feed_all"),
+    path("<int:pk>/feed.ics", HSEventSingleFeed(), name="feed"),
 ]

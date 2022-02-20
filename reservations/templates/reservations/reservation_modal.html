@@ -17,7 +17,7 @@
 			<label for="ex_comment">Kommentar</label>
 		</div>
 		{% if printer_rule %}
-			<span>Husk å lese <a href="/rules/{{printer_rule.id}}">regler for bruk av 3D-printer</a> før du starter.</span>
+			<span>Husk å lese <a href="{% url 'rule_details' printer_rule.id %}">regler for bruk av 3D-printer</a> før du starter.</span>
 		{% endif %}
 		</div>
 	<div class="modal-footer">

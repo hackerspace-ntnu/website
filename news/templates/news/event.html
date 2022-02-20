@@ -34,7 +34,7 @@
 					{% if event.internal %}
 						<p>Dette er et internt arrangement.</p>
 					{% else %}
-						<p>Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p> 
+						<p>Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p>
 					{% endif %}
 					<div class="divider"></div>
 				</div>
@@ -51,9 +51,9 @@
 					{% endif %}
 					{% if event.place %}
 						{% if event.place_href %}
-						<p><i class="material-icons small">location_on</i> <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p> 
+						<p><i class="material-icons small">location_on</i> <a href="{{ event.place_href }}" target="_blank">{{ event.place }}</a></p>
 						{% else %}
-						<p><i class="material-icons small">location_on</i>{{ event.place }}</p> 
+						<p><i class="material-icons small">location_on</i>{{ event.place }}</p>
 						{% endif %}
 					{% endif %}
 				</div>
@@ -64,7 +64,7 @@
 					{{ event.main_content }}
 					{% endautoescape %}
 					<div class="divider"></div>
-					<p><a href="feed.ics">
+					<p><a href="{% url 'events:feed' event.id %}">
 						<button class="btn btn-flat white-text waves-effect waves-light hs-green"><i class="material-icons small">event_note</i> Last ned ICS-fil</button>
 					</a></p>
 				</div>
@@ -138,7 +138,12 @@
 
 						{% elif event.external_registration %}
 							<p>Arrangementet benytter ekstern nettside for pålogging.</p>
-							<a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Åpne påmeldingsside i ny fane</a>
+							<a class="btn btn-flat white-text waves-effect waves-light hs-green"
+                               href="{{ event.external_registration }}"
+                               target="_blank"
+                               rel=“nofollow”>
+                                Åpne påmeldingsside i ny fane
+                            </a>
 						{% elif event.expired %}
 							<p>Arrangementet er over og du kan ikke melde deg på.</p>
 						{% else %}
@@ -155,7 +160,7 @@
 					<p>Arrangøren har lagt ved følgende filer<p>
 					<div class="divider"></div>
 				</div>
-			</div> 
+			</div>
 			<div class="row center">
 				{% for file in event.files.all %}
 				{% if file.file %}
@@ -222,7 +227,7 @@
 
 
 <script>
-// Prevent ckeditor hard fields to allow responsive images 
+// Prevent ckeditor hard fields to allow responsive images
 window.addEventListener('DOMContentLoaded', function(event) {
 	var container = document.getElementsByClassName('card-panel')[0];
 	var images = container.getElementsByTagName("img");

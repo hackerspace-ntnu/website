@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django import forms
 
@@ -20,13 +20,14 @@ class ProfileForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        has_ongoing_or_future_reservations = self.user.reservations.filter(
-            end__gt=datetime.now()
+        has_recent_or_future_reservations = self.user.reservations.filter(
+            end__gt=datetime.now() - timedelta(days=1)
         ).exists()
-        if cleaned_data["phone_number"] is None and has_ongoing_or_future_reservations:
+        if cleaned_data["phone_number"] is None and has_recent_or_future_reservations:
             self.add_error(
                 "phone_number",
-                "Du kan ikke fjerne telefonnummer med pågående eller fremtidige reservasjoner",
+                "Du kan ikke fjerne telefonnummer med nylig gjennomførte (siste 24 timer), pågående eller fremtidige "
+                "reservasjoner",
             )
 
     class Meta:

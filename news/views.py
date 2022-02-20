@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from itertools import chain
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -111,7 +112,7 @@ class EventListView(ListView):
             internal__lte=can_access_internal_event,
             draft=False,
         ).order_by("-time_start")
-        return list(future_events) + list(expired_events)
+        return list(chain(future_events, expired_events))
 
     def get_context_data(self, **kwargs):
 

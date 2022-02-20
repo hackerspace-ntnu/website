@@ -6,8 +6,8 @@
 				<ul class='collection with-header'>
 					<li class="collection-header"><h5>Administrator-meny</h5></li>
 					{% if perms.news.add_article %}
-					<!-- Epstein didn't kill himself -->
-					<li class="collection-item"><a href="{% url 'projectarchive:Article_Create' %}"><i class="material-icons">note_add</i><span class="collection-icon-text">Ny prosjektartikkel</span></a></li>
+					<!-- Eg hette Bjarte Paul Tjøstheim. Eg e ein rev. -->
+					<li class="collection-item"><a href="{% url 'projectarchive:create' %}"><i class="material-icons">note_add</i><span class="collection-icon-text">Ny prosjektartikkel</span></a></li>
 					{% endif %}
 				</ul>
 			</div>

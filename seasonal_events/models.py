@@ -32,24 +32,20 @@ class Season(models.Model):
         help_text="Skru av mulighet for reservasjoner til ikke-medlemmer når denne sesongen er aktiv.",
     )
 
-    def isNow(self):
+    def is_now(self):
         if not self.active:
             return False
         if self.manual_override:
             return True
-        if not self.repeating:
-            if self.start_date <= datetime.datetime.now() <= self.end_date:
-                return True
-        else:
-            if (
+        if self.repeating:
+            return (
                 self.start_date.day <= datetime.datetime.now().day <= self.end_date.day
             ) and (
                 self.start_date.month
                 <= datetime.datetime.now().month
                 <= self.end_date.month
-            ):
-                return True
-        return False
+            )
+        return self.start_date <= datetime.datetime.now() <= self.end_date
 
     def __str__(self):
         return self.name

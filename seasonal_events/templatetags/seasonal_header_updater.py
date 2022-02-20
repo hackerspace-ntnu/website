@@ -27,7 +27,7 @@ class CurrentSeason(template.Node):
         context["disable_reservations"] = None
 
         for s in Season.objects.filter(active=True).order_by("start_date"):
-            if s.isNow():
+            if s.is_now():
                 # Check if season has a custom logo
                 try:
                     context["logo_url"] = s.logo.url

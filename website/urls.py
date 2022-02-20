@@ -45,7 +45,7 @@ urlpatterns = [
         ),
     ),
     path("tos/", MostRecentTermsOfServiceView.as_view(), name="tos"),
-    path("tos/returning-user/", AcceptTosView.as_view(), name="tos-returningls"),
+    path("tos/returning-user/", AcceptTosView.as_view(), name="tos-returning"),
     path("tos/accept/", AcceptTosRedirectView.as_view(), name="tos-accept"),
     path("tos/create/", TermsOfServiceCreateView.as_view(), name="tos-create"),
     path(

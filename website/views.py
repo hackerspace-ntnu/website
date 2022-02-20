@@ -18,7 +18,7 @@ from .settings import INTRANET_GREETINGS
 
 
 class AcceptTosView(TemplateView):
-    template_name = "website/tos-returningls.html"
+    template_name = "website/tos-returning.html"
 
     def get(self, request, *args, **kwargs):
 

@@ -101,7 +101,7 @@ class Profile(models.Model):
     )
 
     phone_number = models.CharField(
-        max_length=8,
+        max_length=15,
         null=True,
         blank=True,
         validators=[validate_phone_number],

@@ -20,7 +20,7 @@ class ApplicationsConfigTest(TestCase):
 
 class ApplicationValidatorTest(TestCase):
     def test_phone_validator(self):
-        
+
         with self.assertRaises(ValidationError):
             # With area code, not all numbers
             validate_phone_number("+123121asd")

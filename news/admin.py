@@ -34,6 +34,7 @@ class Eventadmin(admin.ModelAdmin):
         ("Advanced", {"fields": ["draft"]}),
     ]
     search_fields = ["title"]
+    list_display = ["title", "pub_date", "draft", "internal"]
 
 
 @admin.register(Article)
@@ -60,6 +61,7 @@ class ArticleAdmin(admin.ModelAdmin):
         ),
     ]
     search_fields = ["title"]
+    list_display = ["title", "pub_date", "draft", "internal"]
 
 
 @admin.register(Upload)

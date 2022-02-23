@@ -18,6 +18,14 @@
                         <span class="collection-icon-text">Registrer oppmøte</span>
                     </a></li>
 					{% endif %}
+					{% if event.skills.all and perms.news.can_see_attendees %}
+						<li class="collection-item">
+							<a href="/events/{{ event.id }}/skills">
+								<i class="material-icons">how_to_reg</i>
+								<span class="collection-icon-text">Gi ferdigheter</span>
+							</a>
+						</li>
+					{% endif %}
 					{% if perms.news.delete_event %}
 					<li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text">
                         <i class="material-icons">delete</i>

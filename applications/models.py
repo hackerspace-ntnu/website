@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.utils import timezone
 
@@ -19,6 +21,16 @@ class ApplicationPeriod(models.Model):
 
     def __str__(self):
         return self.name
+
+    def status(self):
+        if self.period_end < datetime.now():
+            return "late"
+        elif datetime.now() < self.period_start:
+            return "early"
+        return "open"
+
+    def is_open(self):
+        return self.status() == "open"
 
 
 class ApplicationGroup(models.Model):

@@ -1,36 +1,26 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% block head %}
+    {{ jquery | safe }}
+    {{ fullcalendar | safe }}
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <style type='text/css'>
+        .fc h2 {
+            font-size: 2.28rem;
+            line-height: 110%;
+        }
 
-<script type="text/javascript" src="{% static "reservations/fullcalendar/moment/moment.js" %}"></script>
-<link rel="stylesheet" href="{% static "reservations/fullcalendar/core/main.min.css" %}">
-<link rel="stylesheet" href="{% static "reservations/fullcalendar/daygrid/main.min.css" %}">
-<link rel="stylesheet" href="{% static "reservations/fullcalendar/timegrid/main.min.css" %}">
-<script type="text/javascript" src="{% static "reservations/fullcalendar/core/main.min.js" %}"></script>
-<script type="text/javascript" src="{% static "reservations/fullcalendar/moment/main.min.js" %}"></script>
-<script type="text/javascript" src="{% static "reservations/fullcalendar/interaction/main.min.js" %}"></script>
-<script type="text/javascript" src="{% static "reservations/fullcalendar/daygrid/main.min.js" %}"></script>
-<script type="text/javascript" src="{% static "reservations/fullcalendar/timegrid/main.min.js" %}"></script>
-<script src="{% static "reservations/fullcalendar/core/locales/nb.js" %}"></script>
-<style type='text/css'>
-    .fc h2 {
-	    font-size: 2.28rem;
-	    line-height: 110%;
-    }
-
-    .fc-time-grid .fc-slats td {
-	    height: 2.5em;
-	    border-bottom: 0;
-    }
-    .fc-day.fc-past {
-	    background-color:#eee;
-    }
-    .fc-now-indicator {
-	    position:absolute;
-	    border: 0 solid #F6BE00;
-    }
+        .fc-time-grid .fc-slats td {
+            height: 2.5em;
+            border-bottom: 0;
+        }
+        .fc-day.fc-past {
+            background-color:#eee;
+        }
+        .fc-now-indicator {
+            position:absolute;
+            border: 0 solid #F6BE00;
+        }
     </style>
 {% endblock %}
 

@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block head %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}">
+    {{ jquery | safe }}
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}">
 {% endblock head %}
 
 {% block content %}

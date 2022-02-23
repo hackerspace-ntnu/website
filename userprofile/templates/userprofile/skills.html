@@ -1,11 +1,11 @@
 {% extends "website/base.html" %}
 {% load static %}
 {% block header %}
-  <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
+    {{ jquery | safe }}
+    <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/skills_style.css' %}">
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="{% static 'userprofile/javascript/approve_skill.js' %}"></script>
-  <script id="display_skill" src="{% static 'userprofile/javascript/display_skill.js' %}" data-redirect-to={{redirect_skill.id}}></script>
+    <script src="{% static 'userprofile/javascript/approve_skill.js' %}"></script>
+    <script id="display_skill" src="{% static 'userprofile/javascript/display_skill.js' %}" data-redirect-to={{redirect_skill.id}}></script>
 {% endblock %}
 {% block content %}
 <div class="section hs-green white-text">

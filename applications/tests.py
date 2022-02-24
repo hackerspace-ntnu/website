@@ -20,14 +20,25 @@ class ApplicationsConfigTest(TestCase):
 
 class ApplicationValidatorTest(TestCase):
     def test_phone_validator(self):
+        # Should pass tests:
+        # Has '+' area code
+        validate_phone_number("+47 12341234")
+        # Has '00' area code
+        validate_phone_number("0047 12341234")
+        # Is 8 digit
+        validate_phone_number("12341234")
 
         with self.assertRaises(ValidationError):
-            # Too long
+            # With area code, not all numbers
+            validate_phone_number("+123121asd")
+
+        with self.assertRaises(ValidationError):
+            # Too long without area code
             validate_phone_number("123123121")
 
         with self.assertRaises(ValidationError):
-            # No digit
-            validate_phone_number("123123121asd")
+            # 8 digit, not all numbers
+            validate_phone_number("1232asd")
 
 
 class ApplicationInfoViewTest(TestCase):

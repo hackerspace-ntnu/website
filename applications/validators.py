@@ -3,5 +3,16 @@ from django.utils.translation import ugettext_lazy as _
 
 
 def validate_phone_number(number):
-    if len(number) != 8 or not number.isdigit():
-        raise ValidationError(_("Nummeret må være 8 siffer"))
+    number = number.replace(" ", "")
+    has_areacode = number[0] == "+" or number[:2] == "00"
+
+    if len(number) == 8 and number.isdigit():
+        return
+    if has_areacode and number[1:].isdigit():
+        return
+
+    raise ValidationError(
+        _(
+            "Nummeret må være 8 siffer eller starte med landskode på formen +47 eller 0047"
+        )
+    )

@@ -12,13 +12,13 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using password
+    - name: executing remote ssh commands using key
       uses: appleboy/ssh-action@v0.1.4
       if: github.event.pull_request.merged == true
       with:
         host: ${{ secrets.host }}
         username: ${{ secrets.user }}
-        password: ${{ secrets.id }}
+        key: ${{ secrets.id }}
         port: ${{ secrets.port }}
         script: |
           cd ${{ secrets.deploy_dir }}

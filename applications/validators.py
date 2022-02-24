@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 def validate_phone_number(number):
     number.replace(" ", "")
 
-    has_areacode = number[0] == "+" or number[:1] == "00"
+    has_areacode = number[0] == "+" or number[:2] == "00"
     if len(number) != 8 and (not has_areacode or not number[1:].isdigit()):
         raise ValidationError(
             _(

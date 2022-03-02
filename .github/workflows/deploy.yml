@@ -2,11 +2,11 @@ name: Deploy to Server
 
 on:
   pull_request:
-    # Change to merge when implemented (still beta)      
-    types: [closed] 
+    # Change to merge when implemented (still beta)
+    types: [closed]
     branches:
       - master
-    
+
 jobs:
   build:
     name: Deploy
@@ -26,8 +26,7 @@ jobs:
           cd website
           git pull
           python -m pip install --upgrade pip
-          pip install -r prod_requirements.txt
+          pip install --upgrade --force-reinstall -r prod_requirements.txt
           python manage.py migrate
           python manage.py collectstatic --noinput
           sudo systemctl restart gunicorn
-

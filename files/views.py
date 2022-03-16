@@ -41,7 +41,7 @@ class ImageView(PermissionRequiredMixin, View):
 
 
 @login_required()
-def imageUpload(request):
+def image_upload(request):
     if request.method == "POST":
         form = ImageForm(request.POST, request.FILES, prefix="img")
         if form.is_valid():

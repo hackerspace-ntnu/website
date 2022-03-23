@@ -4,7 +4,11 @@
       {% if news.thumbnail %}
       <img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.thumb_url }}">
       {% else %}
-      <img class="circle" style="width:100px; height:100px;" src="">
+      <div class="circle grey lighten-2" style="width:100px; height:100px; display:inline-block">
+          <div class="valign-wrapper" style="display:flex;height:100%">
+              <i class="material-icons align-center md-48 grey-text" style="width:100%;margin-bottom:4px">article</i>
+          </div>
+      </div>
       {% endif %}
     </div>
     <div class="col s10 hide-on-med-and-down">

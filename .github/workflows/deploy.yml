@@ -22,7 +22,7 @@ jobs:
         port: ${{ secrets.port }}
         script: |
           cd ${{ secrets.deploy_dir }}
-          . venv/bin/activate
+          . venv-prod/bin/activate
           cd website
           git pull
           python -m pip install --upgrade pip

@@ -49,7 +49,7 @@
 					<div class="divider"></div>
 					<p><b>{{ projectarticle.ingress_content }}</b></p>
 					{% autoescape off %}
-						{{ projectarticle.main_content }}
+						{{ article.formatted_markdown|safe }}
 					{% endautoescape %}
 				</div>
 			</div>

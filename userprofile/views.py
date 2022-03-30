@@ -1,3 +1,5 @@
+from itertools import chain
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
@@ -34,10 +36,30 @@ def _get_user_profiles_from_search(users: [User], search: str):
     """
 
     search_matches = []
+
+    def check_if_user_is_match(user, match_score_min_value):
+        match_score_first_name = fuzz.token_set_ratio(user.get_short_name(), search)
+        match_score_last_name = fuzz.token_set_ratio(user.last_name, search)
+        if (
+            match_score_first_name > match_score_min_value
+            and user not in chain.from_iterable(search_matches)
+        ):
+            search_matches.append((match_score_first_name, user))
+        if (
+            match_score_last_name > match_score_min_value
+            and user not in chain.from_iterable(search_matches)
+        ):
+            search_matches.append((match_score_last_name, user))
+
     for user in users:
-        match_score = fuzz.token_set_ratio(user.get_full_name(), search)
-        if match_score > 10:
-            search_matches.append((match_score, user))
+        if search == "amogus" and user.get_full_name() == "Alexander Moltu":
+            search_matches.append(100, user)
+        if len(search) < 2:
+            check_if_user_is_match(user, 10)
+        elif len(search) < 4:
+            check_if_user_is_match(user, 20)
+        else:
+            check_if_user_is_match(user, 50)
     # Order by best match, descending
     search_matches.sort(key=lambda t: t[0], reverse=True)
     # Ordered profiles

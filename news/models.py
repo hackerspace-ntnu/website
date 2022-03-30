@@ -1,4 +1,5 @@
 from ckeditor_uploader.fields import RichTextUploadingField
+from markdownx.utils import markdownify
 from markdownx.models import MarkdownxField
 from django.contrib.auth.admin import User
 from django.core.validators import MaxLengthValidator
@@ -48,6 +49,9 @@ class Article(models.Model):
         if self.redirect:
             return self.redirect
         return self.id
+
+    def formatted_markdown(self):
+        return markdownify(self.main_content)
 
 
 class Event(models.Model):
@@ -282,6 +286,9 @@ class Event(models.Model):
             ),
             ("can_view_internal_event", "Can see internal events"),
         )
+
+    def formatted_markdown(self):
+        return markdownify(self.main_content)
 
 
 class Upload(models.Model):

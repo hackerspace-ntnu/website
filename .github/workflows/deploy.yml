@@ -2,32 +2,31 @@ name: Deploy to Server
 
 on:
   pull_request:
-    # Change to merge when implemented (still beta)      
-    types: [closed] 
+    # Change to merge when implemented (still beta)
+    types: [closed]
     branches:
       - master
-    
+
 jobs:
   build:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using password
+    - name: executing remote ssh commands using key
       uses: appleboy/ssh-action@v0.1.4
       if: github.event.pull_request.merged == true
       with:
         host: ${{ secrets.host }}
         username: ${{ secrets.user }}
-        password: ${{ secrets.id }}
+        key: ${{ secrets.id }}
         port: ${{ secrets.port }}
         script: |
           cd ${{ secrets.deploy_dir }}
-          . venv/bin/activate
+          . venv-prod/bin/activate
           cd website
           git pull
           python -m pip install --upgrade pip
-          pip install -r prod_requirements.txt
+          pip install --upgrade --force-reinstall -r prod_requirements.txt
           python manage.py migrate
           python manage.py collectstatic --noinput
           sudo systemctl restart gunicorn
-

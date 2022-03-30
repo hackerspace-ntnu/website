@@ -69,68 +69,153 @@
 							{% endif %}
 						</div>
 					</li>
-					<li><a class="waves-effect" href="/">Hjem</a></li>
-					<li><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
-					<li><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
-					<li><a class="waves-effect" href="{% url 'member-list' %}">Medlemmer</a></li>
-					<li><a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">Vaktliste</a></li>
-					<li><a class="waves-effect" href="{% url 'inventory:inventory' %}">Lager</a></li>
-					{% if user.is_authenticated and perms.userprofile.is_active_member %}
-					<li><a class="waves-effect" href="{% url 'intranet' %}">Internportal</a></li>
-					{% endif %}
-					<li><a class="waves-effect" href="{% url 'reservations:queue_list' %}">Reservasjoner</a></li>
-					<li><a class="waves-effect" href="{% url 'rules' %}">Regler</a></li>
-					<li><a class="waves-effect" href="{% url 'application:application_info' %}">Opptak</a></li>
-					<li><a class="waves-effect" href="{% url 'projectarchive:Article_List' %}">Prosjektarkiv</a></li>
-					<li><a class="waves-effect" href="{% url 'about' %}">Om oss</a></li>
+					<li>
+                        <a class="waves-effect" href="/">
+                            <i class="material-icons">home</i>Hjem
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'news:all' %}">
+                            <i class="material-icons small">newspaper</i>Nyheter
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'events:all' %}">
+                            <i class="material-icons small">event</i>Arrangementer
+                        </a>
+                    </li>
+                    <li>
+                        <a class="waves-effect" target="_blank" href="{{ mazemap_link }}">
+                            <i class="material-icons small">map</i>Kart
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'member-list' %}">
+                            <i class="material-icons small">groups</i>Medlemmer
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
+                            <i class="material-icons small">free_breakfast</i>Vaktliste
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'inventory:inventory' %}">
+                            <i class="material-icons">inbox</i>Lager
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'reservations:queue_list' %}">
+                            <i class="material-icons">calendar_month</i>Reservasjoner
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'rules' %}">
+                            <i class="material-icons">gavel</i>Regler
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'application:application_info' %}">
+                            <i class="material-icons">group_add</i>Opptak
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'projectarchive:Article_List' %}">
+                            <i class="material-icons">inventory_2</i>Prosjektarkiv
+                        </a>
+                    </li>
+					<li>
+                        <a class="waves-effect" href="{% url 'about' %}">
+                            <i class="material-icons">info</i>Om oss
+                        </a>
+                    </li>
+                    {% if user.is_authenticated and perms.userprofile.is_active_member %}
+                        <li>
+                            <a class="waves-effect" href="{% url 'intranet' %}">
+                                <i class="material-icons">dashboard</i>Internportal
+                            </a>
+                        </li>
+                    {% endif %}
 
 					<li><div class="divider"></div></li>
 					{% if user.is_authenticated %}
-					<li><a class="waves-effect" href="{% url 'auth:logout' %}">Logg ut</a></li>
+					<li>
+                        <a class="waves-effect" href="{% url 'auth:logout' %}">
+                            <i class="material-icons small">logout</i>Logg ut
+                        </a>
+                    </li>
 					{% else %}
-					<li><a class="waves-effect" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
+					<li><a class="waves-effect" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+                        <i class="material-icons small">login</i>Logg inn
+                    </a></li>
 					{% endif %}
 					<!-- Dropdown user list for desktop-->
 					<ul id="userdropdown" class="dropdown-content">
 						{% if user.is_authenticated %}
-						<li><a href="{% url 'userprofile:profile' %}">Profil</a></li>
-						<li><a href="{% url 'auth:logout' %}">Logg ut</a></li>
+						<li><a href="{% url 'userprofile:profile' %}">
+                            <i class="material-icons small">account_circle</i>Profil
+                        </a></li>
+						<li><a href="{% url 'auth:logout' %}">
+                            <i class="material-icons small">login</i>Logg ut
+                        </a></li>
 						{% else %}
-						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
+						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+                            <i class="material-icons small">login</i>Logg inn
+                        </a></li>
 						{% endif %}
 					</ul>
 					<!-- Dropdown for ressurser -->
 					<ul id="resourcedropdown" class="dropdown-content">
 						<li class="tooltipped" data-position="left" data-tooltip="Se hvor vi befinner oss">
-							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="{{ mazemap_link }}">Kart</a>
+							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="{{ mazemap_link }}">
+                                <i class="material-icons small">map</i>Kart
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se liste over medlemmer">
-							<a href="{% url 'member-list' %}">Medlemmer</a>
+							<a href="{% url 'member-list' %}">
+                                <i class="material-icons small">groups</i>Medlemmer
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se vaktlista vår">
-							<a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">Vaktliste</a>
+							<a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
+                                <i class="material-icons small">free_breakfast</i>Vaktliste
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se lagerbeholdningen vår">
-							<a href="{% url 'inventory:inventory' %}">Lager</a>
+							<a href="{% url 'inventory:inventory' %}">
+                                <i class="material-icons">inbox</i>Lager
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se utstyr og reserver tid">
-							<a href="{% url 'reservations:queue_list' %}">Reservasjoner</a>
+							<a href="{% url 'reservations:queue_list' %}">
+                                <i class="material-icons small">calendar_month</i>Reservasjoner
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Se regler">
-							<a href="{% url 'rules' %}">Regler</a>
+							<a href="{% url 'rules' %}">
+                                <i class="material-icons small">gavel</i>Regler
+                            </a>
 						</li>
 						<li>
-							<a class="waves-effect" href="{% url 'application:application_info' %}">Opptak</a>
+							<a class="waves-effect" href="{% url 'application:application_info' %}">
+                                <i class="material-icons small">group_add</i>Opptak
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om våres tidligere prosjekter her">
-							<a href="{% url 'projectarchive:Article_List' %}">Prosjektarkiv</a>
+							<a href="{% url 'projectarchive:Article_List' %}">
+                                <i class="material-icons small">inventory_2</i>Prosjektarkiv
+                            </a>
 						</li>
 						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
-							<a href="{% url 'about' %}">Om oss</a>
+							<a href="{% url 'about' %}">
+                                <i class="material-icons small">info</i>Om oss
+                            </a>
 						</li>
 						{% if user.is_authenticated and perms.userprofile.is_active_member %}
 						<li class="tooltipped" data-position="left" data-tooltip="Dashbord for medlemmer av Hackerspace">
-							<a href="{% url 'intranet' %}">Internportal</a>
+							<a href="{% url 'intranet' %}">
+                                <i class="material-icons small">dashboard</i>Internportal
+                            </a>
 						</li>
 						{% endif %}
 					</ul>

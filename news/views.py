@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from itertools import chain
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -36,7 +37,6 @@ class EventView(DetailView):
         event = self.get_object()
 
         if event.internal and not request.user.has_perm("news.can_view_internal_event"):
-
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(
                 request, messages.WARNING, "Logg inn for å se internt arrangement"
@@ -46,7 +46,6 @@ class EventView(DetailView):
 
         # If the event is a draft, check if user is the author
         if event.draft and not request.user == event.author:
-
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(
                 request, messages.WARNING, "Du har ikke tilgang til arrangementet"
@@ -98,15 +97,22 @@ class EventListView(ListView):
         return None
 
     def get_queryset(self):
-
-        # Retrieve published events (so no drafts)
-        events = Event.objects.order_by("-time_end").filter(draft=False)
-
-        # Decide if visitor should see internal events
-        if self.request.user.has_perm("news.can_view_internal_event"):
-            return events
-        else:
-            return events.filter(internal=False)
+        can_access_internal_event = self.request.user.has_perm(
+            "news.can_view_internal_event"
+        )
+        # First, retrieve future events, ordered by ascending start time
+        future_events = Event.objects.filter(
+            time_start__gt=timezone.now(),
+            internal__lte=can_access_internal_event,
+            draft=False,
+        ).order_by("time_start")
+        # Second, retrieve expired events, ordered by descending start time
+        expired_events = Event.objects.filter(
+            time_start__lte=timezone.now(),
+            internal__lte=can_access_internal_event,
+            draft=False,
+        ).order_by("-time_start")
+        return list(chain(future_events, expired_events))
 
     def get_context_data(self, **kwargs):
 
@@ -242,7 +248,6 @@ class ArticleView(DetailView):
         if self.get_object().internal and not request.user.has_perm(
             "news.can_view_internal_article"
         ):
-
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(
                 request, messages.WARNING, "Logg inn for å se intern artikkel"
@@ -252,7 +257,6 @@ class ArticleView(DetailView):
 
         # If the article is a draft, check if user is the author
         if article.draft and not request.user == article.author:
-
             # Stores log-in prompt message to be displayed with redirect request
             messages.add_message(
                 request, messages.WARNING, "Du har ikke tilgang til artikkelen"

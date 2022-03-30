@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django.apps import apps
 from django.core import mail
 from django.core.exceptions import ValidationError
@@ -6,7 +8,7 @@ from django.urls import reverse
 
 from applications.apps import ApplicationsConfig
 from applications.forms import ApplicationForm
-from applications.models import ApplicationGroup
+from applications.models import ApplicationGroup, ApplicationPeriod
 from applications.validators import validate_phone_number
 
 
@@ -18,14 +20,25 @@ class ApplicationsConfigTest(TestCase):
 
 class ApplicationValidatorTest(TestCase):
     def test_phone_validator(self):
+        # Should pass tests:
+        # Has '+' area code
+        validate_phone_number("+47 12341234")
+        # Has '00' area code
+        validate_phone_number("0047 12341234")
+        # Is 8 digit
+        validate_phone_number("12341234")
 
         with self.assertRaises(ValidationError):
-            # Too long
+            # With area code, not all numbers
+            validate_phone_number("+123121asd")
+
+        with self.assertRaises(ValidationError):
+            # Too long without area code
             validate_phone_number("123123121")
 
         with self.assertRaises(ValidationError):
-            # No digit
-            validate_phone_number("123123121asd")
+            # 8 digit, not all numbers
+            validate_phone_number("1232asd")
 
 
 class ApplicationInfoViewTest(TestCase):
@@ -40,19 +53,24 @@ class ApplicationInfoViewTest(TestCase):
 
 class ApplicationFormViewTest(TestCase):
     def setUp(self):
+        ApplicationPeriod.objects.create(
+            name="Opptak",
+            period_start=datetime.now() - timedelta(days=1),
+            period_end=datetime.now() + timedelta(days=1),
+        ).save()
+        self.group_choices = [
+            ApplicationGroup.objects.create(name="DevOps", text_main="asd"),
+            ApplicationGroup.objects.create(name="LabOps", text_main="asd"),
+        ]
         self.client = Client()
         self.response = self.client.get(reverse("application:application_form"))
 
     def test_context(self):
-        self.assertIsNotNone(self.response.context["start_date"])
-        self.assertIsNotNone(self.response.context["end_date"])
+        self.assertEqual(
+            list(self.response.context["group_choices"]), self.group_choices
+        )
 
     def test_forms(self):
-
-        ApplicationGroup.objects.create(name="DevOps", text_main="asd")
-
-        ApplicationGroup.objects.create(name="LabOps", text_main="asd")
-
         data = {
             "name": "Testesson Test",
             "email": "blabb@blab.no",

@@ -149,6 +149,11 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     success_url = "/profile"
     success_message = "Profilen er oppdatert."
 
+    def get_form_kwargs(self):
+        form_kwargs = super(ProfileUpdateView, self).get_form_kwargs()
+        form_kwargs["user"] = self.request.user
+        return form_kwargs
+
     def get_object(self, **kwargs):
         try:
             userprofile = self.request.user.profile
@@ -163,7 +168,7 @@ class SkillsView(DetailView, CategoryLevelsMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["all_skills"] = Skill.objects.all()
-        context["reachable_skills"] = self.request.user.profile.get_reachable_skills()
+        context["reachable_skills"] = self.object.get_reachable_skills()
         context["category_levels"] = self.get_category_levels()
 
         # Sjekker hvilke skills brukeren som er logget inn kan godkjenne

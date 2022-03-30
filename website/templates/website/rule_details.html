@@ -25,8 +25,11 @@
                 <div class="section container">
                     <div class="row">
                         <div class="col s12">
-                            <h3 class="center-align hide-on-small-only">{{ rule.title }}</h3>
-                            <h5 class="center-align hide-on-med-and-up">{{ rule.title }}</h5>
+                            <div class="center-align">
+                                <h3 class="hide-on-small-only">{{ rule.title }}</h3>
+                                <h5 class="hide-on-med-and-up">{{ rule.title }}</h5>
+                                <p>Oppdatert {{ rule.pub_date }}</p>
+                            </div>
                             {% if rule.internal %}
                             <div class="black-text z-depth-0 center-align hs-gray-text">
                                 <i class="material-icons">info</i>

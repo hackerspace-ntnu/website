@@ -1,10 +1,11 @@
 from django.contrib import admin
 
 from .models import Article, Event, EventRegistration, Upload
+from markdownx.admin import MarkdownxModelAdmin
 
 
 @admin.register(Event)
-class Eventadmin(admin.ModelAdmin):
+class Eventadmin(MarkdownxModelAdmin):
     fieldsets = [
         ("Article", {"fields": ["title", "main_content"]}),
         ("Ingress", {"fields": ["ingress_content"]}),
@@ -38,7 +39,7 @@ class Eventadmin(admin.ModelAdmin):
 
 
 @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(MarkdownxModelAdmin):
     fieldsets = [
         ("Article", {"fields": ["title", "main_content"]}),
         ("Ingress", {"fields": ["ingress_content"]}),

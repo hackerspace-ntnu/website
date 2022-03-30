@@ -52,7 +52,7 @@ class Article(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel")
-    main_content = RichTextUploadingField(blank=True, verbose_name="Hovedtekst")
+    main_content = MarkdownxField(blank=True, verbose_name="Hovedtekst")
     ingress_content = models.TextField(
         max_length=400,
         blank=True,

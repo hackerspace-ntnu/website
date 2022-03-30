@@ -9,6 +9,7 @@ from django.utils import timezone
 from sorl.thumbnail import get_thumbnail
 
 from applications.validators import validate_phone_number
+from committees.models import Committee
 
 
 class TermsOfService(models.Model):
@@ -150,7 +151,11 @@ class Profile(models.Model):
         return self.user.username
 
     def get_main_group(self):
-        return self.user.groups.first()
+        # Assumes first committee (usually just one) is the main group, with fallback to first group if no committees
+        return (
+            Committee.objects.filter(group_ptr__in=self.user.groups.all()).first()
+            or self.user.groups.first()
+        )
 
     def get_absolute_url(self):
         return reverse("userprofile:profile", args=(self.pk,))

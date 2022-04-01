@@ -62,7 +62,7 @@
 			</div>
 			{% if group.thumbnail %}
 			<div class="col s8">
-				<p class="flow-text">{{ group.description|linebreaks }}</p>
+				<p class="flow-text">{{ group.description|urlize|linebreaks }}</p>
 			</div>
 			<div class="col s4">
 				<br>
@@ -70,7 +70,7 @@
 			</div>
 			{% else %}
 			<div class="col s12">
-				<p class="flow-text">{{ group.description|linebreaks }}</p>
+				<p class="flow-text">{{ group.description|urlize|linebreaks }}</p>
 			</div>
 			{% endif %}
 			<div class="col s8">

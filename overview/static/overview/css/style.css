@@ -1,15 +1,13 @@
 body {
     background-color:  #4E4B46;
-    overflow: hidden;
 }
 
 .panel h3 {
-   padding: 10px;
+   padding: 5px;
 }
 
 .panel div {
-    padding: 5px;
-    font-size: 12px;
+    font-size: 16px;
 }
 
 .panel {

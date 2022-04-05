@@ -1,4 +1,4 @@
-<div class="">
+<div class="card-panel panel">
     <h3 class=""><b>Vakthavende - {{ weekday }}</b></h3>
     {% for time, shift in shifts.items %}
         <div class="center-align"><b>{{ time }}</b></div>
@@ -14,7 +14,6 @@
                 <p>Ingen på vakt!</p>
             {% endif %}
         </div>
-    </div>
     {% empty %}
         <h5 id="no-time-slots">Ingen vakter satt for i dag</h5>
     {% endfor %}

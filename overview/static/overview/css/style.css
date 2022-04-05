@@ -9,16 +9,15 @@ body {
 }
 
 .panel div {
-    font-size: 16px;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .panel {
-    margin: 20px;
+    margin: 30px;
 }
 
 #rule-body {
-    font-size: 1.25rem;
-    height: 55rem;
+    font-size: 1.40rem;
+    height: 60rem;
     overflow: hidden;
 }

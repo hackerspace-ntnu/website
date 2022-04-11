@@ -84,8 +84,7 @@ class EventView(DetailView):
                     self.object.skills.all(), reachable=False
                 )
             context_data["is_author_or_responsible"] = (
-                user == self.object.author or 
-                user == self.object.responsible
+                user == self.object.author or user == self.object.responsible
             )
 
         return context_data
@@ -322,8 +321,8 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(EventUpdateView, self).get_context_data(**kwargs)
         context["is_author_or_responsible"] = (
-            self.request.user == self.object.author or 
-            self.request.user == self.object.responsible
+            self.request.user == self.object.author
+            or self.request.user == self.object.responsible
         )
         if self.request.POST:
             context["uploads_form"] = uploadformset(
@@ -331,13 +330,15 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
             )
         else:
             context["uploads_form"] = uploadformset(instance=self.object)
-        
 
         return context
 
     def get_form(self, *args, **kwargs):
         form = super().get_form(*args, **kwargs)
-        if self.request.user != self.object.responsible and self.request.user != self.object.author:
+        if (
+            self.request.user != self.object.responsible
+            and self.request.user != self.object.author
+        ):
             form.fields["responsible"].disabled = True
         return form
 
@@ -454,7 +455,7 @@ class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
 
     def has_permission(self):
         user = self.request.user
-        
+
         perms = self.get_permission_required()
         return user.has_perms(perms) or self.get_object().author == user
 
@@ -468,9 +469,11 @@ class EventDeleteView(PermissionRequiredMixin, DeleteView):
         user = self.request.user
 
         perms = self.get_permission_required()
-        return (user.has_perms(perms) or 
-                self.get_object().author == user or 
-                self.get_object().responsible == user)
+        return (
+            user.has_perms(perms)
+            or self.get_object().author == user
+            or self.get_object().responsible == user
+        )
 
 
 @login_required

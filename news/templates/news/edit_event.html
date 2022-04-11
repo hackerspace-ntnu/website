@@ -84,6 +84,10 @@
                             {{ form.responsible }}
                             <label for="id_responsible">{{ form.responsible.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
+                        {% if not is_author_or_responsible %}
+                            <p class="helper-text hs-red-text">Kun den ansvarlige og forfatteren av dette 
+                                    arrangementet kan endre på den ansvarlige</p>
+                        {% endif %}
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>

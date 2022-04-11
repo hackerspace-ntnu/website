@@ -31,7 +31,7 @@ class ArticleListView(ListView):
         context = super().get_context_data(**kwargs)
 
         # Retrieve any user drafts if logged in
-        if self.request.user.has_perm("projectarchive.add_article"):
+        if self.request.user.has_perm("projectarchive.add_projectarticle"):
             context["drafts"] = Projectarticle.objects.order_by("-pub_date").filter(
                 author=self.request.user, draft=True
             )
@@ -63,6 +63,8 @@ class ArticleView(DetailView):
 
         context = super().get_context_data(**kwargs)
 
+        context["is_author"] = self.request.user == self.object.author
+
         return context
 
 
@@ -70,7 +72,7 @@ class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView
     model = Projectarticle
     form_class = ArticleForm
     template_name = "projectarchive/edit_article.html"
-    permission_required = "projectarchive.add_article"
+    permission_required = "projectarchive.add_projectarticle"
 
     def get_success_message(self, cleaned_data):
         if self.object.draft:
@@ -89,7 +91,7 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
     model = Projectarticle
     form_class = ArticleForm
     template_name = "projectarchive/edit_article.html"
-    permission_required = "projectarchive.change_article"
+    permission_required = "projectarchive.change_projectarticle"
     success_message = "Artikkelen er oppdatert."
 
     def get_success_url(self):
@@ -99,4 +101,11 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Projectarticle
     success_url = "/projectarchive/"
-    permission_required = "projectarchive.delete_article"
+    permission_required = "projectarchive.delete_projectarticle"
+
+    def has_permission(self):
+        user = self.request.user
+        
+        perms = self.get_permission_required()
+        print(user, self.get_object().author)
+        return user.has_perms(perms) or self.get_object().author == user

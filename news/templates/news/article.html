@@ -57,7 +57,7 @@
 				<div class="col s12">
 					<ul class='collection'>
 						<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i><span class="collection-icon-text">Rediger artikkel</span></a></li>
-						{% if perms.news.delete_article %}
+						{% if perms.news.delete_article or is_author %}
 						<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span class="collection-icon-text">Slett artikkel</span></a></li>
 						{% endif %}
 					</ul>

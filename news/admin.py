@@ -6,7 +6,7 @@ from .models import Article, Event, EventRegistration, Upload
 @admin.register(Event)
 class Eventadmin(admin.ModelAdmin):
     fieldsets = [
-        ("Article", {"fields": ["title", "main_content"]}),
+        ("Article", {"fields": ["title", "main_content", "responsible"]}),
         ("Ingress", {"fields": ["ingress_content"]}),
         (
             "Dates",

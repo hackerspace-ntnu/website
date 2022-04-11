@@ -56,6 +56,8 @@ class EventView(DetailView):
         return super(EventView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        user = self.request.user
+
         context_data = super().get_context_data(**kwargs)
         context_data["userstatus"] = "ikke pålogget"
         context_data["expired_event"] = datetime.now() > self.object.time_end
@@ -63,24 +65,28 @@ class EventView(DetailView):
             "food_preferences"
         ] = self.object.get_food_preferences_of_registered()
 
-        if self.request.user.is_authenticated:
-            context_data["userstatus"] = self.object.userstatus(self.request.user)
-            if self.object.is_waiting(self.request.user):
+        if user.is_authenticated:
+            context_data["userstatus"] = self.object.userstatus(user)
+            if self.object.is_waiting(user):
                 context_data["get_position"] = (
                     "Du er nummer "
-                    + str(self.object.get_position(user=self.request.user))
+                    + str(self.object.get_position(user=user))
                     + " på ventelisten"
                 )
             else:
                 context_data["get_position"] = "Du er ikke på ventelisten."
 
             if self.object.skills.all():
-                context_data["user_skills"] = self.request.user.profile.skills.all()
+                context_data["user_skills"] = user.profile.skills.all()
                 context_data[
                     "unreachable_skills"
-                ] = self.request.user.profile.filter_skills_reachability(
+                ] = user.profile.filter_skills_reachability(
                     self.object.skills.all(), reachable=False
                 )
+            context_data["is_author_or_responsible"] = (
+                user == self.object.author or 
+                user == self.object.responsible
+            )
 
         return context_data
 
@@ -301,6 +307,8 @@ class ArticleView(DetailView):
         context["next_article"] = next_article
         context["previous_article"] = previous_article
 
+        context["is_author"] = self.request.user == self.object.author
+
         return context
 
 
@@ -313,14 +321,25 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EventUpdateView, self).get_context_data(**kwargs)
+        context["is_author_or_responsible"] = (
+            self.request.user == self.object.author or 
+            self.request.user == self.object.responsible
+        )
         if self.request.POST:
             context["uploads_form"] = uploadformset(
                 self.request.POST, self.request.FILES, instance=self.object
             )
         else:
             context["uploads_form"] = uploadformset(instance=self.object)
+        
 
         return context
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        if self.request.user != self.object.responsible and self.request.user != self.object.author:
+            form.fields["responsible"].disabled = True
+        return form
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -433,11 +452,25 @@ class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     success_url = "/news/"
     permission_required = "news.delete_article"
 
+    def has_permission(self):
+        user = self.request.user
+        
+        perms = self.get_permission_required()
+        return user.has_perms(perms) or self.get_object().author == user
+
 
 class EventDeleteView(PermissionRequiredMixin, DeleteView):
     model = Event
     success_url = "/events/"
     permission_required = "news.delete_event"
+
+    def has_permission(self):
+        user = self.request.user
+
+        perms = self.get_permission_required()
+        return (user.has_perms(perms) or 
+                self.get_object().author == user or 
+                self.get_object().responsible == user)
 
 
 @login_required

@@ -26,7 +26,7 @@
 							</a>
 						</li>
 					{% endif %}
-					{% if perms.news.delete_event %}
+					{% if perms.news.delete_event or is_author_or_responsible %}
 					<li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text">
                         <i class="material-icons">delete</i>
                         <span class="collection-icon-text">Slett arrangement</span></a>

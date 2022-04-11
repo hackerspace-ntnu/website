@@ -105,7 +105,7 @@ class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
 
     def has_permission(self):
         user = self.request.user
-        
+
         perms = self.get_permission_required()
         print(user, self.get_object().author)
         return user.has_perms(perms) or self.get_object().author == user

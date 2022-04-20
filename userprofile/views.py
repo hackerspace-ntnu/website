@@ -44,16 +44,18 @@ def _get_user_profiles_from_search(users: [User], search: str):
         match_score_last_name = fuzz.token_set_ratio(user.last_name, search)
         match_score = max(match_score_first_name, match_score_last_name)
         if match_score > match_score_min_value:
-            search_matches.append((match_score_first_name, user))
+            search_matches.append((match_score, user))
 
     for user in users:
         if search.lower() == "amogus" and user.get_full_name() == "Alexander Moltu":
             for i in range(50):
                 search_matches.append((100, user))
-        if len(search) < 2:
-            check_if_user_is_match(user, 10)
-        elif len(search) < 4:
+        if len(search) < 3:
             check_if_user_is_match(user, 20)
+        elif len(search) < 4:
+            check_if_user_is_match(user, 30)
+        elif len(search) < 5:
+            check_if_user_is_match(user, 40)
         else:
             check_if_user_is_match(user, 50)
     # Order by best match, descending

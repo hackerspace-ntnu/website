@@ -49,6 +49,13 @@
         </div>
       </div>
 
+    {% elif object|class_name == 'FaqQuestion' %}
+      <div class='row'>
+        <div class='col-12'>
+          FAQ: <a href='/about/'>{{ object.question }}</a>
+        </div>
+      </div>
+
     {% else %}
       <div class='row'>
         <div class='col-12 col-lg-8 offset-lg-4'>

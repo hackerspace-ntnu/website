@@ -3,6 +3,7 @@ from datetime import datetime
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 
 from files.models import Image
 
@@ -20,6 +21,15 @@ class Card(models.Model):
         return self.title
 
 
+class FaqQuestionManager(models.Manager):
+    def search(self, query: str = None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = Q(question__icontains=query) | Q(text__icontains=query)
+            qs = qs.filter(or_lookup).distinct()
+        return qs
+
+
 class FaqQuestion(models.Model):
     question = models.CharField(max_length=100, verbose_name="Spørsmål", blank=False)
     text = models.TextField(max_length=1000, verbose_name="Svar", blank=False)
@@ -29,6 +39,8 @@ class FaqQuestion(models.Model):
         help_text="Eksempel 'note_add' fra https://material.io/tools/icons/?style=baseline",
         blank=False,
     )
+
+    objects = FaqQuestionManager()
 
     def __str__(self):
         return self.question

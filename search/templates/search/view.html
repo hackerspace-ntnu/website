@@ -35,6 +35,13 @@
         </div>
       </div>
 
+    {% elif object|class_name == 'Queue' %}
+      <div class='row'>
+        <div class='col-12'>
+          Reservasjonskø: <a href='/reservations/queue/{{ object.pk }}'>{{ object.name }}</a>
+        </div>
+      </div>
+
     {% else %}
       <div class='row'>
         <div class='col-12 col-lg-8 offset-lg-4'>

@@ -4,6 +4,7 @@ from django.views.generic import ListView
 
 from news.models import Article
 from projectarchive.models import Projectarticle
+from userprofile.models import Profile
 
 
 class SearchView(ListView):
@@ -23,10 +24,12 @@ class SearchView(ListView):
         if query is not None:
             article_results = Article.objects.search(query)
             project_article_results = Projectarticle.objects.search(query)
+            profile_results = Profile.objects.search(query)
 
             queryset_chain = chain(
                 article_results,
                 project_article_results,
+                profile_results,
             )
 
             queryset = sorted(

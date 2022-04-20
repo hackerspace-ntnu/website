@@ -4,6 +4,7 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.admin import User
 from django.core.files.base import ContentFile
 from django.db import models
+from django.db.models import Q
 from django.shortcuts import reverse
 from django.utils import timezone
 from sorl.thumbnail import get_thumbnail
@@ -57,6 +58,19 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+
+
+class ProfileManager(models.Manager):
+    def search(self, query: str = None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (
+                Q(user__username__icontains=query)
+                | Q(user__first_name__icontains=query)
+                | Q(user__last_name__icontains=query)
+            )
+            qs = qs.filter(or_lookup).distinct()
+        return qs
 
 
 class Profile(models.Model):
@@ -131,6 +145,8 @@ class Profile(models.Model):
         blank=True,
         verbose_name="Evt. andre ønsker for matservering.",
     )
+
+    objects = ProfileManager()
 
     class Meta:
         permissions = (

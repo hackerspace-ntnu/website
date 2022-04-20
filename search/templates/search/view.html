@@ -28,6 +28,13 @@
         </div>
       </div>
 
+    {% elif object|class_name == 'Profile' %}
+      <div class='row'>
+        <div class='col-12'>
+          Bruker: <a href='/profile/{{ object.user.pk }}'>{{ object.user.first_name }} {{ object.user.last_name }}({{ object.user.username }})</a>
+        </div>
+      </div>
+
     {% else %}
       <div class='row'>
         <div class='col-12 col-lg-8 offset-lg-4'>

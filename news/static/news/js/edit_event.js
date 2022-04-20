@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
-	var datepickers = document.querySelectorAll('.datepicker');
+    const datepickers = document.querySelectorAll('.datepicker');
 
-	internationalization = {
+    internationalization = {
 		months:	[
 			'Januar',
 			'Februar',
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		firstDay: 1,
 		i18n: internationalization
 	}
-	var instance = M.Datepicker.init(datepickers, options);
+	M.Datepicker.init(datepickers, options);
 
 
 	// Vis og gjem deler som relateres til påmeldinger

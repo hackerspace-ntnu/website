@@ -224,23 +224,21 @@
 		</nav>
 	</div>
 <script>
+    const dropdown_resources = document.querySelector('.trigger-resources');
+    const dropdown_user = document.querySelector('.dropdown-trigger-user');
 
+    const instance = M.Dropdown.init(dropdown_user, {
+        hover: true,
+        coverTrigger: false,
+        constrainWidth: false
+    });
+    const dropdown_nav_instance = M.Dropdown.init(dropdown_resources, {
+        hover: true,
+        coverTrigger: false,
+        constrainWidth: false
+    });
 
-	var dropdown_resources = document.querySelector('.trigger-resources');
-	var dropdown_user = document.querySelector('.dropdown-trigger-user');
-
-	var instance = M.Dropdown.init(dropdown_user, {
-		hover: true,
-		coverTrigger: false,
-		constrainWidth: false
-	});
-	var dropdown_nav_instance = M.Dropdown.init(dropdown_resources, {
-		hover: true,
-		coverTrigger: false,
-		constrainWidth: false
-	});
-
-	// fix for not being able to re-open the dropdown when clicked
+    // fix for not being able to re-open the dropdown when clicked
 	dropdown_resources.addEventListener("click", () => {
 		if (!dropdown_nav_instance.isOpen) {
 			dropdown_nav_instance.open()
@@ -249,12 +247,10 @@
 
 	switch(window.location.pathname) {
 		case '/news/':
-			var element = document.getElementById("news");
-			element.classList.add("active");
+            document.getElementById("news").classList.add("active");
 			break;
 		case '/events/':
-			var element = document.getElementById("events");
-			element.classList.add("active");
+            document.getElementById("events").classList.add("active");
 			break;
 	}
 </script>

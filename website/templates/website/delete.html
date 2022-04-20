@@ -13,11 +13,11 @@
 </div>
 
 <script>
-	var deleteModal = document.querySelector('.delete-modal');
-	var instance = M.Modal.init(deleteModal);
+    const deleteModal = document.querySelector('.delete-modal');
+    const instance = M.Modal.init(deleteModal);
 
-	var delete_button = document.querySelector("#deleteButton");
-	delete_button.href += "delete";
+    const delete_button = document.querySelector("#deleteButton");
+    delete_button.href += "delete";
 	delete_button.addEventListener("click", function() {
 		instance.open();
 	});

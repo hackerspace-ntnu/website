@@ -133,18 +133,18 @@
 </div>
 <script>
 // For å få slideshow til å laste pent inn setter vi bakgrunnen til bildet som benyttes og tinter det.
-var elem = document.querySelector('.slider');
+const elem = document.querySelector('.slider');
 elem.style.backgroundImage = "url('static/website/img/people_and_tech/briller.jpg')"
 elem.style.height = "100%";
 elem.style.width = "100%";
 elem.style.backgroundSize = "cover";
 elem.style.backgroundPosition = "center";
-var instance = M.Slider.init(elem, {
-	indicators: false,
-	height: 256,
-	duration:500,
-	interval: 6000
-})
+const instance = M.Slider.init(elem, {
+    indicators: false,
+    height: 256,
+    duration: 500,
+    interval: 6000
+});
 
 </script>
 {% endblock content %}

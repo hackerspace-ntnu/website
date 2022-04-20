@@ -53,11 +53,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 	// Vis og gjem deler som relateres til påmeldinger
-	var reg_box = document.getElementsByClassName('reg-box')[0];
-	var reg_check = document.getElementsByName('registration')[0]
-	var ext_reg = document.getElementsByClassName('ext-reg')[0];
+    const reg_box = document.getElementsByClassName('reg-box')[0];
+    const reg_check = document.getElementsByName('registration')[0];
+    const ext_reg = document.getElementsByClassName('ext-reg')[0];
 
-	if(reg_check.checked) {
+    if(reg_check.checked) {
 		reg_box.classList.remove('hide');
 		ext_reg.classList.add('hide');
 	}

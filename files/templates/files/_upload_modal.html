@@ -38,24 +38,24 @@ function subscribeToUpload(element) {
     uploadEventSubscribers.push(element);
 }
 
-submitBtn.addEventListener('click', function(e) {
+submitBtn.addEventListener('click', function(e) {
 	e.preventDefault();
 
 	// Grab all the form data
-	var title_field = document.getElementById('id_img-title');
-	var category_field = document.getElementById('id_img-img_category');
-	const category_name = category_field.options[category_field.value - 1].text;
-	var img_field = document.getElementById('id_img-file');
-	var img_field_path = document.getElementById('id_img-file-path');
+    const title_field = document.getElementById('id_img-title');
+    const category_field = document.getElementById('id_img-img_category');
+    const category_name = category_field.options[category_field.value - 1].text;
+    const img_field = document.getElementById('id_img-file');
+    const img_field_path = document.getElementById('id_img-file-path');
 
-	var formdata = new FormData();
-	formdata.append("img-file", img_field.files[0]);
+    const formdata = new FormData();
+    formdata.append("img-file", img_field.files[0]);
 	formdata.append("img-title", title_field.value);
 	formdata.append('img-img_category', category_field.value);
 
 	// Upload the image
-	var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-	$.ajax({
+    const csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    $.ajax({
 		type:'POST',
 		url: "/files/image-upload/",
 		headers: {

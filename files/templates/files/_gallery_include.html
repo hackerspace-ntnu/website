@@ -16,13 +16,13 @@
 </div>
 
 <script>
-var thumbnail_input = document.querySelector('#id_thumbnail');
-var thumb_preview = document.querySelector('#thumb-preview');
+    const thumbnail_input = document.querySelector('#id_thumbnail');
+    const thumb_preview = document.querySelector('#thumb-preview');
 
-document.addEventListener('click', function(e) {
+    document.addEventListener('click', function(e) {
 	if(e.target.innerText === "VELG") {
-		var selectedImgId = e.target.attributes.value.value;
-		thumbnail_input.value = selectedImgId;
+        const selectedImgId = e.target.attributes.value.value;
+        thumbnail_input.value = selectedImgId;
 		thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;
 		M.toast({html: 'Bildet er valgt'});
 		M.Modal.getInstance(thumbModal).close();

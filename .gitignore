@@ -19,7 +19,6 @@ env/
 venv/
 .vscode/
 **/__pycache__
-
 /static/
 
 *.html.py

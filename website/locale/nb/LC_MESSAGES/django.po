@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-21 19:54+0100\n"
+"POT-Creation-Date: 2023-03-21 19:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,54 +101,3 @@ msgstr ""
 #: templates/website/index.html:90
 msgid "Siste arrangementer"
 msgstr ""
-
-#, fuzzy
-#~| msgid "creator-header"
-#~ msgid "arena-text"
-#~ msgstr ""
-#~ "Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, "
-#~ "programvare, 3D-printing, eller andre kule ting."
-
-#, fuzzy
-#~| msgid "creator-header"
-#~ msgid "creator-text"
-#~ msgstr ""
-#~ "Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å "
-#~ "bistå i ditt neste prosjekt."
-
-#~ msgid "curious-text"
-#~ msgstr ""
-#~ "Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-"
-#~ "utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på "
-#~ "Hackerspace."
-
-#~ msgid "who1"
-#~ msgstr ""
-#~ "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for "
-#~ "alle studenter uavhengig av studieretning."
-
-#~ msgid "who2"
-#~ msgstr ""
-#~ "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-"
-#~ "printere og Virtual Reality-utstyr."
-
-#~ msgid "who3"
-#~ msgstr ""
-#~ "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av "
-#~ "Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse "
-#~ "og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace."
-
-#~ msgid "who4"
-#~ msgstr ""
-#~ "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil "
-#~ "slå av en prat, tar vi deg varmt imot på"
-
-#~ msgid "who5"
-#~ msgstr ""
-#~ "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til "
-#~ "å demonstrere utstyr eller hjelpe deg."
-
-#, fuzzy
-#~| msgid "creator-header"
-#~ msgid "who-header"
-#~ msgstr "Hvem er vi?"

@@ -24,3 +24,5 @@ venv/
 *.html.py
 *.txt.py
 *.mo
+*.html.py
+*.txt.py

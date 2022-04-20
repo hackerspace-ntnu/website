@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-21 19:59+0100\n"
+"POT-Creation-Date: 2023-03-21 20:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,78 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/website/header.html:30 templates/website/header.html:91
+msgid "Nyheter"
+msgstr ""
+
+#: templates/website/header.html:31 templates/website/header.html:96
+msgid "Arrangementer"
+msgstr ""
+
+#: templates/website/header.html:32
+msgid "Søk i hele siden"
+msgstr ""
+
+#: templates/website/header.html:81
+msgid "Hjem"
+msgstr ""
+
+#: templates/website/header.html:86
+msgid "Søk"
+msgstr ""
+
+#: templates/website/header.html:101 templates/website/header.html:185
+msgid "Kart"
+msgstr ""
+
+#: templates/website/header.html:106 templates/website/header.html:190
+msgid "Medlemmer"
+msgstr ""
+
+#: templates/website/header.html:111 templates/website/header.html:195
+msgid "Vaktliste"
+msgstr ""
+
+#: templates/website/header.html:116 templates/website/header.html:200
+msgid "Lager"
+msgstr ""
+
+#: templates/website/header.html:121 templates/website/header.html:205
+msgid "Reservasjoner"
+msgstr ""
+
+#: templates/website/header.html:126 templates/website/header.html:210
+msgid "Regler"
+msgstr ""
+
+#: templates/website/header.html:131 templates/website/header.html:215
+msgid "Opptak"
+msgstr ""
+
+#: templates/website/header.html:136 templates/website/header.html:220
+msgid "Prosjektarkiv"
+msgstr ""
+
+#: templates/website/header.html:141 templates/website/header.html:225
+msgid "Om oss"
+msgstr ""
+
+#: templates/website/header.html:147 templates/website/header.html:231
+msgid "Internportal"
+msgstr ""
+
+#: templates/website/header.html:156 templates/website/header.html:173
+msgid "Logg ut"
+msgstr ""
+
+#: templates/website/header.html:162 templates/website/header.html:177
+msgid "Logg inn"
+msgstr ""
+
+#: templates/website/header.html:170
+msgid "Profil"
+msgstr ""
 
 #: templates/website/index.html:24
 msgid "Har du en skaper i magen?"

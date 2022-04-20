@@ -2,7 +2,7 @@ from itertools import chain
 
 from django.views.generic import ListView
 
-from news.models import Article
+from news.models import Article, Event
 from projectarchive.models import Projectarticle
 from reservations.models import Queue
 from userprofile.models import Profile
@@ -25,12 +25,14 @@ class SearchView(ListView):
         if query is not None:
             article_results = Article.objects.search(query)
             project_article_results = Projectarticle.objects.search(query)
+            event_results = Event.objects.search(query)
             profile_results = Profile.objects.search(query)
             queue_results = Queue.objects.search(query)
 
             queryset_chain = chain(
                 article_results,
                 project_article_results,
+                event_results,
                 profile_results,
                 queue_results,
             )

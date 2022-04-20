@@ -28,6 +28,13 @@
         </div>
       </div>
 
+    {% elif object|class_name == 'Event' %}
+      <div class='row'>
+        <div class='col-12'>
+          Arrangement: <a href='{% url 'events:details' pk=object.pk %}'>{{ object.title }}</a>
+        </div>
+      </div>
+
     {% elif object|class_name == 'Profile' %}
       <div class='row'>
         <div class='col-12'>

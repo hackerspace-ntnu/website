@@ -66,6 +66,20 @@ class Article(models.Model):
         return self.id
 
 
+class EventManager(models.Manager):
+    def search(self, query: str = None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (
+                Q(title__icontains=query)
+                | Q(main_content__icontains=query)
+                | Q(ingress_content__icontains=query)
+                | Q(place__icontains=query)
+            )
+            qs = qs.filter(or_lookup).distinct()
+        return qs
+
+
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel")
     main_content = RichTextUploadingField(blank=True, verbose_name="Hovedtekst")
@@ -127,6 +141,8 @@ class Event(models.Model):
     skills = models.ManyToManyField(
         blank=True, verbose_name="Ferdigheter", to="userprofile.Skill"
     )
+
+    objects = EventManager()
 
     @property
     def can_register(self):

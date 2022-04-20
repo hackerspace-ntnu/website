@@ -54,7 +54,7 @@ Instead of installing a bunch of python files system-wide, we will use a virtual
 
 Clone the project:
 ```
-git clone https://github.com/hackerspace-ntnu/website.git
+git clone git@github.com:hackerspace-ntnu/website.git
 ```
 
 Go into the project:

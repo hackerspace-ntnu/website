@@ -38,12 +38,13 @@ def _get_user_profiles_from_search(users: [User], search: str):
     search_matches = []
 
     def check_if_user_is_match(user, match_score_min_value):
+        if user in chain.from_iterable(search_matches):
+            return
         match_score_first_name = fuzz.token_set_ratio(user.get_short_name(), search)
         match_score_last_name = fuzz.token_set_ratio(user.last_name, search)
-        if user not in chain.from_iterable(search_matches):
-            match_score = max(match_score_first_name, match_score_last_name)
-            if match_score > match_score_min_value:
-                search_matches.append((match_score_first_name, user))
+        match_score = max(match_score_first_name, match_score_last_name)
+        if match_score > match_score_min_value:
+            search_matches.append((match_score_first_name, user))
 
     for user in users:
         if search.lower() == "amogus" and user.get_full_name() == "Alexander Moltu":

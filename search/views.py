@@ -6,7 +6,7 @@ from news.models import Article, Event
 from projectarchive.models import Projectarticle
 from reservations.models import Queue
 from userprofile.models import Profile
-from website.models import FaqQuestion
+from website.models import FaqQuestion, Rule
 
 
 class SearchView(ListView):
@@ -30,6 +30,7 @@ class SearchView(ListView):
             profile_results = Profile.objects.search(query)
             queue_results = Queue.objects.search(query)
             faq_results = FaqQuestion.objects.search(query)
+            rule_results = Rule.objects.search(query)
 
             queryset_chain = chain(
                 article_results,
@@ -38,6 +39,7 @@ class SearchView(ListView):
                 profile_results,
                 queue_results,
                 faq_results,
+                rule_results,
             )
 
             queryset = sorted(

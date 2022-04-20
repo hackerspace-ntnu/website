@@ -46,6 +46,15 @@ class FaqQuestion(models.Model):
         return self.question
 
 
+class RuleManager(models.Manager):
+    def search(self, query: str = None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = Q(title__icontains=query) | Q(body__icontains=query)
+            qs = qs.filter(or_lookup).distinct()
+        return qs
+
+
 class Rule(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel", blank=False)
     body = RichTextField()
@@ -62,6 +71,8 @@ class Rule(models.Model):
     )
     priority = models.IntegerField(default=0)
     pub_date = models.DateField(verbose_name="Publiseringsdato", auto_now=True)
+
+    objects = RuleManager()
 
     def __str__(self):
         return self.title

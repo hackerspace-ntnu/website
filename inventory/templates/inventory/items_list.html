@@ -6,39 +6,36 @@
                 {% for item in items %}
                     <li class="collection-item avatar valign-wrapper">
                         <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
-                        <a href="{% url 'inventory:item' item.id %}" class="truncate">
+                        <a href="{% url 'inventory:item' item.id %}">
                             {{ item.name }}
-                            <p style="color: #000 !important">
-                                {% if item.unknown_stock %}
-                                    Ukjent lagerbeholdning.
+                            <p style="color:#000 !important">
+                            {% if item.unknown_stock %}
+                                <i class="material-icons hs-yellow-text hide-on-small-only">question_mark</i>
+                                <b>Ukjent antall</b>
+                            {% elif item.in_stock %}
+                                <i class="material-icons hs-green-text hide-on-small-only">done</i>
+                                {% if item.available > 1000 %}
+                                    <b>>1000 stk.</b>
                                 {% else %}
-                                    {% if item.in_stock %}
-                                        <i class="material-icons hs-green-text">done</i>
-
-                                        {% if item.available > 1000 %}
-                                            <b>>1000 stk.</b>
-                                        {% else %}
-                                            <b>{{ item.available }} stk.</b>
-                                        {% endif %}
-
-                                    {% else %}
-                                        <i class="material-icons hs-red-text">do_not_disturb</i>
-                                        <b>Ingen</b>
-                                    {% endif %}
-                                    på lager.
+                                    <b>{{ item.available }} stk.</b>
                                 {% endif %}
+                            {% else %}
+                                <i class="material-icons hs-red-text hide-on-small-only">do_not_disturb</i>
+                                <b>Ingen</b>
+                            {% endif %}
+                            på lager.
 
-                                {% if item.has_location %}
-                                    Hylleplass <b>{{ item.location }}</b>.
-                                {% endif %}
+                            {% if item.has_location %}
+                                Hylleplass <b>{{ item.location }}</b>.
+                            {% endif %}
 
-                                {% if not item.in_stock and item.next_loan_done is not None %}
-                                    <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
-                                {% endif %}
+                            {% if not item.in_stock and item.next_loan_done is not None %}
+                                <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
+                            {% endif %}
                             </p>
                         </a>
                         {% if item.can_loan and item.in_stock %}
-                        <a class="secondary-content btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">
+                        <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}" style="margin-left:auto">
                             <span class="white-text">Lån</span>
                         </a>
                         {% endif %}

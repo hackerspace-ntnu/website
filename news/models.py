@@ -1,4 +1,3 @@
-from ckeditor_uploader.fields import RichTextUploadingField
 from markdownx.utils import markdownify
 from markdownx.models import MarkdownxField
 from django.contrib.auth.admin import User

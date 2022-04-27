@@ -1,7 +1,7 @@
 from django.contrib import admin
+from markdownx.admin import MarkdownxModelAdmin
 
 from .models import Article, Event, EventRegistration, Upload
-from markdownx.admin import MarkdownxModelAdmin
 
 
 @admin.register(Event)

@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     "inventory",
     "watchlist",
     "projectarchive",
-    'markdownx',
+    "markdownx",
 ]
 
 

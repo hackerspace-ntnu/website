@@ -1,9 +1,9 @@
-from markdownx.utils import markdownify
-from markdownx.models import MarkdownxField
 from django.contrib.auth.admin import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.utils import timezone
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from files.models import Image
 

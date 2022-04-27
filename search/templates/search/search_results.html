@@ -1,0 +1,42 @@
+{% load class_name %}
+
+{% for object in object_list %}
+  {% if object|class_name == 'Article' %}
+    {% include "search/item/article.html" %}
+  {% elif object|class_name == 'Projectarticle' %}
+    {% include "search/item/projectarticle.html" %}
+  {% elif object|class_name == 'Event' %}
+    {% include "search/item/event.html" %}
+  {% elif object|class_name == 'Profile' %}
+    {% include "search/item/user.html" %}
+  {% elif object|class_name == 'Queue' %}
+    {% include "search/item/queue.html" %}
+  {% elif object|class_name == 'FaqQuestion' %}
+    {% include "search/item/faq.html" %}
+  {% elif object|class_name == 'Rule' %}
+    {% include "search/item/rule.html" %}
+  {% else %}
+    <div class='row'>
+      <div class='col-12 col-lg-8 offset-lg-4'>
+        <a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a>
+      </div>
+    </div>
+  {% endif %}
+
+{% empty %}
+  <div class='row'>
+    <div class='col-12 col-md-6 mx-auto my-5 py-5'>
+      <form method='GET' class='' action='.'>
+
+        <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
+            <span class="input-group-addon cfe-nav" style='color:#000'>
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
+          <input type="text" name="q" data-toggle="popover" data-placement="bottom"
+                 data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search..."
+                 value="" style="" data-original-title="" title="" autofocus="autofocus">
+        </div>
+      </form>
+    </div>
+  </div>
+{% endfor %}

@@ -1,0 +1,13 @@
+{% load add_date %}
+
+{% with type_icon="article" type_name="Artikkel" type_name_short="Artikkel" %}
+  {% with url_view="news:details" url_option=object.id %}
+    {% with title=object.title %}
+      {% with badge_text="Publisert "|add_date:object.pub_date %}
+        {% with description=object.ingress_content|truncatechars:200 %}
+          {% include "search/search_item.html" %}
+        {% endwith %}
+      {% endwith %}
+    {% endwith %}
+  {% endwith %}
+{% endwith %}

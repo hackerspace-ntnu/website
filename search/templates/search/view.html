@@ -1,91 +1,32 @@
+{% extends 'website/base.html' %}
 {% load static %}
-{% load class_name %}
 
 {% block head %}
   <link rel="stylesheet" type="text/css" href="{% static 'search/css/view.css' %}">
 {% endblock %}
 
 {% block content %}
-  <div class='row title-row my-5'>
-    <div class='col-12 py-0'>
-      <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
+  <div class="section hs-green">
+    <div class="container">
+      <div class="row valign-wrapper white-text">
+        <div class="col s12">
+          <h4>
+            Søk
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h5 class="subheader">Resultater for: <b>{{ query }}</b></h5>
+          <div class="invisible-divider"></div>
+          {% include "search/search_results.html" %}
+        </div>
+      </div>
     </div>
   </div>
 
-
-  {% for object in object_list %}
-    {% if object|class_name == 'Article' %}
-      <div class='row'>
-        <div class='col-12'>
-          Nyhet: <a href='/news/{{ object.pk }}'>{{ object.title }}</a>
-        </div>
-      </div>
-
-    {% elif object|class_name == 'Projectarticle' %}
-      <div class='row'>
-        <div class='col-12'>
-          Prosjektarkiv: <a href='/projectarchive/{{ object.pk }}'>{{ object.title }}</a>
-        </div>
-      </div>
-
-    {% elif object|class_name == 'Event' %}
-      <div class='row'>
-        <div class='col-12'>
-          Arrangement: <a href='{% url 'events:details' pk=object.pk %}'>{{ object.title }}</a>
-        </div>
-      </div>
-
-    {% elif object|class_name == 'Profile' %}
-      <div class='row'>
-        <div class='col-12'>
-          Bruker: <a href='/profile/{{ object.user.pk }}'>{{ object.user.first_name }} {{ object.user.last_name }}({{ object.user.username }})</a>
-        </div>
-      </div>
-
-    {% elif object|class_name == 'Queue' %}
-      <div class='row'>
-        <div class='col-12'>
-          Reservasjonskø: <a href='/reservations/queue/{{ object.pk }}'>{{ object.name }}</a>
-        </div>
-      </div>
-
-    {% elif object|class_name == 'FaqQuestion' %}
-      <div class='row'>
-        <div class='col-12'>
-          FAQ: <a href='/about/'>{{ object.question }}</a>
-        </div>
-      </div>
-
-    {% elif object|class_name == 'Rule' %}
-      <div class='row'>
-        <div class='col-12'>
-          Rule: <a href='/rules/{{ object.pk }}'>{{ object.title }}</a>
-        </div>
-      </div>
-
-    {% else %}
-      <div class='row'>
-        <div class='col-12 col-lg-8 offset-lg-4'>
-          <a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a>
-        </div>
-      </div>
-    {% endif %}
-
-  {% empty %}
-    <div class='row'>
-      <div class='col-12 col-md-6 mx-auto my-5 py-5'>
-        <form method='GET' class='' action='.'>
-
-          <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
-            <span class="input-group-addon cfe-nav" style='color:#000'>
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </span>
-            <input type="text" name="q" data-toggle="popover" data-placement="bottom"
-                   data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search..."
-                   value="" style="" data-original-title="" title="" autofocus="autofocus">
-          </div>
-        </form>
-      </div>
-    </div>
-  {% endfor %}
 {% endblock content %}

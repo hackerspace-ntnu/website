@@ -158,6 +158,8 @@ msgid ""
 "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å "
 "demonstrere utstyr eller hjelpe deg."
 msgstr ""
+"The on-call system ensures that you always meet someone in the workshop "
+"ready to demonstrate equipment or help you."
 
 #: templates/website/index.html:59
 msgid "Les mer om oss her"

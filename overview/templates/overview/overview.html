@@ -19,7 +19,11 @@
 <body>
 	<main>
 		<div class="row">
+			{% if rule %}
 			<div class="col s6">
+			{% else %}
+			<div class="col s12">
+			{% endif %}
 				<div class="row">
 					<div class="col s6">
 						<div class="panel">
@@ -36,12 +40,13 @@
 					{% include 'overview/watchlist.html' %}
 				</div>
 			</div>
+			{% if rule %}
 			<div class="col s6">
 				<div class="">
 					{% include 'overview/rules.html' %}
 				</div>
 			</div>
-		</div>
+			{% endif %}
 	</main>
 </body>
 

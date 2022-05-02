@@ -61,7 +61,7 @@ class OverviewView(TemplateView):
             "shifts": shift_dict,
             "today": current_time.weekday(),
             "weekday": WEEKDAYS[current_time.weekday()],
-            "rule": Rule.objects.filter(title="Regler for verkstedet").first(),
+            "rule": Rule.objects.filter(id=9).first(),
         }
 
         return context

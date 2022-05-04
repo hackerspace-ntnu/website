@@ -32,8 +32,8 @@
                             {% if article_list %}
                             {% for article in article_list %}
                             <li class="collection-item">
-                                <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
-                                <a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
+                                <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+                                <a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
                             </li>
                             {% endfor %}
                             {% else %}
@@ -62,7 +62,7 @@
 
                                     {% endif %}
 
-                                <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+                                <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
                             </li>
                             {% endfor %}
                             {% else %}
@@ -85,7 +85,7 @@
                             {% for app in loan_app_list reversed %}
                                 <li class="collection-item">
                                 <span class="badge hs-green-text">{{ app.contact_name }}</span>
-                                <a href="{% url 'inventory:loan_application' app.id %}" class="title">{{ app.item.name }}, {{ app.amount }} stk.</a>
+                                <a href="{% url 'inventory:loan_application' app.id %}" class="title">{{ app.item.name }}, {{ app.amount }} stk.</a>
                             </li>
                             {% endfor %}
                             {% else %}

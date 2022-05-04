@@ -6,7 +6,7 @@
 
 <div class="row">
 	{% if form.thumbnail.value and form.thumbnail.value != "None" %}
-	<div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: url('/files/image-view/{{ form.thumbnail.value }}'); background-repeat:no-repeat; background-size: cover;">
+	<div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: url('/files/image-view/{{ form.thumbnail.value }}'); background-repeat:no-repeat; background-size: cover;">
 	{% else %}
 	<div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: none; background-repeat:no-repeat; background-size:cover;">
 	{% endif %}
@@ -19,7 +19,7 @@
     const thumbnail_input = document.querySelector('#id_thumbnail');
     const thumb_preview = document.querySelector('#thumb-preview');
 
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function(e) {
 	if(e.target.innerText === "VELG") {
         const selectedImgId = e.target.attributes.value.value;
         thumbnail_input.value = selectedImgId;

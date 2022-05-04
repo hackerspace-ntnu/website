@@ -28,6 +28,9 @@
 					<ul class="right hide-on-med-and-down">
 						<li id="news"><a class="waves-effect" href="{% url 'news:all' %}">Nyheter</a></li>
 						<li id="events"><a class="waves-effect" href="{% url 'events:all' %}">Arrangementer</a></li>
+						<li id="search" class="tooltipped" data-position="bottom" data-tooltip="Søk i hele siden">
+							<a class="waves-effect" href="{% url 'search' %}"><i class="material-icons">search</i></a>
+						</li>
 						<li id="resources"><a class="trigger-resources" href="#" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
 						{% if user.is_authenticated %}
 								{% if user.profile.image %}

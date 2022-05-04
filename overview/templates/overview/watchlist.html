@@ -7,7 +7,7 @@
             {% if shift.watchers.count > 0 %}
                 <div class="row center-align">
                     {% for user in shift.watchers.all %}
-                        <div class="col s12 m6 l3 center-align">'{{ user.first_name }} {{ user.last_name }}',</div>
+                        <div class="col s12 m6 l3 center-align">{{ user.first_name }} {{ user.last_name }}</div>
                     {% endfor %}
                 </div>
             {% else %}

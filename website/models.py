@@ -74,7 +74,8 @@ class Banner(models.Model):
         max_length=10,
         default="hs-yellow",
         verbose_name="bannercolor",
-        help_text="Bakgrunnsfargen til banneret som en hex-farge. hs-green, hs-yellow og hs-red støttes også som presets.",
+        help_text="Bakgrunnsfargen til banneret som en hex-farge. hs-green, hs-yellow og hs-red støttes også som "
+        "presets.",
     )
     text_color = models.CharField(
         null=False,
@@ -99,7 +100,8 @@ class Banner(models.Model):
         default="*",
         max_length=250,
         verbose_name="bannersider",
-        help_text="Det interne navnet på URL-stien til sidene som banneret skal dukke opp på. Separert med komma (,). Wildcard (*) støttes. F.eks. er '*' ALLE sider, 'inventory:*' er alle lagersider.",
+        help_text="Det interne navnet på URL-stien til sidene som banneret skal dukke opp på. Separert med komma (,). "
+        "Wildcard (*) støttes. F.eks. er '*' ALLE sider, 'inventory:*' er alle lagersider.",
     )
 
     def __str__(self):

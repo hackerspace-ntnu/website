@@ -50,14 +50,12 @@
   </div>
 </div>
 <script>
-
-  document.addEventListener('DOMContentLoaded', function() {
+  $(() => {
       const elems = document.querySelectorAll('.collapsible');
       M.Collapsible.init(elems, {
         accordion: false
       });
   });
-
 </script>
 
 {% endblock content %}

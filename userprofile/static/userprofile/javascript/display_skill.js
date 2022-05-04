@@ -1,5 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-
+$(() => {
     // Initalize collapsibles (one per skill)
     const collapsibles = document.querySelectorAll('.collapsible.expandable');
     M.Collapsible.init(collapsibles, {
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(id){
       displaySkill(id);
     }
-
 });
 
 function displaySkill(id){
@@ -43,13 +41,13 @@ function displaySkill(id){
       const collapsibleItems = collapsibleDiv.querySelectorAll('.skill-anchor');
 
       // Search through all tab items
-      for(i = 0;i<collapsibleItems.length;i++){
+      for(let i = 0;i<collapsibleItems.length;i++){
 
         // Close this item
         collapsibleInstance.close(i);
 
         // Check if user is redirecting to this item
-        if(collapsibleItems[i].id == 'skill' + id){
+        if(collapsibleItems[i].id === 'skill' + id){
 
           // Switch to this tab
           tabsInstance.select(collapsibleDiv.id);

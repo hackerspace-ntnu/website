@@ -450,7 +450,7 @@ def register_on_event(request, event_id):
             er.delete()
             messages.add_message(request, messages.SUCCESS, "Du er nå avmeldt")
     except EventRegistration.DoesNotExist:
-        if now > event_object.registration_start and event_object.time_end > now:
+        if event_object.registration_start < now < event_object.time_end:
             EventRegistration.objects.create(
                 event=event_object, user=request.user
             ).save()

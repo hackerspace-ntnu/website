@@ -36,7 +36,7 @@ class Item(models.Model):
         return self.available() > 0 or self.unknown_stock
 
     def has_location(self):
-        "Return True if location is not blank"
+        """Return True if location is not blank"""
         return self.location != ""
 
     def amount_loaned(self):

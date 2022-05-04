@@ -1,8 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Initalize collapsibles (one per catagory)
-    const collapsibles = document.querySelectorAll('.collapsible.expandable');
-    M.Collapsible.init(collapsibles, {
-      accordion: false
-    });
+$(() => {
+    // Initialize collapsibles (one per category)
+    M.Collapsible.init(
+        document.querySelectorAll('.collapsible.expandable'),
+        { accordion: false }
+    );
 });

@@ -46,14 +46,11 @@
     </div>
 
     <script>
-
         let search = "{{ search }}";
         let page_number = {{ page }};
         let sort_by = "{{ sort_by }}";
 
-        document.addEventListener('DOMContentLoaded', function () {
-            updateList();
-        });
+        $(() => updateList());
 
         // Listen for keystroke events
         let timeout = null;
@@ -65,9 +62,7 @@
             clearTimeout(timeout);
 
             // Make a new timeout set to go off in 1000ms (1 second)
-            timeout = setTimeout(function () {
-                updateSearch(search_field.value)
-            }, 100);
+            timeout = setTimeout(() => updateSearch(search_field.value), 100);
         });
 
         function updateSearch(s) {
@@ -93,9 +88,7 @@
             $.ajax({
                 url: '/api/inventory/?search=' + search + '&page=' + page_number + "&sort_by=" + sort_by,
                 type: 'GET',
-                success: function (data) {
-                    $('#items_list').html(data);
-                }
+                success: data => $('#items_list').html(data)
             });
 
             // Update url to allow direct links to search

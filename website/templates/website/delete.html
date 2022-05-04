@@ -18,7 +18,5 @@
 
     const delete_button = document.querySelector("#deleteButton");
     delete_button.href += "delete";
-	delete_button.addEventListener("click", function() {
-		instance.open();
-	});
+	delete_button.addEventListener("click", () => instance.open());
 </script>

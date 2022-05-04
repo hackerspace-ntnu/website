@@ -13,15 +13,14 @@
 </div>
 
 {% load gallery_modals %}
-{% ImageUploadModal request %}
+{% ImageUploadModal %}
 
 <script>
-const adminPanel = document.querySelector('#admin-panel');
-
-subscribeToUpload(adminPanel);
-adminPanel.addEventListener('galleryUploadSuccess', function(e) {
-	M.toast({ html: 'Bildet er lastet opp' });
-	location.reload();
-});
+    const adminPanel = document.querySelector('#admin-panel');
+    subscribeToUpload(adminPanel);
+    adminPanel.addEventListener('galleryUploadSuccess', () => {
+        M.toast({ html: 'Bildet er lastet opp' });
+        location.reload();
+    });
 </script>
 {% endif %}

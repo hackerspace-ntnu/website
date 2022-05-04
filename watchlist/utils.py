@@ -7,7 +7,8 @@ def get_shift_weekview_rows():
     if not slots:
         return None
 
-    # Could be troublesome wrt. sorting of dictionary keys. Doesn't *seem* to be an issue right now but it *technically* already is!
+    # Could be troublesome wrt. sorting of dictionary keys.
+    # Doesn't *seem* to be an issue right now but it *technically* already is!
     rows = {}
     for slot in slots:
         row_header = "{} -\n{}".format(
@@ -19,7 +20,7 @@ def get_shift_weekview_rows():
 
     # Sort each list in the dict by weekday
     for time in rows.keys():
-        rows[time].sort(key=lambda slot: slot.weekday)
+        rows[time].sort(key=lambda s: s.weekday)
 
     return rows
 

@@ -192,7 +192,6 @@ if not DEBUG:
 
 CKEDITOR_UPLOAD_PATH = "ck_uploads"
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
 CKEDITOR_RESTRICT_BY_USER = False
 CKEDITOR_BROWSE_SHOW_DIRS = False
@@ -337,7 +336,8 @@ INTRANET_GREETINGS = [
     "Halla, {}",  # zzzzzzzzzzzzzzzzz
     "Og et rungende tjo-bing til deg, {}!",  # real shit?
     "Husket å skru av ovnen, {}?",
-    "Dette er en tilfeldig melding. Plukket tilfeldig, altså. Selve meldingen er ikke tilfeldig generert ved å drive å plukke bokstaver og sånt. Du skjønner hva jeg mener, {}.",
+    "Dette er en tilfeldig melding. Plukket tilfeldig, altså. Selve meldingen er ikke tilfeldig generert ved å drive å "
+    "plukke bokstaver og sånt. Du skjønner hva jeg mener, {}.",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit... Oi, vent, dette er jo i produksjon!",
 ]
 #################################

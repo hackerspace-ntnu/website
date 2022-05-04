@@ -1,48 +1,43 @@
-document.addEventListener("DOMContentLoaded", function(event) {
-    const datepickers = document.querySelectorAll('.datepicker');
-
-    internationalization = {
-		months:	[
-			'Januar',
-			'Februar',
-			'Mars',
-			'April',
-			'Mai',
-			'Juni',
-			'Juli',
-			'August',
-			'September',
-			'Oktober',
-			'November',
-			'Desember'
-		],
-		weekdays: [
-			'Søndag',
-			'Mandag',
-			'Tirsdag',
-			'Onsdag',
-			'Torsdag',
-			'Fredag',
-			'Lørdag'
-		],
-		weekdaysShort: [
-			'Søn',
-			'Man',
-			'Tir',
-			'Ons',
-			'Tor',
-			'Fre',
-			'Lør'
-		],
-		weekdaysAbbrev: ['S','M','T','O','T','F','L']
-	}
-	options = {
+document.addEventListener("DOMContentLoaded", () => {
+	M.Datepicker.init(document.querySelectorAll('.datepicker'), {
 		format: 'yyyy-mm-dd',
 		firstDay: 1,
-		i18n: internationalization
-	}
-	M.Datepicker.init(datepickers, options);
-
+		i18n: {
+            months: [
+                'Januar',
+                'Februar',
+                'Mars',
+                'April',
+                'Mai',
+                'Juni',
+                'Juli',
+                'August',
+                'September',
+                'Oktober',
+                'November',
+                'Desember'
+            ],
+            weekdays: [
+                'Søndag',
+                'Mandag',
+                'Tirsdag',
+                'Onsdag',
+                'Torsdag',
+                'Fredag',
+                'Lørdag'
+            ],
+            weekdaysShort: [
+                'Søn',
+                'Man',
+                'Tir',
+                'Ons',
+                'Tor',
+                'Fre',
+                'Lør'
+            ],
+            weekdaysAbbrev: ['S', 'M', 'T', 'O', 'T', 'F', 'L']
+        }
+	});
 
 	// Vis og gjem deler som relateres til påmeldinger
 	const reg_boxes = document.getElementsByClassName('reg-box');
@@ -66,5 +61,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 	setRegistrationHideClasses(reg_check);
 
-	reg_check.onchange = function() { setRegistrationHideClasses(this) };
+	reg_check.onchange = () => setRegistrationHideClasses(reg_check)
 });

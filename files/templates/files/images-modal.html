@@ -41,54 +41,50 @@
 	</div>
 </div>
 
-{% ImageUploadModal request %}
+{% ImageUploadModal %}
 
 <script>
-const deleteBtn = document.querySelector('#delete-img');
-const img_input = document.querySelector('#id_thumbnail');
-const img = document.querySelector('#thumb-preview');
+    const deleteBtn = document.querySelector('#delete-img');
+    const img_input = document.querySelector('#id_thumbnail');
+    const img = document.querySelector('#thumb-preview');
 
-deleteBtn.addEventListener('click', function() {
-	if (img.style.backgroundImage != "none") {
-		img_input.value = null;
-		img.style.backgroundImage = "none";
-		M.toast({html: 'Bildet er slettet'});
-	}
-});
+    deleteBtn.addEventListener('click', () => {
+        if (img.style.backgroundImage !== "none") {
+            img_input.value = null;
+            img.style.backgroundImage = "none";
+            M.toast({html: 'Bildet er slettet'});
+        }
+    });
 
-const thumbModal = document.querySelector('#thumbnailPicker');
+    const thumbModal = document.querySelector('#thumbnailPicker');
 
-subscribeToUpload(thumbModal);
-thumbModal.addEventListener('galleryUploadSuccess', function(e) {
-	// Add the uploaded image to the gallery immediately
-	const category = e.detail.category;
-	const response = e.detail.response;
-	const gallery = $('.category-' + category);
-	if (!gallery || !gallery.length)
-	{
-		// New category, so we need to make a new gallery for it
-		const galleries = $('.category-galleries');
-		const column = $('<div>', {'class': 'col s12'});
-		const gallery_row = $('<div>', {'class': 'row'});
-		const gallery_header = $('<div>', {'class': 'col s12 hs-green white-text'});
-		const gallery_title = $('<h4>', {'class': 'category-header'});
+    subscribeToUpload(thumbModal);
+    thumbModal.addEventListener('galleryUploadSuccess', e => {
+        // Add the uploaded image to the gallery immediately
+        const category = e.detail.category;
+        const response = e.detail.response;
+        const gallery = $('.category-' + category);
+        if (!gallery || !gallery.length) {
+            // New category, so we need to make a new gallery for it
+            const galleries = $('.category-galleries');
+            const column = $('<div>', {'class': 'col s12'});
+            const gallery_row = $('<div>', {'class': 'row'});
+            const gallery_header = $('<div>', {'class': 'col s12 hs-green white-text'});
+            const gallery_title = $('<h4>', {'class': 'category-header'});
 
-		gallery_title.append(category);
-		const category_gallery = $('<div>', {'class': 'gallery category-' + category});
-		category_gallery.prepend(response);
+            gallery_title.append(category);
+            const category_gallery = $('<div>', {'class': 'gallery category-' + category});
+            category_gallery.prepend(response);
 
-		gallery_header.append(gallery_title);
-		gallery_row.append(gallery_header);
-		gallery_row.append(category_gallery);
-		column.append(gallery_row);
-		galleries.append(column);
-	}
-	else
-	{
-		gallery.prepend(response);
-	}
-
-	M.toast({ html: 'Bildet er lastet opp og kan velges fra galleriet' });
-});
+            gallery_header.append(gallery_title);
+            gallery_row.append(gallery_header);
+            gallery_row.append(category_gallery);
+            column.append(gallery_row);
+            galleries.append(column);
+        } else {
+            gallery.prepend(response);
+        }
+        M.toast({ html: 'Bildet er lastet opp og kan velges fra galleriet' });
+    });
 </script>
 <script src="{% static 'files/js/gallery.js' %}"></script>

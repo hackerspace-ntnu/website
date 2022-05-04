@@ -1,13 +1,13 @@
-$(function () {
+$(() => {
     $.ajaxSetup({
-        beforeSend: function (xhr, settings) {
+        beforeSend(xhr) {
             function getCookie(name) {
                 let cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = jQuery.trim(cookies[i]);
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                if (document.cookie && document.cookie !== '') {
+                    const rawCookies = document.cookie.split(';');
+                    for (const rawCookie of rawCookies) {
+                        const cookie = jQuery.trim(rawCookie);
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                             break;
                         }
@@ -15,35 +15,28 @@ $(function () {
                 }
                 return cookieValue;
             }
+
             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
         }
     });
 
-    $(".approve-btn").click(function () {
-        skillID = parseInt($(this).data('skillid'));
-        apiURL = $(this).data('apiurl');
-        button = $(this)
-        payload = JSON.stringify(
-            {
-                skill_id: skillID
-            }
-        )
+    const approveBtn = $(".approve-btn")
+    approveBtn.click(() =>
         $.ajax({
-            url: apiURL,
+            url: approveBtn.data('apiurl'),
             method: 'POST',
-            data: payload,
+            data: JSON.stringify(
+                {
+                    skill_id: parseInt(approveBtn.data('skillid'))
+                }
+            ),
             dataType: 'json',
             contentType: 'application/json; charset=UTF-8',
-            success: function (data) {
-                button.addClass('disabled')
-                button.text('Godkjent')
-                button.parentsUntil("li").filter("div").prev().find(".approve-checkmark").hide()
-            },
-            complete: function (xhr, status) {
-
+            success() {
+                approveBtn.addClass('disabled')
+                approveBtn.text('Godkjent')
+                approveBtn.parentsUntil("li").filter("div").prev().find(".approve-checkmark").hide()
             }
-        }
-        )
-
-    });
+        })
+    );
 });

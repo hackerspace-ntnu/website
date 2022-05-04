@@ -7,7 +7,7 @@ register = template.Library()
 
 
 @register.inclusion_tag("files/images-modal.html")
-def ImagePickModal(request):
+def ImagePickModal():
     categorized = {}
 
     for category in FileCategory.objects.all().order_by("name"):
@@ -19,5 +19,5 @@ def ImagePickModal(request):
 
 
 @register.inclusion_tag("files/_upload_modal.html")
-def ImageUploadModal(request):
+def ImageUploadModal():
     return {"UploadForm": ImageForm(prefix="img")}

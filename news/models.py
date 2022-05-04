@@ -341,7 +341,6 @@ class EventRegistration(models.Model):
         """
         Retreives the waitlist for a given event
 
-        :param event: The event to retrieve the waitlist for
         :return: The waitlist
         """
         return self.event.is_waiting(self.user)

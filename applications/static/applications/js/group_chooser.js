@@ -1,16 +1,13 @@
-document.addEventListener('DOMContentLoaded', function () {
-
+$(() => {
     M.Dropdown.init(
         document.querySelectorAll('.dropdown-trigger'),
-        {
-            constrainWidth: false
-        }
+        { constrainWidth: false }
     );
 
     // Drag and drop priorities
     $('#groups-chosen').sortable({
         axis: "y",
-        update: () => {
+        update() {
             updateChosenGroups()
             updateGroupsPriority()
         }
@@ -35,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
  * @param chosenGroupElement dropdown element for chosen group
  */
 const chooseGroup = (chosenGroupElement) => {
-
     const chosenGroup = chosenGroupElement.textContent
 
     const groupsChosen = document.getElementById("groups-chosen")
@@ -76,30 +72,25 @@ const chooseGroup = (chosenGroupElement) => {
     chosenGroupElement.classList.add("disabled")
 
     updateChosenGroups()
-
 }
 
 /**
  * Update chosen group items with correct priority numbers
  */
 const updateGroupsPriority = () => {
-
     const groupsChosen = document.getElementById("groups-chosen")
     for (let i = 0; i < groupsChosen.children.length; i++) {
         const group = groupsChosen.children.item(i)
         const groupTitle = group.getElementsByClassName("group-chosen-title")[0]
         groupTitle.textContent = (i + 1) + ". " + group.value
     }
-
 }
 
 /**
  * Update hidden text input field with chosen group ids
  */
 const updateChosenGroups = () => {
-
     let chosenGroupsString = ""
-
     for (const chosenGroup of document.getElementsByClassName("group-chosen")) {
         const groupId = chosenGroup.dataset.groupId
         if (chosenGroupsString === "") {
@@ -108,8 +99,6 @@ const updateChosenGroups = () => {
             chosenGroupsString += "," + groupId
         }
     }
-
     const chosenGroupsInput = document.getElementById("groups-chosen-input")
     chosenGroupsInput.value = chosenGroupsString
-
 }

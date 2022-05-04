@@ -78,11 +78,11 @@
 		$.ajax({
 			url: `/api${url}`,
 			type: 'GET',
-			success: function (data) {
-				window.props = data
-				$('#members_list').html(data);
-			}
-		});
+            success(data) {
+                window.props = data
+                $('#members_list').html(data);
+            }
+        });
 
 		// Update url to allow direct links to search
 		const state = window.history.state;

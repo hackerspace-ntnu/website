@@ -1,5 +1,4 @@
 const weekdays = ['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag'];
-let modal_shift_id = 0;
 let modal_day = 0;
 let modal_time = '';
 let modal_watchers = [];

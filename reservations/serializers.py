@@ -45,6 +45,18 @@ class ReservationsSerializer(serializers.ModelSerializer):
             "phone",
         )
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user = self.context["request"].user
+        if (
+            not user.has_perm("reservations.view_user_details")
+            and not user.is_superuser
+        ):
+            representation.pop("user")
+            representation.pop("fullname")
+            representation.pop("phone")
+        return representation
+
     def validate(self, attrs):
         # Updating comment requires PATCH
         if self.context["request"].method == "PATCH":

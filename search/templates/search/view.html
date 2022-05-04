@@ -15,18 +15,29 @@
           </h4>
         </div>
       </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="search-container card-panel z-depth-0 row">
+            <div class="input-field col s12">
+              <input id="search-input" name="query" placeholder="Søk" value="{{ query }}" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="section">
     <div class="container">
       <div class="row">
         <div class="col s12">
-          <h5 class="subheader">Resultater for: <b>{{ query }}</b></h5>
-          <div class="invisible-divider"></div>
-          {% include "search/search_results.html" %}
+          <div id="search-results"></div>
         </div>
       </div>
     </div>
   </div>
-
+  <script>
+    let search = "{{ query }}";
+    let pageNumber = {{ page }};
+  </script>
+  <script src="{% static 'search/javascript/live_search.js' %}"></script>
 {% endblock content %}

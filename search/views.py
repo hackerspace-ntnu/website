@@ -1,6 +1,6 @@
 from itertools import chain
 
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 from news.models import Article, Event
 from projectarchive.models import Projectarticle
@@ -9,14 +9,25 @@ from userprofile.models import Profile
 from website.models import FaqQuestion, Rule
 
 
-class SearchView(ListView):
+class SearchView(TemplateView):
     template_name = "search/view.html"
-    paginate_by = 20
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["query"] = self.request.GET.get("q", "")
+        context["page"] = self.request.GET.get("p", 1)
+        return context
+
+
+class SearchAPIView(ListView):
+    template_name = "search/search_results.html"
+    paginate_by = 5
     count = 0
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["query"] = self.request.GET.get("q")
+        context["query"] = self.request.GET.get("q", "")
+        context["page"] = self.request.GET.get("p", 1)
         return context
 
     def get_queryset(self):

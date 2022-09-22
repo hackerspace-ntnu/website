@@ -7,7 +7,6 @@ import os
 # General                       #
 #################################
 
-
 SECRET_KEY = "SECRET_KEY"
 DB = "sqlite"
 DEBUG = True
@@ -348,3 +347,9 @@ INTRANET_GREETINGS = [
 # Website-specific              #
 #################################
 WORKSHOP_OPEN_DAYS = 5
+
+#################################
+# Markdownx                     #
+#################################
+MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
+MARKDOWNX_EDITOR_RESIZABLE = False

@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+from bleach import clean
+from bleach_whitelist import markdown_tags, markdown_attrs
 
 from files.models import Image
 
@@ -50,7 +52,7 @@ class Article(models.Model):
         return self.id
 
     def formatted_markdown(self):
-        return markdownify(self.main_content)
+        return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
 
 
 class Event(models.Model):
@@ -287,7 +289,7 @@ class Event(models.Model):
         )
 
     def formatted_markdown(self):
-        return markdownify(self.main_content)
+        return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
 
 
 class Upload(models.Model):

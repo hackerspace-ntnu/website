@@ -27,6 +27,7 @@ class Eventadmin(MarkdownxModelAdmin):
                     "registration",
                     "max_limit",
                     "registration_start",
+                    "registration_end",
                     "deregistration_end",
                 ]
             },

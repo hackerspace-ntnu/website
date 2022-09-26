@@ -15,7 +15,9 @@
 					<p class="col s6">
 						Åpningstider:<br>
 						10:15 - 18:00<br>
-						Alle hverdager
+						Alle hverdager <br>
+						Se <a href="{% url 'watchlist:vaktliste' %}">vaktlista</a>
+						for detaljerte åpningstider
 					</p>
 				</div>
 				<p>For øvrige henvendelser kan du også ta kontakt via <a class="white-text" href="mailto:hackerspace-styret@idi.ntnu.no">hackerspace-styret@idi.ntnu.no</a>
@@ -58,8 +60,10 @@
 	<div class="footer-copyright hs-gray center">
 		<div class="container white-text">
 			<div class="row">
-				<div class="col s12">
+				<div class="col s6">
 					<a href="https://www.ntnu.no/idi/" target="_blank"><img style="width: 100%; max-width: 300px;" src="{% static 'website/img/logo/IDI_logo_white.svg' %}"></a>
+				</div>
+				<div class="col s6">
 					<a href="https://www.ntnu.no/ie/kid/" target="_blank"><img style="width: 100%; max-width: 300px;" src="{% static 'website/img/logo/KiD_logo_white.png' %}"></a>
 				</div>
 			</div>

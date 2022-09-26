@@ -62,7 +62,9 @@ class Category(models.Model):
 
 class ProfileManager(models.Manager):
     def search(self, query: str = None):
-        qs = self.get_queryset()
+        qs = self.get_queryset().filter(
+            user__groups__name__in=Committee.objects.values_list("name", flat=True)
+        )
         if query is not None:
             or_lookup = (
                 Q(user__username__icontains=query)

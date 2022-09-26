@@ -31,7 +31,7 @@ class Eventadmin(admin.ModelAdmin):
             },
         ),
         ("Skills", {"fields": ["skills"]}),
-        ("Advanced", {"fields": ["draft"]}),
+        ("Advanced", {"fields": ["draft", "internal", "responsible"]}),
     ]
     search_fields = ["title"]
     list_display = ["title", "pub_date", "draft", "internal"]

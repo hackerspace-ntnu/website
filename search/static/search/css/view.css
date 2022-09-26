@@ -1,0 +1,8 @@
+.search-container {
+    padding-top: 0.5em !important;
+    padding-bottom: 0.25em !important;
+}
+
+#search-results > h5 {
+    color: grey;
+}

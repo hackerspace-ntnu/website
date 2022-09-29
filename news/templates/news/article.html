@@ -36,6 +36,7 @@
 					{% if article.author %}
 					<p>Skrevet av <a href="{% url 'userprofile:profile_by_id' article.author.id %}">{{ article.author.get_full_name }}</a></p>
 					{% endif %}
+					<p>Lest {{ article.views }} ganger</p>
 				</div>
 			</div>
 			<div class="row">

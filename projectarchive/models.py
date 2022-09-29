@@ -1,3 +1,5 @@
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.contrib.auth.admin import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
@@ -5,8 +7,6 @@ from django.db.models import Q
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
-from bleach import clean
-from bleach_whitelist import markdown_tags, markdown_attrs
 
 from files.models import Image
 

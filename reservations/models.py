@@ -1,9 +1,19 @@
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 
 from files.models import Image
+
+
+class QueueManager(models.Manager):
+    def search(self, query: str = None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = Q(name__icontains=query) | Q(description__icontains=query)
+            qs = qs.filter(or_lookup).distinct()
+        return qs
 
 
 class Queue(models.Model):
@@ -34,6 +44,8 @@ class Queue(models.Model):
     thumbnail = models.ForeignKey(
         Image, null=True, on_delete=models.CASCADE, blank=True
     )
+
+    objects = QueueManager()
 
     def __str__(self):
         return self.name

@@ -1,0 +1,13 @@
+{% load add_date %}
+
+{% with type_icon="event" type_name="Arrangement" type_name_short="Arrang-<br/>ement" %}
+  {% with url_view="events:details" url_option=object.id %}
+    {% with title=object.title %}
+      {% with badge_text=object.time_start %}
+        {% with description=object.ingress_content|truncatechars:200 %}
+          {% include "search/search_item.html" %}
+        {% endwith %}
+      {% endwith %}
+    {% endwith %}
+  {% endwith %}
+{% endwith %}

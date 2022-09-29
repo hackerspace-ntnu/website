@@ -1,6 +1,7 @@
 from django.contrib.auth.admin import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
@@ -8,6 +9,20 @@ from bleach import clean
 from bleach_whitelist import markdown_tags, markdown_attrs
 
 from files.models import Image
+
+
+class ProjectarticleManager(models.Manager):
+    def search(self, query: str = None):
+        qs = self.get_queryset()
+        if query is not None:
+            or_lookup = (
+                Q(title__icontains=query)
+                | Q(main_content__icontains=query)
+                | Q(ingress_content__icontains=query)
+                | Q(author__first_name__icontains=query)
+            )
+            qs = qs.filter(or_lookup).distinct()
+        return qs
 
 
 class Projectarticle(models.Model):
@@ -30,6 +45,8 @@ class Projectarticle(models.Model):
     redirect = models.IntegerField("Redirect", default=0)
 
     draft = models.BooleanField(default=False, verbose_name="Utkast")
+
+    objects = ProjectarticleManager()
 
     def __str__(self):
         return self.title

@@ -1,0 +1,13 @@
+{% load add_date %}
+
+{% with type_icon="gavel" type_name="Regel" type_name_short="Regel" %}
+  {% with url_view="rule_details" url_option=object.id %}
+    {% with title=object.title %}
+      {% with badge_text="Oppdatert "|add_date:object.pub_date %}
+        {% with description=object.body|striptags|truncatechars:200 %}
+          {% include "search/search_item.html" %}
+        {% endwith %}
+      {% endwith %}
+    {% endwith %}
+  {% endwith %}
+{% endwith %}

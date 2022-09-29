@@ -352,5 +352,5 @@ WORKSHOP_OPEN_DAYS = 5
 #################################
 # Markdownx                     #
 #################################
-MARKDOWNX_MARKDOWNIFY_FUNCTION = 'markdownx.utils.markdownify'
+MARKDOWNX_MARKDOWNIFY_FUNCTION = "markdownx.utils.markdownify"
 MARKDOWNX_EDITOR_RESIZABLE = False

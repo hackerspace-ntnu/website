@@ -13,3 +13,5 @@ social-auth-app-django==5.0.0
 rapidfuzz==1.8.2
 django-ical==1.8.3
 django-markdownx==3.0.1
+bleach==5.0.1
+bleach-whitelist==0.0.11

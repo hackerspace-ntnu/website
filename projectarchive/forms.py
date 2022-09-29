@@ -1,8 +1,6 @@
 from django import forms
-from django.db.utils import OperationalError, ProgrammingError
 from django.forms.widgets import ClearableFileInput
 
-from committees.models import Committee
 from projectarchive.models import Projectarticle, Upload
 
 
@@ -56,15 +54,6 @@ class UploadForm(forms.ModelForm):
     class Meta:
         model = Upload
         fields = ["title", "file"]
-
-
-def get_committees():
-    try:
-        return list(Committee.objects.values_list("name", flat=True))
-    except OperationalError:
-        return []
-    except ProgrammingError:
-        return []
 
 
 class ArticleForm(forms.ModelForm):

@@ -48,9 +48,14 @@ class LogEntryAdmin(admin.ModelAdmin):
 
     date_hierarchy = "action_time"
 
-    list_filter = ["user", "content_type", "action_flag"]
+    list_filter = ["content_type", "action_flag", "user__groups"]
 
-    search_fields = ["action_time", "object_repr", "change_message"]
+    search_fields = [
+        "object_repr",
+        "change_message",
+        "user__first_name",
+        "user__last_name",
+    ]
 
     list_display = [
         "action_time",
@@ -58,6 +63,7 @@ class LogEntryAdmin(admin.ModelAdmin):
         "content_type",
         "object_link",
         "action_flag",
+        "change_message",
     ]
 
     def has_add_permission(self, request):

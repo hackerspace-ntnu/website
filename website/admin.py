@@ -50,7 +50,7 @@ class LogEntryAdmin(admin.ModelAdmin):
 
     list_filter = ["user", "content_type", "action_flag"]
 
-    search_fields = ["object_repr", "change_message"]
+    search_fields = ["action_time", "object_repr", "change_message"]
 
     list_display = [
         "action_time",

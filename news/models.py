@@ -27,7 +27,7 @@ class ArticleManager(models.Manager):
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel")
-    main_content = MarkdownxField()
+    main_content = MarkdownxField(blank=True, verbose_name="Brødtekst")
     ingress_content = models.TextField(
         max_length=400,
         blank=True,

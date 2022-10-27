@@ -2,8 +2,7 @@ from datetime import datetime
 from random import randint
 from urllib import parse as urlparse
 
-from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        PermissionRequiredMixin)
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.generic import DetailView, RedirectView, TemplateView

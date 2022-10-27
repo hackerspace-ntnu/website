@@ -10,11 +10,21 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
-from .forms import (ArticleForm, EventForm, eventAttendeeFormSet,
-                    eventSkillFormSet, uploadformset)
+from .forms import (
+    ArticleForm,
+    EventForm,
+    eventAttendeeFormSet,
+    eventSkillFormSet,
+    uploadformset,
+)
 from .models import Article, Event, EventRegistration
 
 

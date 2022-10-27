@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+from datetime import datetime
 
 # -*- coding: utf-8 -*-
 import os
@@ -352,7 +353,6 @@ WORKSHOP_OPEN_DAYS = 5
 #################################
 # Markdownx                     #
 #################################
-from datetime import datetime
 
 # Markdownify
 MARKDOWNX_MARKDOWNIFY_FUNCTION = "markdownx.utils.markdownify"  # Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.

@@ -3,20 +3,17 @@ from itertools import chain
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.messages.views import SuccessMessageMixin
-
 # For merging user and profile forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-
 # For approving skills
 from django.views.generic import CreateView, RedirectView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
-
 # Member list search
 from rapidfuzz import fuzz
 from rest_framework import status

@@ -11,23 +11,12 @@ from rest_framework import routers
 from inventory import views as inventory_views
 from reservations import views as reservation_views
 from search.views import SearchAPIView, SearchView
-from userprofile.views import (
-    MembersAPIView,
-    MembersView,
-    MostRecentTermsOfServiceView,
-    TermsOfServiceCreateView,
-    TermsOfServiceView,
-)
-from website.views import (
-    AboutView,
-    AcceptTosRedirectView,
-    AcceptTosView,
-    AdminView,
-    IndexView,
-    IntranetView,
-    RuleDetailsView,
-    RulesView,
-)
+from userprofile.views import (MembersAPIView, MembersView,
+                               MostRecentTermsOfServiceView,
+                               TermsOfServiceCreateView, TermsOfServiceView)
+from website.views import (AboutView, AcceptTosRedirectView, AcceptTosView,
+                           AdminView, IndexView, IntranetView, RuleDetailsView,
+                           RulesView)
 
 handler404 = "website.views.handler404"
 handler403 = "website.views.handler403"

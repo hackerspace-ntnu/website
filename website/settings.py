@@ -1,8 +1,8 @@
 from __future__ import absolute_import, unicode_literals
-from datetime import datetime
 
 # -*- coding: utf-8 -*-
 import os
+from datetime import datetime
 
 #################################
 # General                       #

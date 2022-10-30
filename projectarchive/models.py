@@ -1,9 +1,12 @@
-from ckeditor_uploader.fields import RichTextUploadingField
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.contrib.auth.admin import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from files.models import Image
 
@@ -24,7 +27,7 @@ class ProjectarticleManager(models.Manager):
 
 class Projectarticle(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel")
-    main_content = RichTextUploadingField(blank=True, verbose_name="Brødtekst")
+    main_content = MarkdownxField(blank=True, verbose_name="Brødtekst")
     ingress_content = models.TextField(
         max_length=400,
         blank=True,
@@ -60,6 +63,9 @@ class Projectarticle(models.Model):
         if self.redirect:
             return self.redirect
         return self.id
+
+    def formatted_markdown(self):
+        return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
 
 
 class Upload(models.Model):

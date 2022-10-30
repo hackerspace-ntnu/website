@@ -38,12 +38,12 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="row">
+			<div id="article_content" class="row">
 				<div class="col s12">
 					<div class="divider"></div>
 					<p><b>{{ article.ingress_content }}</b></p>
 					{% autoescape off %}
-						{{ article.main_content }}
+						{{ article.formatted_markdown|safe }}
 					{% endautoescape %}
 				</div>
 			</div>

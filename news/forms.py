@@ -4,6 +4,7 @@ from django.db.utils import OperationalError, ProgrammingError
 from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
 from django.utils import timezone
+from markdownx.fields import MarkdownxFormField
 
 from committees.models import Committee
 from news.models import Article, Event, EventRegistration, Upload
@@ -207,6 +208,7 @@ class ArticleForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
         label="Ingress",
         help_text="En kort introduksjon til teksten",
     )
+    main_content = MarkdownxFormField()
 
     class Meta:
         model = Article

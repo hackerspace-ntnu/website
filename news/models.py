@@ -1,9 +1,12 @@
-from ckeditor_uploader.fields import RichTextUploadingField
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.contrib.auth.admin import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from files.models import Image
 
@@ -24,7 +27,7 @@ class ArticleManager(models.Manager):
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel")
-    main_content = RichTextUploadingField(blank=True, verbose_name="Brødtekst")
+    main_content = MarkdownxField(blank=True, verbose_name="Brødtekst")
     ingress_content = models.TextField(
         max_length=400,
         blank=True,
@@ -65,6 +68,9 @@ class Article(models.Model):
             return self.redirect
         return self.id
 
+    def formatted_markdown(self):
+        return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
+
 
 class EventManager(models.Manager):
     def search(self, query: str = None):
@@ -82,7 +88,7 @@ class EventManager(models.Manager):
 
 class Event(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel")
-    main_content = RichTextUploadingField(blank=True, verbose_name="Hovedtekst")
+    main_content = MarkdownxField(blank=True, verbose_name="Hovedtekst")
     ingress_content = models.TextField(
         max_length=400,
         blank=True,
@@ -314,6 +320,9 @@ class Event(models.Model):
             ),
             ("can_view_internal_event", "Can see internal events"),
         )
+
+    def formatted_markdown(self):
+        return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
 
 
 class Upload(models.Model):

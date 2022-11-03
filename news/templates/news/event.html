@@ -57,11 +57,11 @@
 						{% endif %}
 					{% endif %}
 				</div>
-				<div class="col s12">
+				<div id="article_content" class="col s12">
 					<div class="divider"></div>
 					<p><b>{{ event.ingress_content }}</b></p>
 					{% autoescape off %}
-					{{ event.main_content }}
+					{{ event.formatted_markdown|safe }}
 					{% endautoescape %}
 					<div class="divider"></div>
 					<p><a href="feed.ics">

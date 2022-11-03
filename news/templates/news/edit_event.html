@@ -45,7 +45,12 @@
                             <p>{{ form.main_content.label }}</p>
                             <span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
                             {{ form.main_content }}
+                            <div class="helper-text">
+                                <p>Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan legges til ved drag-and-drop.</p>
+                                <p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
+                            </div>
                         </div>
+                        {{ form.media }}
                     </div>
                 </div>
                 <div class="card-panel">

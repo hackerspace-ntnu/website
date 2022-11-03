@@ -220,6 +220,30 @@ textarea.materialize-textarea:focus {
 	color: #5BBA47;
 }
 
+/* markdown field for entering article and event main content */
+.markdownx-editor {
+    background-color: transparent;
+	max-width: 100%;
+	min-width: 100%;
+	min-height: 20rem;
+	padding: 10px;
+	border: none;
+    border-bottom: 1px solid #9e9e9e;
+    outline: none;
+    height: 30rem;
+    width: 100%;
+    font-size: 16px;
+    margin: 0 0 8px 0;
+}
+.markdownx-editor:focus {
+	border: 1px solid #939084 !important;
+    box-shadow: 0 1px 0 0 #939084 !important;
+}
+
+.input-field>p {
+	color: #9e9e9e;
+}
+
 .datepicker-date-display {
 	background-color: #5BBA47;
 }
@@ -236,7 +260,6 @@ textarea.materialize-textarea:focus {
 	background-color: #5BBA47;
 	color: #fff;
 }
-
 
 /* Definer hackerspace farger som klasser */
 .hs-gray {

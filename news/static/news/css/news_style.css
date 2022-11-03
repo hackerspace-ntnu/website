@@ -2,11 +2,22 @@
 	margin-top: -96px !important;
 	position: relative;
 }
+
 #article_content li {
 	list-style: inside;
 }
 
 #article_content {
-    width: 100%;
-    overflow-wrap: break-word;
+	width: 100%;
+	overflow-wrap: break-word;
+}
+
+.markdownx .markdownx-preview ul li {
+	list-style-type: revert;
+	list-style-position: inside;
+}
+
+.markdownx .markdownx-preview ul {
+	list-style-type: revert;
+	list-style-position: inside;
 }

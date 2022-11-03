@@ -234,6 +234,7 @@ textarea.materialize-textarea:focus {
     width: 100%;
     font-size: 16px;
     margin: 0 0 8px 0;
+	list-style-position: inside;
 }
 .markdownx-editor:focus {
 	border: 1px solid #939084 !important;

@@ -104,3 +104,14 @@ strong {
 .collection-icon-text{
     margin-left: 8px;
 }
+
+.markdownx .markdownx-preview ul li {
+	list-style-type: revert;
+	list-style-position: inside;
+}
+
+.markdownx .markdownx-preview ul {
+	list-style-type: revert;
+	list-style-position: inside;
+}
+

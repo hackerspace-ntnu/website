@@ -21,3 +21,7 @@
 	list-style-type: revert;
 	list-style-position: inside;
 }
+
+.markdownx .markdownx-preview li ul li {
+	margin-left: 20px;
+}

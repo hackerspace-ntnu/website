@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from .models import Item, ItemLoan
+from inventory.models.equipment import Equipment
+from inventory.models.item import Item
+from inventory.models.item_loan import ItemLoan
 
 
 @admin.register(Item)
@@ -40,3 +42,4 @@ class ItemLoanAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ItemLoan, ItemLoanAdmin)
+admin.site.register(Equipment)

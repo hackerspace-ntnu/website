@@ -11,7 +11,7 @@ from django.views.generic import DetailView, RedirectView, TemplateView
 from applications.models import ApplicationPeriod
 from committees.models import Committee
 from door.models import DoorStatus
-from inventory.models import ItemLoan
+from inventory.models.item_loan import ItemLoan
 from news.models import Article, Event
 from userprofile.models import Profile, TermsOfService
 

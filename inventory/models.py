@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+from markdownx.models import MarkdownxField
 
 from applications.validators import validate_phone_number
 from files.models import Image
@@ -130,3 +131,13 @@ class ItemLoan(models.Model):
     def overdue(self):
         """Checks if the loan is overdue for return"""
         return timezone.now().date() > self.loan_to
+
+
+class Equipment(models.Model):
+    """Types of equipment that the workshop has and provides"""
+
+    name = models.CharField(max_length=255, verbose_name="Navn")
+    description = MarkdownxField(blank=True, verbose_name="Beskrivelse")
+    inventory_link = models.URLField(
+        verbose_name="Lenke til lagersystemet", blank=True, null=True
+    )

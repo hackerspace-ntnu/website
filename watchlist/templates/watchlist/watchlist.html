@@ -63,7 +63,10 @@
                                 {% endif %}
                             >
                                 <div class="watchlist-cell-content">
-                                    <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
+                                    <div class="
+                                            watchlist-tag white-text 
+                                            {% if perms.watchlist.view_shiftslot %} watchlist-tag-interactive {% endif %} 
+                                            {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                                         {% if shift.watchers.count == 0 %}
                                         <i class="material-icons">block</i>
                                         {% elif shift.watchers.count == 1 %}

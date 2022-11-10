@@ -81,9 +81,6 @@
 	z-index: 70;
 	position:relative;
 }
-strong {
-	font-weight: bolder !important;
-}
 .listview-indicator{
 	padding: 14px 20px
 }
@@ -103,18 +100,4 @@ strong {
 
 .collection-icon-text{
     margin-left: 8px;
-}
-
-.markdownx .markdownx-preview ul li {
-	list-style-type: revert;
-	list-style-position: inside;
-}
-
-.markdownx .markdownx-preview ul {
-	list-style-type: revert;
-	list-style-position: inside;
-}
-
-.markdownx .markdownx-preview li ul li {
-	margin-left: 20px;
 }

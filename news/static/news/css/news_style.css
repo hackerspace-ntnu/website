@@ -11,17 +11,3 @@
 	width: 100%;
 	overflow-wrap: break-word;
 }
-
-.markdownx .markdownx-preview ul li {
-	list-style-type: revert;
-	list-style-position: inside;
-}
-
-.markdownx .markdownx-preview ul {
-	list-style-type: revert;
-	list-style-position: inside;
-}
-
-.markdownx .markdownx-preview li ul li {
-	margin-left: 20px;
-}

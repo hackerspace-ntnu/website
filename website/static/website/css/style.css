@@ -34,6 +34,9 @@ main {
 	padding-top:24px;
 }
 
+strong {
+	font-weight: bolder !important;
+}
 
 /* Resize og posisjonering av header bilder */
 .mobile-img .brand-logo-text {
@@ -240,6 +243,21 @@ textarea.materialize-textarea:focus {
 	border: 1px solid #939084 !important;
     box-shadow: 0 1px 0 0 #939084 !important;
 }
+
+.markdownx .markdownx-preview ul li {
+	list-style-type: revert;
+}
+
+.markdownx .markdownx-preview ul {
+	list-style-type: revert;
+	list-style-position: inside;
+}
+
+.markdownx .markdownx-preview li ul li {
+	margin-left: 20px;
+}
+
+/* End markdown css */
 
 .input-field>p {
 	color: #9e9e9e;

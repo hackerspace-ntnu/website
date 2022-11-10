@@ -244,16 +244,26 @@ textarea.materialize-textarea:focus {
     box-shadow: 0 1px 0 0 #939084 !important;
 }
 
-.markdownx .markdownx-preview ul li {
+
+.markdown_content {
+	width: 100%;
+	overflow-wrap: break-word;
+}
+
+.markdown_content li {
+	list-style: inside;
+}
+
+.markdownx .markdownx-preview ul li, .markdown_content ul li {
 	list-style-type: revert;
 }
 
-.markdownx .markdownx-preview ul {
+.markdownx .markdownx-preview ul, .markdown_content ul {
 	list-style-type: revert;
 	list-style-position: inside;
 }
 
-.markdownx .markdownx-preview li ul li {
+.markdownx .markdownx-preview li ul li, .markdown_content li ul li {
 	margin-left: 20px;
 }
 

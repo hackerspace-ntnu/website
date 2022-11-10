@@ -2,12 +2,3 @@
 	margin-top: -96px !important;
 	position: relative;
 }
-
-#article_content li {
-	list-style: inside;
-}
-
-#article_content {
-	width: 100%;
-	overflow-wrap: break-word;
-}

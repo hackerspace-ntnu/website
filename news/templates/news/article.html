@@ -19,9 +19,9 @@
 		<img class="responsive-img" src="{{ object.thumbnail.url }}" />
 	</div>
 </div>
-<div class="section hs-green no-pad-top">
+<div class="section hs-green {% if object.thumbnail %}no-pad-top{% endif %}">
 	<div class="container">
-		<div class="card-panel cut-top z-depth-2">
+		<div class="card-panel {% if object.thumbnail %}cut-top{% endif %} z-depth-2">
 			<div class="row">
 				<div class="col s12">
 					{% if article.draft %}

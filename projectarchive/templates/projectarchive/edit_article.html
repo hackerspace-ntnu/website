@@ -4,6 +4,7 @@
 {% block head %}
 <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'projectarchive/css/projectarchive_style.css' %}">
 {% endblock head %}
 
 {% block content %}
@@ -43,7 +44,8 @@
 						<span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
 						{{ form.main_content }}
 						<div class="helper-text">
-							<p>Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan legges til ved drag-and-drop.</p>
+							<p>Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan
+								legges til ved drag-and-drop.</p>
 							<p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
 						</div>
 					</div>
@@ -54,23 +56,26 @@
 					<div class="hide col s12 input-field">
 						<div class="col s12">
 							<p>
-							<label>
-								{{ form.draft }}
-								<span>{{ form.draft.label }}</span>
-							</label>
+								<label>
+									{{ form.draft }}
+									<span>{{ form.draft.label }}</span>
+								</label>
 							</p>
 						</div>
 					</div>
-					<button id="submit" class="hide btn btn-large hs-green waves-effect waves-light" type="submit" name="form_submit">Lagre og publiser artikkel</button>
-					<a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">Lagre og publiser artikkel</a>
-					<a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">Lagre som utkast</a>
-							</div>
-						</div>
-					</div>
-				</form>
+					<button id="submit" class="hide btn btn-large hs-green waves-effect waves-light" type="submit"
+						name="form_submit">Lagre og publiser artikkel</button>
+					<a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">Lagre og
+						publiser artikkel</a>
+					<a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">Lagre som
+						utkast</a>
 			</div>
 		</div>
 	</div>
+	</form>
+</div>
+</div>
+</div>
 </div>
 <script src="{% static 'projectarchive/js/save_draft_or_publish.js' %}"></script>
 {% endblock content %}

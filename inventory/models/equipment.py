@@ -1,5 +1,8 @@
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.db import models
 from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from files.models import Image
 
@@ -15,3 +18,6 @@ class Equipment(models.Model):
     thumbnail = models.ForeignKey(
         Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Bilde"
     )
+
+    def formatted_markdown(self):
+        return clean(markdownify(self.description), markdown_tags, markdown_attrs)

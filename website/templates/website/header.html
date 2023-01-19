@@ -174,38 +174,38 @@
                         </a></li>
 						{% else %}
 						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
-                                <i class="material-icons small">login</i>{% trans "Logg inn" %}
+                            <i class="material-icons small">login</i>{% trans "Logg inn" %}
                         </a></li>
 						{% endif %}
 					</ul>
 					<!-- Dropdown for ressurser -->
 					<ul id="resourcedropdown" class="dropdown-content">
-						<li class="tooltipped" data-position="left" data-tooltip="Se hvor vi befinner oss">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se hvor vi befinner oss"%}">
 							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="{{ mazemap_link }}">
                                 <i class="material-icons small">map</i>{% trans "Kart" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Se liste over medlemmer">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se liste over medlemmer" %}">
 							<a href="{% url 'member-list' %}">
                                 <i class="material-icons small">groups</i>{% trans "Medlemmer" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Se vaktlista vår">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se vaktlista vår" %}">
 							<a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
                                 <i class="material-icons small">free_breakfast</i>{% trans "Vaktliste" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Se lagerbeholdningen vår">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se lagerbeholdningen vår" %}">
 							<a href="{% url 'inventory:inventory' %}">
                                 <i class="material-icons">inbox</i>{% trans "Lager" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Se utstyr og reserver tid">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se utstyr og reserver tid" %}">
 							<a href="{% url 'reservations:queue_list' %}">
                                 <i class="material-icons small">calendar_month</i>{% trans "Reservasjoner" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Se regler">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se regler" %}">
 							<a href="{% url 'rules' %}">
                                 <i class="material-icons small">gavel</i>{% trans "Regler" %}
                             </a>
@@ -215,18 +215,18 @@
                                 <i class="material-icons small">group_add</i>{% trans "Opptak" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Les om våres tidligere prosjekter her">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Les om våres tidligere prosjekter her" %}">
 							<a href="{% url 'projectarchive:Article_List' %}">
                                 <i class="material-icons small">inventory_2</i>{% trans "Prosjektarkiv" %}
                             </a>
 						</li>
-						<li class="tooltipped" data-position="left" data-tooltip="Les om vår organisasjon og grupper her">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Les om vår organisasjon og grupper her" %}">
 							<a href="{% url 'about' %}">
                                 <i class="material-icons small">info</i>{% trans "Om oss" %}
                             </a>
 						</li>
 						{% if user.is_authenticated and perms.userprofile.is_active_member %}
-						<li class="tooltipped" data-position="left" data-tooltip="Dashbord for medlemmer av Hackerspace">
+                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Dashbord for medlemmer av Hackerspace" %}">
 							<a href="{% url 'internalportal' %}">
                                 <i class="material-icons small">dashboard</i>{% trans "Internportal" %}
                             </a>

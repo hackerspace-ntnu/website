@@ -295,14 +295,13 @@ EMAIL_USE_TLS = True
 # Internalization               #
 #################################
 
-LOCALE_PATHS = (
-    BASE_DIR + 'locale/', )
+LOCALE_PATHS = (BASE_DIR + "locale/",)
 TIME_ZONE = "Europe/Oslo"
 
 LANGUAGE_CODE = "nb"
 LANGUAGES = (
-    ('nb', 'Norwegian'),
-    ('en', 'English'),
+    ("nb", "Norwegian"),
+    ("en", "English"),
 )
 
 USE_I18N = True

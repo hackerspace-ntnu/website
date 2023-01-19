@@ -2,6 +2,7 @@
 {% extends 'website/base.html' %}
 
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <title>Vaktliste</title>
@@ -15,7 +16,7 @@
         <div class="row">
             <div class="col s12">
                 <h4>Vaktliste</h4>
-                <p>Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har.</p>
+                <p>{% trans "Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har" %}.</p>
             </div>
         </div>
     </div>
@@ -63,7 +64,7 @@
                             >
                                 <div class="watchlist-cell-content">
                                     <div class="
-                                            watchlist-tag white-text 
+                                            watchlist-tag white-text
                                             watchlist-tag-interactive
                                             {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                                         {% if shift.watchers.count == 0 %}
@@ -104,11 +105,11 @@
                 <table>
                     <thead>
                         <tr class="watchlist-row watchlist-header-row">
-                            <th>Tid</th>
+                            <th>{% trans "Tid" %}</th>
                             <th>{{ day }}</th>
                         </tr>
                     </thead>
-                    
+
 
                     <tbody>
                         {% for time, shifts in rows.items %}
@@ -149,7 +150,7 @@
                                     <div class="watchlist-skills">
                                         {% for category, data in shift.get_shift_skills.items %}
                                         <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
-                                            <span>		
+                                            <span>
                                                 {% if data.level %}
                                                 <i class="tiny material-icons">check</i>
                                                 {% endif %}
@@ -186,8 +187,8 @@
                             <i class="material-icons">block</i>
                         </div>
                         <p>
-                            Verkstedet er <b>stengt</b><br>
-                            Ingen på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "stengt" %}</b><br>
+                            {% trans "Ingen på vakt" %}
                         </p>
                     </div>
                     <div class="legend-symbol col s12 m6 l3">
@@ -195,8 +196,8 @@
                             <i class="material-icons">person</i>
                         </div>
                         <p>
-                            Verkstedet er <b>åpent</b><br>
-                            1 person på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "åpent" %}</b><br>
+                            1 {% trans "person på vakt" %}
                         </p>
                     </div>
                     <div class="legend-symbol col s12 m6 l3">
@@ -204,8 +205,8 @@
                             <i class="material-icons">group</i>
                         </div>
                         <p>
-                            Verkstedet er <b>åpent</b><br>
-                            2 personer på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "åpent" %}</b><br>
+                            2 {% trans "personer på vakt" %}
                         </p>
                     </div>
                     <div class="legend-symbol col s12 m6 l3">
@@ -213,14 +214,14 @@
                             <i class="material-icons">group_add</i>
                         </div>
                         <p>
-                            Verkstedet er <b>åpent</b><br>
-                            3+ personer på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "åpent" %}</b><br>
+                            3+ {% trans "personer på vakt" %}
                         </p>
                     </div>
                 </div>
                 <hr/>
                 <h5>Ferdigheter</h5>
-                <p>Hvis ferdighetskulen er avmerket viser det oppnåd ferdighet blant alle som er på vakt.</p>
+                <p>{% trans "Hvis ferdighetskulen er avmerket viser det oppnåd ferdighet blant alle som er på vakt." %}.</p>
                 <div class="row">
                     {% for category in skill_categories %}
                     <div class="legend-symbol col s12 m6 l3">

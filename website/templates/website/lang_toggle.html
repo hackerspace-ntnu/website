@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+    {% get_current_language as LANGUAGE_CODE %}
+    <input name="next" type="hidden" value="{{ redirect_to }}">
+    <input name="language" type="hidden" 
+    value=
+      {% if LANGUAGE_CODE == "nb" %}
+        "en"
+      {% else %}
+        "nb"
+      {% endif %}
+    >
+    <input type="submit" value={{ LANGUAGE_CODE }}>
+</form>

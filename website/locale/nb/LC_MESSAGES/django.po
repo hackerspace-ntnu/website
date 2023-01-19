@@ -1,0 +1,154 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-21 19:54+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/website/index.html:24
+msgid "Har du en skaper i magen?"
+msgstr ""
+
+#: templates/website/index.html:25
+msgid ""
+"Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i "
+"ditt neste prosjekt."
+msgstr ""
+
+#: templates/website/index.html:31
+msgid "Nysgjerrig på VR?"
+msgstr ""
+
+#: templates/website/index.html:32
+msgid ""
+"Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-"
+"utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på "
+"Hackerspace."
+msgstr ""
+
+#: templates/website/index.html:38
+msgid "Kreativt, innovativt og ikke minst sosialt"
+msgstr ""
+
+#: templates/website/index.html:53
+msgid "Hvem er vi?"
+msgstr ""
+
+#: templates/website/index.html:54
+msgid ""
+"Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle "
+"studenter uavhengig av studieretning."
+msgstr ""
+
+#: templates/website/index.html:55
+msgid ""
+"Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere "
+"og Virtual Reality-utstyr."
+msgstr ""
+
+#: templates/website/index.html:56
+msgid ""
+"Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av "
+"Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og "
+"hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace."
+msgstr ""
+
+#: templates/website/index.html:57
+msgid ""
+"Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå "
+"av en prat, tar vi deg varmt imot på"
+msgstr ""
+
+#: templates/website/index.html:57
+msgid "vårt verksted"
+msgstr ""
+
+#: templates/website/index.html:57
+msgid "Slack-kanal"
+msgstr ""
+
+#: templates/website/index.html:58
+msgid ""
+"Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å "
+"demonstrere utstyr eller hjelpe deg."
+msgstr ""
+
+#: templates/website/index.html:59
+msgid "Les mer om oss her"
+msgstr ""
+
+#: templates/website/index.html:62
+msgid "Søk Hackerspace"
+msgstr ""
+
+#: templates/website/index.html:72
+msgid "Siste nytt"
+msgstr ""
+
+#: templates/website/index.html:90
+msgid "Siste arrangementer"
+msgstr ""
+
+#, fuzzy
+#~| msgid "creator-header"
+#~ msgid "arena-text"
+#~ msgstr ""
+#~ "Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, "
+#~ "programvare, 3D-printing, eller andre kule ting."
+
+#, fuzzy
+#~| msgid "creator-header"
+#~ msgid "creator-text"
+#~ msgstr ""
+#~ "Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å "
+#~ "bistå i ditt neste prosjekt."
+
+#~ msgid "curious-text"
+#~ msgstr ""
+#~ "Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-"
+#~ "utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på "
+#~ "Hackerspace."
+
+#~ msgid "who1"
+#~ msgstr ""
+#~ "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for "
+#~ "alle studenter uavhengig av studieretning."
+
+#~ msgid "who2"
+#~ msgstr ""
+#~ "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-"
+#~ "printere og Virtual Reality-utstyr."
+
+#~ msgid "who3"
+#~ msgstr ""
+#~ "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av "
+#~ "Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse "
+#~ "og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace."
+
+#~ msgid "who4"
+#~ msgstr ""
+#~ "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil "
+#~ "slå av en prat, tar vi deg varmt imot på"
+
+#~ msgid "who5"
+#~ msgstr ""
+#~ "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til "
+#~ "å demonstrere utstyr eller hjelpe deg."
+
+#, fuzzy
+#~| msgid "creator-header"
+#~ msgid "who-header"
+#~ msgstr "Hvem er vi?"

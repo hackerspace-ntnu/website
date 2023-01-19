@@ -21,3 +21,7 @@ venv/
 **/__pycache__
 
 /static/
+
+*.html.py
+*.txt.py
+*.mo

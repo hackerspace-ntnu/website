@@ -1,0 +1,160 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-21 19:54+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/website/index.html:24
+msgid "Har du en skaper i magen?"
+msgstr "Are you a creator?"
+
+#: templates/website/index.html:25
+msgid ""
+"Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i "
+"ditt neste prosjekt."
+msgstr ""
+
+#: templates/website/index.html:31
+msgid "Nysgjerrig på VR?"
+msgstr "Curious about VR?"
+
+#: templates/website/index.html:32
+msgid ""
+"Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-"
+"utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på "
+"Hackerspace."
+msgstr ""
+
+#: templates/website/index.html:38
+msgid "Kreativt, innovativt og ikke minst sosialt"
+msgstr "Creative, innovative and social"
+
+#: templates/website/index.html:53
+msgid "Hvem er vi?"
+msgstr "Who are we?"
+
+#: templates/website/index.html:54
+msgid ""
+"Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle "
+"studenter uavhengig av studieretning."
+msgstr ""
+
+#: templates/website/index.html:55
+msgid ""
+"Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere "
+"og Virtual Reality-utstyr."
+msgstr ""
+
+#: templates/website/index.html:56
+msgid ""
+"Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av "
+"Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og "
+"hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace."
+msgstr ""
+
+#: templates/website/index.html:57
+msgid ""
+"Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå "
+"av en prat, tar vi deg varmt imot på"
+msgstr ""
+
+#: templates/website/index.html:57
+msgid "vårt verksted"
+msgstr "our workshop"
+
+#: templates/website/index.html:57
+msgid "Slack-kanal"
+msgstr "Slack channel"
+
+#: templates/website/index.html:58
+msgid ""
+"Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å "
+"demonstrere utstyr eller hjelpe deg."
+msgstr ""
+
+#: templates/website/index.html:59
+msgid "Les mer om oss her"
+msgstr "Read more about us here"
+
+#: templates/website/index.html:62
+msgid "Søk Hackerspace"
+msgstr ""
+
+#: templates/website/index.html:72
+msgid "Siste nytt"
+msgstr "Recent news"
+
+#: templates/website/index.html:90
+msgid "Siste arrangementer"
+msgstr "Recent events"
+
+#, fuzzy
+#~| msgid "creator-header"
+#~ msgid "arena-text"
+#~ msgstr ""
+#~ "Hackerspace offers an arena for projects, whether it's IoT gadgets,"
+#~ "software, 3D printing, or other cool stuff."
+
+#, fuzzy
+#~| msgid "creator-header"
+#~ msgid "creator-text"
+#~ msgstr ""
+#~ "We have the necessary equipment, premises and knowledge to assist in your "
+#~ "next project."
+
+#~ msgid "curious-text"
+#~ msgstr ""
+#~ "Whether you just want to test it out, or are a veteran of VR-development, "
+#~ "we have both equipment and expertise in Virtual Reality onHackerspace."
+
+#~ msgid "who1"
+#~ msgstr ""
+#~ "Hackerspace NTNU is a student-run project open to all students regardless "
+#~ "of field of study."
+
+#~ msgid "who2"
+#~ msgstr ""
+#~ "With us you will find new technology at your disposal, including drones, "
+#~ "3D-printers and Virtual Reality equipment."
+
+#~ msgid "who3"
+#~ msgstr ""
+#~ "Whether you want to make an LED light flash or make a 3D model of "
+#~ "itTrondheim, the members of Hackerspace can offer varied and good "
+#~ "expertise andhelp you with that, regardless of your Hackerspace "
+#~ "membership."
+
+#~ msgid "who4"
+#~ msgstr ""
+#~ "If you're wondering about something, have a project you want help with, "
+#~ "or just want to comeby for a chat, we warmly welcome you"
+
+#~ msgid "og"
+#~ msgstr "and"
+
+#~ msgid "who5"
+#~ msgstr ""
+#~ "The on-call system ensures that you always meet someone in the workshop "
+#~ "ready todemonstrate equipment or help you."
+
+#~ msgid " og "
+#~ msgstr " and "
+
+#, fuzzy
+#~| msgid "creator-header"
+#~ msgid "who-header"
+#~ msgstr "Are you a creator?"

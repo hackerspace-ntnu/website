@@ -2,3 +2,6 @@
 	margin-top: -96px !important;
 	position: relative;
 }
+.progress {
+	height: auto;
+}

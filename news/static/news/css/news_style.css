@@ -2,3 +2,15 @@
 	margin-top: -96px !important;
 	position: relative;
 }
+
+.progress {
+	height: auto;
+}
+
+div,h3{
+	word-wrap: break-word;      
+}
+.header-image{
+	max-width: 600px;
+	width: 100%;
+}

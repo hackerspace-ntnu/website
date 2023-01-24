@@ -15,7 +15,7 @@ from news.models import Article, Event
 from userprofile.models import Profile, TermsOfService
 
 from .models import Card, FaqQuestion, Rule
-from .settings import INTRANET_GREETINGS
+from .settings import INTERNALPORTAL_GREETINGS
 
 
 class AcceptTosView(TemplateView):
@@ -246,8 +246,8 @@ class IndexView(TemplateView):
         }
 
 
-class IntranetView(PermissionRequiredMixin, TemplateView):
-    template_name = "website/intranet.html"
+class InternalPortalView(PermissionRequiredMixin, TemplateView):
+    template_name = "website/internalportal.html"
     permission_required = "userprofile.is_active_member"
 
     def get_context_data(self, *args, **kwargs):
@@ -255,8 +255,10 @@ class IntranetView(PermissionRequiredMixin, TemplateView):
 
         context["current_date"] = datetime.now()
 
-        # Random greeting for the intranet header banner. Just for fun
-        greeting = INTRANET_GREETINGS[randint(0, len(INTRANET_GREETINGS) - 1)]
+        # Random greeting for the internalportal header banner. Just for fun
+        greeting = INTERNALPORTAL_GREETINGS[
+            randint(0, len(INTERNALPORTAL_GREETINGS) - 1)
+        ]
         # cba doing a regex or some other fancy stuff to check if the string has formatting
         # just break it till it works
         try:

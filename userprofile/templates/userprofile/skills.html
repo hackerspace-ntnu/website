@@ -37,7 +37,9 @@
               <div class="col tooltipped" data-position="bottom" data-tooltip="{{category.name}}">
                 <a href="{% url 'userprofile:profile_skills_category' category.id %}" class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
                   <span>
-                    {{ level }}
+                    {% if level %}
+										<i class="material-icons">check</i>
+										{% endif %}                    
                   </span>
                 </a>
               </div>
@@ -58,7 +60,9 @@
               <div class="col skill-category-btn" class="tooltipped" data-position="top" data-tooltip="{{category.name}}">
                 <a href="{% url 'userprofile:profile_skills_category' category.id %}" class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
                   <span>
-                    {{ level }}
+                    {% if level %}
+										<i class="material-icons">check</i>
+										{% endif %}                  
                   </span>
                 </a>
               </div>

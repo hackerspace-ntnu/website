@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.db.utils import OperationalError, ProgrammingError
 from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
@@ -138,6 +138,15 @@ def get_committees():
         return []
 
 
+def get_group():
+    try:
+        return list(Group.objects.values_list("name", flat=True))
+    except OperationalError:
+        return []
+    except ProgrammingError:
+        return []
+
+
 class UpdatePubDateOnDraftPublishMixin(forms.ModelForm):
     """
     Form mixin for updating publishing date when draft is published
@@ -172,7 +181,9 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     responsible = UserFullnameChoiceField(
         label="Arrangementansvarlig",
         queryset=User.objects.all()
-        .filter(groups__name__in=get_committees())
+        .filter(
+            groups__name__in=get_group()
+        )  # Get people which has groups but not committees
         .order_by("first_name"),
     )
 

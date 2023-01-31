@@ -334,9 +334,9 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",)
 }
 
-# Random greetings that are displayed to the user on the intranet page
+# Random greetings that are displayed to the user on the internalportal page
 # Just for fun. The user's first name is formatted in
-INTRANET_GREETINGS = [
+INTERNALPORTAL_GREETINGS = [
     "Hei, {}",  # zzz
     "Heisann, {}",  # zzzzzz
     "Halla, {}",  # zzzzzzzzzzzzzzzzz

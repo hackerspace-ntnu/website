@@ -2,6 +2,7 @@
 {% load static %}
 {% block header %}
 	<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <div class="section hs-green">
@@ -53,15 +54,18 @@
 							<a href="{% url 'userprofile:profile_skills_by_id' profile.user.id %}">
 								<i class="material-icons prefix">open_in_new</i>
 							</a>
+							<p>Avmerket sirkel betyr ferdigheten er oppnådd</p>
 						</h5>
 					</li>
 					{% for category, level in category_levels %}
 						<li class="collection-item valign-wrapper row category-level-item">
 							<!-- <img class="circle category-level-thumb" src="{{ category.thumb.thumb_url }}"/> -->
 							<div class="col">
-								<a class="btn-floating btn btn-flat white-text hs-green" style="background-color:{{category.color}} !important;">
-									<span>{{ level }}</span>
-								</a>
+								<span class="btn-floating btn-flat disabled white-text hs-green" style="background-color:{{category.color}} !important;">
+										{% if level %}
+										<i class="material-icons">check</i>
+										{% endif %}
+								</span>
 							</div>
 							<div class="col category-level-name">
 								<span>{{ category }}</span>

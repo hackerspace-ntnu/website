@@ -7,6 +7,10 @@
 	height: auto;
 }
 
+.progress p {
+	position: relative
+}
+
 div,h3{
 	word-wrap: break-word;      
 }

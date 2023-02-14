@@ -15,7 +15,7 @@ div,h3{
 	width: 100%;
 }
 
-#registration-user {
+#registration-users li {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

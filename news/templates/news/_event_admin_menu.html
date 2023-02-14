@@ -60,7 +60,7 @@
 						{% for user in event.registration_list %}
 
 						{% if not user.is_waitlisted %}
-						<li class="collection-item event-attendee-row">
+						<li class="collection-item event-attendee-row" id="registration-user">
 
 							<a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' user.user.id %}">
 								{{ user.user.get_full_name }}

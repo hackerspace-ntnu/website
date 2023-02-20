@@ -1,0 +1,16 @@
+li>div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.header-image {
+    max-width: 600px;
+    width: 100%;
+}
+
+.cut-top {
+    margin-top: -96px !important;
+    position: relative;
+}

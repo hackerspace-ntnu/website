@@ -3,7 +3,9 @@ from django.urls import path
 from inventory.views.equipment import (
     EquipmentCreateView,
     EquipmentDeleteView,
+    EquipmentEditView,
     EquipmentListView,
+    EquipmentView,
 )
 from inventory.views.item import (
     InventoryListView,
@@ -48,6 +50,12 @@ urlpatterns = [
         name="loan_apply",
     ),
     path("equipment", EquipmentListView.as_view(), name="equipment"),
-    path("equipment/new", EquipmentCreateView.as_view(), name="equipment_create"),
-    path("equipment/delete", EquipmentDeleteView.as_view(), name="equipment_delete"),
+    path("equipment/item/<int:pk>", EquipmentView.as_view(), name="equipment_detail"),
+    path("equipment/new", EquipmentCreateView.as_view(), name="equipment_new"),
+    path("equipment/edit/<int:pk>", EquipmentEditView.as_view(), name="equipment_edit"),
+    path(
+        "equipment/delete/<int:pk>",
+        EquipmentDeleteView.as_view(),
+        name="equipment_delete",
+    ),
 ]

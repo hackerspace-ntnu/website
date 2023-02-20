@@ -1,0 +1,57 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="section no-pad hs-green hide-on-med-and-up">
+    <img class="header-image" src="{{ equipment.thumbnail.url }}" />
+</div>
+<div class="section no-pad hs-green hide-on-small-only">
+    <div class="container center">
+        <img class="responsive-img" src="{{ equipment.thumbnail.url }}" />
+    </div>
+</div>
+<div class="section hs-green {% if object.thumbnail %}no-pad-top{% endif %}">
+    <div class="container">
+        <div class="card-panel {% if object.thumbnail %}cut-top{% endif %} z-depth-2">
+            <h1 class="">{{ equipment.name }}</h1>
+            <div class="divider"></div>
+            <div class="markdown_content section">
+                {% autoescape off %}
+                {{ equipment.formatted_markdown|safe }}
+                {% endautoescape %}
+            </div>
+            {% if equipment.inventory_link %}
+            <a class="hs-green btn" href="{{ equipment.inventory_link }}">Til lager</a>
+            {% endif %}
+        </div>
+        {% if perms.inventory.change_equipment %}
+        <div class="card-panel">
+            <div class="row no-bottom-margin">
+                <div class="col s12">
+                    <h5>Administrator-meny</h5>
+                </div>
+                <div class="col s12">
+                    <ul class='collection'>
+                        <li class="collection-item"><a href="{% url 'inventory:equipment_edit' equipment.id %}"><i
+                                    class="material-icons">edit</i><span class="collection-icon-text">Rediger
+                                    utstyr</span></a></li>
+                        {% if perms.equipment.delete_equipment %}
+                        <li class="collection-item"><a href="{% url 'inventory:equipment_delete' equipment.id %}"
+                                class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span
+                                    class="collection-icon-text">Slett utstyr</span></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

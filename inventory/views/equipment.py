@@ -1,7 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView, ListView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from inventory.models.equipment import Equipment
 
@@ -11,7 +17,7 @@ class EquipmentListView(ListView):
 
     model = Equipment
     permission_required = "inventory.view_equipment"
-    template_name = "inventory/equipment/all_equipment.html"
+    template_name = "inventory/equipment/equipment_list.html"
 
     def get_queryset(self):
         return Equipment.objects.all()
@@ -20,6 +26,11 @@ class EquipmentListView(ListView):
         context = super().get_context_data(**kwargs)
         context["items"] = self.get_queryset()
         return context
+
+
+class EquipmentView(DetailView):
+    model = Equipment
+    template_name = "inventory/equipment/equipment.html"
 
 
 class EquipmentDeleteView(PermissionRequiredMixin, DeleteView):
@@ -45,7 +56,7 @@ class EquipmentCreateView(PermissionRequiredMixin, CreateView):
     model = Equipment
     permission_required = "inventory.create_equipment"
     success_message = "Utstyr er registrert"
-    template_name = "inventory/equipment/create_equipment.html"
+    template_name = "inventory/equipment/equipment_edit.html"
 
     fields = [
         "name",
@@ -57,3 +68,8 @@ class EquipmentCreateView(PermissionRequiredMixin, CreateView):
     def get_success_url(self):
         messages.success(self.request, self.success_message)
         return reverse("inventory:equipment", kwargs={"pk": self.object.id})
+
+
+class EquipmentEditView(EquipmentCreateView, UpdateView):
+    permission_required = "inventory.edit_equipment"
+    success_message = "Utstyret er oppdatert"

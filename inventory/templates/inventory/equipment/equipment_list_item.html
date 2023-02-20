@@ -1,0 +1,22 @@
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
+{% endblock %}
+
+{% block content %}
+<li>
+    <div class="row">
+        <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}"
+            class="circle responsive-img col s12 m4">
+        <div class="col s12 m8">
+            <a href="{% url 'inventory:equipment_detail' item.id %}">
+                <h4>{{ item.name }}</h4>
+            </a>
+            {% if item.inventory_link %}
+            <a class=" hs-green btn" href="{{ item.inventory_link }}">Til lager</a>
+            {% endif %}
+        </div>
+    </div>
+</li>
+{% endblock %}

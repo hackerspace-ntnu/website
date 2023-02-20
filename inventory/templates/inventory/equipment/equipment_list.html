@@ -1,0 +1,35 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <div class="section hs-green white-text">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Utstyr</h4>
+                    <p>Her kan du finne utstyr som Hackerspace har</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "inventory/equipment/_list_admin_banner.html" %}
+
+    <div>
+        <ul class="container">
+            {% for item in items %}
+            {% include "inventory/equipment/equipment_list_item.html" %}
+            {% empty %}
+            <h1>Her var det dessverre tomt:(</h1>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

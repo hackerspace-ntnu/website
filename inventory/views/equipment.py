@@ -33,23 +33,6 @@ class EquipmentView(DetailView):
     template_name = "inventory/equipment/equipment.html"
 
 
-class EquipmentDeleteView(PermissionRequiredMixin, DeleteView):
-    """Endpoint for deleting/rejecting loans"""
-
-    model = Equipment
-    permission_required = "inventory.delete_equipment"
-    success_message = "Utstyret er slettet"
-    success_url = reverse_lazy("inventory:equipment")
-
-    def get_success_url(self):
-        messages.success(self.request, self.success_message)
-        return self.success_url
-
-    # Bypass the confirmation (we use a modal)
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
-
-
 class EquipmentCreateView(PermissionRequiredMixin, CreateView):
     """Endpoint for creating and updating equipment"""
 
@@ -73,3 +56,17 @@ class EquipmentCreateView(PermissionRequiredMixin, CreateView):
 class EquipmentEditView(EquipmentCreateView, UpdateView):
     permission_required = "inventory.edit_equipment"
     success_message = "Utstyret er oppdatert"
+
+
+class EquipmentDeleteView(PermissionRequiredMixin, DeleteView):
+    """Endpoint for deleting/rejecting loans"""
+
+    model = Equipment
+    permission_required = "inventory.delete_equipment"
+    success_message = "Utstyret er slettet"
+    success_url = reverse_lazy("inventory:equipment")
+    template_name = "inventory/equipment/equipment_confirm_delete.html"
+
+    def get_success_url(self):
+        messages.success(self.request, self.success_message)
+        return self.success_url

@@ -10,7 +10,7 @@
         <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}"
             class="circle responsive-img col s12 m4">
         <div class="col s12 m8">
-            <a href="{% url 'inventory:equipment_detail' item.id %}">
+            <a class="black-test" href="{% url 'inventory:equipment_detail' item.id %}">
                 <h4>{{ item.name }}</h4>
             </a>
             {% if item.inventory_link %}

@@ -34,7 +34,7 @@ class EquipmentView(DetailView):
 
 
 class EquipmentCreateView(PermissionRequiredMixin, CreateView):
-    """Endpoint for creating and updating equipment"""
+    """Endpoint for creating equipment"""
 
     model = Equipment
     permission_required = "inventory.create_equipment"
@@ -50,10 +50,13 @@ class EquipmentCreateView(PermissionRequiredMixin, CreateView):
 
     def get_success_url(self):
         messages.success(self.request, self.success_message)
-        return reverse("inventory:equipment", kwargs={"pk": self.object.id})
+        return reverse("inventory:equipment_detail", kwargs={"pk": self.object.id})
 
 
 class EquipmentEditView(EquipmentCreateView, UpdateView):
+    """Endpoint for updating equipment. UpdateView overrides
+    the create methods from CreateView"""
+
     permission_required = "inventory.edit_equipment"
     success_message = "Utstyret er oppdatert"
 

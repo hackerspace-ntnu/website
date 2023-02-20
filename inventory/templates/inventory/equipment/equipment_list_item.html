@@ -11,7 +11,7 @@
             class="circle responsive-img col s12 m4">
         <div class="col s12 m8">
             <a class="black-test" href="{% url 'inventory:equipment_detail' item.id %}">
-                <h4>{{ item.name }}</h4>
+                <h4 class="word-wrap">{{ item.name }}</h4>
             </a>
             {% if item.inventory_link %}
             <a class=" hs-green btn" href="{{ item.inventory_link }}">Til lager</a>

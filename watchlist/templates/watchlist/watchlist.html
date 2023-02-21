@@ -46,8 +46,7 @@
                             <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
                             {% for shift in shifts %}
                             <td
-                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} {% if perms.watchlist.view_shiftslot %} modal-trigger {% endif %}"
-                                {% if perms.watchlist.view_shiftslot %}
+                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} modal-trigger"
                                 href="#change-registration-modal"
                                 {# modal_time = '{{ time|linebreaksbr }}' er ei litta hack ;) Ta en titt på _watchlist_modals.html #}
                                 onClick="
@@ -57,15 +56,15 @@
                                     modal_watchers = [{% for usr in shift.watchers.all %}'{{ usr.first_name }} {{ usr.last_name }}',{% endfor %}];
                                     modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
                                     modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
+                                    has_perms = '{{ perms.watchlist.view_shiftslot }}';
 
                                     updateModalInformation();
                                     "
-                                {% endif %}
                             >
                                 <div class="watchlist-cell-content">
                                     <div class="
                                             watchlist-tag white-text 
-                                            {% if perms.watchlist.view_shiftslot %} watchlist-tag-interactive {% endif %} 
+                                            watchlist-tag-interactive
                                             {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                                         {% if shift.watchers.count == 0 %}
                                         <i class="material-icons">block</i>
@@ -114,8 +113,7 @@
                             <!-- Bare vis skift fra dagen som denne tabellen tilhører til -->
                             {% if forloop.parentloop.parentloop.counter0 ==  shift.weekday %}
                             <td
-                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} {% if perms.watchlist.view_shiftslot %} modal-trigger {% endif %}"
-                                {% if perms.watchlist.view_shiftslot %}
+                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} modal-trigger"
                                 href="#change-registration-modal"
                                 {# modal_time = '{{ time|linebreaksbr }}' er ei litta hack ;) Ta en titt på _watchlist_modals.html #}
                                 onClick="
@@ -125,10 +123,10 @@
                                     modal_watchers = [{% for usr in shift.watchers.all %}'{{ usr.first_name }} {{ usr.last_name }}',{% endfor %}];
                                     modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
                                     modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
+                                    has_perms = '{{ perms.watchlist.view_shiftslot }}';
 
                                     updateModalInformation();
                                     "
-                                {% endif %}
                             >
                                 <div class="watchlist-cell-content">
                                     <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
@@ -227,8 +225,6 @@
     </div>
 </div>
 
-{% if perms.watchlist.view_shiftslot %}
 {% include 'watchlist/_watchlist_modals.html' %}
-{% endif %}
 
 {% endblock %}

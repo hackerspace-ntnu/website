@@ -27,7 +27,12 @@
             {% for item in items %}
             {% include "inventory/equipment/equipment_list_item.html" %}
             {% empty %}
-            <h2 class="section">Her var det dessverre tomt:(</h2>
+            <div class="row center">
+                <div class="col s12">
+                    <h3>Fant ingen utstyr på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
+                    <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a target="_blank" href="{{ mazemap_link }}">verkstedet</a> og spør oss!</p>
+                </div>
+            </div>
             {% endfor %}
         </ul>
     </div>

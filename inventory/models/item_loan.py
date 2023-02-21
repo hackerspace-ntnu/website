@@ -16,7 +16,7 @@ class ItemLoan(models.Model):
     """Contains information about borrowing an item in inventory"""
 
     item = models.ForeignKey(
-        "inventory.itemloan", on_delete=models.CASCADE, verbose_name="Lånegjenstand"
+        "inventory.item", on_delete=models.CASCADE, verbose_name="Lånegjenstand"
     )
     amount = models.IntegerField("Antall", validators=[MinValueValidator(1)])
 

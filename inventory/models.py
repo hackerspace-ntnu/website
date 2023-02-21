@@ -1,10 +1,11 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator, RegexValidator
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
 
+from applications.validators import validate_phone_number
 from files.models import Image
 
 
@@ -108,10 +109,8 @@ class ItemLoan(models.Model):
     contact_name = models.CharField("Utlåners navn", max_length=100)
     contact_phone = models.CharField(
         "Utlåners tlf.",
-        max_length=8,
-        validators=[
-            RegexValidator("^\d{8}$", message="Skriv inn et gyldig telefonnummer")
-        ],
+        max_length=20,
+        validators=[validate_phone_number],
     )
     contact_email = models.EmailField("Utlåners e-post")
     # Simply to store and prove that the user consented to having

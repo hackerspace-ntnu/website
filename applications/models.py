@@ -52,7 +52,7 @@ class Application(models.Model):
     name = models.CharField(max_length=50, verbose_name="Navn")
     email = models.EmailField(verbose_name="Email")
     phone = models.CharField(
-        max_length=8, validators=[validate_phone_number], verbose_name="Telefon"
+        max_length=20, validators=[validate_phone_number], verbose_name="Telefon"
     )
     study = models.CharField(max_length=255, verbose_name="Studieprogram")
 

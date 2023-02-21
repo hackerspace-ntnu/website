@@ -106,6 +106,17 @@
 					<span class="helper-text">Skriv gjerne litt om hva du har lyst til å jobbe med innenfor gruppen, dersom relevant.</span>
 					{% endif %}
 				</div>
+
+				<div class="input-field col s12">
+					{{ form.project_interests }}
+					<label for="{{ form.project_interests.id_for_label }}">{{ form.project_interests.label }}</label>
+					{% if form.project_interests.errors %}
+					<span class="helper-text hs-red-text">{{ form.project_interests.errors }}</span>
+					{% else %}
+					<span class="helper-text">Har du interesse av noen bestemte prosjekter innenfor Hackerspace?</span>
+					{% endif %}
+				</div>
+
 			</div>
 			<div class="row">
 				<div class="col s12">

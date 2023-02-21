@@ -30,19 +30,15 @@
 					Søknadsskjemaet vil være tilgjengelig på denne nettsiden mellom<br> <b>{{ start_date }}</b> og <b>{{ end_date }}</b>
 				</p>
 			</div>
-		</div>
-        {% else %}
-            <br>
-            <div class="row">
-                <div class="col s12 center-align">
-                    <a href="{% url 'application:application_form' %}" class="hs-green btn btn-large">
-                    <i class="material-icons prefix">history_edu</i> Gå til søknad</a>
-                    <p>
-                        Søknadsskjemaet er åpent frem til {{ end_date }}
-                    </p>
-                </div>
-            </div>
+		</div>       
         {% endif %}
+        <br>
+        <div class="row">
+            <div class="col s12 center-align">
+                <a href="{% url 'application:application_form' %}" class="hs-green btn btn-large">
+                <i class="material-icons prefix">history_edu</i> Gå til søknad</a>
+            </div>
+        </div>
 	</div>
 </div>
 <div class="section white">

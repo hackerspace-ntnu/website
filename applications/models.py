@@ -63,7 +63,7 @@ class Application(models.Model):
         default=YEAR_CHOICES[0],
     )
     group_choice = models.ManyToManyField(
-        ApplicationGroup, through="ApplicationGroupChoice"
+        ApplicationGroup, through="ApplicationGroupChoice", blank=True
     )
 
     knowledge_of_hs = models.CharField(
@@ -71,7 +71,13 @@ class Application(models.Model):
     )
 
     about = models.TextField(verbose_name="Litt om deg selv")
+
     application_text = models.TextField(verbose_name="Hvorfor søker du hackerspace?")
+
+    project_interests = models.TextField(
+        verbose_name="Hvilke prosjekter er du interessert i?"
+    )
+
     application_date = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):

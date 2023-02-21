@@ -64,6 +64,9 @@
 			</div>
 		</div>
 		{% endif %}
+		{% if not perms.reservations.view_user_details %}
+		<h4>&nbspLOGG INN FOR Å RESERVERE!</h2>
+		{% endif %}
 	</div>
 </div>
 

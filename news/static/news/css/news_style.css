@@ -7,10 +7,20 @@
 	height: auto;
 }
 
+.progress p {
+	position: relative
+}
+
 div,h3{
 	word-wrap: break-word;      
 }
 .header-image{
 	max-width: 600px;
 	width: 100%;
+}
+
+#registration-users li {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }

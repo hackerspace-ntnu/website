@@ -78,9 +78,14 @@
                                     </div>
 
                                     <div class="watchlist-skills">
-                                        {% for category, data in shift.get_shift_skills.items %}
+
+                                        {% for category, data in shift.get_shift_skills.items  %}
                                         <div class="skill-icon white-text hs-green" style="background-color: {{data.color}} !important;">
-                                            <span>{{ data.level }}</span>
+                                            <span>
+                                                {% if data.level %}
+                                                <i class="tiny material-icons">check</i>
+                                                {% endif %}
+                                            </span>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -144,7 +149,11 @@
                                     <div class="watchlist-skills">
                                         {% for category, data in shift.get_shift_skills.items %}
                                         <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
-                                            <span>{{ data.level }}</span>
+                                            <span>		
+                                                {% if data.level %}
+                                                <i class="tiny material-icons">check</i>
+                                                {% endif %}
+                                            </span>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -211,7 +220,7 @@
                 </div>
                 <hr/>
                 <h5>Ferdigheter</h5>
-                <p>Tallet i ferdighetskulen viser det maksimale ferdighetsnivået blant alle som er på vakt.</p>
+                <p>Hvis ferdighetskulen er avmerket viser det oppnåd ferdighet blant alle som er på vakt.</p>
                 <div class="row">
                     {% for category in skill_categories %}
                     <div class="legend-symbol col s12 m6 l3">

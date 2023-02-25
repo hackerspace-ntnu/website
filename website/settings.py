@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "projectarchive",
     "markdownx",
     "django_crontab",
+    "ordered_model",
 ]
 
 

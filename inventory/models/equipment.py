@@ -3,11 +3,12 @@ from bleach_whitelist import markdown_attrs, markdown_tags
 from django.db import models
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+from ordered_model.models import OrderedModel
 
 from files.models import Image
 
 
-class Equipment(models.Model):
+class Equipment(OrderedModel):
     """Types of equipment that the workshop has and provides"""
 
     name = models.CharField(max_length=255, verbose_name="Navn")

@@ -65,7 +65,12 @@
 		</div>
 		{% endif %}
 		{% if not perms.reservations.view_user_details %}
-		<h4>&nbspLOGG INN FOR Å RESERVERE!</h2>
+		<div class="row">
+			<div class="col s12">
+				<h5>LOGG INN FOR Å RESERVERE!</h5>
+				<a href="https://www.hackerspace-ntnu.no/feide/login/dataporten_feide/?next=/projectarchive/" class="btn hs-green">LOGG INN</a>
+			</div>
+		</div>
 		{% endif %}
 	</div>
 </div>

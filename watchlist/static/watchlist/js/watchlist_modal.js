@@ -7,6 +7,7 @@ let modal_register = true;
 let modal_register_url = '';
 let has_perms = '';
 let close_button = '<a href="#!" class="modal-close btn hs-red">Lukk</a>';
+let log_in_button = '<a href="https://www.hackerspace-ntnu.no/feide/login/dataporten_feide/?next=/projectarchive/" class="btn hs-green">LOGG INN</a>';
 
 function updateModalInformation() {
     $('#registration-modal-day').text(weekdays[modal_day]);
@@ -37,7 +38,10 @@ function updateModalInformation() {
 
     if (has_perms === "False") {
         watchlist_div.append($('<p>DU MÅ LOGGE INN FOR Å REGISTRERE VAKT!</p>'));
+        footer_div.append($(log_in_button));
+        footer_div.append(' ');
         footer_div.append($(close_button));
+
     } else {
         if (modal_watchers.length > 0) {
             watchlist_div.append($('<h5>Vakthavende</h5>'));

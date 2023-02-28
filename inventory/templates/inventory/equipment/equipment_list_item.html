@@ -2,6 +2,8 @@
 
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
+{{ jquery | safe }}
+<script src="{% static 'inventory/js/change_equipment_order.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -17,6 +19,10 @@
             <a class=" hs-green btn" href="{{ item.inventory_link }}">Til lager</a>
             {% endif %}
         </div>
+        {% if user.is_staff %}
+        <i class="order-up material-icons" data-id="{{ item.id }}" data-apiurl="{% url 'inventory:equipment_order_up' item.id %}">expand_less</i>
+        <i class="order-down material-icons" data-id="{{ item.id }}" data-apiurl="{% url 'inventory:equipment_order_down' item.id %}">expand_more</i>
+        {% endif %}
     </div>
 </li>
 {% endblock %}

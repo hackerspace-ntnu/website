@@ -5,6 +5,8 @@ from inventory.views.equipment import (
     EquipmentDeleteView,
     EquipmentEditView,
     EquipmentListView,
+    EquipmentOrderDownApiView,
+    EquipmentOrderUpApiView,
     EquipmentView,
 )
 from inventory.views.item import (
@@ -57,5 +59,15 @@ urlpatterns = [
         "equipment/delete/<int:pk>",
         EquipmentDeleteView.as_view(),
         name="equipment_delete",
+    ),
+    path(
+        "equipment/<int:pk>/up/",
+        EquipmentOrderUpApiView.as_view(),
+        name="equipment_order_up",
+    ),
+    path(
+        "equipment/<int:pk>/down/",
+        EquipmentOrderDownApiView.as_view(),
+        name="equipment_order_down",
     ),
 ]

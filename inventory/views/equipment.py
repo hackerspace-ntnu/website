@@ -8,6 +8,10 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from inventory.models.equipment import Equipment
 
@@ -73,3 +77,43 @@ class EquipmentDeleteView(PermissionRequiredMixin, DeleteView):
     def get_success_url(self):
         messages.success(self.request, self.success_message)
         return self.success_url
+
+
+class EquipmentChangeOrderApiView(APIView):
+    """Endpoint for changing the order of equipment"""
+
+    permission_classes = [IsAdminUser]
+
+    def patch(self, request, pk, format=None):
+        """Change the order of equipment"""
+        try:
+            equipment = Equipment.objects.get(pk=pk)
+        except Equipment.DoesNotExist:
+            return Response(
+                {"status": "Equipment not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        self.change_order(equipment)
+        equipment.save()
+        return Response(
+            {"status": "Equipment order changed"}, status=status.HTTP_200_OK
+        )
+
+    def change_order(self, equipment):
+        """Override this method to choose how the order is changed"""
+        pass
+
+
+class EquipmentOrderUpApiView(EquipmentChangeOrderApiView):
+    """Endpoint for changing the order of equipment up"""
+
+    def change_order(self, equipment):
+        print("Changing order up")
+        equipment.up()
+
+
+class EquipmentOrderDownApiView(EquipmentChangeOrderApiView):
+    """Endpoint for changing the order of equipment up"""
+
+    def change_order(self, equipment):
+        print("Changing order down")
+        equipment.down()

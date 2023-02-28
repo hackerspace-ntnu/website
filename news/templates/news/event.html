@@ -39,9 +39,9 @@
 					<div class="divider"></div>
 				</div>
 				<div class="col s12">
-					{% if event.responsible %}
-					<p>Arrangementansvarlig: <a href="{% url 'userprofile:profile_by_id' event.responsible.id %}">{{ event.responsible.get_full_name }}</a></p>
-					{% endif %}
+					{% for user in event.responsible.all %}
+					<p>Arrangementansvarlig: <a href="{% url 'userprofile:profile_by_id' user.id %}">{{ user.get_full_name }}</a></p>
+					{% endfor %}
 					{% if event.time_end|date:"d. F Y" != event.time_start|date:"d. F Y" %}
 						<p><i class="material-icons small">event</i> Fra {{ event.time_start }}</p>
 						<p><i class="material-icons small">event_busy</i> Til {{ event.time_end }}</p>

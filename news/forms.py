@@ -105,7 +105,7 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
         )
 
 
-class UserFullnameChoiceField(forms.ModelChoiceField):
+class UserFullnameChoiceField(forms.ModelMultipleChoiceField):
     """
     Denne klassen overrider ModelChoiceField for å vise vanlige
     fulle navn istedenfor brukernavn

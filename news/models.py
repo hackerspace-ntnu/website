@@ -101,12 +101,9 @@ class Event(models.Model):
         default=timezone.now, verbose_name="Publiseringsdato"
     )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    responsible = models.ForeignKey(
-        User,
+    responsible = models.ManyToManyField(
+        to=User,
         related_name="responsible",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
         verbose_name="Arrangementansvarlig",
     )
 

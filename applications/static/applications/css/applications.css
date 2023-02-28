@@ -1,7 +1,8 @@
 /* Group chooser */
 
 .group-chooser-field {
-    margin-bottom: 0.5em;
+    margin: 1em;
+    padding: 2em;
 }
 
 #group-chooser {

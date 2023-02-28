@@ -10,36 +10,16 @@
 		</div>
 	</div>
 </div>
-<div class="section hs-gray">
-	<div class="container white-text">
-        <br>
-        {% if period_status is None or period_status == "late" %}
-            <div class="row">
-                <div class="col s12 center-align">
-                <i class="material-icons" style="font-size:48px">search_off</i>
-                    <h4>Opptaket er over</h4>
-                    <p>Du er hjertelig velkommen til å søke igjen ved neste opptak</p>
-                </div>
-            </div>
-        {% elif period_status == "early" %}
-            <div class="row">
-			<div class="col s12 center-align">
-                <i class="material-icons" style="font-size:48px">access_time</i>
-				<h4>Opptaket åpner snart...</h4>
-				<p>
-					Søknadsskjemaet vil være tilgjengelig på denne nettsiden mellom<br> <b>{{ start_date }}</b> og <b>{{ end_date }}</b>
-				</p>
-			</div>
-		</div>       
-        {% endif %}
-        <br>
-        <div class="row">
-            <div class="col s12 center-align">
-                <a href="{% url 'application:application_form' %}" class="hs-green btn btn-large">
-                <i class="material-icons prefix">history_edu</i> Gå til søknad</a>
-            </div>
+<div class="container white-text">
+    <br>
+    <br>
+    <div>
+        <div class="col s12 center-align">
+            <a href="{% url 'application:application_form' %}" class="hs-green btn btn-large">
+            <i class="material-icons prefix">history_edu</i> Gå til søknad</a>
         </div>
-	</div>
+    </div>
+    <br>
 </div>
 <div class="section white">
 	<div class="container">

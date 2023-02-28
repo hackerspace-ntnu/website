@@ -12,13 +12,13 @@
                         <span class="collection-icon-text">Rediger arrangement</span></a>
                     </li>
 					{% endif %}
-					{% if event.registration and perms.news.can_see_attendees %}
+					{% if event.registration and user in event.responsible %}
 					<li class="collection-item"><a href="/events/{{ event.id }}/attended">
                         <i class="material-icons">check</i>
                         <span class="collection-icon-text">Registrer oppmøte</span>
                     </a></li>
 					{% endif %}
-					{% if event.skills.all and perms.news.can_see_attendees %}
+					{% if event.skills.all and user in event.responsible %}
 						<li class="collection-item">
 							<a href="/events/{{ event.id }}/skills">
 								<i class="material-icons">how_to_reg</i>
@@ -35,7 +35,7 @@
 				</ul>
 			</div>
 		</div>
-		{% if event.registration and perms.news.can_see_attendees %}
+		{% if event.registration and user in event.responsible %}
 			<div class="row">
 				<div class="col s12 m12 l6">
 					<ul class="collection with-header">

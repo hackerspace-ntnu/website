@@ -8,7 +8,7 @@ let modal_register_url = '';
 let has_perms = '';
 let login_link = '';
 let close_button = '<a href="#!" class="modal-close btn hs-red">Lukk</a>';
-let log_in_button = '<a href="' + login_link + '" class="btn hs-green">LOGG INN</a>';
+let log_in_button = '<a href="/feide/login/dataporten_feide/?next=/vaktliste/" class="btn hs-green">LOGG INN</a>';
 
 function updateModalInformation() {
     $('#registration-modal-day').text(weekdays[modal_day]);

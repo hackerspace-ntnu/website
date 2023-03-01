@@ -57,7 +57,6 @@
                                     modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
                                     modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
                                     has_perms = '{{ perms.watchlist.view_shiftslot }}';
-                                    login_link = '{{ request.path }}';
 
                                     updateModalInformation();
                                     "
@@ -130,7 +129,6 @@
                                     modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
                                     modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
                                     has_perms = '{{ perms.watchlist.view_shiftslot }}';
-                                    login_link = '{{ request.path }}';
 
                                     updateModalInformation();
                                     "

@@ -6,8 +6,9 @@ let modal_watchers = [];
 let modal_register = true;
 let modal_register_url = '';
 let has_perms = '';
+let login_link = '';
 let close_button = '<a href="#!" class="modal-close btn hs-red">Lukk</a>';
-let log_in_button = '<a href="https://www.hackerspace-ntnu.no/feide/login/dataporten_feide/?next=/projectarchive/" class="btn hs-green">LOGG INN</a>';
+let log_in_button = '<a href="' + login_link + '" class="btn hs-green">LOGG INN</a>';
 
 function updateModalInformation() {
     $('#registration-modal-day').text(weekdays[modal_day]);

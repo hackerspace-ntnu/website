@@ -25,11 +25,13 @@ def late_loan_retrieval_poker():
             fail_silently=False,
         )
     plain_message = render_to_string(
-            "inventory/templates/itemloan_late_retrieval_mail.txt",{"name": "david" ,"item": "insert random item"},)
+        "inventory/templates/itemloan_late_retrieval_mail.txt",
+        {"name": "david", "item": "insert random item"},
+    )
     send_mail(
         "Test",
         plain_message,
         "Hackerspace NTNU",
         "david.s.spilde@gmail.com",
         fail_silently=False,
-        )
+    )

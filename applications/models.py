@@ -69,7 +69,6 @@ class Application(models.Model):
 
     about = models.TextField(verbose_name="Litt om deg selv")
 
-
     application_text = models.TextField(verbose_name="Hvorfor søker du hackerspace?")
 
     group_choice = models.ManyToManyField(

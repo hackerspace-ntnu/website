@@ -75,6 +75,7 @@
 					<ul class="collection">
 						<li class="collection-item">Logg inn for å se reservasjoner.</li>
 					</ul>
+					<a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}" class="btn hs-green">LOGG INN</a>
 				{% endif %}
 			</div>
 		</div>

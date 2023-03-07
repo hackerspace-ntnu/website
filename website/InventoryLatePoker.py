@@ -24,6 +24,8 @@ def late_loan_retrieval_poker():
             [loan.contact_email],
             fail_silently=False,
         )
+    plain_message = render_to_string(
+            "inventory/templates/itemloan_late_retrieval_mail.txt",{"name": "david" ,"item": "insert random item"},)
     send_mail(
         "Test",
         plain_message,

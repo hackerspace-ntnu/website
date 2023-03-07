@@ -24,7 +24,9 @@ LOGIN_URL = "/authentication/login"
 SOCIAL_AUTH_DATAPORTEN_FEIDE_KEY = None
 SOCIAL_AUTH_DATAPORTEN_FEIDE_SECRET = None
 
+
 ADMINS = (("devops", "hackerspace-dev@idi.ntnu.no"),)
+
 
 try:
     from website.local_settings import *  # noqa: F403
@@ -67,6 +69,7 @@ INSTALLED_APPS = [
     "watchlist",
     "projectarchive",
     "markdownx",
+    "django_crontab",
 ]
 
 
@@ -396,3 +399,7 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
     "markdown.extensions.nl2br",
     "markdown.extensions.smarty",
 ]
+
+
+# crontab
+CRONJOBS = [('*/1 * * * *', 'website.InventoryLatePoker.my_scheduled_job', '>>/tmp/scheduled_job.log')]

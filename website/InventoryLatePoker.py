@@ -5,9 +5,6 @@ from django.utils import timezone
 from inventory.models import ItemLoan
 
 
-def my_scheduled_job():
-    
-
 def late_loan_retrieval_poker():
     print("\n\nSending email to late loan retrievals\n")
     loans = ItemLoan.objects.filter(
@@ -26,4 +23,11 @@ def late_loan_retrieval_poker():
             "Hackerspace NTNU",
             [loan.contact_email],
             fail_silently=False,
+        )
+    send_mail(
+        "Test",
+        plain_message,
+        "Hackerspace NTNU",
+        "david.s.spilde@gmail.com",
+        fail_silently=False,
         )

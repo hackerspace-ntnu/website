@@ -77,10 +77,11 @@ class ApplicationFormViewTest(TestCase):
             "phone": "12312312",
             "study": "informatikk",
             "year": 2,
-            "group_choice": "1,2",
             "knowledge_of_hs": "blabla",
             "about": "blabla",
             "application_text": "blabla",
+            "group_choice": "1,2",
+            "project_interests": "blabla",
         }
 
         self.form = ApplicationForm(data)

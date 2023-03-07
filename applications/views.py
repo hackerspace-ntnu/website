@@ -1,4 +1,3 @@
-from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
@@ -37,9 +36,3 @@ class ApplicationView(FormView):
         context = super().get_context_data(**kwargs)
         context["group_choices"] = ApplicationGroup.objects.all()
         return context
-
-    def dispatch(self, request, *args, **kwargs):
-        period = ApplicationPeriod.objects.filter(name="Opptak").first()
-        if not period or not period.is_open():
-            return redirect("application:application_info")
-        return super(ApplicationView, self).dispatch(request, *args, **kwargs)

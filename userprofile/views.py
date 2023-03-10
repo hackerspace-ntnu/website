@@ -80,45 +80,20 @@ class MembersAPIView(APIView):
 
         skill_categories = self.request.GET.get("skill_categories", None)
         # Using only skill categories as there is only one level
-        all_skill_ids = set(Category.objects.all().values_list("id", flat=True))
-        selected_skill_ids = (
-            skill_categories.split(",") if skill_categories else all_skill_ids
-        )
-        selected_skill_ids = set(selected_skill_ids)
+        selected_skill_ids = skill_categories.split(",") if skill_categories else []
 
         users = sorted(
-            User.objects.filter(groups__name__in=list(committee_array)),
+            User.objects.filter(groups__name__in=list(committee_array)).exclude(
+                profile__skills__categories__id__in=selected_skill_ids
+            ),
             key=lambda a: a.get_full_name(),
         )
 
-        users_missing_selected_skills = []
-        if skill_categories:
-            for user in users:
-                skills = set(
-                    user.profile.skills.values_list("categories__id", flat=True)
-                )
-                missing_skills = set(
-                    map(lambda x: str(x), list(all_skill_ids - skills))
-                )
-                print(
-                    missing_skills,
-                    " consists of ",
-                    selected_skill_ids,
-                    " => ",
-                    selected_skill_ids.issubset(missing_skills),
-                )
-                if selected_skill_ids.issubset(missing_skills):
-                    users_missing_selected_skills.append(user)
-        else:
-            users_missing_selected_skills = users
-
         search = self.request.GET.get("s", "")
         if search == "":
-            profiles = [user.profile for user in users_missing_selected_skills]
+            profiles = [user.profile for user in users]
         else:
-            profiles = _get_user_profiles_from_search(
-                users_missing_selected_skills, search
-            )
+            profiles = _get_user_profiles_from_search(users, search)
 
         # Paginate profiles
         paginator = Paginator(profiles, self.paginate_by)

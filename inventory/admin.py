@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Item, ItemLoan
+from .models import Item, ItemCategory, ItemLoan
 
 
 @admin.register(Item)
@@ -18,6 +18,7 @@ class ItemAdmin(admin.ModelAdmin):
                     "location",
                     "can_loan",
                     "max_loan_duration",
+                    "category",
                 ]
             },
         ),
@@ -40,3 +41,4 @@ class ItemLoanAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ItemLoan, ItemLoanAdmin)
+admin.site.register(ItemCategory)

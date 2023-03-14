@@ -8,6 +8,17 @@ from django.utils import timezone
 from applications.validators import validate_phone_number
 from files.models import Image
 
+""" Model to store the item`s category"""
+
+
+class ItemCategory(models.Model):
+    category_name = models.CharField(max_length=50)
+    """Contains information about category of item"""
+    category_description = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.category_name + " (" + str(self.category_description) + ")"
+
 
 class Item(models.Model):
     """Represents a single item in inventory"""
@@ -16,6 +27,13 @@ class Item(models.Model):
     stock = models.IntegerField("Lagerbeholdning", validators=[MinValueValidator(0)])
     unknown_stock = models.BooleanField(
         "Ukjent lagerbeholdning", null=False, blank=False, default=False
+    )
+    category = models.ForeignKey(
+        ItemCategory,
+        on_delete=models.SET_NULL,
+        verbose_name="Category",
+        null=True,
+        blank=True,
     )
     can_loan = models.BooleanField("Kan lånes", null=False, blank=False, default=True)
     description = RichTextUploadingField("Beskrivelse", blank=True)
@@ -98,6 +116,7 @@ class ItemLoan(models.Model):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, verbose_name="Lånegjenstand"
     )
+
     amount = models.IntegerField("Antall", validators=[MinValueValidator(1)])
 
     # Automatically set once the application is accepted

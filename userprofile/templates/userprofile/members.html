@@ -31,7 +31,7 @@
 		<div class="row">
 			<p class="flow-text white-text">Klikk på ferdigheter du vil se folk ikke har</p>
 			{% for category in skill_categories %}
-				<label class="col l2 s12 skill-check">
+				<label class="col l4 s12 skill-check {{ category.color }}">
 					<input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
 					<span class="white-text">{{ category }}</span>
 				</label>

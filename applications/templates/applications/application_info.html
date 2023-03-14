@@ -10,40 +10,16 @@
 		</div>
 	</div>
 </div>
-<div class="section hs-gray">
-	<div class="container white-text">
-        <br>
-        {% if period_status is None or period_status == "late" %}
-            <div class="row">
-                <div class="col s12 center-align">
-                <i class="material-icons" style="font-size:48px">search_off</i>
-                    <h4>Opptaket er over</h4>
-                    <p>Du er hjertelig velkommen til å søke igjen ved neste opptak</p>
-                </div>
-            </div>
-        {% elif period_status == "early" %}
-            <div class="row">
-			<div class="col s12 center-align">
-                <i class="material-icons" style="font-size:48px">access_time</i>
-				<h4>Opptaket åpner snart...</h4>
-				<p>
-					Søknadsskjemaet vil være tilgjengelig på denne nettsiden mellom<br> <b>{{ start_date }}</b> og <b>{{ end_date }}</b>
-				</p>
-			</div>
-		</div>
-        {% else %}
-            <br>
-            <div class="row">
-                <div class="col s12 center-align">
-                    <a href="{% url 'application:application_form' %}" class="hs-green btn btn-large">
-                    <i class="material-icons prefix">history_edu</i> Gå til søknad</a>
-                    <p>
-                        Søknadsskjemaet er åpent frem til {{ end_date }}
-                    </p>
-                </div>
-            </div>
-        {% endif %}
-	</div>
+<div class="container white-text">
+    <br>
+    <br>
+    <div>
+        <div class="col s12 center-align">
+            <a href="{% url 'application:application_form' %}" class="hs-green btn btn-large">
+            <i class="material-icons prefix">history_edu</i> Gå til søknad</a>
+        </div>
+    </div>
+    <br>
 </div>
 <div class="section white">
 	<div class="container">
@@ -101,7 +77,8 @@
                 <div class="col s12">
                     <h4>Prosjektgruppene</h4>
                     <p>Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til år. Prosjektene varer som oftest i to semestre.</p>
-                    <p>Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med andre på gruppen.
+                    <p>Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med andre på gruppen.</p>
+                    <p>Om du har forslag til noen andre prosjekter, kan dette sendes med et søknadsskjema.</p>
                     <p>Under finner du informasjon om prosjektene som har opptak nå.</p>
                 </div>
             </div>

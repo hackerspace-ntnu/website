@@ -25,25 +25,35 @@ class ApplicationForm(ModelForm):
             "knowledge_of_hs",
             "about",
             "application_text",
+            "project_interests",
         ]
         widgets = {
-            "about": Textarea(attrs={"class": "materialize-textarea"}),
-            "application_text": Textarea(attrs={"class": "materialize-textarea"}),
+            "about": Textarea(
+                attrs={"class": "materialize-textarea", "style": "height: 150px;"}
+            ),
+            "application_text": Textarea(
+                attrs={"class": "materialize-textarea", "style": "height: 150px;"}
+            ),
+            "project_interests": Textarea(
+                attrs={"class": "materialize-textarea", "style": "height: 150px;"}
+            ),
             "group_choice": ApplicationGroupChoiceField(
                 attrs={"id": "groups-chosen-input", "type": "hidden"}
             ),
         }
-        error_messages = {"group_choice": {"required": "Gruppeønske er obligatorisk"}}
 
     def save(self, commit=True):
         super().save(commit)
         # Attach priority to group choices
-        group_choice = list(map(int, self.data["group_choice"].split(",")))
-        for choice in ApplicationGroupChoice.objects.filter(
-            application=self.instance.id
-        ):
-            choice.priority = group_choice.index(choice.group.id) + 1
-            choice.save()
+        group_choice_str = self.data["group_choice"]
+
+        if group_choice_str:
+            group_choice = list(map(int, group_choice_str.split(",")))
+            for choice in ApplicationGroupChoice.objects.filter(
+                application=self.instance.id
+            ):
+                choice.priority = group_choice.index(choice.group.id) + 1
+                choice.save()
 
     def send_email(self):
 

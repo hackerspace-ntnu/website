@@ -415,6 +415,5 @@ CRONJOBS = [
         "58 19 * * 2",
         "website.inventory_late_poker.late_loan_retrieval_poker",
         ">>/tmp/scheduled_job.log",
-    ),
-    ("6 6 * 7 1", "website.inventory_late_poker.amogus"),
+    )
 ]

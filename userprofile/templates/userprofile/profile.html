@@ -23,7 +23,12 @@
 			<div class="hide-on-small-only">
 				<div class="col left-align">
 					{% if profile.image %}
-						<img class="circle profile-img" src="{{ profile.image.url }}">
+						{# profile has image, show picture #}
+						{% if profile.image.url.endswith('.gif') %}
+							<img class="circle profile-img" src="{{ profile.image.url }}" alt="GIF image" />
+						{% else %}
+							<img class="circle profile-img" src="{{ profile.image.url }}" />
+						{% endif %}
 					{% else %}
 						<img class="circle profile-img" src="{% static 'website/img/misc/default.png' %}" height="300">
 					{% endif %}

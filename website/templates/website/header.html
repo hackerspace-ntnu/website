@@ -40,7 +40,12 @@
 								{% if user.profile.image %}
 								<li>
 									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
-										<img class="center circle" src="{{ user.profile.image.url }}" />
+										{# profile has image, show picture #}
+										{% if profile.image.url.endswith('.gif') %}
+											<img class="center circle" src="{{ profile.image.url }}" alt="GIF image" />
+										{% else %}
+											<img class="center circle" src="{{ profile.image.url }}" />
+										{% endif %}
 									</a>
 								</li>
 								{% else %}

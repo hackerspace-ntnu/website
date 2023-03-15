@@ -352,8 +352,9 @@ INTERNALPORTAL_GREETINGS = [
     "Halla, {}",  # zzzzzzzzzzzzzzzzz
     "Og et rungende tjo-bing til deg, {}!",  # real shit?
     "Husket å skru av ovnen, {}?",
+    "Låste du døra før du gikk idag?"
     "Dette er en tilfeldig melding. Plukket tilfeldig, altså. Selve meldingen er ikke tilfeldig generert ved å drive å plukke bokstaver og sånt. Du skjønner hva jeg mener, {}.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit... Oi, vent, dette er jo i produksjon!",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit... Oi, vent, dette er jo i produksjon!"
 ]
 #################################
 # Website-specific              #
@@ -411,8 +412,12 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
 # crontab
 CRONJOBS = [
     (
-        "0 8 * * 1",
-        "website.InventoryLatePoker.late_loan_retrieval_poker",
+        "58 19 * * 2",
+        "website.inventory_late_poker.late_loan_retrieval_poker",
         ">>/tmp/scheduled_job.log",
+    ),
+    (
+    "6 6 * 7 1",
+    "website.inventory_late_poker.amogus"
     )
 ]

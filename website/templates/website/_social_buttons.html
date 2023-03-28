@@ -2,10 +2,14 @@
 <div class="section hs-green center">
 	<div class="container">
 		<div class="row valign-wrapper no-pad-bot">
+			{% if user.is_authenticated is False %}
 			<div class="col s8 m6 l6">
 				<a class="btn-flat waves-effect white black-text" href="/opptak/">Søk Hackerspace</a>
 			</div>
 			<div class="col s4 m6 l6">
+			{% else %}
+			<div class="col s12 m12 l12">
+			{% endif %}
 				<div class="sosial-bilder">
 					<a href="https://hackerspace-ntnu.slack.com" target="_blank"><img src="{% static 'website/img/icon/slack_icon.jpg' %}" title="Slack"></a>
 					<a href="https://www.facebook.com/hackerspacentnu" target="_blank"><img src="{% static 'website/img/icon/if_facebook_386622.svg' %}" title="Facebook"></a>

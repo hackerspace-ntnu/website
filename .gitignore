@@ -10,6 +10,7 @@
 media/*
 *local_settings.py
 profilepictures/
+.python-version
 
 # For Rope Project settings
 .ropeproject

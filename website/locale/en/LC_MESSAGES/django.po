@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-21 20:30+0100\n"
+"POT-Creation-Date: 2023-03-28 18:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -291,44 +291,50 @@ msgstr ""
 msgid "Kreativt, innovativt og ikke minst sosialt"
 msgstr "Creative, innovative and social"
 
-#: templates/website/index.html:52
+#: templates/website/index.html:39
+msgid ""
+"Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, "
+"programvare, 3D-printing, eller andre kule ting."
+msgstr ""
+
+#: templates/website/index.html:51
 msgid "Hvem er vi?"
 msgstr "Who are we?"
 
-#: templates/website/index.html:53
+#: templates/website/index.html:52
 msgid ""
 "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle "
 "studenter uavhengig av studieretning."
 msgstr ""
 
-#: templates/website/index.html:54
+#: templates/website/index.html:53
 msgid ""
 "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere "
 "og Virtual Reality-utstyr."
 msgstr ""
 
-#: templates/website/index.html:55
+#: templates/website/index.html:54
 msgid ""
 "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av "
 "Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og "
 "hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace."
 msgstr ""
 
-#: templates/website/index.html:56
+#: templates/website/index.html:55
 msgid ""
 "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå "
 "av en prat, tar vi deg varmt imot på"
 msgstr ""
 
-#: templates/website/index.html:56
+#: templates/website/index.html:55
 msgid "vårt verksted"
 msgstr "our workshop"
 
-#: templates/website/index.html:56
+#: templates/website/index.html:55
 msgid "Slack-kanal"
 msgstr "Slack channel"
 
-#: templates/website/index.html:57
+#: templates/website/index.html:56
 msgid ""
 "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å "
 "demonstrere utstyr eller hjelpe deg."
@@ -336,19 +342,19 @@ msgstr ""
 "The on-call system ensures that you always meet someone in the workshop "
 "ready to demonstrate equipment or help you."
 
-#: templates/website/index.html:58
+#: templates/website/index.html:57
 msgid "Les mer om oss her"
 msgstr "Read more about us here"
 
-#: templates/website/index.html:61
+#: templates/website/index.html:60
 msgid "Søk Hackerspace"
 msgstr ""
 
-#: templates/website/index.html:71
+#: templates/website/index.html:70
 msgid "Siste nytt"
 msgstr "Recent news"
 
-#: templates/website/index.html:89
+#: templates/website/index.html:88
 msgid "Siste arrangementer"
 msgstr "Recent events"
 

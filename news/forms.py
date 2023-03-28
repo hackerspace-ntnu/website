@@ -169,7 +169,7 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     registration_end = SplitDateTimeFieldCustom(label="Påmeldingsfrist")
     deregistration_end = SplitDateTimeFieldCustom(label="Avmeldingsfrist")
 
-    responsible = UserFullnameChoiceField(
+    responsibles = UserFullnameChoiceField(
         label="Arrangementansvarlig",
         queryset=User.objects.all()
         .filter(groups__name__in=get_committees())
@@ -183,7 +183,7 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
             "main_content",
             "ingress_content",
             "thumbnail",
-            "responsible",
+            "responsibles",
             "internal",
             "registration",
             "max_limit",

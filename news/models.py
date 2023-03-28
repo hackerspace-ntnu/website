@@ -103,7 +103,8 @@ class Event(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     responsibles = models.ManyToManyField(
         to=User,
-        related_name="responsible",
+        through="news.Event_responsible",
+        related_name="responsibles",
         verbose_name="Arrangementansvarlig",
     )
     responsible = models.ForeignKey(
@@ -319,10 +320,6 @@ class Event(models.Model):
         app_label = "news"
         ordering = ("time_start",)
         permissions = (
-            (
-                "can_see_attendees",
-                "Can see attending, waitlist, register meetup in a event",
-            ),
             ("can_view_internal_event", "Can see internal events"),
         )
 
@@ -392,3 +389,17 @@ class EventRegistration(models.Model):
         :return: The waitlist
         """
         return self.event.is_waiting(self.user)
+
+class Event_responsible(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        )
+    responsible = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        )

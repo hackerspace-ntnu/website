@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block header %}
 <link rel="stylesheet" type="text/css" href="{% static 'projectarchive/css/projectarchive_style.css' %}">
@@ -11,7 +12,7 @@
 		<div class="row valign-wrapper white-text">
 			<div class="col s12">
 				<h4>
-					Prosjektarkiv
+                    {% trans "Prosjektarkiv" %}
 				</h4>
 			</div>
 		</div>

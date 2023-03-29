@@ -1,5 +1,6 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -12,8 +13,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12">
-				<h4 class="white-text">Medlemmer i Hackerspace</h4>
-				<p class="flow-text white-text">For oversikt over gruppene og deres medlemmer, se <a class="hs-gray-text" href="{% url 'about' %}"> Om oss</a>.</p>
+                <h4 class="white-text">{% trans "Medlemmer i Hackerspace" %}</h4>
+                <p class="flow-text white-text">{% trans "For oversikt over gruppene og deres medlemmer, se" %} <a class="hs-gray-text" href="{% url 'about' %}"> {% trans "Om oss" %}</a>.</p>
 			</div>
 		</div>
 		<div class="row">
@@ -21,7 +22,7 @@
                 <div class="members-search-container card-panel z-depth-0 row">
                     <!-- Member name search -->
                     <div class="input-field col s12">
-                        <input id="member-name-search" name="filter" placeholder="Søk etter medlem" value="{{ filter }}" type="text">
+                        <input id="member-name-search" name="filter" placeholder="{% trans "Søk etter medlem" %}" value="{{ filter }}" type="text">
                     </div>
                 </div>
 			</div>

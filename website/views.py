@@ -5,6 +5,7 @@ from urllib import parse as urlparse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import get_language
 from django.views.generic import DetailView, RedirectView, TemplateView
 
 from applications.models import ApplicationPeriod
@@ -79,10 +80,20 @@ class RulesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        rules = []
+
         if not self.request.user.has_perm("website.can_view_internal_rule"):
-            context["rules"] = Rule.objects.order_by("-priority").filter(internal=False)
+            rules = Rule.objects.order_by("-priority").filter(internal=False)
         else:
-            context["rules"] = Rule.objects.order_by("-priority")
+            rules = Rule.objects.order_by("-priority")
+
+        # this should only be implented after there are english rules
+        if get_language() == "en":
+            rules = rules.filter(norwegian=False)
+        else:
+            rules = rules.filter(norwegian=True)
+        context["rules"] = rules
+
         return context
 
 

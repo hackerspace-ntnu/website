@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% if items %}
     <div class="row">
         <div class="col s12">
@@ -11,32 +12,32 @@
                             <p style="color:#000 !important">
                             {% if item.unknown_stock %}
                                 <i class="material-icons hs-yellow-text hide-on-small-only">question_mark</i>
-                                <b>Ukjent antall</b>
+                                <b>{% trans "Ukjent antall" %}</b>
                             {% elif item.in_stock %}
                                 <i class="material-icons hs-green-text hide-on-small-only">done</i>
                                 {% if item.available > 1000 %}
-                                    <b>>1000 stk.</b>
+                                    <b>>1000 {% trans "stk." %}</b>
                                 {% else %}
-                                    <b>{{ item.available }} stk.</b>
+                                    <b>{{ item.available }} {% trans "stk." %}</b>
                                 {% endif %}
                             {% else %}
                                 <i class="material-icons hs-red-text hide-on-small-only">do_not_disturb</i>
-                                <b>Ingen</b>
+                                <b>{% trans "Ingen" %}</b>
                             {% endif %}
-                            på lager.
+                            {% trans "på lager" %}.
 
                             {% if item.has_location %}
-                                Hylleplass <b>{{ item.location }}</b>.
+                                {% trans "Hylleplass" %} <b>{{ item.location }}</b>.
                             {% endif %}
 
                             {% if not item.in_stock and item.next_loan_done is not None %}
-                                <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
+                                <b>{{ item.next_loan_amount }} {% trans "stk." %}</b> {% trans "forventet på lager"%} <b>{{ item.next_loan_done }}</b>
                             {% endif %}
                             </p>
                         </a>
                         {% if item.can_loan and item.in_stock %}
                         <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}" style="margin-left:auto">
-                            <span class="white-text">Lån</span>
+                            <span class="white-text">{% trans "Lån" %}</span>
                         </a>
                         {% endif %}
                     </li>
@@ -72,7 +73,7 @@
     <div class="row center">
         <div class="col s12">
             <h3>Fant ingenting på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
-            <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a target="_blank" href="{{ mazemap_link }}">verkstedet</a> og spør oss!</p>
+            <p>{% trans "Det kan likevel hende at vi har det du leter etter" %}. {% trans "Kom innom" %} <a target="_blank" href="{{ mazemap_link }}">{% trans "verkstedet" %}</a> {% trans "og spør oss!" %}</p>
         </div>
     </div>
 {% endif %}

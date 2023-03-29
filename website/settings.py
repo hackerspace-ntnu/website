@@ -141,8 +141,10 @@ TEMPLATES = [
 #################################
 
 MIDDLEWARE = [
-    "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "website.middleware.remove_accept_language.RemoveAcceptLanguageMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -293,9 +295,14 @@ EMAIL_USE_TLS = True
 # Internalization               #
 #################################
 
+LOCALE_PATHS = (BASE_DIR + "locale/",)
 TIME_ZONE = "Europe/Oslo"
 
 LANGUAGE_CODE = "nb"
+LANGUAGES = (
+    ("nb", "Norwegian"),
+    ("en", "English"),
+)
 
 USE_I18N = True
 USE_L10N = True

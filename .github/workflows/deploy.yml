@@ -29,4 +29,5 @@ jobs:
           pip install --upgrade --force-reinstall -r prod_requirements.txt
           python manage.py migrate
           python manage.py collectstatic --noinput
+          python manage.py compilemessages
           echo "${{ secrets.dingseboms_password }}" | sudo -S systemctl restart gunicorn

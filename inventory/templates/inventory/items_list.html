@@ -8,6 +8,9 @@
                         <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}" class="circle">
                         <a href="{% url 'inventory:item' item.id %}">
                             {{ item.name }}
+                            {% if item.category %}
+                               <br><b style="color:silver; opacity: 0.5; font-size: smaller;">{{ item.category.category_name }}</b>
+                            {% endif %}
                             <p style="color:#000 !important">
                             {% if item.unknown_stock %}
                                 <i class="material-icons hs-yellow-text hide-on-small-only">question_mark</i>

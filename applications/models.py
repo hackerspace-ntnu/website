@@ -76,7 +76,7 @@ class Application(models.Model):
     )
 
     project_interests = models.TextField(
-        verbose_name="Hvilke prosjekter er du interessert i?", default=""
+        verbose_name="Er det andre prosjekter du er interessert i?", default=""
     )
 
     application_date = models.DateTimeField(default=timezone.now, blank=False)

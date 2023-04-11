@@ -25,6 +25,9 @@
 					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small valign-wrapper">
 						<img class="brand-logo-text" src="{{ logo_url }}"/>
 					</a>
+                    <div class="valign-wrapper hide-on-large-only right">
+                        {% include "website/lang_toggle.html" %}
+                    </div>
 					<!-- Hovedmeny -->
 					<ul class="right hide-on-med-and-down">
                         <li id="news"><a class="waves-effect" href="{% url 'news:all' %}">{% trans "Nyheter" %}</a></li>

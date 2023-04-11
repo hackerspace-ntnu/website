@@ -4,10 +4,9 @@
 }
 
 .skill-check {
-    
     padding: 5em;
     cursor: pointer;
-    border: 2px solid black;
+    border-inline-start: 2em solid;
 }
 
 .skill-check * {

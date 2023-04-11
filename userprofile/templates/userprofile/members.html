@@ -32,7 +32,7 @@
 			<p class="flow-text white-text">Klikk på ferdigheter du vil se folk ikke har</p>
 			<div class="row skill-filter">
 				{% for category in skill_categories %}
-				<label class="col l4 s12 skill-check" style="border-inline-start: 1em solid; border-color:{{category.color}};">
+				<label class="col l4 s12 skill-check" style="border-color:{{category.color}};">
 					<input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
 					<span class="white-text">{{ category }}</span>
 				</label>

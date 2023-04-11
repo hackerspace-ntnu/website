@@ -64,6 +64,8 @@ class InventoryListAPIView(APIView):
             items = items.order_by("-stock")
         elif sort_by == "stock_asc":
             items = items.order_by("stock")
+        elif sort_by == "category":
+            items = items.order_by("category")
         elif sort_by == "popularity":
             items = sorted(items, key=lambda item: -item.popularity())
         else:

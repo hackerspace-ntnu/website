@@ -50,6 +50,10 @@
             {% endautoescape %}
             {% endif %}
 
+            {% if not item.can_loan%}
+            <p> Hvis du vil låne denne gjenstanden kontakt styret her: <a href="mailto:hackerspace-styret@idi.ntnu.no" > hackerspace-styret@idi.ntnu.no </a></p>
+            {% endif %}
+
             {% if item.can_loan and item.in_stock %}
             <div class="row">
                 <a class="col s12 btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">Søk om lån</a>

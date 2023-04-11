@@ -28,15 +28,17 @@
                 </div>
 			</div>
 		</div>
+		{% if perms.userprofile.is_active_member %}
 		<div class="row">
 			<p class="flow-text white-text">Klikk på ferdigheter du vil se folk ikke har</p>
 			{% for category in skill_categories %}
-				<label class="col l4 s12 skill-check {{ category.color }}">
+				<label class="col l4 s12 skill-check" style="background-color:{{category.color}}">
 					<input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
 					<span class="white-text">{{ category }}</span>
 				</label>
 			{% endfor %}
 		</div>
+		{% endif %}
 	</div>
 </div>
 <div class="section">
@@ -49,7 +51,9 @@
 
 	let search = "{{ search }}";
 	let pageNumber = {{ page }};
-	let skills = [];
+	let skillCategories = [{{ skills }}];
+
+	console.log(skillCategories);
 
         // Perform members search on page load
         document.addEventListener('DOMContentLoaded', function () {
@@ -83,16 +87,16 @@
         }
 
 	function updateSkills() {
-		skills = [];
+		skillCategories = [];
 		$('input[type=checkbox]:checked').each(function () {
-			skills.push($(this).val());
+			skillCategories.push($(this).val());
 		});
 		updateList();
 	}
 
 	function updateList() {
 
-        const url = `/members/?s=${search}&p=${pageNumber}&skill_categories=${skills.join(',')}`;
+        const url = `/members/?s=${search}&p=${pageNumber}&skills=${skillCategories.join(',')}`;
 
             // Refresh list content from api
             $.ajax({

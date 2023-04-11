@@ -78,7 +78,7 @@ class MembersAPIView(APIView):
         # Start with all member users, sorted by full name
         committee_array = Committee.objects.values_list("name", flat=True)
 
-        skill_categories = self.request.GET.get("skill_categories", None)
+        skill_categories = self.request.GET.get("skills", None)
         # Using only skill categories as there is only one level
         selected_skill_ids = skill_categories.split(",") if skill_categories else []
 
@@ -113,6 +113,7 @@ class MembersView(ListView):
         context = super(MembersView, self).get_context_data(**kwargs)
         context["search"] = self.request.GET.get("s", "")
         context["page"] = self.request.GET.get("p", 1)
+        context["skills"] = self.request.GET.get("skills", [])
         context["skill_categories"] = Category.objects.all()
         return context
 

@@ -39,6 +39,10 @@
                     Hylleplass <b>{{ item.location }}</b>.
                 {% endif %}
 
+                {% if item.category %}
+                    Category: <b>{{ item.category }}</b>.
+                {% endif %}
+
                 {% if not item.in_stock and item.next_loan_done is not None %}
                     <b>{{ item.next_loan_amount }} stk.</b> forventet på lager <b>{{ item.next_loan_done }}</b>
                 {% endif %}

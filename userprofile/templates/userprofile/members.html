@@ -29,15 +29,15 @@
 			</div>
 		</div>
 		{% if perms.userprofile.is_active_member %}
-		<div class="row">
 			<p class="flow-text white-text">Klikk på ferdigheter du vil se folk ikke har</p>
-			{% for category in skill_categories %}
-				<label class="col l4 s12 skill-check" style="background-color:{{category.color}}">
+			<div class="row skill-filter">
+				{% for category in skill_categories %}
+				<label class="col l4 s12 skill-check" style="border-inline-start: 1em solid; border-color:{{category.color}};">
 					<input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
 					<span class="white-text">{{ category }}</span>
 				</label>
-			{% endfor %}
-		</div>
+				{% endfor %}
+			</div>
 		{% endif %}
 	</div>
 </div>
@@ -53,12 +53,14 @@
 	let pageNumber = {{ page }};
 	let skillCategories = [{{ skills }}];
 
-	console.log(skillCategories);
-
-        // Perform members search on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            updateList();
-        });
+	
+    // Perform members search on page load
+	document.addEventListener('DOMContentLoaded', function () {
+		Array.from(document.querySelectorAll('.skill-check input'))
+			.filter((el) => skillCategories.includes(Number(el.value)))
+			.forEach((el) => el.checked = true);
+		updateList();
+	});
 
         // Listen for keystroke events
         let timeout = null;

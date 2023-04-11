@@ -4,7 +4,7 @@
 }
 
 .skill-check {
-    word-break: break-all;
+    
     padding: 5em;
     cursor: pointer;
     border: 2px solid black;
@@ -12,4 +12,11 @@
 
 .skill-check * {
     margin: 0.5em;
+}
+
+.skill-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    word-wrap: unset;
 }

@@ -89,6 +89,11 @@ urlpatterns = [
         inventory_views.InventoryListAPIView.as_view(),
         name="inventory-api",
     ),
+    path(
+        "api/inventory/categories",
+        inventory_views.InventoryCategory.as_view(),
+        name="category-api",
+    ),
     path("inventory/", include("inventory.urls")),
     path("vaktliste/", include("watchlist.urls")),
     path("internalportal/", InternalPortalView.as_view(), name="internalportal"),

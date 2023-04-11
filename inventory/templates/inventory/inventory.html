@@ -37,8 +37,7 @@
                         </select>
                         <label>Sorter etter</label>
                     </div>
-                    <br>
-                </div>
+                
             </form>
 
             <div id="items_list"></div>
@@ -97,6 +96,15 @@
                 success: function (data) {
                     $('#items_list').html(data);
                 }
+            });
+            
+            $.ajax({
+                url: '/api/inventory/categories',
+                type: 'GET',
+                success: function(response) {
+                var categories = response.categories;
+                console.log(response)    
+            }
             });
 
             // Update url to allow direct links to search

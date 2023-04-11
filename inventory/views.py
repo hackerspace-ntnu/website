@@ -21,7 +21,7 @@ from rest_framework.views import APIView
 
 from userprofile.models import Profile
 
-from .models import Item, ItemLoan
+from .models import Item, ItemCategory, ItemLoan
 
 
 class InventoryListView(TemplateView):
@@ -80,6 +80,14 @@ class InventoryListAPIView(APIView):
         return Response(
             {"items": page_obj.object_list, "sort_by": sort_by, "page_obj": page_obj}
         )
+
+
+class InventoryCategory(APIView):
+    def get(self, request):
+
+        categories = ItemCategory.objects.values("category_name").distinct()
+
+        return Response({"category": categories})
 
 
 class ItemDetailView(DetailView):

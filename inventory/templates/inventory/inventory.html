@@ -27,7 +27,7 @@
                         <label for="filter">Navn</label>
                     </div>
                     <div class="input-field col s12 m6 l5">
-                        <select name="sort_by" onchange="updateSortBy(this.value)">
+                        <select id="selectSearchBar" name="sort_by" onchange="updateSortBy(this.value)">
                             <option value="" disabled {% if not sort_by %}selected{% endif %}>Velg sorteringskriterie</option>
                             <option value="popularity" {% if sort_by == "popularity" %}selected{% endif %}>Popularitet</option>
                             <option value="stock_dsc" {% if sort_by == "stock_dsc" %}selected{% endif %}>Lagerbeholdning (Synkende)</option>
@@ -37,6 +37,16 @@
                         </select>
                         <label>Sorter etter</label>
                     </div>
+                        {% if sort_by == "category" %}
+                            <div class="input-field col s12 m6 l6">
+                                <select id="category_filter" onchange="updateCategory(this.value)">
+                                
+                                </select>
+                                <label>Category:</label>
+                            </div>
+                        {% endif %}
+                </div>
+
                 
             </form>
 
@@ -50,6 +60,8 @@
         let search = "{{ search }}";
         let page_number = {{ page }};
         let sort_by = "{{ sort_by }}";
+
+
 
         document.addEventListener('DOMContentLoaded', function () {
             updateList();
@@ -102,8 +114,19 @@
                 url: '/api/inventory/categories',
                 type: 'GET',
                 success: function(response) {
-                var categories = response.categories;
-                console.log(response)    
+                let categories = response.category;
+                let select = document.getElementById('category_filter');
+                let option
+                console.log(categories.length)    
+                for (let i = 0; i<categories.length;i++){
+                    if (categories[i]) {
+                        option = document.createElement('option');
+                        option.value = i;
+                        option.text = categories[i].category_name;
+                        select.appendChild(option);
+                        console.log(categories[i].category_name)
+                    }
+                }
             }
             });
 

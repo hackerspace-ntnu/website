@@ -1,35 +1,35 @@
 <div class="section">
-  <div class="row no-pad-bot">
-    <div class="col s2 center">
-      <i class="material-icons align-center md-48 grey-text" style="width:100%">{{ type_icon }}</i>
-      <div class="hide-on-med-and-down">{{ type_name }}</div>
-      <div class="show-on-med-and-down hide-on-large-only">{{ type_name_short }}</div>
-    </div>
+    <div class="row no-pad-bot">
+        <div class="col s2 center">
+            <i class="material-icons align-center md-48 grey-text" style="width:100%">{{ type_icon }}</i>
+            <div class="hide-on-med-and-down">{{ type_name }}</div>
+            <div class="show-on-med-and-down hide-on-large-only">{{ type_name_short }}</div>
+        </div>
 
-    <div class="col s10 hide-on-med-and-down">
-      <span class="right badge">{{ badge_text }}</span>
-      {% if url_option == None %}
-        <a href="{% url url_view %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
-      {% else %}
-        <a href="{% url url_view url_option %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
-      {% endif %}
-      <p>
-        {{ description }}
-      </p>
+        <div class="col s10 hide-on-med-and-down">
+            <span class="right badge">{{ badge_text }}</span>
+            {% if url_option == None %}
+                <a href="{% url url_view %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
+            {% else %}
+                <a href="{% url url_view url_option %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
+            {% endif %}
+            <p>
+                {{ description }}
+            </p>
+        </div>
+        <div class="col s10 show-on-med-and-down hide-on-large-only">
+            {% if url_option == None %}
+                <a href="{% url url_view %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
+            {% else %}
+                <a href="{% url url_view url_option %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
+            {% endif %}
+            {% if badge_text != None %}
+                <p class="badge"><i>{{ badge_text }}</i><br></p>
+            {% endif %}
+            <p>
+                {{ description }}
+            </p>
+        </div>
     </div>
-    <div class="col s10 show-on-med-and-down hide-on-large-only">
-      {% if url_option == None %}
-        <a href="{% url url_view %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
-      {% else %}
-        <a href="{% url url_view url_option %}"><h5 class="no-margin truncate">{{ title }}</h5></a>
-      {% endif %}
-      {% if badge_text != None %}
-        <p class="badge"><i>{{ badge_text }}</i><br></p>
-      {% endif %}
-      <p>
-        {{ description }}
-      </p>
-    </div>
-  </div>
 </div>
 <div class="divider"></div>

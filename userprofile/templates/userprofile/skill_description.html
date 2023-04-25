@@ -1,14 +1,14 @@
 {{skill.description | linebreaks}}
 {% if skill.prerequisites.all %}
-  <ul class="collection z-depth-0">
-    <li class="collection-header">
-      <h6>Forutsetninger</h6>
-    </li>
-    {% for prereq in skill.prerequisites.all %}
-    <li class="collection-item skill_reachable" onclick="displaySkill({{prereq.id}})">
-      {{prereq}}
-      {% include "userprofile/skill_badges.html" with skill=prereq %}
-    </li>
-    {% endfor %}
-  </ul >
+    <ul class="collection z-depth-0">
+        <li class="collection-header">
+            <h6>Forutsetninger</h6>
+        </li>
+        {% for prereq in skill.prerequisites.all %}
+            <li class="collection-item skill_reachable" onclick="displaySkill({{prereq.id}})">
+                {{prereq}}
+                {% include "userprofile/skill_badges.html" with skill=prereq %}
+            </li>
+        {% endfor %}
+    </ul >
 {% endif %}

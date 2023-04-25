@@ -5,65 +5,65 @@
 {% season_data %}
 <!DOCTYPE html>
 <html lang="no">
-	<head>
-		<title>Hackerspace NTNU</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" type="image/png" href="{% static "website/img/favicon.ico" %}">
-		{{ google_fonts | safe }}
-		{{ materialize_js | safe }}
+    <head>
+        <title>Hackerspace NTNU</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" type="image/png" href="{% static "website/img/favicon.ico" %}">
+        {{ google_fonts | safe }}
+        {{ materialize_js | safe }}
         {{ materialize_css | safe }}
-		<!-- Lokale stylesheets etter materialize, for å override farger etc -->
-		<link rel="stylesheet" type="text/css" href="{% static "website/css/style.css" %}">
-		{{ google_icons | safe }}
-		<!-- Global Site Tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107702172-1"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', 'UA-107702172-1');
-		</script>
-		{% block head %}{% endblock head %}
-	</head>
-	<body>
-		{% include "website/header.html" %}
-		{% block header %}{% endblock header %}
-		{# announcement #}
-		{% for banner in banners %}
-			<div class="section" style="background-color: {{ banner.color }}">
-				<div class="container center" style="color: {{ banner.text_color }}">
-					{{ banner.text|linebreaksbr }}
-				</div>
-			</div>
-		{% endfor %}
-		{% if messages %}
-		<script>
-			{% for message in messages %}
+        <!-- Lokale stylesheets etter materialize, for å override farger etc -->
+        <link rel="stylesheet" type="text/css" href="{% static "website/css/style.css" %}">
+        {{ google_icons | safe }}
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107702172-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'UA-107702172-1');
+        </script>
+        {% block head %}{% endblock head %}
+    </head>
+    <body>
+        {% include "website/header.html" %}
+        {% block header %}{% endblock header %}
+        {# announcement #}
+        {% for banner in banners %}
+            <div class="section" style="background-color: {{ banner.color }}">
+                <div class="container center" style="color: {{ banner.text_color }}">
+                    {{ banner.text|linebreaksbr }}
+                </div>
+            </div>
+        {% endfor %}
+        {% if messages %}
+            <script>
+                {% for message in messages %}
 
-				{% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-					M.toast({html: '{{ message }}', classes: 'hs-yellow black-text'});
-				{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-					M.toast({html: '{{ message }}', classes: 'hs-red black-text'});
-				{% else %}
-					M.toast({html: '{{ message }}', classes: 'hs-grey white-text'});
-				{% endif %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                        M.toast({html: '{{ message }}', classes: 'hs-yellow black-text'});
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        M.toast({html: '{{ message }}', classes: 'hs-red black-text'});
+                    {% else %}
+                        M.toast({html: '{{ message }}', classes: 'hs-grey white-text'});
+                    {% endif %}
 
-			{% endfor %}
-		</script>
-		</ul>
-		{% endif %}
+                {% endfor %}
+            </script>
+            </ul>
+        {% endif %}
 
-		<main>
-		{% block content %}{% endblock content %}
-		</main>
-		{% block footer %}
-		{% include "website/footer.html" %}
-		<script>
-			M.AutoInit();
-		</script>
-		{% endblock footer %}
-	</body>
+        <main>
+            {% block content %}{% endblock content %}
+        </main>
+        {% block footer %}
+            {% include "website/footer.html" %}
+            <script>
+                M.AutoInit();
+            </script>
+        {% endblock footer %}
+    </body>
 </html>

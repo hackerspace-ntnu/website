@@ -7,7 +7,7 @@ function get_data() {
         "type": "GET",
         "url": "/door/get_status/",
         "success": function(data) {
-          change_status(data);
+            change_status(data);
         },
     });
     setTimeout(function(){get_data()}, 30000);

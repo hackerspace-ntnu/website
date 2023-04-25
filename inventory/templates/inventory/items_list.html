@@ -10,35 +10,35 @@
                         <a href="{% url 'inventory:item' item.id %}">
                             {{ item.name }}
                             <p style="color:#000 !important">
-                            {% if item.unknown_stock %}
-                                <i class="material-icons hs-yellow-text hide-on-small-only">question_mark</i>
-                                <b>{% trans "Ukjent antall" %}</b>
-                            {% elif item.in_stock %}
-                                <i class="material-icons hs-green-text hide-on-small-only">done</i>
-                                {% if item.available > 1000 %}
-                                    <b>>1000 {% trans "stk." %}</b>
+                                {% if item.unknown_stock %}
+                                    <i class="material-icons hs-yellow-text hide-on-small-only">question_mark</i>
+                                    <b>{% trans "Ukjent antall" %}</b>
+                                {% elif item.in_stock %}
+                                    <i class="material-icons hs-green-text hide-on-small-only">done</i>
+                                    {% if item.available > 1000 %}
+                                        <b>>1000 {% trans "stk." %}</b>
+                                    {% else %}
+                                        <b>{{ item.available }} {% trans "stk." %}</b>
+                                    {% endif %}
                                 {% else %}
-                                    <b>{{ item.available }} {% trans "stk." %}</b>
+                                    <i class="material-icons hs-red-text hide-on-small-only">do_not_disturb</i>
+                                    <b>{% trans "Ingen" %}</b>
                                 {% endif %}
-                            {% else %}
-                                <i class="material-icons hs-red-text hide-on-small-only">do_not_disturb</i>
-                                <b>{% trans "Ingen" %}</b>
-                            {% endif %}
-                            {% trans "på lager" %}.
+                                {% trans "på lager" %}.
 
-                            {% if item.has_location %}
-                                {% trans "Hylleplass" %} <b>{{ item.location }}</b>.
-                            {% endif %}
+                                {% if item.has_location %}
+                                    {% trans "Hylleplass" %} <b>{{ item.location }}</b>.
+                                {% endif %}
 
-                            {% if not item.in_stock and item.next_loan_done is not None %}
-                                <b>{{ item.next_loan_amount }} {% trans "stk." %}</b> {% trans "forventet på lager"%} <b>{{ item.next_loan_done }}</b>
-                            {% endif %}
+                                {% if not item.in_stock and item.next_loan_done is not None %}
+                                    <b>{{ item.next_loan_amount }} {% trans "stk." %}</b> {% trans "forventet på lager"%} <b>{{ item.next_loan_done }}</b>
+                                {% endif %}
                             </p>
                         </a>
                         {% if item.can_loan and item.in_stock %}
-                        <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}" style="margin-left:auto">
-                            <span class="white-text">{% trans "Lån" %}</span>
-                        </a>
+                            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}" style="margin-left:auto">
+                                <span class="white-text">{% trans "Lån" %}</span>
+                            </a>
                         {% endif %}
                     </li>
                 {% endfor %}

@@ -1,26 +1,26 @@
 .cut-top {
-	margin-top: -96px !important;
-	position: relative;
+    margin-top: -96px !important;
+    position: relative;
 }
 
 .progress {
-	height: auto;
+    height: auto;
 }
 
 .progress p {
-	position: relative
+    position: relative
 }
 
 div,h3{
-	word-wrap: break-word;      
+    word-wrap: break-word;
 }
 .header-image{
-	max-width: 600px;
-	width: 100%;
+    max-width: 600px;
+    width: 100%;
 }
 
 #registration-users li {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

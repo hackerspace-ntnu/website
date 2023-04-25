@@ -1,28 +1,28 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
-{{ jquery | safe }}
-<script src="{% static 'inventory/js/change_equipment_order.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
+    {{ jquery | safe }}
+    <script src="{% static 'inventory/js/change_equipment_order.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<li>
-    <div class="row">
-        <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}"
-            class="circle responsive-img col s12 m4">
-        <div class="col s12 m8">
-            <a class="black-test" href="{% url 'inventory:equipment_detail' item.id %}">
-                <h4 class="word-wrap">{{ item.name }}</h4>
-            </a>
-            {% if item.inventory_link %}
-            <a class=" hs-green btn" href="{{ item.inventory_link }}">Til lager</a>
+    <li>
+        <div class="row">
+            <img src="{% if item.thumbnail %}{{ item.thumbnail.thumb_url }}{% else %}{% static 'inventory/img/unknown.png'%}{% endif %}"
+                class="circle responsive-img col s12 m4">
+            <div class="col s12 m8">
+                <a class="black-test" href="{% url 'inventory:equipment_detail' item.id %}">
+                    <h4 class="word-wrap">{{ item.name }}</h4>
+                </a>
+                {% if item.inventory_link %}
+                    <a class=" hs-green btn" href="{{ item.inventory_link }}">Til lager</a>
+                {% endif %}
+            </div>
+            {% if user.is_staff %}
+                <i class="order-up material-icons" data-id="{{ item.id }}" data-apiurl="{% url 'inventory:equipment_order_up' item.id %}">expand_less</i>
+                <i class="order-down material-icons" data-id="{{ item.id }}" data-apiurl="{% url 'inventory:equipment_order_down' item.id %}">expand_more</i>
             {% endif %}
         </div>
-        {% if user.is_staff %}
-        <i class="order-up material-icons" data-id="{{ item.id }}" data-apiurl="{% url 'inventory:equipment_order_up' item.id %}">expand_less</i>
-        <i class="order-down material-icons" data-id="{{ item.id }}" data-apiurl="{% url 'inventory:equipment_order_down' item.id %}">expand_more</i>
-        {% endif %}
-    </div>
-</li>
+    </li>
 {% endblock %}

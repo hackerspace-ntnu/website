@@ -2,40 +2,40 @@
 {% load static %}
 
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/equipment.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div>
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Utstyr</h4>
-                    <p>Her kan du finne utstyr som Hackerspace har. Ikke alt utstyr er mulig å låne bort, men de som er,
-                        linker til gjenstanden i lageret for utlån.</p>
+    <div>
+        <div class="section hs-green white-text">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <h4>Utstyr</h4>
+                        <p>Her kan du finne utstyr som Hackerspace har. Ikke alt utstyr er mulig å låne bort, men de som er,
+                            linker til gjenstanden i lageret for utlån.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {% include "inventory/equipment/_list_admin_banner.html" %}
+        {% include "inventory/equipment/_list_admin_banner.html" %}
 
-    <div class="container">
-        <ul>
-            {% for item in items %}
-            {% include "inventory/equipment/equipment_list_item.html" %}
-            {% empty %}
-            <div class="row center">
-                <div class="col s12">
-                    <h3>Fant ingen utstyr på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
-                    <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a target="_blank" href="{{ mazemap_link }}">verkstedet</a> og spør oss!</p>
-                </div>
-            </div>
-            {% endfor %}
-        </ul>
+        <div class="container">
+            <ul>
+                {% for item in items %}
+                    {% include "inventory/equipment/equipment_list_item.html" %}
+                {% empty %}
+                    <div class="row center">
+                        <div class="col s12">
+                            <h3>Fant ingen utstyr på lageret <i class="material-icons medium">sentiment_dissatisfied</i></h3>
+                            <p>Det kan likevel hende at vi har det du leter etter. Kom innom <a target="_blank" href="{{ mazemap_link }}">verkstedet</a> og spør oss!</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-</div>
 
 {% endblock %}

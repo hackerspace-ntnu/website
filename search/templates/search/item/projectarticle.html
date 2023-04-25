@@ -1,13 +1,13 @@
 {% load add_date %}
 
 {% with type_icon="inventory" type_name="Prosjektarkiv" type_name_short="Prosjekt-<br/>arkiv" %}
-  {% with url_view="projectarchive:details" url_option=object.id %}
-    {% with title=object.title %}
-      {% with badge_text="Publisert "|add_date:object.pub_date %}
-        {% with description=object.ingress_content|truncatechars:200 %}
-          {% include "search/search_item.html" %}
+    {% with url_view="projectarchive:details" url_option=object.id %}
+        {% with title=object.title %}
+            {% with badge_text="Publisert "|add_date:object.pub_date %}
+                {% with description=object.ingress_content|truncatechars:200 %}
+                    {% include "search/search_item.html" %}
+                {% endwith %}
+            {% endwith %}
         {% endwith %}
-      {% endwith %}
     {% endwith %}
-  {% endwith %}
 {% endwith %}

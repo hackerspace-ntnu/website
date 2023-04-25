@@ -2,45 +2,45 @@
 {% load static %}
 
 {% block head %}
-  <link href="{% static "files/css/image_upload.css" %}" rel="stylesheet">
-  <link href="{% static "files/css/button_image.css" %}" rel="stylesheet">
+    <link href="{% static "files/css/image_upload.css" %}" rel="stylesheet">
+    <link href="{% static "files/css/button_image.css" %}" rel="stylesheet">
 {% endblock head %}
 
 {% block content %}
-  <form id="imageUploadForm" action="" enctype="multipart/form-data" method="post">
-      {% csrf_token %}
+    <form id="imageUploadForm" action="" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
 
-      {{ form.title.errors }}
-      <div class="input-field">
-        <label for="{{ form.title.id_for_label }}">Title</label>
-        <input id="id_title" name="title" type="text" maxlength="{{ form.fields.title.max_length }}" value="{{ form.title.value }}">
-      </div>
-
-      {{ form.description.errors }}
-      <div class="input-field">
-        <label for="{{ form.description.id_for_label }}">Description</label>
-        <textarea id="{{ form.description.id_for_label }}" name="description" class="materialize-textarea" maxlength="{{ form.field.description.max_length }}">{{ form.description.value }}</textarea>
-      </div>
-
-      {{ form.tags.errors }}
-      <div class="input-field">
-        <label for="{{ form.tags.id_for_label }}">Tags</label>
-        <input id="id_tags" name="tags" type="text" maxlength="{{ form.fields.tags.max_length }}" value="{{ form.tags.value }}">
-      </div>
-
-      {{ form.file.errors }}
-      <div class="file-field input-field">
-        <div class="btn">
-          <span>File</span>
-          <input disabled id="id_file" type="file" name="file" value="{{ form.file.value }}">
+        {{ form.title.errors }}
+        <div class="input-field">
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            <input id="id_title" name="title" type="text" maxlength="{{ form.fields.title.max_length }}" value="{{ form.title.value }}">
         </div>
-        <div class="file-path-wrapper">
-          <input disabled class="file-path validate" type="text" value="{{ form.file.value }}">
-        </div>
-      </div>
 
-      <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Submit
-        <img src="{% static "img/ic_send_white_24px.svg" %}">
-      </button>
-  </form>
+        {{ form.description.errors }}
+        <div class="input-field">
+            <label for="{{ form.description.id_for_label }}">Description</label>
+            <textarea id="{{ form.description.id_for_label }}" name="description" class="materialize-textarea" maxlength="{{ form.field.description.max_length }}">{{ form.description.value }}</textarea>
+        </div>
+
+        {{ form.tags.errors }}
+        <div class="input-field">
+            <label for="{{ form.tags.id_for_label }}">Tags</label>
+            <input id="id_tags" name="tags" type="text" maxlength="{{ form.fields.tags.max_length }}" value="{{ form.tags.value }}">
+        </div>
+
+        {{ form.file.errors }}
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input disabled id="id_file" type="file" name="file" value="{{ form.file.value }}">
+            </div>
+            <div class="file-path-wrapper">
+                <input disabled class="file-path validate" type="text" value="{{ form.file.value }}">
+            </div>
+        </div>
+
+        <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <img src="{% static "img/ic_send_white_24px.svg" %}">
+        </button>
+    </form>
 {% endblock content %}

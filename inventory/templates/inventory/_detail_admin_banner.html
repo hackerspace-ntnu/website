@@ -1,12 +1,12 @@
 {% if perms.inventory.change_item %}
-<div class="section">
-	<div class="container">
-		<div class="card-panel">
-			<ul class='collection with-header'>
-				<li class="collection-header"><h5>Administrator-meny</h5></li>
-				<li class="collection-item"><a href="{% url 'inventory:edit' item.id %}"><i class="material-icons">edit</i>Rediger lagerinnslag</a></li>
-				<li class="collection-item"><a href="{% url 'inventory:delete' item.id %}" class="hs-red-text"><i class="material-icons hs-red-text">delete</i>Slett lagerinnslag</a></li>
-			</ul>
-	</div>
-</div>
+    <div class="section">
+        <div class="container">
+            <div class="card-panel">
+                <ul class='collection with-header'>
+                    <li class="collection-header"><h5>Administrator-meny</h5></li>
+                    <li class="collection-item"><a href="{% url 'inventory:edit' item.id %}"><i class="material-icons">edit</i>Rediger lagerinnslag</a></li>
+                    <li class="collection-item"><a href="{% url 'inventory:delete' item.id %}" class="hs-red-text"><i class="material-icons hs-red-text">delete</i>Slett lagerinnslag</a></li>
+                </ul>
+            </div>
+        </div>
 {% endif %}

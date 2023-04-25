@@ -5,18 +5,18 @@
     {% get_current_language as LANGUAGE_CODE %}
     <input name="next" type="hidden" value="{{ redirect_to }}">
     <input name="language" type="hidden"
-    value=
-      {% if LANGUAGE_CODE == "nb" %}
-        "en"
-      {% else %}
-        "nb"
-      {% endif %}
+        value=
+        {% if LANGUAGE_CODE == "nb" %}
+            "en"
+        {% else %}
+            "nb"
+        {% endif %}
     >
     <input type="image" src=
-      {% if LANGUAGE_CODE == "nb" %}
-           "{% static 'website/img/icon/GB.png' %}"
-      {% else %}
-           "{% static 'website/img/icon/NO.png' %}"
-      {% endif %}
+        {% if LANGUAGE_CODE == "nb" %}
+            "{% static 'website/img/icon/GB.png' %}"
+        {% else %}
+            "{% static 'website/img/icon/NO.png' %}"
+        {% endif %}
     >
 </form>

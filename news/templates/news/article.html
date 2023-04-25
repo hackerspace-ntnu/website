@@ -1,181 +1,181 @@
 {% extends "website/base.html" %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
-{# OpenGraph Metadata #}
-<meta property="og:title" content="{{ article.title }}" />
-<meta property="og:type" content="article" />
-<meta property="og:image" content="{{ article.thumbnail.abs_url }}" />
-<meta property="og:url" content="{{ request.build_absolute_uri }}" />
-{# OpenGraph Metadata End #}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+    {# OpenGraph Metadata #}
+    <meta property="og:title" content="{{ article.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="{{ article.thumbnail.abs_url }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    {# OpenGraph Metadata End #}
 {% endblock head %}
 
 {% block content %}
-<div class="section no-pad hs-green hide-on-med-and-up">
-	<img class="header-image" src="{{ object.thumbnail.url }}" />
-</div>
-<div class="section no-pad hs-green hide-on-small-only">
-	<div class="container center">
-		<img class="responsive-img" src="{{ object.thumbnail.url }}" />
-	</div>
-</div>
-<div class="section hs-green {% if object.thumbnail %}no-pad-top{% endif %}">
-	<div class="container">
-		<div class="card-panel {% if object.thumbnail %}cut-top{% endif %} z-depth-2">
-			<div class="row">
-				<div class="col s12">
-					{% if article.draft %}
-                  <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="Denne artikkelen er lagret som utkast og dermed kun synlig for deg">
-                        <i class="material-icons">info</i>
-                        <span>Lagret som utkast</span>
-			            </div>
-					{% endif %}
-					<h5 class="hide-on-med-and-up">{{ article.title }}</h5>
-					<h3 class="hide-on-small-only">{{ article.title }}</h3>
-					<p>{{ article.pub_date }}{% if article.draft %} <span class="grey-text">(oppdateres ved publisering)</span>{% endif %}</p>
-					{% if article.author %}
-					<p>Skrevet av <a href="{% url 'userprofile:profile_by_id' article.author.id %}">{{ article.author.get_full_name }}</a></p>
-					{% endif %}
-					<p>Lest {{ article.views }} ganger</p>
-				</div>
-			</div>
-			<div id="article_content" class="row markdown_content">
-				<div class="col s12">
-					<div class="divider"></div>
-					<p><b>{{ article.ingress_content }}</b></p>
-					{% autoescape off %}
-						{{ article.formatted_markdown|safe }}
-					{% endautoescape %}
-				</div>
-			</div>
-		</div>
-		{% if perms.news.change_article %}
-		<div class="card-panel">
-			<div class="row no-bottom-margin">
-				<div class="col s12">
-					<h5>Administrator-meny</h5>
-				</div>
-				<div class="col s12">
-					<ul class='collection'>
-						<li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i><span class="collection-icon-text">Rediger artikkel</span></a></li>
-						{% if perms.news.delete_article %}
-						<li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span class="collection-icon-text">Slett artikkel</span></a></li>
-						{% endif %}
-					</ul>
-				</div>
-			</div>
-		</div>
-		{% endif %}
+    <div class="section no-pad hs-green hide-on-med-and-up">
+        <img class="header-image" src="{{ object.thumbnail.url }}" />
+    </div>
+    <div class="section no-pad hs-green hide-on-small-only">
+        <div class="container center">
+            <img class="responsive-img" src="{{ object.thumbnail.url }}" />
+        </div>
+    </div>
+    <div class="section hs-green {% if object.thumbnail %}no-pad-top{% endif %}">
+        <div class="container">
+            <div class="card-panel {% if object.thumbnail %}cut-top{% endif %} z-depth-2">
+                <div class="row">
+                    <div class="col s12">
+                        {% if article.draft %}
+                            <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="Denne artikkelen er lagret som utkast og dermed kun synlig for deg">
+                                <i class="material-icons">info</i>
+                                <span>Lagret som utkast</span>
+                            </div>
+                        {% endif %}
+                        <h5 class="hide-on-med-and-up">{{ article.title }}</h5>
+                        <h3 class="hide-on-small-only">{{ article.title }}</h3>
+                        <p>{{ article.pub_date }}{% if article.draft %} <span class="grey-text">(oppdateres ved publisering)</span>{% endif %}</p>
+                        {% if article.author %}
+                            <p>Skrevet av <a href="{% url 'userprofile:profile_by_id' article.author.id %}">{{ article.author.get_full_name }}</a></p>
+                        {% endif %}
+                        <p>Lest {{ article.views }} ganger</p>
+                    </div>
+                </div>
+                <div id="article_content" class="row markdown_content">
+                    <div class="col s12">
+                        <div class="divider"></div>
+                        <p><b>{{ article.ingress_content }}</b></p>
+                        {% autoescape off %}
+                            {{ article.formatted_markdown|safe }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+            </div>
+            {% if perms.news.change_article %}
+                <div class="card-panel">
+                    <div class="row no-bottom-margin">
+                        <div class="col s12">
+                            <h5>Administrator-meny</h5>
+                        </div>
+                        <div class="col s12">
+                            <ul class='collection'>
+                                <li class="collection-item"><a href="{% url 'news:edit' article.id %}"><i class="material-icons">edit</i><span class="collection-icon-text">Rediger artikkel</span></a></li>
+                                {% if perms.news.delete_article %}
+                                    <li class="collection-item"><a href="{% url 'news:delete' article.id %}" class="modal-trigger hs-red-text"><i class="material-icons">delete</i><span class="collection-icon-text">Slett artikkel</span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
-		<div class="card-panel row">
+            <div class="card-panel row">
 
-			{% if previous_article %}
+                {% if previous_article %}
 
-				<div class="col s12 m6">
+                    <div class="col s12 m6">
 
-					<h5 class="hs-grey-text">Forrige artikkel</h5>
+                        <h5 class="hs-grey-text">Forrige artikkel</h5>
 
-					<a style="text-decoration:inherit; color:inherit;" href="{% url 'news:details' previous_article.id %}">
-					<div class="card z-depth-1">
+                        <a style="text-decoration:inherit; color:inherit;" href="{% url 'news:details' previous_article.id %}">
+                            <div class="card z-depth-1">
 
-						{% if previous_article.thumbnail %}
-						<div class="card-image">
-							<img class="responsive-img hide-on-small-only" style="width:100%; max-height:200px; object-fit:cover;" src="{{ previous_article.thumbnail.url }}" />
-						</div>
-						{% endif %}
+                                {% if previous_article.thumbnail %}
+                                    <div class="card-image">
+                                        <img class="responsive-img hide-on-small-only" style="width:100%; max-height:200px; object-fit:cover;" src="{{ previous_article.thumbnail.url }}" />
+                                    </div>
+                                {% endif %}
 
-						<div class="card-content">
-							<span class="card-title">
-								<h6 class="hs-green-text">{{previous_article.title}}</h6>
-							</span>
-							<p>
-								{% autoescape off %}
-								{{ previous_article.ingress_content|truncatechars:150 }}
-								{% endautoescape %}
-							</p>
-						</div>
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h6 class="hs-green-text">{{previous_article.title}}</h6>
+                                    </span>
+                                    <p>
+                                        {% autoescape off %}
+                                            {{ previous_article.ingress_content|truncatechars:150 }}
+                                        {% endautoescape %}
+                                    </p>
+                                </div>
 
-					</div>
-					</a>
+                            </div>
+                        </a>
 
-				</div>
+                    </div>
 
-			{% else %}
+                {% else %}
 
-			<div class="col m6 hide-on-small-only">
-				<h5 class="hs-grey-text">Forrige artikkel</h5>
-				<div class="valign-wrapper" style="height:250px;">
-						<div class="center-align container">
-							<i class="material-icons center-align hs-grey-text" style="font-size:48px">flip_to_front</i>
-							<p class="center-align hs-grey-text">Ingen eldre artikler</p>
-						</div>
-				</div>
-			</div>
+                    <div class="col m6 hide-on-small-only">
+                        <h5 class="hs-grey-text">Forrige artikkel</h5>
+                        <div class="valign-wrapper" style="height:250px;">
+                            <div class="center-align container">
+                                <i class="material-icons center-align hs-grey-text" style="font-size:48px">flip_to_front</i>
+                                <p class="center-align hs-grey-text">Ingen eldre artikler</p>
+                            </div>
+                        </div>
+                    </div>
 
-			{% endif %}
+                {% endif %}
 
-			{% if next_article %}
+                {% if next_article %}
 
-				<div class="col s12 m6">
+                    <div class="col s12 m6">
 
-					<h5 class="hs-grey-text">Neste artikkel</h5>
+                        <h5 class="hs-grey-text">Neste artikkel</h5>
 
-					<a style="text-decoration: inherit;
-color: inherit;" href="{% url 'news:details' next_article.id %}">
+                        <a style="text-decoration: inherit;
+                            color: inherit;" href="{% url 'news:details' next_article.id %}">
 
-					<div class="card z-depth-1">
+                            <div class="card z-depth-1">
 
-						{% if next_article.thumbnail %}
-						<div class="card-image">
-							<img class="responsive-img hide-on-small-only" style="width:100%; max-height:200px; object-fit:cover;" src="{{ next_article.thumbnail.url }}" />
-						</div>
-						{% endif %}
+                                {% if next_article.thumbnail %}
+                                    <div class="card-image">
+                                        <img class="responsive-img hide-on-small-only" style="width:100%; max-height:200px; object-fit:cover;" src="{{ next_article.thumbnail.url }}" />
+                                    </div>
+                                {% endif %}
 
-						<div class="card-content">
-							<span class="card-title">
-								<h6 class="hs-green-text">{{next_article.title}}</h6>
-							</span>
-							<p>
-								{% autoescape off %}
-								{{ next_article.ingress_content|truncatechars:150 }}
-								{% endautoescape %}
-							</p>
-						</div>
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h6 class="hs-green-text">{{next_article.title}}</h6>
+                                    </span>
+                                    <p>
+                                        {% autoescape off %}
+                                            {{ next_article.ingress_content|truncatechars:150 }}
+                                        {% endautoescape %}
+                                    </p>
+                                </div>
 
-					</div></a>
+                            </div></a>
 
-				</div>
+                    </div>
 
-			{% else %}
+                {% else %}
 
-				<div class="col m6 hide-on-small-only">
-					<h5 class="hs-grey-text">Neste artikkel</h5>
-					<div class="valign-wrapper" style="height:250px;">
-							<div class="center-align container">
-								<i class="material-icons center-align hs-grey-text" style="font-size:48px">flip_to_back</i>
-								<p class="center-align hs-grey-text">Ingen nyere artikler</p>
-							</div>
-					</div>
-				</div>
+                    <div class="col m6 hide-on-small-only">
+                        <h5 class="hs-grey-text">Neste artikkel</h5>
+                        <div class="valign-wrapper" style="height:250px;">
+                            <div class="center-align container">
+                                <i class="material-icons center-align hs-grey-text" style="font-size:48px">flip_to_back</i>
+                                <p class="center-align hs-grey-text">Ingen nyere artikler</p>
+                            </div>
+                        </div>
+                    </div>
 
-			{% endif %}
+                {% endif %}
 
-		</div>
+            </div>
 
-	</div>
-	<script>
-		// Prevent ckeditor hard fields to allow responsive images
-		window.addEventListener('DOMContentLoaded', function(event) {
-			var container = document.getElementsByClassName('card-panel')[0];
-			var images = container.getElementsByTagName("img");
-			console.log(images);
-			var i;
+        </div>
+        <script>
+            // Prevent ckeditor hard fields to allow responsive images
+            window.addEventListener('DOMContentLoaded', function(event) {
+                var container = document.getElementsByClassName('card-panel')[0];
+                var images = container.getElementsByTagName("img");
+                console.log(images);
+                var i;
 
-			for(i = 0; i < images.length; i++) {
-				images[i].className = "responsive-img";
-				images[i].style.height = "";
-			}
-		});
+                for(i = 0; i < images.length; i++) {
+                    images[i].className = "responsive-img";
+                    images[i].style.height = "";
+                }
+            });
 
-	</script>
-	{% endblock content %}
+        </script>
+{% endblock content %}

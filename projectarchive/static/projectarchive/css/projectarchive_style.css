@@ -1,11 +1,11 @@
 .cut-top {
-	margin-top: -96px !important;
-	position: relative;
+    margin-top: -96px !important;
+    position: relative;
 }
 div,h3{
-	word-wrap: break-word;      
+    word-wrap: break-word;
 }
 .header-image{
-	max-width: 600px;
-	width: 100%;
+    max-width: 600px;
+    width: 100%;
 }

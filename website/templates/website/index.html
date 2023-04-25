@@ -4,150 +4,150 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-{% if is_application %}
-{% include 'website/_application_banner.html' %}
-{% endif %}
-<div class="section hs-gray hide-on-med-and-up">
-	<div class="row center valign-wrapper no-pad-bot">
-		<div class="col s12">
-		<img style="width:100px; height:150px;" src=" {% static 'website/img/logo/Icon_green_transparent.png' %} ">
-		</div>
-	</div>
-</div>
-<div class="section hide-on-small-only no-pad">
-	<div class="slider">
-		<div class="container">
-			<ul class="slides">
-				<li class="tinter">
-					<img src="{% static 'website/img/people_and_tech/cover6.jpg' %}">
-					<div class="caption center-align">
-                        <h4>{% trans "Har du en skaper i magen?" %}
-                        <p>{% trans "Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt." %}</p>
-					</div>
-				</li>
-				<li class="tinter">
-					<img src="{% static 'website/img/people_and_tech/printing_lab.JPG' %}">
-					<div class="caption center-align">
-                        <h4>{% trans "Nysgjerrig på VR?" %}
-						<p>{% trans "Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace." %}</p>
-					</div>
-				</li>
-				<li class="tinter">
-					<img src="{% static 'website/img/people_and_tech/tetris2.JPG' %}">
-					<div class="caption center-align">
-                        <h4>{% trans "Kreativt, innovativt og ikke minst sosialt" %}</h4>
-						<p>{% trans "Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting." %}</p>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
-</div>
-{% include "website/_social_buttons.html" %}
-<div class="section hs-gray">
-	<div class="container">
-		<div class="row">
-			<div class="col s12 l6 white-text">
-                <h4>{% trans "Hvem er vi?" %}</h4>
-                <p>{% trans "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle studenter uavhengig av studieretning." %}</p>
-                <p>{% trans "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere og Virtual Reality-utstyr." %}</p>
-                <p>{% trans "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace." %}</p>
-                <p>{% trans "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på" %} <a class="hs-green-text" target="_blank" href="{{ mazemap_link }}">{% trans "vårt verksted" %}</a> og <a class="hs-green-text" target="_blank" href="https://hackerspace-ntnu.slack.com/">{% trans "Slack-kanal" %}</a>.</p>
-                <p>{% trans "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å demonstrere utstyr eller hjelpe deg." %}</p>
-                <a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">{% trans "Les mer om oss her" %}</a>
-				<br>
-			</div>
-			<div class="col s12 l6">
-				<div class="row">
-					<br>
-					<div class="col s12 x12">
-						<ul class="collection with-header z-depth-0">
-							<li class="collection-header">
-								<div>
+    {% if is_application %}
+        {% include 'website/_application_banner.html' %}
+    {% endif %}
+    <div class="section hs-gray hide-on-med-and-up">
+        <div class="row center valign-wrapper no-pad-bot">
+            <div class="col s12">
+                <img style="width:100px; height:150px;" src=" {% static 'website/img/logo/Icon_green_transparent.png' %} ">
+            </div>
+        </div>
+    </div>
+    <div class="section hide-on-small-only no-pad">
+        <div class="slider">
+            <div class="container">
+                <ul class="slides">
+                    <li class="tinter">
+                        <img src="{% static 'website/img/people_and_tech/cover6.jpg' %}">
+                        <div class="caption center-align">
+                            <h4>{% trans "Har du en skaper i magen?" %}
+                                <p>{% trans "Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt." %}</p>
+                            </div>
+                        </li>
+                        <li class="tinter">
+                            <img src="{% static 'website/img/people_and_tech/printing_lab.JPG' %}">
+                            <div class="caption center-align">
+                                <h4>{% trans "Nysgjerrig på VR?" %}
+                                    <p>{% trans "Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace." %}</p>
+                                </div>
+                            </li>
+                            <li class="tinter">
+                                <img src="{% static 'website/img/people_and_tech/tetris2.JPG' %}">
+                                <div class="caption center-align">
+                                    <h4>{% trans "Kreativt, innovativt og ikke minst sosialt" %}</h4>
+                                    <p>{% trans "Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting." %}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% include "website/_social_buttons.html" %}
+            <div class="section hs-gray">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12 l6 white-text">
+                            <h4>{% trans "Hvem er vi?" %}</h4>
+                            <p>{% trans "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle studenter uavhengig av studieretning." %}</p>
+                            <p>{% trans "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere og Virtual Reality-utstyr." %}</p>
+                            <p>{% trans "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace." %}</p>
+                            <p>{% trans "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på" %} <a class="hs-green-text" target="_blank" href="{{ mazemap_link }}">{% trans "vårt verksted" %}</a> og <a class="hs-green-text" target="_blank" href="https://hackerspace-ntnu.slack.com/">{% trans "Slack-kanal" %}</a>.</p>
+                            <p>{% trans "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å demonstrere utstyr eller hjelpe deg." %}</p>
+                            <a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">{% trans "Les mer om oss her" %}</a>
+                            <br>
+                        </div>
+                        <div class="col s12 l6">
+                            <div class="row">
+                                <br>
+                                <div class="col s12 x12">
+                                    <ul class="collection with-header z-depth-0">
+                                        <li class="collection-header">
+                                            <div>
 
-                                    <p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">{% trans "Siste nytt" %}</a>
-										{% include "website/internal_indicator.html" with indicator=internal_articles_indicator %}
-									</p>
+                                                <p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">{% trans "Siste nytt" %}</a>
+                                                    {% include "website/internal_indicator.html" with indicator=internal_articles_indicator %}
+                                                </p>
 
-								</div>
-							</li>
-							{% for article in article_list %}
-							<li class="collection-item">
-								<span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
-								<a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
-					<div class="col s12 xl12">
-						<ul class="collection with-header z-depth-0">
-							<li class="collection-header">
+                                            </div>
+                                        </li>
+                                        {% for article in article_list %}
+                                            <li class="collection-item">
+                                                <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+                                                <a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="col s12 xl12">
+                                    <ul class="collection with-header z-depth-0">
+                                        <li class="collection-header">
 
-                                <p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">{% trans "Siste arrangementer" %}</a>
-									{% include "website/internal_indicator.html" with indicator=internal_events_indicator %}
-								</p>
+                                            <p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">{% trans "Siste arrangementer" %}</a>
+                                                {% include "website/internal_indicator.html" with indicator=internal_events_indicator %}
+                                            </p>
 
-							</li>
-							{% for event in event_list %}
-								<li class="collection-item">
-									{% if event.time_start > current_date %}
-										<span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
-									{% else %}
-										<span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
+                                        </li>
+                                        {% for event in event_list %}
+                                            <li class="collection-item">
+                                                {% if event.time_start > current_date %}
+                                                    <span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
+                                                {% else %}
+                                                    <span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
 
-									{% endif %}
+                                                {% endif %}
 
-								<a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="section hs-green">
-	<div class="container hide-on-med-and-down">
-		<div class="row">
-			{% for card in index_cards %}
-			<div class="col s12">
-				<div class="card horizontal">
-					<div class="card-image">
-						<img src="{{ card.thumbnail.compressed.url }}">
-						{% if card.thumbnail_dark_text %}
-						<span class="card-title black-text">{{ card.title }}</span>
-						{% else %}
-						<span class="card-title">{{ card.title }}</span>
-						{% endif %}
-					</div>
-					<div class="card-stacked">
-						<div class="card-content">
-							{% autoescape off %}
-							{{ card.body }}
-							{% endautoescape %}
-						</div>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-	</div>
-</div>
-<script>
-// For å få slideshow til å laste pent inn setter vi bakgrunnen til bildet som benyttes og tinter det.
-var elem = document.querySelector('.slider');
-elem.style.backgroundImage = "url('static/website/img/people_and_tech/cover6.jpg')"
-elem.style.height = "100%";
-elem.style.width = "100%";
-elem.style.backgroundSize = "cover";
-elem.style.backgroundPosition = "center";
-var instance = M.Slider.init(elem, {
-	indicators: false,
-	height: 256,
-	duration:500,
-	interval: 6000
-})
+                                                <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section hs-green">
+                <div class="container hide-on-med-and-down">
+                    <div class="row">
+                        {% for card in index_cards %}
+                            <div class="col s12">
+                                <div class="card horizontal">
+                                    <div class="card-image">
+                                        <img src="{{ card.thumbnail.compressed.url }}">
+                                        {% if card.thumbnail_dark_text %}
+                                            <span class="card-title black-text">{{ card.title }}</span>
+                                        {% else %}
+                                            <span class="card-title">{{ card.title }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-stacked">
+                                        <div class="card-content">
+                                            {% autoescape off %}
+                                                {{ card.body }}
+                                            {% endautoescape %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <script>
+                // For å få slideshow til å laste pent inn setter vi bakgrunnen til bildet som benyttes og tinter det.
+                var elem = document.querySelector('.slider');
+                elem.style.backgroundImage = "url('static/website/img/people_and_tech/cover6.jpg')"
+                elem.style.height = "100%";
+                elem.style.width = "100%";
+                elem.style.backgroundSize = "cover";
+                elem.style.backgroundPosition = "center";
+                var instance = M.Slider.init(elem, {
+                    indicators: false,
+                    height: 256,
+                    duration:500,
+                    interval: 6000
+                })
 
-</script>
+            </script>
 {% endblock content %}

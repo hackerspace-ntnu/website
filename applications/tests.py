@@ -106,7 +106,7 @@ Du har søkt følgende grupper:
 2. LabOps
 
 
-Vi svarer på søknader fortløpende etter søknadsfristen går ut.
+Vi gir deg svar på søknaden innen 3 uker ekskludert fellesferier.
 Denne mailen kan ikke besvares.
 
 Dersom du skulle ha noen spørsmål vedrørende din søknad, ta kontakt med

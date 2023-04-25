@@ -2,80 +2,80 @@
 {% load static %}
 
 {% block head %}
-<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static 'projectarchive/css/projectarchive_style.css' %}">
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'projectarchive/css/projectarchive_style.css' %}">
 {% endblock head %}
 
 {% block content %}
-<div class="section block hs-green white-text">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<h4>Rediger prosjektartikkel</h4>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="section block">
-	<div class="container">
-		<div class="card-panel">
-			<div class="row">
-				<form method="post" novalidate>
-					<div class="col s12">
-						<h5>Innhold</h5>
-						<div class="divider"></div>
-						<br>
-					</div>
-					{% csrf_token %}
-					<div class="input-field col s12">
-						{{ form.title }}
-						<label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
-						<span class="helper-text hs-red-text">{{ form.title.errors }}</span>
-					</div>
-					<div class="input-field col s12">
-						{{ form.ingress_content }}
-						<label for="id_ingress_content">{{ form.ingress_content.label }}</label>
-						<span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
-					</div>
+    <div class="section block hs-green white-text">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Rediger prosjektartikkel</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section block">
+        <div class="container">
+            <div class="card-panel">
+                <div class="row">
+                    <form method="post" novalidate>
+                        <div class="col s12">
+                            <h5>Innhold</h5>
+                            <div class="divider"></div>
+                            <br>
+                        </div>
+                        {% csrf_token %}
+                        <div class="input-field col s12">
+                            {{ form.title }}
+                            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.title.errors }}</span>
+                        </div>
+                        <div class="input-field col s12">
+                            {{ form.ingress_content }}
+                            <label for="id_ingress_content">{{ form.ingress_content.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
+                        </div>
 
-					<div class="input-field col s12">
-						<p>{{ form.main_content.label }}</p>
-						<span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
-						{{ form.main_content }}
-						<div class="helper-text">
-							<p>Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan
-								legges til ved drag-and-drop.</p>
-							<p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
-						</div>
-					</div>
-					{{ form.media }}
-					<div class="col s12">
-						{% include 'files/_gallery_include.html' %}
-					</div>
-					<div class="hide col s12 input-field">
-						<div class="col s12">
-							<p>
-								<label>
-									{{ form.draft }}
-									<span>{{ form.draft.label }}</span>
-								</label>
-							</p>
-						</div>
-					</div>
-					<button id="submit" class="hide btn btn-large hs-green waves-effect waves-light" type="submit"
-						name="form_submit">Lagre og publiser artikkel</button>
-					<a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">Lagre og
-						publiser artikkel</a>
-					<a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">Lagre som
-						utkast</a>
-			</div>
-		</div>
-	</div>
-	</form>
-</div>
-</div>
-</div>
-</div>
-<script src="{% static 'projectarchive/js/save_draft_or_publish.js' %}"></script>
+                        <div class="input-field col s12">
+                            <p>{{ form.main_content.label }}</p>
+                            <span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
+                            {{ form.main_content }}
+                            <div class="helper-text">
+                                <p>Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan
+                                    legges til ved drag-and-drop.</p>
+                                <p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
+                            </div>
+                        </div>
+                        {{ form.media }}
+                        <div class="col s12">
+                            {% include 'files/_gallery_include.html' %}
+                        </div>
+                        <div class="hide col s12 input-field">
+                            <div class="col s12">
+                                <p>
+                                    <label>
+                                        {{ form.draft }}
+                                        <span>{{ form.draft.label }}</span>
+                                    </label>
+                                </p>
+                            </div>
+                        </div>
+                        <button id="submit" class="hide btn btn-large hs-green waves-effect waves-light" type="submit"
+                            name="form_submit">Lagre og publiser artikkel</button>
+                        <a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">Lagre og
+                            publiser artikkel</a>
+                        <a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">Lagre som
+                            utkast</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    </div>
+    </div>
+    <script src="{% static 'projectarchive/js/save_draft_or_publish.js' %}"></script>
 {% endblock content %}

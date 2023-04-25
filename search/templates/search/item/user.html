@@ -1,11 +1,11 @@
 {% load add_date %}
 
 {% with type_icon="person" type_name="Bruker" type_name_short="Bruker" %}
-  {% with url_view="userprofile:profile_by_id" url_option=object.user.id %}
-    {% with title=object.user.first_name|add:" "|add:object.user.last_name %}
-      {% with description=object.get_main_group %}
-        {% include "search/search_item.html" %}
-      {% endwith %}
+    {% with url_view="userprofile:profile_by_id" url_option=object.user.id %}
+        {% with title=object.user.first_name|add:" "|add:object.user.last_name %}
+            {% with description=object.get_main_group %}
+                {% include "search/search_item.html" %}
+            {% endwith %}
+        {% endwith %}
     {% endwith %}
-  {% endwith %}
 {% endwith %}

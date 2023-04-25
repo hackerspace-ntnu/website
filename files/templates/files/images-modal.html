@@ -1,94 +1,94 @@
 {% load gallery_modals %}
 {% load static %}
 {% block header %}
-<link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
 {% endblock %}
 
 <a class="waves-effect hs-red white-text waves-light btn btn-large" id="delete-img">Slett bilde</a>
 <a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
 
 <div id="thumbnailPicker" class="modal">
-	<div class="modal-content gallery-content">
-		<div class="gallery-header hs-gray">
-			<h4 class="white-text">Velg bilde</h4>
-			<div class="row">
-				<a class="col s12 l5 btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">Last opp nytt bilde</a>
-				<div class="col s12 hide-on-large-only">
-					<div class="invisible-divider-large"></div>
-				</div>
-				<a class="col s12 l5 push-l2 btn hs-yellow btn-small hs-gray-text" href="/files/images" target="_blank">Administrer bilder</a>
-			</div>
-		</div>
+    <div class="modal-content gallery-content">
+        <div class="gallery-header hs-gray">
+            <h4 class="white-text">Velg bilde</h4>
+            <div class="row">
+                <a class="col s12 l5 btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">Last opp nytt bilde</a>
+                <div class="col s12 hide-on-large-only">
+                    <div class="invisible-divider-large"></div>
+                </div>
+                <a class="col s12 l5 push-l2 btn hs-yellow btn-small hs-gray-text" href="/files/images" target="_blank">Administrer bilder</a>
+            </div>
+        </div>
 
-		<div class="row category-galleries">
-			<ul class="collapsible expandable">
-			{% for category, images in categories.items %}
-			<li class="active">
-				<div class="col s12 hs-green white-text collapsible-header" >
-					<h4 class="category-header">{{ category }}</h4>
-				</div>
-				<div class="col s12 collapsible-body">
-					<div class="gallery category-{{ category }}">
-						{% for image in images %}
-						{% include 'files/single-image.html' %}
-						{% endfor %}
-					</div>
-				</div>
-			</li>
-			{% endfor %}
-			</ul>
-		</div>
-	</div>
+        <div class="row category-galleries">
+            <ul class="collapsible expandable">
+                {% for category, images in categories.items %}
+                    <li class="active">
+                        <div class="col s12 hs-green white-text collapsible-header" >
+                            <h4 class="category-header">{{ category }}</h4>
+                        </div>
+                        <div class="col s12 collapsible-body">
+                            <div class="gallery category-{{ category }}">
+                                {% for image in images %}
+                                    {% include 'files/single-image.html' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
 
 {% ImageUploadModal request %}
 
 <script>
-const deleteBtn = document.querySelector('#delete-img');
-const img_input = document.querySelector('#id_thumbnail');
-const img = document.querySelector('#thumb-preview');
+    const deleteBtn = document.querySelector('#delete-img');
+    const img_input = document.querySelector('#id_thumbnail');
+    const img = document.querySelector('#thumb-preview');
 
-deleteBtn.addEventListener('click', function() {
-	if (img.style.backgroundImage != "none") {
-		img_input.value = null;
-		img.style.backgroundImage = "none";
-		M.toast({html: 'Bildet er slettet'});
-	}
-});
+    deleteBtn.addEventListener('click', function() {
+        if (img.style.backgroundImage != "none") {
+            img_input.value = null;
+            img.style.backgroundImage = "none";
+            M.toast({html: 'Bildet er slettet'});
+        }
+    });
 
-const thumbModal = document.querySelector('#thumbnailPicker');
+    const thumbModal = document.querySelector('#thumbnailPicker');
 
-subscribeToUpload(thumbModal);
-thumbModal.addEventListener('galleryUploadSuccess', function(e) {
-	// Add the uploaded image to the gallery immediately
-	const category = e.detail.category;
-	const response = e.detail.response;
-	const gallery = $('.category-' + category);
-	if (!gallery || !gallery.length)
-	{
-		// New category, so we need to make a new gallery for it
-		const galleries = $('.category-galleries');
-		const column = $('<div>', {'class': 'col s12'});
-		const gallery_row = $('<div>', {'class': 'row'});
-		const gallery_header = $('<div>', {'class': 'col s12 hs-green white-text'});
-		const gallery_title = $('<h4>', {'class': 'category-header'});
+    subscribeToUpload(thumbModal);
+    thumbModal.addEventListener('galleryUploadSuccess', function(e) {
+        // Add the uploaded image to the gallery immediately
+        const category = e.detail.category;
+        const response = e.detail.response;
+        const gallery = $('.category-' + category);
+        if (!gallery || !gallery.length)
+        {
+            // New category, so we need to make a new gallery for it
+            const galleries = $('.category-galleries');
+            const column = $('<div>', {'class': 'col s12'});
+            const gallery_row = $('<div>', {'class': 'row'});
+            const gallery_header = $('<div>', {'class': 'col s12 hs-green white-text'});
+            const gallery_title = $('<h4>', {'class': 'category-header'});
 
-		gallery_title.append(category);
-		const category_gallery = $('<div>', {'class': 'gallery category-' + category});
-		category_gallery.prepend(response);
+            gallery_title.append(category);
+            const category_gallery = $('<div>', {'class': 'gallery category-' + category});
+            category_gallery.prepend(response);
 
-		gallery_header.append(gallery_title);
-		gallery_row.append(gallery_header);
-		gallery_row.append(category_gallery);
-		column.append(gallery_row);
-		galleries.append(column);
-	}
-	else
-	{
-		gallery.prepend(response);
-	}
+            gallery_header.append(gallery_title);
+            gallery_row.append(gallery_header);
+            gallery_row.append(category_gallery);
+            column.append(gallery_row);
+            galleries.append(column);
+        }
+        else
+        {
+            gallery.prepend(response);
+        }
 
-	M.toast({ html: 'Bildet er lastet opp og kan velges fra galleriet' });
-});
+        M.toast({ html: 'Bildet er lastet opp og kan velges fra galleriet' });
+    });
 </script>
 <script src="{% static 'files/js/gallery.js' %}"></script>

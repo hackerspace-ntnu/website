@@ -1,11 +1,11 @@
 {% with type_icon="question_answer" type_name="FAQ" type_name_short="FAQ" %}
-  {% with url_view="about" %}
-    {% with title=object.question %}
-      {% with badge_text="Publisert" %}
-        {% with description=object.text|truncatechars:200 %}
-          {% include "search/search_item.html" %}
+    {% with url_view="about" %}
+        {% with title=object.question %}
+            {% with badge_text="Publisert" %}
+                {% with description=object.text|truncatechars:200 %}
+                    {% include "search/search_item.html" %}
+                {% endwith %}
+            {% endwith %}
         {% endwith %}
-      {% endwith %}
     {% endwith %}
-  {% endwith %}
 {% endwith %}

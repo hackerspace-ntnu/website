@@ -2,36 +2,36 @@
 {% load static %}
 
 {% block content %}
-<div class="section hs-green white-text">
-    <div class="container">
-        <div class="row center-align">
-		<h4>Administratorpanel</h4>
+    <div class="section hs-green white-text">
+        <div class="container">
+            <div class="row center-align">
+                <h4>Administratorpanel</h4>
+            </div>
         </div>
     </div>
-</div>
-<div class="section">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-				<table>
-					<thead>
-						<tr>
-							<th>Navn</th>
-							<th>Kortnummer</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for profile in profiles %}
-						<tr>
-							<td>{{ profile.user.get_full_name }}</td>
-							<td>{{ profile.access_card }}</td>
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
-</main>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Navn</th>
+                                <th>Kortnummer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for profile in profiles %}
+                                <tr>
+                                    <td>{{ profile.user.get_full_name }}</td>
+                                    <td>{{ profile.access_card }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
 {% endblock %}

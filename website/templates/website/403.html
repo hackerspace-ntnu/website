@@ -2,34 +2,34 @@
 {% load static %}
 
 {% block content %}
-<div class="section hs-green white-text">
-    <div class="container">
-        <div class="row center-align valign-wrapper">
-            <img class="col s2" src="{% static 'website/img/misc/alert-siren.gif' %}"/>
-            <div class="col s8 row">
-                <h1>403</h1>
-                <h3>Forbudt! Hut dæ ut!</h3>
-                <h4>Eller prøv å logge inn...</h4>
+    <div class="section hs-green white-text">
+        <div class="container">
+            <div class="row center-align valign-wrapper">
+                <img class="col s2" src="{% static 'website/img/misc/alert-siren.gif' %}"/>
+                <div class="col s8 row">
+                    <h1>403</h1>
+                    <h3>Forbudt! Hut dæ ut!</h3>
+                    <h4>Eller prøv å logge inn...</h4>
+                </div>
+                <img class="col s2" src="{% static 'website/img/misc/alert-siren.gif' %}"/>
             </div>
-            <img class="col s2" src="{% static 'website/img/misc/alert-siren.gif' %}"/>
         </div>
     </div>
-</div>
-<div class="section">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-                <div class="col s12 row">
-                    <a class="col push-s4 s4 btn hs-green" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div class="col s12 row">
+                        <a class="col push-s4 s4 btn hs-green" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a>
+                    </div>
+                    <p class="flow-text center-align">
+                        Dette hadde du ikke mye lov til å titte på!
+                        <br>
+                        Hvis du allikevel mener du burde kunne se på dette, kanskje du skulle prøvd å logge inn først?
+                    </p>
                 </div>
-				<p class="flow-text center-align">
-					Dette hadde du ikke mye lov til å titte på!
-                    <br>
-                    Hvis du allikevel mener du burde kunne se på dette, kanskje du skulle prøvd å logge inn først?
-				</p>
-			</div>
-		</div>
-	</div>
-</div>
-</main>
+            </div>
+        </div>
+    </div>
+    </main>
 {% endblock %}

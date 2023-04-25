@@ -3,165 +3,165 @@
 {% load i18n %}
 
 {% block content %}
-<div class="section hs-green white-text">
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <h4>{% trans "Internportal" %}</h4>
-                <p>{{ greeting }}</p>
+    <div class="section hs-green white-text">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4>{% trans "Internportal" %}</h4>
+                    <p>{{ greeting }}</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="section">
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <h4>Internnytt</h4>
-                <div class="row">
-                    <div class="col s12 m6">
-                        <ul class="collection with-header z-depth-0">
-                            <li class="collection-header">
-                                <div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Internnytt</h4>
+                    <div class="row">
+                        <div class="col s12 m6">
+                            <ul class="collection with-header z-depth-0">
+                                <li class="collection-header">
+                                    <div>
+                                        <p class="flow-text">
+                                            <a class="hs-gray-text" href="{% url 'news:all' %}">{% trans "Siste internnytt" %}</a>
+                                        </p>
+                                    </div>
+                                </li>
+
+                                {% if article_list %}
+                                    {% for article in article_list %}
+                                        <li class="collection-item">
+                                            <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
+                                            <a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li class="collection-item">
+                                        <span>{% trans "Her var det intetnytt" %} <i class="material-icons">sentiment_dissatisfied</i></span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <div class="col s12 m6">
+                            <ul class="collection with-header z-depth-0">
+                                <li class="collection-header">
                                     <p class="flow-text">
-                                        <a class="hs-gray-text" href="{% url 'news:all' %}">{% trans "Siste internnytt" %}</a>
+                                        <a class="hs-gray-text" href="{% url 'events:all' %}">{% trans "Siste interne arrangementer" %}</a>
                                     </p>
-                                </div>
-                            </li>
+                                </li>
 
-                            {% if article_list %}
-                            {% for article in article_list %}
-                            <li class="collection-item">
-                                <span class="secondary-content badge" href="#!">{{ article.pub_date|date:"d.m.Y" }}</span>
-                                <a href="{% url 'news:details' article.id %}">{{ article.title }}</a>
-                            </li>
-                            {% endfor %}
-                            {% else %}
-                            <li class="collection-item">
-                                <span>{% trans "Her var det intetnytt" %} <i class="material-icons">sentiment_dissatisfied</i></span>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
+                                {% if event_list %}
+                                    {% for event in event_list %}
+                                        <li class="collection-item">
+                                            {% if event.time_start > current_date %}
+                                                <span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
+                                            {% else %}
+                                                <span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
 
-                    <div class="col s12 m6">
-                        <ul class="collection with-header z-depth-0">
-                            <li class="collection-header">
-                                <p class="flow-text">
-                                    <a class="hs-gray-text" href="{% url 'events:all' %}">{% trans "Siste interne arrangementer" %}</a>
-                                </p>
-                            </li>
+                                            {% endif %}
 
-                            {% if event_list %}
-                            {% for event in event_list %}
-                                <li class="collection-item">
-                                    {% if event.time_start > current_date %}
-                                        <span class="badge white-text hs-green">{{ event.time_start|date:"d.m.Y" }}</span>
-                                    {% else %}
-                                        <span class="secondary-content badge line-through">{{ event.time_start|date:"d.m.Y" }}</span>
+                                            <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li class="collection-item">
+                                        <span>{% trans "Ingen interne arrangementer" %} <i class="material-icons">sentiment_dissatisfied</i></span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
 
-                                    {% endif %}
+                        <div class="col s12">
+                            <ul class="collection with-header z-depth-0">
+                                <li class="collection-header">
+                                    <p class="flow-text">
+                                        <a class="hs-gray-text" href="{% url 'inventory:loans' %}">{% trans "Åpne lånesøknader" %}</a>
+                                    </p>
+                                </li>
 
-                                <a href="{% url 'events:details' event.id %}" class="title">{{ event.title }}</a>
-                            </li>
-                            {% endfor %}
-                            {% else %}
-                            <li class="collection-item">
-                                <span>{% trans "Ingen interne arrangementer" %} <i class="material-icons">sentiment_dissatisfied</i></span>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-
-                    <div class="col s12">
-                        <ul class="collection with-header z-depth-0">
-                            <li class="collection-header">
-                                <p class="flow-text">
-                                    <a class="hs-gray-text" href="{% url 'inventory:loans' %}">{% trans "Åpne lånesøknader" %}</a>
-                                </p>
-                            </li>
-
-                            {% if loan_app_list %}
-                            {% for app in loan_app_list reversed %}
-                                <li class="collection-item">
-                                <span class="badge hs-green-text">{{ app.contact_name }}</span>
-                                <a href="{% url 'inventory:loan_application' app.id %}" class="title">{{ app.item.name }}, {{ app.amount }} stk.</a>
-                            </li>
-                            {% endfor %}
-                            {% else %}
-                            <li class="collection-item">
-                                <span>{% trans "Ingen lånesøknader" %} <i class="material-icons">sentiment_dissatisfied</i></span>
-                            </li>
-                            {% endif %}
-                        </ul>
+                                {% if loan_app_list %}
+                                    {% for app in loan_app_list reversed %}
+                                        <li class="collection-item">
+                                            <span class="badge hs-green-text">{{ app.contact_name }}</span>
+                                            <a href="{% url 'inventory:loan_application' app.id %}" class="title">{{ app.item.name }}, {{ app.amount }} stk.</a>
+                                        </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li class="collection-item">
+                                        <span>{% trans "Ingen lånesøknader" %} <i class="material-icons">sentiment_dissatisfied</i></span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col s12">
-                <h4>Nyttige lenker</h4>
-                <div class="row">
-                    <div class="col s12 m4">
-                        <a href="{% url 'inventory:loans' %}">
-                            <div class="card-panel center">
-                                <i class="material-icons large black-text">library_books</i>
-                                <h5>{% trans "Lånesøknader" %}</h5>
-                            </div>
-                        </a>
-                    </div>
+                <div class="col s12">
+                    <h4>Nyttige lenker</h4>
+                    <div class="row">
+                        <div class="col s12 m4">
+                            <a href="{% url 'inventory:loans' %}">
+                                <div class="card-panel center">
+                                    <i class="material-icons large black-text">library_books</i>
+                                    <h5>{% trans "Lånesøknader" %}</h5>
+                                </div>
+                            </a>
+                        </div>
 
-                    <div class="col s12 m4">
-                        <a href="{% url 'watchlist:vaktliste' %}">
-                            <div class="card-panel center">
-                                <i class="material-icons large black-text">free_breakfast</i>
-                                <h5>{% trans "Vaktliste" %}</h5>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col s12 m4">
+                            <a href="{% url 'watchlist:vaktliste' %}">
+                                <div class="card-panel center">
+                                    <i class="material-icons large black-text">free_breakfast</i>
+                                    <h5>{% trans "Vaktliste" %}</h5>
+                                </div>
+                            </a>
+                        </div>
 
-                    <div class="col s12 m4">
-                        <a href="{% url 'inventory:inventory' %}">
-                            <div class="card-panel center">
-                                <i class="material-icons large black-text">inbox</i>
-                                <h5>{% trans "Lager" %}</h5>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col s12 m4">
+                            <a href="{% url 'inventory:inventory' %}">
+                                <div class="card-panel center">
+                                    <i class="material-icons large black-text">inbox</i>
+                                    <h5>{% trans "Lager" %}</h5>
+                                </div>
+                            </a>
+                        </div>
 
-                    <div class="col s12 m4">
-                        <a href="{% url 'reservations:queue_list' %}">
-                            <div class="card-panel center">
-                                <i class="material-icons large black-text">calendar_month</i>
-                                <h5>{% trans "Reservasjoner" %}</h5>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col s12 m4">
+                            <a href="{% url 'reservations:queue_list' %}">
+                                <div class="card-panel center">
+                                    <i class="material-icons large black-text">calendar_month</i>
+                                    <h5>{% trans "Reservasjoner" %}</h5>
+                                </div>
+                            </a>
+                        </div>
 
-                    <div class="col s12 m4">
-                        <a href="{% url 'files:images' %}">
-                            <div class="card-panel center">
-                                <i class="material-icons large black-text">image</i>
-                                <h5>{% trans "Bildegalleri" %}</h5>
-                            </div>
-                        </a>
-                    </div>
+                        <div class="col s12 m4">
+                            <a href="{% url 'files:images' %}">
+                                <div class="card-panel center">
+                                    <i class="material-icons large black-text">image</i>
+                                    <h5>{% trans "Bildegalleri" %}</h5>
+                                </div>
+                            </a>
+                        </div>
 
-                    {% if user.is_superuser %}
-                    <div class="col s12 m4">
-                        <a href="/admin">
-                            <div class="card-panel center">
-                                <i class="material-icons large black-text">engineering</i>
-                                <h5>{% trans "Adminpanel" %}</h5>
+                        {% if user.is_superuser %}
+                            <div class="col s12 m4">
+                                <a href="/admin">
+                                    <div class="card-panel center">
+                                        <i class="material-icons large black-text">engineering</i>
+                                        <h5>{% trans "Adminpanel" %}</h5>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
+                        {% endif %}
                     </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
 {% endblock %}

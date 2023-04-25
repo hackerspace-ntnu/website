@@ -12,13 +12,7 @@
                 <div class="card-image waves-effect waves-block waves-light">
                     <a href="{% url 'userprofile:profile_by_id' profile.user.id %}">
                         {% if profile.image %}
-                            {# profile has image, show picture #}
-                            {% if profile.image.url.endswith('.gif') %}
-                                <img class="activator" src="{{ profile.image.url }}" alt="GIF image" />
-                                <!-- Shhhh Dont tell anyone -->
-                            {% else %}
-                                <img class="activator" src="{{ profile.image.url }}" />
-                            {% endif %}
+                            <img class="activator" src="{{ profile.image.url }}" />
                         {% else %}
                             {# profile.images is None, show default.png #}
                             <img class="activator" src="{% static "website/img/misc/default.png" %}" />

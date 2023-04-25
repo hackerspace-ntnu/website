@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "watchlist",
     "projectarchive",
     "markdownx",
+    "django_crontab",
 ]
 
 
@@ -402,4 +403,12 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
     "markdown.extensions.extra",
     "markdown.extensions.nl2br",
     "markdown.extensions.smarty",
+]
+# crontab
+CRONJOBS = [
+    (
+        "0 12 * * 2",
+        "website.inventory_late_poker.late_loan_retrieval_poker",
+        ">>/tmp/scheduled_job.log",
+    )
 ]

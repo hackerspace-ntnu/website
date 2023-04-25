@@ -24,4 +24,3 @@ def late_loan_retrieval_poker():
             [loan.contact_email],
             fail_silently=False,
         )
-        

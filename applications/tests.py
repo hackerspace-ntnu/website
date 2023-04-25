@@ -77,10 +77,11 @@ class ApplicationFormViewTest(TestCase):
             "phone": "12312312",
             "study": "informatikk",
             "year": 2,
-            "group_choice": "1,2",
             "knowledge_of_hs": "blabla",
             "about": "blabla",
             "application_text": "blabla",
+            "group_choice": "1,2",
+            "project_interests": "blabla",
         }
 
         self.form = ApplicationForm(data)
@@ -105,7 +106,7 @@ Du har søkt følgende grupper:
 2. LabOps
 
 
-Vi svarer på søknader fortløpende etter søknadsfristen går ut.
+Vi gir deg svar på søknaden innen 3 uker ekskludert fellesferier.
 Denne mailen kan ikke besvares.
 
 Dersom du skulle ha noen spørsmål vedrørende din søknad, ta kontakt med

@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 {% block head %}
 {% endblock %}
 {% block content %}
@@ -20,22 +21,22 @@
 				<li class="tinter">
 					<img src="{% static 'website/img/people_and_tech/cover6.jpg' %}">
 					<div class="caption center-align">
-						<h4>Har du en skaper i magen?</h4>
-						<p>Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt.</p>
+                        <h4>{% trans "Har du en skaper i magen?" %}
+                        <p>{% trans "Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i ditt neste prosjekt." %}</p>
 					</div>
 				</li>
 				<li class="tinter">
 					<img src="{% static 'website/img/people_and_tech/printing_lab.JPG' %}">
 					<div class="caption center-align">
-						<h4>Nysgjerrig på VR?</h4>
-						<p>Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace.</p>
+                        <h4>{% trans "Nysgjerrig på VR?" %}
+						<p>{% trans "Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på Hackerspace." %}</p>
 					</div>
 				</li>
 				<li class="tinter">
 					<img src="{% static 'website/img/people_and_tech/tetris2.JPG' %}">
 					<div class="caption center-align">
-						<h4>Kreativt, innovativt og ikke minst sosialt</h4>
-						<p>Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting.</p>
+                        <h4>{% trans "Kreativt, innovativt og ikke minst sosialt" %}</h4>
+						<p>{% trans "Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, programvare, 3D-printing, eller andre kule ting." %}</p>
 					</div>
 				</li>
 			</ul>
@@ -47,13 +48,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col s12 l6 white-text">
-				<h4>Hvem er vi?</h4>
-				<p>Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle studenter uavhengig av studieretning.</p>
-				<p>Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere og Virtual Reality-utstyr.</p>
-				<p>Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace.</p>
-				<p>Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på <a class="hs-green-text" target="_blank" href="{{ mazemap_link }}">vårt verksted</a> og <a class="hs-green-text" target="_blank" href="https://hackerspace-ntnu.slack.com/">Slack-kanal</a>.</p>
-				<p>Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å demonstrere utstyr eller hjelpe deg.</p>
-				<a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">Les mer om oss her</a>
+                <h4>{% trans "Hvem er vi?" %}</h4>
+                <p>{% trans "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle studenter uavhengig av studieretning." %}</p>
+                <p>{% trans "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere og Virtual Reality-utstyr." %}</p>
+                <p>{% trans "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace." %}</p>
+                <p>{% trans "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på" %} <a class="hs-green-text" target="_blank" href="{{ mazemap_link }}">{% trans "vårt verksted" %}</a> og <a class="hs-green-text" target="_blank" href="https://hackerspace-ntnu.slack.com/">{% trans "Slack-kanal" %}</a>.</p>
+                <p>{% trans "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å demonstrere utstyr eller hjelpe deg." %}</p>
+                <a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">{% trans "Les mer om oss her" %}</a>
+				<br>
 			</div>
 			<div class="col s12 l6">
 				<div class="row">
@@ -63,7 +65,7 @@
 							<li class="collection-header">
 								<div>
 
-									<p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">Siste nytt</a>
+                                    <p class="flow-text"><a class="hs-gray-text" href="{% url 'news:all' %}">{% trans "Siste nytt" %}</a>
 										{% include "website/internal_indicator.html" with indicator=internal_articles_indicator %}
 									</p>
 
@@ -81,7 +83,7 @@
 						<ul class="collection with-header z-depth-0">
 							<li class="collection-header">
 
-								<p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">Siste arrangementer</a>
+                                <p class="flow-text"><a class="hs-gray-text" href="{% url 'events:all' %}">{% trans "Siste arrangementer" %}</a>
 									{% include "website/internal_indicator.html" with indicator=internal_events_indicator %}
 								</p>
 

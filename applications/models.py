@@ -62,16 +62,23 @@ class Application(models.Model):
         choices=YEAR_CHOICES,
         default=YEAR_CHOICES[0],
     )
-    group_choice = models.ManyToManyField(
-        ApplicationGroup, through="ApplicationGroupChoice"
-    )
 
     knowledge_of_hs = models.CharField(
         max_length=1000, verbose_name="Hvordan fikk du vite om Hackerspace?"
     )
 
     about = models.TextField(verbose_name="Litt om deg selv")
+
     application_text = models.TextField(verbose_name="Hvorfor søker du hackerspace?")
+
+    group_choice = models.ManyToManyField(
+        ApplicationGroup, through="ApplicationGroupChoice", blank=True
+    )
+
+    project_interests = models.TextField(
+        verbose_name="Er det andre prosjekter du er interessert i?", default=""
+    )
+
     application_date = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):

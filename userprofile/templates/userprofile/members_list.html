@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% block head %}
 <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/members_list.css' %}">
 {% endblock %}
@@ -28,7 +29,7 @@
             </div>
         </div>
     {% empty %}
-        <h5>Det finnes ingen profiler etter dine søkekriterier</h5>
+        <h5>{% trans "Det finnes ingen profiler etter dine søkekriterier" %}</h5>
     {% endfor %}
 
 </div>

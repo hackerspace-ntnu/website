@@ -18,6 +18,12 @@ profilepictures/
 env/
 venv/
 .vscode/
+static/
 **/__pycache__
-
 /static/
+
+*.html.py
+*.txt.py
+*.mo
+*.html.py
+*.txt.py

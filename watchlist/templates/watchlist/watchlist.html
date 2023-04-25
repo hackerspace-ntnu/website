@@ -2,6 +2,7 @@
 {% extends 'website/base.html' %}
 
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <title>Vaktliste</title>
@@ -15,7 +16,7 @@
         <div class="row">
             <div class="col s12">
                 <h4>Vaktliste</h4>
-                <p>Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har.</p>
+                <p>{% trans "Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har" %}.</p>
             </div>
         </div>
     </div>
@@ -46,8 +47,7 @@
                             <td class="watchlist-cell watchlist-time">{{ time|linebreaksbr }}</td>
                             {% for shift in shifts %}
                             <td
-                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} {% if perms.watchlist.view_shiftslot %} modal-trigger {% endif %}"
-                                {% if perms.watchlist.view_shiftslot %}
+                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} modal-trigger"
                                 href="#change-registration-modal"
                                 {# modal_time = '{{ time|linebreaksbr }}' er ei litta hack ;) Ta en titt på _watchlist_modals.html #}
                                 onClick="
@@ -57,15 +57,15 @@
                                     modal_watchers = [{% for usr in shift.watchers.all %}'{{ usr.first_name }} {{ usr.last_name }}',{% endfor %}];
                                     modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
                                     modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
+                                    has_perms = '{{ perms.watchlist.view_shiftslot }}';
 
                                     updateModalInformation();
                                     "
-                                {% endif %}
                             >
                                 <div class="watchlist-cell-content">
                                     <div class="
-                                            watchlist-tag white-text 
-                                            {% if perms.watchlist.view_shiftslot %} watchlist-tag-interactive {% endif %} 
+                                            watchlist-tag white-text
+                                            watchlist-tag-interactive
                                             {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
                                         {% if shift.watchers.count == 0 %}
                                         <i class="material-icons">block</i>
@@ -105,11 +105,11 @@
                 <table>
                     <thead>
                         <tr class="watchlist-row watchlist-header-row">
-                            <th>Tid</th>
+                            <th>{% trans "Tid" %}</th>
                             <th>{{ day }}</th>
                         </tr>
                     </thead>
-                    
+
 
                     <tbody>
                         {% for time, shifts in rows.items %}
@@ -119,8 +119,7 @@
                             <!-- Bare vis skift fra dagen som denne tabellen tilhører til -->
                             {% if forloop.parentloop.parentloop.counter0 ==  shift.weekday %}
                             <td
-                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} {% if perms.watchlist.view_shiftslot %} modal-trigger {% endif %}"
-                                {% if perms.watchlist.view_shiftslot %}
+                                class="watchlist-cell watchlist-slot {% if user in shift.watchers.all %} watchlist-my-shift {% endif %} modal-trigger"
                                 href="#change-registration-modal"
                                 {# modal_time = '{{ time|linebreaksbr }}' er ei litta hack ;) Ta en titt på _watchlist_modals.html #}
                                 onClick="
@@ -130,10 +129,10 @@
                                     modal_watchers = [{% for usr in shift.watchers.all %}'{{ usr.first_name }} {{ usr.last_name }}',{% endfor %}];
                                     modal_register = {% if user in shift.watchers.all %}false{% else %}true{% endif %};
                                     modal_register_url = '{% if user in shift.watchers.all %}{% url 'watchlist:unregister' shift.id %}{% else %}{% url 'watchlist:register' shift.id %}{% endif %}';
+                                    has_perms = '{{ perms.watchlist.view_shiftslot }}';
 
                                     updateModalInformation();
                                     "
-                                {% endif %}
                             >
                                 <div class="watchlist-cell-content">
                                     <div class="watchlist-tag white-text {% if shift.watchers.count == 0 %}watchlist-closed{% else %}watchlist-open{% endif %}">
@@ -151,7 +150,7 @@
                                     <div class="watchlist-skills">
                                         {% for category, data in shift.get_shift_skills.items %}
                                         <div class="skill-icon white-text hs-green" style="background-color:{{data.color}} !important;">
-                                            <span>		
+                                            <span>
                                                 {% if data.level %}
                                                 <i class="tiny material-icons">check</i>
                                                 {% endif %}
@@ -188,8 +187,8 @@
                             <i class="material-icons">block</i>
                         </div>
                         <p>
-                            Verkstedet er <b>stengt</b><br>
-                            Ingen på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "stengt" %}</b><br>
+                            {% trans "Ingen på vakt" %}
                         </p>
                     </div>
                     <div class="legend-symbol col s12 m6 l3">
@@ -197,8 +196,8 @@
                             <i class="material-icons">person</i>
                         </div>
                         <p>
-                            Verkstedet er <b>åpent</b><br>
-                            1 person på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "åpent" %}</b><br>
+                            1 {% trans "person på vakt" %}
                         </p>
                     </div>
                     <div class="legend-symbol col s12 m6 l3">
@@ -206,8 +205,8 @@
                             <i class="material-icons">group</i>
                         </div>
                         <p>
-                            Verkstedet er <b>åpent</b><br>
-                            2 personer på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "åpent" %}</b><br>
+                            2 {% trans "personer på vakt" %}
                         </p>
                     </div>
                     <div class="legend-symbol col s12 m6 l3">
@@ -215,14 +214,14 @@
                             <i class="material-icons">group_add</i>
                         </div>
                         <p>
-                            Verkstedet er <b>åpent</b><br>
-                            3+ personer på vakt
+                            {% trans "Verkstedet er" %} <b>{% trans "åpent" %}</b><br>
+                            3+ {% trans "personer på vakt" %}
                         </p>
                     </div>
                 </div>
                 <hr/>
                 <h5>Ferdigheter</h5>
-                <p>Hvis ferdighetskulen er avmerket viser det oppnåd ferdighet blant alle som er på vakt.</p>
+                <p>{% trans "Hvis ferdighetskulen er avmerket viser det oppnåd ferdighet blant alle som er på vakt." %}.</p>
                 <div class="row">
                     {% for category in skill_categories %}
                     <div class="legend-symbol col s12 m6 l3">
@@ -236,8 +235,6 @@
     </div>
 </div>
 
-{% if perms.watchlist.view_shiftslot %}
 {% include 'watchlist/_watchlist_modals.html' %}
-{% endif %}
 
 {% endblock %}

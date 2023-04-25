@@ -62,24 +62,7 @@
 					<span class="helper-text hs-red-text">{{ form.year.errors }}</span>
 					{% endif %}
 				</div>
-				<div class="group-chooser-field col s12">
-                    <label>Legg til grupper du vil søke på (i prioritert rekkefølge)</label>
-                    <div id="group-chooser" class="row">
-                        <div class="col">
-                            <a class='dropdown-trigger btn hs-green waves-effect waves-light' href='#' data-target='group-options'>Legg til</a>
-                            <ul id='group-options' class='dropdown-content collection'>
-                                {% for group in group_choices %}
-                                    <li class="group-option" data-group-id={{ group.id }}>{{ group }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                    <ul id="groups-chosen" class="collection grey lighten-4" style="max-width: 500px; display: none;"></ul>
-                    {% if form.group_choice.errors %}
-                        <span class="group-chooser-error helper-text hs-red-text">{{ form.group_choice.errors }}</span>
-                    {% endif %}
-                    {{ form.group_choice }}
-				</div>
+			
 				<div class="input-field col s12">
 					{{ form.knowledge_of_hs }}
 					<label for="{{ form.knowledge_of_hs.id_for_label }}">{{ form.knowledge_of_hs.label }}</label>
@@ -106,6 +89,36 @@
 					<span class="helper-text">Skriv gjerne litt om hva du har lyst til å jobbe med innenfor gruppen, dersom relevant.</span>
 					{% endif %}
 				</div>
+				
+				<div class="group-chooser-field col s12">
+                    <label>Legg til grupper du vil søke på (i prioritert rekkefølge)</label>
+                    <div id="group-chooser" class="row">
+                        <div class="col">
+                            <a class='dropdown-trigger btn hs-green waves-effect waves-light' href='#' data-target='group-options'>Legg til</a>
+                            <ul id='group-options' class='dropdown-content collection'>
+                                {% for group in group_choices %}
+                                    <li class="group-option" data-group-id={{ group.id }}>{{ group }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <ul id="groups-chosen" class="collection grey lighten-4" style="max-width: 500px; display: none;"></ul>
+                    {% if form.group_choice.errors %}
+                        <span class="group-chooser-error helper-text hs-red-text">{{ form.group_choice.errors }}</span>
+                    {% endif %}
+                    {{ form.group_choice }}
+				</div>
+
+				<div class="input-field col s12">
+					{{ form.project_interests }}
+					<label for="{{ form.project_interests.id_for_label }}">{{ form.project_interests.label }}</label>
+					{% if form.project_interests.errors %}
+					<span class="helper-text hs-red-text">{{ form.project_interests.errors }}</span>
+					{% else %}
+					<span class="helper-text">Beskriv gjerne om du ønsker å danne nye, og/eller fortsette på eksisterende prosjekter. Vi ønsker å vite hva som interesserer deg.</span>
+					{% endif %}
+				</div>
+
 			</div>
 			<div class="row">
 				<div class="col s12">

@@ -1,5 +1,6 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block head %}
     {{ jquery | safe }}
 {% endblock %}
@@ -9,7 +10,7 @@
             <div class="row">
                 <div class="col s12">
                     <h4>Lager</h4>
-                    <p>Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!</p>
+                    <p>{% trans "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!" %}</p>
                 </div>
             </div>
         </div>
@@ -23,18 +24,18 @@
                 <div class="row">
                     <div class="file-field input-field col s12 m6 l6">
                         <input id="search_field" name="search" type="text"
-                               placeholder="Ting, tang og tare" value="{{ search }}">
-                        <label for="filter">Navn</label>
+                            placeholder="{% trans "Ting, tang og tare" %}" value="{{ search }}">
+                        <label for="filter">{% trans "Navn" %}</label>
                     </div>
                     <div class="input-field col s12 m6 l5">
                         <select name="sort_by" onchange="updateSortBy(this.value)">
-                            <option value="" disabled {% if not sort_by %}selected{% endif %}>Velg sorteringskriterie</option>
-                            <option value="popularity" {% if sort_by == "popularity" %}selected{% endif %}>Popularitet</option>
-                            <option value="stock_dsc" {% if sort_by == "stock_dsc" %}selected{% endif %}>Lagerbeholdning (Synkende)</option>
-                            <option value="stock_asc" {% if sort_by == "stock_asc" %}selected{% endif %}>Lagerbeholdning (Stigende)</option>
-                            <option value="name" {% if sort_by == "name" %}selected{% endif %}>Navn</option>
+                            <option value="" disabled {% if not sort_by %}selected{% endif %}>{% trans "Velg sorteringskriterie" %}</option>
+                            <option value="popularity" {% if sort_by == "popularity" %}selected{% endif %}>{% trans "Popularitet" %}</option>
+                            <option value="stock_dsc" {% if sort_by == "stock_dsc" %}selected{% endif %}>{% trans "Lagerbeholdning" %} ({% trans "Synkende" %})</option>
+                            <option value="stock_asc" {% if sort_by == "stock_asc" %}selected{% endif %}>{% trans "Lagerbeholdning" %} ({% trans "Stigende" %})</option>
+                            <option value="name" {% if sort_by == "name" %}selected{% endif %}>{% trans "Navn" %}</option>
                         </select>
-                        <label>Sorter etter</label>
+                        <label>{% trans "Sorter etter" %}</label>
                     </div>
                     <br>
                 </div>

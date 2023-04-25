@@ -1,55 +1,56 @@
 {% load static %}
+{% load i18n %}
 <footer class="page-footer hs-gray">
 	<div class="container">
 		<div class="row">
 			<div class="col s12 m12 l4">
 				<h5>Hackerspace</h5>
 				<div class="divider"></div>
-				<p>Velkommen innom <a target="_blank" href="{{ mazemap_link }}">verkstedet</a> på NTNU Gløshaugen for en kopp kaffe!</p>
+                <p>{% trans "Velkommen innom" %} <a target="_blank" href="{{ mazemap_link }}">{% trans "verkstedet" %}</a> {% trans "på NTNU Gløshaugen for en kopp kaffe!" %}</p>
 				<div class="row">
 					<p class="col s6">
-						Realfagbygget, A-blokka<br>
+                        Realfagbygget, A-blokka<br>
 						Høgskoleringen 5<br>
 						7034 Trondheim
 					</p>
 					<p class="col s6">
-						Åpningstider:<br>
+                        {% trans "Åpningstider" %}:<br>
 						10:15 - 18:00<br>
-						Alle hverdager <br>
-						Se <a href="{% url 'watchlist:vaktliste' %}">vaktlista</a>
-						for detaljerte åpningstider
+                        {% trans "Alle hverdager" %}<br>
+                        {% trans "Se" %} <a href="{% url 'watchlist:vaktliste' %}"> {%trans "vaktlista" %}</a>
+                        {% trans "for detaljerte åpningstider" %}
 					</p>
 				</div>
-				<p>For øvrige henvendelser kan du også ta kontakt via <a class="white-text" href="mailto:hackerspace-styret@idi.ntnu.no">hackerspace-styret@idi.ntnu.no</a>
+                <p>{% trans "For øvrige henvendelser kan du også ta kontakt via" %} <a class="white-text" href="mailto:hackerspace-styret@idi.ntnu.no">hackerspace-styret@idi.ntnu.no</a>
 			</div>
 			<div class="col m6 l4 hide-on-small-only">
 				<h5>Lenker</h5>
 				<div class="divider"></div>
 				<ul>
-					<li><a href="/news/">Nyheter</a></li>
-					<li><a href="/events/">Arrangementer</a></li>
-					<li><a href="/about/">Om oss</a></li>
+                    <li><a href="/news/">{% trans "Nyheter" %}</a></li>
+                    <li><a href="/events/">{% trans "Arrangementer" %}</a></li>
+                    <li><a href="/about/">{% trans "Om oss" %}</a></li>
 				</ul>
 				<ul>
-					<li><a href="/rules/">Regler</a></li>
+                    <li><a href="/rules/">{% trans "Regler" %}</a></li>
 				</ul>
 				<ul>
-					<li><a href="/tos/">Vilkår for bruk av nettside</a></li>
+                    <li><a href="/tos/">{% trans "Vilkår for bruk av nettside" %}</a></li>
 				</ul>
 			</div>
 			<div class="col m6 l4 hide-on-small-only">
-				<h5>Verktøy</h5>
+                <h5>{% trans "Verktøy" %}</h5>
 				<div class="divider"></div>
 						<ul>
 							{% if user.is_authenticated %}
-							<li><a href="{% url 'auth:logout' %}">Logg ut</a></li>
+                            <li><a href="{% url 'auth:logout' %}">{% trans "Logg ut" %}</a></li>
 							{% else %}
 							<li><a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn</a></li>
 							{% endif %}
 							<p>
-								Har du funnet en <i class="material-icons">bug_report</i>?<br>
-								Send gjerne en <a href="mailto:hackerspace-dev@idi.ntnu.no">mail</a> til DevOps eller bruk #dev-public kanalen på Slack!
-								Du kan også rapportere feil eller gi oss forslag til forbedringer på <a href="https://github.com/hackerspace-ntnu/website/issues/new/choose">GitHub</a>.
+                            {% trans "Har du funnet en" %}<i class="material-icons">bug_report</i>?<br>
+                            {% trans "Send gjerne en" %} <a href="mailto:hackerspace-dev@idi.ntnu.no">mail</a> {% trans "til DevOps eller bruk #dev-public kanalen på Slack!" %}
+                            {% trans "Du kan også rapportere feil eller gi oss forslag til forbedringer på" %} <a href="https://github.com/hackerspace-ntnu/website/issues/new/choose">GitHub</a>.
 							</p>
 						</ul>
 					</div>

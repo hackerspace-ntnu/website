@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
@@ -11,9 +12,9 @@
         <div class="row valign-wrapper white-text">
             <div class="col s12">
                 <h4>
-                    Regler
+                    {% trans "Regler" %}
                 </h4>
-                <p>Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr</p>
+                <p>{%trans "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr" %}</p>
             </div>
         </div>
     </div>
@@ -39,20 +40,20 @@
                             <div class="col s10 hide-on-med-and-down valign-wrapper rule-item">
                                 <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate py-s">{{ rule.title }}</h5></a>
                                 {% if rule.internal %}
-                                    <p style="margin:0"><span class="badge hs-green white-text">Intern</span></p>
+                                    <p style="margin:0"><span class="badge hs-green white-text">{% trans "Intern" %}</span></p>
                                 {% endif %}
                             </div>
                             <div class="col s12 show-on-med-and-down hide-on-large-only valign-wrapper rule-item">
                                 <a href="{% url 'rule_details' rule.id %}"><h5 class="no-margin truncate py-s">{{ rule.title }}</h5></a>
                                 {% if rule.internal %}
-                                    <p style="margin:0"><span class="badge hs-green white-text">Intern</span></p>
+                                <p style="margin:0"><span class="badge hs-green white-text">{% trans "Intern" %}</span></p>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="divider"></div>
                 {% empty %}
-                <h5>Fant ingen regler 🤠</h5>
+                <h5>{% trans "Fant ingen regler 🤠" %}</h5>
                 {% endfor %}
             </div>
         </div>

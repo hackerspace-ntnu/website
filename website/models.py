@@ -71,6 +71,7 @@ class Rule(models.Model):
     )
     priority = models.IntegerField(default=0)
     pub_date = models.DateField(verbose_name="Publiseringsdato", auto_now=True)
+    norwegian = models.BooleanField(default=True, verbose_name="Norsk regel")
 
     objects = RuleManager()
 

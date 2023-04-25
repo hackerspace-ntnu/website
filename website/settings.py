@@ -407,7 +407,7 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
 # crontab
 CRONJOBS = [
     (
-        "58 19 * * 2",
+        "0 12 * * 2",
         "website.inventory_late_poker.late_loan_retrieval_poker",
         ">>/tmp/scheduled_job.log",
     )

@@ -1,15 +1,15 @@
 Hei {{name}},
 
-Jeg håper denne e-posten finner deg godt. Jeg skriver for å minne deg om at du fortsatt har
+Vi håper denne e-posten finner deg godt. Vi skriver for å minne deg om at du fortsatt har
 en gjenstand som du har lånt fra meg {{item}}.
 
-Jeg forstår at det kan være enkelt å glemme å returnere ting i en travel hverdag, og det er
-derfor jeg tar kontakt nå for å minne deg på å returnere gjenstanden så snart som mulig.
+Vi forstår at det kan være enkelt å glemme å returnere ting i en travel hverdag, og det er
+derfor vi tar kontakt nå for å minne deg på å returnere gjenstanden så snart som mulig.
 Hvis du har glemt hvor gjenstanden ble lagt, eller om det er noen problemer
-med å returnere den, vennligst gi meg beskjed så vi kan finne en løsning sammen.
+med å returnere den, vennligst gi oss beskjed så vi kan finne en løsning sammen.
 
-Jeg setter pris på din forståelse og ser frem til å høre fra deg snart. 
-Hvis du har noen spørsmål, er du velkommen til å kontakte meg når som helst.
+Vi setter pris på din forståelse og ser frem til å høre fra deg snart. 
+Hvis du har noen spørsmål, er du velkommen til å kontakte oss når som helst.
 
 Vennlig hilsen,
 

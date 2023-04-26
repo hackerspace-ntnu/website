@@ -8,7 +8,7 @@ from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
 from rest_framework import routers
 
-from inventory import views as inventory_views
+from inventory.views.item import InventoryListAPIView
 from reservations import views as reservation_views
 from search.views import SearchAPIView, SearchView
 from userprofile.views import (
@@ -87,7 +87,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path(
         "api/inventory/",
-        inventory_views.InventoryListAPIView.as_view(),
+        InventoryListAPIView.as_view(),
         name="inventory-api",
     ),
     path("inventory/", include("inventory.urls")),

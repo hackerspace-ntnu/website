@@ -1,0 +1,31 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% block header %}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/item_delete.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <div class="container">
+            <div class="card-panel">
+                <form method="post">
+                    {% csrf_token %}
+                    <h3>Bekreft handling</h3>
+                    <p>Er du sikker på at du vil slette <b>{{ equipment.name }}</b> fra utstyrslisten?</p>
+                    <ul>
+                        <li>ID: {{ equipment.id }}</li>
+                        <li>Navn: {{ equipment.name }}</li>
+                    </ul>
+                    <div class="divider"></div>
+                    <div class="invisible-divider-large"></div>
+                    <div class="row">
+                        <a href="{% url 'inventory:equipment_detail' equipment.id %}" class="btn btn-large hs-green col s12 m3">AVBRYT</a>
+                        <div class="hide-on-med-and-up col s12">
+                            <div class="invisible-divider-large"></div>
+                        </div>
+                        <input class="btn btn-large hs-red col s12 m3 offset-m6" type="submit" value="SLETT"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

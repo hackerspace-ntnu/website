@@ -77,15 +77,24 @@ class MembersAPIView(APIView):
     def get(self, request):
         # Start with all member users, sorted by full name
         committee_array = Committee.objects.values_list("name", flat=True)
+
+        skill_categories = self.request.GET.get("skills", None)
+        # Using only skill categories as there is only one level
+        selected_skill_ids = skill_categories.split(",") if skill_categories else []
+
         users = sorted(
-            User.objects.filter(groups__name__in=list(committee_array)),
+            User.objects.filter(groups__name__in=list(committee_array)).exclude(
+                profile__skills__categories__id__in=selected_skill_ids
+            ),
             key=lambda a: a.get_full_name(),
         )
+
         search = self.request.GET.get("s", "")
         if search == "":
             profiles = [user.profile for user in users]
         else:
             profiles = _get_user_profiles_from_search(users, search)
+
         # Paginate profiles
         paginator = Paginator(profiles, self.paginate_by)
         page_number = self.request.GET.get("p", 1)
@@ -104,6 +113,8 @@ class MembersView(ListView):
         context = super(MembersView, self).get_context_data(**kwargs)
         context["search"] = self.request.GET.get("s", "")
         context["page"] = self.request.GET.get("p", 1)
+        context["skills"] = self.request.GET.get("skills", [])
+        context["skill_categories"] = Category.objects.all()
         return context
 
 

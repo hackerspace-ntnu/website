@@ -1,0 +1,17 @@
+Hei,
+
+Denne mailen blir sendt til deg fordi du mangler
+
+{% for skill in skills %}{{ skill }} {% endfor %}
+
+Det har nå blitt åpnet et arrangement som gir denne skillen så meld deg på.
+Husk at for å kunne pange må man ha oppnådd Hackerspace grunnkurs.
+
+Gå inn på arrangementet her: hackerspace-ntnu.no/events/{{ event.id }}
+
+
+Dersom dette ikke skulle stemme kan du ta kontakt med LabOps
+
+
+Mvh,
+LabOps Hackerspace NTNU

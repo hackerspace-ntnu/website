@@ -22,11 +22,22 @@
                     <div class="members-search-container card-panel z-depth-0 row">
                         <!-- Member name search -->
                         <div class="input-field col s12">
-                            <input id="member-name-search" name="filter" placeholder="{% trans "Søk etter medlem" %}" value="{{ filter }}" type="text">
+                            <input id="member-name-search" name="filter" placeholder="{% trans 'Søk etter medlem' %}" value="{{ filter }}" type="text">
                         </div>
                     </div>
                 </div>
             </div>
+            {% if perms.userprofile.is_active_member %}
+                <p class="flow-text white-text">{% trans 'Klikk på ferdigheter du vil se folk ikke har' %}</p>
+                <div class="row skill-filter">
+                    {% for category in skill_categories %}
+                        <label class="col l4 s12 skill-check" style="border-color:{{category.color}};">
+                            <input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
+                            <span class="white-text">{{ category }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
     <div class="section">
@@ -39,9 +50,14 @@
 
         let search = "{{ search }}";
         let pageNumber = {{ page }};
+        let skillCategories = [{{ skills }}];
+
 
         // Perform members search on page load
         document.addEventListener('DOMContentLoaded', function () {
+            Array.from(document.querySelectorAll('.skill-check input'))
+                .filter((el) => skillCategories.includes(Number(el.value)))
+                .forEach((el) => el.checked = true);
             updateList();
         });
 
@@ -71,9 +87,17 @@
             updateList();
         }
 
+        function updateSkills() {
+            skillCategories = [];
+            $('input[type=checkbox]:checked').each(function () {
+                skillCategories.push($(this).val());
+            });
+            updateList();
+        }
+
         function updateList() {
 
-            const url = `/members/?s=${search}&p=${pageNumber}`;
+            const url = `/members/?s=${search}&p=${pageNumber}&skills=${skillCategories.join(',')}`;
 
             // Refresh list content from api
             $.ajax({

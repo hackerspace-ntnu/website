@@ -2,3 +2,20 @@
     padding-top: 0.5em !important;
     padding-bottom: 0.25em !important;
 }
+
+.skill-check {
+    padding: 5em;
+    cursor: pointer;
+    border-inline-start: 2em solid;
+}
+
+.skill-check * {
+    margin: 0.5em;
+}
+
+.skill-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    word-wrap: unset;
+}

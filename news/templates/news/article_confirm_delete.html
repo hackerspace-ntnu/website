@@ -1,4 +1,5 @@
 {% extends "website/base.html" %}
+{% load i18n %}
 {% load static %}
 {% block content %}
     <div class="section hs-red">
@@ -8,17 +9,17 @@
                     <div class="col s12">
                         <form method="post">
                             {% csrf_token %}
-                            <h3>Bekreft handling</h3>
-                            <p>Er du sikker på at du vil slette følgende artikkel?</p>
+                            <h3>{% trans "Bekreft handling" %}</h3>
+                            <p>{% trans "Er du sikker på at du vil slette følgende artikkel?" %}</p>
                             <ul>
-                                <li>ID: {{ object.id }}</li>
-                                <li>Titel: {{ object.title }}</li>
-                                <li>Publiseringsdato: {{ object.pub_date }}</li>
+                                <li>ID: {{ object.id }}</li>
+                                <li>{% trans "Tittel" %}: {{ object.title }}</li>
+                                <li>{% trans "Publiseringsdato" %}: {{ object.pub_date }}</li>
                             </ul>
-                            <input class="btn btn-large hs-red" type="submit" value="JA" />
+                            <input class="btn btn-large hs-red" type="submit" value="{% trans 'JA' %}" />
                         </form>
                         <br><br>
-                        <a href="{% url 'news:all' %}" class="btn btn-large hs-green">NEI, GÅ TILBAKE</a>
+                        <a href="{% url 'news:all' %}" class="btn btn-large hs-green">{% trans "NEI, GÅ TILBAKE" %}</a>
                     </div>
                 </div>
             </div>

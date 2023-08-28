@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="row">
     <div class="col s2 center hide-on-med-and-down">
         {% if event.thumbnail %}
@@ -8,15 +10,15 @@
     </div>
     <div class="col s10 hide-on-med-and-down">
         {% if 'Pågående arrangementer' in status %}
-            <span class="right badge hs-green-text">Skjer nå!</span>
+            <span class="right badge hs-green-text">{% trans "Skjer nå!" %}</span>
         {% endif %}
 
         {% if 'Kommende arrangementer' in status %}
-            <span class="right badge">Starter {{ event.time_start }}</span>
+            <span class="right badge">{% trans "Starter" %} {{ event.time_start }}</span>
         {% endif %}
 
         {% if 'Tidligere arrangementer' in status %}
-            <span class="right badge">Avsluttet {{ event.time_end }}</span>
+            <span class="right badge">{% trans "Avsluttet" %} {{ event.time_end }}</span>
         {% endif %}
 
         <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>

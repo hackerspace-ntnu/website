@@ -1,4 +1,5 @@
 {% extends 'website/base.html' %}
+{% load i18n %}
 {% load static %}
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
@@ -24,30 +25,30 @@
                 <div class="row">
                     <div class="col s12">
                         {% if event.draft %}
-                            <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="Dette arrangementet er lagret som utkast og dermed kun synlig for deg">
+                            <div class="listview-indicator card-panel black-text grey tooltipped lighten-2 z-depth-0" data-position="bottom" data-tooltip="{% trans 'Dette arrangementet er lagret som utkast og dermed kun synlig for deg' %}">
                                 <i class="material-icons">info</i>
-                                <span>Lagret som utkast</span>
+                                <span>{% trans 'Lagret som utkast' %}</span>
                             </div>
                         {% endif %}
-                        <h5 class="hide-on-med-and-up">{{ event.title }}</h5>
-                        <h3 class="hide-on-small-only">{{ event.title }}</h3>
+                        <h5 class="hide-on-med-and-up">{{ event.title }}</h5>
+                        <h3 class="hide-on-small-only">{{ event.title }}</h3>
                         {% if event.internal %}
-                            <p>Dette er et internt arrangement.</p>
+                            <p>{% trans 'Dette er et internt arrangement.' %}</p>
                         {% else %}
-                            <p>Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap</p>
+                            <p>{% trans 'Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap' %}</p>
                         {% endif %}
                         <div class="divider"></div>
                     </div>
                     <div class="col s12">
                         {% if event.responsible %}
-                            <p>Arrangementansvarlig: <a href="{% url 'userprofile:profile_by_id' event.responsible.id %}">{{ event.responsible.get_full_name }}</a></p>
+                            <p>{% trans 'Arrangementansvarlig' %}: <a href="{% url 'userprofile:profile_by_id' event.responsible.id %}">{{ event.responsible.get_full_name }}</a></p>
                         {% endif %}
                         {% if event.time_end|date:"d. F Y" != event.time_start|date:"d. F Y" %}
-                            <p><i class="material-icons small">event</i> Fra {{ event.time_start }}</p>
-                            <p><i class="material-icons small">event_busy</i> Til {{ event.time_end }}</p>
+                            <p><i class="material-icons small">event</i> {% trans 'Fra' %} {{ event.time_start }}</p>
+                            <p><i class="material-icons small">event_busy</i> {% trans 'Til' %} {{ event.time_end }}</p>
                         {% else %}
                             <p><i class="material-icons small">event</i> {{ event.time_start|date:"d. F Y" }}</p>
-                            <p><i class="material-icons small">access_time</i> {{ event.time_start|date:"H:i" }} til {{ event.time_end|date:"H:i" }}</p>
+                            <p><i class="material-icons small">access_time</i> {{ event.time_start|date:"H:i" }} {% trans 'til' %} {{ event.time_end|date:"H:i" }}</p>
                         {% endif %}
                         {% if event.place %}
                             {% if event.place_href %}
@@ -65,13 +66,13 @@
                         {% endautoescape %}
                         <div class="divider"></div>
                         <p><a href="feed.ics">
-                            <button class="btn btn-flat white-text waves-effect waves-light hs-green"><i class="material-icons small">event_note</i> Last ned ICS-fil</button>
+                            <button class="btn btn-flat white-text waves-effect waves-light hs-green"><i class="material-icons small">event_note</i> {% trans 'Last ned ICS-fil' %}</button>
                         </a></p>
                     </div>
                     {% if event.skills.all %}
                         <div class="col s12">
                             <div class="divider"></div>
-                            <p>Ved å delta på arrangementet vil du få følgende ferdigheter godkjent:</p>
+                            <p>{% trans 'Ved å delta på arrangementet vil du få følgende ferdigheter godkjent:' %}</p>
                             <ul class="collection collapsible expandable z-depth-0">
                                 {% for skill in event.skills.all %}
                                     <li>
@@ -79,9 +80,9 @@
                                         <div class="collapsible-header skill-reachable hs-gray white-text valign-wrapper">
                                             <span>{{skill}}
                                                 {% if skill in user_skills %}
-                                                    <i class="material-icons right tooltipped hs-green-text" data-position="right" data-tooltip="Du har allerede denne ferdigheten">check</i>
+                                                    <i class="material-icons right tooltipped hs-green-text" data-position="right" data-tooltip="{% trans 'Du har allerede denne ferdigheten' %}">check</i>
                                                 {% elif skill in unreachable_skills %}
-                                                    <i class="material-icons right tooltipped hs-red-text" data-position="right" data-tooltip="Du mangler en forutsetning for denne ferdigheten">warning</i>
+                                                    <i class="material-icons right tooltipped hs-red-text" data-position="right" data-tooltip="{% trans 'Du mangler en forutsetning for denne ferdigheten' %}">warning</i>
                                                 {% endif %}
                                             </span>
                                             {% include "userprofile/skill_badges.html"%}
@@ -98,51 +99,49 @@
             </div>
             <div class="card-panel white z-depth-1">
                 <div class="row no-bottom-margin">
-
                     <div class="col s12">
-                        <h5>Påmelding</h5>
+                        <h5>{% trans 'Påmelding' %}</h5>
                     </div>
                     <div class="col s12">
                         {% if event.registration %}
                             <div class="progress hs-gray">
                                 <div class="determinate hs-green" style="width: {{ event.registered_percentage }}%"></div>
-                                <p class="counter center white-text">Påmeldte: {{ event.registered_count }} / {{ event.max_limit }} ({{ event.waiting_count }} på venteliste)</p>
+                                <p class="counter center white-text">{% trans 'Påmeldte' %}: {{ event.registered_count }} / {{ event.max_limit }} ({% trans 'på venteliste' %}: {{ event.waiting_count }})</p>
                             </div>
                         {% endif %}
                     </div>
                     <div class="col s12">
                         {% if event.registration %}
                             {% if userstatus == "ikke pålogget" %}
-                                <a class="hs-yellow btn btn-flat" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">Logg inn for å melde deg på</a>
+                                <a class="hs-yellow btn btn-flat" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">{{% trans 'Logg inn for å melde deg på' %}}</a>
                             {% elif userstatus == "ikke påmeldt" %}
                                 {% if event.can_register == "ok" %}
-                                    <a class="btn btn-flat white-text waves-effect waves-light hs-green modal-trigger" href="#registrationModal">Meld deg på</a>
+                                    <a class="btn btn-flat white-text waves-effect waves-light hs-green modal-trigger" href="#registrationModal">{% trans 'Meld deg på' %}</a>
                                 {% elif event.can_register == "tidlig" %}
-                                    <a class="btn disabled tooltipped">Meld deg på</a>
-                                    <p>Påmelding åpner {{ event.registration_start }}.</p>
+                                    <a class="btn disabled tooltipped">{% trans 'Meld deg på' %}</a>
+                                    <p>{% trans 'Påmelding åpner' %} {{ event.registration_start }}.</p>
                                 {% else %}
-                                    <a class="btn disabled tooltipped">Meld deg på</a>
-                                    <p>Fristen for påmelding er ute.</p>
+                                    <a class="btn disabled tooltipped">{% trans 'Meld deg på' %}</a>
+                                    <p>{% trans 'Fristen for påmelding er ute.' %}</p>
                                 {% endif %}
                             {% elif userstatus == "påmeldt" or userstatus == "på ventelisten" %}
                                 {% if event.can_deregister %}
-                                    <a class="btn waves-effect btn-flat white-text waves-light hs-red modal-trigger" href="#registrationModal">Meld deg av</a>
+                                    <a class="btn waves-effect btn-flat white-text waves-light hs-red modal-trigger" href="#registrationModal">{% trans 'Meld deg av' %}</a>
                                 {% else %}
-                                    <a class="btn disabled tooltipped">Meld deg av</a>
-                                    <p>Fristen for avregistrering er ute.</p>
+                                    <a class="btn disabled tooltipped">{% trans 'Meld deg av' %}</a>
+                                    <p>{% trans 'Fristen for avregistrering er ute.' %}</p>
                                 {% endif %}
                                 <p class="hs-grey-text">{{ get_position }}</p>
                             {% endif %}
-                            <p>Frist for påmelding er {{ event.registration_end }}</p>
-                            <p>Frist for avmelding er {{ event.deregistration_end }}</p>
-
+                            <p>{% trans 'Frist for påmelding er' %} {{ event.registration_end }}</p>
+                            <p>{% trans 'Frist for avmelding er' %} {{ event.deregistration_end }}</p>
                         {% elif event.external_registration %}
-                            <p>Arrangementet benytter ekstern nettside for pålogging.</p>
-                            <a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">Åpne påmeldingsside i ny fane</a>
+                            <p>{% trans 'Arrangementet benytter ekstern nettside for pålogging.' %}</p>
+                            <a class="btn btn-flat white-text waves-effect waves-light hs-green" href="{{ event.external_registration }}" target="_blank">{% trans 'Åpne påmeldingsside i ny fane' %}</a>
                         {% elif event.expired %}
-                            <p>Arrangementet er over og du kan ikke melde deg på.</p>
+                            <p>{% trans 'Arrangementet er over og du kan ikke melde deg på.' %}</p>
                         {% else %}
-                            <p>Arrangementet krever ikke påmelding.</p>
+                            <p>{% trans 'Arrangementet krever ikke påmelding.' %}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -151,8 +150,8 @@
                 <div class="card-panel white z-depth-1">
                     <div class="row">
                         <div class="col s12">
-                            <h5>Filer</h5>
-                            <p>Arrangøren har lagt ved følgende filer<p>
+                            <h5>{% trans 'Filer' %}</h5>
+                            <p>{% trans 'Arrangøren har lagt ved følgende filer' %}<p>
                                 <div class="divider"></div>
                             </div>
                             </div>
@@ -178,7 +177,7 @@
                                         </div>
                                     {% endif %}
                                 {% empty %}
-                                    <p>Ingen filer</p>
+                                    <p>{% trans 'Ingen filer' %}</p>
                                 {% endfor %}
                             </div>
                         </div>
@@ -189,21 +188,20 @@
         </div>
     </div>
 
-
     <div id="registrationModal" class="modal">
         <div class="modal-content">
-            <h4>Informasjon om påmelding</h4>
+            <h4>{% trans 'Informasjon om påmelding' %}</h4>
             {% if userstatus == "påmeldt" or userstatus == "på ventelisten" %}
-                <p>Du forsøker å melde deg av arrangementet.</p>
-                <p>Merk at dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du øsnker å melder deg på igjen.</p>
+                <p>{% trans 'Du forsøker å melde deg av arrangementet.' %}</p>
+                <p>{% trans 'Merk at dersom det er venteliste i arrangementet, vil du havne bakerst i køen dersom du ønsker å melde deg på igjen.' %}</p>
                 {% if event.can_register == "sen" %}
-                    <p><b>Arrangementets påmeldingsfrist er utløpt. Dersom du melder deg av, har du ikke mulighet til å melde deg på igjen.</b></p>
+                    <p><b>{% trans 'Arrangementets påmeldingsfrist er utløpt. Dersom du melder deg av, har du ikke mulighet til å melde deg på igjen.' %}</b></p>
                 {% endif %}
             {% else %}
-                <p>Ved å melde deg på dette arrangementet forventes det at du møter opp.</p>
-                <p>Du kan <b>ikke</b> melde deg av etter {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
+                <p>{% trans 'Ved å melde deg på dette arrangementet forventes det at du møter opp.' %}</p>
+                <p>{% trans 'Du kan ikke melde deg av etter' %} {{ event.deregistration_end | date:"d M Y, H:i" }}</p>
                 {% if event.servering %}
-                    <p>Dette arrangementet har servering. Sørg for at dine <a target="_blank" href="{% url 'userprofile:edit_profile' %}">innstillinger for matpreferanser</a> er oppdaterte.</p>
+                    <p>{% trans 'Dette arrangementet har servering. Sørg for at dine' %} <a target="_blank" href="{% url 'userprofile:edit_profile' %}">{% trans 'innstillinger for matpreferanser' %}</a> {% trans 'er oppdaterte.' %}</p>
                 {% endif %}
             {% endif %}
         </div>
@@ -211,15 +209,14 @@
             <div class="modal-footer">
                 {% csrf_token %}
                 {% if userstatus == "påmeldt" %}
-                    <button class="btn btn-flat white-text waves-effect waves-light hs-red" type="submit" name="action">Meld deg av</button>
+                    <button class="btn btn-flat white-text waves-effect waves-light hs-red" type="submit" name="action">{% trans 'Meld deg av' %}</button>
                 {% else %}
-                    <button class="btn waves-effect btn-flat white-text waves-light hs-green" type="submit" name="action">Meld deg på</button>
+                    <button class="btn waves-effect btn-flat white-text waves-light hs-green" type="submit" name="action">{% trans 'Meld deg på' %}</button>
                 {% endif %}
-                <a class="modal-action modal-close waves-effect waves-gray btn-flat">Cancel</a>
+                <a class="modal-action modal-close waves-effect waves-gray btn-flat">{% trans 'Cancel' %}</a>
             </div>
         </form>
     </div>
-
 
     <script>
         // Prevent ckeditor hard fields to allow responsive images
@@ -234,7 +231,5 @@
                 images[i].style.height = "";
             }
         });
-
     </script>
 {% endblock content %}
-

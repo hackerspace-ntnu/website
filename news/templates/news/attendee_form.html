@@ -1,12 +1,13 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
     <div class="section hs-green white-text">
         <div class="container">
             <div class="row">
                 <div class="col s12">
-                    <h3>Oppmøte</h3>
+                    <h3>{% trans "Oppmøte" %}</h3>
                 </div>
             </div>
         </div>
@@ -15,7 +16,7 @@
         <div class="section">
             <form method="post">
                 <ul class="collection with-header">
-                    <li class="collection-header"><h4>Registrer oppmøte</h4></li>
+                    <li class="collection-header"><h4>{% trans "Registrer oppmøte" %}</h4></li>
                     {% csrf_token %}
                     <div class="hide">
                         {{ form }}
@@ -39,7 +40,7 @@
                                         {% else %}
                                             <input type="checkbox" id="attended" name="{{ instance.attended.html_name }}"/>
                                         {% endif %}
-                                        <span>Oppmøtt</span>
+                                        <span>{% trans "Oppmøtt" %}</span>
                                     </label>
                                 </div>
                             </div>
@@ -48,7 +49,7 @@
                 </ul>
                 <div class="row">
                     <div class="col s12">
-                        <button class="right btn btn-flat btn-large hs-green white-text"  type="submit">Lagre</button>
+                        <button class="right btn btn-flat btn-large hs-green white-text"  type="submit">{% trans "Lagre" %}</button>
                     </div>
                 </div>
             </form>

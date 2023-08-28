@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-28 13:52+0200\n"
+"POT-Creation-Date: 2023-08-28 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,14 +39,16 @@ msgid ""
 "På denne nettsiden får du informasjon om medlemskap og gruppene i "
 "Hackerspace."
 msgstr ""
-"On this website, you will find information about membership and the groups in Hackerspace."
+"On this website, you will find information about membership and the groups "
+"in Hackerspace."
 
 #: applications/templates/applications/application_info.html:32
 msgid ""
 "Dersom du blir tatt opp i en av våre grupper, blir du selvsagt også medlem "
 "av Hackerspace."
 msgstr ""
-"If you are accepted into one of our groups, you will naturally become a member of Hackerspace as well."
+"If you are accepted into one of our groups, you will naturally become a "
+"member of Hackerspace as well."
 
 #: applications/templates/applications/application_info.html:33
 msgid "Erfaring"
@@ -60,7 +62,11 @@ msgid ""
 "Hackerspace kommer til å bli lært opp i det mest brukte utstyret vi har på "
 "verkstedet, og spesifikk kursing for gruppen de blir med i."
 msgstr ""
-"You don't need to be a world champion to apply to Hackerspace.<br>Both beginners and more experienced individuals are welcome to apply with us. We are primarily looking for your enthusiasm.<br>All those accepted into Hackerspace will be trained in the most commonly used equipment in our workshop, with specific training for the group they join."
+"You don't need to be a world champion to apply to Hackerspace.<br>Both "
+"beginners and more experienced individuals are welcome to apply with us. We "
+"are primarily looking for your enthusiasm.<br>All those accepted into "
+"Hackerspace will be trained in the most commonly used equipment in our "
+"workshop, with specific training for the group they join."
 
 #: applications/templates/applications/application_info.html:35
 msgid "Vaktlisten"
@@ -74,7 +80,12 @@ msgid ""
 "vaktene blir det en del kaffedrikking og sosialt med de andre på verkstedet. "
 "Alle medlemmer sitter to timer på vakt i uken."
 msgstr ""
-"All members of Hackerspace contribute to keeping the workshop open. During your shift, you assist curious students who drop by and want to use our equipment. There's also an opportunity for you to use the equipment yourself! Apart from that, there's a fair amount of coffee drinking and socializing with others in the workshop during your shift. Each member is scheduled for two hours per week."
+"All members of Hackerspace contribute to keeping the workshop open. During "
+"your shift, you assist curious students who drop by and want to use our "
+"equipment. There's also an opportunity for you to use the equipment "
+"yourself! Apart from that, there's a fair amount of coffee drinking and "
+"socializing with others in the workshop during your shift. Each member is "
+"scheduled for two hours per week."
 
 #: applications/templates/applications/application_info.html:39
 msgid "Stander"
@@ -86,7 +97,9 @@ msgid ""
 "står mye på stand for å spre ordet om hvem vi er og hva vi gjør. Dette er "
 "noe alle i Hackerspace er med på."
 msgstr ""
-"Perhaps you've encountered Hackerspace at an NTNU stand? That's because Hackerspace often sets up stands to spread the word about who we are and what we do. This is something everyone in Hackerspace participates in."
+"Perhaps you've encountered Hackerspace at an NTNU stand? That's because "
+"Hackerspace often sets up stands to spread the word about who we are and "
+"what we do. This is something everyone in Hackerspace participates in."
 
 #: applications/templates/applications/application_info.html:52
 msgid "Hovedgrupper"
@@ -94,7 +107,9 @@ msgstr "Main Groups"
 
 #: applications/templates/applications/application_info.html:53
 msgid "Under finner du informasjon om hovedgruppene som har opptak nå"
-msgstr "Below you will find information about the main groups currently open for admission"
+msgstr ""
+"Below you will find information about the main groups currently open for "
+"admission"
 
 #: applications/templates/applications/application_info.html:66
 #: applications/templates/applications/application_info.html:95
@@ -110,28 +125,34 @@ msgid ""
 "Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til "
 "år. Prosjektene varer som oftest i to semestre."
 msgstr ""
-"The project groups carry out a variety of projects that vary from year to year. Projects usually last for two semesters."
+"The project groups carry out a variety of projects that vary from year to "
+"year. Projects usually last for two semesters."
 
 #: applications/templates/applications/application_info.html:81
 msgid ""
 "Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med "
 "andre på gruppen."
 msgstr ""
-"As a member of a project group, you work actively on a project alongside others in the group."
+"As a member of a project group, you work actively on a project alongside "
+"others in the group."
 
 #: applications/templates/applications/application_info.html:82
 msgid ""
 "Om du har forslag til noen andre prosjekter, kan dette sendes med et "
 "søknadsskjema."
 msgstr ""
-"If you have suggestions for other projects, you can include them in your application."
+"If you have suggestions for other projects, you can include them in your "
+"application."
 
 #: applications/templates/applications/application_info.html:83
 msgid "Under finner du informasjon om prosjektene som har opptak nå."
-msgstr "Below you will find information about the projects currently open for admission."
+msgstr ""
+"Below you will find information about the projects currently open for "
+"admission."
 
 #: applications/validators.py:16
 msgid ""
 "Nummeret må være 8 siffer eller starte med landskode på formen +47 eller 0047"
 msgstr ""
-"The number must be 8 digits or start with the country code in the form +47 or 0047"
+"The number must be 8 digits or start with the country code in the form +47 "
+"or 0047"

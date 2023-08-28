@@ -1,0 +1,487 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-28 15:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: news/templates/news/_event-list-element.html:13
+msgid "Skjer nå!"
+msgstr "Happening now!"
+
+#: news/templates/news/_event-list-element.html:17
+msgid "Starter"
+msgstr "Starts"
+
+#: news/templates/news/_event-list-element.html:21
+msgid "Avsluttet"
+msgstr "Ended"
+
+#: news/templates/news/_event_admin_menu.html:6
+#: news/templates/news/_list_admin_banner.html:9
+#: news/templates/news/article.html:57
+msgid "Administrator-meny"
+msgstr "Administrator Menu"
+
+#: news/templates/news/_event_admin_menu.html:14
+#: news/templates/news/edit_event.html:16
+msgid "Rediger arrangement"
+msgstr "Edit event"
+
+#: news/templates/news/_event_admin_menu.html:20
+#: news/templates/news/attendee_form.html:19
+msgid "Registrer oppmøte"
+msgstr "Register attendance"
+
+#: news/templates/news/_event_admin_menu.html:27
+msgid "Gi ferdigheter"
+msgstr "Assign skills"
+
+#: news/templates/news/_event_admin_menu.html:34
+msgid "Slett arrangement"
+msgstr "Delete event"
+
+#: news/templates/news/_event_admin_menu.html:45
+msgid "Venteliste"
+msgstr "Waiting List"
+
+#: news/templates/news/_event_admin_menu.html:50
+msgid "Det er ingen på ventelisten"
+msgstr "There are no people on the waiting list"
+
+#: news/templates/news/_event_admin_menu.html:57
+msgid "Alle påmeldte"
+msgstr "All attendees"
+
+#: news/templates/news/_event_admin_menu.html:68
+msgid "Oppmøte registrert!"
+msgstr "Attendance registered!"
+
+#: news/templates/news/_event_admin_menu.html:72
+msgid "Ingen oppmøte registrert!"
+msgstr "No attendance registered!"
+
+#: news/templates/news/_event_admin_menu.html:77
+msgid "Venter på arrangementstart"
+msgstr "Waiting for event start"
+
+#: news/templates/news/_event_admin_menu.html:85
+msgid "Det er ingen påmeldte"
+msgstr "There are no attendees"
+
+#: news/templates/news/_event_admin_menu.html:96
+msgid "Allergier"
+msgstr "Allergies"
+
+#: news/templates/news/_event_admin_menu.html:98
+msgid "glutenfritt"
+msgstr "gluten-free"
+
+#: news/templates/news/_event_admin_menu.html:99
+msgid "vegetar"
+msgstr "vegetarian"
+
+#: news/templates/news/_event_admin_menu.html:100
+msgid "vegan"
+msgstr "vegan"
+
+#: news/templates/news/_event_admin_menu.html:102
+msgid "Ingen allergier er registrert blant de påmeldte"
+msgstr "No allergies are registered among the attendees"
+
+#: news/templates/news/_list_admin_banner.html:11
+msgid "Nytt arrangement"
+msgstr "New event"
+
+#: news/templates/news/_list_admin_banner.html:14
+msgid "Ny artikkel"
+msgstr "New article"
+
+#: news/templates/news/article.html:29
+msgid "Denne artikkelen er lagret som utkast og dermed kun synlig for deg"
+msgstr "This article is saved as a draft and is only visible to you"
+
+#: news/templates/news/article.html:31 news/templates/news/event.html:30
+msgid "Lagret som utkast"
+msgstr "Saved as draft"
+
+#: news/templates/news/article.html:36
+msgid "oppdateres ved publisering"
+msgstr "will be updated upon publication"
+
+#: news/templates/news/article.html:38
+msgid "Skrevet av"
+msgstr "Written by"
+
+#: news/templates/news/article.html:40
+msgid "Lest"
+msgstr "Read"
+
+#: news/templates/news/article.html:40
+msgid "ganger"
+msgstr "times"
+
+#: news/templates/news/article.html:61 news/templates/news/edit_article.html:16
+msgid "Rediger artikkel"
+msgstr "Edit article"
+
+#: news/templates/news/article.html:63
+msgid "Slett artikkel"
+msgstr "Delete article"
+
+#: news/templates/news/article.html:77 news/templates/news/article.html:107
+msgid "Forrige artikkel"
+msgstr "Previous article"
+
+#: news/templates/news/article.html:111
+msgid "Ingen eldre artikler"
+msgstr "No older articles"
+
+#: news/templates/news/article.html:122 news/templates/news/article.html:153
+msgid "Neste artikkel"
+msgstr "Next article"
+
+#: news/templates/news/article.html:157
+msgid "Ingen nyere artikler"
+msgstr "No newer articles"
+
+#: news/templates/news/article_confirm_delete.html:12
+msgid "Bekreft handling"
+msgstr "Confirm action"
+
+#: news/templates/news/article_confirm_delete.html:13
+msgid "Er du sikker på at du vil slette følgende artikkel?"
+msgstr "Are you sure you want to delete the following article?"
+
+#: news/templates/news/article_confirm_delete.html:16
+msgid "Tittel"
+msgstr "Title"
+
+#: news/templates/news/article_confirm_delete.html:17
+msgid "Publiseringsdato"
+msgstr "Publication date"
+
+#: news/templates/news/article_confirm_delete.html:19
+msgid "JA"
+msgstr "YES"
+
+#: news/templates/news/article_confirm_delete.html:22
+msgid "NEI, GÅ TILBAKE"
+msgstr "NO, GO BACK"
+
+#: news/templates/news/article_item.html:13
+#: news/templates/news/article_item.html:23
+msgid "Publisert"
+msgstr "Published"
+
+#: news/templates/news/attendee_form.html:10
+msgid "Oppmøte"
+msgstr "Attendance"
+
+#: news/templates/news/attendee_form.html:43
+msgid "Oppmøtt"
+msgstr "Attended"
+
+#: news/templates/news/attendee_form.html:52
+msgid "Lagre"
+msgstr "Save"
+
+#: news/templates/news/edit_article.html:27
+#: news/templates/news/edit_event.html:29
+msgid "Innhold"
+msgstr "Content"
+
+#: news/templates/news/edit_article.html:48
+#: news/templates/news/edit_event.html:51
+msgid ""
+"Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
+"Bilder kan legges til ved drag-and-drop."
+msgstr ""
+"Only markdown is supported in this field, HTML will be returned as "
+"plaintext. Images can be added using drag-and-drop."
+
+#: news/templates/news/edit_article.html:80
+#: news/templates/news/edit_article.html:81
+msgid "Lagre og publiser artikkel"
+msgstr "Save and publish article"
+
+#: news/templates/news/edit_article.html:82
+msgid "Lagre som utkast"
+msgstr "Save as draft"
+
+#: news/templates/news/edit_event.html:61
+msgid "Velg hovedbilde"
+msgstr "Select main image"
+
+#: news/templates/news/edit_event.html:84
+msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
+msgstr "Internal event (Only Hackerspace members can see the event)"
+
+#: news/templates/news/edit_event.html:151 news/templates/news/event.html:103
+msgid "Påmelding"
+msgstr "Registration"
+
+#: news/templates/news/edit_event.html:185
+msgid "Ferdigheter"
+msgstr "Skills"
+
+#: news/templates/news/edit_event.html:202 news/templates/news/event.html:153
+msgid "Filer"
+msgstr "Files"
+
+#: news/templates/news/edit_event.html:223
+msgid "Ferdig"
+msgstr "Done"
+
+#: news/templates/news/edit_event.html:238
+msgid "Lagre og publiser arrangement"
+msgstr "Save and publish event"
+
+#: news/templates/news/event.html:28
+msgid "Dette arrangementet er lagret som utkast og dermed kun synlig for deg"
+msgstr "This event is saved as a draft and is only visible to you"
+
+#: news/templates/news/event.html:36
+msgid "Dette er et internt arrangement."
+msgstr "This is an internal event."
+
+#: news/templates/news/event.html:38
+msgid ""
+"Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-"
+"medlemskap"
+msgstr ""
+"This event is open to all students regardless of Hackerspace membership"
+
+#: news/templates/news/event.html:44
+msgid "Arrangementansvarlig"
+msgstr "Event organizer"
+
+#: news/templates/news/event.html:47
+msgid "Fra"
+msgstr "From"
+
+#: news/templates/news/event.html:48
+msgid "Til"
+msgstr "To"
+
+#: news/templates/news/event.html:51
+msgid "til"
+msgstr "to"
+
+#: news/templates/news/event.html:69
+msgid "Last ned ICS-fil"
+msgstr "Download ICS file"
+
+#: news/templates/news/event.html:75
+msgid "Ved å delta på arrangementet vil du få følgende ferdigheter godkjent:"
+msgstr ""
+"By participating in the event, you will have the following skills approved:"
+
+#: news/templates/news/event.html:83
+msgid "Du har allerede denne ferdigheten"
+msgstr "You already have this skill"
+
+#: news/templates/news/event.html:85
+msgid "Du mangler en forutsetning for denne ferdigheten"
+msgstr "You lack a prerequisite for this skill"
+
+#: news/templates/news/event.html:109
+msgid "Påmeldte"
+msgstr "Attendees"
+
+#: news/templates/news/event.html:109
+msgid "på venteliste"
+msgstr "on waiting list"
+
+#: news/templates/news/event.html:119 news/templates/news/event.html:121
+#: news/templates/news/event.html:124 news/templates/news/event.html:214
+msgid "Meld deg på"
+msgstr "Sign up"
+
+#: news/templates/news/event.html:122
+msgid "Påmelding åpner"
+msgstr "Registration opens"
+
+#: news/templates/news/event.html:125
+msgid "Fristen for påmelding er ute."
+msgstr "The registration deadline has passed."
+
+#: news/templates/news/event.html:129 news/templates/news/event.html:131
+#: news/templates/news/event.html:212
+msgid "Meld deg av"
+msgstr "Unsubscribe"
+
+#: news/templates/news/event.html:132
+msgid "Fristen for avregistrering er ute."
+msgstr "The unsubscription deadline has passed."
+
+#: news/templates/news/event.html:136
+msgid "Frist for påmelding er"
+msgstr "The registration deadline is"
+
+#: news/templates/news/event.html:137
+msgid "Frist for avmelding er"
+msgstr "The unsubscription deadline is"
+
+#: news/templates/news/event.html:139
+msgid "Arrangementet benytter ekstern nettside for pålogging."
+msgstr "The event uses an external website for login."
+
+#: news/templates/news/event.html:140
+msgid "Åpne påmeldingsside i ny fane"
+msgstr "Open registration page in new tab"
+
+#: news/templates/news/event.html:142
+msgid "Arrangementet er over og du kan ikke melde deg på."
+msgstr "The event is over and you cannot register."
+
+#: news/templates/news/event.html:144
+msgid "Arrangementet krever ikke påmelding."
+msgstr "The event does not require registration."
+
+#: news/templates/news/event.html:154
+msgid "Arrangøren har lagt ved følgende filer"
+msgstr "The organizer has attached the following files"
+
+#: news/templates/news/event.html:180
+msgid "Ingen filer"
+msgstr "No files"
+
+#: news/templates/news/event.html:193
+msgid "Informasjon om påmelding"
+msgstr "Registration information"
+
+#: news/templates/news/event.html:195
+msgid "Du forsøker å melde deg av arrangementet."
+msgstr "You are trying to unsubscribe from the event."
+
+#: news/templates/news/event.html:196
+msgid ""
+"Merk at dersom det er venteliste i arrangementet, vil du havne bakerst i "
+"køen dersom du ønsker å melde deg på igjen."
+msgstr ""
+"Note that if there is a waiting list for the event, you will be placed at "
+"the end of the queue if you wish to re-register."
+
+#: news/templates/news/event.html:198
+msgid ""
+"Arrangementets påmeldingsfrist er utløpt. Dersom du melder deg av, har du "
+"ikke mulighet til å melde deg på igjen."
+msgstr ""
+"The registration deadline for the event has expired. If you unsubscribe, you "
+"will not be able to register again."
+
+#: news/templates/news/event.html:201
+msgid "Ved å melde deg på dette arrangementet forventes det at du møter opp."
+msgstr "By registering for this event, it is expected that you attend."
+
+#: news/templates/news/event.html:202
+msgid "Du kan ikke melde deg av etter"
+msgstr "You cannot unsubscribe after"
+
+#: news/templates/news/event.html:204
+msgid "Dette arrangementet har servering. Sørg for at dine"
+msgstr "This event includes catering. Make sure your"
+
+#: news/templates/news/event.html:204
+msgid "innstillinger for matpreferanser"
+msgstr "dietary preferences settings"
+
+#: news/templates/news/event.html:204
+msgid "er oppdaterte."
+msgstr "are up to date."
+
+#: news/templates/news/event.html:216
+msgid "Cancel"
+msgstr "Cancel"
+
+#: news/templates/news/event_confirm_delete.html:12
+msgid "Confirm Action"
+msgstr "Confirm Action"
+
+#: news/templates/news/event_confirm_delete.html:13
+msgid "Are you sure you want to delete the following event?"
+msgstr "Are you sure you want to delete the following event?"
+
+#: news/templates/news/event_confirm_delete.html:16
+msgid "Title"
+msgstr ""
+
+#: news/templates/news/event_confirm_delete.html:17
+msgid "Publication Date"
+msgstr ""
+
+#: news/templates/news/event_confirm_delete.html:19
+msgid "YES"
+msgstr ""
+
+#: news/templates/news/event_confirm_delete.html:22
+msgid "NO, GO BACK"
+msgstr ""
+
+#: news/templates/news/events.html:15
+msgid "Arrangementer"
+msgstr "Events"
+
+#: news/templates/news/events.html:27 news/templates/news/news.html:27
+msgid "Dine utkast"
+msgstr "Your drafts"
+
+#: news/templates/news/internal_indicator.html:7
+msgid "info"
+msgstr "info"
+
+#: news/templates/news/news.html:15
+msgid "Nyheter"
+msgstr "News"
+
+#: news/templates/news/news.html:45
+msgid "Publiserte artikler"
+msgstr "Published articles"
+
+#: news/templates/news/skills_form.html:10
+msgid "Skills"
+msgstr "Skills"
+
+#: news/templates/news/skills_form.html:21
+msgid "Approve Skills"
+msgstr "Approve Skills"
+
+#: news/templates/news/skills_form.html:28
+msgid "Select All Attendees"
+msgstr "Select All Attendees"
+
+#: news/templates/news/skills_form.html:35
+msgid "Select All"
+msgstr "Select All"
+
+#: news/templates/news/skills_form.html:51
+msgid "Waiting List"
+msgstr "Waiting List"
+
+#: news/templates/news/skills_form.html:57
+msgid "Already Has Skills"
+msgstr "Already Has Skills"
+
+#: news/templates/news/skills_form.html:61
+msgid "Missing Prerequisites"
+msgstr "Missing Prerequisites"
+
+#: news/templates/news/skills_form.html:73
+msgid "Attendance Registered"
+msgstr "Attendance Registered"
+
+#: news/templates/news/skills_form.html:77
+msgid "Attendance Not Registered"
+msgstr "Attendance Not Registered"
+
+#: news/templates/news/skills_form.html:94
+msgid "Save"
+msgstr "Save"

@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% load gallery_modals %}
 <div class="input-field">
     <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{% if form.thumbnail.value %}{{ form.thumbnail.value }}{% endif %}">
@@ -24,7 +26,7 @@
             var selectedImgId = e.target.attributes.value.value;
             thumbnail_input.value = selectedImgId;
             thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;
-            M.toast({html: 'Bildet er valgt'});
+            M.toast({html: '{% trans "Bildet er valgt" %}'});
             M.Modal.getInstance(thumbModal).close();
         }
     });

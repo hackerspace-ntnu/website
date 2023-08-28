@@ -1,3 +1,5 @@
+{% load i18n %}
+
 {% if widget.is_initial %}
     <p class="file-upload">{{ widget.initial_text }}: <a href="{{ widget.value.url }}">{{ widget.value }}</a></p>
     {% if not widget.required %}
@@ -5,7 +7,7 @@
             <p>
                 <label>
                     <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"/>
-                    <span>Fjern</span>
+                    <span>{% trans "Fjern" %}</span>
                 </label>
             </p>
         </span>

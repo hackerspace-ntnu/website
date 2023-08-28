@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %}
 <div class="section hs-green center">
     <div class="container">
         <div class="row valign-wrapper no-pad-bot">
             {% if perms.userprofile.is_active_member is False %}
                 <div class="col s8 m4 l6">
-                    <a class="btn-flat waves-effect white black-text left" href="/opptak/">Søk Hackerspace</a>
+                    <a class="btn-flat waves-effect white black-text left" href="/opptak/">{% trans "Søk Hackerspace" %}</a>
                 </div>
                 <div class="col s4 m8 l6">
             {% else %}

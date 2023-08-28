@@ -1,0 +1,79 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-28 13:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: reservations/templates/reservations/queue_list.html:10
+msgid "Reservasjoner"
+msgstr "Reservations"
+
+#: reservations/templates/reservations/queue_list.html:11
+msgid "På denne siden kan du reservere bruk av diverse utstyr"
+msgstr "On this page, you can reserve the use of various equipment"
+
+#: reservations/templates/reservations/queue_list.html:12
+msgid "Se Hackerspace sitt utstyr"
+msgstr "View Hackerspace's equipment"
+
+#: reservations/templates/reservations/queue_list.html:27
+msgid "Les"
+msgstr "Read"
+
+#: reservations/templates/reservations/queue_list.html:27
+msgid "regler for bruk av 3D-printer"
+msgstr "rules for using the 3D printer"
+
+#: reservations/templates/reservations/queue_list.html:27
+msgid "før du starter"
+msgstr "before you start"
+
+#: reservations/templates/reservations/queue_list.html:30
+msgid ""
+"Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både "
+"printer og folk på vakt som følger med). Det er derfor forventet at du møter "
+"opp tidsnok (gjerne 5 minutter før avsatt tid) og ikke går over tiden du "
+"har booket"
+msgstr ""
+"By using our reservation system, we allocate our resources (both the printer and the staff on duty who supervise). Therefore, it is expected that you arrive on time (preferably 5 minutes before the allocated time) and do not exceed the time you have booked."
+
+#: reservations/templates/reservations/queue_list.html:44
+msgid "I ustand"
+msgstr "Out of order"
+
+#: reservations/templates/reservations/queue_list.html:52
+msgid "Vanskelighetsgrad"
+msgstr "Difficulty level"
+
+#: reservations/templates/reservations/queue_list.html:61
+msgid "Mine reservasjoner"
+msgstr "My reservations"
+
+#: reservations/templates/reservations/queue_list.html:68
+msgid "Fra"
+msgstr "From"
+
+#: reservations/templates/reservations/queue_list.html:69
+msgid "til"
+msgstr "to"
+
+#: reservations/templates/reservations/queue_list.html:72
+msgid "Du har ingen reservasjoner"
+msgstr "You have no reservations"
+
+#: reservations/templates/reservations/queue_list.html:75
+msgid "Logg inn for å se reservasjoner"
+msgstr "Log in to view reservations"

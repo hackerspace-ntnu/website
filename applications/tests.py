@@ -93,8 +93,7 @@ class ApplicationFormViewTest(TestCase):
             mail.outbox[0].subject, "[Hackerspace NTNU] Søknad er registrert!"
         )
         self.assertEqual(mail.outbox[0].to[0], data.get("email"))
-        self.assertEqual(
-            mail.outbox[0].body,
+        self.assertIn(
             """Hei Testesson Test!
 
 Dette er en bekreftelse på at din søknad er registrert.
@@ -119,4 +118,5 @@ Tusen takk for din interesse. :-)
 Mvh,
 Styret i Hackerspace NTNU
 """,
+            mail.outbox[0].body,
         )

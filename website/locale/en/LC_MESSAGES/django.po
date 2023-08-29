@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-28 15:20+0200\n"
+"POT-Creation-Date: 2023-08-29 19:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,10 +122,8 @@ msgid "Se"
 msgstr "See"
 
 #: website/templates/website/footer.html:20
-#, fuzzy
-#| msgid "Vaktliste"
 msgid "vaktlista"
-msgstr "Roster"
+msgstr "shift schedule"
 
 #: website/templates/website/footer.html:21
 msgid "for detaljerte åpningstider"
@@ -216,7 +214,7 @@ msgstr "Members"
 #: website/templates/website/header.html:198
 #: website/templates/website/internalportal.html:118
 msgid "Vaktliste"
-msgstr "Roster"
+msgstr "Shift schedule"
 
 #: website/templates/website/header.html:119
 #: website/templates/website/header.html:203
@@ -265,7 +263,7 @@ msgstr "Our list of members"
 
 #: website/templates/website/header.html:196
 msgid "Se vaktlista vår"
-msgstr "Our roster"
+msgstr "Our shift schedule"
 
 #: website/templates/website/header.html:201
 msgid "Se lagerbeholdningen vår"

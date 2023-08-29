@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-28 15:20+0200\n"
+"POT-Creation-Date: 2023-08-29 19:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -299,6 +299,10 @@ msgstr "Attendees"
 #: news/templates/news/event.html:109
 msgid "på venteliste"
 msgstr "on waiting list"
+
+#: news/templates/news/event.html:116
+msgid "Logg inn for å melde deg på"
+msgstr "Log in to sign up"
 
 #: news/templates/news/event.html:119 news/templates/news/event.html:121
 #: news/templates/news/event.html:124 news/templates/news/event.html:214

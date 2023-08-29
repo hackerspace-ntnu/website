@@ -113,7 +113,7 @@
                     <div class="col s12">
                         {% if event.registration %}
                             {% if userstatus == "ikke pålogget" %}
-                                <a class="hs-yellow btn btn-flat" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">{{% trans 'Logg inn for å melde deg på' %}}</a>
+                                <a class="hs-yellow btn btn-flat" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">{% trans 'Logg inn for å melde deg på' %}</a>
                             {% elif userstatus == "ikke påmeldt" %}
                                 {% if event.can_register == "ok" %}
                                     <a class="btn btn-flat white-text waves-effect waves-light hs-green modal-trigger" href="#registrationModal">{% trans 'Meld deg på' %}</a>

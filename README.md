@@ -110,3 +110,20 @@ python manage.py migrate
 ```
 
 Follow the above step about fixtures if you want your test data back
+
+
+## Translations
+
+We have locality for Norwegian and English
+To generate new translations in `.po` files run
+```
+python manage.py makemessages -l nb -l en
+```
+
+Add the correct translations in the `msgstr` quotes.
+If a translation is not given and the `msgstr` quote is empty, the msgid will be used
+
+To compile the translations and make the translations available run
+```
+python manage.py compilemessages
+```

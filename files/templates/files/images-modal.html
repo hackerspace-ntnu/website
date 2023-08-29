@@ -1,22 +1,23 @@
 {% load gallery_modals %}
+{% load i18n %}
 {% load static %}
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
 {% endblock %}
 
-<a class="waves-effect hs-red white-text waves-light btn btn-large" id="delete-img">Slett bilde</a>
-<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">Vis bildegalleri</a>
+<a class="waves-effect hs-red white-text waves-light btn btn-large" id="delete-img">{% trans "Slett bilde" %}</a>
+<a class="modal-trigger waves-effect hs-green white-text waves-light btn btn-large" data-target="thumbnailPicker">{% trans "Vis bildegalleri" %}</a>
 
 <div id="thumbnailPicker" class="modal">
     <div class="modal-content gallery-content">
         <div class="gallery-header hs-gray">
-            <h4 class="white-text">Velg bilde</h4>
+            <h4 class="white-text">{% trans "Velg bilde" %}</h4>
             <div class="row">
-                <a class="col s12 l5 btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">Last opp nytt bilde</a>
+                <a class="col s12 l5 btn hs-green btn-small white-text modal-trigger" href="#uploadModal" target="_blank">{% trans "Last opp nytt bilde" %}</a>
                 <div class="col s12 hide-on-large-only">
                     <div class="invisible-divider-large"></div>
                 </div>
-                <a class="col s12 l5 push-l2 btn hs-yellow btn-small hs-gray-text" href="/files/images" target="_blank">Administrer bilder</a>
+                <a class="col s12 l5 push-l2 btn hs-yellow btn-small hs-gray-text" href="/files/images" target="_blank">{% trans "Administrer bilder" %}</a>
             </div>
         </div>
 
@@ -52,7 +53,7 @@
         if (img.style.backgroundImage != "none") {
             img_input.value = null;
             img.style.backgroundImage = "none";
-            M.toast({html: 'Bildet er slettet'});
+            M.toast({html: '{% trans "Bildet er slettet" %}'});
         }
     });
 
@@ -88,7 +89,7 @@
             gallery.prepend(response);
         }
 
-        M.toast({ html: 'Bildet er lastet opp og kan velges fra galleriet' });
+        M.toast({ html: '{% trans "Bildet er lastet opp og kan velges fra galleriet" %}' });
     });
 </script>
 <script src="{% static 'files/js/gallery.js' %}"></script>

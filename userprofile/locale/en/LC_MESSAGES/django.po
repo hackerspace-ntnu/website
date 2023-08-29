@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-28 15:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: userprofile/templates/userprofile/members.html:16
+msgid "Medlemmer i Hackerspace"
+msgstr "Members in Hackerspace"
+
+#: userprofile/templates/userprofile/members.html:17
+msgid "For oversikt over gruppene og deres medlemmer, se"
+msgstr "To see an overview of our groups and their members, visit"
+
+#: userprofile/templates/userprofile/members.html:17
+msgid "Om oss"
+msgstr "About us"
+
+#: userprofile/templates/userprofile/members.html:25
+msgid "Søk etter medlem"
+msgstr "Search for member"
+
+#: userprofile/templates/userprofile/members.html:31
+msgid "Klikk på ferdigheter du vil se folk ikke har"
+msgstr "Click on skills to see what people do not have"
+
+#: userprofile/templates/userprofile/members_list.html:32
+msgid "Det finnes ingen profiler etter dine søkekriterier"
+msgstr "There are no members with your search criteria"

@@ -1,0 +1,128 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-28 15:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: applications/templates/applications/application_info.html:9
+msgid "Informasjon om opptaket"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:20
+msgid "Gå til søknad"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:29
+msgid "Praktisk informasjon om medlemskap"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:30
+msgid "Tusen takk for din interesse!"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:31
+msgid ""
+"På denne nettsiden får du informasjon om medlemskap og gruppene i "
+"Hackerspace."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:32
+msgid ""
+"Dersom du blir tatt opp i en av våre grupper, blir du selvsagt også medlem "
+"av Hackerspace."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:33
+msgid "Erfaring"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:34
+msgid ""
+"Man trenger ikke være en verdensmester for å søke i Hackerspace.<br>Både "
+"nybegynnere og viderekommende er velkommen til å søke hos oss. Vi er først "
+"og fremst ute etter engasjementet ditt.<br>Alle som blir tatt opp i "
+"Hackerspace kommer til å bli lært opp i det mest brukte utstyret vi har på "
+"verkstedet, og spesifikk kursing for gruppen de blir med i."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:35
+msgid "Vaktlisten"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:37
+msgid ""
+"Alle medlemmer av Hackerspace er med på å holde verkstedet åpent. På vakt "
+"hjelper du nysgjerrige studenter som stikker innom og vil bruke utstyret "
+"vårt. Det er også lagt opp til at du kan gjøre det samme selv! Ellers på "
+"vaktene blir det en del kaffedrikking og sosialt med de andre på verkstedet. "
+"Alle medlemmer sitter to timer på vakt i uken."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:39
+msgid "Stander"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:41
+msgid ""
+"Du har kanskje møtt Hackerspace på stand på NTNU? Det er fordi Hackerspace "
+"står mye på stand for å spre ordet om hvem vi er og hva vi gjør. Dette er "
+"noe alle i Hackerspace er med på."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:52
+msgid "Hovedgrupper"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:53
+msgid "Under finner du informasjon om hovedgruppene som har opptak nå"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:66
+#: applications/templates/applications/application_info.html:95
+msgid "Ingen grupper lagt til i opptaket."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:79
+msgid "Prosjektgruppene"
+msgstr ""
+
+#: applications/templates/applications/application_info.html:80
+msgid ""
+"Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til "
+"år. Prosjektene varer som oftest i to semestre."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:81
+msgid ""
+"Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med "
+"andre på gruppen."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:82
+msgid ""
+"Om du har forslag til noen andre prosjekter, kan dette sendes med et "
+"søknadsskjema."
+msgstr ""
+
+#: applications/templates/applications/application_info.html:83
+msgid "Under finner du informasjon om prosjektene som har opptak nå."
+msgstr ""
+
+#: applications/validators.py:16
+msgid ""
+"Nummeret må være 8 siffer eller starte med landskode på formen +47 eller 0047"
+msgstr ""

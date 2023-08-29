@@ -1,4 +1,5 @@
 {% extends "website/base.html" %}
+{% load i18n %}
 {% load static %}
 
 {% block content %}
@@ -6,7 +7,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s12">
-                    <h3>Ferdigheter</h3>
+                    <h3>{% trans "Skills" %}</h3>
                 </div>
             </div>
         </div>
@@ -17,21 +18,21 @@
                 <ul class="collection with-header">
                     <li class="collection-header">
                         <h4>
-                            Godkjenn ferdigheter
+                            {% trans "Approve Skills" %}
                             <button
                                 class="btn btn-flat hs-green secondary-content"
                                 style="margin-left: 5px;"
                                 onClick="selectAllAttendees()"
                                 type="button"
                             >
-                                <span class="white-text">Velg alle oppmøtte</span>
+                                <span class="white-text">{% trans "Select All Attendees" %}</span>
                             </button>
                             <button
                                 class="btn btn-flat hs-green secondary-content"
                                 onClick="selectAll()"
                                 type="button"
                             >
-                                <span class="white-text">Velg alle</span>
+                                <span class="white-text">{% trans "Select All" %}</span>
                             </button>
                         </h4>
                     </li>
@@ -47,17 +48,17 @@
                                     {{ instance.id }}
                                 </div>
                                 {{ instance.user.label }}
-                                {% if instance.waiting.value %}<i class="material-icons green-text tooltipped" style="padding-bottom: 0" data-position="left" data-tooltip="På ventelisten">
+                                {% if instance.waiting.value %}<i class="material-icons green-text tooltipped" style="padding-bottom: 0" data-position="left" data-tooltip="{% trans "Waiting List" %}">
                                     hourglass_bottom
                                 </i>{% endif %}
                                 <div class="secondary-content">
                                     <label>
                                         {% if instance.has_skills.value %}
-                                            <i class="material-icons green-text tooltipped" style="margin-right: 10px;" data-position="left" data-tooltip="Har allerede ferdighetene :)">
+                                            <i class="material-icons green-text tooltipped" style="margin-right: 10px;" data-position="left" data-tooltip="{% trans "Already Has Skills" %}">
                                                 check
                                             </i>
                                         {% elif instance.missing_prerequisites.value %}
-                                            <i class="material-icons red-text tooltipped" style="margin-right: 10px;" data-position="left" data-tooltip="Mangler forkunnskaper">
+                                            <i class="material-icons red-text tooltipped" style="margin-right: 10px;" data-position="left" data-tooltip="{% trans "Missing Prerequisites" %}">
                                                 clear
                                             </i>
                                         {% else %}
@@ -69,11 +70,11 @@
                                         {% endif %}
                                         <span>
                                             {% if instance.attended.value %}
-                                                <i class="material-icons green-text tooltipped" data-position="left" data-tooltip="Oppmøte registrert">
+                                                <i class="material-icons green-text tooltipped" data-position="left" data-tooltip="{% trans "Attendance Registered" %}">
                                                     how_to_reg
                                                 </i>
                                             {% else %}
-                                                <i class="material-icons red-text tooltipped" data-position="left" data-tooltip="Oppmøte ikke registrert">
+                                                <i class="material-icons red-text tooltipped" data-position="left" data-tooltip="{% trans "Attendance Not Registered" %}">
                                                     person_off
                                                 </i>
                                             {% endif %}
@@ -90,7 +91,7 @@
                             class="right btn btn-flat btn-large hs-green white-text"
                             type="submit"
                         >
-                            Lagre
+                            {% trans "Save" %}
                         </button>
                     </div>
                 </div>

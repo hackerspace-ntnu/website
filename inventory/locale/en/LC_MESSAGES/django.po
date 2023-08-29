@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-28 15:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: inventory/templates/inventory/inventory.html:12
+msgid "Lager"
+msgstr "Inventory"
+
+#: inventory/templates/inventory/inventory.html:13
+msgid ""
+"Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!"
+msgstr ""
+"Here you can search in our inventory. Want to borrow something? Visit the "
+"workshop!"
+
+#: inventory/templates/inventory/inventory.html:14
+msgid "Se utstyr og apparater"
+msgstr "View equipment and apparatus"
+
+#: inventory/templates/inventory/inventory.html:28
+msgid "Ting, tang og tare"
+msgstr "Things and stuff"
+
+#: inventory/templates/inventory/inventory.html:29
+#: inventory/templates/inventory/inventory.html:37
+msgid "Navn"
+msgstr "Name"
+
+#: inventory/templates/inventory/inventory.html:33
+msgid "Velg sorteringskriterie"
+msgstr "Choose sorting criterion"
+
+#: inventory/templates/inventory/inventory.html:34
+msgid "Popularitet"
+msgstr "Popularity"
+
+#: inventory/templates/inventory/inventory.html:35
+#: inventory/templates/inventory/inventory.html:36
+msgid "Lagerbeholdning"
+msgstr "Inventory Quantity"
+
+#: inventory/templates/inventory/inventory.html:35
+msgid "Synkende"
+msgstr "Descending"
+
+#: inventory/templates/inventory/inventory.html:36
+msgid "Stigende"
+msgstr "Ascending"
+
+#: inventory/templates/inventory/inventory.html:39
+msgid "Sorter etter"
+msgstr "Sort by"
+
+#: inventory/templates/inventory/items_list.html:15
+msgid "Ukjent antall"
+msgstr "Unknown quantity"
+
+#: inventory/templates/inventory/items_list.html:19
+#: inventory/templates/inventory/items_list.html:21
+#: inventory/templates/inventory/items_list.html:34
+msgid "stk."
+msgstr "pcs."
+
+#: inventory/templates/inventory/items_list.html:25
+msgid "Ingen"
+msgstr "None"
+
+#: inventory/templates/inventory/items_list.html:27
+msgid "på lager"
+msgstr "in stock"
+
+#: inventory/templates/inventory/items_list.html:30
+msgid "Hylleplass"
+msgstr "Shelf Location"
+
+#: inventory/templates/inventory/items_list.html:34
+msgid "forventet på lager"
+msgstr "expected in stock"
+
+#: inventory/templates/inventory/items_list.html:40
+msgid "Lån"
+msgstr "Borrow"
+
+#: inventory/templates/inventory/items_list.html:76
+msgid "Det kan likevel hende at vi har det du leter etter"
+msgstr "However, we might still have what you're looking for"
+
+#: inventory/templates/inventory/items_list.html:76
+msgid "Kom innom"
+msgstr "Visit us"
+
+#: inventory/templates/inventory/items_list.html:76
+msgid "verkstedet"
+msgstr "the workshop"
+
+#: inventory/templates/inventory/items_list.html:76
+msgid "og spør oss!"
+msgstr "and ask us!"

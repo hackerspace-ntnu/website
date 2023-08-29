@@ -15,3 +15,22 @@ Dersom dette ikke skulle stemme kan du ta kontakt med LabOps
 
 Mvh,
 LabOps Hackerspace NTNU
+
+-----------------------------------
+
+
+Hello,
+
+This email is being sent to you because you are missing the following skill(s):
+
+{% for skill in skills %}{{ skill }} {% endfor %}
+
+An event has now been opened that offers this skill, so sign up.
+Please remember that to participate, one must have completed the Hackerspace basic course.
+
+Access the event here: hackerspace-ntnu.no/events/{{ event.id }}
+
+If this is not accurate, you can contact LabOps.
+
+Best regards,
+LabOps Hackerspace NTNU

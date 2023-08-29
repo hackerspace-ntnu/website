@@ -1,7 +1,9 @@
+{% load i18n %}
+
 <div class="card-panel">
     <div class="row no-bottom-margin">
         <div class="col s12">
-            <h5>Administrator-meny</h5>
+            <h5>{% trans "Administrator-meny" %}</h5>
         </div>
         <div class="row">
             <div class="col s12">
@@ -9,27 +11,27 @@
                     {% if perms.news.change_event %}
                         <li class="collection-item"><a href="/events/{{ event.id }}/edit">
                             <i class="material-icons">edit</i>
-                            <span class="collection-icon-text">Rediger arrangement</span></a>
+                            <span class="collection-icon-text">{% trans "Rediger arrangement" %}</span></a>
                         </li>
                     {% endif %}
                     {% if event.registration and perms.news.can_see_attendees %}
                         <li class="collection-item"><a href="/events/{{ event.id }}/attended">
                             <i class="material-icons">check</i>
-                            <span class="collection-icon-text">Registrer oppmøte</span>
+                            <span class="collection-icon-text">{% trans "Registrer oppmøte" %}</span>
                         </a></li>
                     {% endif %}
                     {% if event.skills.all and perms.news.can_see_attendees %}
                         <li class="collection-item">
                             <a href="/events/{{ event.id }}/skills">
                                 <i class="material-icons">how_to_reg</i>
-                                <span class="collection-icon-text">Gi ferdigheter</span>
+                                <span class="collection-icon-text">{% trans "Gi ferdigheter" %}</span>
                             </a>
                         </li>
                     {% endif %}
                     {% if perms.news.delete_event %}
                         <li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text">
                             <i class="material-icons">delete</i>
-                            <span class="collection-icon-text">Slett arrangement</span></a>
+                            <span class="collection-icon-text">{% trans "Slett arrangement" %}</span></a>
                         </li>
                     {% endif %}
                 </ul>
@@ -40,62 +42,47 @@
                 <div class="col s12 m12 l6">
                     <ul class="collection with-header">
                         <li class="collection-header">
-                            <h5>Venteliste</h5>
+                            <h5>{% trans "Venteliste" %}</h5>
                         </li>
                         {% for user in event.wait_list %}
                             <li class="collection-item">{{ user.get_full_name }}</li>
                         {% empty %}
-                            <li class="collection-item">Det er ingen på ventelisten</li>
+                            <li class="collection-item">{% trans "Det er ingen på ventelisten" %}</li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div class="col s12 m12 l6">
-
                     <ul class="collection with-header" id="registration-users">
-
                         <li class="collection-header">
-                            <h5>Alle påmeldte</h5>
+                            <h5>{% trans "Alle påmeldte" %}</h5>
                         </li>
-
                         {% for user in event.registration_list %}
-
                             {% if not user.is_waitlisted %}
                                 <li class="collection-item event-attendee-row">
-
                                     <a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' user.user.id %}">
                                         {{ user.user.get_full_name }}
                                     </a>
-
                                     <a class="event-attendee-icon" href="/events/{{ event.id }}/attended">
-
                                         {% if event.is_past_start %}
-
                                             {% if user.attended %}
-                                                <span class="secondary-content tooltipped" data-position="top" data-tooltip="Oppmøte registrert!">
+                                                <span class="secondary-content tooltipped" data-position="top" data-tooltip="{% trans "Oppmøte registrert!" %}">
                                                     😇
                                                 </span>
                                             {% else %}
-                                                <span class="secondary-content tooltipped" data-position="top" data-tooltip="Ingen oppmøte registrert!">
+                                                <span class="secondary-content tooltipped" data-position="top" data-tooltip="{% trans "Ingen oppmøte registrert!" %}">
                                                     😈
                                                 </span>
                                             {% endif %}
-
                                         {% else %}
-
-                                            <span class="secondary-content tooltipped" data-position="top" data-tooltip="Venter på arrangementstart">
+                                            <span class="secondary-content tooltipped" data-position="top" data-tooltip="{% trans "Venter på arrangementstart" %}">
                                                 ⌛
                                             </span>
-
                                         {% endif %}
-
                                     </a>
-
                                 </li>
                             {% endif %}
-
                         {% empty %}
-                            <li class="collection-item">Det er ingen påmeldte</li>
-
+                            <li class="collection-item">{% trans "Det er ingen påmeldte" %}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -105,41 +92,33 @@
                     <div class="row">
                         <div class="col s12 m12">
                             <ul class="collection with-header">
-
                                 <li class="collection-header">
-                                    <h5>Allergier</h5>
+                                    <h5>{% trans "Allergier" %}</h5>
                                     {% if food_preferences %}
-                                        <span>{{event.get_allergies_count.glutenfritt}} glutenfritt</span>,
-                                        <span>{{event.get_allergies_count.vegetar}} vegetar</span>,
-                                        <span>{{event.get_allergies_count.vegan}} vegan</span>
+                                        <span>{{ event.get_allergies_count.glutenfritt }} {% trans "glutenfritt" %}</span>,
+                                        <span>{{ event.get_allergies_count.vegetar }} {% trans "vegetar" %}</span>,
+                                        <span>{{ event.get_allergies_count.vegan }} {% trans "vegan" %}</span>
                                     {% else %}
-                                        <span class="hs-gray-text">Ingen allergier er registrert blant de påmeldte</span>
+                                        <span class="hs-gray-text">{% trans "Ingen allergier er registrert blant de påmeldte" %}</span>
                                     {% endif %}
                                     <div class="invisible-divider"></div>
                                 </li>
-
                                 {% for preferences in food_preferences %}
-
                                     <li class="collection-item">
                                         <div class="invisible-divider"></div>
-
                                         {% if preferences.predefined %}
                                             <div class="invisible-divider"></div>
                                             {% for preference in preferences.predefined %}
-                                                <a class="food-preference hs-gray white-text">{{preference}}</a>
+                                                <a class="food-preference hs-gray white-text">{{ preference }}</a>
                                             {% endfor %}
                                             <div class="invisible-divider"></div>
                                         {% endif %}
-
                                         {% if preferences.other %}
-                                            <span><i>{{preferences.other}}</i></span>
+                                            <span><i>{{ preferences.other }}</i></span>
                                         {% endif %}
-
                                         <div class="invisible-divider"></div>
                                     </li>
-
                                 {% endfor %}
-
                             </ul>
                         </div>
                     </div>

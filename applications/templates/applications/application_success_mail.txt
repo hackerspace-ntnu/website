@@ -19,3 +19,26 @@ Tusen takk for din interesse. :-)
 
 Mvh,
 Styret i Hackerspace NTNU
+
+
+-------------
+
+
+Hi {{ name }}!
+
+This is a confirmation that your application has been registered.
+
+You have applied for the following groups:
+{% for choice in group_choice %}
+{{ choice.priority }}. {{ choice.group }}
+{% endfor %}
+
+We will provide you with a response to your application within 3 weeks, excluding holiday periods.
+Please note that this email cannot be replied to.
+
+If you have any questions regarding your application, please contact hackerspace-styret@idi.ntnu.no.
+
+Thank you very much for your interest. :-)
+
+Best regards,
+The Board of Hackerspace NTNU

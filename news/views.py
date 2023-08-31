@@ -409,7 +409,9 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             return self.render_to_response(self.get_context_data(form=form))
 
     def _send_mail_to_members_without_skill(self, skills, event):
-        committee_array = Committee.objects.values_list("name", flat=True)
+        committee_array = Committee.objects.filter(active=True).values_list(
+            "name", flat=True
+        )
         members_without_skill = (
             get_user_model()
             .objects.filter(groups__name__in=list(committee_array))

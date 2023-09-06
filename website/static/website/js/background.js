@@ -11,6 +11,7 @@ function drawBackground() {
     groundHeight = canvas.height - (calculatedBackgroundWidth / backgroundAspectRatio) * 0.25;
     widthPosition = canvas.width / 3;
     playerHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.2;
+    enemyHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.15;
     jumpHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.5;
     backgroundMovePos += backgroundSpeed;
     if (backgroundMovePos >= calculatedBackgroundWidth) {

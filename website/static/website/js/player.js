@@ -17,14 +17,10 @@ class Player {
     initialY = 0;
     isJumping = false;
     hasDoubleJumped = false;
-    constructor(groundHeight, widthPosition, playerHeight) {
-        this.x = widthPosition;
-        this.y = groundHeight;
+    constructor() {
         this.currentFrame = 0;
         this.images = [];
         this.loadImages();
-        this.height = playerHeight;
-        this.width = this.height * this.aspectRatio;
         this.updateCounter = 0;
     }
     loadImages() {

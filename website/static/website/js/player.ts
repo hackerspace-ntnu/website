@@ -20,14 +20,10 @@ class Player {
     isJumping: boolean = false;
     hasDoubleJumped: boolean = false;
 
-    constructor(groundHeight: number, widthPosition: number, playerHeight: number) {
-        this.x = widthPosition;
-        this.y = groundHeight;
+    constructor() {
         this.currentFrame = 0;
         this.images = [];
         this.loadImages();
-        this.height = playerHeight;
-        this.width = this.height * this.aspectRatio;
         this.updateCounter = 0;
     }
 

@@ -1,23 +1,33 @@
-{% extends "website/base.html" %}
-{% load static %}
-{% block head %}
-<link rel="stylesheet" type="text/css" href="{% static 'website/css/game.css' %}">
-{% endblock %}
-{% block content %}
+{% extends "website/base.html" %} {% load static %} {% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'website/css/game.css' %}"
+/>
+{% endblock %} {% block content %}
 <canvas id="gameCanvas"></canvas>
-<div id ="assets">
-    <img id="skyBackground" src="{% static 'website/img/game/sky.png' %}" />
-    <img id="desertBackground" src="{% static 'website/img/game/desert.png' %}" />
-    <img id="player1" src="{% static 'website/img/game/player1.png' %}" />
-    <img id="player2" src="{% static 'website/img/game/player2.png' %}" />
-    <img id="player3" src="{% static 'website/img/game/player3.png' %}" />
-    <img id="player4" src="{% static 'website/img/game/player4.png' %}" />
-    <img id="player5" src="{% static 'website/img/game/player5.png' %}" />
-    <img id="player6" src="{% static 'website/img/game/player6.png' %}" />
-    <img id="player7" src="{% static 'website/img/game/player7.png' %}" />
-    <img id="player8" src="{% static 'website/img/game/player8.png' %}" />
+<div id="assets">
+  <img id="skyBackground" src="{% static 'website/img/game/sky.png' %}" />
+  <img id="desertBackground" src="{% static 'website/img/game/desert.png' %}" />
+  <img id="player1" src="{% static 'website/img/game/player1.png' %}" />
+  <img id="player2" src="{% static 'website/img/game/player2.png' %}" />
+  <img id="player3" src="{% static 'website/img/game/player3.png' %}" />
+  <img id="player4" src="{% static 'website/img/game/player4.png' %}" />
+  <img id="player5" src="{% static 'website/img/game/player5.png' %}" />
+  <img id="player6" src="{% static 'website/img/game/player6.png' %}" />
+  <img id="player7" src="{% static 'website/img/game/player7.png' %}" />
+  <img id="player8" src="{% static 'website/img/game/player8.png' %}" />
+  <img id="enemy1" src="{% static 'website/img/game/enemy1.png' %}" />
+  <img id="enemy2" src="{% static 'website/img/game/enemy2.png' %}" />
+  <img id="enemy3" src="{% static 'website/img/game/enemy3.png' %}" />
+  <img id="enemy4" src="{% static 'website/img/game/enemy4.png' %}" />
+  <img id="enemy5" src="{% static 'website/img/game/enemy5.png' %}" />
+  <img id="enemy6" src="{% static 'website/img/game/enemy6.png' %}" />
+  <img id="enemy7" src="{% static 'website/img/game/enemy7.png' %}" />
+  <img id="enemy8" src="{% static 'website/img/game/enemy8.png' %}" />
 </div>
 <script defer src="{% static 'website/js/background.js' %}"></script>
 <script defer src="{% static 'website/js/player.js' %}"></script>
+<script defer src="{% static 'website/js/enemy.js' %}"></script>
 <script defer src="{% static 'website/js/game.js' %}"></script>
 {% endblock %}

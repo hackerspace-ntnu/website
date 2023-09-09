@@ -9,7 +9,7 @@ from datetime import datetime
 #################################
 
 SECRET_KEY = "SECRET_KEY"
-DB = "sqlite"
+DB = "postgres"
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 DOOR_KEY = "DOOR_KEY"
@@ -25,11 +25,6 @@ SOCIAL_AUTH_DATAPORTEN_FEIDE_KEY = None
 SOCIAL_AUTH_DATAPORTEN_FEIDE_SECRET = None
 
 ADMINS = (("devops", "hackerspace-dev@idi.ntnu.no"),)
-
-try:
-    from website.local_settings import *  # noqa: F403
-except ImportError:
-    pass
 
 #################################
 # Installed apps                #
@@ -86,11 +81,11 @@ if DB == "postgres":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": DATABASE_NAME,  # noqa: F405
-            "USER": DATABASE_USER,  # noqa: F405
-            "PASSWORD": DATABASE_PASSWORD,  # noqa: F405
-            "HOST": "localhost",
-            "PORT": "",
+            "NAME": os.environ.get("DB_DATABASE"),  # noqa: F405
+            "USER": os.environ.get("DB_USER"),  # noqa: F405
+            "PASSWORD": os.environ.get("DB_PASSWORD"),  # noqa: F405
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
         }
     }
 else:

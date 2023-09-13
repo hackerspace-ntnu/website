@@ -1,7 +1,13 @@
-function drawEnemies(secondsPassed) {
-    enemies.push(new Enemy());
+function drawEnemies(time) {
+    const seconds = Math.floor(time / 1000);
+    if (seconds !== lastSecond) {
+        lastSecond = seconds;
+        if (lastSecond % 5 == 0) {
+            enemies.push(new Enemy());
+        }
+    }
     enemies.forEach((enemy, index) => {
-        enemy.update(groundHeight, enemyHeight, true);
+        enemy.moveBetween(6);
         if (enemy.x > canvas.width + enemy.width || enemy.x < -enemy.width) {
             enemies.splice(index, 1);
         }
@@ -18,14 +24,20 @@ class Enemy {
     images;
     flipped;
     updateCounter;
-    initialX;
+    nextX;
+    target;
+    x1;
+    x2;
     constructor() {
-        this.initialX = canvas.width;
+        this.nextX = canvas.width;
         this.currentFrame = 0;
         this.images = [];
         this.flipped = true;
         this.loadImages();
         this.updateCounter = 0;
+        this.target = true;
+        this.x1 = canvas.width - 800;
+        this.x2 = canvas.width - 500;
     }
     loadImages() {
         for (let i = 1; i <= 8; i++) {
@@ -44,17 +56,33 @@ class Enemy {
             ctx.drawImage(this.images[this.currentFrame], this.x, this.y, this.width, this.height);
         }
     }
-    update(walkHeight, enemyHeight, flipped) {
+    moveBetween(movementSpeed) {
+        if (this.nextX < this.x1) {
+            this.target = false;
+        }
+        else if (this.nextX > this.x2) {
+            this.target = true;
+        }
+        if (this.target == true) {
+            this.update(groundHeight, true, -movementSpeed);
+        }
+        else {
+            this.update(groundHeight, false, movementSpeed);
+        }
+    }
+    update(walkHeight, flipped, movementSpeed) {
         // Update the frame every second time
         this.updateCounter++;
         if (this.updateCounter % 2 == 0) {
             this.currentFrame = (this.currentFrame + 1) % this.images.length;
         }
         this.flipped = flipped;
-        this.x = this.initialX;
-        this.initialX -= backgroundSpeed;
+        this.x = this.nextX;
+        this.nextX = this.nextX - backgroundSpeed + movementSpeed;
         this.height = enemyHeight;
         this.width = this.height * this.aspectRatio;
         this.y = walkHeight - this.height;
+        this.x1 -= 1;
+        this.x2 -= 1;
     }
 }

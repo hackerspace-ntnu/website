@@ -27,6 +27,7 @@ let jumpHeight: number;
 // Create a new player object
 const player = new Player();
 const enemies: Enemy[] = [];
+let lastSecond = -1;
 
 let lastFrameTime = 0;
 function update(time) {
@@ -36,16 +37,16 @@ function update(time) {
     }
     lastFrameTime = time;
     requestAnimationFrame(update);
-    draw(Math.floor(time / 1000));
+    draw(time);
 }
 requestAnimationFrame(update);
 
-function draw(secondsPassed: number) {
+function draw(time: number) {
     ctx.canvas.height = window.innerHeight - 64;
     ctx.canvas.width = window.innerWidth;
     drawBackground();
+    drawEnemies(time);
     drawPlayer();
-    drawEnemies(secondsPassed);
 }
 
 // Add key press event listeners

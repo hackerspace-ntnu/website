@@ -55,48 +55,44 @@
                     </div>
                 </div>
             </div>
-            {% if main_list %}
-                {% for group in main_list %}
-                    {% include "applications/_group_description.html" %}
-                {% empty %}
-                    <div class="section white">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col s12">
-                                    <p>{% trans "Ingen grupper lagt til i opptaket." %}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if group_list %}
-                <div class="divider"></div>
+            {% for group in main_list %}
+                {% include "applications/_group_description.html" %}
+            {% empty %}
                 <div class="section white">
                     <div class="container">
                         <div class="row">
                             <div class="col s12">
-                                <h4>{% trans "Prosjektgruppene" %}</h4>
-                                <p>{% trans "Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til år. Prosjektene varer som oftest i to semestre." %}</p>
-                                <p>{% trans "Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med andre på gruppen." %}</p>
-                                <p>{% trans "Om du har forslag til noen andre prosjekter, kan dette sendes med et søknadsskjema." %}</p>
-                                <p>{% trans "Under finner du informasjon om prosjektene som har opptak nå." %}</p>
+                                <p>{% trans "Ingen grupper lagt til i opptaket." %}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% for group in group_list %}
-                    {% include "applications/_group_description.html" %}
-                {% empty %}
-                    <div class="section white">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col s12">
-                                    <p>{% trans "Ingen grupper lagt til i opptaket." %}</p>
-                                </div>
+            {% endfor %}
+            <div class="divider"></div>
+            <div class="section white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col s12">
+                            <h4>{% trans "Prosjektgruppene" %}</h4>
+                            <p>{% trans "Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til år. Prosjektene varer som oftest i to semestre." %}</p>
+                            <p>{% trans "Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med andre på gruppen." %}</p>
+                            <p>{% trans "Om du har forslag til noen andre prosjekter, kan dette sendes med et søknadsskjema." %}</p>
+                            <p>{% trans "Under finner du informasjon om prosjektene som har opptak nå." %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for group in group_list %}
+                {% include "applications/_group_description.html" %}
+            {% empty %}
+                <div class="section white">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col s12">
+                                <p>{% trans "Ingen grupper lagt til i opptaket." %}</p>
                             </div>
                         </div>
                     </div>
-                {% endfor %}
-            {% endif %}
+                </div>
+            {% endfor %}
 {% endblock %}

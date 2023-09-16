@@ -43,6 +43,9 @@ class ApplicationGroup(models.Model):
     project_group = models.BooleanField(
         verbose_name="Gruppen tilhører prosjektgruppen", default=False
     )
+    open_for_applications = models.BooleanField(
+        verbose_name="Åpen for søknader", default=True
+    )
 
     def __str__(self):
         return self.name

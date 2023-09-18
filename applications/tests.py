@@ -47,8 +47,8 @@ class ApplicationInfoViewTest(TestCase):
         self.response = self.client.get(reverse("application:application_info"))
 
     def test_context(self):
-        self.assertIsNotNone(self.response.context["group_list"])
-        self.assertIsNotNone(self.response.context["main_list"])
+        self.assertIsNotNone(self.response.context["project_groups"])
+        self.assertIsNotNone(self.response.context["main_groups"])
 
 
 class ApplicationFormViewTest(TestCase):

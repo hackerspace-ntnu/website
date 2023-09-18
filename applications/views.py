@@ -13,10 +13,10 @@ class ApplicationInfoView(ListView):
     def get_context_data(self, **kwargs):
         return {
             **super().get_context_data(**kwargs),
-            "group_list": ApplicationGroup.objects.filter(
+            "project_groups": ApplicationGroup.objects.filter(
                 project_group=True, open_for_applications=True
             ),
-            "main_list": ApplicationGroup.objects.filter(
+            "main_groups": ApplicationGroup.objects.filter(
                 project_group=False, open_for_applications=True
             ),
         }

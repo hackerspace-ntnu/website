@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            {% for group in main_list %}
+            {% for group in main_groups %}
                 {% include "applications/_group_description.html" %}
             {% empty %}
                 <div class="section white">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            {% for group in group_list %}
+            {% for group in project_groups %}
                 {% include "applications/_group_description.html" %}
             {% empty %}
                 <div class="section white">

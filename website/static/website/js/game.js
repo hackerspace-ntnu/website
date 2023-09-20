@@ -12,18 +12,22 @@ const desertBackground = document.getElementById('desertBackground');
 let backgroundMovePos = 0;
 let backgroundIterations = 0;
 let currentBackground = skyBackground;
+let biome = 'sky';
 let opacity = 100;
 let transition = false;
 let returnTransition = false;
 // Calculate the ground height and player position
+let generalHeight;
 let groundHeight;
 let widthPosition;
+let platformHeight;
 let playerHeight;
 let enemyHeight;
 let jumpHeight;
 // Create a new player object
 const player = new Player();
 const enemies = [];
+const platforms = [];
 let lastSecond = -1;
 let lastFrameTime = 0;
 function update(time) {
@@ -40,7 +44,7 @@ function draw(time) {
     ctx.canvas.height = window.innerHeight - 64;
     ctx.canvas.width = window.innerWidth;
     drawBackground();
-    drawEnemies(time);
+    drawEntities(time);
     drawPlayer();
 }
 // Add key press event listeners

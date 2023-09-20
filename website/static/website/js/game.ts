@@ -13,13 +13,16 @@ const desertBackground = document.getElementById('desertBackground') as HTMLCanv
 let backgroundMovePos = 0;
 let backgroundIterations = 0;
 let currentBackground = skyBackground;
+let biome = 'sky';
 let opacity = 100;
 let transition = false;
 let returnTransition = false;
 
 // Calculate the ground height and player position
+let generalHeight: number;
 let groundHeight: number;
 let widthPosition: number;
+let platformHeight: number;
 let playerHeight: number;
 let enemyHeight: number;
 let jumpHeight: number;
@@ -27,6 +30,7 @@ let jumpHeight: number;
 // Create a new player object
 const player = new Player();
 const enemies: Enemy[] = [];
+const platforms: Platform[] = [];
 let lastSecond = -1;
 
 let lastFrameTime = 0;
@@ -45,7 +49,7 @@ function draw(time: number) {
     ctx.canvas.height = window.innerHeight - 64;
     ctx.canvas.width = window.innerWidth;
     drawBackground();
-    drawEnemies(time);
+    drawEntities(time);
     drawPlayer();
 }
 

@@ -1,19 +1,3 @@
-function drawEnemies(time) {
-    const seconds = Math.floor(time / 1000);
-    if (seconds !== lastSecond) {
-        lastSecond = seconds;
-        if (lastSecond % 5 == 0) {
-            enemies.push(new Enemy());
-        }
-    }
-    enemies.forEach((enemy, index) => {
-        enemy.moveBetween(6);
-        if (enemy.x > canvas.width + enemy.width || enemy.x < -enemy.width) {
-            enemies.splice(index, 1);
-        }
-        enemy.draw(ctx);
-    });
-}
 class Enemy {
     aspectRatio;
     x;

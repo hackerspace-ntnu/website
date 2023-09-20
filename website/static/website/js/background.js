@@ -10,6 +10,8 @@ function drawBackground() {
     // Calculate the ground height and player position
     groundHeight = canvas.height - (calculatedBackgroundWidth / backgroundAspectRatio) * 0.25;
     widthPosition = canvas.width / 3;
+    generalHeight = calculatedBackgroundWidth / backgroundAspectRatio;
+    platformHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.1;
     playerHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.2;
     enemyHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.15;
     jumpHeight = (calculatedBackgroundWidth / backgroundAspectRatio) * 0.5;
@@ -29,9 +31,11 @@ function drawBackground() {
         else if (opacity < 100 && returnTransition == false) {
             if (currentBackground == skyBackground) {
                 currentBackground = desertBackground;
+                biome = 'desert';
             }
             else {
                 currentBackground = skyBackground;
+                biome = 'sky';
             }
             returnTransition = true;
         }

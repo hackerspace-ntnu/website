@@ -27,3 +27,4 @@ static/
 *.mo
 *.html.py
 *.txt.py
+pyenv/

@@ -24,7 +24,6 @@ from website.views import (
     AcceptTosView,
     AdminView,
     IndexView,
-    InternalPortalView,
     RuleDetailsView,
     RulesView,
 )
@@ -92,7 +91,7 @@ urlpatterns = [
     ),
     path("inventory/", include("inventory.urls")),
     path("vaktliste/", include("watchlist.urls")),
-    path("internalportal/", InternalPortalView.as_view(), name="internalportal"),
+    path("internalportal/", include("internalportal.urls")),
     path("projectarchive/", include("projectarchive.urls"), name="projectarchive"),
     path("markdownx/", include("markdownx.urls")),
 ]

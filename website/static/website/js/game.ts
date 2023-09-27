@@ -28,13 +28,16 @@ let enemyHeight: number;
 let jumpHeight: number;
 
 // Create a new player object
-const player = new Player();
+let player: Player;
 const enemies: Enemy[] = [];
 const platforms: Platform[] = [];
 let lastSecond = -1;
 
 let lastFrameTime = 0;
 function update(time) {
+    if (!player && groundHeight && playerHeight) {
+        player = new Player(groundHeight - playerHeight);
+    }
     if (time - lastFrameTime < frameMinTime) {
         requestAnimationFrame(update);
         return;

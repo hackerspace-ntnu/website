@@ -27,4 +27,13 @@ class Platform {
         this.x = this.nextX;
         this.nextX = this.nextX - backgroundSpeed;
     }
+
+    getBoundingBox(): { left: number; top: number; right: number; bottom: number } {
+        return {
+            left: this.x,
+            top: this.y,
+            right: this.x + this.width,
+            bottom: this.y + this.height,
+        };
+    }
 }

@@ -8,7 +8,7 @@ from .models import ApplicationGroup
 
 class ApplicationInfoView(ListView):
     template_name = "applications/application_info.html"
-    queryset = ApplicationGroup.objects.all()
+    queryset = ApplicationGroup.objects.filter(open_for_applications=True)
 
     def get_context_data(self, **kwargs):
         return {
@@ -34,5 +34,7 @@ class ApplicationView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["group_choices"] = ApplicationGroup.objects.all()
+        context["group_choices"] = ApplicationGroup.objects.filter(
+            open_for_applications=True
+        )
         return context

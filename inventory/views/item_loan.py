@@ -44,7 +44,7 @@ class ItemLoanListView(PermissionRequiredMixin, ListView):
 
         # Additionally filter by the name of the applicant
         if name_filter:
-            applications = applications.filter(contact_name__contains=name_filter)
+            applications = applications.filter(contact_name__icontains=name_filter)
 
         return applications.order_by("loan_to")
 
@@ -156,7 +156,7 @@ class ItemLoanApplicationView(CreateView):
         user = self.request.user
         if user and user.is_authenticated:
             initial_form = {
-                "contact_name": "{} {}".format(user.first_name, user.last_name),
+                "contact_name": "{} {}".format(user.first_name, user.last_name),        #her
                 "contact_email": user.email,
             }
 

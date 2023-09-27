@@ -156,7 +156,7 @@ class ItemLoanApplicationView(CreateView):
         user = self.request.user
         if user and user.is_authenticated:
             initial_form = {
-                "contact_name": "{} {}".format(user.first_name, user.last_name),        #her
+                "contact_name": "{} {}".format(user.first_name, user.last_name),  # her
                 "contact_email": user.email,
             }
 

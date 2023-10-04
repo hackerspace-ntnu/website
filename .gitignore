@@ -28,3 +28,5 @@ static/
 *.html.py
 *.txt.py
 pyenv/
+
+.python-version

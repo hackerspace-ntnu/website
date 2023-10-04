@@ -3,13 +3,24 @@
 {% load i18n %}
 {% block head %}
     {{ jquery | safe }}
+    <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}">
+    <script defer src="{% static 'inventory/js/shopping-cart.js' %}"></script>
 {% endblock %}
 {% block content %}
     <div class="section hs-green white-text">
         <div class="container">
             <div class="row">
                 <div class="col s12">
-                    <h4>{% trans 'Lager' %}</h4>
+                    <div class="row valign-wrapper">
+                        <div class="col s6">
+                            <h4>{% trans 'Lager' %}</h4>
+                        </div>
+                        <div class="col s6 right-align">
+                            <a href="#cart-modal" class="modal-trigger">
+                                <i class="material-icons shopping-cart">shopping_cart</i>
+                            </a>
+                        </div>
+                    </div>
                     <p>{% trans "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!" %}</p>
                     <a href="{% url 'inventory:equipment' %}" class="btn white green-text">{% trans 'Se utstyr og apparater' %}</a>
                 </div>
@@ -19,7 +30,7 @@
 
     {% include "inventory/_list_admin_banner.html" %}
 
-    <div class="section">
+    <div class="section inventory-sorting">
         <div class="container">
             <form method="get">
                 <div class="row">
@@ -46,6 +57,8 @@
 
         </div>
     </div>
+
+    {% include 'inventory/shopping-cart.html' %}
 
     <script>
 

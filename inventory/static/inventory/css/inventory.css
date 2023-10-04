@@ -1,5 +1,5 @@
 main {
-    background-color: #5BBA47 !important;
+    background-color: #5bba47;
 }
 
 .item-img {
@@ -9,4 +9,13 @@ main {
 .form-hint {
     font-size: 12px !important;
     color: #9e9e9e;
+}
+
+.shopping-cart {
+    color: white;
+    font-size: 32px;
+}
+
+.inventory-sorting {
+    background-color: white;
 }

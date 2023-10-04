@@ -36,7 +36,10 @@
                             </p>
                         </a>
                         {% if item.can_loan and item.in_stock %}
-                            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}" style="margin-left:auto">
+                            <a class="btn hs-green" href="#" id="add-to-cart-button" style="margin-left: auto; margin-right: 10px;">
+                                <i class="material-icons">add_shopping_cart</i>
+                            </a>
+                            <a class="btn hs-green" href="{% url 'inventory:loan_apply' item.id %}">
                                 <span class="white-text">{% trans "Lån" %}</span>
                             </a>
                         {% endif %}

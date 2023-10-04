@@ -54,12 +54,10 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         # FIXME: Why is a commitee not directly related to an application group?
         application_group = ApplicationGroup.objects.filter(name=commitee.name).first()
 
-        # TODO: Only get applications with group as first priority
-        group_choice_query = Application.objects.filter(group_choice__priority=1)
-        print(group_choice_query.count())
-        context["applications"] = Application.objects.filter(
-            group_choice=application_group
+        application_query = Q(applicationgroupchoice__priority=1) & Q(
+            applicationgroupchoice__group=application_group.id
         )
+        context["applications"] = Application.objects.filter(application_query)
         return context
 
 

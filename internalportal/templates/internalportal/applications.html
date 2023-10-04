@@ -1,0 +1,28 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="section hs-green white-text">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Søknader</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    {% for application in applications %}
+                        <li class="collection-item">
+                            <p>{{ application.name }}</p>
+                        </li>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

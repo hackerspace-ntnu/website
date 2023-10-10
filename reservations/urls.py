@@ -1,8 +1,12 @@
 from django.urls import path
 
-from reservations.views import QueueDetailView, QueueListView
+from reservations.views import QueueDetailView, QueueListView, ReservationsViewSet
+from website.urls import api_router
 
 app_name = "reservations"
+
+
+api_router.register("reservations", ReservationsViewSet)
 
 
 urlpatterns = [

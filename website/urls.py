@@ -9,7 +9,6 @@ from django.views.static import serve as static_serve
 from rest_framework import routers
 
 from inventory.views.item import InventoryListAPIView
-from reservations import views as reservation_views
 from search.views import SearchAPIView, SearchView
 from userprofile.views import (
     MembersAPIView,
@@ -34,8 +33,7 @@ handler403 = "website.views.handler403"
 handler500 = "website.views.handler500"
 
 # Add rest framework urls
-router = routers.DefaultRouter()
-router.register(r"reservations", reservation_views.ReservationsViewSet)
+api_router = routers.DefaultRouter()
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
@@ -84,7 +82,7 @@ urlpatterns = [
     path("api/members/", MembersAPIView.as_view(), name="members-api"),
     path("admin-panel/", AdminView.as_view(), name="admin"),
     path("feide/", include("social_django.urls", namespace="social")),
-    path("api/", include(router.urls)),
+    path("api/", include(api_router.urls)),
     path(
         "api/inventory/",
         InventoryListAPIView.as_view(),

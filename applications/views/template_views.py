@@ -2,8 +2,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
 from applications.forms import ApplicationForm
-
-from .models import ApplicationGroup
+from applications.models import ApplicationGroup
 
 
 class ApplicationInfoView(ListView):

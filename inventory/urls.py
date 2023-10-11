@@ -15,6 +15,7 @@ from inventory.views.item import (
     ItemDeleteView,
     ItemDetailView,
     ItemUpdateView,
+    ItemUploadView,
 )
 from inventory.views.item_loan import (
     ItemLoanApplicationView,
@@ -31,6 +32,7 @@ urlpatterns = [
     path("", InventoryListView.as_view(), name="inventory"),
     path("item/<int:pk>", ItemDetailView.as_view(), name="item"),
     path("new", ItemCreateView.as_view(), name="new"),
+    path("upload", ItemUploadView.as_view(), name="upload"),
     path("edit/<int:pk>", ItemUpdateView.as_view(), name="edit"),
     path("delete/<int:pk>", ItemDeleteView.as_view(), name="delete"),
     path("loans/", ItemLoanListView.as_view(), name="loans"),

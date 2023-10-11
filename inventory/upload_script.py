@@ -56,3 +56,5 @@ for i in range(len(data)):
             "views": data.loc[i, "views"],
         }
     )
+
+run_script(items)

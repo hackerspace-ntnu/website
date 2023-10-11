@@ -6,6 +6,7 @@ from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
+    FormView,
     TemplateView,
     UpdateView,
 )
@@ -14,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from inventory.models.item import Item
+from inventory.upload_script import run_script
 
 
 class InventoryListView(TemplateView):
@@ -148,6 +150,17 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
             form.errors["stock"] = "Lagerbeholdningen kan ikke være negativ"
             return self.render_to_response(self.get_context_data(form=form))
         return super().form_valid(form)
+
+
+class ItemUploadView(PermissionRequiredMixin, FormView):
+    permission_required = "inventory.change_item"
+    template_name = "inventory/upload.html"
+
+    def form_valid(self, form):
+        formvalid = super().form_valid(form)
+        if formvalid:
+            print(form)
+            run_script()
 
 
 class ItemDeleteView(PermissionRequiredMixin, DeleteView):

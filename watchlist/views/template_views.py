@@ -6,8 +6,8 @@ from django.views.generic import TemplateView, View
 
 from userprofile.models import Skill
 
-from .models import ShiftSlot
-from .utils import get_shift_weekview_columns, get_shift_weekview_rows
+from ..models import ShiftSlot
+from ..utils import get_shift_weekview_columns, get_shift_weekview_rows
 
 
 class watchlistView(TemplateView):

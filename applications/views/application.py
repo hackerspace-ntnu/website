@@ -1,7 +1,10 @@
 from rest_framework import viewsets
 
 from applications.models import Application
-from applications.serializers.application import ApplicationListSerializer
+from applications.serializers.application import (
+    ApplicationListSerializer,
+    ApplicationRetrieveSerializer,
+)
 
 
 class ApplicationModelViewSet(viewsets.ModelViewSet):
@@ -11,4 +14,4 @@ class ApplicationModelViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return ApplicationListSerializer
-        return ApplicationListSerializer
+        return ApplicationRetrieveSerializer

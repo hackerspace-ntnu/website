@@ -20,17 +20,6 @@ from userprofile.models import Profile
 
 # from typing import List
 
-
-""" @atomic
-def run_script(list_items: List[dict]):
-    items: List[Item] = []
-    for item in list_items:
-        item = Item(name=item["name"], stock=item["stock"])
-        Item.objects.update_or_create(
-            name=item["name"], defaults={"stock": item["stock"]}
-        ) """
-
-
 # HTML template for å laste opp csv
 # Link til html siden
 # Form for å laste opp csvfil

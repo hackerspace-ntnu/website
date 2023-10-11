@@ -15,7 +15,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from inventory.models.item import Item
-from inventory.upload_script import run_script
+
+# from inventory.upload_script import run_script
 
 
 class InventoryListView(TemplateView):
@@ -154,13 +155,13 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
 
 class ItemUploadView(PermissionRequiredMixin, FormView):
     permission_required = "inventory.change_item"
-    template_name = "inventory/upload.html"
+    template_name = "inventory/upload_item.html"
 
     def form_valid(self, form):
         formvalid = super().form_valid(form)
         if formvalid:
             print(form)
-            run_script()
+            # run_script()
 
 
 class ItemDeleteView(PermissionRequiredMixin, DeleteView):

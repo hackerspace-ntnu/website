@@ -146,7 +146,7 @@
                         </li>
                         {% if user.is_authenticated and perms.userprofile.is_active_member %}
                             <li>
-                                <a class="waves-effect" href="{% url 'internalportal' %}">
+                                <a class="waves-effect" href="{% url 'internalportal:internalportal' %}">
                                     <i class="material-icons">dashboard</i>{% trans "Internportal" %}
                                 </a>
                             </li>
@@ -230,7 +230,7 @@
                             </li>
                             {% if user.is_authenticated and perms.userprofile.is_active_member %}
                                 <li class="tooltipped" data-position="left" data-tooltip="{% trans "Dashbord for medlemmer av Hackerspace" %}">
-                                    <a href="{% url 'internalportal' %}">
+                                    <a href="{% url 'internalportal:internalportal' %}">
                                         <i class="material-icons small">dashboard</i>{% trans "Internportal" %}
                                     </a>
                                 </li>

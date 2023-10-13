@@ -1,5 +1,4 @@
 from datetime import datetime
-from random import randint
 from urllib import parse as urlparse
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -11,12 +10,10 @@ from django.views.generic import DetailView, RedirectView, TemplateView
 from applications.models import ApplicationPeriod
 from committees.models import Committee
 from door.models import DoorStatus
-from inventory.models.item_loan import ItemLoan
 from news.models import Article, Event
 from userprofile.models import Profile, TermsOfService
 
 from .models import Card, FaqQuestion, Rule
-from .settings import INTERNALPORTAL_GREETINGS
 
 
 class AcceptTosView(TemplateView):
@@ -255,43 +252,6 @@ class IndexView(TemplateView):
             "index_cards": Card.objects.all(),
             "current_date": current_date,
         }
-
-
-class InternalPortalView(PermissionRequiredMixin, TemplateView):
-    template_name = "website/internalportal.html"
-    permission_required = "userprofile.is_active_member"
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-
-        context["current_date"] = datetime.now()
-
-        # Random greeting for the internalportal header banner. Just for fun
-        greeting = INTERNALPORTAL_GREETINGS[
-            randint(0, len(INTERNALPORTAL_GREETINGS) - 1)
-        ]
-        # cba doing a regex or some other fancy stuff to check if the string has formatting
-        # just break it till it works
-        try:
-            context["greeting"] = greeting.format(self.request.user.first_name)
-        except IndexError:
-            context["greeting"] = greeting
-
-        # Find the 5 loan apps that have gone unapproved the longest
-        context["loan_app_list"] = ItemLoan.objects.filter(
-            approver__isnull=True,
-        ).order_by("-loan_from")[:5]
-
-        # Same as in the index view
-        context["event_list"] = Event.objects.filter(internal=True).order_by(
-            "-time_start"
-        )[:5]
-
-        context["article_list"] = Article.objects.filter(
-            internal=True, draft=False
-        ).order_by("-pub_date")[:5]
-
-        return context
 
 
 def handler404(request, exception=None):

@@ -23,14 +23,14 @@ from django.views.generic import (
 
 from committees.models import Committee
 
-from .forms import (
+from ..forms import (
     ArticleForm,
     EventForm,
     eventAttendeeFormSet,
     eventSkillFormSet,
     uploadformset,
 )
-from .models import Article, Event, EventRegistration
+from ..models import Article, Event, EventRegistration
 
 
 class EventView(DetailView):

@@ -9,6 +9,7 @@ from django.views.static import serve as static_serve
 from rest_framework import routers
 
 from inventory.views.item import InventoryListAPIView
+from news.views import article, event, upload
 from search.views import SearchAPIView, SearchView
 from userprofile.views import (
     MembersAPIView,
@@ -17,6 +18,7 @@ from userprofile.views import (
     TermsOfServiceCreateView,
     TermsOfServiceView,
 )
+from watchlist.views import shift_slot
 from website.views import (
     AboutView,
     AcceptTosRedirectView,
@@ -34,6 +36,10 @@ handler500 = "website.views.handler500"
 
 # Add rest framework urls
 api_router = routers.DefaultRouter()
+api_router.register("upload", upload.UploadViewSet)
+api_router.register("event", event.EventViewSet)
+api_router.register("article", article.ArticleViewSet)
+api_router.register("shiftslot", shift_slot.ShiftSlotViewSet)
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),

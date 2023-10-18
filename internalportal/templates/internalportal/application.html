@@ -11,7 +11,9 @@
         <p>{{ application.knowledge_of_hs }}</p>
         <p>{{ application.about }}</p>
         <p>{{ application.application_text }}</p>
-        <p>{{ application.group_choice }}</p>
+        {% for group in application.group_choice.all %}
+            <p>{{ forloop.counter }}: {{ group.name }}</p>
+        {% endfor %}
         <p>{{ application.project_interests }}</p>
         <p>{{ application.application_date }}</p>
 

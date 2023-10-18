@@ -1,11 +1,12 @@
-from django.urls import path
-
-from website.urls import api_router
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 from .views import shift_slot, template_views
 
+api_router = DefaultRouter()
+api_router.register("shift-slots", shift_slot.ShiftSlotViewSet, basename="shift-slots")
+
 app_name = "watchlist"
-api_router.register("shiftslots", shift_slot.ShiftSlotViewSet)
 
 urlpatterns = [
     path("", template_views.watchlistView.as_view(), name="vaktliste"),
@@ -20,4 +21,5 @@ urlpatterns = [
         name="unregister",
     ),
     path("reset", template_views.WatchListResetView.as_view(), name="reset"),
+    path("api/", include(api_router.urls)),
 ]

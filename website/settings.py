@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "markdownx",
     "django_crontab",
     "ordered_model",
+    "drf_spectacular",
 ]
 
 
@@ -340,7 +341,9 @@ LOGGING = {
 # Rest Framework                #
 #################################
 REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",)
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE": False,
 }
 
 # Random greetings that are displayed to the user on the internalportal page

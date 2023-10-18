@@ -1,6 +1,14 @@
 from django.conf.urls import url
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
-from .views import template_views
+from .views import article, event, template_views, upload
+
+api_router = DefaultRouter()
+
+api_router.register("articles", article.ArticleViewSet, basename="articles")
+api_router.register("events", event.EventViewSet, basename="events")
+api_router.register("media-uploads", upload.UploadViewSet, basename="media-uploads")
 
 app_name = "news"
 urlpatterns = [
@@ -15,4 +23,5 @@ urlpatterns = [
         template_views.ArticleDeleteView.as_view(),
         name="delete",
     ),
+    path("api/", include(api_router.urls)),
 ]

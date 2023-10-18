@@ -6,10 +6,9 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from django.views.static import serve as static_serve
-from rest_framework import routers
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from inventory.views.item import InventoryListAPIView
-from news.views import article, event, upload
 from search.views import SearchAPIView, SearchView
 from userprofile.views import (
     MembersAPIView,
@@ -18,7 +17,6 @@ from userprofile.views import (
     TermsOfServiceCreateView,
     TermsOfServiceView,
 )
-from watchlist.views import shift_slot
 from website.views import (
     AboutView,
     AcceptTosRedirectView,
@@ -34,12 +32,6 @@ handler404 = "website.views.handler404"
 handler403 = "website.views.handler403"
 handler500 = "website.views.handler500"
 
-# Add rest framework urls
-api_router = routers.DefaultRouter()
-api_router.register("upload", upload.UploadViewSet)
-api_router.register("event", event.EventViewSet)
-api_router.register("article", article.ArticleViewSet)
-api_router.register("shiftslot", shift_slot.ShiftSlotViewSet)
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
@@ -88,7 +80,8 @@ urlpatterns = [
     path("api/members/", MembersAPIView.as_view(), name="members-api"),
     path("admin-panel/", AdminView.as_view(), name="admin"),
     path("feide/", include("social_django.urls", namespace="social")),
-    path("api/", include(api_router.urls)),
+    path("api/schema", SpectacularAPIView.as_view(), name="schema"),
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="docs"),
     path(
         "api/inventory/",
         InventoryListAPIView.as_view(),

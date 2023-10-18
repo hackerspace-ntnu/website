@@ -1,0 +1,19 @@
+{% extends "website/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <p>{{ application.name }}</p>
+        <p>{{ application.email }}</p>
+        <p>{{ application.phone }}</p>
+        <p>{{ application.study }}</p>
+        <p>{{ application.year }}</p>
+        <p>{{ application.knowledge_of_hs }}</p>
+        <p>{{ application.about }}</p>
+        <p>{{ application.application_text }}</p>
+        <p>{{ application.group_choice }}</p>
+        <p>{{ application.project_interests }}</p>
+        <p>{{ application.application_date }}</p>
+
+    </div>
+{% endblock %}

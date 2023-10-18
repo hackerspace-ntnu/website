@@ -18,7 +18,7 @@
                 <div class="col s12">
                     {% for application in applications %}
                         <li class="collection-item">
-                            <p>{{ application.name }}</p>
+                            <a href="{% url 'internalportal:application' application.id %}"><h5 class="no-margin truncate">{{ application.name }}</h5></a>
                         </li>
                     {% endfor %}
                 </div>

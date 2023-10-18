@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.db.models import Q
-from django.views.generic import TemplateView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from applications.models import Application, ApplicationGroup
 from committees.models import Committee
@@ -40,14 +40,15 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class ApplicationsView(ListView, LoginRequiredMixin, UserPassesTestMixin):
     template_name = "internalportal/applications.html"
     permission_required = "userprofile.is_active_member"
+    context_object_name = "applications"
 
     def test_func(self):
         return get_commitee_with_leader(self.request.user) is not None
 
-    def get_context_data(self, *args, **kwargs):
+    """def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         commitee = get_commitee_with_leader(self.request.user)
 
@@ -58,7 +59,24 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             applicationgroupchoice__group=application_group.id
         )
         context["applications"] = Application.objects.filter(application_query)
-        return context
+        return context """
+
+    def get_queryset(self):
+        commitee = get_commitee_with_leader(self.request.user)
+
+        # FIXME: Why is a commitee not directly related to an application group?
+        application_group = ApplicationGroup.objects.filter(name=commitee.name).first()
+
+        application_query = Q(applicationgroupchoice__priority=1) & Q(
+            applicationgroupchoice__group=application_group.id
+        )
+        return Application.objects.filter(application_query)
+
+
+class ApplicationView(DetailView):
+    model = Application
+    template_name = "internalportal/application.html"
+    context_object_name = "application"
 
 
 def get_commitee_with_leader(user):

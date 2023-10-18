@@ -57,19 +57,6 @@ class ApplicationsView(ListView, LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
         return get_commitee_with_leader(self.request.user) is not None
 
-    """def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        commitee = get_commitee_with_leader(self.request.user)
-
-        # FIXME: Why is a commitee not directly related to an application group?
-        application_group = ApplicationGroup.objects.filter(name=commitee.name).first()
-
-        application_query = Q(applicationgroupchoice__priority=1) & Q(
-            applicationgroupchoice__group=application_group.id
-        )
-        context["applications"] = Application.objects.filter(application_query)
-        return context """
-
     def get_queryset(self):
         commitee = get_commitee_with_leader(self.request.user)
 

@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import TemplateView
 
@@ -15,6 +16,7 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
         context = super().get_context_data(*args, **kwargs)
 
         context["current_date"] = datetime.now()
+        context["next_year"] = datetime.now() + timedelta(days=365)
 
         # Find the 5 loan apps that have gone unapproved the longest
         context["loan_app_list"] = ItemLoan.objects.filter(
@@ -29,5 +31,9 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
         context["article_list"] = Article.objects.filter(
             internal=True, draft=False
         ).order_by("-pub_date")[:5]
+
+        context["door_access_member_list"] = get_user_model().objects.filter(
+            groups__name="Medlem"
+        )
 
         return context

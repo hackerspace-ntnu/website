@@ -155,6 +155,18 @@
                                     </div>
                                 </a>
                             </div>
+
+                            <div class="col s12 m4">
+                                <a href="#door-access-list" class="modal-trigger">
+                                    <div class="card-panel center">
+                                        <i class="material-icons large black-text">group</i>
+                                        <h5>{% trans "Medlemsliste med e-poster" %}</h5>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="modal" id="door-access-list">
+                                {% include "internalportal/door-access-member-list.html" with users=door_access_member_list next_year=next_year only %}
+                            </div>
                         {% endif %}
                     </div>
                 </div>

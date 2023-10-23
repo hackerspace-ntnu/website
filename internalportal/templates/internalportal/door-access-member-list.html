@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div class="collection card-panel">
+    {% if users %}
+        <table class="striped">
+            <thead>
+                <th>{% trans "Navn" %}</th>
+                <th>{% trans "Epost" %}</th>
+                <th>{% trans "Tilgang til" %}</th>
+            </thead>
+            <tbody>
+
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ next_year|date:"d.m.Y" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{% trans "Ingen aktive medlemmer." %}</p>
+    {% endif %}
+</div>

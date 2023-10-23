@@ -2,7 +2,10 @@
 
 <div class="collection card-panel">
     {% if users %}
-        <table class="striped">
+        <button onclick="copyToClip()" class="btn waves-effect waves-light">
+            <i class="material-icons left">content_paste</i>{% trans "Kopier til utklippstavle" %}
+        </button>
+        <table class="striped" id="tableToCopy">
             <thead>
                 <th>{% trans "Navn" %}</th>
                 <th>{% trans "Epost" %}</th>
@@ -23,3 +26,9 @@
         <p>{% trans "Ingen aktive medlemmer." %}</p>
     {% endif %}
 </div>
+<script>
+    function copyToClip() {
+        let copyText = document.getElementById("tableToCopy");
+        navigator.clipboard.writeText(copyText.innerText.trim());
+    }
+</script>

@@ -32,8 +32,10 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
             internal=True, draft=False
         ).order_by("-pub_date")[:5]
 
-        context["door_access_member_list"] = get_user_model().objects.filter(
-            groups__name="Medlem"
+        context["door_access_member_list"] = (
+            get_user_model()
+            .objects.filter(groups__name="Medlem")
+            .order_by("-date_joined")
         )
 
         return context

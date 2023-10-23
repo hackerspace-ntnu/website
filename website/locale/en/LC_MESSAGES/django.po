@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-29 19:48+0200\n"
+"POT-Creation-Date: 2023-10-23 17:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,19 +212,16 @@ msgstr "Members"
 
 #: website/templates/website/header.html:114
 #: website/templates/website/header.html:198
-#: website/templates/website/internalportal.html:118
 msgid "Vaktliste"
 msgstr "Shift schedule"
 
 #: website/templates/website/header.html:119
 #: website/templates/website/header.html:203
-#: website/templates/website/internalportal.html:127
 msgid "Lager"
 msgstr "Storage"
 
 #: website/templates/website/header.html:124
 #: website/templates/website/header.html:208
-#: website/templates/website/internalportal.html:136
 msgid "Reservasjoner"
 msgstr "Reservations"
 
@@ -240,7 +237,6 @@ msgstr "Project archive"
 
 #: website/templates/website/header.html:150
 #: website/templates/website/header.html:234
-#: website/templates/website/internalportal.html:10
 msgid "Internportal"
 msgstr "Internal portal"
 
@@ -395,48 +391,6 @@ msgstr "Recent news"
 msgid "Siste arrangementer"
 msgstr "Recent events"
 
-#: website/templates/website/internalportal.html:28
-#, fuzzy
-#| msgid "Siste nytt"
-msgid "Siste internnytt"
-msgstr "Recent news"
-
-#: website/templates/website/internalportal.html:42
-msgid "Her var det intetnytt"
-msgstr "Nothinng new here"
-
-#: website/templates/website/internalportal.html:52
-#, fuzzy
-#| msgid "Siste arrangementer"
-msgid "Siste interne arrangementer"
-msgstr "Recent events"
-
-#: website/templates/website/internalportal.html:71
-#, fuzzy
-#| msgid "Siste arrangementer"
-msgid "Ingen interne arrangementer"
-msgstr "Recent events"
-
-#: website/templates/website/internalportal.html:81
-msgid "Åpne lånesøknader"
-msgstr "Open item loans"
-
-#: website/templates/website/internalportal.html:94
-msgid "Ingen lånesøknader"
-msgstr "No item loans"
-
-#: website/templates/website/internalportal.html:109
-msgid "Lånesøknader"
-msgstr "Item loans"
-
-#: website/templates/website/internalportal.html:145
-msgid "Bildegalleri"
-msgstr "Gallery"
-
-#: website/templates/website/internalportal.html:155
-msgid "Adminpanel"
-msgstr "Admin page"
-
 #: website/templates/website/rules.html:17
 msgid "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr"
 msgstr "Necessary information and rules for the workshop and its equipment"
@@ -451,3 +405,36 @@ msgstr "Internal portal"
 #: website/templates/website/rules.html:56
 msgid "Fant ingen regler 🤠"
 msgstr "No rules found"
+
+#, fuzzy
+#~| msgid "Siste nytt"
+#~ msgid "Siste internnytt"
+#~ msgstr "Recent news"
+
+#~ msgid "Her var det intetnytt"
+#~ msgstr "Nothinng new here"
+
+#, fuzzy
+#~| msgid "Siste arrangementer"
+#~ msgid "Siste interne arrangementer"
+#~ msgstr "Recent events"
+
+#, fuzzy
+#~| msgid "Siste arrangementer"
+#~ msgid "Ingen interne arrangementer"
+#~ msgstr "Recent events"
+
+#~ msgid "Åpne lånesøknader"
+#~ msgstr "Open item loans"
+
+#~ msgid "Ingen lånesøknader"
+#~ msgstr "No item loans"
+
+#~ msgid "Lånesøknader"
+#~ msgstr "Item loans"
+
+#~ msgid "Bildegalleri"
+#~ msgstr "Gallery"
+
+#~ msgid "Adminpanel"
+#~ msgstr "Admin page"

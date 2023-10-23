@@ -48,7 +48,8 @@
                             <span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
                             {{ form.main_content }}
                             <div class="helper-text">
-                                <p>{% trans "Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan legges til ved drag-and-drop." %}</p>
+                                <p>{% trans "Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder
+                                    kan legges til ved drag-and-drop." %}</p>
                                 <p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
                             </div>
                         </div>
@@ -81,7 +82,8 @@
                                 <i class="material-icons prefix">card_membership</i>
                                 <label>
                                     {{ form.internal }}
-                                    <span>{% trans "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)" %}</span>
+                                    <span>{% trans "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
+                                        %}</span>
                                 </label>
                             </p>
                             <span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
@@ -200,7 +202,8 @@
                     <div class="row">
                         <div class="col s12">
                             <h5>{% trans "Filer" %}</h5>
-                            <p>{% trans "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i arrangementet.
+                            <p>{% trans "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i
+                                arrangementet.
                                 Da får deltakerene mulighet til å gjøre seg klare før arrangementet starter." %}</p>
                             <div class="divider"></div>
                             <br>
@@ -234,13 +237,15 @@
                                     <span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
                                 </div>
                             </div>
-                            <button id="submit" class="hide btn btn-large hs-green waves-effect waves-light"
-                                type="submit" name="form_submit">{% trans "Lagre og publiser arrangement" %}
+                            <button id="submit" class="hide btn btn-large hs-green waves-effect waves-light" type="submit"
+                                name="form_submit">{% trans "Lagre og publiser arrangement" %}
                             </button>
-                            <a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">{% trans "Lagre
-                                og publiser arrangement" %}</a>
-                            <a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">{% trans "Lagre som
-                                utkast" %}</a>
+                            <a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">
+                                {% trans "Lagre og publiser arrangement" %}
+                            </a>
+                            <a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">
+                                {% trans "Lagre som utkast" %}
+                            </a>
                         </div>
                     </div>
                 </div>

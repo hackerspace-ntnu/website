@@ -7,10 +7,10 @@ from applications.views.application import ApplicationModelViewSet
 from applications.views.template_views import ApplicationInfoView, ApplicationView
 
 api_router = DefaultRouter()
-api_router.register("applications", ApplicationModelViewSet, basename="applications")
+api_router.register("application", ApplicationModelViewSet, basename="application")
 
 
-app_name = "applications"
+app_name = "application"
 
 urlpatterns = [
     url(r"^$", ApplicationInfoView.as_view(), name="application_info"),

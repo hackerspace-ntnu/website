@@ -14,6 +14,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from inventory.forms import ItemsUploadForm
 from inventory.models.item import Item
 
 # from inventory.upload_script import run_script
@@ -154,8 +155,10 @@ class ItemUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 class ItemUploadView(PermissionRequiredMixin, FormView):
-    permission_required = "inventory.change_item"
     template_name = "inventory/upload_item.html"
+    permission_required = "inventory.change_item"
+
+    form_class = ItemsUploadForm
 
     def form_valid(self, form):
         formvalid = super().form_valid(form)

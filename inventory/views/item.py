@@ -1,9 +1,10 @@
-from typing import Any
+# from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.paginator import Paginator
-from django.http import HttpRequest
+
+# from django.http import HttpRequest
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -19,8 +20,7 @@ from rest_framework.views import APIView
 
 from inventory.forms import ItemsUploadForm
 from inventory.models.item import Item
-
-# from inventory.upload_script import run_script
+from inventory.upload_script import upload
 
 
 class InventoryListView(TemplateView):
@@ -161,26 +161,15 @@ class ItemUploadView(PermissionRequiredMixin, FormView):
     template_name = "inventory/upload_item.html"
     permission_required = "inventory.change_item"
     success_url = reverse_lazy("inventory:inventory")
-
     form_class = ItemsUploadForm
-
-    def post(self, request: HttpRequest, *args: str, **kwargs: Any):
-        form = self.get_form()
-        print(form.file)
-        if form.is_valid():
-            print("Valid form")
-            return self.form_valid(form)
-        else:
-            print("Invalid form")
-            return self.form_invalid(form)
 
     def form_valid(self, form):
         formvalid = super().form_valid(form)
-        print(form)
-        return Response({"form": form})
         if formvalid:
-            print(form)
-            # run_script()
+            data = form.cleaned_data["file"].read().decode("utf-8")
+            print("\n\n" + data + "\n\n")
+            upload(data)
+            return formvalid
 
 
 class ItemDeleteView(PermissionRequiredMixin, DeleteView):

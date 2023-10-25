@@ -1,4 +1,5 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
 
 from inventory.views.equipment import (
     EquipmentCreateView,
@@ -8,6 +9,7 @@ from inventory.views.equipment import (
     EquipmentOrderDownApiView,
     EquipmentOrderUpApiView,
     EquipmentView,
+    EquipmentViewSet,
 )
 from inventory.views.item import (
     InventoryListView,
@@ -15,6 +17,7 @@ from inventory.views.item import (
     ItemDeleteView,
     ItemDetailView,
     ItemUpdateView,
+    ItemViewSet,
 )
 from inventory.views.item_loan import (
     ItemLoanApplicationView,
@@ -23,7 +26,13 @@ from inventory.views.item_loan import (
     ItemLoanDetailView,
     ItemLoanListView,
     ItemLoanReturnedView,
+    ItemLoanViewSet,
 )
+
+api_router = routers.DefaultRouter()
+api_router.register("items", ItemViewSet)
+api_router.register("loans", ItemLoanViewSet)
+api_router.register("equipment", EquipmentViewSet)
 
 app_name = "inventory"
 
@@ -70,4 +79,5 @@ urlpatterns = [
         EquipmentOrderDownApiView.as_view(),
         name="equipment_order_down",
     ),
+    path("api/", include(api_router.urls)),
 ]

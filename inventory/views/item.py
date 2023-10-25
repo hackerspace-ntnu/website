@@ -9,11 +9,23 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
+from rest_framework import viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from inventory.models.item import Item
+from inventory.serializers.item import ItemListSerializer, ItemRetrieveSerializer
+
+
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemListSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ItemListSerializer
+        return ItemRetrieveSerializer
 
 
 class InventoryListView(TemplateView):

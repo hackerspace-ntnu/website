@@ -20,6 +20,6 @@ class ItemLoanListSerializer(serializers.ModelSerializer):
         )
 
 
-class ItemLoanCreateUpdateSerializer(ItemLoanListSerializer):
+class ItemLoanRetrieveSerializer(ItemLoanListSerializer):
     class Meta(ItemLoanListSerializer.Meta):
         fields = "__all__"

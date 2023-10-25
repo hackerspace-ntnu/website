@@ -13,10 +13,25 @@ from django.views.generic import (
     ListView,
     TemplateView,
 )
+from rest_framework import viewsets
 
 from inventory.models.item import Item
 from inventory.models.item_loan import ItemLoan
+from inventory.serializers.item_loan import (
+    ItemLoanListSerializer,
+    ItemLoanRetrieveSerializer,
+)
 from userprofile.models import Profile
+
+
+class ItemLoanViewSet(viewsets.ModelViewSet):
+    queryset = ItemLoan.objects.all()
+    serializer_class = ItemLoanListSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ItemLoanListSerializer
+        return ItemLoanRetrieveSerializer
 
 
 class ItemLoanListView(PermissionRequiredMixin, ListView):

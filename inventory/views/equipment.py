@@ -8,12 +8,23 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from inventory.models.equipment import Equipment
+from inventory.serializers.equipment import EquipmentListSerializer
+
+
+class EquipmentViewSet(viewsets.ModelViewSet):
+    queryset = Equipment.objects.all()
+    serializer_class = EquipmentListSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return EquipmentListSerializer
+        return EquipmentListSerializer
 
 
 class EquipmentListView(ListView):

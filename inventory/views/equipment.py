@@ -9,7 +9,7 @@ from django.views.generic import (
     UpdateView,
 )
 from rest_framework import status, viewsets
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -20,6 +20,7 @@ from inventory.serializers.equipment import EquipmentListSerializer
 class EquipmentViewSet(viewsets.ModelViewSet):
     queryset = Equipment.objects.all()
     serializer_class = EquipmentListSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
     def get_serializer_class(self):
         if self.action == "list":

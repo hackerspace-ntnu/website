@@ -14,6 +14,7 @@ from django.views.generic import (
     TemplateView,
 )
 from rest_framework import viewsets
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 
 from inventory.models.item import Item
 from inventory.models.item_loan import ItemLoan
@@ -27,6 +28,7 @@ from userprofile.models import Profile
 class ItemLoanViewSet(viewsets.ModelViewSet):
     queryset = ItemLoan.objects.all()
     serializer_class = ItemLoanListSerializer
+    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
     def get_serializer_class(self):
         if self.action == "list":

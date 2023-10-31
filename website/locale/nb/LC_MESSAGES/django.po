@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-29 19:48+0200\n"
+"POT-Creation-Date: 2023-10-23 17:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,19 +200,16 @@ msgstr ""
 
 #: website/templates/website/header.html:114
 #: website/templates/website/header.html:198
-#: website/templates/website/internalportal.html:118
 msgid "Vaktliste"
 msgstr ""
 
 #: website/templates/website/header.html:119
 #: website/templates/website/header.html:203
-#: website/templates/website/internalportal.html:127
 msgid "Lager"
 msgstr ""
 
 #: website/templates/website/header.html:124
 #: website/templates/website/header.html:208
-#: website/templates/website/internalportal.html:136
 msgid "Reservasjoner"
 msgstr ""
 
@@ -228,7 +225,6 @@ msgstr ""
 
 #: website/templates/website/header.html:150
 #: website/templates/website/header.html:234
-#: website/templates/website/internalportal.html:10
 msgid "Internportal"
 msgstr ""
 
@@ -361,42 +357,6 @@ msgstr ""
 
 #: website/templates/website/index.html:86
 msgid "Siste arrangementer"
-msgstr ""
-
-#: website/templates/website/internalportal.html:28
-msgid "Siste internnytt"
-msgstr ""
-
-#: website/templates/website/internalportal.html:42
-msgid "Her var det intetnytt"
-msgstr ""
-
-#: website/templates/website/internalportal.html:52
-msgid "Siste interne arrangementer"
-msgstr ""
-
-#: website/templates/website/internalportal.html:71
-msgid "Ingen interne arrangementer"
-msgstr ""
-
-#: website/templates/website/internalportal.html:81
-msgid "Åpne lånesøknader"
-msgstr ""
-
-#: website/templates/website/internalportal.html:94
-msgid "Ingen lånesøknader"
-msgstr ""
-
-#: website/templates/website/internalportal.html:109
-msgid "Lånesøknader"
-msgstr ""
-
-#: website/templates/website/internalportal.html:145
-msgid "Bildegalleri"
-msgstr ""
-
-#: website/templates/website/internalportal.html:155
-msgid "Adminpanel"
 msgstr ""
 
 #: website/templates/website/rules.html:17

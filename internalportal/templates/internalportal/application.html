@@ -16,6 +16,9 @@
         {% endfor %}
         <p>{{ application.project_interests }}</p>
         <p>{{ application.application_date }}</p>
-
+    </div>
+    <div>
+        <a href="{% url 'internalportal:process_application' application.id %}"><button>Process</button></a>
+        <button>Send further</button>
     </div>
 {% endblock %}

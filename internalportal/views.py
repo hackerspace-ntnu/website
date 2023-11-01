@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.db.models import Q
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 
 from applications.models import Application, ApplicationGroup
 from committees.models import Committee
@@ -73,6 +73,24 @@ class ApplicationView(DetailView):
     model = Application
     template_name = "internalportal/application.html"
     context_object_name = "application"
+
+
+class ApplicationProcessView(UserPassesTestMixin, DeleteView):
+    model = Application
+    template_name = "internalportal/applications/application_confirm_delete.html"
+    success_url = "/internalportal/applications/"
+
+    def test_func(self):
+        commitee = get_commitee_with_leader(self.request.user)
+        if commitee is None:
+            return False
+        application = self.get_object()
+        return (
+            application.group_choice.filter(applicationgroupchoice__priority=1)
+            .first()
+            .name
+            == commitee.name
+        )
 
 
 def get_commitee_with_leader(user):

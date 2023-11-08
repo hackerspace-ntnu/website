@@ -1,7 +1,5 @@
-from io import StringIO
 from typing import List
 
-import pandas as pd
 from django.db import transaction
 
 from inventory.models.item import Item
@@ -18,51 +16,57 @@ from inventory.models.item import Item
 
 
 @transaction.atomic
-def upload(json):
-    columnnames = [
-        "name",
-        "stock",
-        "unknown_stock",
-        "can_loan",
-        "description",
-        "thumbnail",
-        "location",
-        "max_loan_duration",
-        "views",
-    ]
-    # data = pd.read_csv("inventory/data.csv", names=columnnames, header=None, sep=";")
+def upload(string):
+    string = string.decode("latin-1")
+    data = []
+    lines = string.split("\\r\\n")
+    for line in lines:
+        if line == "":
+            continue
+        dataline = []
+        parts = line.split(";")
+        for part in parts:
+            dataline.append(part)
+        data.append(dataline)
 
-    csv_file = StringIO(json)
+    print(data, "\n\n", data[1])
 
-    data = pd.read_csv(csv_file, names=columnnames, sep=";")
-
-    items = [dict]
+    items = []
 
     for i in range(len(data)):
         items.append(
             {
-                "name": data.loc[i, "name"],
-                "stock": data.loc[i, "stock"],
-                "unknown_stock": data.loc[i, "unknown_stock"],
-                "can_loan": data.loc[i, "can_loan"],
-                "description": data.loc[i, "description"],
-                "thumbnail": data.loc[i, "thumbnail"],
-                "location": data.loc[i, "location"],
-                "max_loan_duration": data.loc[i, "max_loan_duration"],
-                "views": data.loc[i, "views"],
+                "name": data[i][0],
+                "stock": data[i][1],
+                "unknown_stock": data[i][2],
+                "can_loan": data[i][3],
+                "description": data[i][4],
+                "thumbnail": data[i][5],
+                "location": data[i][6],
+                "max_loan_duration": data[i][7],
+                "views": data[i][8],
             }
         )
+
+    print(items)
 
     run_script(items)
 
 
 @transaction.atomic
 def run_script(list_items: List[dict]):
-    items: List[Item] = []
-    print(items)
+    # items: List[Item] = []
     for item in list_items:
-        item = Item(name=item["name"], stock=item["stock"])
-        print(item)
+        item = Item(
+            name=item["name"],
+            stock=item["stock"],
+            unknown_stock=item["unknown_stock"],
+            can_loan=item["can_loan"],
+            description=item["description"],
+            location=item["location"],
+            max_loan_duration=item["max_loan_duration"],
+            views=item["views"],
+        )
         """ Item.objects.update_or_create(
             name=item["name"], defaults={"stock": item["stock"]}
         ) """

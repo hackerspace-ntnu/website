@@ -166,8 +166,7 @@ class ItemUploadView(PermissionRequiredMixin, FormView):
     def form_valid(self, form):
         formvalid = super().form_valid(form)
         if formvalid:
-            data = form.cleaned_data["file"].read().decode("utf-8")
-            print("\n\n" + data + "\n\n")
+            data = form.cleaned_data["file"].read()
             upload(data)
             return formvalid
 

@@ -1,3 +1,5 @@
+import csv
+from io import StringIO
 from typing import List
 
 from django.db import transaction
@@ -16,35 +18,22 @@ from inventory.models.item import Item
 
 
 @transaction.atomic
-def upload(string):
-    string = string.decode("latin-1")
-    data = []
-    lines = string.split("\\r\\n")
-    for line in lines:
-        if line == "":
-            continue
-        dataline = []
-        parts = line.split(";")
-        for part in parts:
-            dataline.append(part)
-        data.append(dataline)
-
-    print(data, "\n\n", data[1])
+def upload(input):
+    input = input.decode("latin-1")
+    csv_file = csv.reader(StringIO(input), delimiter=";")
+    csv_file.pop(0)
 
     items = []
-
-    for i in range(len(data)):
+    for row in csv_file:
         items.append(
             {
-                "name": data[i][0],
-                "stock": data[i][1],
-                "unknown_stock": data[i][2],
-                "can_loan": data[i][3],
-                "description": data[i][4],
-                "thumbnail": data[i][5],
-                "location": data[i][6],
-                "max_loan_duration": data[i][7],
-                "views": data[i][8],
+                "location": row[0],
+                "name": row[1],
+                "stock": row[2],
+                "unknown_stock": True if row[2] == "" else False,
+                "can_loan": row[4],
+                "max_loan_duration": row[5],
+                "description": row[6],
             }
         )
 
@@ -58,14 +47,13 @@ def run_script(list_items: List[dict]):
     # items: List[Item] = []
     for item in list_items:
         item = Item(
+            location=item["location"],
             name=item["name"],
             stock=item["stock"],
             unknown_stock=item["unknown_stock"],
             can_loan=item["can_loan"],
-            description=item["description"],
-            location=item["location"],
             max_loan_duration=item["max_loan_duration"],
-            views=item["views"],
+            description=item["description"],
         )
         """ Item.objects.update_or_create(
             name=item["name"], defaults={"stock": item["stock"]}

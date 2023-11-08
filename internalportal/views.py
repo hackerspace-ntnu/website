@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.db.models import Q
+from django.shortcuts import redirect
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 
 from applications.models import Application, ApplicationGroup
@@ -49,13 +50,17 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class ApplicationsView(ListView, LoginRequiredMixin, UserPassesTestMixin):
+class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "internalportal/applications.html"
     permission_required = "userprofile.is_active_member"
     context_object_name = "applications"
 
     def test_func(self):
         return get_commitee_with_leader(self.request.user) is not None
+
+    def handle_no_permission(self):
+        # TODO: Display page asking user to log in if they are not
+        return redirect("/")
 
     def get_queryset(self):
         commitee = get_commitee_with_leader(self.request.user)

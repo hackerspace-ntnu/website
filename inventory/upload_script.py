@@ -20,11 +20,20 @@ from inventory.models.item import Item
 @transaction.atomic
 def upload(input):
     input = input.decode("latin-1")
-    csv_file = csv.reader(StringIO(input), delimiter=";")
-    csv_file.pop(0)
+
+    delimiter = {}
+    for line in input.split("\n"):
+        if ";" in line:
+            delimiter[";"] = delimiter.get(";", 0) + 1
+        if "," in line:
+            delimiter[","] = delimiter.get(",", 0) + 1
+
+    csv_file = csv.reader(StringIO(input), delimiter=max(delimiter, key=delimiter.get))
 
     items = []
-    for row in csv_file:
+    for i, row in enumerate(csv_file):
+        if i == 0:
+            continue
         items.append(
             {
                 "location": row[0],
@@ -37,7 +46,8 @@ def upload(input):
             }
         )
 
-    print(items)
+    for item in items:
+        print(item)
 
     run_script(items)
 

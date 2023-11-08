@@ -1,0 +1,8 @@
+Location,Item Name,Stock,Condition,Can loan,Max loan duration (days),Description,Intern note
+A0,Heatgun,,Good,Yes,10,"Powerful heat gun for shrink wrap and tubing","Check for overheating"
+A1,Screwdriver Set,15,New,Yes,15,"Multiple screwdrivers of various sizes","Complete set with 15 pieces"
+A2,Cordless Drill,5,Used,Yes,7,"18V drill with two batteries included","Charge before loaning out"
+A3,Oscilloscope,2,Excellent,No,,,"High precision oscilloscope, 200MHz","Fragile, handle with care"
+A4,Soldering Iron,,Good,Yes,14,"Adjustable temperature soldering iron","New tips available"
+A5,Workbench Vice,3,New,Yes,30,"Heavy-duty bench vice","Needs setup before use"
+A6,Laser Cutter,1,Excellent,Yes,5,"High power laser cutter, safety training required","Only for trained individuals"

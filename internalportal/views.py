@@ -6,9 +6,7 @@ from django.contrib.auth.mixins import (
     PermissionRequiredMixin,
     UserPassesTestMixin,
 )
-from django.contrib.auth.models import Group
 from django.contrib.auth.views import HttpResponseRedirect
-from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic import (
     DeleteView,
@@ -18,6 +16,10 @@ from django.views.generic import (
     View,
 )
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
+from django.db.models import OuterRef, Q, Subquery
+from django.template.loader import render_to_string
+from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
@@ -65,15 +67,22 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return redirect("/")
 
     def get_queryset(self):
-        commitee = get_commitee_with_leader(self.request.user)
+        committee = get_commitee_with_leader(self.request.user)
+        application_group = ApplicationGroup.objects.filter(name=committee.name).first()
 
-        # FIXME: Why is a commitee not directly related to an application group?
-        application_group = ApplicationGroup.objects.filter(name=commitee.name).first()
-
-        application_query = Q(applicationgroupchoice__priority=1) & Q(
-            applicationgroupchoice__group=application_group.id
+        print(application_group, committee)
+        min_priority_subquery = (
+            ApplicationGroupChoice.objects.filter(
+                group=OuterRef("applicationgroupchoice__group__id")
+            )
+            .order_by("priority")
+            .values("priority")[:1]
         )
-        return Application.objects.filter(application_query)
+
+        return Application.objects.filter(
+            applicationgroupchoice__priority=Subquery(min_priority_subquery),
+            applicationgroupchoice__group=application_group,
+        )
 
 
 class ApplicationView(DetailView):
@@ -83,15 +92,16 @@ class ApplicationView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["next-group"] = (
-            self.get_object().group_choice.order_by("priority").first()
-        )
+        groups = self.get_object().applicationgroupchoice_set.all().order_by("priority")
+        print(groups)
+        context["second_group"] = groups[1] if groups.count() > 1 else None
         return context
 
 
 class ApplicationNextGroupView(View, UserPassesTestMixin):
-    template_name = "internalportal/applications/next_group.html"
-    success_url = "/internalportal/applications/"
+    """Send an application to the next group"""
+
+    success_url = reverse_lazy("internalportal:applications")
     success_message = _("Søknad sendt videre til neste gruppe")
 
     def test_func(self):
@@ -102,7 +112,33 @@ class ApplicationNextGroupView(View, UserPassesTestMixin):
         if not application:
             messages.error(request, _("Søknaden finnes ikke"))
             return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
-        # send mail
+        new_application_message = render_to_string(
+            "applications/new_application_email.txt",
+            {"applications_url": reverse("internalportal:applications")},
+        )
+        next_application_groups = application.applicationgroupchoice_set.order_by(
+            "priority"
+        )
+        if next_application_groups.count() < 2:
+            messages.error(request, _("Søknaden har ingen flere grupper å gå til"))
+            return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
+        next_group = next_application_groups[1]
+        committee = Committee.objects.filter(name=next_group.group.name).first()
+        emails = [
+            getattr(committee.main_lead, "email", None),
+            getattr(committee.second_lead, "email", None),
+        ]
+        if not any(emails):
+            messages.error(request, _("Gruppen har ingen ledere"))
+            return
+
+        send_mail(
+            _("Søknad sendt videre"),
+            new_application_message,
+            "Hackerspace NTNU",
+            emails,
+            fail_silently=False,
+        )
 
         ApplicationGroupChoice.objects.filter(application=application).order_by(
             "priority"
@@ -123,12 +159,6 @@ class ApplicationProcessView(UserPassesTestMixin, DeleteView):
         return (
             application.group_choice.order_by("priority").first().name == commitee.name
         )
-
-
-# TODO: Connect application group with group directly
-def get_group_of_application(application):
-    application_group = application.group_choice.order_by("priority").first()
-    return Group.objects.filter(name=getattr(application_group, "name")).first()
 
 
 def get_commitee_with_leader(user):

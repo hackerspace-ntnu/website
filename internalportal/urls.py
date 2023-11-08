@@ -13,4 +13,9 @@ urlpatterns = [
         views.ApplicationProcessView.as_view(),
         name="process_application",
     ),
+    path(
+        "applications/next-group/<int:pk>",
+        views.ApplicationNextGroupView.as_view(),
+        name="next_group",
+    ),
 ]

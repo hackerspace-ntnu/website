@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
     <div>
@@ -18,7 +19,9 @@
         <p>{{ application.application_date }}</p>
     </div>
     <div>
-        <a href="{% url 'internalportal:process_application' application.id %}"><button>Process</button></a>
-        <button>Send further</button>
+        <a href="{% url 'internalportal:process_application' application.id %}"><button class="btn btn-small">Process</button></a>
+        {% if second_group %}
+            <a href="{% url "internalportal:next_group" application.id %}" ><button class="btn btn-small">{% trans "Send videre" %}</button></a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends "website/base.html" %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+    <!--Needs name of the next group. Backend update function sends mail, updates the application group choices-->
+    <div class="section container">
+        <div>{% trans "Send to the next group" %}</div>
+        <div>
+            <form>
+                <button type="submit">{% trans "Send" %}<button>
+                </form>
+                </div>
+            </div>
+{% endblock content %}

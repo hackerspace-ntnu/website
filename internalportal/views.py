@@ -7,9 +7,15 @@ from django.contrib.auth.mixins import (
 )
 from django.db.models import Q
 from django.shortcuts import redirect
-from django.views.generic import DeleteView, DetailView, ListView, TemplateView
+from django.views.generic import (
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 
-from applications.models import Application, ApplicationGroup
+from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
 from committees.models import Committee
 from inventory.models.item_loan import ItemLoan
 from news.models import Article, Event
@@ -71,6 +77,25 @@ class ApplicationView(DetailView):
     context_object_name = "application"
 
 
+class ApplicationNextGroupView(UpdateView, UserPassesTestMixin):
+    model = Application
+    template_name = "internalportal/applications/next_group.html"
+    success_url = "/internalportal/applications/"
+
+    def test_func(self):
+        return get_commitee_with_leader(self.request.user) is not None
+
+    # TODO: Connect application group with group directly
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # current_chosen_group = ApplicationGroup.objects.filter()
+        context["next-group"] = (
+            ApplicationGroupChoice.objects.filter(application=self.get_object())
+            .order_by("priority")
+            .first()
+        )
+
+
 class ApplicationProcessView(UserPassesTestMixin, DeleteView):
     model = Application
     template_name = "internalportal/applications/application_confirm_delete.html"
@@ -87,6 +112,10 @@ class ApplicationProcessView(UserPassesTestMixin, DeleteView):
             .name
             == commitee.name
         )
+
+
+def get_group_of_application():
+    return None
 
 
 def get_commitee_with_leader(user):

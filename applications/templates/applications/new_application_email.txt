@@ -1,0 +1,22 @@
+Hei,
+
+Denne mailen blir sendt til deg fordi det har kommet en ny søknad til Hackerspace som har din gruppe på første valg.
+
+Du finner aktive søknader her: {{ applications_url }}
+
+
+Mvh,
+Hackerspace NTNU
+
+-----------------------------------
+
+
+Hello,
+
+This email is sent to you because of a new applicant to Hackerspace with your group as highest priority.
+
+You can find active applications here: {{ application_url }}
+
+
+Best regards,
+Hackerspace NTNU

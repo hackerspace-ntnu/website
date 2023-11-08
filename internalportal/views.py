@@ -2,11 +2,14 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib import messages
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin,
     UserPassesTestMixin,
 )
+from django.contrib.auth.models import Group
+from django.contrib.auth.views import HttpResponseRedirect
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic import (
@@ -14,8 +17,10 @@ from django.views.generic import (
     DetailView,
     ListView,
     TemplateView,
-    UpdateView,
+    View,
 )
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
 from committees.models import Committee
@@ -85,24 +90,33 @@ class ApplicationView(DetailView):
     template_name = "internalportal/application.html"
     context_object_name = "application"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["next-group"] = (
+            self.get_object().group_choice.order_by("priority").first()
+        )
+        return context
 
-class ApplicationNextGroupView(UpdateView, UserPassesTestMixin):
-    model = Application
+
+class ApplicationNextGroupView(View, UserPassesTestMixin):
     template_name = "internalportal/applications/next_group.html"
     success_url = "/internalportal/applications/"
+    success_message = _("Søknad sendt videre til neste gruppe")
 
     def test_func(self):
         return get_commitee_with_leader(self.request.user) is not None
 
-    # TODO: Connect application group with group directly
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # current_chosen_group = ApplicationGroup.objects.filter()
-        context["next-group"] = (
-            ApplicationGroupChoice.objects.filter(application=self.get_object())
-            .order_by("priority")
-            .first()
-        )
+    def get(self, request, *args, **kwargs):
+        application = Application.objects.filter(id=kwargs.get("pk")).first()
+        if not application:
+            messages.error(request, _("Søknaden finnes ikke"))
+            return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
+        # send mail
+
+        ApplicationGroupChoice.objects.filter(application=application).order_by(
+            "priority"
+        ).first().delete()
+        return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
 
 
 class ApplicationProcessView(UserPassesTestMixin, DeleteView):
@@ -116,15 +130,14 @@ class ApplicationProcessView(UserPassesTestMixin, DeleteView):
             return False
         application = self.get_object()
         return (
-            application.group_choice.filter(applicationgroupchoice__priority=1)
-            .first()
-            .name
-            == commitee.name
+            application.group_choice.order_by("priority").first().name == commitee.name
         )
 
 
-def get_group_of_application():
-    return None
+# TODO: Connect application group with group directly
+def get_group_of_application(application):
+    application_group = application.group_choice.order_by("priority").first()
+    return Group.objects.filter(name=getattr(application_group, "name")).first()
 
 
 def get_commitee_with_leader(user):

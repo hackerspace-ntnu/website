@@ -69,7 +69,9 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     context_object_name = "applications"
 
     def test_func(self):
-        return get_commitee_with_leader(self.request.user) is not None
+        return get_commitee_with_leader(self.request.user) is not None or getattr(
+            self.request.user, "is_superuser", False
+        )
 
     def handle_no_permission(self):
         # TODO: Display page asking user to log in if they are not
@@ -79,7 +81,6 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         committee = get_commitee_with_leader(self.request.user)
         application_group = ApplicationGroup.objects.filter(name=committee.name).first()
 
-        print(application_group, committee)
         min_priority_subquery = (
             ApplicationGroupChoice.objects.filter(
                 group=OuterRef("applicationgroupchoice__group__id")
@@ -102,7 +103,6 @@ class ApplicationView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         groups = self.get_object().applicationgroupchoice_set.all().order_by("priority")
-        print(groups)
         context["second_group"] = groups[1] if groups.count() > 1 else None
         return context
 
@@ -114,7 +114,9 @@ class ApplicationNextGroupView(View, UserPassesTestMixin):
     success_message = _("Søknad sendt videre til neste gruppe")
 
     def test_func(self):
-        return get_commitee_with_leader(self.request.user) is not None
+        return get_commitee_with_leader(self.request.user) is not None or getattr(
+            self.request.user, "is_superuser", False
+        )
 
     def get(self, request, *args, **kwargs):
         application = Application.objects.filter(id=kwargs.get("pk")).first()
@@ -128,17 +130,32 @@ class ApplicationNextGroupView(View, UserPassesTestMixin):
         next_application_groups = application.applicationgroupchoice_set.order_by(
             "priority"
         )
+
         if next_application_groups.count() < 2:
             messages.error(request, _("Søknaden har ingen flere grupper å gå til"))
             return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
+
         next_group = next_application_groups[1]
         committee = Committee.objects.filter(name=next_group.group.name).first()
+
+        if not committee:
+            messages.error(
+                request,
+                _("Gruppen {group_name} finnes ikke. Kontakt administrator.").format(
+                    group_name=next_group.group.name
+                ),
+            )
+            return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
+
         emails = [
             getattr(committee.main_lead, "email", None),
             getattr(committee.second_lead, "email", None),
         ]
         if not any(emails):
-            messages.error(request, _("Gruppen har ingen ledere"))
+            messages.error(
+                request,
+                _("Gruppen {group} har ingen ledere").format(group=committee.name),
+            )
             return
 
         send_mail(
@@ -162,6 +179,8 @@ class ApplicationProcessView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         commitee = get_commitee_with_leader(self.request.user)
+        if getattr(self.request.user, "is_superuser", False):
+            return True
         if commitee is None:
             return False
         application = self.get_object()

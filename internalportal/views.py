@@ -70,6 +70,8 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         committee = get_commitee_with_leader(self.request.user)
+        if not committee:
+            return Application.objects.none()
         application_group = ApplicationGroup.objects.filter(name=committee.name).first()
 
         min_priority_subquery = (
@@ -79,6 +81,8 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by("priority")
             .values("priority")[:1]
         )
+        if self.request.user.is_superuser:
+            return Application.objects.all()
 
         return Application.objects.filter(
             applicationgroupchoice__priority=Subquery(min_priority_subquery),

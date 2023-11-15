@@ -7,20 +7,13 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.contrib.auth.views import HttpResponseRedirect
-from django.shortcuts import redirect
-from django.views.generic import (
-    DeleteView,
-    DetailView,
-    ListView,
-    TemplateView,
-    View,
-)
-from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from django.db.models import OuterRef, Q, Subquery
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
 
 from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
 from committees.models import Committee

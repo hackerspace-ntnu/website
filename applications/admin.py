@@ -22,3 +22,11 @@ class ApplicationGroupChoiceInline(admin.TabularInline):
 @admin.register(Application)
 class ApplicationAdmin(BaseApplicationAdmin):
     inlines = [ApplicationGroupChoiceInline]
+    list_display = [
+        "name",
+        "email",
+        "get_application_groups",
+    ]
+
+    def get_application_groups(self, obj):
+        return ", ".join([group.name for group in obj.group_choice.all()])

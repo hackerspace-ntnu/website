@@ -62,9 +62,7 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     context_object_name = "applications"
 
     def test_func(self):
-        return get_commitee_with_leader(self.request.user) is not None or getattr(
-            self.request.user, "is_superuser", False
-        )
+        return get_commitee_with_leader(self.request.user) is not None
 
     def handle_no_permission(self):
         # TODO: Display page asking user to log in if they are not
@@ -83,8 +81,6 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             .order_by("priority")
             .values("priority")[:1]
         )
-        if self.request.user.is_superuser:
-            return Application.objects.all()
 
         return Application.objects.filter(
             applicationgroupchoice__priority=Subquery(min_priority_subquery),
@@ -111,9 +107,7 @@ class ApplicationNextGroupView(View, UserPassesTestMixin):
     success_message = _("Søknad sendt videre til neste gruppe")
 
     def test_func(self):
-        return get_commitee_with_leader(self.request.user) is not None or getattr(
-            self.request.user, "is_superuser", False
-        )
+        return get_commitee_with_leader(self.request.user) is not None
 
     def get(self, request, *args, **kwargs):
         application = Application.objects.filter(id=kwargs.get("pk")).first()
@@ -176,8 +170,6 @@ class ApplicationProcessView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         commitee = get_commitee_with_leader(self.request.user)
-        if getattr(self.request.user, "is_superuser", False):
-            return True
         if commitee is None:
             return False
         application = self.get_object()

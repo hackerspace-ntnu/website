@@ -1,6 +1,11 @@
 {% extends "website/base.html" %}
 {% load i18n %}
 {% load static %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'internalportal/css/applications.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="section hs-red">
         <div class="container">
@@ -9,22 +14,18 @@
                     <div class="col s12">
                         <form method="post">
                             {% csrf_token %}
-                            <h3>{% trans "Confirm Action" %}</h3>
-                            <p>{% trans "Are you sure you want to delete the following application?" %}</p>
-                            <ul>
-                                <li>Name: {{ application.name }}</li>
-                                <li>{{ application.email }}</li>
-                                <li>{{ application.phone }}</li>
-                                <li>{{ application.study }}</li>
-                                <li>{{ application.year }}</li>
-                                <li>{{ application.knowledge_of_hs }}</li>
-                                <li>{{ application.about }}</li>
-                                <li>{{ application.application_text }}</li>
-                            </ul>
-                            <input class="btn btn-large hs-red" type="submit" value="{% trans "YES" %}" />
+                            <div class="row">
+
+                                <h3>{% trans "Bekreft handling" %}</h3>
+                                <p>{% trans "Er du sikker på at du vil slette søknaden? Den er ikke mulig å gjenopprette." %}</p>
+
+                                {% include "internalportal/applications/application_detail.html" with application=application %}
+
+                            </div>
+                            <input class="btn btn-large hs-red" type="submit" value="{% trans "Ja" %}" />
                         </form>
                         <br><br>
-                        <a href="/news/" class="btn btn-large hs-green">{% trans "NO, GO BACK" %}</a>
+                        <a href="{% url "internalportal:application" application.id %}" class="btn btn-large hs-green">{% trans "Nei, gå tilbake" %}</a>
                     </div>
                 </div>
             </div>

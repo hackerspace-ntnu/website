@@ -1,0 +1,21 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'internalportal/css/applications.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% include "internalportal/applications/application_detail.html" with application=application %}
+        <div class="application-button-bar">
+            <a href="{% url 'internalportal:applications' %}"><button class="btn btn-large">{% trans "Tilbake" %}</button></a>
+            <a href="{% url 'internalportal:approve_application' application.id %}"><button class="btn btn-large hs-green">{% trans "Godkjenn" %}</button></a>
+            <a href="{% url 'internalportal:delete_application' application.id %}"><button class="btn btn-large hs-red">{% trans "Fjern" %}</button></a>
+            {% if second_group %}
+                <a href="{% url 'internalportal:next_group' application.id %}" ><button class="btn btn-large">{% trans "Send videre" %}</button></a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

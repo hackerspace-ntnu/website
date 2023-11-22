@@ -8,16 +8,19 @@ from django.contrib.auth.mixins import (
     PermissionRequiredMixin,
     UserPassesTestMixin,
 )
+from django.contrib.auth.models import Group
 from django.contrib.auth.views import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.db.models import OuterRef, Q, Subquery
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DeleteView, DetailView, ListView, TemplateView, View
+from django.views.generic import DeleteView, DetailView, ListView, TemplateView
+from django.views.generic.edit import BaseDetailView
 
 from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
+from authentication.views import get_user_by_stud_or_ntnu_email
 from committees.models import Committee
 from inventory.models.item_loan import ItemLoan
 from news.models import Article, Event
@@ -57,7 +60,7 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
 
 
 class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    template_name = "internalportal/applications.html"
+    template_name = "internalportal/applications/applications.html"
     permission_required = "userprofile.is_active_member"
     context_object_name = "applications"
 
@@ -74,24 +77,27 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             return Application.objects.none()
         application_group = ApplicationGroup.objects.filter(name=committee.name).first()
 
-        min_priority_subquery = (
-            ApplicationGroupChoice.objects.filter(
-                group=OuterRef("applicationgroupchoice__group__id")
-            )
+        first_group = (
+            ApplicationGroupChoice.objects.filter(application=OuterRef("id"))
             .order_by("priority")
-            .values("priority")[:1]
+            .values("group")[:1]
         )
 
-        return Application.objects.filter(
-            applicationgroupchoice__priority=Subquery(min_priority_subquery),
-            applicationgroupchoice__group=application_group,
+        return (
+            Application.objects.filter(applicationgroupchoice__group=application_group)
+            .annotate(first_group=Subquery(first_group))
+            .filter(first_group=application_group)
         )
 
 
-class ApplicationView(DetailView):
+class ApplicationView(UserPassesTestMixin, DetailView):
     model = Application
-    template_name = "internalportal/application.html"
+    template_name = "internalportal/applications/application.html"
     context_object_name = "application"
+
+    def test_func(self):
+        committee = get_commitee_with_leader(self.request.user)
+        return first_application_group_is_committee(self.get_object(), committee)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -100,14 +106,16 @@ class ApplicationView(DetailView):
         return context
 
 
-class ApplicationNextGroupView(View, UserPassesTestMixin):
+class ApplicationNextGroupView(UserPassesTestMixin, BaseDetailView):
     """Send an application to the next group"""
 
+    model = Application
     success_url = reverse_lazy("internalportal:applications")
     success_message = _("Søknad sendt videre til neste gruppe")
 
     def test_func(self):
-        return get_commitee_with_leader(self.request.user) is not None
+        committee = get_commitee_with_leader(self.request.user)
+        return first_application_group_is_committee(self.get_object(), committee)
 
     def get(self, request, *args, **kwargs):
         application = Application.objects.filter(id=kwargs.get("pk")).first()
@@ -163,21 +171,79 @@ class ApplicationNextGroupView(View, UserPassesTestMixin):
         return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
 
 
-class ApplicationProcessView(UserPassesTestMixin, DeleteView):
+class ApplicationRemoveView(UserPassesTestMixin, DeleteView):
     model = Application
     template_name = "internalportal/applications/application_confirm_delete.html"
     success_url = "/internalportal/applications/"
 
     def test_func(self):
-        commitee = get_commitee_with_leader(self.request.user)
-        if commitee is None:
-            return False
-        application = self.get_object()
-        return (
-            application.group_choice.order_by("priority").first().name == commitee.name
+        committee = get_commitee_with_leader(self.request.user)
+        return first_application_group_is_committee(self.get_object(), committee)
+
+
+class ApplicationApproveView(ApplicationRemoveView):
+    template_name = "internalportal/applications/approve.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["group"] = (
+            self.get_object()
+            .applicationgroupchoice_set.order_by("priority")
+            .first()
+            .group
         )
+        return context
+
+    def delete(self, request, *args, **kwargs):
+
+        # get email from request
+        application = self.get_object()
+
+        email = request.POST.get("email")
+        if not email:
+            email = application.email
+
+        group_name = (
+            application.applicationgroupchoice_set.order_by("priority")
+            .first()
+            .group.name
+        )
+        group = get_object_or_404(Group, name=group_name)
+
+        # Force users to use their stud email in their application
+        user = get_user_by_stud_or_ntnu_email(email)
+        if not user:
+            messages.error(
+                request,
+                _(
+                    "Få brukeren til å logge inn med Feide først "
+                    "og bruk søkerens ntnu-mail."
+                ),
+            )
+            return HttpResponseRedirect(
+                reverse_lazy(
+                    "internalportal:application", kwargs={"pk": application.id}
+                )
+            )
+
+        user.groups.add(group)
+        user.groups.add(get_object_or_404(Group, name="Medlem"))
+        user.save()
+
+        # Send mail til søker
+
+        return super().delete(request, *args, **kwargs)
 
 
 def get_commitee_with_leader(user):
     query = Q(main_lead=user.id) | Q(second_lead=user.id)
     return Committee.objects.filter(query).first()
+
+
+def first_application_group_is_committee(application, committee):
+    if application is None or committee is None:
+        return False
+    return (
+        application.applicationgroupchoice_set.order_by("priority").first().group.name
+        == committee.name
+    )

@@ -1,0 +1,42 @@
+{% load i18n %}
+<div class="col application-info">
+    <h3>{{ application.name }}</h3>
+    <div class="row">
+        <div class="col s12">
+            <h5>{% trans "Personalia" %}</h5>
+            <p><strong>{% trans "Epost" %}:</strong> {{ application.email }}</p>
+            <p><strong>{% trans "Tlf" %}:</strong> {{ application.phone }}</p>
+            <p><strong>{% trans "Studie" %}:</strong> {{ application.study }}</p>
+            <p><strong>{% trans "År" %}:</strong> {{ application.year }}</p>
+        </div>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Kunnskap om Hackerspace" %}</h5>
+        <p>{{ application.knowledge_of_hs }}</p>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Om meg" %}</h5>
+        <p>{{ application.about }}</p>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Søknadstekst" %}</h5>
+        <p>{{ application.application_text }}</p>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Grupper søkt" %}</h5>
+        {% for group in application.group_choice.all %}
+            <p>{{ forloop.counter }}: {{ group.name }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Andre interesser" %}</h5>
+        <p>{{ application.project_interests }}</p>
+    </div>
+
+    <p><strong>{% trans "Søknad motatt" %}:</strong> {{ application.application_date }}</p>
+</div>

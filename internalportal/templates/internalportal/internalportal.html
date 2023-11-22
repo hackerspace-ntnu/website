@@ -168,6 +168,15 @@
                                 {% include "internalportal/door-access-member-list.html" with users=door_access_member_list next_year=next_year only %}
                             </div>
                         {% endif %}
+
+                        <div class="col s12 m4">
+                            <a href="{% url 'internalportal:applications' %}">
+                                <div class="card-panel center">
+                                    <i class="material-icons large black-text">groupadd</i>
+                                    <h5>{% trans "Søkere" %}</h5>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

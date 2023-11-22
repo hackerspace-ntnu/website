@@ -2,27 +2,18 @@
 {% load static %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Søknader</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    {% include "website/page_header.html" with title="Søknader" %}
     <div class="section">
         <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    {% for application in applications %}
-                        <li class="collection-item">
-                            <a href="{% url 'internalportal:application' application.id %}"><h5 class="no-margin truncate">{{ application.name }}</h5></a>
-                        </li>
-                    {% endfor %}
-                </div>
-            </div>
+            <ul>
+                {% for application in applications %}
+                    <li class="collection-item">
+                        <a href="{% url 'internalportal:application' application.id %}">
+                            {% include "internalportal/applications/application_list_card.html" with application=application %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

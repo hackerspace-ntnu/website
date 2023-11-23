@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     PermissionRequiredMixin,
@@ -196,7 +195,6 @@ class ApplicationApproveView(ApplicationRemoveView):
 
     def delete(self, request, *args, **kwargs):
 
-        # get email from request
         application = self.get_object()
 
         email = request.POST.get("email")
@@ -210,7 +208,6 @@ class ApplicationApproveView(ApplicationRemoveView):
         )
         group = get_object_or_404(Group, name=group_name)
 
-        # Force users to use their stud email in their application
         user = get_user_by_stud_or_ntnu_email(email)
         if not user:
             messages.error(

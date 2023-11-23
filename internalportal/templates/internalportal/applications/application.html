@@ -9,6 +9,7 @@
 {% block content %}
     <div class="container">
         {% include "internalportal/applications/application_detail.html" with application=application %}
+        {# Mulighet for å plotte inn informasjon om intervjutider, se over og sende det videre #}
         <div class="application-button-bar">
             <a href="{% url 'internalportal:applications' %}"><button class="btn btn-large">{% trans "Tilbake" %}</button></a>
             <a href="{% url 'internalportal:approve_application' application.id %}"><button class="btn btn-large hs-green">{% trans "Godkjenn" %}</button></a>

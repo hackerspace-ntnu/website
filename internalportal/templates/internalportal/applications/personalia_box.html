@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<div class="row">
+    <div class="col s12">
+        <h5>{% trans "Personalia" %}</h5>
+        <p><strong>{% trans "Navn" %}:</strong> {{ application.name }}</p>
+        <p><strong>{% trans "Epost" %}:</strong> {{ application.email }}</p>
+        <p><strong>{% trans "Tlf" %}:</strong> {{ application.phone }}</p>
+        <p><strong>{% trans "Studie" %}:</strong> {{ application.study }}</p>
+        <p><strong>{% trans "År" %}:</strong> {{ application.year }}</p>
+    </div>
+</div>

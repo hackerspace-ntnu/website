@@ -1,8 +1,10 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
-    {% include "website/page_header.html" with title="{% trans 'Søknader' %}" %}
+    {% trans "Søknader" as applications_header %}
+    {% include "website/page_header.html" with title=applications_header %}
     <div class="section">
         <div class="container">
             <ul>

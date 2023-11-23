@@ -29,4 +29,11 @@ class ApplicationAdmin(BaseApplicationAdmin):
     ]
 
     def get_application_groups(self, obj):
-        return ", ".join([group.name for group in obj.group_choice.all()])
+        return ", ".join(
+            [
+                group.name
+                for group in obj.group_choice.order_by(
+                    "applicationgroupchoice__priority"
+                )
+            ]
+        )

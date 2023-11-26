@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 00:04+0100\n"
+"POT-Creation-Date: 2023-11-27 00:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: internalportal/forms.py:9
 msgid "Plassering"
 msgstr ""
@@ -57,55 +58,55 @@ msgstr ""
 msgid "Søknadssvar"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:29
+#: internalportal/templates/internalportal/applications/application.html:30
 msgid "Intervjuprosessen"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:31
+#: internalportal/templates/internalportal/applications/application.html:32
 msgid "Les over søknaden"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:32
+#: internalportal/templates/internalportal/applications/application.html:33
 msgid "Send mail om tidspunkt og sted for foreslått intervju"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:33
+#: internalportal/templates/internalportal/applications/application.html:34
 msgid "Hold intervju"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:34
+#: internalportal/templates/internalportal/applications/application.html:35
 msgid "Få kandidaten til å logge inn på nettsiden"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:35
+#: internalportal/templates/internalportal/applications/application.html:36
 msgid ""
 "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack "
 "dokumentet fra Google Drive"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:36
+#: internalportal/templates/internalportal/applications/application.html:37
 msgid "Legg kandidaten inn i kommunikasjonskanaler"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:41
+#: internalportal/templates/internalportal/applications/application.html:42
 msgid "Send e-post om intervju"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:46
+#: internalportal/templates/internalportal/applications/application.html:47
 #: internalportal/templates/internalportal/applications/applications.html:19
 msgid "Tilbake"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:47
+#: internalportal/templates/internalportal/applications/application.html:48
 #: internalportal/templates/internalportal/applications/approve.html:49
 msgid "Godkjenn"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:48
+#: internalportal/templates/internalportal/applications/application.html:49
 msgid "Fjern"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:50
+#: internalportal/templates/internalportal/applications/application.html:51
 msgid "Send videre"
 msgstr ""
 
@@ -268,32 +269,36 @@ msgstr ""
 msgid "Søkere"
 msgstr ""
 
-#: internalportal/views.py:115
+#: internalportal/templates/internalportal/internalportal.html:178
+msgid "venter"
+msgstr ""
+
+#: internalportal/views.py:104
 msgid "Søknad sendt videre til neste gruppe"
 msgstr ""
 
-#: internalportal/views.py:124
+#: internalportal/views.py:113
 msgid "Søknaden finnes ikke"
 msgstr ""
 
-#: internalportal/views.py:135
+#: internalportal/views.py:125
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr ""
 
-#: internalportal/views.py:144
+#: internalportal/views.py:135
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:157
+#: internalportal/views.py:148
 #, python-brace-format
 msgid "Gruppen {group} har ingen ledere"
 msgstr ""
 
-#: internalportal/views.py:162
+#: internalportal/views.py:154
 msgid "Søknad sendt videre"
 msgstr ""
 
-#: internalportal/views.py:262
+#: internalportal/views.py:255
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""

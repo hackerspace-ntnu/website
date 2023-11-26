@@ -56,6 +56,8 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
             .objects.filter(groups__name="Medlem")
             .order_by("-date_joined")
         )
+        committee = get_commitee_with_leader(self.request.user)
+        context["new_applicants_no"] = get_applications_for_committee(committee).count()
 
         return context
 
@@ -74,21 +76,7 @@ class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         committee = get_commitee_with_leader(self.request.user)
-        if not committee:
-            return Application.objects.none()
-        application_group = ApplicationGroup.objects.filter(name=committee.name).first()
-
-        first_group = (
-            ApplicationGroupChoice.objects.filter(application=OuterRef("id"))
-            .order_by("priority")
-            .values("group")[:1]
-        )
-
-        return (
-            Application.objects.filter(applicationgroupchoice__group=application_group)
-            .annotate(first_group=Subquery(first_group))
-            .filter(first_group=application_group)
-        )
+        return get_applications_for_committee(committee)
 
 
 class ApplicationView(UserPassesTestMixin, DetailView):
@@ -289,4 +277,22 @@ def first_application_group_is_committee(application, committee):
     return (
         application.applicationgroupchoice_set.order_by("priority").first().group.name
         == committee.name
+    )
+
+
+def get_applications_for_committee(committee):
+    if not committee:
+        return Application.objects.none()
+    application_group = ApplicationGroup.objects.filter(name=committee.name).first()
+
+    first_group = (
+        ApplicationGroupChoice.objects.filter(application=OuterRef("id"))
+        .order_by("priority")
+        .values("group")[:1]
+    )
+
+    return (
+        Application.objects.filter(applicationgroupchoice__group=application_group)
+        .annotate(first_group=Subquery(first_group))
+        .filter(first_group=application_group)
     )

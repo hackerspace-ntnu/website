@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 00:04+0100\n"
+"POT-Creation-Date: 2023-11-27 00:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: internalportal/forms.py:9
 msgid "Plassering"
 msgstr "Location"
@@ -57,57 +58,57 @@ msgstr "Other interests"
 msgid "Søknadssvar"
 msgstr "Application response"
 
-#: internalportal/templates/internalportal/applications/application.html:29
+#: internalportal/templates/internalportal/applications/application.html:30
 msgid "Intervjuprosessen"
 msgstr "Interview process"
 
-#: internalportal/templates/internalportal/applications/application.html:31
+#: internalportal/templates/internalportal/applications/application.html:32
 msgid "Les over søknaden"
 msgstr "Read through the application"
 
-#: internalportal/templates/internalportal/applications/application.html:32
+#: internalportal/templates/internalportal/applications/application.html:33
 msgid "Send mail om tidspunkt og sted for foreslått intervju"
 msgstr "Send email about proposed interview time and location"
 
-#: internalportal/templates/internalportal/applications/application.html:33
+#: internalportal/templates/internalportal/applications/application.html:34
 msgid "Hold intervju"
 msgstr "Conduct interview"
 
-#: internalportal/templates/internalportal/applications/application.html:34
+#: internalportal/templates/internalportal/applications/application.html:35
 msgid "Få kandidaten til å logge inn på nettsiden"
 msgstr "Have the candidate log in to the website"
 
-#: internalportal/templates/internalportal/applications/application.html:35
+#: internalportal/templates/internalportal/applications/application.html:36
 msgid ""
 "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack "
 "dokumentet fra Google Drive"
 msgstr ""
-"Approve the candidate and send an email that they have been accepted with the "
-"HowToHack document from Google Drive"
+"Approve the candidate and send an email that they have been accepted with "
+"the HowToHack document from Google Drive"
 
-#: internalportal/templates/internalportal/applications/application.html:36
+#: internalportal/templates/internalportal/applications/application.html:37
 msgid "Legg kandidaten inn i kommunikasjonskanaler"
 msgstr "Add the candidate to communication channels"
 
-#: internalportal/templates/internalportal/applications/application.html:41
+#: internalportal/templates/internalportal/applications/application.html:42
 msgid "Send e-post om intervju"
 msgstr "Send email about interview"
 
-#: internalportal/templates/internalportal/applications/application.html:46
+#: internalportal/templates/internalportal/applications/application.html:47
 #: internalportal/templates/internalportal/applications/applications.html:19
 msgid "Tilbake"
 msgstr "Back"
 
-#: internalportal/templates/internalportal/applications/application.html:47
+#: internalportal/templates/internalportal/applications/application.html:48
 #: internalportal/templates/internalportal/applications/approve.html:49
 msgid "Godkjenn"
 msgstr "Approve"
 
-#: internalportal/templates/internalportal/applications/application.html:48
+#: internalportal/templates/internalportal/applications/application.html:49
 msgid "Fjern"
 msgstr "Remove"
 
-#: internalportal/templates/internalportal/applications/application.html:50
+#: internalportal/templates/internalportal/applications/application.html:51
 msgid "Send videre"
 msgstr "Forward"
 
@@ -149,8 +150,7 @@ msgstr "Group"
 
 #: internalportal/templates/internalportal/applications/approve.html:29
 msgid "For å kunne koble et nytt medlem må søkerens ntnu e-post benyttes."
-msgstr ""
-"To connect a new member, the applicant's NTNU email must be used."
+msgstr "To connect a new member, the applicant's NTNU email must be used."
 
 #: internalportal/templates/internalportal/applications/approve.html:30
 msgid "Be personen logge inn på nettsiden før godkjenning."
@@ -272,33 +272,37 @@ msgstr "Member list for door access"
 msgid "Søkere"
 msgstr "Applicants"
 
-#: internalportal/views.py:115
+#: internalportal/templates/internalportal/internalportal.html:178
+msgid "venter"
+msgstr "waiting"
+
+#: internalportal/views.py:104
 msgid "Søknad sendt videre til neste gruppe"
 msgstr "Application forwarded to the next group"
 
-#: internalportal/views.py:124
+#: internalportal/views.py:113
 msgid "Søknaden finnes ikke"
 msgstr "The application does not exist"
 
-#: internalportal/views.py:135
+#: internalportal/views.py:125
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr "The application has no more groups to go to"
 
-#: internalportal/views.py:144
+#: internalportal/views.py:135
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr "The group {group_name} does not exist. Contact the administrator."
 
-#: internalportal/views.py:157
+#: internalportal/views.py:148
 #, python-brace-format
 msgid "Gruppen {group} har ingen ledere"
 msgstr "The group {group} has no leaders"
 
-#: internalportal/views.py:162
+#: internalportal/views.py:154
 msgid "Søknad sendt videre"
 msgstr "Application forwarded"
 
-#: internalportal/views.py:262
+#: internalportal/views.py:255
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""
 "Have the user log in with Feide first and use the applicant's NTNU email."

@@ -181,10 +181,21 @@ class ApplicationRemoveView(UserPassesTestMixin, DeleteView):
         return first_application_group_is_committee(self.get_object(), committee)
 
 
-class ApplicationInterviewEmailView(UserPassesTestMixin, DetailView, FormView):
+class ApplicationInterviewEmailView(UserPassesTestMixin, FormView, DetailView):
     form_class = InterviewEmailForm
     template_name = "internalportal/applications/interview_email_form.html"
     model = Application
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "internalportal:interview_email", kwargs={"pk": self.get_object().id}
+        )
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context["interview_email"] = self.request.session.get("interview_email")
+        return context
 
     def test_func(self):
         committee = get_commitee_with_leader(self.request.user)
@@ -205,6 +216,7 @@ class ApplicationInterviewEmailView(UserPassesTestMixin, DetailView, FormView):
             },
         )
         self.request.session["interview_email"] = interview_email
+        return super().form_valid(form)
 
 
 class ApplicationApproveView(ApplicationRemoveView):

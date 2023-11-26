@@ -7,44 +7,52 @@
 {% endblock %}
 
 {% block content %}
-    <div class="section container">
-        <form method="post">
-            {% csrf_token %}
-            <div class="row">
-                <div class="input-field col s12 m4">
-                    <i class="material-icons prefix">location_on</i>
-                    {{ form.location }}
-                    <label for="id_location">{{ form.location.label }}</label>
-                    <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
+    {% trans "E-post for intervju" as interview_email_header %}
+    {% include "website/page_header.html" with title=interview_email_header %}
+    <div class="container">
+        <div class="section">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <i class="material-icons prefix">location_on</i>
+                        {{ form.location }}
+                        <label for="id_location">{{ form.location.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <i class="material-icons prefix">link</i>
+                        {{ form.location_link }}
+                        <label for="id_location_link">{{ form.location_link.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.location_link.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <i class="material-icons prefix">date_range</i>
+                        {{ form.start_time }}
+                        <label for="id_start_time">{{ form.start_time.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.start_time.errors }}</span>
+                    </div>
                 </div>
-                <div class="input-field col s12 m4">
-                    <i class="material-icons prefix">link</i>
-                    {{ form.location_link }}
-                    <label for="id_location_link">{{ form.location_link.label }}</label>
-                    <span class="helper-text hs-red-text">{{ form.location_link.errors }}</span>
-                </div>
-                <div class="input-field col s12 m4">
-                    <i class="material-icons prefix">date_range</i>
-                    {{ form.start_time }}
-                    <label for="id_start_time">{{ form.start_time.label }}</label>
-                    <span class="helper-text hs-red-text">{{ form.start_time.errors }}</span>
-                </div>
-            </div>
-            <button class="btn" type="submit">{% trans "Lag e-post" %}</button>
-        </form>
+                <button class="btn" type="submit">{% trans "Lag e-post" %}</button>
+            </form>
 
-        {% if interview_email %}
-            <div class="row section">
-                <div class="col s12" id="email-text" style="border: 0.5px solid black;">
-                    {{ interview_email | safe | linebreaks }}
+            {% if interview_email %}
+                <div class="row section">
+                    <div class="col s12" id="email-text" style="border: 0.5px solid black;">
+                        {{ interview_email | safe | linebreaks }}
+                    </div>
                 </div>
-            </div>
-            <button onclick="copyToClip()" class="btn waves-effect waves-light">
-                <i class="material-icons left">content_paste</i>{% trans "Kopier til utklippstavle" %}
-            </button>
-        {% endif %}
+                <button onclick="copyToClip()" class="btn waves-effect waves-light">
+                    <i class="material-icons left">content_paste</i>{% trans "Kopier til utklippstavle" %}
+                </button>
+            {% endif %}
+        </div>
+        <div class="section">
+            <a class="btn btn-large left" href="{% url 'internalportal:application' application.id %}">
+                {% trans "Gå tilbake" %}
+            </a>
+        </div>
     </div>
-
 
     <script>
         function copyToClip() {

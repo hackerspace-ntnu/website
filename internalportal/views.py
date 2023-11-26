@@ -14,6 +14,7 @@ from django.db.models import OuterRef, Q, Subquery
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 from django.views.generic.edit import BaseDetailView
@@ -197,6 +198,12 @@ class ApplicationInterviewEmailView(UserPassesTestMixin, FormView, DetailView):
         context["interview_email"] = self.request.session.get("interview_email")
         return context
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["start_time"] = timezone.now()
+        initial["end_time"] = timezone.now() + timedelta(minutes=20)
+        return initial
+
     def test_func(self):
         committee = get_commitee_with_leader(self.request.user)
         return first_application_group_is_committee(self.get_object(), committee)
@@ -258,7 +265,7 @@ class ApplicationApproveView(ApplicationRemoveView):
             )
             return HttpResponseRedirect(
                 reverse_lazy(
-                    "internalportal:application", kwargs={"pk": application.id}
+                    "internalportal:approve_application", kwargs={"pk": application.id}
                 )
             )
 

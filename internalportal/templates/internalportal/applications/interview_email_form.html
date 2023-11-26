@@ -1,0 +1,27 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'internalportal/css/applications.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="section">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">{% trans "Lag e-post" %}</button>
+        </form>
+
+        {% if request.session.interview_email %}
+            <div class="row">
+                <div class="col s12">
+                    {{ requeset.session.interview_email }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

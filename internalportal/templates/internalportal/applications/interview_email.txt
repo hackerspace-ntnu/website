@@ -1,0 +1,13 @@
+Hei {{ application.name }},
+Tusen takk for din søknad hos Hackerspace NTNU!
+
+ 
+I forbindelse med opptaket hos Hackerspace NTNU, ønsker vi å kalle deg inn til et intervju. Intervjuet er en mulighet for oss til å bli enda bedre kjent med deg før det gjøres sluttvurderinger i opptaket, og en mulighet for deg til å stille spørsmål rundt opptaket, organisasjonen og annet dersom ønskelig.
+
+Foreslått tidspunkt for intervjuet er {{ interview.start_time }} i <a href="{{ interview.location_link }}">{{ interview.location }}</a>.
+
+Vi ønsker gjerne at du bekrefter at tidspunktet passer, eller eventuelt svarer på mailen med timeplan / tidspunkter som passer bedre.
+
+Med vennlig hilsen,
+{{ application_group }}
+Hackerspace NTNU

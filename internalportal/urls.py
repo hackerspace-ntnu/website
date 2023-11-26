@@ -19,8 +19,13 @@ urlpatterns = [
         name="next_group",
     ),
     path(
-        "applications/approve/<int:pk>",
+        "applications/<int:pk>/approve",
         views.ApplicationApproveView.as_view(),
         name="approve_application",
+    ),
+    path(
+        "applications/<int:pk>/interview-email",
+        views.ApplicationInterviewEmailView.as_view(),
+        name="interview_email",
     ),
 ]

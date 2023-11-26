@@ -7,20 +7,41 @@
 {% endblock %}
 
 {% block content %}
+    {% include "website/page_header.html" with title=application.name %}
     <div class="container">
         <div class="row">
             <div class="col s12 m6">
                 {% include "internalportal/applications/personalia_box.html" with application=application %}
+                <ul class="collapsible">
+                    <li>
+                        <strong class="collapsible-header">{% trans "Søknadssvar" %}</strong>
+                        <div class="collapsible-body">
+                            <div class="collection">
+                                {% include "internalportal/applications/answers.html" with application=application %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
             <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
-                        <h3 class="card-title">{% trans "Planlegg intervju" %}</h3>
+                        <h3 class="card-title">{% trans "Intervjuprosessen" %}</h3>
+                        <ol>
+                            <li>{% trans "Les over søknaden" %}</li>
+                            <li>{% trans "Send mail om tidspunkt og sted for foreslått intervju" %}</li>
+                            <li>{% trans "Hold intervju" %}</li>
+                            <li>{% trans "Få kandidaten til å logge inn på nettsiden" %}</li>
+                            <li>{% trans "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack dokumentet på Drive" %}</li>
+                            <li>{% trans "Legg kandidaten inn i kommunikasjonskanaler" %}</li>
+                        </ol>
                     </div>
+                </div>
+                <div>
+                    <a href="{% url 'internalportal:interview_email' application.id %}">{% trans "Send e-post om intervju" %}</a>
                 </div>
             </div>
         </div>
-        {# Mulighet for å plotte inn informasjon om intervjutider, se over og sende det videre #}
         <div class="application-button-bar">
             <a href="{% url 'internalportal:applications' %}"><button class="btn btn-large">{% trans "Tilbake" %}</button></a>
             <a href="{% url 'internalportal:approve_application' application.id %}"><button class="btn btn-large hs-green">{% trans "Godkjenn" %}</button></a>
@@ -30,4 +51,9 @@
             {% endif %}
         </div>
     </div>
+
+    <script>  document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, options);
+    });</script>
 {% endblock %}

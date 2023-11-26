@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
 )
 from django.contrib.auth.models import Group
-from django.contrib.auth.views import HttpResponseRedirect
+from django.contrib.auth.views import FormView, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.db.models import OuterRef, Q, Subquery
 from django.shortcuts import get_object_or_404, redirect
@@ -21,6 +21,7 @@ from django.views.generic.edit import BaseDetailView
 from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
 from authentication.views import get_user_by_stud_or_ntnu_email
 from committees.models import Committee
+from internalportal.forms import InterviewEmailForm
 from inventory.models.item_loan import ItemLoan
 from news.models import Article, Event
 
@@ -178,6 +179,32 @@ class ApplicationRemoveView(UserPassesTestMixin, DeleteView):
     def test_func(self):
         committee = get_commitee_with_leader(self.request.user)
         return first_application_group_is_committee(self.get_object(), committee)
+
+
+class ApplicationInterviewEmailView(UserPassesTestMixin, DetailView, FormView):
+    form_class = InterviewEmailForm
+    template_name = "internalportal/applications/interview_email_form.html"
+    model = Application
+
+    def test_func(self):
+        committee = get_commitee_with_leader(self.request.user)
+        return first_application_group_is_committee(self.get_object(), committee)
+
+    def form_valid(self, form):
+        application = self.get_object()
+        interview_email = render_to_string(
+            "internalportal/applications/interview_email.txt",
+            {
+                "interview": form.cleaned_data,
+                "application": application,
+                "application_group": (
+                    application.applicationgroupchoice_set.order_by("priority")
+                    .first()
+                    .group
+                ),
+            },
+        )
+        self.request.session["interview_email"] = interview_email
 
 
 class ApplicationApproveView(ApplicationRemoveView):

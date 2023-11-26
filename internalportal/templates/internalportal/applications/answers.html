@@ -1,7 +1,5 @@
 {% load i18n %}
 <div class="col application-info">
-    <h3>{{ application.name }}</h3>
-    {% include "internalportal/applications/personalia_box.html" with application=application %}
 
     <div class="col s12">
         <h5>{% trans "Kunnskap om Hackerspace" %}</h5>
@@ -30,5 +28,4 @@
         <p>{{ application.project_interests }}</p>
     </div>
 
-    <p><strong>{% trans "Søknad motatt" %}:</strong> {{ application.application_date }}</p>
 </div>

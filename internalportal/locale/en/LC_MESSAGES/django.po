@@ -1,0 +1,304 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-27 00:04+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: internalportal/forms.py:9
+msgid "Plassering"
+msgstr "Location"
+
+#: internalportal/forms.py:14
+msgid "Lenke til plassering"
+msgstr "Link to location"
+
+#: internalportal/forms.py:19
+msgid "Starttidspunkt"
+msgstr "Start time"
+
+#: internalportal/forms.py:23
+msgid "Sluttidspunkt"
+msgstr "End time"
+
+#: internalportal/templates/internalportal/applications/answers.html:5
+msgid "Kunnskap om Hackerspace"
+msgstr "Knowledge about Hackerspace"
+
+#: internalportal/templates/internalportal/applications/answers.html:10
+msgid "Om meg"
+msgstr "About me"
+
+#: internalportal/templates/internalportal/applications/answers.html:15
+msgid "Søknadstekst"
+msgstr "Application text"
+
+#: internalportal/templates/internalportal/applications/answers.html:20
+msgid "Grupper søkt"
+msgstr "Groups applied for"
+
+#: internalportal/templates/internalportal/applications/answers.html:27
+msgid "Andre interesser"
+msgstr "Other interests"
+
+#: internalportal/templates/internalportal/applications/application.html:17
+msgid "Søknadssvar"
+msgstr "Application response"
+
+#: internalportal/templates/internalportal/applications/application.html:29
+msgid "Intervjuprosessen"
+msgstr "Interview process"
+
+#: internalportal/templates/internalportal/applications/application.html:31
+msgid "Les over søknaden"
+msgstr "Read through the application"
+
+#: internalportal/templates/internalportal/applications/application.html:32
+msgid "Send mail om tidspunkt og sted for foreslått intervju"
+msgstr "Send email about proposed interview time and location"
+
+#: internalportal/templates/internalportal/applications/application.html:33
+msgid "Hold intervju"
+msgstr "Conduct interview"
+
+#: internalportal/templates/internalportal/applications/application.html:34
+msgid "Få kandidaten til å logge inn på nettsiden"
+msgstr "Have the candidate log in to the website"
+
+#: internalportal/templates/internalportal/applications/application.html:35
+msgid ""
+"Godkjenn kandidaten og send mail at de har kommet inn med HowToHack "
+"dokumentet fra Google Drive"
+msgstr ""
+"Approve the candidate and send an email that they have been accepted with the "
+"HowToHack document from Google Drive"
+
+#: internalportal/templates/internalportal/applications/application.html:36
+msgid "Legg kandidaten inn i kommunikasjonskanaler"
+msgstr "Add the candidate to communication channels"
+
+#: internalportal/templates/internalportal/applications/application.html:41
+msgid "Send e-post om intervju"
+msgstr "Send email about interview"
+
+#: internalportal/templates/internalportal/applications/application.html:46
+#: internalportal/templates/internalportal/applications/applications.html:19
+msgid "Tilbake"
+msgstr "Back"
+
+#: internalportal/templates/internalportal/applications/application.html:47
+#: internalportal/templates/internalportal/applications/approve.html:49
+msgid "Godkjenn"
+msgstr "Approve"
+
+#: internalportal/templates/internalportal/applications/application.html:48
+msgid "Fjern"
+msgstr "Remove"
+
+#: internalportal/templates/internalportal/applications/application.html:50
+msgid "Send videre"
+msgstr "Forward"
+
+#: internalportal/templates/internalportal/applications/application_confirm_delete.html:19
+msgid "Bekreft handling"
+msgstr "Confirm action"
+
+#: internalportal/templates/internalportal/applications/application_confirm_delete.html:20
+msgid ""
+"Er du sikker på at du vil slette søknaden? Den er ikke mulig å gjenopprette."
+msgstr ""
+"Are you sure you want to delete the application? It cannot be recovered."
+
+#: internalportal/templates/internalportal/applications/application_confirm_delete.html:25
+msgid "Ja"
+msgstr "Yes"
+
+#: internalportal/templates/internalportal/applications/application_confirm_delete.html:28
+msgid "Nei, gå tilbake"
+msgstr "No, go back"
+
+#: internalportal/templates/internalportal/applications/applications.html:6
+msgid "Søknader"
+msgstr "Applications"
+
+#: internalportal/templates/internalportal/applications/approve.html:16
+msgid "Godkjenn søknad"
+msgstr "Approve application"
+
+#: internalportal/templates/internalportal/applications/approve.html:20
+#: internalportal/templates/internalportal/applications/personalia_box.html:6
+#: internalportal/templates/internalportal/door-access-member-list.html:10
+msgid "Navn"
+msgstr "Name"
+
+#: internalportal/templates/internalportal/applications/approve.html:23
+msgid "Gruppe"
+msgstr "Group"
+
+#: internalportal/templates/internalportal/applications/approve.html:29
+msgid "For å kunne koble et nytt medlem må søkerens ntnu e-post benyttes."
+msgstr ""
+"To connect a new member, the applicant's NTNU email must be used."
+
+#: internalportal/templates/internalportal/applications/approve.html:30
+msgid "Be personen logge inn på nettsiden før godkjenning."
+msgstr "Ask the person to log in to the website before approval."
+
+#: internalportal/templates/internalportal/applications/approve.html:31
+msgid "Legg personen i riktige kommunikasjonskanaler og google drive"
+msgstr "Add the person to the correct communication channels and Google Drive"
+
+#: internalportal/templates/internalportal/applications/approve.html:37
+#: internalportal/templates/internalportal/applications/personalia_box.html:7
+#: internalportal/templates/internalportal/door-access-member-list.html:11
+msgid "Epost"
+msgstr "Email"
+
+#: internalportal/templates/internalportal/applications/approve.html:45
+#: internalportal/templates/internalportal/applications/interview_email_form.html:52
+msgid "Gå tilbake"
+msgstr "Go back"
+
+#: internalportal/templates/internalportal/applications/interview_email_form.html:10
+msgid "E-post for intervju"
+msgstr "Email for interview"
+
+#: internalportal/templates/internalportal/applications/interview_email_form.html:36
+msgid "Lag e-post"
+msgstr "Create email"
+
+#: internalportal/templates/internalportal/applications/interview_email_form.html:46
+#: internalportal/templates/internalportal/door-access-member-list.html:6
+msgid "Kopier til utklippstavle"
+msgstr "Copy to clipboard"
+
+#: internalportal/templates/internalportal/applications/personalia_box.html:5
+msgid "Personalia"
+msgstr "Personal information"
+
+#: internalportal/templates/internalportal/applications/personalia_box.html:8
+msgid "Tlf"
+msgstr "Phone"
+
+#: internalportal/templates/internalportal/applications/personalia_box.html:9
+msgid "Studie"
+msgstr "Study"
+
+#: internalportal/templates/internalportal/applications/personalia_box.html:10
+msgid "År"
+msgstr "Year"
+
+#: internalportal/templates/internalportal/applications/personalia_box.html:11
+msgid "Søknad motatt"
+msgstr "Application received"
+
+#: internalportal/templates/internalportal/door-access-member-list.html:12
+msgid "Tilgang til"
+msgstr "Access to"
+
+#: internalportal/templates/internalportal/door-access-member-list.html:26
+msgid "Ingen aktive medlemmer."
+msgstr "No active members."
+
+#: internalportal/templates/internalportal/internalportal.html:10
+msgid "Internportal"
+msgstr "Internal portal"
+
+#: internalportal/templates/internalportal/internalportal.html:27
+msgid "Siste internnytt"
+msgstr "Latest internal news"
+
+#: internalportal/templates/internalportal/internalportal.html:41
+msgid "Her var det intetnytt"
+msgstr "There's no news here"
+
+#: internalportal/templates/internalportal/internalportal.html:51
+msgid "Siste interne arrangementer"
+msgstr "Latest internal events"
+
+#: internalportal/templates/internalportal/internalportal.html:70
+msgid "Ingen interne arrangementer"
+msgstr "No internal events"
+
+#: internalportal/templates/internalportal/internalportal.html:80
+msgid "Åpne lånesøknader"
+msgstr "Open loan applications"
+
+#: internalportal/templates/internalportal/internalportal.html:93
+msgid "Ingen lånesøknader"
+msgstr "No loan applications"
+
+#: internalportal/templates/internalportal/internalportal.html:108
+msgid "Lånesøknader"
+msgstr "Loan applications"
+
+#: internalportal/templates/internalportal/internalportal.html:117
+msgid "Vaktliste"
+msgstr "Shift schedule"
+
+#: internalportal/templates/internalportal/internalportal.html:126
+msgid "Lager"
+msgstr "Storage"
+
+#: internalportal/templates/internalportal/internalportal.html:135
+msgid "Reservasjoner"
+msgstr "Reservations"
+
+#: internalportal/templates/internalportal/internalportal.html:144
+msgid "Bildegalleri"
+msgstr "Image gallery"
+
+#: internalportal/templates/internalportal/internalportal.html:154
+msgid "Adminpanel"
+msgstr "Admin panel"
+
+#: internalportal/templates/internalportal/internalportal.html:163
+msgid "Medlemsliste for dørtilgang"
+msgstr "Member list for door access"
+
+#: internalportal/templates/internalportal/internalportal.html:176
+msgid "Søkere"
+msgstr "Applicants"
+
+#: internalportal/views.py:115
+msgid "Søknad sendt videre til neste gruppe"
+msgstr "Application forwarded to the next group"
+
+#: internalportal/views.py:124
+msgid "Søknaden finnes ikke"
+msgstr "The application does not exist"
+
+#: internalportal/views.py:135
+msgid "Søknaden har ingen flere grupper å gå til"
+msgstr "The application has no more groups to go to"
+
+#: internalportal/views.py:144
+#, python-brace-format
+msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
+msgstr "The group {group_name} does not exist. Contact the administrator."
+
+#: internalportal/views.py:157
+#, python-brace-format
+msgid "Gruppen {group} har ingen ledere"
+msgstr "The group {group} has no leaders"
+
+#: internalportal/views.py:162
+msgid "Søknad sendt videre"
+msgstr "Application forwarded"
+
+#: internalportal/views.py:262
+msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
+msgstr ""
+"Have the user log in with Feide first and use the applicant's NTNU email."

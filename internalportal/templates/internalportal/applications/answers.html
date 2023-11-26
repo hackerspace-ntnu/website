@@ -18,8 +18,8 @@
 
     <div class="col s12">
         <h5>{% trans "Grupper søkt" %}</h5>
-        {% for group in application.group_choice.all %}
-            <p>{{ forloop.counter }}: {{ group.name }}</p>
+        {% for group_choice in application.applicationgroupchoice_set.all|dictsort:"priority" %}
+            <p>{{ forloop.counter }}: {{ group_choice.group.name }}</p>
         {% endfor %}
     </div>
 

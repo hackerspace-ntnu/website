@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 14:46+0100\n"
+"POT-Creation-Date: 2023-11-27 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,8 +181,8 @@ msgid "Gruppe"
 msgstr "Group"
 
 #: internalportal/templates/internalportal/applications/approve.html:29
-msgid "For å kunne koble et nytt medlem må søkerens ntnu e-post benyttes."
-msgstr "To connect a new member, the applicant's NTNU email must be used."
+msgid "For å kunne legge til et nytt medlem må søkerens ntnu e-post benyttes."
+msgstr "To add a new member, the applicant's NTNU email must be used."
 
 #: internalportal/templates/internalportal/applications/approve.html:30
 msgid "Be personen logge inn på nettsiden før godkjenning."
@@ -324,7 +324,7 @@ msgstr "Year"
 msgid "Søknad motatt"
 msgstr "Application received"
 
-#: internalportal/templates/internalportal/applications/text_box_copy.html:10
+#: internalportal/templates/internalportal/applications/text_box_copy.html:9
 #: internalportal/templates/internalportal/door-access-member-list.html:6
 msgid "Kopier til utklippstavle"
 msgstr "Copy to clipboard"

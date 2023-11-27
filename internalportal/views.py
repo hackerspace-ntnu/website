@@ -137,7 +137,11 @@ class ApplicationNextGroupView(UserPassesTestMixin, BaseDetailView):
                     group_name=next_group.group.name
                 ),
             )
-            return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
+            return HttpResponseRedirect(
+                reverse_lazy(
+                    "internalportal:application", kwargs={"pk": application.id}
+                )
+            )
 
         emails = [
             getattr(committee.main_lead, "email", None),
@@ -146,9 +150,15 @@ class ApplicationNextGroupView(UserPassesTestMixin, BaseDetailView):
         if not any(emails):
             messages.error(
                 request,
-                _("Gruppen {group} har ingen ledere").format(group=committee.name),
+                _("Gruppen {group} har ingen ledere. Kontakt administrator.").format(
+                    group=committee.name
+                ),
             )
-            return
+            return HttpResponseRedirect(
+                reverse_lazy(
+                    "internalportal:application", kwargs={"pk": application.id}
+                )
+            )
 
         send_mail(
             _("Søknad sendt videre"),

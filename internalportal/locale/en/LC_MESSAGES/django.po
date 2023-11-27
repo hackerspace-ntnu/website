@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 00:42+0100\n"
+"POT-Creation-Date: 2023-11-27 01:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,7 +95,7 @@ msgid "Send e-post om intervju"
 msgstr "Send email about interview"
 
 #: internalportal/templates/internalportal/applications/application.html:47
-#: internalportal/templates/internalportal/applications/applications.html:19
+#: internalportal/templates/internalportal/applications/applications.html:23
 msgid "Tilbake"
 msgstr "Back"
 
@@ -109,8 +109,19 @@ msgid "Fjern"
 msgstr "Remove"
 
 #: internalportal/templates/internalportal/applications/application.html:51
+#: internalportal/templates/internalportal/applications/application.html:56
 msgid "Send videre"
 msgstr "Forward"
+
+#: internalportal/templates/internalportal/applications/application.html:54
+#, fuzzy
+msgid "Er du sikker på at du vil sende søknaden videre?"
+msgstr "Are you sure you want to send the application to the next group?"
+
+#: internalportal/templates/internalportal/applications/application.html:55
+#, fuzzy
+msgid "Søknaden sendes til"
+msgstr "The application is sent to"
 
 #: internalportal/templates/internalportal/applications/application_confirm_delete.html:19
 msgid "Bekreft handling"
@@ -133,6 +144,11 @@ msgstr "No, go back"
 #: internalportal/templates/internalportal/applications/applications.html:6
 msgid "Søknader"
 msgstr "Applications"
+
+#: internalportal/templates/internalportal/applications/applications.html:18
+#, fuzzy
+msgid "Ingen søknader"
+msgstr "No applications"
 
 #: internalportal/templates/internalportal/applications/approve.html:16
 msgid "Godkjenn søknad"
@@ -284,25 +300,25 @@ msgstr "Application forwarded to the next group"
 msgid "Søknaden finnes ikke"
 msgstr "The application does not exist"
 
-#: internalportal/views.py:125
+#: internalportal/views.py:129
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr "The application has no more groups to go to"
 
-#: internalportal/views.py:135
+#: internalportal/views.py:139
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr "The group {group_name} does not exist. Contact the administrator."
 
-#: internalportal/views.py:148
-#, python-brace-format
-msgid "Gruppen {group} har ingen ledere"
-msgstr "The group {group} has no leaders"
+#: internalportal/views.py:152
+#, fuzzy, python-brace-format
+msgid "Gruppen {group} har ingen ledere. Kontakt administrator."
+msgstr "The group {group_name} does not exist. Contact the administrator."
 
-#: internalportal/views.py:154
+#: internalportal/views.py:158
 msgid "Søknad sendt videre"
 msgstr "Application forwarded"
 
-#: internalportal/views.py:255
+#: internalportal/views.py:259
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""
 "Have the user log in with Feide first and use the applicant's NTNU email."

@@ -113,7 +113,11 @@ class ApplicationNextGroupView(UserPassesTestMixin, BaseDetailView):
             return HttpResponseRedirect(reverse_lazy("internalportal:applications"))
         new_application_message = render_to_string(
             "applications/new_application_email.txt",
-            {"applications_url": reverse("internalportal:applications")},
+            {
+                "applications_url": request.build_absolute_uri(
+                    reverse("internalportal:applications")
+                )
+            },
         )
         next_application_groups = application.applicationgroupchoice_set.order_by(
             "priority"

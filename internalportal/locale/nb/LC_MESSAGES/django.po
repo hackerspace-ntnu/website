@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 12:10+0100\n"
+"POT-Creation-Date: 2023-11-27 12:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,47 +75,55 @@ msgid "Hold intervju"
 msgstr ""
 
 #: internalportal/templates/internalportal/applications/application.html:35
+msgid "E-post for avslå"
+msgstr ""
+
+#: internalportal/templates/internalportal/applications/application.html:40
 msgid "Få kandidaten til å logge inn på nettsiden"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:36
+#: internalportal/templates/internalportal/applications/application.html:41
+msgid "E-post for godkjent"
+msgstr ""
+
+#: internalportal/templates/internalportal/applications/application.html:46
 msgid ""
 "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack "
 "dokumentet fra Google Drive"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:37
+#: internalportal/templates/internalportal/applications/application.html:47
 msgid "Legg kandidaten inn i kommunikasjonskanaler"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:42
+#: internalportal/templates/internalportal/applications/application.html:52
 msgid "Send e-post om intervju"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:47
+#: internalportal/templates/internalportal/applications/application.html:57
 #: internalportal/templates/internalportal/applications/applications.html:23
 msgid "Tilbake"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:48
+#: internalportal/templates/internalportal/applications/application.html:58
 #: internalportal/templates/internalportal/applications/approve.html:49
 msgid "Godkjenn"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:49
+#: internalportal/templates/internalportal/applications/application.html:59
 msgid "Fjern"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:51
-#: internalportal/templates/internalportal/applications/application.html:56
+#: internalportal/templates/internalportal/applications/application.html:61
+#: internalportal/templates/internalportal/applications/application.html:66
 msgid "Send videre"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:54
+#: internalportal/templates/internalportal/applications/application.html:64
 msgid "Er du sikker på at du vil sende søknaden videre?"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/application.html:55
+#: internalportal/templates/internalportal/applications/application.html:65
 msgid "Søknaden sendes til"
 msgstr ""
 
@@ -177,8 +185,41 @@ msgid "Epost"
 msgstr ""
 
 #: internalportal/templates/internalportal/applications/approve.html:45
-#: internalportal/templates/internalportal/applications/interview_email_form.html:52
+#: internalportal/templates/internalportal/applications/interview_email_form.html:45
 msgid "Gå tilbake"
+msgstr ""
+
+#: internalportal/templates/internalportal/applications/approved_email.txt:1
+#, python-format
+msgid ""
+" Hei %(name)s,\n"
+"\n"
+"Tusen takk for din søknad hos Hackerspace NTNU og for det trivelige "
+"intervjuet.\n"
+"\n"
+"Du gjorde et godt inntrykk på intervjuet og vi ønsker å tilby deg medlemskap "
+"i Hackerspace NTNU %(application_group)s.\n"
+"\n"
+"Vi ønsker gjerne at du svarer på denne mailen med å enten akseptere eller "
+"avslå tilbudet om medlemskap. \n"
+"\n"
+"Med vennlig hilsen,\n"
+"%(application_group)s "
+msgstr ""
+
+#: internalportal/templates/internalportal/applications/denied_email.txt:1
+#, python-format
+msgid ""
+" Hei %(name)s,\n"
+"\n"
+"Tusen takk for din søknad hos Hackerspace NTNU og for det trivelige "
+"intervjuet.\n"
+"\n"
+"Dessverre får du ikke plass i Hackerspace %(application_group)s.\n"
+"Jeg ønsker deg lykke til videre med studier.\n"
+"\n"
+"Med vennlig hilsen,\n"
+"%(application_group)s"
 msgstr ""
 
 #: internalportal/templates/internalportal/applications/interview_email.txt:1
@@ -209,11 +250,6 @@ msgstr ""
 msgid "Lag e-post"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/interview_email_form.html:46
-#: internalportal/templates/internalportal/door-access-member-list.html:6
-msgid "Kopier til utklippstavle"
-msgstr ""
-
 #: internalportal/templates/internalportal/applications/personalia_box.html:5
 msgid "Personalia"
 msgstr ""
@@ -232,6 +268,11 @@ msgstr ""
 
 #: internalportal/templates/internalportal/applications/personalia_box.html:11
 msgid "Søknad motatt"
+msgstr ""
+
+#: internalportal/templates/internalportal/applications/text_box_copy.html:9
+#: internalportal/templates/internalportal/door-access-member-list.html:6
+msgid "Kopier til utklippstavle"
 msgstr ""
 
 #: internalportal/templates/internalportal/door-access-member-list.html:12
@@ -306,32 +347,32 @@ msgstr ""
 msgid "venter"
 msgstr ""
 
-#: internalportal/views.py:95
+#: internalportal/views.py:108
 msgid "Søknad sendt videre til neste gruppe"
 msgstr ""
 
-#: internalportal/views.py:104
+#: internalportal/views.py:117
 msgid "Søknaden finnes ikke"
 msgstr ""
 
-#: internalportal/views.py:119
+#: internalportal/views.py:133
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr ""
 
-#: internalportal/views.py:128
+#: internalportal/views.py:143
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:145
+#: internalportal/views.py:160
 #, python-brace-format
 msgid "Gruppen {group} har ingen ledere. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:156
+#: internalportal/views.py:171
 msgid "Søknad sendt videre"
 msgstr ""
 
-#: internalportal/views.py:256
+#: internalportal/views.py:272
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""

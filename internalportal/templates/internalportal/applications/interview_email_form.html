@@ -37,14 +37,7 @@
             </form>
 
             {% if interview_email %}
-                <div class="row section">
-                    <div class="col s12" id="email-text" style="border: 0.5px solid black;">
-                        {{ interview_email | safe | linebreaks }}
-                    </div>
-                </div>
-                <button onclick="copyToClip()" class="btn waves-effect waves-light">
-                    <i class="material-icons left">content_paste</i>{% trans "Kopier til utklippstavle" %}
-                </button>
+                {% include "internalportal/applications/text-box-copy.html" with text=interview_email %}
             {% endif %}
         </div>
         <div class="section">

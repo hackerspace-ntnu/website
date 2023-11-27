@@ -1,0 +1,11 @@
+{% load i18n %}
+{% blocktranslate with name=application.name %} Hei {{ name }},
+
+Tusen takk for din søknad hos Hackerspace NTNU og for det trivelige intervjuet.
+
+Du gjorde et godt inntrykk på intervjuet og vi ønsker å tilby deg medlemskap i Hackerspace NTNU {{ application_group }}.
+
+Vi ønsker gjerne at du svarer på denne mailen med å enten akseptere eller avslå tilbudet om medlemskap. 
+
+Med vennlig hilsen,
+{{ application_group }} {% endblocktranslate %}

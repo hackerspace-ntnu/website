@@ -84,6 +84,18 @@ class ApplicationView(UserPassesTestMixin, DetailView):
         context = super().get_context_data(**kwargs)
         groups = self.get_object().applicationgroupchoice_set.all().order_by("priority")
         context["second_group"] = groups[1] if groups.count() > 1 else None
+        email_data = {
+            "application": self.get_object(),
+            "application_group": groups.first().group,
+        }
+        context["denied_email"] = render_to_string(
+            "internalportal/applications/denied_email.txt",
+            email_data,
+        )
+        context["approved_email"] = render_to_string(
+            "internalportal/applications/approved_email.txt",
+            email_data,
+        )
         return context
 
 

@@ -2,16 +2,12 @@ from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
-    PermissionRequiredMixin,
-    UserPassesTestMixin,
-)
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import FormView, HttpResponseRedirect
 from django.core.mail import send_mail
 from django.db.models import OuterRef, Q, Subquery
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -62,17 +58,13 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class ApplicationsView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class ApplicationsView(PermissionRequiredMixin, UserPassesTestMixin, ListView):
     template_name = "internalportal/applications/applications.html"
     permission_required = "userprofile.is_active_member"
     context_object_name = "applications"
 
     def test_func(self):
         return get_commitee_with_leader(self.request.user) is not None
-
-    def handle_no_permission(self):
-        # TODO: Display page asking user to log in if they are not
-        return redirect("/")
 
     def get_queryset(self):
         committee = get_commitee_with_leader(self.request.user)

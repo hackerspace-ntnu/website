@@ -1,5 +1,4 @@
-{% load i18n %}
-{% blocktranslate with name=application.name %}Hei {{ name }},
+{% load i18n %}{% blocktranslate with name=application.name %}Hei {{ name }},
 
 Tusen takk for din søknad hos Hackerspace NTNU og for det trivelige intervjuet.
 

@@ -54,6 +54,7 @@ class InternalPortalView(PermissionRequiredMixin, TemplateView):
         )
         committee = get_commitee_with_leader(self.request.user)
         context["new_applicants_no"] = get_applications_for_committee(committee).count()
+        context["user_is_leader"] = committee is not None
 
         return context
 

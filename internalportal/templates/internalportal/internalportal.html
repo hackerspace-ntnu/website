@@ -169,17 +169,19 @@
                             </div>
                         {% endif %}
 
-                        <div class="col s12 m4">
-                            <a href="{% url 'internalportal:applications' %}">
-                                <div class="card-panel center" style="position: relative;">
-                                    <i class="material-icons large black-text">groupadd</i>
-                                    <h5>{% trans "Søkere" %}</h5>
-                                    {% if new_applicants_no %}
-                                        <span class="new badge hs-green" data-badge-caption="{% trans "venter" %}" style="position: absolute; top: 20px; right: 20px;">{{ new_applicants_no }}</span>
-                                    {% endif %}
-                                </div>
-                            </a>
-                        </div>
+                        {% if user_is_leader %}
+                            <div class="col s12 m4">
+                                <a href="{% url 'internalportal:applications' %}">
+                                    <div class="card-panel center" style="position: relative;">
+                                        <i class="material-icons large black-text">groupadd</i>
+                                        <h5>{% trans "Søkere" %}</h5>
+                                        {% if new_applicants_no %}
+                                            <span class="new badge hs-green" data-badge-caption="{% trans "venter" %}" style="position: absolute; top: 20px; right: 20px;">{{ new_applicants_no }}</span>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

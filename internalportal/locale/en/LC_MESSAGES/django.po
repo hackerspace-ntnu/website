@@ -86,7 +86,7 @@ msgstr "Email to deny"
 #: internalportal/templates/internalportal/applications/application.html:55
 #: internalportal/templates/internalportal/applications/interview_email_form.html:41
 msgid "Emne"
-msgstr ""
+msgstr "Subject"
 
 #: internalportal/templates/internalportal/applications/application.html:43
 #: internalportal/templates/internalportal/applications/application.html:55
@@ -419,7 +419,7 @@ msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr "The group {group_name} does not exist. Contact the administrator."
 
 #: internalportal/views.py:158
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Gruppen {group} har ingen ledere. Kontakt administrator."
 msgstr ""
 "The group {group} does not have any leaders. Contact the administrator."

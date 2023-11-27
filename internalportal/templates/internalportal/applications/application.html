@@ -30,26 +30,30 @@
                         <h3 class="card-title">{% trans "Intervjuprosessen" %}</h3>
                         <ol>
                             <li>{% trans "Les over søknaden" %}</li>
-                            <li>{% trans "Send mail om tidspunkt og sted for foreslått intervju" %}</li>
+                            <li>
+                                <a class="btn btn-small" href="{% url 'internalportal:interview_email' application.id %}">{% trans "Send e-post om intervju" %}</a>
+                            </li>
                             <li>{% trans "Hold intervju" %}</li>
-                            <li><a class="modal-trigger btn btn-small" href="approved_email_modal">{% trans "E-post for avslå" %}</a>
-                                <div class="modal" id="approved_email_modal">
-                                    {% include "internalportal/applications/text-box-copy.html" with text=denied_email %}
+                            <li>{% trans "Gi beskjed om kandidaten ikke er videre i intervjuprosessen" %}<br />
+                                <a class="modal-trigger btn btn-small" href="#denied_email_modal">
+                                    {% trans "E-post for å avslå" %}
+                                </a>
+                                <div class="modal" id="denied_email_modal">
+                                    {% include "internalportal/applications/text_box_copy.html" with text=denied_email %}
                                 </div>
                             </li>
                             <li>{% trans "Få kandidaten til å logge inn på nettsiden" %}</li>
-                            <li><a class="modal-trigger btn btn-small" href="approved_email_modal">{% trans "E-post for godkjent" %}</a>
+                            <li>{% trans "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack dokumentet fra Google Drive" %}<br />
+                                <a class="modal-trigger btn btn-small" href="#approved_email_modal">
+                                    {% trans "E-post for å godkjenne" %}
+                                </a>
                                 <div class="modal" id="approved_email_modal">
-                                    {% include "internalportal/applications/text-box-copy.html" with text=approved_email %}
+                                    {% include "internalportal/applications/text_box_copy.html" with text=approved_email %}
                                 </div>
                             </li>
-                            <li>{% trans "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack dokumentet fra Google Drive" %}</li>
                             <li>{% trans "Legg kandidaten inn i kommunikasjonskanaler" %}</li>
                         </ol>
                     </div>
-                </div>
-                <div>
-                    <a class="btn" href="{% url 'internalportal:interview_email' application.id %}">{% trans "Send e-post om intervju" %}</a>
                 </div>
             </div>
         </div>

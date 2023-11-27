@@ -87,6 +87,7 @@ class ApplicationView(UserPassesTestMixin, DetailView):
         email_data = {
             "application": self.get_object(),
             "application_group": groups.first().group,
+            "LANGUAGE_CODE": self.request.LANGUAGE_CODE,
         }
         context["denied_email"] = render_to_string(
             "internalportal/applications/denied_email.txt",
@@ -226,6 +227,7 @@ class ApplicationInterviewEmailView(UserPassesTestMixin, FormView, DetailView):
                     .first()
                     .group
                 ),
+                "LANGUAGE_CODE": self.request.LANGUAGE_CODE,
             },
         )
         self.request.session["interview_email"] = interview_email

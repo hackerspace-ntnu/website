@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 01:34+0100\n"
+"POT-Creation-Date: 2023-11-27 01:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,33 +292,33 @@ msgstr "Applicants"
 msgid "venter"
 msgstr "waiting"
 
-#: internalportal/views.py:104
+#: internalportal/views.py:95
 msgid "Søknad sendt videre til neste gruppe"
 msgstr "Application forwarded to the next group"
 
-#: internalportal/views.py:113
+#: internalportal/views.py:104
 msgid "Søknaden finnes ikke"
 msgstr "The application does not exist"
 
-#: internalportal/views.py:129
+#: internalportal/views.py:119
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr "The application has no more groups to go to"
 
-#: internalportal/views.py:139
+#: internalportal/views.py:128
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr "The group {group_name} does not exist. Contact the administrator."
 
-#: internalportal/views.py:152
+#: internalportal/views.py:145
 #, fuzzy, python-brace-format
 msgid "Gruppen {group} har ingen ledere. Kontakt administrator."
 msgstr "The group {group_name} does not exist. Contact the administrator."
 
-#: internalportal/views.py:158
+#: internalportal/views.py:156
 msgid "Søknad sendt videre"
 msgstr "Application forwarded"
 
-#: internalportal/views.py:259
+#: internalportal/views.py:256
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""
 "Have the user log in with Feide first and use the applicant's NTNU email."

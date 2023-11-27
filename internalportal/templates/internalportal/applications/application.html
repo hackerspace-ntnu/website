@@ -48,7 +48,14 @@
             <a href="{% url 'internalportal:approve_application' application.id %}"><button class="btn btn-large hs-green">{% trans "Godkjenn" %}</button></a>
             <a href="{% url 'internalportal:delete_application' application.id %}"><button class="btn btn-large hs-red">{% trans "Fjern" %}</button></a>
             {% if second_group %}
-                <a href="{% url 'internalportal:next_group' application.id %}" ><button class="btn btn-large">{% trans "Send videre" %}</button></a>
+                <a href="#send-to-next-group" class="modal-trigger btn btn-large">{% trans "Send videre" %}</a>
+                <div class="modal" id="send-to-next-group">
+                    <div class="modal-content">
+                        <h4>{% trans "Er du sikker på at du vil sende søknaden videre?" %}</h4>
+                        <p>{% trans "Søknaden sendes til" %} {{ second_group.group.name }}</p>
+                        <a href="{% url 'internalportal:next_group' application.id %}" class="btn btn-large">{% trans "Send videre" %}</a>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>

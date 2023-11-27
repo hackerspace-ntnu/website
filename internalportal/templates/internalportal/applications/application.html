@@ -39,7 +39,10 @@
                                     {% trans "E-post for å avslå" %}
                                 </a>
                                 <div class="modal" id="denied_email_modal">
-                                    {% include "internalportal/applications/text_box_copy.html" with text=denied_email %}
+                                    <div class="container">
+                                        <p class="section"><strong>{% trans "Emne" %}: </strong>[Hackerspace NTNU]: {% trans "Verv hos Hackerspace" %}</p>
+                                        {% include "internalportal/applications/text_box_copy.html" with text=denied_email %}
+                                    </div>
                                 </div>
                             </li>
                             <li>{% trans "Få kandidaten til å logge inn på nettsiden" %}</li>
@@ -48,7 +51,10 @@
                                     {% trans "E-post for å godkjenne" %}
                                 </a>
                                 <div class="modal" id="approved_email_modal">
-                                    {% include "internalportal/applications/text_box_copy.html" with text=approved_email %}
+                                    <div class="container">
+                                        <p class="section"><strong>{% trans "Emne" %}: </strong>[Hackerspace NTNU]: {% trans "Verv hos Hackerspace" %}</p>
+                                        {% include "internalportal/applications/text_box_copy.html" with text=approved_email %}
+                                    </div>
                                 </div>
                             </li>
                             <li>{% trans "Legg kandidaten inn i kommunikasjonskanaler" %}</li>

@@ -37,7 +37,10 @@
             </form>
 
             {% if interview_email %}
-                {% include "internalportal/applications/text_box_copy.html" with text=interview_email %}
+                <div class="container">
+                    <p class="section"><strong>{% trans "Emne" %}: </strong>[Hackerspace NTNU]: {% trans "Intervju" %}</p>
+                    {% include "internalportal/applications/text_box_copy.html" with text=interview_email %}
+                </div>
             {% endif %}
         </div>
         <div class="section">

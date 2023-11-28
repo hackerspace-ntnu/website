@@ -1,7 +1,12 @@
 from itertools import chain
 
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+from django.db.models import Q
 from django.views.generic import ListView, TemplateView
+from rest_framework.generics import ListAPIView
 
+from authentication.serializers import UserSerializer
 from news.models import Article, Event
 from projectarchive.models import Projectarticle
 from reservations.models import Queue
@@ -17,6 +22,25 @@ class SearchView(TemplateView):
         context["query"] = self.request.GET.get("q", "")
         context["page"] = self.request.GET.get("p", 1)
         return context
+
+
+class UserSearchAPIView(ListAPIView):
+    page_size = 10
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        search_query = self.request.GET.get("query", None)
+        page_size = int(self.request.GET.get("page-size", self.page_size))
+
+        if search_query is None:
+            return get_user_model().objects.none()
+        users = get_user_model().objects.filter(groups__in=Group.objects.all())
+        user_or_filter = (
+            Q(username__icontains=search_query)
+            | Q(first_name__icontains=search_query)
+            | Q(last_name__icontains=search_query)
+        )
+        return users.filter(user_or_filter).distinct()[:page_size]
 
 
 class SearchAPIView(ListView):

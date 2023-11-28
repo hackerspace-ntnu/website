@@ -92,6 +92,13 @@
                             <label for="id_responsible">{{ form.responsible.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
                         </div>
+                        <div class="input-field col s12">
+                            <i class="material-icons prefix">person</i>
+                            <input name="new-responsible" id="new-responsible" type="text" onInput="onInput" />
+                            <label for="new-responsible">Medlem</label>
+                            <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
+                        </div>
+                        <ul id="responsible-list"></ul>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
                             {{ form.time_start }}
@@ -250,6 +257,29 @@
             </div>
         </div>
     </form>
+    <script>
+        function removeAllChildren(element) {
+            while (element.firstChild) {
+                element.removeChild(element.lastChild);
+            }
+        }
+
+        function onInput(event) {
+            const value = event.target.value
+            const userListEl = document.querySelector("#responsible-list")
+            removeAllChildren(userListEl)
+            const users = searchUsers(value, undefined).then((res) => {
+                for (let i = 0; i < res.length; i++) {
+                    const user = res[i];
+                    const userEl = document.createElement("li")
+                    userEl.innerHTML = `${user["first_name"]} ${user["last_name"]}`
+                    userEl.setAttribute("id", user["username"])
+                    userListEl.appendChild(userEl)
+                }
+            })
+        }
+    </script>
+    <script src="{% static 'search/javascript/search_users.js' %}" />
     <script src="{% static 'news/js/edit_event.js' %}"></script>
     <script src="{% static 'website/js/datetimepicker.js' %}"></script>
     <script src="{% static 'news/js/save_draft_or_publish.js' %}"></script>

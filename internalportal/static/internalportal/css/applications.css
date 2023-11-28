@@ -1,0 +1,15 @@
+.application-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 10px;
+}
+
+.application-button-bar {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}

@@ -1,5 +1,4 @@
-{% load i18n %}
-{% blocktranslate with application_name=application.name start_time=interview.start_time %}Hei {{ application_name }},
+{% load i18n %}{% blocktranslate with application_name=application.name start_time=interview.start_time %}Hei {{ application_name }},
 Tusen takk for din søknad hos Hackerspace NTNU!
 
  

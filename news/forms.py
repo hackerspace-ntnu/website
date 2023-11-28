@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.utils import OperationalError, ProgrammingError
 from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from markdownx.fields import MarkdownxFormField
 
@@ -174,12 +175,13 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     registration_end = SplitDateTimeFieldCustom(label="Påmeldingsfrist")
     deregistration_end = SplitDateTimeFieldCustom(label="Avmeldingsfrist")
 
-    responsible = UserFullnameChoiceField(
+    responsible = forms.CharField(
         label="Arrangementansvarlig",
-        queryset=User.objects.all()
-        .filter(groups__name__in=get_committees())
-        .order_by("first_name"),
     )
+
+    def clean_responsible(self):
+        data = self.cleaned_data["responsible"]
+        return get_object_or_404(User, username=data)
 
     class Meta:
         model = Event

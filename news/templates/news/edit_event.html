@@ -6,6 +6,15 @@
     <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
     <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+    <link href="{% static 'website/css/select2.min.css' %}" rel="stylesheet" />
+    <style>
+        .select-wrapper {
+            display: none;
+        }
+        .select2 {
+            margin-top: 30px;
+        }
+    </style>
 {% endblock head %}
 
 {% block content %}
@@ -86,19 +95,12 @@
                             </p>
                             <span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
                         </div>
-                        <div class="input-field col s12">
+                        <div class="col s12 input-field">
                             <i class="material-icons prefix">person</i>
-                            {{ form.responsible }}
-                            <label for="id_responsible">{{ form.responsible.label }}</label>
+                            <label for="responsible-list">{{ form.responsible.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
+                            <select id="responsible-list" name="responsible"></select>
                         </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">person</i>
-                            <input name="new-responsible" id="new-responsible" type="text" onInput="onInput" />
-                            <label for="new-responsible">Medlem</label>
-                            <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
-                        </div>
-                        <ul id="responsible-list"></ul>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
                             {{ form.time_start }}
@@ -257,27 +259,21 @@
             </div>
         </div>
     </form>
+    <script src="{% static 'website/js/select2.min.js' %}" type="text/javascript" ></script>
     <script>
-        function removeAllChildren(element) {
-            while (element.firstChild) {
-                element.removeChild(element.lastChild);
+        $("#responsible-list").select2({
+            ajax: {
+                url: (params) => `/api/user-search?query=${params.term}`,
+                dataType: "json",
+                processResults: (res) => {
+                    return {
+                        results: res.map((usr) => ({
+                            id: usr["username"],
+                            text: `${usr["first_name"]} ${usr["last_name"]}`
+                        }))}
+                },
             }
-        }
-
-        function onInput(event) {
-            const value = event.target.value
-            const userListEl = document.querySelector("#responsible-list")
-            removeAllChildren(userListEl)
-            const users = searchUsers(value, undefined).then((res) => {
-                for (let i = 0; i < res.length; i++) {
-                    const user = res[i];
-                    const userEl = document.createElement("li")
-                    userEl.innerHTML = `${user["first_name"]} ${user["last_name"]}`
-                    userEl.setAttribute("id", user["username"])
-                    userListEl.appendChild(userEl)
-                }
-            })
-        }
+        })
     </script>
     <script src="{% static 'search/javascript/search_users.js' %}" />
     <script src="{% static 'news/js/edit_event.js' %}"></script>

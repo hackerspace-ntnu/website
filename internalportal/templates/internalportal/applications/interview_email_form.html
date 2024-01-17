@@ -1,0 +1,53 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'internalportal/css/applications.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% trans "E-post for intervju" as interview_email_header %}
+    {% include "website/page_header.html" with title=interview_email_header %}
+    <div class="container">
+        <div class="section">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="input-field col s12 m4">
+                        <i class="material-icons prefix">location_on</i>
+                        {{ form.location }}
+                        <label for="id_location">{{ form.location.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <i class="material-icons prefix">link</i>
+                        {{ form.location_link }}
+                        <label for="id_location_link">{{ form.location_link.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.location_link.errors }}</span>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <i class="material-icons prefix">date_range</i>
+                        {{ form.start_time }}
+                        <label for="id_start_time">{{ form.start_time.label }}</label>
+                        <span class="helper-text hs-red-text">{{ form.start_time.errors }}</span>
+                    </div>
+                </div>
+                <button class="btn" type="submit">{% trans "Lag e-post" %}</button>
+            </form>
+
+            {% if interview_email %}
+                <div class="container">
+                    <p class="section"><strong>{% trans "Emne" %}: </strong>[Hackerspace NTNU]: {% trans "Intervju" %}</p>
+                    {% include "internalportal/applications/text_box_copy.html" with text=interview_email %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="section">
+            <a class="btn btn-large left" href="{% url 'internalportal:application' application.id %}">
+                {% trans "Gå tilbake" %}
+            </a>
+        </div>
+    </div>
+    <script src="{% static 'website/js/datetimepicker.js' %}"></script>
+{% endblock %}

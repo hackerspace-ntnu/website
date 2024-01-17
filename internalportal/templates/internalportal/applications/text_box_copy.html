@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="section">
+    <div class="row section">
+        <div class="col s12" id="text-box" style="border: 0.5px solid black;">
+            {{ text | safe | linebreaks }}
+        </div>
+    </div>
+    <button onclick="copyToClip()" class="btn waves-effect waves-light">
+        <i class="material-icons left">content_paste</i>{% trans "Kopier til utklippstavle" %}
+    </button>
+</div>
+<script>
+    function copyToClip() {
+        let copyText = document.getElementById("text-box");
+        navigator.clipboard.writeText(copyText.innerText.trim());
+    }
+</script>

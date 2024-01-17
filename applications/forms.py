@@ -1,6 +1,9 @@
 from django.core.mail import send_mail
 from django.forms import ModelForm, Textarea, TextInput
 from django.template.loader import render_to_string
+from django.urls import reverse
+
+from committees.models import Committee
 
 from .models import Application, ApplicationGroupChoice
 
@@ -74,4 +77,23 @@ class ApplicationForm(ModelForm):
             [self.cleaned_data["email"]],
             fail_silently=False,
         )
-        pass
+
+        new_application_message = render_to_string(
+            "applications/new_application_email.txt",
+            {"applications_url": reverse("internalportal:applications")},
+        )
+        committee = Committee.objects.filter(
+            name=self.cleaned_data["group_choice"][0].name
+        ).first()
+        if committee:
+            emails = [
+                getattr(committee.main_lead, "email", None),
+                getattr(committee.second_lead, "email", None),
+            ]
+            send_mail(
+                "[Hackerspace NTNU] Ny søknad!",
+                new_application_message,
+                "Hackerspace NTNU",
+                emails,
+                fail_silently=False,
+            )

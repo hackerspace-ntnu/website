@@ -25,10 +25,10 @@ class ApplicationAdmin(BaseApplicationAdmin):
     list_display = [
         "name",
         "email",
-        "get_application_groups",
+        "groups",
     ]
 
-    def get_application_groups(self, obj):
+    def groups(self, obj):
         return ", ".join(
             [
                 group.name

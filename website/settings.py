@@ -344,6 +344,8 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE": False,
+    "DEFAULT_PAGINATION_CLASS": "website.pagination.StandardResultsSetPagination",
+    "PAGE_SIZE": 10,
 }
 
 # Random greetings that are displayed to the user on the internalportal page
@@ -367,7 +369,8 @@ WORKSHOP_OPEN_DAYS = 5
 #################################
 
 # Markdownify
-MARKDOWNX_MARKDOWNIFY_FUNCTION = "markdownx.utils.markdownify"  # Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
+# Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
+MARKDOWNX_MARKDOWNIFY_FUNCTION = "markdownx.utils.markdownify"
 
 # Markdown extensions
 MARKDOWNX_MARKDOWN_EXTENSIONS = (
@@ -381,7 +384,8 @@ MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = (
 MARKDOWNX_URLS_PATH = (
     "/markdownx/markdownify/"  # URL that returns compiled markdown text.
 )
-MARKDOWNX_UPLOAD_URLS_PATH = "/markdownx/upload/"  # URL that accepts file uploads, returns markdown notation of the image.
+# URL that accepts file uploads, returns markdown notation of the image.
+MARKDOWNX_UPLOAD_URLS_PATH = "/markdownx/upload/"
 
 # Media path
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime(

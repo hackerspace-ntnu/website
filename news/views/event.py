@@ -15,13 +15,15 @@ class EventViewSet(viewsets.ModelViewSet):
     search_fields = ["title", "ingress_content", "main_content"]
 
     def get_queryset(self):
-        queryset = Event.objects.all().order_by("-pub_date")
+        queryset = Event.objects.all()
         user = self.request.user
-        non_drafts = queryset.filter(draft=False)
 
-        if user.is_authenticated:
-            return non_drafts.union(queryset.filter(author=user, draft=True))
-        return non_drafts
+        include_internal = user and user.has_perm("news.can_view_internal_event")
+        if include_internal:
+            queryset = Event.objects.all()
+        else:
+            queryset = Event.objects.filter(internal=False)
+        return queryset.order_by("-pub_date")
 
     def get_serializer_class(self):
         if self.action == "list":

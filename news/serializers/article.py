@@ -1,9 +1,13 @@
 from rest_framework import serializers
 
+from authentication.serializers.user import UserProfileDetailSerializer
 from news.models import Article
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
+
+    author = UserProfileDetailSerializer(read_only=True)
+
     class Meta:
         model = Article
         fields = (
@@ -13,6 +17,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
             "internal",
             "pub_date",
             "thumbnail",
+            "author",
         )
 
 

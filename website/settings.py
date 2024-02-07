@@ -346,6 +346,9 @@ REST_FRAMEWORK = {
     "ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE": False,
     "DEFAULT_PAGINATION_CLASS": "website.pagination.StandardResultsSetPagination",
     "PAGE_SIZE": 10,
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+    ],
 }
 
 # Random greetings that are displayed to the user on the internalportal page

@@ -8,7 +8,6 @@ from news.serializers.article import ArticleListSerializer, ArticleRetrieveSeria
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
@@ -20,6 +19,10 @@ class ArticleViewSet(viewsets.ModelViewSet):
         "author__first_name",
         "author__last_name",
     ]
+
+    def create(self, request, *args, **kwargs):
+        request.data["author"] = request.user.id
+        return super().create(request, *args, **kwargs)
 
     def get_serializer_class(self):
         if self.action == "list":

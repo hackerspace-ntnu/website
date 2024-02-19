@@ -94,3 +94,15 @@ def get_user_by_stud_or_ntnu_email(email: str):
         user = User.objects.filter(email=query_email).first()
         if user:
             return user
+
+
+def convert_to_stud_email(*user_emails: str):
+    new_emails = []
+    for email in user_emails:
+        split_email = email.split("@ntnu")
+        if len(split_email) > 1:
+            new_email = split_email[0] + "@stud.ntnu.no"
+            new_emails.append(new_email)
+        else:
+            new_emails.append(email)
+    return new_emails

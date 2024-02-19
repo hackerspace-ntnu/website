@@ -21,6 +21,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from authentication.views import convert_to_stud_email
 from committees.models import Committee
 
 from .forms import (
@@ -425,7 +426,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             "[Hackerspace NTNU] Arrangement gir skill du mangler!",
             plain_message,
             "Hackerspace NTNU",
-            list(members_without_skill),
+            convert_to_stud_email(members_without_skill),
             fail_silently=False,
         )
         pass

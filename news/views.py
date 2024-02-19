@@ -415,6 +415,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             get_user_model()
             .objects.filter(groups__name__in=list(committee_array))
             .exclude(profile__skills__in=skills)
+            .values_list("email", flat=True)
         )
 
         plain_message = render_to_string(
@@ -426,7 +427,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             "[Hackerspace NTNU] Arrangement gir skill du mangler!",
             plain_message,
             "Hackerspace NTNU",
-            convert_to_stud_email(members_without_skill),
+            convert_to_stud_email(*members_without_skill),
             fail_silently=False,
         )
         pass

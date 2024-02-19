@@ -401,7 +401,6 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             upload_form.save()
 
             skills = form.cleaned_data["skills"]
-            print(skills)
             if len(skills) > 0 and not form.cleaned_data["draft"]:
                 self._send_mail_to_members_without_skill(skills, self.object)
 

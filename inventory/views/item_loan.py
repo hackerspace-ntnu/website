@@ -136,6 +136,7 @@ class ItemLoanApplicationView(CreateView):
     fields = [
         "item",
         "amount",
+        "loan_from",
         "loan_to",
         "purpose",
         "contact_name",

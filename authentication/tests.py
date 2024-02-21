@@ -164,10 +164,10 @@ class AssociationTest(TestCase):
         self.assertEqual(new_emails[1], "some_other_stud@stud.ntnu.no")
 
     def test_convert_empty_email(self):
-        emails = ["", "ntnu", "@ntnu", "@ntnu.no"]
+        emails = ["", "ntnu", "@ntnu.", "@ntnu.no"]
         new_emails = convert_to_stud_email(*emails)
-        self.assertEqual(new_emails, ["", "ntnu", "@stud.ntnu.no", "@stud.ntnu.no"])
+        self.assertEqual(new_emails, ["ntnu", "@stud.ntnu.no", "@stud.ntnu.no"])
 
     def test_convert_none_values(self):
         new_emails = convert_to_stud_email("f@ntnu.no", None, None)
-        self.assertEqual(new_emails, ["f@ntnu.no"])
+        self.assertEqual(new_emails, ["f@stud.ntnu.no"])

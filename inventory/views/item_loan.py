@@ -211,6 +211,9 @@ class ItemLoanApplicationView(CreateView):
         max_duration = Item.objects.get(id=self.kwargs["pk"]).max_loan_duration
         # Convert 'loan to' date from datetime.date to datetime.datetime (i.e. add time 00:00)
         # (because same type is required for the comparison check)
+        loan_from_datetime = datetime.combine(
+            form.instance.loan_from, datetime.min.time()
+        )
         loan_to_datetime = datetime.combine(form.instance.loan_to, datetime.min.time())
         if max_duration and loan_to_datetime > datetime.now() + timedelta(
             days=max_duration
@@ -218,6 +221,19 @@ class ItemLoanApplicationView(CreateView):
             form.errors[
                 "loan_to"
             ] = f"Du kan ikke låne denne gjenstanden lenger enn {max_duration} dager"
+            return self.render_to_response(self.get_context_data(form=form))
+        if loan_to_datetime < loan_from_datetime:
+            form.errors["loan_from"] = "Startdato for lån må være før sluttdato for lån"
+            return self.render_to_response(self.get_context_data(form=form))
+        if loan_from_datetime < datetime.now():
+            form.errors[
+                "loan_from"
+            ] = "Du kan ikke starte å låne denne gjenstanden før i dag"
+            return self.render_to_response(self.get_context_data(form=form))
+        if loan_from_datetime > datetime.now() + timedelta(days=14):
+            form.errors[
+                "loan_from"
+            ] = "Du kan ikke starte å låne denne gjenstanden mer enn 14 dager frem i tid"
             return self.render_to_response(self.get_context_data(form=form))
 
         # bit ugly but it works

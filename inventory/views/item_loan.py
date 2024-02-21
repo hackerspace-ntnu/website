@@ -191,6 +191,7 @@ class ItemLoanApplicationView(CreateView):
             max_date = datetime.now() + timedelta(days=max_duration)
             form.fields["loan_to"].widget.attrs["data-max-date"] = max_date
         form.fields["loan_to"].widget.attrs["class"] = "datepicker"
+        form.fields["loan_from"].widget.attrs["class"] = "datepicker"
         return form
 
     def get_context_data(self, **kwargs):

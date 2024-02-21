@@ -21,7 +21,7 @@ class ItemLoan(models.Model):
     amount = models.IntegerField("Antall", validators=[MinValueValidator(1)])
 
     # Automatically set once the application is accepted
-    loan_from = models.DateField("Lån fra", default=timezone.now)
+    loan_from = models.DateField("Lån fra", default=timezone.now().strftime("%d.%m.%Y"))
     loan_to = models.DateField("Lån til")
     purpose = models.CharField("Formål", max_length=50)
 

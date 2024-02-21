@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from django.contrib.auth import get_user_model, logout
 from django.shortcuts import redirect
@@ -98,7 +98,7 @@ def get_user_by_stud_or_ntnu_email(email: str):
             return user
 
 
-def convert_to_stud_email(*user_emails: str | None) -> List[str]:
+def convert_to_stud_email(*user_emails: Union[str, None]) -> List[str]:
     new_emails = []
     for email in user_emails:
         if not email:

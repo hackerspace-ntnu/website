@@ -12,7 +12,7 @@
     {% includechildren "website/page_overview/content_title.html" with title=trans_search %}
         <div class="search-container card-panel z-depth-0 row">
             <div class="input-field col s12">
-                <input id="search-input" name="query" placeholder="Søk" value="{{ query }}" type="text">
+                <input id="search-input" name="query" placeholder="{% trans "Søk" %}" value="{{ query }}" type="text">
             </div>
         </div>
     {% endincludechildren %}

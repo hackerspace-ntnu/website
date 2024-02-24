@@ -1,14 +1,15 @@
 from django import template
-from django.template.library import token_kwargs
-from django.template.loader_tags import IncludeNode, construct_relative_path
+from django.template.loader_tags import IncludeNode, do_include
 
 register = template.Library()
 
 
-class NewIncludeNode(IncludeNode):
-    def __init__(self, nodelist, file_name, context, *args, **kwargs):
-        super().__init__(file_name, *args, extra_context=context, **kwargs)
+class ChildrenIncludedNode(IncludeNode):
+    def __init__(self, nodelist, include_node):
         self.nodelist = nodelist
+        self.template = include_node.template
+        self.extra_context = include_node.extra_context
+        self.isolated_context = include_node.isolated_context
 
     def render(self, context):
         context["children"] = self.nodelist.render(context)
@@ -17,29 +18,29 @@ class NewIncludeNode(IncludeNode):
 
 @register.tag("includechildren")
 def include_children(parser, token):
-    bits = token.split_contents()
-    if len(bits) < 2:
-        raise template.TemplateSyntaxError(
-            "'%s' takes at least one argument (name of the template to be included)"
-            % bits[0]
-        )
+    """Extends the include tag to add children to the context.
+    Any HTML between `includechildren` and `endincludechildren` are
+    inserted in the `children` context variable.
 
-    file_name = bits[1]
+    Usage:
+    ```html
+    <!-- page.html -->
+        {% includechildren "template.html" %}
+            <h1>Children</h1>
+        {% endincludechildren %}
 
+    <!-- template.html -->
+        <div>
+            {{ children }}
+        </div>
+    ```
+    """
     nodelist = parser.parse(("endincludechildren",))
     parser.delete_first_token()
 
-    remaining_bits = bits[2:]
-    arguments = {}
-    while remaining_bits:
-        key = remaining_bits.pop(0)
-        if key == "with":
-            arguments = token_kwargs(remaining_bits, parser)
+    include_node = do_include(parser, token)
 
-    file_name = construct_relative_path(parser.origin.template_name, file_name)
-    print(arguments)
-    return NewIncludeNode(
+    return ChildrenIncludedNode(
         nodelist,
-        parser.compile_filter(file_name),
-        arguments,
+        include_node,
     )

@@ -7,18 +7,10 @@
 {% endblock header %}
 
 {% block content %}
-    <div class="section hs-green">
-        <div class="container">
-            <div class="row valign-wrapper white-text">
-                <div class="col s12">
-                    <h4>
-                        {% trans "Regler" %}
-                    </h4>
-                    <p>{%trans "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr" %}</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Regler" as trans_rules %}
+    {% translate "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr" as trans_rules_desc %}
+    {% include "website/page_overviews/content_title.html" with title=trans_rules description=trans_rules_desc %}
+
     <div class="section">
         <div class="container">
             <div class="row">

@@ -8,7 +8,7 @@
 {% block content %}
     {% translate "Lager" as trans_inventory %}
     {% translate "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!" as trans_inventory_desc %}
-    {% includechildren "website/page_overviews/content_title.html" with title=trans_inventory description=trans_inventory_desc %}
+    {% includechildren "website/page_overview/content_title.html" with title=trans_inventory description=trans_inventory_desc %}
         <a href="{% url 'inventory:equipment' %}" class="btn white green-text">{% trans 'Se utstyr og apparater' %}</a>
     {% endincludechildren %}
 

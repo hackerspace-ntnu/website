@@ -1,17 +1,12 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Lånesøknader</h4>
-                    <p>Oversikt over lånesøknader</p>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    {% translate "Lånesøknader" as trans_loans %}
+    {% translate "Oversikt over lånesøknader" as trans_loans_desc %}
+    {% include "website/page_overview/content_title.html" with title=trans_loans description=trans_loans_desc %}
 
     <div class="section">
         <div class="container">

@@ -13,7 +13,7 @@
 {% block content %}
     {% translate "Vaktliste" as trans_watchlist %}
     {% translate "Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har" as trans_watchlist_description %}
-    {% include "website/page_overviews/content_title.html" with title=trans_watchlist description=trans_watchlist_description %}
+    {% include "website/page_overview/content_title.html" with title=trans_watchlist description=trans_watchlist_description %}
 
     {% if perms.watchlist.delete_shiftslot %}
         {% include "watchlist/_watchlist_admin_banner.html" %}

@@ -11,7 +11,7 @@
 {% endblock %}
 {% block content %}
     {% translate "Medlemmer i Hackerspace" as trans_members %}
-    {% includechildren "website/page_overviews/content_title.html" with title=trans_members %}
+    {% includechildren "website/page_overview/content_title.html" with title=trans_members %}
         <p class="flow-text white-text">{% trans "For oversikt over gruppene og deres medlemmer, se" %} <a class="hs-gray-text" href="{% url 'about' %}"> {% trans "Om oss" %}</a>.</p>
         <div class="members-search-container card-panel z-depth-0 row">
             <!-- Member name search -->

@@ -1,22 +1,20 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% load i18n %}
+{% load includechildren %}
 {% block header %}
     <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 {% block content %}
-    <div class="section hs-green">
-        <div class="container">
-            <div class="row">
-                <div class="col s12 white-text">
-                    <h4>Brukerprofil</h4>
-                    {% if user == profile.user %}
-                        <a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">Innstillinger</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
+
+    {% translate "Brukerprofil" as trans_profile %}
+    {% includechildren "website/page_overview/content_title.html" with title=trans_profile %}
+        {% if user == profile.user %}
+            <a id="edit_profile" href="{% url 'userprofile:edit_profile' %}" class="btn btn-flat waves-effect waves-light white hs-gray-text">{% trans "Innstillinger" %}</a>
+        {% endif %}
+    {% endincludechildren %}
+
     <div class="section hs-gray-text">
         <div class="container">
             <div class="row profile-basic">

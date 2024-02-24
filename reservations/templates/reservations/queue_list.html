@@ -6,7 +6,7 @@
 {% block content %}
     {% translate "Reservasjoner" as trans_reservations %}
     {% translate "På denne siden kan du reservere bruk av diverse utstyr" as trans_reservations_desc %}
-    {% includechildren "website/page_overviews/content_title.html" with title=trans_reservations description=trans_reservations_desc %}
+    {% includechildren "website/page_overview/content_title.html" with title=trans_reservations description=trans_reservations_desc %}
         <a href="{% url 'inventory:equipment' %}" class="btn-large white green-text">{% trans 'Se Hackerspace sitt utstyr' %}</a>
     {% endincludechildren %}
 

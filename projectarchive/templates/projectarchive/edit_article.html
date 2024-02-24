@@ -1,5 +1,6 @@
 {% extends 'website/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
@@ -8,15 +9,9 @@
 {% endblock head %}
 
 {% block content %}
-    <div class="section block hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Rediger prosjektartikkel</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Rediger prosjektartikkel" as trans_edit %}
+    {% include "website/page_overview/content_title.html" with title=trans_edit %}
+
     <div class="section block">
         <div class="container">
             <div class="card-panel">

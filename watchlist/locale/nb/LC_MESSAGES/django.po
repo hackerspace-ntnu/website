@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-02-24 11:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,47 +18,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: watchlist/templates/watchlist/watchlist.html:19
+#: watchlist/templates/watchlist/watchlist.html:14
+msgid "Vaktliste"
+msgstr ""
+
+#: watchlist/templates/watchlist/watchlist.html:15
 msgid ""
 "Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva "
 "slags kompetanse de vakthavende har"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:108
+#: watchlist/templates/watchlist/watchlist.html:101
 msgid "Tid"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:190
-#: watchlist/templates/watchlist/watchlist.html:199
-#: watchlist/templates/watchlist/watchlist.html:208
-#: watchlist/templates/watchlist/watchlist.html:217
+#: watchlist/templates/watchlist/watchlist.html:183
+#: watchlist/templates/watchlist/watchlist.html:192
+#: watchlist/templates/watchlist/watchlist.html:201
+#: watchlist/templates/watchlist/watchlist.html:210
 msgid "Verkstedet er"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:190
+#: watchlist/templates/watchlist/watchlist.html:183
 msgid "stengt"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:191
+#: watchlist/templates/watchlist/watchlist.html:184
 msgid "Ingen på vakt"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:199
-#: watchlist/templates/watchlist/watchlist.html:208
-#: watchlist/templates/watchlist/watchlist.html:217
+#: watchlist/templates/watchlist/watchlist.html:192
+#: watchlist/templates/watchlist/watchlist.html:201
+#: watchlist/templates/watchlist/watchlist.html:210
 msgid "åpent"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:200
+#: watchlist/templates/watchlist/watchlist.html:193
 msgid "person på vakt"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:209
-#: watchlist/templates/watchlist/watchlist.html:218
+#: watchlist/templates/watchlist/watchlist.html:202
+#: watchlist/templates/watchlist/watchlist.html:211
 msgid "personer på vakt"
 msgstr ""
 
-#: watchlist/templates/watchlist/watchlist.html:224
+#: watchlist/templates/watchlist/watchlist.html:217
 msgid ""
 "Hvis ferdighetskulen er avmerket viser det oppnåd ferdighet blant alle som "
 "er på vakt."

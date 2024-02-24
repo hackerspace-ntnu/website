@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-02-24 11:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -430,11 +430,11 @@ msgstr ""
 msgid "NO, GO BACK"
 msgstr ""
 
-#: news/templates/news/events.html:15
+#: news/templates/news/events.html:10
 msgid "Arrangementer"
 msgstr ""
 
-#: news/templates/news/events.html:27 news/templates/news/news.html:27
+#: news/templates/news/events.html:18 news/templates/news/news.html:18
 msgid "Dine utkast"
 msgstr ""
 
@@ -442,11 +442,11 @@ msgstr ""
 msgid "info"
 msgstr ""
 
-#: news/templates/news/news.html:15
+#: news/templates/news/news.html:10
 msgid "Nyheter"
 msgstr ""
 
-#: news/templates/news/news.html:45
+#: news/templates/news/news.html:36
 msgid "Publiserte artikler"
 msgstr ""
 

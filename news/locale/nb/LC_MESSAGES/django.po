@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 13:35+0100\n"
+"POT-Creation-Date: 2024-02-24 15:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgid "Administrator-meny"
 msgstr ""
 
 #: news/templates/news/_event_admin_menu.html:14
-#: news/templates/news/edit_event.html:16
+#: news/templates/news/edit_event.html:12
 msgid "Rediger arrangement"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgstr ""
 msgid "ganger"
 msgstr ""
 
-#: news/templates/news/article.html:61 news/templates/news/edit_article.html:16
+#: news/templates/news/article.html:61 news/templates/news/edit_article.html:12
 msgid "Rediger artikkel"
 msgstr ""
 
@@ -199,54 +199,54 @@ msgstr ""
 msgid "Lagre"
 msgstr ""
 
-#: news/templates/news/edit_article.html:27
-#: news/templates/news/edit_event.html:29
+#: news/templates/news/edit_article.html:21
+#: news/templates/news/edit_event.html:25
 msgid "Innhold"
 msgstr ""
 
-#: news/templates/news/edit_article.html:48
-#: news/templates/news/edit_event.html:51
+#: news/templates/news/edit_article.html:42
+#: news/templates/news/edit_event.html:47
 msgid ""
 "Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
 "Bilder kan legges til ved drag-and-drop."
 msgstr ""
 
-#: news/templates/news/edit_article.html:80
-#: news/templates/news/edit_article.html:81
+#: news/templates/news/edit_article.html:74
+#: news/templates/news/edit_article.html:75
 msgid "Lagre og publiser artikkel"
 msgstr ""
 
-#: news/templates/news/edit_article.html:82
-#: news/templates/news/edit_event.html:245
+#: news/templates/news/edit_article.html:76
+#: news/templates/news/edit_event.html:241
 msgid "Lagre som utkast"
 msgstr ""
 
-#: news/templates/news/edit_event.html:61
+#: news/templates/news/edit_event.html:57
 msgid "Velg hovedbilde"
 msgstr ""
 
-#: news/templates/news/edit_event.html:84
+#: news/templates/news/edit_event.html:80
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr ""
 
-#: news/templates/news/edit_event.html:151 news/templates/news/event.html:103
+#: news/templates/news/edit_event.html:147 news/templates/news/event.html:103
 msgid "Påmelding"
 msgstr ""
 
-#: news/templates/news/edit_event.html:185
+#: news/templates/news/edit_event.html:181
 msgid "Ferdigheter"
 msgstr ""
 
-#: news/templates/news/edit_event.html:202 news/templates/news/event.html:153
+#: news/templates/news/edit_event.html:198 news/templates/news/event.html:153
 msgid "Filer"
 msgstr ""
 
-#: news/templates/news/edit_event.html:224
+#: news/templates/news/edit_event.html:220
 msgid "Ferdig"
 msgstr ""
 
-#: news/templates/news/edit_event.html:239
-#: news/templates/news/edit_event.html:242
+#: news/templates/news/edit_event.html:235
+#: news/templates/news/edit_event.html:238
 msgid "Lagre og publiser arrangement"
 msgstr ""
 

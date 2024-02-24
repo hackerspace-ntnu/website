@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 13:35+0100\n"
+"POT-Creation-Date: 2024-02-24 15:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: inventory/templates/inventory/equipment/equipment_list.html:11
+msgid "Utstyr"
+msgstr ""
+
+#: inventory/templates/inventory/equipment/equipment_list.html:12
+msgid ""
+"Her kan du finne utstyr som Hackerspace har. Ikke alt utstyr er mulig å låne "
+"bort, men de som er, linker til gjenstanden i lageret for utlån."
+msgstr ""
 
 #: inventory/templates/inventory/inventory.html:9
 msgid "Lager"
@@ -112,3 +122,11 @@ msgstr "the workshop"
 #: inventory/templates/inventory/items_list.html:76
 msgid "og spør oss!"
 msgstr "and ask us!"
+
+#: inventory/templates/inventory/loan_applications.html:7
+msgid "Lånesøknader"
+msgstr ""
+
+#: inventory/templates/inventory/loan_applications.html:8
+msgid "Oversikt over lånesøknader"
+msgstr ""

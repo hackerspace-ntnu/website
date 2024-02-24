@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 13:35+0100\n"
+"POT-Creation-Date: 2024-02-24 15:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,4 +40,16 @@ msgstr ""
 
 #: userprofile/templates/userprofile/members_list.html:32
 msgid "Det finnes ingen profiler etter dine søkekriterier"
+msgstr ""
+
+#: userprofile/templates/userprofile/profile.html:11
+msgid "Brukerprofil"
+msgstr ""
+
+#: userprofile/templates/userprofile/profile.html:14
+msgid "Innstillinger"
+msgstr ""
+
+#: userprofile/templates/userprofile/skills.html:13
+msgid "Ferdigheter"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 15:16+0100\n"
+"POT-Creation-Date: 2024-02-24 15:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,10 @@ msgstr ""
 
 #: applications/templates/applications/application_form.html:12
 msgid "Søknad"
+msgstr ""
+
+#: applications/templates/applications/application_form.html:14
+msgid "Tilbake til infoside"
 msgstr ""
 
 #: applications/templates/applications/application_info.html:6

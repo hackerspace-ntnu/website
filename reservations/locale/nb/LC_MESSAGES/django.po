@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 11:09+0100\n"
+"POT-Creation-Date: 2024-02-24 13:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: reservations/templates/reservations/queue_list.html:10
+#: reservations/templates/reservations/queue_list.html:7
 msgid "Reservasjoner"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:11
+#: reservations/templates/reservations/queue_list.html:8
 msgid "På denne siden kan du reservere bruk av diverse utstyr"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:12
+#: reservations/templates/reservations/queue_list.html:10
 msgid "Se Hackerspace sitt utstyr"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:27
+#: reservations/templates/reservations/queue_list.html:22
 msgid "Les"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:27
+#: reservations/templates/reservations/queue_list.html:22
 msgid "regler for bruk av 3D-printer"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:27
+#: reservations/templates/reservations/queue_list.html:22
 msgid "før du starter"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:30
+#: reservations/templates/reservations/queue_list.html:25
 msgid ""
 "Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både "
 "printer og folk på vakt som følger med). Det er derfor forventet at du møter "
@@ -50,30 +50,30 @@ msgid ""
 "har booket"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:44
+#: reservations/templates/reservations/queue_list.html:39
 msgid "I ustand"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:52
+#: reservations/templates/reservations/queue_list.html:47
 msgid "Vanskelighetsgrad"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:61
+#: reservations/templates/reservations/queue_list.html:56
 msgid "Mine reservasjoner"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:68
+#: reservations/templates/reservations/queue_list.html:63
 msgid "Fra"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:69
+#: reservations/templates/reservations/queue_list.html:64
 msgid "til"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:72
+#: reservations/templates/reservations/queue_list.html:67
 msgid "Du har ingen reservasjoner"
 msgstr ""
 
-#: reservations/templates/reservations/queue_list.html:75
+#: reservations/templates/reservations/queue_list.html:70
 msgid "Logg inn for å se reservasjoner"
 msgstr ""

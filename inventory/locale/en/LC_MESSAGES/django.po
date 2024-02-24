@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 11:09+0100\n"
+"POT-Creation-Date: 2024-02-24 13:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,52 +18,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: inventory/templates/inventory/inventory.html:12
+#: inventory/templates/inventory/inventory.html:9
 msgid "Lager"
 msgstr "Inventory"
 
-#: inventory/templates/inventory/inventory.html:13
+#: inventory/templates/inventory/inventory.html:10
 msgid ""
 "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!"
 msgstr ""
 "Here you can search in our inventory. Want to borrow something? Visit the "
 "workshop!"
 
-#: inventory/templates/inventory/inventory.html:14
+#: inventory/templates/inventory/inventory.html:12
 msgid "Se utstyr og apparater"
 msgstr "View equipment and apparatus"
 
-#: inventory/templates/inventory/inventory.html:28
+#: inventory/templates/inventory/inventory.html:23
 msgid "Ting, tang og tare"
 msgstr "Things and stuff"
 
-#: inventory/templates/inventory/inventory.html:29
-#: inventory/templates/inventory/inventory.html:37
+#: inventory/templates/inventory/inventory.html:24
+#: inventory/templates/inventory/inventory.html:32
 msgid "Navn"
 msgstr "Name"
 
-#: inventory/templates/inventory/inventory.html:33
+#: inventory/templates/inventory/inventory.html:28
 msgid "Velg sorteringskriterie"
 msgstr "Choose sorting criterion"
 
-#: inventory/templates/inventory/inventory.html:34
+#: inventory/templates/inventory/inventory.html:29
 msgid "Popularitet"
 msgstr "Popularity"
 
-#: inventory/templates/inventory/inventory.html:35
-#: inventory/templates/inventory/inventory.html:36
+#: inventory/templates/inventory/inventory.html:30
+#: inventory/templates/inventory/inventory.html:31
 msgid "Lagerbeholdning"
 msgstr "Inventory Quantity"
 
-#: inventory/templates/inventory/inventory.html:35
+#: inventory/templates/inventory/inventory.html:30
 msgid "Synkende"
 msgstr "Descending"
 
-#: inventory/templates/inventory/inventory.html:36
+#: inventory/templates/inventory/inventory.html:31
 msgid "Stigende"
 msgstr "Ascending"
 
-#: inventory/templates/inventory/inventory.html:39
+#: inventory/templates/inventory/inventory.html:34
 msgid "Sorter etter"
 msgstr "Sort by"
 

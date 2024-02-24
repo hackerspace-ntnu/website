@@ -1,21 +1,16 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load includechildren %}
 {% block head %}
     {{ jquery | safe }}
 {% endblock %}
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>{% trans 'Lager' %}</h4>
-                    <p>{% trans "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!" %}</p>
-                    <a href="{% url 'inventory:equipment' %}" class="btn white green-text">{% trans 'Se utstyr og apparater' %}</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Lager" as trans_inventory %}
+    {% translate "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!" as trans_inventory_desc %}
+    {% includechildren "website/page_overviews/content_title.html" with title=trans_inventory description=trans_inventory_desc %}
+        <a href="{% url 'inventory:equipment' %}" class="btn white green-text">{% trans 'Se utstyr og apparater' %}</a>
+    {% endincludechildren %}
 
     {% include "inventory/_list_admin_banner.html" %}
 

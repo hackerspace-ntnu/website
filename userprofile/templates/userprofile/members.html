@@ -1,6 +1,7 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load includechildren %}
 {% block head %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -9,37 +10,28 @@
     <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/members.css' %}">
 {% endblock %}
 {% block content %}
-    <div class="section hs-green">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4 class="white-text">{% trans "Medlemmer i Hackerspace" %}</h4>
-                    <p class="flow-text white-text">{% trans "For oversikt over gruppene og deres medlemmer, se" %} <a class="hs-gray-text" href="{% url 'about' %}"> {% trans "Om oss" %}</a>.</p>
-                </div>
+    {% translate "Medlemmer i Hackerspace" as trans_members %}
+    {% includechildren "website/page_overviews/content_title.html" with title=trans_members %}
+        <p class="flow-text white-text">{% trans "For oversikt over gruppene og deres medlemmer, se" %} <a class="hs-gray-text" href="{% url 'about' %}"> {% trans "Om oss" %}</a>.</p>
+        <div class="members-search-container card-panel z-depth-0 row">
+            <!-- Member name search -->
+            <div class="input-field col s12">
+                <input id="member-name-search" name="filter" placeholder="{% trans 'Søk etter medlem' %}" value="{{ filter }}" type="text">
             </div>
-            <div class="row">
-                <div class="col s12">
-                    <div class="members-search-container card-panel z-depth-0 row">
-                        <!-- Member name search -->
-                        <div class="input-field col s12">
-                            <input id="member-name-search" name="filter" placeholder="{% trans 'Søk etter medlem' %}" value="{{ filter }}" type="text">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% if perms.userprofile.is_active_member %}
-                <p class="flow-text white-text">{% trans 'Klikk på ferdigheter du vil se folk ikke har' %}</p>
-                <div class="row skill-filter">
-                    {% for category in skill_categories %}
-                        <label class="col l4 s12 skill-check" style="border-color:{{category.color}};">
-                            <input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
-                            <span class="white-text">{{ category }}</span>
-                        </label>
-                    {% endfor %}
-                </div>
-            {% endif %}
         </div>
-    </div>
+        {% if perms.userprofile.is_active_member %}
+            <p class="flow-text white-text">{% trans 'Klikk på ferdigheter du vil se folk ikke har' %}</p>
+            <div class="row skill-filter">
+                {% for category in skill_categories %}
+                    <label class="col l4 s12 skill-check" style="border-color:{{category.color}};">
+                        <input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
+                        <span class="white-text">{{ category }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endincludechildren %}
+
     <div class="section">
         <div class="container">
             <div id="members_list"></div>

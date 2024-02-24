@@ -1,19 +1,14 @@
 {% extends 'website/base.html' %}
 
 {% load i18n %}
+{% load includechildren %}
 
 {% block content %}
-    <div class="section hs-green">
-        <div class="container">
-            <div class="row white-text">
-                <div class="col s12">
-                    <h4>{% trans "Reservasjoner" %}</h4>
-                    <p>{% trans "På denne siden kan du reservere bruk av diverse utstyr" %}.</p>
-                    <a href="{% url 'inventory:equipment' %}" class="btn-large white green-text">{% trans 'Se Hackerspace sitt utstyr' %}</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Reservasjoner" as trans_reservations %}
+    {% translate "På denne siden kan du reservere bruk av diverse utstyr" as trans_reservations_desc %}
+    {% includechildren "website/page_overviews/content_title.html" with title=trans_reservations description=trans_reservations_desc %}
+        <a href="{% url 'inventory:equipment' %}" class="btn-large white green-text">{% trans 'Se Hackerspace sitt utstyr' %}</a>
+    {% endincludechildren %}
 
     {% regroup reservation_list|dictsort:'parent_queue.name' by parent_queue as reservation_list %}
 

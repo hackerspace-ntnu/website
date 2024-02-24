@@ -44,12 +44,12 @@ msgstr "There are no members with your search criteria"
 
 #: userprofile/templates/userprofile/profile.html:11
 msgid "Brukerprofil"
-msgstr ""
+msgstr "Profile"
 
 #: userprofile/templates/userprofile/profile.html:14
 msgid "Innstillinger"
-msgstr ""
+msgstr "Settings"
 
 #: userprofile/templates/userprofile/skills.html:13
 msgid "Ferdigheter"
-msgstr ""
+msgstr "Skills"

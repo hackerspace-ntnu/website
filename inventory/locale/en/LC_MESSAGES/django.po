@@ -20,13 +20,15 @@ msgstr ""
 
 #: inventory/templates/inventory/equipment/equipment_list.html:11
 msgid "Utstyr"
-msgstr ""
+msgstr "Equipment"
 
 #: inventory/templates/inventory/equipment/equipment_list.html:12
 msgid ""
 "Her kan du finne utstyr som Hackerspace har. Ikke alt utstyr er mulig å låne "
 "bort, men de som er, linker til gjenstanden i lageret for utlån."
 msgstr ""
+"Here you can find equipment that Hackerspace has. Not all equipment are available to borrow, "
+"but those that are, have a link to the item in the storage."
 
 #: inventory/templates/inventory/inventory.html:9
 msgid "Lager"
@@ -125,8 +127,8 @@ msgstr "and ask us!"
 
 #: inventory/templates/inventory/loan_applications.html:7
 msgid "Lånesøknader"
-msgstr ""
+msgstr "Loan applications"
 
 #: inventory/templates/inventory/loan_applications.html:8
 msgid "Oversikt over lånesøknader"
-msgstr ""
+msgstr "Overview of loan applications"

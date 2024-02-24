@@ -20,7 +20,7 @@ msgstr ""
 
 #: projectarchive/templates/projectarchive/edit_article.html:12
 msgid "Rediger prosjektartikkel"
-msgstr ""
+msgstr "Edit project article"
 
 #: projectarchive/templates/projectarchive/projectarchive.html:10
 msgid "Prosjektarkiv"

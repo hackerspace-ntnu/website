@@ -107,14 +107,6 @@ class Event(models.Model):
         related_name="responsibles",
         verbose_name="Arrangementansvarlig",
     )
-    responsible = models.ForeignKey(
-        User,
-        related_name="responsible",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        verbose_name="Arrangementansvarlig",
-    )
 
     thumbnail = models.ForeignKey(
         Image, on_delete=models.SET_NULL, blank=True, null=True
@@ -319,9 +311,7 @@ class Event(models.Model):
     class Meta:
         app_label = "news"
         ordering = ("time_start",)
-        permissions = (
-            ("can_view_internal_event", "Can see internal events"),
-        )
+        permissions = (("can_view_internal_event", "Can see internal events"),)
 
     def formatted_markdown(self):
         return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
@@ -390,16 +380,17 @@ class EventRegistration(models.Model):
         """
         return self.event.is_waiting(self.user)
 
+
 class Event_responsible(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        )
+    )
     responsible = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        )
+    )

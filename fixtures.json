@@ -86,6 +86,10 @@
             30,
             31,
             32,
+            169,
+            170,
+            171,
+            172,
             161,
             162,
             163,
@@ -117,10 +121,6 @@
             178,
             179,
             180,
-            173,
-            174,
-            175,
-            176,
             132,
             133,
             134,
@@ -185,10 +185,10 @@
             113,
             114,
             115,
-            169,
-            170,
-            171,
-            172,
+            173,
+            174,
+            175,
+            176,
             45,
             46,
             47,
@@ -238,7 +238,7 @@
     "pk": 2,
     "fields": {
         "password": "pbkdf2_sha256$260000$SLryTRqzFvQA9rKId0f76W$HzqDulIl2mwu1bb+cAF+otf6aqR2f1JZQr9YhjPHfEQ=",
-        "last_login": "2023-04-11T19:57:24.236",
+        "last_login": "2024-02-25T23:19:39.302",
         "is_superuser": true,
         "username": "admin",
         "first_name": "Admin",
@@ -617,7 +617,8 @@
         "text_main": "LabOps har mange forskjellige arbeidsområder, og kan by på varierte arbeidsoppgaver som gir innsikt i mye av det Hackerspace driver med.\r\n\r\nEt av områdene er å holde orden på Hackerspace sine lokaler, passe på at vi har nok utstyr og at utstyret er i orden. Dette medfører at du får god kunnskap om alle våre løsninger. Eksempler vil være bruk og vedlikehold av 3D-printere, oppdatering av verkstedets datautstyr, og passe på at Rift-stasjonene er i drift.\r\n\r\nLabOps har også ansvaret for å planlegge og gjennomføre arrangementer, kurs og stands som gjennom året. Det trenger ikke å være LabOps som er kursholder, men LabOps har ansvaret for gjennomføringen. Med kurs får du mye kontakt med andre erfarne mennesker i og utenfor Hackerspace og mye praktisk erfaring.\r\n\r\nPromotering er også en del av LabOps arbeidsområder, og PR-gruppen under LabOps jobber med visuell profilering, sosiale medier, artikler på nettsiden, og alt annet innen PR. Det er for tiden veldig få i PR-gruppa til Hackerspace, så hvis du har lyst til å jobbe med PR, vil vi gjerne ha deg med.\r\nLabOps møtes vanligvis annenhver uke til et møte på rundt to timer, i tillegg til kurs og arrangement.\r\n\r\nFå et innblikk i LabOps-hverdagen: https://www.hackerspace-ntnu.no/news/32/",
         "text_structure": "",
         "text_workload": "",
-        "project_group": false
+        "project_group": false,
+        "open_for_applications": true
     }
 },
 {
@@ -628,7 +629,8 @@
         "text_main": "DevOps jobber med å utvikle tjenester og drifte infrastruktur som støtter Hackerspace sin virksomhet. Hovedsakelig baserer DevOps seg på videreutvikling av nettsidene, men jobber også med servere, git og diverse andre kule dingser og programvare.\r\n\r\nSom medlem av DevOps vil du få god kjennskap til Hackerspace sine IT-systemer, og være med i utviklingen av løsninger som gjør at både organisasjonen og medlemmene kan yte sitt beste.\r\n\r\nOpplæring gis i alle relevante teknologier, og nybegynnere kan også søke! Vi er først og fremst ute etter lidenskap og læring. :-)\r\n\r\nDevOps har normalt sett én eller to arbeidskvelder i uken på 4 timer totalt, men det jobbes av og til på diverse oppgaver utenfor arbeidskveldene etter behov.",
         "text_structure": "",
         "text_workload": "",
-        "project_group": false
+        "project_group": false,
+        "open_for_applications": true
     }
 },
 {
@@ -639,7 +641,8 @@
         "text_main": "Det har i mange år vært interesse for å utvikle spill på Hackerspace og vi har i like mange år holdt på med en spillutviklingsgruppe for å tilfredsstille folket.\r\nDen aktive spillutviklingsgruppen ble ferdig med sitt nyeste prosjekt våren 2022 og skal fortsette morroa med mer spillutvikling.\r\nMålet for prosjektet er å produsere et spill som skal delta på Norwegian game awards. Så gled dere til de gøye, sprø og kaotiske eventyrene som dere vil ha i dette prosjektet!",
         "text_structure": "",
         "text_workload": "",
-        "project_group": true
+        "project_group": true,
+        "open_for_applications": true
     }
 },
 {
@@ -1535,7 +1538,6 @@
         "ingress_content": "",
         "pub_date": "2017-04-03T12:02:55.245",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1562,7 +1564,6 @@
         "ingress_content": "",
         "pub_date": "2017-04-03T12:18:05.339",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -1589,7 +1590,6 @@
         "ingress_content": "",
         "pub_date": "2017-04-21T15:21:52.447",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1616,7 +1616,6 @@
         "ingress_content": "",
         "pub_date": "2017-04-25T15:34:39.467",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1643,7 +1642,6 @@
         "ingress_content": "Raspberry Pi Grunnkurs hos Hackerspace!",
         "pub_date": "2017-04-25T18:08:47.760",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1670,7 +1668,6 @@
         "ingress_content": "Bli en apputvikler på to kvelder!",
         "pub_date": "2017-08-30T11:15:50.984",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1697,7 +1694,6 @@
         "ingress_content": "Det viktigste sosiale eventet på Hackerspace kommer snart!",
         "pub_date": "2017-08-30T12:14:45.639",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -1724,7 +1720,6 @@
         "ingress_content": "Velkommen til workshop i Hololens-utvikling med Visma",
         "pub_date": "2017-09-05T23:02:16.763",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1751,7 +1746,6 @@
         "ingress_content": "Hackerspace arrangerer grunnkurs i Raspberry Pi",
         "pub_date": "2017-09-12T13:03:47.538",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1778,7 +1772,6 @@
         "ingress_content": "Hackerspace arrangerer Raspberry Pi + Kommandolinje-kurs!",
         "pub_date": "2017-09-12T13:11:54.434",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1805,7 +1798,6 @@
         "ingress_content": "Lag noe skummelt til Halloween og vinn kule premier! Vi inviterer til workshop i samarbeid med Bouvet!",
         "pub_date": "2017-09-13T15:46:08.923",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": false,
@@ -1832,7 +1824,6 @@
         "ingress_content": "Vi arrangerer Lodding og Arduino-kurs!",
         "pub_date": "2017-09-17T22:28:11.549",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1859,7 +1850,6 @@
         "ingress_content": "Slush x Junction er tilbake i Trondheim! Bli med på workshop",
         "pub_date": "2017-09-21T23:41:43.339",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": false,
@@ -1886,7 +1876,6 @@
         "ingress_content": "Vi arrangerer 3D-printingkurs!",
         "pub_date": "2017-10-09T18:03:20.890",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1913,7 +1902,6 @@
         "ingress_content": "Hackerspace arrangerer 3D-printingkurs!",
         "pub_date": "2017-10-09T18:04:32.381",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -1940,7 +1928,6 @@
         "ingress_content": "Bli med på det siste arrangementet for semesteret!",
         "pub_date": "2017-11-05T12:34:41.361",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -1967,7 +1954,6 @@
         "ingress_content": "<p class=\"flow-text\">Hyttetur ",
         "pub_date": "2018-01-11T12:35:14.281",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -1994,7 +1980,6 @@
         "ingress_content": "Vi arrangerer 3D-printingkurs!",
         "pub_date": "2018-02-13T18:02:29.492",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2021,7 +2006,6 @@
         "ingress_content": "Vi arrangerer 3D-printingkurs!",
         "pub_date": "2018-02-13T18:54:46.225",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2048,7 +2032,6 @@
         "ingress_content": "Vi arrangerer 3D-printingkurs!",
         "pub_date": "2018-02-13T18:59:20.194",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2075,7 +2058,6 @@
         "ingress_content": "Hackerspace arrangerer 3D-printingkurs!",
         "pub_date": "2018-02-13T19:00:57.817",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": false,
@@ -2102,7 +2084,6 @@
         "ingress_content": "Hackerspace arrangerer grunnkurs i Raspberry Pi",
         "pub_date": "2018-02-18T21:40:25.239",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2129,7 +2110,6 @@
         "ingress_content": "Det er Hackerspace Grunnkurs i Raspberry Pi",
         "pub_date": "2018-02-23T11:25:19.193",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2156,7 +2136,6 @@
         "ingress_content": "Avlyst",
         "pub_date": "2018-02-23T11:28:22.734",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2183,7 +2162,6 @@
         "ingress_content": "I samarbeid med Programvareverkstedet vil vi arrangere et avansert terminalkurs.",
         "pub_date": "2018-02-25T12:14:16.578",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": false,
@@ -2210,7 +2188,6 @@
         "ingress_content": "Flink til å prokrastinere og lysten på å lære apputvikling på Android? Ikke gå glipp av dette kurset!",
         "pub_date": "2018-04-03T11:57:47.499",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2237,7 +2214,6 @@
         "ingress_content": "Lyst til å lære om Kunstig Intelligens?",
         "pub_date": "2018-04-03T12:10:18.501",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2264,7 +2240,6 @@
         "ingress_content": "I løpet av en dag gjennomgår vi alle Hackerspace sine grunnkurs.",
         "pub_date": "2018-04-06T10:37:45.389",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2291,7 +2266,6 @@
         "ingress_content": "Lær hvordan du automatiserer hjemmet ditt!",
         "pub_date": "2018-08-20T15:25:18.098",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2318,7 +2292,6 @@
         "ingress_content": "with Ludenso (Unity + Vuforia)",
         "pub_date": "2018-08-28T15:31:20.418",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2345,7 +2318,6 @@
         "ingress_content": "Lær å lage en nettside!",
         "pub_date": "2018-09-07T12:39:48.450",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2372,7 +2344,6 @@
         "ingress_content": "Det viktigste sosiale eventet på Hackerspace kommer snart!",
         "pub_date": "2018-09-09T14:59:46.027",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2399,7 +2370,6 @@
         "ingress_content": "Lag kostymer og dekorasjoner til halloween",
         "pub_date": "2018-10-17T17:41:06.197",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": false,
@@ -2426,7 +2396,6 @@
         "ingress_content": "Innføring i Arduino for deg som er nysgjerrig",
         "pub_date": "2018-10-18T12:31:22.933",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2453,7 +2422,6 @@
         "ingress_content": "",
         "pub_date": "2018-10-22T12:58:06.768",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2480,7 +2448,6 @@
         "ingress_content": "Hackerspace inviterer alle medlemmer og panger til en intern Game Jam helgen uke 46!",
         "pub_date": "2018-11-07T16:47:34.144",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2507,7 +2474,6 @@
         "ingress_content": ":)",
         "pub_date": "2018-11-16T16:20:51.524",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2534,7 +2500,6 @@
         "ingress_content": "Den årlige hytteturen er et av de kuleste arrangementene Hackerspace arrangerer, og den har vært en stor suksess de tidligere årene!",
         "pub_date": "2019-01-18T22:07:04.249",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2561,7 +2526,6 @@
         "ingress_content": "Hackerspace inviterer alle studenter på NTNU til Game Jam helgen uke 12!",
         "pub_date": "2019-03-06T13:36:11.499",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2588,7 +2552,6 @@
         "ingress_content": "Lær å lage 2D-spill med rammeverket HaxeFlixel",
         "pub_date": "2019-03-07T11:39:04.512",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2615,7 +2578,6 @@
         "ingress_content": "",
         "pub_date": "2019-03-12T19:49:14.111",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2642,7 +2604,6 @@
         "ingress_content": "Har du hele tiden hatt lyst til å 3D-printe? Men du vet ikke hvordan eller printeren ikke fungerer?",
         "pub_date": "2019-03-13T18:27:53.418",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2669,7 +2630,6 @@
         "ingress_content": "Lær teknikker for å gjennomføre sammensatte prosjekter, for deg selv eller andre.",
         "pub_date": "2019-03-21T13:34:04.230",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2696,7 +2656,6 @@
         "ingress_content": "Be there or be 🔲",
         "pub_date": "2019-04-02T18:52:52.171",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2723,7 +2682,6 @@
         "ingress_content": "Det eneste arrangementet du MÅ på denne høsten (sier en del, siden det er UKA-år)",
         "pub_date": "2019-09-15T17:21:21.535",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2750,7 +2708,6 @@
         "ingress_content": "Arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap",
         "pub_date": "2019-09-18T18:38:44.059",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2777,7 +2734,6 @@
         "ingress_content": "Har du ikke peiling på hvordan Prusa fungere? kom mom",
         "pub_date": "2019-10-04T17:16:56.602",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2804,7 +2760,6 @@
         "ingress_content": "Det blir kosekveld med film hjemme hos Marius Fossum!",
         "pub_date": "2019-10-16T12:55:47.077",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2831,7 +2786,6 @@
         "ingress_content": "Hackslutt :)",
         "pub_date": "2019-11-03T16:20:36.347",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2858,7 +2812,6 @@
         "ingress_content": "Påmelding til Generalforsamling",
         "pub_date": "2020-01-16T10:42:15.336",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2885,7 +2838,6 @@
         "ingress_content": "Hackstart er rett rundt hjørnet! Meld deg på og kom :D",
         "pub_date": "2020-01-30T17:32:02.482",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2912,7 +2864,6 @@
         "ingress_content": "Lær teknikker for å gjennomføre sammensatte prosjekter, for deg selv eller andre.",
         "pub_date": "2020-02-16T18:32:28.935",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -2939,7 +2890,6 @@
         "ingress_content": "Den årlige hytteturen er et av de kuleste arrangementene Hackerspace arrangerer, og den har vært en stor suksess de tidligere årene!",
         "pub_date": "2020-02-26T18:56:21.530",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": false,
@@ -2966,7 +2916,6 @@
         "ingress_content": "Arrangementet er avlyst pga. Korona",
         "pub_date": "2020-02-27T23:23:37.797",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -2993,7 +2942,6 @@
         "ingress_content": "En ganske annerledes Hackslutt",
         "pub_date": "2020-04-24T13:23:27.053",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3020,7 +2968,6 @@
         "ingress_content": "Bli med på planlegge fremtidige prosjektgrupper i Hackerspace",
         "pub_date": "2020-05-01T18:20:30.735",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3047,7 +2994,6 @@
         "ingress_content": "Hackstart i år også :D",
         "pub_date": "2020-09-18T12:37:44.168",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3074,7 +3020,6 @@
         "ingress_content": "Dette kurset arrangeres i samarbeid med Programvareverkstedet",
         "pub_date": "2020-09-23T18:52:48.009",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3101,7 +3046,6 @@
         "ingress_content": "Lær teknikker for å gjennomføre sammensatte prosjekter, for deg selv eller andre.",
         "pub_date": "2020-10-26T19:58:44.257",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3128,7 +3072,6 @@
         "ingress_content": "Dette er et introduksjonskurs i Terminal og Raspberry Pi (level 1)",
         "pub_date": "2020-10-26T21:48:09.517",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3155,7 +3098,6 @@
         "ingress_content": "Har du lyst til å 3D-printe, men vet ikke hvordan du skal begynne? Da er dette kurset for deg!",
         "pub_date": "2020-10-28T09:27:39.394",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3182,7 +3124,6 @@
         "ingress_content": "Dette er et nybegynnerkurs i Lodding og småelektronikk og Arduino og mikrokontrollere. Kurset dekker level 1 i begge.",
         "pub_date": "2020-11-06T17:14:51.114",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3209,7 +3150,6 @@
         "ingress_content": "Påmelding til digitalt frammøte på GenFors 2021",
         "pub_date": "2021-01-31T20:53:47.227",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3236,7 +3176,6 @@
         "ingress_content": "Påmelding til digital frammøte på GenFors 2021",
         "pub_date": "2021-01-31T20:57:53.204",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3263,7 +3202,6 @@
         "ingress_content": "Også i år skal vi ha Hackslutt! Dette er for digital Hackslutt, som vil inneholde gruppestatus, konkurranser, spill og sosialt på Discord.",
         "pub_date": "2021-04-21T19:30:30.677",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3290,7 +3228,6 @@
         "ingress_content": "Også i år skal vi ha Hackslutt! Dette er for fysisk, utendørs Hackslutt, med pizza og sosialt samvær for oss som er i Trondheim.",
         "pub_date": "2021-04-21T19:40:13.246",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3317,7 +3254,6 @@
         "ingress_content": "Bli med på å avgjøre hvilket prosjekt som skal startes opp til høsten.",
         "pub_date": "2021-05-25T08:34:55.853",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3344,7 +3280,6 @@
         "ingress_content": "Enderlig Hackstart igjen! Det blir fysisk, pizza og masse moro:D",
         "pub_date": "2021-09-15T21:48:50.333",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3371,7 +3306,6 @@
         "ingress_content": "Er du interessert i 3D printing, men har aldri være borti en før? Hackerspace arrangerer grunnkurs i 3D-printing.",
         "pub_date": "2021-10-30T18:50:00.178",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3400,7 +3334,6 @@
         "ingress_content": "Level 1 Verkstedkurs",
         "pub_date": "2021-11-01T12:45:55.439",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3427,7 +3360,6 @@
         "ingress_content": "Dette er et nybegynnerkurs i Arduino og mikrokontrollere (level 1)",
         "pub_date": "2021-11-01T13:42:56.156",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3454,7 +3386,6 @@
         "ingress_content": "Dette er et nybegynnerkurs i Linux-terminal og Raspberry Pi (level 1)",
         "pub_date": "2021-11-01T14:43:31.366",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3481,7 +3412,6 @@
         "ingress_content": "Arbeidskveld for å rydde verkstedet",
         "pub_date": "2021-11-01T15:23:32.548",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3508,7 +3438,6 @@
         "ingress_content": "Tid for fysisk Hackslutt innendørs!!!",
         "pub_date": "2021-11-10T12:21:14.018",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3535,7 +3464,6 @@
         "ingress_content": "Påmelding til Generalforsamling",
         "pub_date": "2022-02-01T15:44:51.861",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3562,7 +3490,6 @@
         "ingress_content": "Firmally Hackstart! Det blir fysisk pizza og masse moro :D",
         "pub_date": "2022-02-01T15:56:54.145",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3589,7 +3516,6 @@
         "ingress_content": "Dette arrangementet er åpent for alle studenter uavhengig av Hackerspace-medlemskap",
         "pub_date": "2022-03-19T12:37:02.287",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3619,7 +3545,6 @@
         "ingress_content": "Er du interessert i 3D printing, men har aldri være borti en før? Hackerspace arrangerer 3D-printingkurs",
         "pub_date": "2022-03-19T12:43:55.859",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3648,7 +3573,6 @@
         "ingress_content": "Ønsker du å lære hvordan man bruker en Arduino? Hackerspace arrangerer kurs i Arduino og mikrokontrollere",
         "pub_date": "2022-03-19T13:10:50.308",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3677,7 +3601,6 @@
         "ingress_content": "Nysgjerrig på hva Docker og konteinere er godt for, eller hva Kubernetes og Helm er? Omfavn din indre klovn og kom på kurs!",
         "pub_date": "2022-04-01T03:20:04.420",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3704,7 +3627,6 @@
         "ingress_content": "Da er snart enda et semester over, og det betyr at Hackslutt er rett rundt hjørnet!",
         "pub_date": "2022-03-28T15:14:44.140",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3731,7 +3653,6 @@
         "ingress_content": "Nytt semester er igang, og der er tid for Hackstart :D",
         "pub_date": "2022-09-10T19:40:00.632",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3758,7 +3679,6 @@
         "ingress_content": "Alle burde få med seg prototypingkurset",
         "pub_date": "2022-10-01T15:45:41.439",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3785,7 +3705,6 @@
         "ingress_content": "In this course you will gain a basic understanding of the use of the Linux terminal by setting up a Raspberry Pi with Raspberry Pi OS. This involves:",
         "pub_date": "2022-09-26T17:45:16.518",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3815,7 +3734,6 @@
         "ingress_content": "Do you want to learn the basics of an Arduino? This is the course for you",
         "pub_date": "2022-10-01T13:26:54.719",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3844,7 +3762,6 @@
         "ingress_content": "Er du interessert i 3D printing, men har aldri være borti en før? Hackerspace arrangerer 3D-printingkurs",
         "pub_date": "2022-10-04T17:31:01.609",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3873,7 +3790,6 @@
         "ingress_content": "We do social things now",
         "pub_date": "2022-10-25T12:43:06.215",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3900,7 +3816,6 @@
         "ingress_content": "Det blir mørkere ute og året er snart slutt, men ikke før vi holder Hackslutt!",
         "pub_date": "2022-11-08T17:18:36.671",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3927,7 +3842,6 @@
         "ingress_content": "Temple Trashers is coming to Steam, and we want to celebrate big!",
         "pub_date": "2022-11-14T15:24:34.678",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -3954,7 +3868,6 @@
         "ingress_content": "It is again time for Hackstart!",
         "pub_date": "2023-02-04T13:30:21.711",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -3981,7 +3894,6 @@
         "ingress_content": "Vil du komme i gang med 3D-printing?",
         "pub_date": "2023-02-10T15:26:22.063",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -4010,7 +3922,6 @@
         "ingress_content": "Generalforsamling 2023",
         "pub_date": "2023-02-10T14:56:15.339",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -4037,7 +3948,6 @@
         "ingress_content": "Learn how to set up set up a Raspberry Pi with Raspberry Pi OS and how to us Linux terminal",
         "pub_date": "2023-02-20T23:50:14.291",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -4067,7 +3977,6 @@
         "ingress_content": "Do you want to strap pieces of lumber to your feet and zoom down a hill repeatedly?",
         "pub_date": "2023-02-23T15:55:39.100",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -4094,7 +4003,6 @@
         "ingress_content": "Level 1 Verkstedkurs",
         "pub_date": "2023-03-02T14:45:12.460",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": true,
         "registration": true,
@@ -4123,7 +4031,6 @@
         "ingress_content": "Hackerspace arrangerer Unity-kurs for å forberede til gamejam 14.-16. April!",
         "pub_date": "2023-03-28T01:06:30.386",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -4150,7 +4057,6 @@
         "ingress_content": "Hackerspace inviterer til gamejam-konkurranse, åpnet for alle!",
         "pub_date": "2023-03-28T01:28:12.864",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -4177,7 +4083,6 @@
         "ingress_content": "Hackerspace NTNU har gleden av å presentere gitOps intro. Et kurs som tar deg gjennom hvordan man kan sette opp et Kubernetes cluster som automatisk holder seg oppdatert til et repo.",
         "pub_date": "2023-03-28T21:36:53.664",
         "author": 4,
-        "responsible": 4,
         "thumbnail": null,
         "internal": false,
         "registration": true,
@@ -4193,6 +4098,806 @@
         "place_href": "https://link.mazemap.com/Ucw0iXsq",
         "draft": false,
         "skills": []
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 1,
+    "fields": {
+        "event": 13,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 2,
+    "fields": {
+        "event": 16,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 3,
+    "fields": {
+        "event": 15,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 4,
+    "fields": {
+        "event": 14,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 5,
+    "fields": {
+        "event": 17,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 6,
+    "fields": {
+        "event": 18,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 7,
+    "fields": {
+        "event": 19,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 8,
+    "fields": {
+        "event": 21,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 9,
+    "fields": {
+        "event": 22,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 10,
+    "fields": {
+        "event": 25,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 11,
+    "fields": {
+        "event": 20,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 12,
+    "fields": {
+        "event": 26,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 13,
+    "fields": {
+        "event": 27,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 14,
+    "fields": {
+        "event": 23,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 15,
+    "fields": {
+        "event": 28,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 16,
+    "fields": {
+        "event": 29,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 17,
+    "fields": {
+        "event": 30,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 18,
+    "fields": {
+        "event": 31,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 19,
+    "fields": {
+        "event": 33,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 20,
+    "fields": {
+        "event": 35,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 21,
+    "fields": {
+        "event": 32,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 22,
+    "fields": {
+        "event": 36,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 23,
+    "fields": {
+        "event": 37,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 24,
+    "fields": {
+        "event": 38,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 25,
+    "fields": {
+        "event": 34,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 26,
+    "fields": {
+        "event": 40,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 27,
+    "fields": {
+        "event": 41,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 28,
+    "fields": {
+        "event": 39,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 29,
+    "fields": {
+        "event": 42,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 30,
+    "fields": {
+        "event": 43,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 31,
+    "fields": {
+        "event": 45,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 32,
+    "fields": {
+        "event": 44,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 33,
+    "fields": {
+        "event": 47,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 34,
+    "fields": {
+        "event": 49,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 35,
+    "fields": {
+        "event": 48,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 36,
+    "fields": {
+        "event": 50,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 37,
+    "fields": {
+        "event": 51,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 38,
+    "fields": {
+        "event": 52,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 39,
+    "fields": {
+        "event": 54,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 40,
+    "fields": {
+        "event": 55,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 41,
+    "fields": {
+        "event": 56,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 42,
+    "fields": {
+        "event": 53,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 43,
+    "fields": {
+        "event": 57,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 44,
+    "fields": {
+        "event": 58,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 45,
+    "fields": {
+        "event": 60,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 46,
+    "fields": {
+        "event": 62,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 47,
+    "fields": {
+        "event": 63,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 48,
+    "fields": {
+        "event": 65,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 49,
+    "fields": {
+        "event": 67,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 50,
+    "fields": {
+        "event": 68,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 51,
+    "fields": {
+        "event": 69,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 52,
+    "fields": {
+        "event": 70,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 53,
+    "fields": {
+        "event": 71,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 54,
+    "fields": {
+        "event": 72,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 55,
+    "fields": {
+        "event": 73,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 56,
+    "fields": {
+        "event": 74,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 57,
+    "fields": {
+        "event": 75,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 58,
+    "fields": {
+        "event": 76,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 59,
+    "fields": {
+        "event": 77,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 60,
+    "fields": {
+        "event": 79,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 61,
+    "fields": {
+        "event": 78,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 62,
+    "fields": {
+        "event": 80,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 63,
+    "fields": {
+        "event": 81,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 64,
+    "fields": {
+        "event": 82,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 65,
+    "fields": {
+        "event": 84,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 66,
+    "fields": {
+        "event": 85,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 67,
+    "fields": {
+        "event": 86,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 68,
+    "fields": {
+        "event": 87,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 69,
+    "fields": {
+        "event": 93,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 70,
+    "fields": {
+        "event": 91,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 71,
+    "fields": {
+        "event": 92,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 72,
+    "fields": {
+        "event": 89,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 73,
+    "fields": {
+        "event": 90,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 74,
+    "fields": {
+        "event": 94,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 75,
+    "fields": {
+        "event": 95,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 76,
+    "fields": {
+        "event": 96,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 77,
+    "fields": {
+        "event": 102,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 78,
+    "fields": {
+        "event": 98,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 79,
+    "fields": {
+        "event": 100,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 80,
+    "fields": {
+        "event": 101,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 81,
+    "fields": {
+        "event": 104,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 82,
+    "fields": {
+        "event": 107,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 83,
+    "fields": {
+        "event": 109,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 84,
+    "fields": {
+        "event": 111,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 85,
+    "fields": {
+        "event": 108,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 86,
+    "fields": {
+        "event": 110,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 87,
+    "fields": {
+        "event": 112,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 88,
+    "fields": {
+        "event": 113,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 89,
+    "fields": {
+        "event": 114,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 90,
+    "fields": {
+        "event": 117,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 91,
+    "fields": {
+        "event": 115,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 92,
+    "fields": {
+        "event": 118,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 93,
+    "fields": {
+        "event": 116,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 94,
+    "fields": {
+        "event": 119,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 95,
+    "fields": {
+        "event": 120,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 96,
+    "fields": {
+        "event": 121,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 97,
+    "fields": {
+        "event": 122,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 98,
+    "fields": {
+        "event": 123,
+        "responsible": 4
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 99,
+    "fields": {
+        "event": 123,
+        "responsible": 2
+    }
+},
+{
+    "model": "news.event_responsible",
+    "pk": 100,
+    "fields": {
+        "event": 123,
+        "responsible": 3
     }
 },
 {
@@ -4576,6 +5281,198 @@
         "comment": "Jeg vil ha reservering",
         "start": "2023-04-11T19:01:41",
         "end": "2023-04-11T20:01:43"
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 2,
+    "fields": {
+        "item": 51,
+        "amount": 1,
+        "loan_from": "2022-04-22",
+        "loan_to": "2022-04-29",
+        "purpose": "Smash-stream",
+        "contact_name": "Eivind Merkesdal",
+        "contact_phone": "13245412",
+        "contact_email": "eivind.merkesdal@gmail.com",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 3,
+    "fields": {
+        "item": 52,
+        "amount": 1,
+        "loan_from": "2022-04-22",
+        "loan_to": "2022-04-29",
+        "purpose": "Smash-stream",
+        "contact_name": "Gunnar Johnsen",
+        "contact_phone": "32132121",
+        "contact_email": "gunnar.jon@gmail.com",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 20,
+    "fields": {
+        "item": 66,
+        "amount": 1,
+        "loan_from": "2022-11-16",
+        "loan_to": "2022-11-25",
+        "purpose": "Streame AbaSmash Finale",
+        "contact_name": "Per Langø",
+        "contact_phone": "13254789",
+        "contact_email": "per.lan@gmail.com",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 31,
+    "fields": {
+        "item": 69,
+        "amount": 1,
+        "loan_from": "2023-02-08",
+        "loan_to": "2023-06-02",
+        "purpose": "Skolearbeid",
+        "contact_name": "Berit Østensen",
+        "contact_phone": "13474115",
+        "contact_email": "berit@ntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 36,
+    "fields": {
+        "item": 40,
+        "amount": 1,
+        "loan_from": "2023-02-21",
+        "loan_to": "2023-04-28",
+        "purpose": "Bachelor oppgave om IoT, ønsker å test Zigbee",
+        "contact_name": "Vegard Farstad",
+        "contact_phone": "97472676",
+        "contact_email": "vfarstad@gmail.com",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 42,
+    "fields": {
+        "item": 76,
+        "amount": 1,
+        "loan_from": "2023-03-02",
+        "loan_to": "2023-03-18",
+        "purpose": "Skal brukes på AbelLAN spillkonkurranse",
+        "contact_name": "Alise Larsen",
+        "contact_phone": "79856321",
+        "contact_email": "alise@ntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 45,
+    "fields": {
+        "item": 79,
+        "amount": 1,
+        "loan_from": "2023-03-08",
+        "loan_to": "2023-03-20",
+        "purpose": "Start NTNU stand",
+        "contact_name": "Tore Fjellanger",
+        "contact_phone": "77895412",
+        "contact_email": "tore.fjellanger@startntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 46,
+    "fields": {
+        "item": 8,
+        "amount": 1,
+        "loan_from": "2023-03-09",
+        "loan_to": "2023-06-09",
+        "purpose": "Homebridge server",
+        "contact_name": "Lucas Mostue",
+        "contact_phone": "79226416",
+        "contact_email": "mostue@ntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 50,
+    "fields": {
+        "item": 80,
+        "amount": 1,
+        "loan_from": "2023-03-14",
+        "loan_to": "2023-06-05",
+        "purpose": "Skoleprosjekt",
+        "contact_name": "Ådne Holm",
+        "contact_phone": "19724175",
+        "contact_email": "adne@ntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 52,
+    "fields": {
+        "item": 8,
+        "amount": 1,
+        "loan_from": "2023-03-22",
+        "loan_to": "2023-04-12",
+        "purpose": "Masteroppgave",
+        "contact_name": "Merethe Hynne",
+        "contact_phone": "97623541",
+        "contact_email": "merethe@stud.ntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 54,
+    "fields": {
+        "item": 74,
+        "amount": 1,
+        "loan_from": "2023-03-23",
+        "loan_to": "2023-05-23",
+        "purpose": "Hardware test",
+        "contact_name": "Eivind Eriksen",
+        "contact_phone": "79145157",
+        "contact_email": "eivind@stud.ntnu.no",
+        "consent": true,
+        "approver": 3
+    }
+},
+{
+    "model": "inventory.itemloan",
+    "pk": 56,
+    "fields": {
+        "item": 68,
+        "amount": 1,
+        "loan_from": "2023-03-28",
+        "loan_to": "2023-04-07",
+        "purpose": "lading",
+        "contact_name": "Snorre Myhre",
+        "contact_phone": "79245715",
+        "contact_email": "snorre.myhre@icloud.com",
+        "consent": true,
+        "approver": 3
     }
 },
 {
@@ -5731,198 +6628,6 @@
         "location": "d3 - hylle 11",
         "max_loan_duration": null,
         "views": 4
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 2,
-    "fields": {
-        "item": 51,
-        "amount": 1,
-        "loan_from": "2022-04-22",
-        "loan_to": "2022-04-29",
-        "purpose": "Smash-stream",
-        "contact_name": "Eivind Merkesdal",
-        "contact_phone": "13245412",
-        "contact_email": "eivind.merkesdal@gmail.com",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 3,
-    "fields": {
-        "item": 52,
-        "amount": 1,
-        "loan_from": "2022-04-22",
-        "loan_to": "2022-04-29",
-        "purpose": "Smash-stream",
-        "contact_name": "Gunnar Johnsen",
-        "contact_phone": "32132121",
-        "contact_email": "gunnar.jon@gmail.com",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 20,
-    "fields": {
-        "item": 66,
-        "amount": 1,
-        "loan_from": "2022-11-16",
-        "loan_to": "2022-11-25",
-        "purpose": "Streame AbaSmash Finale",
-        "contact_name": "Per Langø",
-        "contact_phone": "13254789",
-        "contact_email": "per.lan@gmail.com",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 31,
-    "fields": {
-        "item": 69,
-        "amount": 1,
-        "loan_from": "2023-02-08",
-        "loan_to": "2023-06-02",
-        "purpose": "Skolearbeid",
-        "contact_name": "Berit Østensen",
-        "contact_phone": "13474115",
-        "contact_email": "berit@ntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 36,
-    "fields": {
-        "item": 40,
-        "amount": 1,
-        "loan_from": "2023-02-21",
-        "loan_to": "2023-04-28",
-        "purpose": "Bachelor oppgave om IoT, ønsker å test Zigbee",
-        "contact_name": "Vegard Farstad",
-        "contact_phone": "97472676",
-        "contact_email": "vfarstad@gmail.com",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 42,
-    "fields": {
-        "item": 76,
-        "amount": 1,
-        "loan_from": "2023-03-02",
-        "loan_to": "2023-03-18",
-        "purpose": "Skal brukes på AbelLAN spillkonkurranse",
-        "contact_name": "Alise Larsen",
-        "contact_phone": "79856321",
-        "contact_email": "alise@ntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 45,
-    "fields": {
-        "item": 79,
-        "amount": 1,
-        "loan_from": "2023-03-08",
-        "loan_to": "2023-03-20",
-        "purpose": "Start NTNU stand",
-        "contact_name": "Tore Fjellanger",
-        "contact_phone": "77895412",
-        "contact_email": "tore.fjellanger@startntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 46,
-    "fields": {
-        "item": 8,
-        "amount": 1,
-        "loan_from": "2023-03-09",
-        "loan_to": "2023-06-09",
-        "purpose": "Homebridge server",
-        "contact_name": "Lucas Mostue",
-        "contact_phone": "79226416",
-        "contact_email": "mostue@ntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 50,
-    "fields": {
-        "item": 80,
-        "amount": 1,
-        "loan_from": "2023-03-14",
-        "loan_to": "2023-06-05",
-        "purpose": "Skoleprosjekt",
-        "contact_name": "Ådne Holm",
-        "contact_phone": "19724175",
-        "contact_email": "adne@ntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 52,
-    "fields": {
-        "item": 8,
-        "amount": 1,
-        "loan_from": "2023-03-22",
-        "loan_to": "2023-04-12",
-        "purpose": "Masteroppgave",
-        "contact_name": "Merethe Hynne",
-        "contact_phone": "97623541",
-        "contact_email": "merethe@stud.ntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 54,
-    "fields": {
-        "item": 74,
-        "amount": 1,
-        "loan_from": "2023-03-23",
-        "loan_to": "2023-05-23",
-        "purpose": "Hardware test",
-        "contact_name": "Eivind Eriksen",
-        "contact_phone": "79145157",
-        "contact_email": "eivind@stud.ntnu.no",
-        "consent": true,
-        "approver": 3
-    }
-},
-{
-    "model": "inventory.itemloan",
-    "pk": 56,
-    "fields": {
-        "item": 68,
-        "amount": 1,
-        "loan_from": "2023-03-28",
-        "loan_to": "2023-04-07",
-        "purpose": "lading",
-        "contact_name": "Snorre Myhre",
-        "contact_phone": "79245715",
-        "contact_email": "snorre.myhre@icloud.com",
-        "consent": true,
-        "approver": 3
     }
 },
 {

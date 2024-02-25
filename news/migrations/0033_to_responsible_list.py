@@ -5,6 +5,23 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def to_responsible_list(apps, schema_editor):
+    Event = apps.get_model('news', 'Event')
+    Event_responsible = apps.get_model('news', 'Event_responsible')
+    for event in Event.objects.all():
+        if event.responsible:
+            Event_responsible.objects.create(event=event, responsible=event.responsible)
+        event.save()
+
+def reverse_to_responsible_list(apps, schema_editor):
+    Event = apps.get_model('news', 'Event')
+    for event in Event.objects.all():
+        responsibles = event.responsibles.all()
+        if responsibles:
+            event.responsible = responsibles.first()
+        event.save()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -30,4 +47,12 @@ class Migration(migrations.Migration):
             name='responsibles',
             field=models.ManyToManyField(related_name='responsibles', through='news.Event_responsible', to=settings.AUTH_USER_MODEL, verbose_name='Arrangementansvarlig'),
         ),
+        migrations.RunPython(
+            to_responsible_list,
+            reverse_to_responsible_list
+        ),
+        migrations.RemoveField(
+            model_name='event',
+            name='responsible',
+        )
     ]

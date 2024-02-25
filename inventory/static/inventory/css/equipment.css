@@ -1,0 +1,26 @@
+li>div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.header-image {
+    max-width: 600px;
+    width: 100%;
+}
+
+.cut-top {
+    margin-top: -96px !important;
+    position: relative;
+}
+
+.order-up, .order-down {
+    cursor: pointer;
+    font-size: 48px;
+    padding: 0.5rem
+}
+
+.order-up:hover, .order-down:hover {
+    opacity: 50%;
+}

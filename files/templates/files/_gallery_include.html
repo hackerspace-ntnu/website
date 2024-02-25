@@ -1,31 +1,33 @@
+{% load i18n %}
+
 {% load gallery_modals %}
 <div class="input-field">
-	<input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{% if form.thumbnail.value %}{{ form.thumbnail.value }}{% endif %}">
+    <input id="{{ form.thumbnail.id_for_label }}" name="thumbnail" type="hidden" value="{% if form.thumbnail.value %}{{ form.thumbnail.value }}{% endif %}">
 </div>
 <span class="helper-text hs-red-text">{{ form.thumbnail.errors }}</span>
 
 <div class="row">
-	{% if form.thumbnail.value and form.thumbnail.value != "None" %}
-	<div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: url('/files/image-view/{{ form.thumbnail.value }}'); background-repeat:no-repeat; background-size: cover;">
-	{% else %}
-	<div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: none; background-repeat:no-repeat; background-size:cover;">
-	{% endif %}
-	</div>
+    {% if form.thumbnail.value and form.thumbnail.value != "None" %}
+        <div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: url('/files/image-view/{{ form.thumbnail.value }}'); background-repeat:no-repeat; background-size: cover;">
+    {% else %}
+        <div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: none; background-repeat:no-repeat; background-size:cover;">
+    {% endif %}
+</div>
 
-	{% ImagePickModal request %}
+{% ImagePickModal request %}
 </div>
 
 <script>
-var thumbnail_input = document.querySelector('#id_thumbnail');
-var thumb_preview = document.querySelector('#thumb-preview');
+    var thumbnail_input = document.querySelector('#id_thumbnail');
+    var thumb_preview = document.querySelector('#thumb-preview');
 
-document.addEventListener('click', function(e) {
-	if(e.target.innerText === "VELG") {
-		var selectedImgId = e.target.attributes.value.value;
-		thumbnail_input.value = selectedImgId;
-		thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;
-		M.toast({html: 'Bildet er valgt'});
-		M.Modal.getInstance(thumbModal).close();
-	}
-});
+    document.addEventListener('click', function(e) {
+        if(e.target.innerText === "VELG") {
+            var selectedImgId = e.target.attributes.value.value;
+            thumbnail_input.value = selectedImgId;
+            thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;
+            M.toast({html: '{% trans "Bildet er valgt" %}'});
+            M.Modal.getInstance(thumbModal).close();
+        }
+    });
 </script>

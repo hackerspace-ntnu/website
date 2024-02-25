@@ -1,6 +1,9 @@
 from django.contrib import admin
+from ordered_model.admin import OrderedModelAdmin
 
-from .models import Item, ItemLoan
+from inventory.models.equipment import Equipment
+from inventory.models.item import Item
+from inventory.models.item_loan import ItemLoan
 
 
 @admin.register(Item)
@@ -35,8 +38,11 @@ class ItemAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(ItemLoan)
 class ItemLoanAdmin(admin.ModelAdmin):
     autocomplete_fields = ["approver"]
 
 
-admin.site.register(ItemLoan, ItemLoanAdmin)
+@admin.register(Equipment)
+class EquipmentAdmin(OrderedModelAdmin):
+    list_display = ["name", "inventory_link", "move_up_down_links"]

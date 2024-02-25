@@ -1,37 +1,38 @@
 {% extends 'website/base.html' %}
+{% load i18n %}
 {% load static %}
 {% block header %}
-<link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'files/css/gallery.css' %}">
 {% endblock %}
 
 {% block content %}
-{% include "files/_image_admin_banner.html" %}
+    {% include "files/_image_admin_banner.html" %}
 
-{% if categories %}
-<ul class="collapsible expandable">
-{% for category, images in categories.items %}
-<li class="active">
-	<div class="section hs-green white-text tab collapsible-header" >
-		<div class="container">
-			<h4 class="category-header">{{ category }}</h4>
-		</div>
-	</div>
-	<div class="section collapsible-body">
-		<div class="container">
-			<div class="row">
-				{% for image in images %}
-				{% include 'files/single-image-edit.html' %}
-				{% endfor %}
-			</div>
-		</div>
-	</div>
-</li>
-{% endfor %}
-</ul>
-{% else %}
-<div class="center">
-	<h4>Galleriet er tomt</h4>
-</div>
-{% endif %}
-<script src="{% static 'files/js/gallery.js' %}"></script>
+    {% if categories %}
+        <ul class="collapsible expandable">
+            {% for category, images in categories.items %}
+                <li class="active">
+                    <div class="section hs-green white-text tab collapsible-header" >
+                        <div class="container">
+                            <h4 class="category-header">{{ category }}</h4>
+                        </div>
+                    </div>
+                    <div class="section collapsible-body">
+                        <div class="container">
+                            <div class="row">
+                                {% for image in images %}
+                                    {% include 'files/single-image-edit.html' %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="center">
+            <h4>{% trans "Galleriet er tomt" %}</h4>
+        </div>
+    {% endif %}
+    <script src="{% static 'files/js/gallery.js' %}"></script>
 {% endblock content %}

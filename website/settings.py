@@ -65,8 +65,11 @@ INSTALLED_APPS = [
     "social_django",
     "inventory",
     "watchlist",
+    "internalportal",
     "projectarchive",
     "markdownx",
+    "django_crontab",
+    "ordered_model",
 ]
 
 
@@ -341,17 +344,6 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",)
 }
 
-# Random greetings that are displayed to the user on the internalportal page
-# Just for fun. The user's first name is formatted in
-INTERNALPORTAL_GREETINGS = [
-    "Hei, {}",  # zzz
-    "Heisann, {}",  # zzzzzz
-    "Halla, {}",  # zzzzzzzzzzzzzzzzz
-    "Og et rungende tjo-bing til deg, {}!",  # real shit?
-    "Husket å skru av ovnen, {}?",
-    "Dette er en tilfeldig melding. Plukket tilfeldig, altså. Selve meldingen er ikke tilfeldig generert ved å drive å plukke bokstaver og sånt. Du skjønner hva jeg mener, {}.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit... Oi, vent, dette er jo i produksjon!",
-]
 #################################
 # Website-specific              #
 #################################
@@ -362,7 +354,8 @@ WORKSHOP_OPEN_DAYS = 5
 #################################
 
 # Markdownify
-MARKDOWNX_MARKDOWNIFY_FUNCTION = "markdownx.utils.markdownify"  # Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
+# Default function that compiles markdown using defined extensions. Using custom function can allow you to pre-process or post-process markdown text. See below for more info.
+MARKDOWNX_MARKDOWNIFY_FUNCTION = "markdownx.utils.markdownify"
 
 # Markdown extensions
 MARKDOWNX_MARKDOWN_EXTENSIONS = (
@@ -376,7 +369,8 @@ MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS = (
 MARKDOWNX_URLS_PATH = (
     "/markdownx/markdownify/"  # URL that returns compiled markdown text.
 )
-MARKDOWNX_UPLOAD_URLS_PATH = "/markdownx/upload/"  # URL that accepts file uploads, returns markdown notation of the image.
+# URL that accepts file uploads, returns markdown notation of the image.
+MARKDOWNX_UPLOAD_URLS_PATH = "/markdownx/upload/"
 
 # Media path
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime(
@@ -402,4 +396,12 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
     "markdown.extensions.extra",
     "markdown.extensions.nl2br",
     "markdown.extensions.smarty",
+]
+# crontab
+CRONJOBS = [
+    (
+        "0 12 * * 2",
+        "website.inventory_late_poker.late_loan_retrieval_poker",
+        ">>/tmp/scheduled_job.log",
+    )
 ]

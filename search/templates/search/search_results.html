@@ -1,27 +1,27 @@
 {% load class_name %}
 
 {% for object in object_list %}
-  {% if object|class_name == 'Article' %}
-    {% include "search/item/article.html" %}
-  {% elif object|class_name == 'Projectarticle' %}
-    {% include "search/item/projectarticle.html" %}
-  {% elif object|class_name == 'Event' %}
-    {% include "search/item/event.html" %}
-  {% elif object|class_name == 'Profile' %}
-    {% include "search/item/user.html" %}
-  {% elif object|class_name == 'Queue' %}
-    {% include "search/item/queue.html" %}
-  {% elif object|class_name == 'FaqQuestion' %}
-    {% include "search/item/faq.html" %}
-  {% elif object|class_name == 'Rule' %}
-    {% include "search/item/rule.html" %}
-  {% else %}
-    <div class='row'>
-      <div class='col-12 col-lg-8 offset-lg-4'>
-        <a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a>
-      </div>
-    </div>
-  {% endif %}
+    {% if object|class_name == 'Article' %}
+        {% include "search/item/article.html" %}
+    {% elif object|class_name == 'Projectarticle' %}
+        {% include "search/item/projectarticle.html" %}
+    {% elif object|class_name == 'Event' %}
+        {% include "search/item/event.html" %}
+    {% elif object|class_name == 'Profile' %}
+        {% include "search/item/user.html" %}
+    {% elif object|class_name == 'Queue' %}
+        {% include "search/item/queue.html" %}
+    {% elif object|class_name == 'FaqQuestion' %}
+        {% include "search/item/faq.html" %}
+    {% elif object|class_name == 'Rule' %}
+        {% include "search/item/rule.html" %}
+    {% else %}
+        <div class='row'>
+            <div class='col-12 col-lg-8 offset-lg-4'>
+                <a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a>
+            </div>
+        </div>
+    {% endif %}
 {% empty %}
-  <h5>Ingen resultater funnet 😞</h5>
+    <h5>Ingen resultater funnet 😞</h5>
 {% endfor %}

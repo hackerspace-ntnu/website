@@ -1,0 +1,31 @@
+Hei {{name}},
+
+Vi håper denne e-posten finner deg godt. Vi skriver for å minne deg om at du fortsatt har
+en gjenstand som du har lånt fra oss {{item}}.
+
+Vi forstår at det kan være enkelt å glemme å returnere ting i en travel hverdag, og det er
+derfor vi tar kontakt nå for å minne deg på å returnere gjenstanden så snart som mulig.
+Hvis du har glemt hvor gjenstanden ble lagt, eller om det er noen problemer
+med å returnere den, vennligst gi oss beskjed så vi kan finne en løsning sammen.
+
+Vi setter pris på din forståelse og ser frem til å høre fra deg snart. 
+Hvis du har noen spørsmål, er du velkommen til å kontakte oss når som helst.
+
+----------
+
+Hello {{name}},
+
+We hope this email finds you well. We are writing to remind you that you still have an item that you borrowed from us, {{item}}.
+
+We understand that it can be easy to forget to return things in a busy daily life, 
+and that's why we are contacting you now to remind you to return the item as soon as possible. 
+If you have forgotten where the item was placed or if there are any problems returning it, 
+please let us know so that we can find a solution together.
+
+We appreciate your understanding and look forward to hearing from you soon. If you have any questions, please feel free to contact us at any time.
+
+----------
+
+Best regards,
+
+Hackerspace NTNU

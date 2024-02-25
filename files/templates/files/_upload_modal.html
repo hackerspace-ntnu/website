@@ -1,97 +1,98 @@
+{% load i18n %}
 {% block head %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 {% endblock %}
 
 <div class="modal" id="uploadModal">
-	<div class="modal-content">
-		<div class="row">
-			<h4 class="col s12">Last opp til galleriet</h4>
-			{% csrf_token %}
-			<div class="input-field col s12">
-				{{ UploadForm.title }}
-				<label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
-			</div>
-			<div class="input-field col s12">
-				{{ UploadForm.img_category }}
-				<label class="active" for="{{ UploadForm.img_category.id_for_label }}">{{ UploadForm.img_category.label }}</label>
-			</div>
-			<div class="file-field input-field col s12">
-				<div class="btn btn-flat white-text hs-green">
-					<span>Velg bilde</span>
-					{{ UploadForm.file }}
-				</div>
-				<div class="file-path-wrapper">
-					<input id="{{ UploadForm.file.id_for_label }}-path" class="file-path validate" type="text">
-				</div>
-			</div>
-			<a href="#" class="btn btn-flat btn-large hs-green white-text col s12" id="uploadBtn">Last opp bilde</a>
-		</div>
-	</div>
+    <div class="modal-content">
+        <div class="row">
+            <h4 class="col s12">{% trans "Last opp til galleriet" %}</h4>
+            {% csrf_token %}
+            <div class="input-field col s12">
+                {{ UploadForm.title }}
+                <label for="{{ UploadForm.title.id_for_label }}">{{ UploadForm.title.label }}</label>
+            </div>
+            <div class="input-field col s12">
+                {{ UploadForm.img_category }}
+                <label class="active" for="{{ UploadForm.img_category.id_for_label }}">{{ UploadForm.img_category.label }}</label>
+            </div>
+            <div class="file-field input-field col s12">
+                <div class="btn btn-flat white-text hs-green">
+                    <span>{% trans "Velg bilde" %}</span>
+                    {{ UploadForm.file }}
+                </div>
+                <div class="file-path-wrapper">
+                    <input id="{{ UploadForm.file.id_for_label }}-path" class="file-path validate" type="text">
+                </div>
+            </div>
+            <a href="#" class="btn btn-flat btn-large hs-green white-text col s12" id="uploadBtn">{% trans "Last opp bilde" %}</a>
+        </div>
+    </div>
 </div>
 
 <script>
-const uploadModal = document.querySelector('#uploadModal');
-const submitBtn = document.getElementById('uploadBtn');
+    const uploadModal = document.querySelector('#uploadModal');
+    const submitBtn = document.getElementById('uploadBtn');
 
-const uploadEventSubscribers = new Array();
-function subscribeToUpload(element) {
-    uploadEventSubscribers.push(element);
-}
+    const uploadEventSubscribers = new Array();
+    function subscribeToUpload(element) {
+        uploadEventSubscribers.push(element);
+    }
 
-submitBtn.addEventListener('click', function(e) {
-	e.preventDefault();
+    submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
 
-	// Grab all the form data
-	var title_field = document.getElementById('id_img-title');
-	var category_field = document.getElementById('id_img-img_category');
-	const category_name = category_field.options[category_field.value - 1].text;
-	var img_field = document.getElementById('id_img-file');
-	var img_field_path = document.getElementById('id_img-file-path');
+        // Grab all the form data
+        var title_field = document.getElementById('id_img-title');
+        var category_field = document.getElementById('id_img-img_category');
+        const category_name = category_field.options[category_field.value - 1].text;
+        var img_field = document.getElementById('id_img-file');
+        var img_field_path = document.getElementById('id_img-file-path');
 
-	var formdata = new FormData();
-	formdata.append("img-file", img_field.files[0]);
-	formdata.append("img-title", title_field.value);
-	formdata.append('img-img_category', category_field.value);
+        var formdata = new FormData();
+        formdata.append("img-file", img_field.files[0]);
+        formdata.append("img-title", title_field.value);
+        formdata.append('img-img_category', category_field.value);
 
-	// Upload the image
-	var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-	$.ajax({
-		type:'POST',
-		url: "/files/image-upload/",
-		headers: {
-			'X-CSRFToken': csrftoken 
-		},
-		data: formdata,
-		contentType: false,
-		processData: false,
-		success: function(response){
-            // Raise the success event on all listeners
-            const successEvent = new CustomEvent('galleryUploadSuccess', {
-                detail: {
-                    response: response,
-                    title: title_field.value,
-                    category: category_name,
-                    image: img_field.files[0]
-                }
-            });
+        // Upload the image
+        var csrftoken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        $.ajax({
+            type:'POST',
+            url: "/files/image-upload/",
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                // Raise the success event on all listeners
+                const successEvent = new CustomEvent('galleryUploadSuccess', {
+                    detail: {
+                        response: response,
+                        title: title_field.value,
+                        category: category_name,
+                        image: img_field.files[0]
+                    }
+                });
 
-            uploadEventSubscribers.forEach(element => {
-                element.dispatchEvent(successEvent);
-            });
+                uploadEventSubscribers.forEach(element => {
+                    element.dispatchEvent(successEvent);
+                });
 
-			// Clear the form
-			title_field.value = '';
-			category_field.value = '0';
-			img_field_path.value = '';
-			img_field.value = null;
+                // Clear the form
+                title_field.value = '';
+                category_field.value = '0';
+                img_field_path.value = '';
+                img_field.value = null;
 
-			// Close the modal
-			M.Modal.getInstance(uploadModal).close();
-		},
-		error: function(response) {
-			M.toast({ html: 'Noe gikk galt under bildeopplastningen' });
-			console.log(response);
-		}
-	});
-});
+                // Close the modal
+                M.Modal.getInstance(uploadModal).close();
+            },
+            error: function(response) {
+                M.toast({ html: 'Noe gikk galt under bildeopplastningen' });
+                console.log(response);
+            }
+        });
+    });
 </script>

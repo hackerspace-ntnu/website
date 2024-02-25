@@ -43,6 +43,9 @@ class ApplicationGroup(models.Model):
     project_group = models.BooleanField(
         verbose_name="Gruppen tilhører prosjektgruppen", default=False
     )
+    open_for_applications = models.BooleanField(
+        verbose_name="Åpen for søknader", default=True
+    )
 
     def __str__(self):
         return self.name
@@ -91,3 +94,6 @@ class ApplicationGroupChoice(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     group = models.ForeignKey(ApplicationGroup, on_delete=models.CASCADE)
     priority = models.PositiveIntegerField(null=True)
+
+    class Meta:
+        ordering = ["priority"]

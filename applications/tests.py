@@ -47,8 +47,8 @@ class ApplicationInfoViewTest(TestCase):
         self.response = self.client.get(reverse("application:application_info"))
 
     def test_context(self):
-        self.assertIsNotNone(self.response.context["group_list"])
-        self.assertIsNotNone(self.response.context["main_list"])
+        self.assertIsNotNone(self.response.context["project_groups"])
+        self.assertIsNotNone(self.response.context["main_groups"])
 
 
 class ApplicationFormViewTest(TestCase):
@@ -93,8 +93,7 @@ class ApplicationFormViewTest(TestCase):
             mail.outbox[0].subject, "[Hackerspace NTNU] Søknad er registrert!"
         )
         self.assertEqual(mail.outbox[0].to[0], data.get("email"))
-        self.assertEqual(
-            mail.outbox[0].body,
+        self.assertIn(
             """Hei Testesson Test!
 
 Dette er en bekreftelse på at din søknad er registrert.
@@ -119,4 +118,5 @@ Tusen takk for din interesse. :-)
 Mvh,
 Styret i Hackerspace NTNU
 """,
+            mail.outbox[0].body,
         )

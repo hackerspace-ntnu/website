@@ -1,8 +1,8 @@
 <span class="badge hide-on-small-only">
-  {% for category in skill.categories.all %}
-    <span class="badge" style="background:{{category.color}}"></span>
-  {% endfor %}
-  {% if not skill.prerequisites.all %}
-    <span class="badge hs-green white-text">HSGK</span>
-  {% endif %}
+    {% for category in skill.categories.all %}
+        <span class="badge" style="background:{{category.color}}"></span>
+    {% endfor %}
+    {% if not skill.prerequisites.all %}
+        <span class="badge hs-green white-text">HSGK</span>
+    {% endif %}
 </span>

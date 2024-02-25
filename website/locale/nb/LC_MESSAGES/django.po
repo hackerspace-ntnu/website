@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-28 18:09+0200\n"
+"POT-Creation-Date: 2023-11-27 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/website/about.html:9
+#: website/templates/website/_social_buttons.html:8
+msgid "Søk Hackerspace"
+msgstr ""
+
+#: website/templates/website/about.html:9
 msgid "Om Hackerspace NTNU"
 msgstr ""
 
-#: templates/website/about.html:22
+#: website/templates/website/about.html:22
 msgid ""
 "Hackerspace NTNU er et studentdrevet prosjekt åpent for alle studenter "
 "uansett studieretning eller Hackerspace-medlemsskap. Vi tilbyr en kreativ "
@@ -31,7 +35,7 @@ msgid ""
 "Reality-utstyr"
 msgstr ""
 
-#: templates/website/about.html:23
+#: website/templates/website/about.html:23
 msgid ""
 "Om du er en førsteklassing som trenger hjelp med ditt første Arduino-"
 "prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av "
@@ -40,358 +44,330 @@ msgid ""
 "emner"
 msgstr ""
 
-#: templates/website/about.html:24
+#: website/templates/website/about.html:24
 msgid "Kom innom for å se hva vi driver med og slå av en prat"
 msgstr ""
 
-#: templates/website/about.html:24
+#: website/templates/website/about.html:24
 msgid ""
 "Du finner oss i andre etasje i A-blokka på Realfagbygget, NTNU Gløshaugen"
 msgstr ""
 
-#: templates/website/about.html:25
+#: website/templates/website/about.html:25
 msgid "Vis kart"
 msgstr ""
 
-#: templates/website/about.html:34
+#: website/templates/website/about.html:34
 msgid "Ofte stilte spørsmål"
 msgstr ""
 
-#: templates/website/about.html:51
+#: website/templates/website/about.html:51
 msgid "Våre aktive grupper"
 msgstr ""
 
-#: templates/website/about.html:77
+#: website/templates/website/about.html:77
 msgid "Leder"
 msgstr ""
 
-#: templates/website/about.html:80
+#: website/templates/website/about.html:80
 msgid "Nestleder"
 msgstr ""
 
-#: templates/website/about.html:83
+#: website/templates/website/about.html:83
 msgid "Økonomiansvarlig"
 msgstr ""
 
-#: templates/website/about.html:87
+#: website/templates/website/about.html:87
 msgid "E-post"
 msgstr ""
 
-#: templates/website/about.html:108
+#: website/templates/website/about.html:108
 msgid "Ingen medlemmer er lagt til enda"
 msgstr ""
 
-#: templates/website/footer.html:9
+#: website/templates/website/footer.html:9
 msgid "Velkommen innom"
 msgstr ""
 
-#: templates/website/footer.html:9
+#: website/templates/website/footer.html:9
 msgid "verkstedet"
 msgstr ""
 
-#: templates/website/footer.html:9
+#: website/templates/website/footer.html:9
 msgid "på NTNU Gløshaugen for en kopp kaffe!"
 msgstr ""
 
-#: templates/website/footer.html:17
+#: website/templates/website/footer.html:17
 msgid "Åpningstider"
 msgstr ""
 
-#: templates/website/footer.html:19
+#: website/templates/website/footer.html:19
 msgid "Alle hverdager"
 msgstr ""
 
-#: templates/website/footer.html:20
+#: website/templates/website/footer.html:20
 msgid "Se"
 msgstr ""
 
-#: templates/website/footer.html:20
+#: website/templates/website/footer.html:20
 msgid "vaktlista"
 msgstr ""
 
-#: templates/website/footer.html:21
+#: website/templates/website/footer.html:21
 msgid "for detaljerte åpningstider"
 msgstr ""
 
-#: templates/website/footer.html:24
+#: website/templates/website/footer.html:24
 msgid "For øvrige henvendelser kan du også ta kontakt via"
 msgstr ""
 
-#: templates/website/footer.html:30 templates/website/header.html:30
-#: templates/website/header.html:91
+#: website/templates/website/footer.html:30
+#: website/templates/website/header.html:33
+#: website/templates/website/header.html:94
 msgid "Nyheter"
 msgstr ""
 
-#: templates/website/footer.html:31 templates/website/header.html:31
-#: templates/website/header.html:96
+#: website/templates/website/footer.html:31
+#: website/templates/website/header.html:34
+#: website/templates/website/header.html:99
 msgid "Arrangementer"
 msgstr ""
 
-#: templates/website/footer.html:32 templates/website/header.html:141
-#: templates/website/header.html:225
+#: website/templates/website/footer.html:32
+#: website/templates/website/header.html:144
+#: website/templates/website/header.html:228
 msgid "Om oss"
 msgstr ""
 
-#: templates/website/footer.html:35 templates/website/header.html:126
-#: templates/website/header.html:210 templates/website/rules.html:15
+#: website/templates/website/footer.html:35
+#: website/templates/website/header.html:129
+#: website/templates/website/header.html:213
+#: website/templates/website/rules.html:15
 msgid "Regler"
 msgstr ""
 
-#: templates/website/footer.html:38
+#: website/templates/website/footer.html:38
 msgid "Vilkår for bruk av nettside"
 msgstr ""
 
-#: templates/website/footer.html:42
+#: website/templates/website/footer.html:42
 msgid "Verktøy"
 msgstr ""
 
-#: templates/website/footer.html:46 templates/website/header.html:156
-#: templates/website/header.html:173
+#: website/templates/website/footer.html:46
+#: website/templates/website/header.html:159
+#: website/templates/website/header.html:176
 msgid "Logg ut"
 msgstr ""
 
-#: templates/website/footer.html:51
+#: website/templates/website/footer.html:51
 msgid "Har du funnet en"
 msgstr ""
 
-#: templates/website/footer.html:52
+#: website/templates/website/footer.html:52
 msgid "Send gjerne en"
 msgstr ""
 
-#: templates/website/footer.html:52
+#: website/templates/website/footer.html:52
 msgid "til DevOps eller bruk #dev-public kanalen på Slack!"
 msgstr ""
 
-#: templates/website/footer.html:53
+#: website/templates/website/footer.html:53
 msgid "Du kan også rapportere feil eller gi oss forslag til forbedringer på"
 msgstr ""
 
-#: templates/website/header.html:32
+#: website/templates/website/header.html:35
 msgid "Søk i hele siden"
 msgstr ""
 
-#: templates/website/header.html:81
+#: website/templates/website/header.html:84
 msgid "Hjem"
 msgstr ""
 
-#: templates/website/header.html:86
+#: website/templates/website/header.html:89
 msgid "Søk"
 msgstr ""
 
-#: templates/website/header.html:101 templates/website/header.html:185
+#: website/templates/website/header.html:104
+#: website/templates/website/header.html:188
 msgid "Kart"
 msgstr ""
 
-#: templates/website/header.html:106 templates/website/header.html:190
+#: website/templates/website/header.html:109
+#: website/templates/website/header.html:193
 msgid "Medlemmer"
 msgstr ""
 
-#: templates/website/header.html:111 templates/website/header.html:195
-#: templates/website/internalportal.html:118
+#: website/templates/website/header.html:114
+#: website/templates/website/header.html:198
 msgid "Vaktliste"
 msgstr ""
 
-#: templates/website/header.html:116 templates/website/header.html:200
-#: templates/website/internalportal.html:127
+#: website/templates/website/header.html:119
+#: website/templates/website/header.html:203
 msgid "Lager"
 msgstr ""
 
-#: templates/website/header.html:121 templates/website/header.html:205
-#: templates/website/internalportal.html:136
+#: website/templates/website/header.html:124
+#: website/templates/website/header.html:208
 msgid "Reservasjoner"
 msgstr ""
 
-#: templates/website/header.html:131 templates/website/header.html:215
+#: website/templates/website/header.html:134
+#: website/templates/website/header.html:218
 msgid "Opptak"
 msgstr ""
 
-#: templates/website/header.html:136 templates/website/header.html:220
+#: website/templates/website/header.html:139
+#: website/templates/website/header.html:223
 msgid "Prosjektarkiv"
 msgstr ""
 
-#: templates/website/header.html:147 templates/website/header.html:231
-#: templates/website/internalportal.html:10
+#: website/templates/website/header.html:150
+#: website/templates/website/header.html:234
 msgid "Internportal"
 msgstr ""
 
-#: templates/website/header.html:162 templates/website/header.html:177
+#: website/templates/website/header.html:165
+#: website/templates/website/header.html:180
 msgid "Logg inn"
 msgstr ""
 
-#: templates/website/header.html:170
+#: website/templates/website/header.html:173
 msgid "Profil"
 msgstr ""
 
-#: templates/website/header.html:183
+#: website/templates/website/header.html:186
 msgid "Se hvor vi befinner oss"
 msgstr ""
 
-#: templates/website/header.html:188
+#: website/templates/website/header.html:191
 msgid "Se liste over medlemmer"
 msgstr ""
 
-#: templates/website/header.html:193
+#: website/templates/website/header.html:196
 msgid "Se vaktlista vår"
 msgstr ""
 
-#: templates/website/header.html:198
+#: website/templates/website/header.html:201
 msgid "Se lagerbeholdningen vår"
 msgstr ""
 
-#: templates/website/header.html:203
+#: website/templates/website/header.html:206
 msgid "Se utstyr og reserver tid"
 msgstr ""
 
-#: templates/website/header.html:208
+#: website/templates/website/header.html:211
 msgid "Se regler"
 msgstr ""
 
-#: templates/website/header.html:218
+#: website/templates/website/header.html:221
 msgid "Les om våres tidligere prosjekter her"
 msgstr ""
 
-#: templates/website/header.html:223
+#: website/templates/website/header.html:226
 msgid "Les om vår organisasjon og grupper her"
 msgstr ""
 
-#: templates/website/header.html:229
+#: website/templates/website/header.html:232
 msgid "Dashbord for medlemmer av Hackerspace"
 msgstr ""
 
-#: templates/website/index.html:24
+#: website/templates/website/index.html:24
 msgid "Har du en skaper i magen?"
 msgstr ""
 
-#: templates/website/index.html:25
+#: website/templates/website/index.html:25
 msgid ""
 "Vi disponerer nødvendig utstyr, lokaler og ikke minst kunnskap for å bistå i "
 "ditt neste prosjekt."
 msgstr ""
 
-#: templates/website/index.html:31
+#: website/templates/website/index.html:31
 msgid "Nysgjerrig på VR?"
 msgstr ""
 
-#: templates/website/index.html:32
+#: website/templates/website/index.html:32
 msgid ""
 "Uansett om du bare har lyst til å teste det ut, eller er en veteran på VR-"
 "utvikling, har vi både utstyr og kompetanse innenfor Virtual Reality på "
 "Hackerspace."
 msgstr ""
 
-#: templates/website/index.html:38
+#: website/templates/website/index.html:38
 msgid "Kreativt, innovativt og ikke minst sosialt"
 msgstr ""
 
-#: templates/website/index.html:39
+#: website/templates/website/index.html:39
 msgid ""
 "Hackerspace tilbyr en arena for prosjekter, enten det er IoT-dingser, "
 "programvare, 3D-printing, eller andre kule ting."
 msgstr ""
 
-#: templates/website/index.html:51
+#: website/templates/website/index.html:51
 msgid "Hvem er vi?"
 msgstr ""
 
-#: templates/website/index.html:52
+#: website/templates/website/index.html:52
 msgid ""
 "Hackerspace NTNU er et studentdrevet prosjekt fra IDI og er åpent for alle "
 "studenter uavhengig av studieretning."
 msgstr ""
 
-#: templates/website/index.html:53
+#: website/templates/website/index.html:53
 msgid ""
 "Hos oss finner du ny teknologi til din disposisjon, blant annet 3D-printere "
 "og Virtual Reality-utstyr."
 msgstr ""
 
-#: templates/website/index.html:54
+#: website/templates/website/index.html:54
 msgid ""
 "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av "
 "Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og "
 "hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace."
 msgstr ""
 
-#: templates/website/index.html:55
+#: website/templates/website/index.html:55
 msgid ""
 "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå "
 "av en prat, tar vi deg varmt imot på"
 msgstr ""
 
-#: templates/website/index.html:55
+#: website/templates/website/index.html:55
 msgid "vårt verksted"
 msgstr ""
 
-#: templates/website/index.html:55
+#: website/templates/website/index.html:55
 msgid "Slack-kanal"
 msgstr ""
 
-#: templates/website/index.html:56
+#: website/templates/website/index.html:56
 msgid ""
 "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å "
 "demonstrere utstyr eller hjelpe deg."
 msgstr ""
 
-#: templates/website/index.html:57
+#: website/templates/website/index.html:57
 msgid "Les mer om oss her"
 msgstr ""
 
-#: templates/website/index.html:60
-msgid "Søk Hackerspace"
-msgstr ""
-
-#: templates/website/index.html:70
+#: website/templates/website/index.html:68
 msgid "Siste nytt"
 msgstr ""
 
-#: templates/website/index.html:88
+#: website/templates/website/index.html:86
 msgid "Siste arrangementer"
 msgstr ""
 
-#: templates/website/internalportal.html:28
-msgid "Siste internnytt"
-msgstr ""
-
-#: templates/website/internalportal.html:42
-msgid "Her var det intetnytt"
-msgstr ""
-
-#: templates/website/internalportal.html:52
-msgid "Siste interne arrangementer"
-msgstr ""
-
-#: templates/website/internalportal.html:71
-msgid "Ingen interne arrangementer"
-msgstr ""
-
-#: templates/website/internalportal.html:81
-msgid "Åpne lånesøknader"
-msgstr ""
-
-#: templates/website/internalportal.html:94
-msgid "Ingen lånesøknader"
-msgstr ""
-
-#: templates/website/internalportal.html:109
-msgid "Lånesøknader"
-msgstr ""
-
-#: templates/website/internalportal.html:145
-msgid "Bildegalleri"
-msgstr ""
-
-#: templates/website/internalportal.html:155
-msgid "Adminpanel"
-msgstr ""
-
-#: templates/website/rules.html:17
+#: website/templates/website/rules.html:17
 msgid "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr"
 msgstr ""
 
-#: templates/website/rules.html:43 templates/website/rules.html:49
+#: website/templates/website/rules.html:43
+#: website/templates/website/rules.html:49
 msgid "Intern"
 msgstr ""
 
-#: templates/website/rules.html:56
+#: website/templates/website/rules.html:56
 msgid "Fant ingen regler 🤠"
 msgstr ""

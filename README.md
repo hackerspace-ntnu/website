@@ -81,3 +81,49 @@ After installing the required packages and initializing the database, you can ru
 ```
 python manage.py runserver
 ```
+
+## Fixtures
+
+Use fixtures to add test data to you local development
+
+Load the fixtures:
+```
+python manage.py loaddata fixtures.json
+```
+
+Create new fixtures: 
+(Create fixtures if model updates make the fixtures unusable)
+```
+python manage.py dumpdata -e admin -e auth.Permission -e contenttypes -e sessions --indent=4 > fixtures.json
+```
+
+All users have the password: `adminpassword`
+
+
+## Reset database
+
+You can delete the database locally by deleting the db.sqlite3 file from the root directory
+
+After that you need to migrate the database with
+```
+python manage.py migrate
+```
+
+Follow the above step about fixtures if you want your test data back
+
+
+## Translations
+
+We have locality for Norwegian and English
+To generate new translations in `.po` files run
+```
+python manage.py makemessages -l nb -l en
+```
+
+Add the correct translations in the `msgstr` quotes.
+If a translation is not given and the `msgstr` quote is empty, the msgid will be used
+
+To compile the translations and make the translations available run
+```
+python manage.py compilemessages
+```

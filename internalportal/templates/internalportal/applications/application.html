@@ -1,0 +1,87 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'internalportal/css/applications.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include "website/page_header.html" with title=application.name %}
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6">
+                {% include "internalportal/applications/personalia_box.html" with application=application %}
+                <ul class="collapsible">
+                    <li>
+                        <strong class="collapsible-header"><i class="material-icons large black-text">description</i>{% trans "Søknadssvar" %}</strong>
+
+                        <div class="collapsible-body">
+                            <div class="collection">
+                                {% include "internalportal/applications/answers.html" with application=application %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <h3 class="card-title">{% trans "Intervjuprosessen" %}</h3>
+                        <ol>
+                            <li>{% trans "Les over søknaden" %}</li>
+                            <li>
+                                <a class="btn btn-small" href="{% url 'internalportal:interview_email' application.id %}">{% trans "Send e-post om intervju" %}</a>
+                            </li>
+                            <li>{% trans "Hold intervju" %}</li>
+                            <li>{% trans "Gi beskjed om kandidaten ikke er videre i intervjuprosessen" %}<br />
+                                <a class="modal-trigger btn btn-small" href="#denied_email_modal">
+                                    {% trans "E-post for å avslå" %}
+                                </a>
+                                <div class="modal" id="denied_email_modal">
+                                    <div class="container">
+                                        <p class="section"><strong>{% trans "Emne" %}: </strong>[Hackerspace NTNU]: {% trans "Verv hos Hackerspace" %}</p>
+                                        {% include "internalportal/applications/text_box_copy.html" with text=denied_email %}
+                                    </div>
+                                </div>
+                            </li>
+                            <li>{% trans "Få kandidaten til å logge inn på nettsiden" %}</li>
+                            <li>{% trans "Godkjenn kandidaten og send mail at de har kommet inn med HowToHack dokumentet fra Google Drive" %}<br />
+                                <a class="modal-trigger btn btn-small" href="#approved_email_modal">
+                                    {% trans "E-post for å godkjenne" %}
+                                </a>
+                                <div class="modal" id="approved_email_modal">
+                                    <div class="container">
+                                        <p class="section"><strong>{% trans "Emne" %}: </strong>[Hackerspace NTNU]: {% trans "Verv hos Hackerspace" %}</p>
+                                        {% include "internalportal/applications/text_box_copy.html" with text=approved_email %}
+                                    </div>
+                                </div>
+                            </li>
+                            <li>{% trans "Legg kandidaten inn i kommunikasjonskanaler" %}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="application-button-bar">
+            <a href="{% url 'internalportal:applications' %}"><button class="btn btn-large">{% trans "Tilbake" %}</button></a>
+            <a href="{% url 'internalportal:approve_application' application.id %}"><button class="btn btn-large hs-green">{% trans "Godkjenn" %}</button></a>
+            <a href="{% url 'internalportal:delete_application' application.id %}"><button class="btn btn-large hs-red">{% trans "Fjern" %}</button></a>
+            {% if second_group %}
+                <a href="#send-to-next-group" class="modal-trigger btn btn-large">{% trans "Send videre" %}</a>
+                <div class="modal" id="send-to-next-group">
+                    <div class="modal-content">
+                        <h4>{% trans "Er du sikker på at du vil sende søknaden videre?" %}</h4>
+                        <p>{% trans "Søknaden sendes til" %} {{ second_group.group.name }}</p>
+                        <a href="{% url 'internalportal:next_group' application.id %}" class="btn btn-large">{% trans "Send videre" %}</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>  document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.collapsible');
+        var instances = M.Collapsible.init(elems, options);
+    });</script>
+{% endblock %}

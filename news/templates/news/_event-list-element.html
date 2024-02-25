@@ -1,40 +1,42 @@
+{% load i18n %}
+
 <div class="row">
-  <div class="col s2 center hide-on-med-and-down">
-    {% if event.thumbnail %}
-    <img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
-    {% else %}
-    {% include "website/_default_img.html" with icon="event" %}
-    {% endif %}
-  </div>
-  <div class="col s10 hide-on-med-and-down">
-    {% if 'Pågående arrangementer' in status %}
-    <span class="right badge hs-green-text">Skjer nå!</span>
-    {% endif %}
+    <div class="col s2 center hide-on-med-and-down">
+        {% if event.thumbnail %}
+            <img class="circle" style="width:100px; height:100px;" src="{{ event.thumbnail.thumb_url }}">
+        {% else %}
+            {% include "website/_default_img.html" with icon="event" %}
+        {% endif %}
+    </div>
+    <div class="col s10 hide-on-med-and-down">
+        {% if 'Pågående arrangementer' in status %}
+            <span class="right badge hs-green-text">{% trans "Skjer nå!" %}</span>
+        {% endif %}
 
-    {% if 'Kommende arrangementer' in status %}
-    <span class="right badge">Starter {{ event.time_start }}</span>
-    {% endif %}
+        {% if 'Kommende arrangementer' in status %}
+            <span class="right badge">{% trans "Starter" %} {{ event.time_start }}</span>
+        {% endif %}
 
-    {% if 'Tidligere arrangementer' in status %}
-    <span class="right badge">Avsluttet {{ event.time_end }}</span>
-    {% endif %}
+        {% if 'Tidligere arrangementer' in status %}
+            <span class="right badge">{% trans "Avsluttet" %} {{ event.time_end }}</span>
+        {% endif %}
 
-    <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
-    <p>
-      {% autoescape off %}
-      {{ event.ingress_content|truncatechars:200 }}
-      {% endautoescape %}
-    </p>
-  </div>
-  <div class="col s12 show-on-med-and-down hide-on-large-only">
-    <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
-    <p class="badge"><i>{{ info }}</i><br></p>
-    <p>
-      {% autoescape off %}
-      {{ event.ingress_content|truncatechars:150 }}
-      {% endautoescape %}
-    </p>
-  </div>
+        <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+        <p>
+            {% autoescape off %}
+                {{ event.ingress_content|truncatechars:200 }}
+            {% endautoescape %}
+        </p>
+    </div>
+    <div class="col s12 show-on-med-and-down hide-on-large-only">
+        <a href="{% url 'events:details' event.id %}"><h5 class="no-margin truncate">{{ event.title }}</h5></a>
+        <p class="badge"><i>{{ info }}</i><br></p>
+        <p>
+            {% autoescape off %}
+                {{ event.ingress_content|truncatechars:150 }}
+            {% endautoescape %}
+        </p>
+    </div>
 </div>
 <div class="divider"></div>
 <br>

@@ -1,10 +1,12 @@
+{% load i18n %}
+
 <div class="row">
-	<div class="col">
-		<a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
-			<div class="listview-indicator card-panel white-text hs-green tooltipped z-depth-0 valign-wrapper" data-position="bottom"  data-tooltip="Trykk for å logge inn">
-				<i class="material-icons white-text text-lighten-3">info</i>
-				<span> {{ indicator_text }}</span>
-			</div>
-		</a>
-	</div>
+    <div class="col">
+        <a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+            <div class="listview-indicator card-panel white-text hs-green tooltipped z-depth-0 valign-wrapper" data-position="bottom"  data-tooltip="Trykk for å logge inn">
+                <i class="material-icons white-text text-lighten-3">{% trans "info" %}</i>
+                <span> {{ indicator_text }}</span>
+            </div>
+        </a>
+    </div>
 </div>

@@ -2,95 +2,119 @@
 {% load static %}
 {% load i18n %}
 {% block head %}
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-<link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/members.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/members.css' %}">
 {% endblock %}
 {% block content %}
-<div class="section hs-green">
-	<div class="container">
-		<div class="row">
-			<div class="col s12">
-                <h4 class="white-text">{% trans "Medlemmer i Hackerspace" %}</h4>
-                <p class="flow-text white-text">{% trans "For oversikt over gruppene og deres medlemmer, se" %} <a class="hs-gray-text" href="{% url 'about' %}"> {% trans "Om oss" %}</a>.</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12">
-                <div class="members-search-container card-panel z-depth-0 row">
-                    <!-- Member name search -->
-                    <div class="input-field col s12">
-                        <input id="member-name-search" name="filter" placeholder="{% trans "Søk etter medlem" %}" value="{{ filter }}" type="text">
+    <div class="section hs-green">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4 class="white-text">{% trans "Medlemmer i Hackerspace" %}</h4>
+                    <p class="flow-text white-text">{% trans "For oversikt over gruppene og deres medlemmer, se" %} <a class="hs-gray-text" href="{% url 'about' %}"> {% trans "Om oss" %}</a>.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="members-search-container card-panel z-depth-0 row">
+                        <!-- Member name search -->
+                        <div class="input-field col s12">
+                            <input id="member-name-search" name="filter" placeholder="{% trans 'Søk etter medlem' %}" value="{{ filter }}" type="text">
+                        </div>
                     </div>
                 </div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="section">
-	<div class="container">
-        <div id="members_list"></div>
-	</div>
-</div>
+            </div>
+            {% if perms.userprofile.is_active_member %}
+                <p class="flow-text white-text">{% trans 'Klikk på ferdigheter du vil se folk ikke har' %}</p>
+                <div class="row skill-filter">
+                    {% for category in skill_categories %}
+                        <label class="col l4 s12 skill-check" style="border-color:{{category.color}};">
+                            <input value="{{ category.id }}" type="checkbox" class="filled-in" onchange="updateSkills()"/>
+                            <span class="white-text">{{ category }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div id="members_list"></div>
+        </div>
+    </div>
 
-<script>
+    <script>
 
-	let search = "{{ search }}";
-	let pageNumber = {{ page }};
+        let search = "{{ search }}";
+        let pageNumber = {{ page }};
+        let skillCategories = [{{ skills }}];
 
-    // Perform members search on page load
-	document.addEventListener('DOMContentLoaded', function () {
-		updateList();
-	});
 
-	// Listen for keystroke events
-	let timeout = null;
-	const searchField = document.getElementById("member-name-search");
-	searchField.addEventListener('keyup', () => {
-		// Clear the timeout if it has already been set.
-		// This will prevent the previous task from executing
-		// if user is still typing
-		clearTimeout(timeout);
+        // Perform members search on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            Array.from(document.querySelectorAll('.skill-check input'))
+                .filter((el) => skillCategories.includes(Number(el.value)))
+                .forEach((el) => el.checked = true);
+            updateList();
+        });
 
-		// Make a new timeout for updating search
-		timeout = setTimeout(function () {
-			updateSearch(searchField.value)
-		}, 100);
-	});
+        // Listen for keystroke events
+        let timeout = null;
+        const searchField = document.getElementById("member-name-search");
+        searchField.addEventListener('keyup', () => {
+            // Clear the timeout if it has already been set.
+            // This will prevent the previous task from executing
+            // if user is still typing
+            clearTimeout(timeout);
 
-	function updateSearch(s) {
-		search = s;
-		pageNumber = 1;
-		updateList();
-	}
+            // Make a new timeout for updating search
+            timeout = setTimeout(function () {
+                updateSearch(searchField.value)
+            }, 100);
+        });
 
-	function updatePageNumber(p) {
-		pageNumber = p;
-		updateList();
-	}
+        function updateSearch(s) {
+            search = s;
+            pageNumber = 1;
+            updateList();
+        }
 
-	function updateList() {
+        function updatePageNumber(p) {
+            pageNumber = p;
+            updateList();
+        }
 
-        const url = `/members/?s=${search}&p=${pageNumber}`;
+        function updateSkills() {
+            skillCategories = [];
+            $('input[type=checkbox]:checked').each(function () {
+                skillCategories.push($(this).val());
+            });
+            updateList();
+        }
 
-		// Refresh list content from api
-		$.ajax({
-			url: `/api${url}`,
-			type: 'GET',
-			success: function (data) {
-				window.props = data
-				$('#members_list').html(data);
-			}
-		});
+        function updateList() {
 
-		// Update url to allow direct links to search
-		const state = window.history.state;
-		const title = window.document.title;
-		window.history.pushState(state, title, url);
+            const url = `/members/?s=${search}&p=${pageNumber}&skills=${skillCategories.join(',')}`;
 
-	}
+            // Refresh list content from api
+            $.ajax({
+                url: `/api${url}`,
+                type: 'GET',
+                success: function (data) {
+                    window.props = data
+                    $('#members_list').html(data);
+                }
+            });
 
-</script>
+            // Update url to allow direct links to search
+            const state = window.history.state;
+            const title = window.document.title;
+            window.history.pushState(state, title, url);
+
+        }
+
+    </script>
 {% endblock %}

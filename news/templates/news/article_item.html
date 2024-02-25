@@ -1,30 +1,32 @@
+{% load i18n %}
+
 <div class="section">
-  <div class="row no-pad-bot">
-    <div class="col s2 center hide-on-med-and-down">
-      {% if news.thumbnail %}
-      <img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.thumb_url }}">
-      {% else %}
-      {% include "website/_default_img.html" with icon="article" %}
-      {% endif %}
+    <div class="row no-pad-bot">
+        <div class="col s2 center hide-on-med-and-down">
+            {% if news.thumbnail %}
+                <img class="circle" style="width:100px; height:100px;" src="{{ news.thumbnail.thumb_url }}">
+            {% else %}
+                {% include "website/_default_img.html" with icon="article" %}
+            {% endif %}
+        </div>
+        <div class="col s10 hide-on-med-and-down">
+            <span class="right badge">{% trans "Publisert" %} {{ news.pub_date }}</span>
+            <a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+            <p>
+                {% autoescape off %}
+                    {{ news.ingress_content|truncatechars:200 }}
+                {% endautoescape %}
+            </p>
+        </div>
+        <div class="col s12 show-on-med-and-down hide-on-large-only">
+            <a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
+            <p class="badge"><i>{% trans "Publisert" %} {{ news.pub_date }}</i><br></p>
+            <p>
+                {% autoescape off %}
+                    {{ news.ingress_content|truncatechars:200 }}
+                {% endautoescape %}
+            </p>
+        </div>
     </div>
-    <div class="col s10 hide-on-med-and-down">
-      <span class="right badge">Publisert {{ news.pub_date }}</span>
-      <a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
-      <p>
-        {% autoescape off %}
-        {{ news.ingress_content|truncatechars:200 }}
-        {% endautoescape %}
-      </p>
-    </div>
-    <div class="col s12 show-on-med-and-down hide-on-large-only">
-      <a href="{% url 'news:details' news.id %}"><h5 class="no-margin truncate">{{ news.title }}</h5></a>
-      <p class="badge"><i>Publisert {{ news.pub_date }}</i><br></p>
-      <p>
-        {% autoescape off %}
-        {{ news.ingress_content|truncatechars:200 }}
-        {% endautoescape %}
-      </p>
-    </div>
-  </div>
 </div>
 <div class="divider"></div>

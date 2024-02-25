@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Item
-from .views import InventoryListAPIView
+from inventory.models.item import Item
+from inventory.views.item import InventoryListAPIView
 
 
 class ItemTests(TestCase):

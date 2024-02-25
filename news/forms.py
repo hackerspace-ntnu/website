@@ -88,6 +88,11 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
                 "class": "no-autoinit datepicker",
             }
         ),
+        time_attrs=(
+            {
+                "class": "no-autoinit timepicker",
+            }
+        ),
         date_format="%Y-%m-%d",
         time_format="%H:%M",
     )

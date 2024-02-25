@@ -9,80 +9,80 @@
 {% endblock head %}
 
 {% block content %}
-<div class="section hs-green white-text">
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <h4>Rediger lagerinnslag</h4>
+    <div class="section hs-green white-text">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h4>Rediger lagerinnslag</h4>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="section">
-    <div class="container">
-        <div class="card-panel">
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-                <div class="row">
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">label</i>
-                        {{ form.name }}
-                        <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.name.errors }}</span>
+    <div class="section">
+        <div class="container">
+            <div class="card-panel">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">label</i>
+                            {{ form.name }}
+                            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.name.errors }}</span>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">room</i>
+                            {{ form.location }}
+                            <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
+                        </div>
+                        <div class="input-field col s12 m12">
+                            <i class="material-icons prefix">layers</i>
+                            {{ form.stock }}
+                            <label for="{{ form.stock.id_for_label }}">{{ form.stock.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.stock.errors }}</span>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <p><label>
+                                {{ form.unknown_stock }}
+                                <span for="{{ form.unknown_stock.id_for_label }}">{{ form.unknown_stock.label }}</span>
+                                <span class="helper-text hs-red-text">{{ form.unknown_stock.errors }}</span>
+                            </p></label>
+                            <p class="form-hint">
+                                Gjenstander med ukjent lagerbeholdning <b>ignorerer lagerbeholdningsfeltet</b>, og kan alltid lånes dersom det er tillat.
+                                Lånesøknader kan be om et ubegrenset antall av gjenstanden dersom lagerbeholdningen er ukjent.
+                            </p>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <p><label>
+                                {{ form.can_loan }}
+                                <span for="{{ form.can_loan.id_for_label }}">{{ form.can_loan.label }}</span>
+                                <span class="helper-text hs-red-text">{{ form.can_loan.errors }}</span>
+                            </p></label>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">date_range</i>
+                            {{ form.max_loan_duration }}
+                            <label for="{{ form.max_loan_duration.id_for_label }}">{{ form.max_loan_duration.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.max_loan_duration.errors }}</span>
+                        </div>
                     </div>
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">room</i>
-                        {{ form.location }}
-                        <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.location.errors }}</span>
-                    </div>
-                    <div class="input-field col s12 m12">
-                        <i class="material-icons prefix">layers</i>
-                        {{ form.stock }}
-                        <label for="{{ form.stock.id_for_label }}">{{ form.stock.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.stock.errors }}</span>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <p><label>
-                            {{ form.unknown_stock }}
-                            <span for="{{ form.unknown_stock.id_for_label }}">{{ form.unknown_stock.label }}</span>
-                            <span class="helper-text hs-red-text">{{ form.unknown_stock.errors }}</span>
-                        </p></label>
-                        <p class="form-hint">
-                            Gjenstander med ukjent lagerbeholdning <b>ignorerer lagerbeholdningsfeltet</b>, og kan alltid lånes dersom det er tillat.
-                            Lånesøknader kan be om et ubegrenset antall av gjenstanden dersom lagerbeholdningen er ukjent.
-                        </p>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <p><label>
-                            {{ form.can_loan }}
-                            <span for="{{ form.can_loan.id_for_label }}">{{ form.can_loan.label }}</span>
-                            <span class="helper-text hs-red-text">{{ form.can_loan.errors }}</span>
-                        </p></label>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">date_range</i>
-                        {{ form.max_loan_duration }}
-                        <label for="{{ form.max_loan_duration.id_for_label }}">{{ form.max_loan_duration.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.max_loan_duration.errors }}</span>
-                    </div>
-                </div>
 
-                <div class="input-field">
-                    <p>{{ form.description.label }}</p>
-                    <span class="helper-text hs-red-text">{{ form.description.errors }}</span>
-                    {{ form.description }}
-                </div>
+                    <div class="input-field">
+                        <p>{{ form.description.label }}</p>
+                        <span class="helper-text hs-red-text">{{ form.description.errors }}</span>
+                        {{ form.description }}
+                    </div>
 
-                <div>
-                    {% include 'files/_gallery_include.html' %}
-                </div>
+                    <div>
+                        {% include 'files/_gallery_include.html' %}
+                    </div>
 
-                <button class="btn btn-large hs-green white-text waves-effect waves-light" type="submit">Lagre lagerinnslag</button>
-            </form>
+                    <button class="btn btn-large hs-green white-text waves-effect waves-light" type="submit">Lagre lagerinnslag</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}

@@ -1,0 +1,31 @@
+{% load i18n %}
+<div class="col application-info">
+
+    <div class="col s12">
+        <h5>{% trans "Kunnskap om Hackerspace" %}</h5>
+        <p>{{ application.knowledge_of_hs }}</p>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Om meg" %}</h5>
+        <p>{{ application.about }}</p>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Søknadstekst" %}</h5>
+        <p>{{ application.application_text }}</p>
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Grupper søkt" %}</h5>
+        {% for group_choice in application.applicationgroupchoice_set.all|dictsort:"priority" %}
+            <p>{{ forloop.counter }}: {{ group_choice.group.name }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="col s12">
+        <h5>{% trans "Andre interesser" %}</h5>
+        <p>{{ application.project_interests }}</p>
+    </div>
+
+</div>

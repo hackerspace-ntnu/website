@@ -2,42 +2,42 @@
 {% load static %}
 
 {% block head %}
-  <link rel="stylesheet" type="text/css" href="{% static 'search/css/view.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'search/css/view.css' %}">
 {% endblock %}
 
 {% block content %}
-  <div class="section hs-green">
-    <div class="container">
-      <div class="row valign-wrapper white-text">
-        <div class="col s12">
-          <h4>
-            Søk
-          </h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          <div class="search-container card-panel z-depth-0 row">
-            <div class="input-field col s12">
-              <input id="search-input" name="query" placeholder="Søk" value="{{ query }}" type="text">
+    <div class="section hs-green">
+        <div class="container">
+            <div class="row valign-wrapper white-text">
+                <div class="col s12">
+                    <h4>
+                        Søk
+                    </h4>
+                </div>
             </div>
-          </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="search-container card-panel z-depth-0 row">
+                        <div class="input-field col s12">
+                            <input id="search-input" name="query" placeholder="Søk" value="{{ query }}" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col s12">
-          <div id="search-results"></div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <div id="search-results"></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <script>
-    let search = "{{ query }}";
-    let pageNumber = {{ page }};
-  </script>
-  <script src="{% static 'search/javascript/live_search.js' %}"></script>
+    <script>
+        let search = "{{ query }}";
+        let pageNumber = {{ page }};
+    </script>
+    <script src="{% static 'search/javascript/live_search.js' %}"></script>
 {% endblock content %}

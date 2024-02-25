@@ -2,12 +2,15 @@ from datetime import datetime, timedelta
 from itertools import chain
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import (
@@ -17,6 +20,8 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
+
+from committees.models import Committee
 
 from .forms import (
     ArticleForm,
@@ -391,9 +396,37 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             self.object = form.save()
             upload_form.instance = self.object
             upload_form.save()
+
+            skills = form.cleaned_data["skills"]
+            print(skills)
+            if len(skills) > 0 and not form.cleaned_data["draft"]:
+                self._send_mail_to_members_without_skill(skills, self.object)
+
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    def _send_mail_to_members_without_skill(self, skills, event):
+        committee_array = Committee.objects.values_list("name", flat=True)
+        members_without_skill = (
+            get_user_model()
+            .objects.filter(groups__name__in=list(committee_array))
+            .exclude(profile__skills__in=skills)
+        )
+
+        plain_message = render_to_string(
+            "news/skill_missing_email.txt",
+            {"skills": skills, "event": event},
+        )
+
+        send_mail(
+            "[Hackerspace NTNU] Arrangement gir skill du mangler!",
+            plain_message,
+            "Hackerspace NTNU",
+            list(members_without_skill),
+            fail_silently=False,
+        )
+        pass
 
 
 class ArticleCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):

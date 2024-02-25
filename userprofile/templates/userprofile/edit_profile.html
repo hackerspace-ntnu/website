@@ -7,7 +7,7 @@
                 <div class="col s12 white-text">
                     <h4>Innstillinger</h4>
                     <a href="{% url 'userprofile:profile' %}"
-                       class="btn btn-flat waves-effect waves-light white hs-gray-text">Tilbake til profil</a>
+                        class="btn btn-flat waves-effect waves-light white hs-gray-text">Tilbake til profil</a>
                 </div>
             </div>
         </div>
@@ -31,13 +31,13 @@
                 {% csrf_token %}
                 <div class="card-panel row">
                     <div class="col s12">
-                            <h5>Profilbilde</h5>
-                            <div class="divider"></div>
-                        </div>
-                        <div class="col s12 input-field">
-                            {{ form.image }}
-                            <span class="helper-text hs-red-text">{{ form.image.errors }}</span>
-                        </div>
+                        <h5>Profilbilde</h5>
+                        <div class="divider"></div>
+                    </div>
+                    <div class="col s12 input-field">
+                        {{ form.image }}
+                        <span class="helper-text hs-red-text">{{ form.image.errors }}</span>
+                    </div>
                 </div>
                 <div class="card-panel row">
                     <div class="col s12">

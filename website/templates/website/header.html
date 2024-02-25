@@ -1,280 +1,280 @@
 {% load static %}
 {% load i18n %}
 {% if request.user.is_authenticated and not request.user.profile.has_accepted_most_recent_tos %}
-	<!-- Checks if path should display TOS prompt. Slice check disables TOS display for all tos-related pages -->
-	{% if request.path != "/tos/returning-user/" and request.path|slice:":5" != "/tos/" %}
-		<meta http-equiv="refresh" content="1;url=/tos/returning-user/">
-	{% endif %}
+    <!-- Checks if path should display TOS prompt. Slice check disables TOS display for all tos-related pages -->
+    {% if request.path != "/tos/returning-user/" and request.path|slice:":5" != "/tos/" %}
+        <meta http-equiv="refresh" content="1;url=/tos/returning-user/">
+    {% endif %}
 {% endif %}
 <header>
-	<div class="navbar-fixed">
-		<nav>
-			<div class="nav-wrapper hs-gray">
-				<div class="container">
-					<!-- Hamburger -->
-					<a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-					<!-- Tre logoer for å styre margin så det ser pent ut og responsivt -->
-					<a href="/" class="brand-logo hide-on-med-and-down valign-wrapper">
-						<img class="brand-logo-coglight" src="{{ coglight_url }}"/>
-						<img class="brand-logo-text" src="{{ logo_url }}"/>
-					</a>
-					<a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only valign-wrapper">
-						<img class="brand-logo-coglight" src="{{ coglight_url }}"/>
-						<img class="brand-logo-text" src="{{ logo_url }}"/>
-					</a>
-					<a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small valign-wrapper">
-						<img class="brand-logo-text" src="{{ logo_url }}"/>
-					</a>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper hs-gray">
+                <div class="container">
+                    <!-- Hamburger -->
+                    <a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <!-- Tre logoer for å styre margin så det ser pent ut og responsivt -->
+                    <a href="/" class="brand-logo hide-on-med-and-down valign-wrapper">
+                        <img class="brand-logo-coglight" src="{{ coglight_url }}"/>
+                        <img class="brand-logo-text" src="{{ logo_url }}"/>
+                    </a>
+                    <a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only valign-wrapper">
+                        <img class="brand-logo-coglight" src="{{ coglight_url }}"/>
+                        <img class="brand-logo-text" src="{{ logo_url }}"/>
+                    </a>
+                    <a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small valign-wrapper">
+                        <img class="brand-logo-text" src="{{ logo_url }}"/>
+                    </a>
                     <div class="valign-wrapper hide-on-large-only right">
                         {% include "website/lang_toggle.html" %}
                     </div>
-					<!-- Hovedmeny -->
-					<ul class="right hide-on-med-and-down">
+                    <!-- Hovedmeny -->
+                    <ul class="right hide-on-med-and-down">
                         <li id="news"><a class="waves-effect" href="{% url 'news:all' %}">{% trans "Nyheter" %}</a></li>
                         <li id="events"><a class="waves-effect" href="{% url 'events:all' %}">{% trans "Arrangementer" %}</a></li>
                         <li id="search" class="tooltipped" data-position="bottom" data-tooltip="{% trans "Søk i hele siden" %}">
-							<a class="waves-effect" href="{% url 'search' %}"><i class="material-icons">search</i></a>
-						</li>
-						<li id="resources"><a class="trigger-resources" href="#" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
-						{% if user.is_authenticated %}
-								{% if user.profile.image %}
-								<li>
-									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
-										<img class="center circle" src="{{ user.profile.image.url }}" />
-									</a>
-								</li>
-								{% else %}
-								<li>
-									<a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
-										<img class="center circle" src="{% static 'website/img/misc/default.png' %}" />
-									</a>
-								</li>
-								{% endif %}
-						{% else %}
-						<li><a class="dropdown-trigger-user" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
-						{% endif %}
-                        <li>
-                        {% include "website/lang_toggle.html" with style="margin: 3px 10px"%}
+                            <a class="waves-effect" href="{% url 'search' %}"><i class="material-icons">search</i></a>
                         </li>
-					</ul>
-					<!-- Mobil dynamisk meny -->
-				<ul class="sidenav" id="mobile-sidebar">
-					<li>
-						<div class="user-view no-pad-bot">
-							<div class="background hs-gray"></div>
-							{% if user.is_authenticated %}
-							<a href="{% url 'userprofile:profile' %}">
-								{% if user.profile.image %}
-								<img class="circle" src="{{ user.profile.image.url }}"/>
-								{% else %}
-								<img class="circle" src="{% static 'website/img/misc/default.png' %}"/>
-								{% endif %}
-							</a>
-							<a href="#"><span class="white-text name">{{ user.get_full_name }}</span></a>
-							<a href="#"><span class="white-text email">{{ user.email }}</span></a>
-							<a href="#"><span class="white-text"></span></a>
-							{% else %}
-							<!-- TODO: Fix styling of image -->
-							<a href="/"><img style="width:128px; height:164" src="{% static "website/img/logo/Icon_green_transparent.png" %}"></a>
-							{% endif %}
-						</div>
-					</li>
-					<li>
-                        <a class="waves-effect" href="/">
-                            <i class="material-icons">home</i>{% trans "Hjem" %}
-                        </a>
-                    </li>
-					<li>
-						<a class="waves-effect" href="{% url 'search' %}">
-                            <i class="material-icons small">search</i>{% trans "Søk" %}
-						</a>
-					</li>
-					<li>
-                        <a class="waves-effect" href="{% url 'news:all' %}">
-                            <i class="material-icons small">newspaper</i>{% trans "Nyheter" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'events:all' %}">
-                            <i class="material-icons small">event</i>{% trans "Arrangementer" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a class="waves-effect" target="_blank" href="{{ mazemap_link }}">
-                            <i class="material-icons small">map</i>{% trans "Kart" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'member-list' %}">
-                            <i class="material-icons small">groups</i>{% trans "Medlemmer" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
-                            <i class="material-icons small">free_breakfast</i>{% trans "Vaktliste" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'inventory:inventory' %}">
-                            <i class="material-icons">inbox</i>{% trans "Lager" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'reservations:queue_list' %}">
-                            <i class="material-icons">calendar_month</i>{% trans "Reservasjoner" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'rules' %}">
-                            <i class="material-icons">gavel</i>{% trans "Regler" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'application:application_info' %}">
-                            <i class="material-icons">group_add</i>{% trans "Opptak" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'projectarchive:Article_List' %}">
-                            <i class="material-icons">inventory_2</i>{% trans "Prosjektarkiv" %}
-                        </a>
-                    </li>
-					<li>
-                        <a class="waves-effect" href="{% url 'about' %}">
-                            <i class="material-icons">info</i>{% trans "Om oss" %}
-                        </a>
-                    </li>
-                    {% if user.is_authenticated and perms.userprofile.is_active_member %}
+                        <li id="resources"><a class="trigger-resources" href="#" data-target="resourcedropdown"><i class="material-icons">apps</i></a></li>
+                        {% if user.is_authenticated %}
+                            {% if user.profile.image %}
+                                <li>
+                                    <a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
+                                        <img class="center circle" src="{{ user.profile.image.url }}" />
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a class="dropdown-trigger-user valign-wrapper" href="{% url 'userprofile:profile' %}" data-target="userdropdown">
+                                        <img class="center circle" src="{% static 'website/img/misc/default.png' %}" />
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li><a class="dropdown-trigger-user" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}" data-target="userdropdown"><i class="material-icons">account_circle</i></a> </li>
+                        {% endif %}
                         <li>
-                            <a class="waves-effect" href="{% url 'internalportal' %}">
-                                <i class="material-icons">dashboard</i>{% trans "Internportal" %}
+                            {% include "website/lang_toggle.html" with style="margin: 3px 10px"%}
+                        </li>
+                    </ul>
+                    <!-- Mobil dynamisk meny -->
+                    <ul class="sidenav" id="mobile-sidebar">
+                        <li>
+                            <div class="user-view no-pad-bot">
+                                <div class="background hs-gray"></div>
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'userprofile:profile' %}">
+                                        {% if user.profile.image %}
+                                            <img class="circle" src="{{ user.profile.image.url }}"/>
+                                        {% else %}
+                                            <img class="circle" src="{% static 'website/img/misc/default.png' %}"/>
+                                        {% endif %}
+                                    </a>
+                                    <a href="#"><span class="white-text name">{{ user.get_full_name }}</span></a>
+                                    <a href="#"><span class="white-text email">{{ user.email }}</span></a>
+                                    <a href="#"><span class="white-text"></span></a>
+                                {% else %}
+                                    <!-- TODO: Fix styling of image -->
+                                    <a href="/"><img style="width:128px; height:164" src="{% static "website/img/logo/Icon_green_transparent.png" %}"></a>
+                                {% endif %}
+                            </div>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="/">
+                                <i class="material-icons">home</i>{% trans "Hjem" %}
                             </a>
                         </li>
-                    {% endif %}
-
-					<li><div class="divider"></div></li>
-					{% if user.is_authenticated %}
-					<li>
-                        <a class="waves-effect" href="{% url 'auth:logout' %}">
-                            <i class="material-icons small">logout</i>{% trans "Logg ut" %}
-                        </a>
-                    </li>
-					{% else %}
-                    <li>
-                        <a class="waves-effect" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
-                            <i class="material-icons small">login</i>{% trans "Logg inn" %}
-                        </a>
-                    </li>
-					{% endif %}
-					<!-- Dropdown user list for desktop-->
-					<ul id="userdropdown" class="dropdown-content">
-						{% if user.is_authenticated %}
-						<li><a href="{% url 'userprofile:profile' %}">
-                            <i class="material-icons small">account_circle</i>{% trans "Profil" %}
-                        </a></li>
-						<li><a href="{% url 'auth:logout' %}">
-                            <i class="material-icons small">login</i>{% trans "Logg ut" %}
-                        </a></li>
-						{% else %}
-						<li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
-                            <i class="material-icons small">login</i>{% trans "Logg inn" %}
-                        </a></li>
-						{% endif %}
-					</ul>
-					<!-- Dropdown for ressurser -->
-					<ul id="resourcedropdown" class="dropdown-content">
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se hvor vi befinner oss"%}">
-							<a class="modal-trigger waves-effect hs-green-text" target="_blank" href="{{ mazemap_link }}">
+                        <li>
+                            <a class="waves-effect" href="{% url 'search' %}">
+                                <i class="material-icons small">search</i>{% trans "Søk" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'news:all' %}">
+                                <i class="material-icons small">newspaper</i>{% trans "Nyheter" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'events:all' %}">
+                                <i class="material-icons small">event</i>{% trans "Arrangementer" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="waves-effect" target="_blank" href="{{ mazemap_link }}">
                                 <i class="material-icons small">map</i>{% trans "Kart" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se liste over medlemmer" %}">
-							<a href="{% url 'member-list' %}">
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'member-list' %}">
                                 <i class="material-icons small">groups</i>{% trans "Medlemmer" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se vaktlista vår" %}">
-							<a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
                                 <i class="material-icons small">free_breakfast</i>{% trans "Vaktliste" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se lagerbeholdningen vår" %}">
-							<a href="{% url 'inventory:inventory' %}">
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'inventory:inventory' %}">
                                 <i class="material-icons">inbox</i>{% trans "Lager" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se utstyr og reserver tid" %}">
-							<a href="{% url 'reservations:queue_list' %}">
-                                <i class="material-icons small">calendar_month</i>{% trans "Reservasjoner" %}
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'reservations:queue_list' %}">
+                                <i class="material-icons">calendar_month</i>{% trans "Reservasjoner" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se regler" %}">
-							<a href="{% url 'rules' %}">
-                                <i class="material-icons small">gavel</i>{% trans "Regler" %}
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'rules' %}">
+                                <i class="material-icons">gavel</i>{% trans "Regler" %}
                             </a>
-						</li>
-						<li>
-							<a class="waves-effect" href="{% url 'application:application_info' %}">
-                                <i class="material-icons small">group_add</i>{% trans "Opptak" %}
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'application:application_info' %}">
+                                <i class="material-icons">group_add</i>{% trans "Opptak" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Les om våres tidligere prosjekter her" %}">
-							<a href="{% url 'projectarchive:Article_List' %}">
-                                <i class="material-icons small">inventory_2</i>{% trans "Prosjektarkiv" %}
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'projectarchive:Article_List' %}">
+                                <i class="material-icons">inventory_2</i>{% trans "Prosjektarkiv" %}
                             </a>
-						</li>
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Les om vår organisasjon og grupper her" %}">
-							<a href="{% url 'about' %}">
-                                <i class="material-icons small">info</i>{% trans "Om oss" %}
+                        </li>
+                        <li>
+                            <a class="waves-effect" href="{% url 'about' %}">
+                                <i class="material-icons">info</i>{% trans "Om oss" %}
                             </a>
-						</li>
-						{% if user.is_authenticated and perms.userprofile.is_active_member %}
-                        <li class="tooltipped" data-position="left" data-tooltip="{% trans "Dashbord for medlemmer av Hackerspace" %}">
-							<a href="{% url 'internalportal' %}">
-                                <i class="material-icons small">dashboard</i>{% trans "Internportal" %}
-                            </a>
-						</li>
-						{% endif %}
-					</ul>
-				</ul>
+                        </li>
+                        {% if user.is_authenticated and perms.userprofile.is_active_member %}
+                            <li>
+                                <a class="waves-effect" href="{% url 'internalportal:internalportal' %}">
+                                    <i class="material-icons">dashboard</i>{% trans "Internportal" %}
+                                </a>
+                            </li>
+                        {% endif %}
 
-			</div>
-			</div>
-		</nav>
-	</div>
-<script>
+                        <li><div class="divider"></div></li>
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a class="waves-effect" href="{% url 'auth:logout' %}">
+                                    <i class="material-icons small">logout</i>{% trans "Logg ut" %}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="waves-effect" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+                                    <i class="material-icons small">login</i>{% trans "Logg inn" %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        <!-- Dropdown user list for desktop-->
+                        <ul id="userdropdown" class="dropdown-content">
+                            {% if user.is_authenticated %}
+                                <li><a href="{% url 'userprofile:profile' %}">
+                                    <i class="material-icons small">account_circle</i>{% trans "Profil" %}
+                                </a></li>
+                                <li><a href="{% url 'auth:logout' %}">
+                                    <i class="material-icons small">login</i>{% trans "Logg ut" %}
+                                </a></li>
+                            {% else %}
+                                <li><a class="modal-trigger" href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}">
+                                    <i class="material-icons small">login</i>{% trans "Logg inn" %}
+                                </a></li>
+                            {% endif %}
+                        </ul>
+                        <!-- Dropdown for ressurser -->
+                        <ul id="resourcedropdown" class="dropdown-content">
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se hvor vi befinner oss"%}">
+                                <a class="modal-trigger waves-effect hs-green-text" target="_blank" href="{{ mazemap_link }}">
+                                    <i class="material-icons small">map</i>{% trans "Kart" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se liste over medlemmer" %}">
+                                <a href="{% url 'member-list' %}">
+                                    <i class="material-icons small">groups</i>{% trans "Medlemmer" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se vaktlista vår" %}">
+                                <a class="waves-effect" href="{% url 'watchlist:vaktliste' %}">
+                                    <i class="material-icons small">free_breakfast</i>{% trans "Vaktliste" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se lagerbeholdningen vår" %}">
+                                <a href="{% url 'inventory:inventory' %}">
+                                    <i class="material-icons">inbox</i>{% trans "Lager" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se utstyr og reserver tid" %}">
+                                <a href="{% url 'reservations:queue_list' %}">
+                                    <i class="material-icons small">calendar_month</i>{% trans "Reservasjoner" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Se regler" %}">
+                                <a href="{% url 'rules' %}">
+                                    <i class="material-icons small">gavel</i>{% trans "Regler" %}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="{% url 'application:application_info' %}">
+                                    <i class="material-icons small">group_add</i>{% trans "Opptak" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Les om våres tidligere prosjekter her" %}">
+                                <a href="{% url 'projectarchive:Article_List' %}">
+                                    <i class="material-icons small">inventory_2</i>{% trans "Prosjektarkiv" %}
+                                </a>
+                            </li>
+                            <li class="tooltipped" data-position="left" data-tooltip="{% trans "Les om vår organisasjon og grupper her" %}">
+                                <a href="{% url 'about' %}">
+                                    <i class="material-icons small">info</i>{% trans "Om oss" %}
+                                </a>
+                            </li>
+                            {% if user.is_authenticated and perms.userprofile.is_active_member %}
+                                <li class="tooltipped" data-position="left" data-tooltip="{% trans "Dashbord for medlemmer av Hackerspace" %}">
+                                    <a href="{% url 'internalportal:internalportal' %}">
+                                        <i class="material-icons small">dashboard</i>{% trans "Internportal" %}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    <script>
 
 
-	var dropdown_resources = document.querySelector('.trigger-resources');
-	var dropdown_user = document.querySelector('.dropdown-trigger-user');
+        var dropdown_resources = document.querySelector('.trigger-resources');
+        var dropdown_user = document.querySelector('.dropdown-trigger-user');
 
-	var instance = M.Dropdown.init(dropdown_user, {
-		hover: true,
-		coverTrigger: false,
-		constrainWidth: false
-	});
-	var dropdown_nav_instance = M.Dropdown.init(dropdown_resources, {
-		hover: true,
-		coverTrigger: false,
-		constrainWidth: false
-	});
+        var instance = M.Dropdown.init(dropdown_user, {
+            hover: true,
+            coverTrigger: false,
+            constrainWidth: false
+        });
+        var dropdown_nav_instance = M.Dropdown.init(dropdown_resources, {
+            hover: true,
+            coverTrigger: false,
+            constrainWidth: false
+        });
 
-	// fix for not being able to re-open the dropdown when clicked
-	dropdown_resources.addEventListener("click", () => {
-		if (!dropdown_nav_instance.isOpen) {
-			dropdown_nav_instance.open()
-		}
-	});
+        // fix for not being able to re-open the dropdown when clicked
+        dropdown_resources.addEventListener("click", () => {
+            if (!dropdown_nav_instance.isOpen) {
+                dropdown_nav_instance.open()
+            }
+        });
 
-	switch(window.location.pathname) {
-		case '/news/':
-			var element = document.getElementById("news");
-			element.classList.add("active");
-			break;
-		case '/events/':
-			var element = document.getElementById("events");
-			element.classList.add("active");
-			break;
-	}
-</script>
+        switch(window.location.pathname) {
+            case '/news/':
+                var element = document.getElementById("news");
+                element.classList.add("active");
+                break;
+            case '/events/':
+                var element = document.getElementById("events");
+                element.classList.add("active");
+                break;
+        }
+    </script>
 </header>

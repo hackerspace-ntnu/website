@@ -9,8 +9,9 @@
         <div class="container">
             <div class="row">
                 <div class="col s12">
-                    <h4>Lager</h4>
+                    <h4>{% trans 'Lager' %}</h4>
                     <p>{% trans "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!" %}</p>
+                    <a href="{% url 'inventory:equipment' %}" class="btn white green-text">{% trans 'Se utstyr og apparater' %}</a>
                 </div>
             </div>
         </div>

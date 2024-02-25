@@ -1,11 +1,11 @@
 {% with type_icon="calendar_month" type_name="Reservasjoner" type_name_short="Reserv-<br/>asjoner" %}
-  {% with url_view="reservations:queue_detail" url_option=object.id %}
-    {% with title=object.name %}
-      {% with badge_text="Vanskelighetsgrad: "|add:object.get_difficulty_string %}
-        {% with description=object.description %}
-          {% include "search/search_item.html" %}
+    {% with url_view="reservations:queue_detail" url_option=object.id %}
+        {% with title=object.name %}
+            {% with badge_text="Vanskelighetsgrad: "|add:object.get_difficulty_string %}
+                {% with description=object.description %}
+                    {% include "search/search_item.html" %}
+                {% endwith %}
+            {% endwith %}
         {% endwith %}
-      {% endwith %}
     {% endwith %}
-  {% endwith %}
 {% endwith %}

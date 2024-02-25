@@ -1,0 +1,26 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+    {% trans "Søknader" as applications_header %}
+    {% include "website/page_header.html" with title=applications_header %}
+    <div class="container">
+        <div class="section">
+            <ul>
+                {% for application in applications %}
+                    <li class="collection-item">
+                        <a href="{% url 'internalportal:application' application.id %}">
+                            {% include "internalportal/applications/application_list_card.html" with application=application %}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="center-align"><h3>{% trans "Ingen søknader" %}</h3></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="section">
+            <a href="{% url 'internalportal:internalportal' %}"><button class="btn btn-large">{% trans "Tilbake" %}</button></a>
+        </div>
+    </div>
+{% endblock %}

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-29 19:48+0200\n"
+"POT-Creation-Date: 2023-11-27 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,6 +213,7 @@ msgid "Lagre og publiser artikkel"
 msgstr "Save and publish article"
 
 #: news/templates/news/edit_article.html:82
+#: news/templates/news/edit_event.html:245
 msgid "Lagre som utkast"
 msgstr "Save as draft"
 
@@ -236,11 +237,12 @@ msgstr "Skills"
 msgid "Filer"
 msgstr "Files"
 
-#: news/templates/news/edit_event.html:223
+#: news/templates/news/edit_event.html:224
 msgid "Ferdig"
 msgstr "Done"
 
-#: news/templates/news/edit_event.html:238
+#: news/templates/news/edit_event.html:239
+#: news/templates/news/edit_event.html:242
 msgid "Lagre og publiser arrangement"
 msgstr "Save and publish event"
 
@@ -320,11 +322,11 @@ msgstr "The registration deadline has passed."
 #: news/templates/news/event.html:129 news/templates/news/event.html:131
 #: news/templates/news/event.html:212
 msgid "Meld deg av"
-msgstr "Unsubscribe"
+msgstr "Withdraw registration"
 
 #: news/templates/news/event.html:132
 msgid "Fristen for avregistrering er ute."
-msgstr "The unsubscription deadline has passed."
+msgstr "The withdrawal deadline has passed."
 
 #: news/templates/news/event.html:136
 msgid "Frist for påmelding er"
@@ -332,7 +334,7 @@ msgstr "The registration deadline is"
 
 #: news/templates/news/event.html:137
 msgid "Frist for avmelding er"
-msgstr "The unsubscription deadline is"
+msgstr "The withdrawal deadline is"
 
 #: news/templates/news/event.html:139
 msgid "Arrangementet benytter ekstern nettside for pålogging."
@@ -364,7 +366,7 @@ msgstr "Registration information"
 
 #: news/templates/news/event.html:195
 msgid "Du forsøker å melde deg av arrangementet."
-msgstr "You are trying to unsubscribe from the event."
+msgstr "You are trying to withdraw your registration from the event."
 
 #: news/templates/news/event.html:196
 msgid ""
@@ -379,8 +381,8 @@ msgid ""
 "Arrangementets påmeldingsfrist er utløpt. Dersom du melder deg av, har du "
 "ikke mulighet til å melde deg på igjen."
 msgstr ""
-"The registration deadline for the event has expired. If you unsubscribe, you "
-"will not be able to register again."
+"The registration deadline for the event has expired. If you withdraw your "
+"registration, you will not be able to register again."
 
 #: news/templates/news/event.html:201
 msgid "Ved å melde deg på dette arrangementet forventes det at du møter opp."
@@ -388,7 +390,7 @@ msgstr "By registering for this event, it is expected that you attend."
 
 #: news/templates/news/event.html:202
 msgid "Du kan ikke melde deg av etter"
-msgstr "You cannot unsubscribe after"
+msgstr "You cannot withdraw your registration after"
 
 #: news/templates/news/event.html:204
 msgid "Dette arrangementet har servering. Sørg for at dine"

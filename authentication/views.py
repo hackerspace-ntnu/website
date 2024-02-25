@@ -1,4 +1,4 @@
-from django.contrib.auth import logout
+from django.contrib.auth import get_user_model, logout
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import View
@@ -75,3 +75,22 @@ def associate_by_email(backend, details, user=None, *args, **kwargs):
                 prison_user.save()
 
                 return {"user": alt_users[0], "is_new": False}
+
+
+def get_user_by_stud_or_ntnu_email(email: str):
+    """Check for the following cases:
+
+    1. Input email is the same as the user's email
+    2. User has a stud.ntnu.no email and input email is ntnu.no
+    3. User has a ntnu.no email and input email is stud.ntnu.no
+    """
+    User = get_user_model()
+
+    for query_email in [
+        email,
+        email.split("@")[0] + "@stud.ntnu.no",
+        email.split("@")[0] + "@ntnu.no",
+    ]:
+        user = User.objects.filter(email=query_email).first()
+        if user:
+            return user

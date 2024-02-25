@@ -635,7 +635,7 @@
     "model": "applications.applicationgroup",
     "pk": 8,
     "fields": {
-        "name": "Spill",
+        "name": "Prosjekt: Spill",
         "text_main": "Det har i mange år vært interesse for å utvikle spill på Hackerspace og vi har i like mange år holdt på med en spillutviklingsgruppe for å tilfredsstille folket.\r\nDen aktive spillutviklingsgruppen ble ferdig med sitt nyeste prosjekt våren 2022 og skal fortsette morroa med mer spillutvikling.\r\nMålet for prosjektet er å produsere et spill som skal delta på Norwegian game awards. Så gled dere til de gøye, sprø og kaotiske eventyrene som dere vil ha i dette prosjektet!",
         "text_structure": "",
         "text_workload": "",

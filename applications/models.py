@@ -94,3 +94,6 @@ class ApplicationGroupChoice(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
     group = models.ForeignKey(ApplicationGroup, on_delete=models.CASCADE)
     priority = models.PositiveIntegerField(null=True)
+
+    class Meta:
+        ordering = ["priority"]

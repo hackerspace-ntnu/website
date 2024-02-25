@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-29 19:48+0200\n"
+"POT-Creation-Date: 2023-11-27 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,34 +91,34 @@ msgstr ""
 msgid "Under finner du informasjon om hovedgruppene som har opptak nå"
 msgstr ""
 
-#: applications/templates/applications/application_info.html:66
-#: applications/templates/applications/application_info.html:95
+#: applications/templates/applications/application_info.html:65
+#: applications/templates/applications/application_info.html:92
 msgid "Ingen grupper lagt til i opptaket."
 msgstr ""
 
-#: applications/templates/applications/application_info.html:79
+#: applications/templates/applications/application_info.html:76
 msgid "Prosjektgruppene"
 msgstr ""
 
-#: applications/templates/applications/application_info.html:80
+#: applications/templates/applications/application_info.html:77
 msgid ""
 "Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til "
 "år. Prosjektene varer som oftest i to semestre."
 msgstr ""
 
-#: applications/templates/applications/application_info.html:81
+#: applications/templates/applications/application_info.html:78
 msgid ""
 "Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med "
 "andre på gruppen."
 msgstr ""
 
-#: applications/templates/applications/application_info.html:82
+#: applications/templates/applications/application_info.html:79
 msgid ""
 "Om du har forslag til noen andre prosjekter, kan dette sendes med et "
 "søknadsskjema."
 msgstr ""
 
-#: applications/templates/applications/application_info.html:83
+#: applications/templates/applications/application_info.html:80
 msgid "Under finner du informasjon om prosjektene som har opptak nå."
 msgstr ""
 

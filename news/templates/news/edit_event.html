@@ -200,7 +200,8 @@
                     <div class="row">
                         <div class="col s12">
                             <h5>{% trans "Filer" %}</h5>
-                            <p>{% trans "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i arrangementet.
+                            <p>{% trans "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i
+                                arrangementet.
                                 Da får deltakerene mulighet til å gjøre seg klare før arrangementet starter." %}</p>
                             <div class="divider"></div>
                             <br>
@@ -234,13 +235,15 @@
                                     <span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
                                 </div>
                             </div>
-                            <button id="submit" class="hide btn btn-large hs-green waves-effect waves-light"
-                                type="submit" name="form_submit">{% trans "Lagre og publiser arrangement" %}
+                            <button id="submit" class="hide btn btn-large hs-green waves-effect waves-light" type="submit"
+                                name="form_submit">{% trans "Lagre og publiser arrangement" %}
                             </button>
-                            <a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">{% trans "Lagre
-                                og publiser arrangement" %}</a>
-                            <a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">{% trans "Lagre som
-                                utkast" %}</a>
+                            <a class="btn btn-large hs-green waves-effect waves-light" onclick="saveAndPublish()">
+                                {% trans "Lagre og publiser arrangement" %}
+                            </a>
+                            <a class="btn btn-large hs-gray waves-effect waves-light" onclick="saveAsDraft()">
+                                {% trans "Lagre som utkast" %}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -248,6 +251,7 @@
         </div>
     </form>
     <script src="{% static 'news/js/edit_event.js' %}"></script>
+    <script src="{% static 'website/js/datetimepicker.js' %}"></script>
     <script src="{% static 'news/js/save_draft_or_publish.js' %}"></script>
 
 {% endblock content %}

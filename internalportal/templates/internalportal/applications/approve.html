@@ -1,0 +1,57 @@
+{% extends "website/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'internalportal/css/applications.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <form method="post" class="col s12">
+                {% csrf_token %}
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">{% trans "Godkjenn søknad" %}</span>
+
+                        <div class="row">
+                            <div class="col s12">
+                                <span><strong>{% trans "Navn" %}: </strong></span><span>{{ application.name }}</span>
+                            </div>
+                            <div class="col s12">
+                                <span><strong>{% trans "Gruppe" %}: </strong></span><span>{{ group.name }}</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s6">
+                                <p>{% trans "For å kunne legge til et nytt medlem må søkerens ntnu e-post benyttes." %}</p>
+                                <p>{% trans "Be personen logge inn på nettsiden før godkjenning." %}</p>
+                                <p>{% trans "Legg personen i riktige kommunikasjonskanaler og google drive" %}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <label for="email">{% trans "Epost" %}</label>
+                                <input required type="email" id="email" name="email" class="validate" value="{{ application.email }}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s6">
+                                <a class="btn btn-large left" href="{% url 'internalportal:application' application.id %}">
+                                    {% trans "Gå tilbake" %}
+                                </a>
+                            </div>
+                            <div class="col s6">
+                                <button type="submit" class="btn btn-large hs-green right">{% trans "Godkjenn" %}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

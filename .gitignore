@@ -18,7 +18,6 @@ profilepictures/
 env/
 venv/
 .vscode/
-static/
 **/__pycache__
 /static/
 

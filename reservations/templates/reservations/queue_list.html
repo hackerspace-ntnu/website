@@ -1,78 +1,79 @@
 {% extends 'website/base.html' %}
 
 {% load i18n %}
-{% load includechildren %}
+{% load includeslots %}
 
 {% block content %}
     {% translate "Reservasjoner" as trans_reservations %}
     {% translate "På denne siden kan du reservere bruk av diverse utstyr" as trans_reservations_desc %}
-    {% includechildren "website/page_overview/content_title.html" with title=trans_reservations description=trans_reservations_desc %}
-        <a href="{% url 'inventory:equipment' %}" class="btn-large white green-text">{% trans 'Se Hackerspace sitt utstyr' %}</a>
-    {% endincludechildren %}
+    {% includeslots "website/page_overview/content_title.html" with title=trans_reservations description=trans_reservations_desc %}
+    {% slot children %}
+    <a href="{% url 'inventory:equipment' %}" class="btn-large white green-text">{% trans 'Se Hackerspace sitt utstyr' %}</a>
+{% endslots %}
 
-    {% regroup reservation_list|dictsort:'parent_queue.name' by parent_queue as reservation_list %}
+{% regroup reservation_list|dictsort:'parent_queue.name' by parent_queue as reservation_list %}
 
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Viktig informasjon</h4>
-                    {% if printer_rule %}
-                        <blockquote>
-                            {% trans "Les" %} <a href="/rules/{{printer_rule.id}}">{% trans "regler for bruk av 3D-printer" %}</a> {% trans "før du starter" %}.
-                        </blockquote>
-                    {% endif %}
-                    <blockquote>{% trans "Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både printer og folk på vakt som følger med). Det er derfor forventet at du møter opp tidsnok (gjerne 5 minutter før avsatt  tid) og ikke går over tiden du har booket" %}.
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <h4>Viktig informasjon</h4>
+                {% if printer_rule %}
+                    <blockquote>
+                        {% trans "Les" %} <a href="/rules/{{printer_rule.id}}">{% trans "regler for bruk av 3D-printer" %}</a> {% trans "før du starter" %}.
                     </blockquote>
-                </div>
-                <div class="row">
-                    <div class="col s12 m6">
-                        <h4>Tilgjengelige køer</h4>
+                {% endif %}
+                <blockquote>{% trans "Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både printer og folk på vakt som følger med). Det er derfor forventet at du møter opp tidsnok (gjerne 5 minutter før avsatt  tid) og ikke går over tiden du har booket" %}.
+                </blockquote>
+            </div>
+            <div class="row">
+                <div class="col s12 m6">
+                    <h4>Tilgjengelige køer</h4>
 
-                        <ul class="collection">
-                            {% for queue in object_list %}
-                                {% if not queue.hidden %}
-                                    <li class="collection-item avatar">
-                                        <img src="{{ queue.thumbnail.thumb.url }}" alt="" class="circle">
-                                        <span class="title">
-                                            {% if queue.out_of_order %}
-                                                {{ queue.name }} - <span class="hs-red-text">{% trans "I ustand" %}</span>
-                                            {% else %}
-                                                <a href="{% url 'reservations:queue_detail' pk=queue.pk %}">
-                                                    {{ queue.name }}
-                                                </a>
-                                            {% endif %}
-                                        </span>
-                                        <p>
-                                            {% trans "Vanskelighetsgrad" %}: {{ queue.get_difficulty_string }}
+                    <ul class="collection">
+                        {% for queue in object_list %}
+                            {% if not queue.hidden %}
+                                <li class="collection-item avatar">
+                                    <img src="{{ queue.thumbnail.thumb.url }}" alt="" class="circle">
+                                    <span class="title">
+                                        {% if queue.out_of_order %}
+                                            {{ queue.name }} - <span class="hs-red-text">{% trans "I ustand" %}</span>
+                                        {% else %}
+                                            <a href="{% url 'reservations:queue_detail' pk=queue.pk %}">
+                                                {{ queue.name }}
+                                            </a>
+                                        {% endif %}
+                                    </span>
+                                    <p>
+                                        {% trans "Vanskelighetsgrad" %}: {{ queue.get_difficulty_string }}
+                                    </p>
+                                    <p>{{ queue.description|linebreaks }}</p>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col s12 m6">
+                    <h4>{% trans "Mine reservasjoner" %}</h4>
+                    {% if user.is_authenticated %}
+                        {% for queue in reservation_list %}
+                            <ul class="collection with-header">
+                                <li class="collection-header"><a href="{{ queue.grouper.get_absolute_url }}"><h5>{{ queue.grouper }}</h5></a></li>
+                                {% for reservation in queue.list %}
+                                    <li class="collection-item">
+                                        <p>{% trans "Fra" %} {{ reservation.start }}<br>
+                                            {% trans "til" %} {{ reservation.end }}
                                         </p>
-                                        <p>{{ queue.description|linebreaks }}</p>
                                     </li>
-                                {% endif %}
-                            {% endfor %}
+                                {% empty %} <p class="center grey-text">{% trans "Du har ingen reservasjoner" %}.</p> {% endfor %} </ul> {% endfor %}
+                    {% else %}
+                        <ul class="collection">
+                            <li class="collection-item">{% trans "Logg inn for å se reservasjoner" %}.</li>
                         </ul>
-                    </div>
-                    <div class="col s12 m6">
-                        <h4>{% trans "Mine reservasjoner" %}</h4>
-                        {% if user.is_authenticated %}
-                            {% for queue in reservation_list %}
-                                <ul class="collection with-header">
-                                    <li class="collection-header"><a href="{{ queue.grouper.get_absolute_url }}"><h5>{{ queue.grouper }}</h5></a></li>
-                                    {% for reservation in queue.list %}
-                                        <li class="collection-item">
-                                            <p>{% trans "Fra" %} {{ reservation.start }}<br>
-                                                {% trans "til" %} {{ reservation.end }}
-                                            </p>
-                                        </li>
-                                    {% empty %} <p class="center grey-text">{% trans "Du har ingen reservasjoner" %}.</p> {% endfor %} </ul> {% endfor %}
-                        {% else %}
-                            <ul class="collection">
-                                <li class="collection-item">{% trans "Logg inn for å se reservasjoner" %}.</li>
-                            </ul>
-                            <a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}" class="btn hs-green">LOGG INN</a>
-                        {% endif %}
-                    </div>
+                        <a href="{% url 'social:begin' 'dataporten_feide' %}?next={{ request.path }}" class="btn hs-green">LOGG INN</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
+    </div>
 {% endblock content %}

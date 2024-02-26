@@ -1,7 +1,7 @@
 {% extends 'website/base.html' %}
 {% load static %}
 {% load i18n %}
-{% load includechildren %}
+{% load includeslots %}
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'search/css/view.css' %}">
@@ -9,25 +9,26 @@
 
 {% block content %}
     {% translate "Søk" as trans_search %}
-    {% includechildren "website/page_overview/content_title.html" with title=trans_search %}
-        <div class="search-container card-panel z-depth-0 row">
-            <div class="input-field col s12">
-                <input id="search-input" name="query" placeholder="{% trans "Søk" %}" value="{{ query }}" type="text">
-            </div>
+    {% includeslots "website/page_overview/content_title.html" with title=trans_search %}
+    {% slot children %}
+    <div class="search-container card-panel z-depth-0 row">
+        <div class="input-field col s12">
+            <input id="search-input" name="query" placeholder="{% trans "Søk" %}" value="{{ query }}" type="text">
         </div>
-    {% endincludechildren %}
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <div id="search-results"></div>
-                </div>
+    </div>
+{% endslots %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div id="search-results"></div>
             </div>
         </div>
     </div>
-    <script>
-        let search = "{{ query }}";
-        let pageNumber = {{ page }};
-    </script>
-    <script src="{% static 'search/javascript/live_search.js' %}"></script>
+</div>
+<script>
+    let search = "{{ query }}";
+    let pageNumber = {{ page }};
+</script>
+<script src="{% static 'search/javascript/live_search.js' %}"></script>
 {% endblock content %}

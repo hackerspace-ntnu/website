@@ -13,7 +13,7 @@ class SlotNode:
     nodelist: template.NodeList
 
 
-class ChildrenIncludedNode(IncludeNode):
+class SlotsIncludedNode(IncludeNode):
     def __init__(self, slots: List[SlotNode], include_node: IncludeNode):
         self.slots = slots
 
@@ -74,7 +74,7 @@ def include_slots(parser, token):
 
     include_node = do_include(parser, first_token)
 
-    return ChildrenIncludedNode(
+    return SlotsIncludedNode(
         slots,
         include_node,
     )

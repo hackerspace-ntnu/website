@@ -3,15 +3,8 @@
 {% load static %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h3>{% trans "Skills" %}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Skills" as trans_skills %}
+    {% include "website/page_overview/content_title.html" title=trans_skills %}
     <div class="container">
         <div class="section">
             <form method="post">

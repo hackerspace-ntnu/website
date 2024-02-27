@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 15:22+0100\n"
+"POT-Creation-Date: 2024-02-27 01:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,23 +26,23 @@ msgstr "Reservations"
 msgid "På denne siden kan du reservere bruk av diverse utstyr"
 msgstr "On this page, you can reserve the use of various equipment"
 
-#: reservations/templates/reservations/queue_list.html:10
+#: reservations/templates/reservations/queue_list.html:11
 msgid "Se Hackerspace sitt utstyr"
 msgstr "View Hackerspace's equipment"
 
-#: reservations/templates/reservations/queue_list.html:22
+#: reservations/templates/reservations/queue_list.html:23
 msgid "Les"
 msgstr "Read"
 
-#: reservations/templates/reservations/queue_list.html:22
+#: reservations/templates/reservations/queue_list.html:23
 msgid "regler for bruk av 3D-printer"
 msgstr "rules for using the 3D printer"
 
-#: reservations/templates/reservations/queue_list.html:22
+#: reservations/templates/reservations/queue_list.html:23
 msgid "før du starter"
 msgstr "before you start"
 
-#: reservations/templates/reservations/queue_list.html:25
+#: reservations/templates/reservations/queue_list.html:26
 #, fuzzy
 #| msgid ""
 #| "Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både "
@@ -60,30 +60,30 @@ msgstr ""
 "arrive on time (preferably 5 minutes before the allocated time) and do not "
 "exceed the time you have booked."
 
-#: reservations/templates/reservations/queue_list.html:39
+#: reservations/templates/reservations/queue_list.html:40
 msgid "I ustand"
 msgstr "Out of order"
 
-#: reservations/templates/reservations/queue_list.html:47
+#: reservations/templates/reservations/queue_list.html:48
 msgid "Vanskelighetsgrad"
 msgstr "Difficulty level"
 
-#: reservations/templates/reservations/queue_list.html:56
+#: reservations/templates/reservations/queue_list.html:57
 msgid "Mine reservasjoner"
 msgstr "My reservations"
 
-#: reservations/templates/reservations/queue_list.html:63
+#: reservations/templates/reservations/queue_list.html:64
 msgid "Fra"
 msgstr "From"
 
-#: reservations/templates/reservations/queue_list.html:64
+#: reservations/templates/reservations/queue_list.html:65
 msgid "til"
 msgstr "to"
 
-#: reservations/templates/reservations/queue_list.html:67
+#: reservations/templates/reservations/queue_list.html:68
 msgid "Du har ingen reservasjoner"
 msgstr "You have no reservations"
 
-#: reservations/templates/reservations/queue_list.html:70
+#: reservations/templates/reservations/queue_list.html:71
 msgid "Logg inn for å se reservasjoner"
 msgstr "Log in to view reservations"

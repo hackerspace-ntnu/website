@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 15:22+0100\n"
+"POT-Creation-Date: 2024-02-27 01:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: website/templates/website/403.html:14
+msgid "Forbudt! Hut dæ ut!"
+msgstr ""
+
+#: website/templates/website/403.html:15
+msgid "Eller prøv å logge inn..."
+msgstr ""
+
+#: website/templates/website/404.html:11
+msgid "404 - Ikke funnet"
+msgstr ""
+
+#: website/templates/website/404.html:19
+msgid "Vi finner dessverre ikke siden du leter etter."
+msgstr ""
+
+#: website/templates/website/500.html:10
+msgid "500 - Noe har gått galt"
+msgstr ""
 
 #: website/templates/website/_social_buttons.html:8
 msgid "Søk Hackerspace"
@@ -83,6 +103,10 @@ msgstr ""
 
 #: website/templates/website/about.html:102
 msgid "Ingen medlemmer er lagt til enda"
+msgstr ""
+
+#: website/templates/website/admin.html:5
+msgid "Administratorpanel"
 msgstr ""
 
 #: website/templates/website/footer.html:9
@@ -370,4 +394,30 @@ msgstr ""
 
 #: website/templates/website/rules.html:48
 msgid "Fant ingen regler 🤠"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:12
+msgid ""
+"Vi har oppdatert våre retningslinjer for behandling av personinformasjon"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:16
+msgid ""
+"I forbindelse med nye lovverk (vektlagt er Personvernforordningen, også "
+"kjent som GDPR) og formalisering internt i organisasjonen, ønsker vi å "
+"informere og innhente nytt samtykke om bruk av personvern i Hackerspace."
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:18
+msgid ""
+"Vennligst bekreft at du har lest og godtar informasjonen og samtykker til "
+"vilkårene tilgjengelig"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:18
+msgid "her"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:19
+msgid "JEG HAR LEST, FORSTÅTT OG GODTAR VILKÅRENE"
 msgstr ""

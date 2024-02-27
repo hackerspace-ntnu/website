@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 15:22+0100\n"
+"POT-Creation-Date: 2024-02-27 01:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: website/templates/website/403.html:14
+msgid "Forbudt! Hut dæ ut!"
+msgstr "Unauthorized! Get out!"
+
+#: website/templates/website/403.html:15
+msgid "Eller prøv å logge inn..."
+msgstr "Or try to log in..."
+
+#: website/templates/website/404.html:11
+msgid "404 - Ikke funnet"
+msgstr ""
+
+#: website/templates/website/404.html:19
+msgid "Vi finner dessverre ikke siden du leter etter."
+msgstr ""
+
+#: website/templates/website/500.html:10
+msgid "500 - Noe har gått galt"
+msgstr ""
 
 #: website/templates/website/_social_buttons.html:8
 msgid "Søk Hackerspace"
@@ -94,6 +114,12 @@ msgstr "E-mail"
 #: website/templates/website/about.html:102
 msgid "Ingen medlemmer er lagt til enda"
 msgstr "No members added yet"
+
+#: website/templates/website/admin.html:5
+#, fuzzy
+#| msgid "Adminpanel"
+msgid "Administratorpanel"
+msgstr "Admin page"
 
 #: website/templates/website/footer.html:9
 msgid "Velkommen innom"
@@ -406,6 +432,38 @@ msgstr "Internal portal"
 msgid "Fant ingen regler 🤠"
 msgstr "No rules found"
 
+#: website/templates/website/tos-returningls.html:12
+msgid ""
+"Vi har oppdatert våre retningslinjer for behandling av personinformasjon"
+msgstr ""
+"We have updated our privacy policy"
+
+#: website/templates/website/tos-returningls.html:16
+msgid ""
+"I forbindelse med nye lovverk (vektlagt er Personvernforordningen, også "
+"kjent som GDPR) og formalisering internt i organisasjonen, ønsker vi å "
+"informere og innhente nytt samtykke om bruk av personvern i Hackerspace."
+msgstr ""
+"With regulations for personal information (GDPR), we whish to inform "
+"you about our updated privacy policy. We request that you concent to our "
+"terms and conditions in Hackerspace NTNU."
+
+#: website/templates/website/tos-returningls.html:18
+msgid ""
+"Vennligst bekreft at du har lest og godtar informasjonen og samtykker til "
+"vilkårene tilgjengelig"
+msgstr ""
+"Please confirm that you have read and accepted the information and concent to the terms"
+
+#: website/templates/website/tos-returningls.html:18
+#, fuzzy
+msgid "her"
+msgstr "here"
+
+#: website/templates/website/tos-returningls.html:19
+msgid "JEG HAR LEST, FORSTÅTT OG GODTAR VILKÅRENE"
+msgstr "I HAVE READ, UNDERSTOOD, AND ACCEPTED THE TERMS"
+
 #, fuzzy
 #~| msgid "Siste nytt"
 #~ msgid "Siste internnytt"
@@ -435,6 +493,3 @@ msgstr "No rules found"
 
 #~ msgid "Bildegalleri"
 #~ msgstr "Gallery"
-
-#~ msgid "Adminpanel"
-#~ msgstr "Admin page"

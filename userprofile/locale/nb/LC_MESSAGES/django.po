@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-24 15:22+0100\n"
+"POT-Creation-Date: 2024-02-27 01:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: userprofile/templates/userprofile/edit_profile.html:7
+#: userprofile/templates/userprofile/profile.html:15
+msgid "Innstillinger"
+msgstr ""
+
+#: userprofile/templates/userprofile/edit_profile.html:11
+msgid "Tilbake til profil"
+msgstr ""
+
 #: userprofile/templates/userprofile/members.html:13
 msgid "Medlemmer i Hackerspace"
 msgstr ""
 
-#: userprofile/templates/userprofile/members.html:15
+#: userprofile/templates/userprofile/members.html:16
 msgid "For oversikt over gruppene og deres medlemmer, se"
 msgstr ""
 
-#: userprofile/templates/userprofile/members.html:15
+#: userprofile/templates/userprofile/members.html:16
 msgid "Om oss"
 msgstr ""
 
-#: userprofile/templates/userprofile/members.html:19
+#: userprofile/templates/userprofile/members.html:20
 msgid "Søk etter medlem"
 msgstr ""
 
-#: userprofile/templates/userprofile/members.html:23
+#: userprofile/templates/userprofile/members.html:24
 msgid "Klikk på ferdigheter du vil se folk ikke har"
 msgstr ""
 
@@ -44,10 +53,6 @@ msgstr ""
 
 #: userprofile/templates/userprofile/profile.html:11
 msgid "Brukerprofil"
-msgstr ""
-
-#: userprofile/templates/userprofile/profile.html:14
-msgid "Innstillinger"
 msgstr ""
 
 #: userprofile/templates/userprofile/skills.html:13

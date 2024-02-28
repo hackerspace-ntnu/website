@@ -36,24 +36,24 @@
                         <div class="col s12">
                             <h5>Lånedetaljer</h5>
                         </div>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">date_range</i>
-                        {{ form.loan_from }}
-                        <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_from.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.loan_from.errors }}</span>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <i class="material-icons prefix">date_range</i>
-                        {{ form.loan_to }}
-                        <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_to.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.loan_to.errors }}</span>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        {{ form.amount }}
-                        <label for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
-                        <span class="helper-text hs-red-text">{{ form.amount.errors }}</span>
-                        <div class="input-field col s12 m12">
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">date_range</i>
+                            {{ form.loan_from }}
+                            <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_from.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.loan_from.errors }}</span>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            <i class="material-icons prefix">date_range</i>
+                            {{ form.loan_to }}
+                            <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_to.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.loan_to.errors }}</span>
+                        </div>
+                        <div class="input-field col s12 m6">
+                            {{ form.amount }}
+                            <label for="{{ form.amount.id_for_label }}">{{ form.amount.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.amount.errors }}</span>
+                        </div>
+                        <div class="input-field col s12 m6">
                             {{ form.purpose }}
                             <label for="{{ form.purpose.id_for_label }}">{{ form.purpose.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.purpose.errors }}</span>

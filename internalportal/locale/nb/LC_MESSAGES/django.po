@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-02-28 18:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Gå tilbake"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/approved_email.txt:2
+#: internalportal/templates/internalportal/applications/approved_email.txt:1
 #, python-format
 msgid ""
 "Hei %(name)s,\n"
@@ -218,7 +218,7 @@ msgid ""
 "%(application_group)s"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/denied_email.txt:2
+#: internalportal/templates/internalportal/applications/denied_email.txt:1
 #, python-format
 msgid ""
 "Hei %(name)s,\n"
@@ -233,7 +233,7 @@ msgid ""
 "%(application_group)s"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/interview_email.txt:2
+#: internalportal/templates/internalportal/applications/interview_email.txt:1
 #, python-format
 msgid ""
 "Hei %(application_name)s,\n"
@@ -249,7 +249,7 @@ msgid ""
 "Foreslått tidspunkt for intervjuet er %(start_time)s i "
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/interview_email.txt:13
+#: internalportal/templates/internalportal/applications/interview_email.txt:12
 msgid "Med vennlig hilsen"
 msgstr ""
 
@@ -354,40 +354,40 @@ msgstr ""
 msgid "Medlemsliste for dørtilgang"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:176
+#: internalportal/templates/internalportal/internalportal.html:177
 msgid "Søkere"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:178
+#: internalportal/templates/internalportal/internalportal.html:179
 msgid "venter"
 msgstr ""
 
-#: internalportal/views.py:108
+#: internalportal/views.py:109
 msgid "Søknad sendt videre til neste gruppe"
 msgstr ""
 
-#: internalportal/views.py:117
+#: internalportal/views.py:118
 msgid "Søknaden finnes ikke"
 msgstr ""
 
-#: internalportal/views.py:132
+#: internalportal/views.py:133
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr ""
 
-#: internalportal/views.py:141
+#: internalportal/views.py:142
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:158
+#: internalportal/views.py:159
 #, python-brace-format
 msgid "Gruppen {group} har ingen ledere. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:169
+#: internalportal/views.py:170
 msgid "Søknad sendt videre"
 msgstr ""
 
-#: internalportal/views.py:270
+#: internalportal/views.py:271
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""

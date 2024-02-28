@@ -37,45 +37,50 @@ document.addEventListener("DOMContentLoaded", function() {
         weekdaysAbbrev: ['S','M','T','O','T','F','L']
     }
 
+    const loanFromDate = document.getElementById('id_loan_from');
+    options = {
+        format: 'dd.mm.yyyy',
+        firstDay: 1,
+        i18n: internationalization,
+        minDate: new Date(loanFromDate.value)
+    }
+
     for (dp of datepickers) {
-        options = {
-            format: 'dd.mm.yyyy',
-            firstDay: 1,
-            i18n: internationalization,
-            minDate: new Date()
-        }
-        const maxDateStr = dp.getAttribute('data-max-date')
-        if (maxDateStr) {
-            options.maxDate = new Date(maxDateStr)
+        if (dp.id === 'id_loan_to') {
+            if (maxLoanDays) {
+                const maxDate = new Date()
+                maxDate.setDate(new Date(loanFromDate.value).getDate() + maxLoanDays)
+                options.maxDate = maxDate
+            }
         }
         M.Datepicker.init(dp, options);
     }
 
 
-    // Vis og gjem deler som relateres til påmeldinger
-    var reg_box = document.getElementsByClassName('reg-box')[0];
-    var reg_check = document.getElementsByName('registration')[0]
-    var ext_reg = document.getElementsByClassName('ext-reg')[0];
-
-    if(reg_check.checked) {
-        reg_box.classList.remove('hide');
-        ext_reg.classList.add('hide');
-    }
-    else {
-        reg_box.classList.add('hide');
-        ext_reg.classList.remove('hide');
-    }
-
-    reg_check.onchange = function() {
-        if(this.checked) {
-            reg_box.classList.remove('hide');
-            ext_reg.classList.add('hide');
-        }
-        else {
-            reg_box.classList.add('hide');
-            ext_reg.classList.remove('hide');
-            document.getElementById('id_external_registration').value = '';
-        }
-    };
+    loanFromDate.addEventListener('change', () => {
+        updateLoanToDatepicker(options, maxLoanDays)
+    });
 
 });
+
+function parseFormattedDate(dateString) {
+    const dateParts = dateString.split('.');
+    return new Date(dateParts[2], dateParts[1]-1, dateParts[0]);
+}
+
+function updateLoanToDatepicker(datepickerOptions, maxLoanDays) {
+    const loanFromDateEl = document.getElementById('id_loan_from');
+    const loanToDate = document.getElementById('id_loan_to');
+
+    const loanFromDate = parseFormattedDate(loanFromDateEl.value)
+
+    datepickerOptions.minDate = loanFromDate
+
+    if (maxLoanDays) {
+        const maxDate = new Date(loanFromDate)
+        maxDate.setDate(loanFromDate.getDate() + maxLoanDays)
+        datepickerOptions.maxDate = maxDate
+    }
+
+    M.Datepicker.init(loanToDate, datepickerOptions);
+}

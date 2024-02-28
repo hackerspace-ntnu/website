@@ -186,10 +186,6 @@ class ItemLoanApplicationView(CreateView):
     def get_form(self, *args, **kwargs):
         # Add the datepicker class to the loan to field before it's sent off
         form = super().get_form(*args, **kwargs)
-        max_duration = Item.objects.get(id=self.kwargs["pk"]).max_loan_duration
-        if max_duration is not None:
-            max_date = datetime.now() + timedelta(days=max_duration)
-            form.fields["loan_to"].widget.attrs["data-max-date"] = max_date
         form.fields["loan_to"].widget.attrs["class"] = "datepicker"
         form.fields["loan_from"].widget.attrs["class"] = "datepicker"
         return form

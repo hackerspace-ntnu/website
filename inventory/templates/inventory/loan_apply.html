@@ -116,11 +116,7 @@
     </div>
 
     <script>
-        {% if item.max_loan_duration %}
-            const maxLoanDays = {{ item.max_loan_duration }}
-        {% else %}
-            const maxLoanDays = undefined
-        {% endif %}
+        const maxLoanDays = {{ item.max_loan_duration|default:"undefined" }}
 
         {% if loan_from_max_date %}
             const loanFromMaxDate = "{{ loan_from_max_date }}"

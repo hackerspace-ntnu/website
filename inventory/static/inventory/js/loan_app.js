@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const datepickers = document.querySelectorAll('.datepicker');
-
     internationalization = {
         months:	[
             'Januar',
@@ -68,7 +66,6 @@ function initDatepickers(loanToEl, loanFromEl, maxLoanDays, loanFromMaxDate, dpO
     if (loanFromMaxDate) {
         fromDateOptions.maxDate = new Date(loanFromMaxDate);
     }
-    console.log(fromDateOptions, toDateOptions)
 
     M.Datepicker.init(loanFromEl, fromDateOptions);
     M.Datepicker.init(loanToEl, toDateOptions);

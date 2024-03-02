@@ -98,8 +98,8 @@
                         <div class="col s12 input-field">
                             <i class="material-icons prefix">person</i>
                             <label for="responsible-list">{{ form.responsible.label }}</label>
-                            <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
-                            <select id="responsible-list" multiple name="responsible"></select>
+                            <div style="margin-top: 40px; margin-bottom: -20px;" class="helper-text hs-red-text">{{ form.responsible.errors }}</div>
+                            <select id="responsible-list" name="responsible"></select>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
@@ -261,7 +261,16 @@
     </form>
     <script src="{% static 'website/js/select2.min.js' %}" type="text/javascript" ></script>
     <script>
+        const data = [];
+        {% if responsible %}
+            data.push({
+                id: "{{ responsible.username }}",
+                text: "{{ responsible.get_full_name }}",
+            })
+        {% endif %}
+
         $("#responsible-list").select2({
+            data: data,
             language: {
                 errorLoading: () => '{% trans "Kunne ikke hente flere resultater" %}',
                 inputTooShort: () => '{% trans "Vennligst skriv inn flere tegn" %}',

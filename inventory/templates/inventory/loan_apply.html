@@ -116,7 +116,17 @@
     </div>
 
     <script>
-        const maxLoanDays = {{ item.max_loan_duration }}
+        {% if item.max_loan_duration %}
+            const maxLoanDays = {{ item.max_loan_duration }}
+        {% else %}
+            const maxLoanDays = undefined
+        {% endif %}
+
+        {% if loan_from_max_date %}
+            const loanFromMaxDate = "{{ loan_from_max_date }}"
+        {% else %}
+            const loanFromMaxDate = undefined
+        {% endif %}
     </script>
     <script src="{% static 'inventory/js/loan_app.js' %}"></script>
 

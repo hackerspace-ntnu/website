@@ -37,28 +37,18 @@ document.addEventListener("DOMContentLoaded", function() {
         weekdaysAbbrev: ['S','M','T','O','T','F','L']
     }
 
-    const loanFromDate = document.getElementById('id_loan_from');
+    const loanFromDateEl = document.getElementById('id_loan_from');
+    const loanToDateEl = document.getElementById('id_loan_to');
+
     options = {
         format: 'dd.mm.yyyy',
         firstDay: 1,
-        i18n: internationalization,
-        minDate: new Date(loanFromDate.value)
+        i18n: internationalization
     }
 
-    for (dp of datepickers) {
-        if (dp.id === 'id_loan_to') {
-            if (maxLoanDays) {
-                const maxDate = new Date()
-                maxDate.setDate(new Date(loanFromDate.value).getDate() + maxLoanDays)
-                options.maxDate = maxDate
-            }
-        }
-        M.Datepicker.init(dp, options);
-    }
-
-
-    loanFromDate.addEventListener('change', () => {
-        updateLoanToDatepicker(options, maxLoanDays)
+    initDatepickers(loanToDateEl, loanFromDateEl, maxLoanDays, loanFromMaxDate, options)
+    loanFromDateEl.addEventListener('change', () => {
+        updateLoanToDatepicker(loanToDateEl, loanFromDateEl, options, maxLoanDays)
     });
 
 });
@@ -68,11 +58,26 @@ function parseFormattedDate(dateString) {
     return new Date(dateParts[2], dateParts[1]-1, dateParts[0]);
 }
 
-function updateLoanToDatepicker(datepickerOptions, maxLoanDays) {
-    const loanFromDateEl = document.getElementById('id_loan_from');
-    const loanToDate = document.getElementById('id_loan_to');
+function initDatepickers(loanToEl, loanFromEl, maxLoanDays, loanFromMaxDate, dpOptions) {
+    const toDateOptions = dpOptions
+    const fromDateOptions = {
+            ...toDateOptions,
+    }
 
-    const loanFromDate = parseFormattedDate(loanFromDateEl.value)
+    fromDateOptions.minDate = parseFormattedDate(loanFromEl.value);
+    if (loanFromMaxDate) {
+        fromDateOptions.maxDate = new Date(loanFromMaxDate);
+    }
+    console.log(fromDateOptions, toDateOptions)
+
+    M.Datepicker.init(loanFromEl, fromDateOptions);
+    M.Datepicker.init(loanToEl, toDateOptions);
+
+    updateLoanToDatepicker(loanToEl, loanFromEl, toDateOptions, maxLoanDays)
+}
+
+function updateLoanToDatepicker(loanToEl, loanFromEl, datepickerOptions, maxLoanDays) {
+    const loanFromDate = parseFormattedDate(loanFromEl.value)
 
     datepickerOptions.minDate = loanFromDate
 
@@ -82,5 +87,5 @@ function updateLoanToDatepicker(datepickerOptions, maxLoanDays) {
         datepickerOptions.maxDate = maxDate
     }
 
-    M.Datepicker.init(loanToDate, datepickerOptions);
+    M.Datepicker.init(loanToEl, datepickerOptions);
 }

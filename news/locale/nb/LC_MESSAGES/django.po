@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-03-03 00:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgid "Administrator-meny"
 msgstr ""
 
 #: news/templates/news/_event_admin_menu.html:14
-#: news/templates/news/edit_event.html:16
+#: news/templates/news/edit_event.html:25
 msgid "Rediger arrangement"
 msgstr ""
 
@@ -200,12 +200,12 @@ msgid "Lagre"
 msgstr ""
 
 #: news/templates/news/edit_article.html:27
-#: news/templates/news/edit_event.html:29
+#: news/templates/news/edit_event.html:38
 msgid "Innhold"
 msgstr ""
 
 #: news/templates/news/edit_article.html:48
-#: news/templates/news/edit_event.html:51
+#: news/templates/news/edit_event.html:60
 msgid ""
 "Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
 "Bilder kan legges til ved drag-and-drop."
@@ -217,37 +217,65 @@ msgid "Lagre og publiser artikkel"
 msgstr ""
 
 #: news/templates/news/edit_article.html:82
-#: news/templates/news/edit_event.html:245
+#: news/templates/news/edit_event.html:254
 msgid "Lagre som utkast"
 msgstr ""
 
-#: news/templates/news/edit_event.html:61
+#: news/templates/news/edit_event.html:70
 msgid "Velg hovedbilde"
 msgstr ""
 
-#: news/templates/news/edit_event.html:84
+#: news/templates/news/edit_event.html:93
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr ""
 
-#: news/templates/news/edit_event.html:151 news/templates/news/event.html:103
+#: news/templates/news/edit_event.html:160 news/templates/news/event.html:103
 msgid "Påmelding"
 msgstr ""
 
-#: news/templates/news/edit_event.html:185
+#: news/templates/news/edit_event.html:194
 msgid "Ferdigheter"
 msgstr ""
 
-#: news/templates/news/edit_event.html:202 news/templates/news/event.html:153
+#: news/templates/news/edit_event.html:211 news/templates/news/event.html:153
 msgid "Filer"
 msgstr ""
 
-#: news/templates/news/edit_event.html:224
+#: news/templates/news/edit_event.html:233
 msgid "Ferdig"
 msgstr ""
 
-#: news/templates/news/edit_event.html:239
-#: news/templates/news/edit_event.html:242
+#: news/templates/news/edit_event.html:248
+#: news/templates/news/edit_event.html:251
 msgid "Lagre og publiser arrangement"
+msgstr ""
+
+#: news/templates/news/edit_event.html:275
+msgid "Kunne ikke hente flere resultater"
+msgstr ""
+
+#: news/templates/news/edit_event.html:276
+msgid "Vennligst skriv inn flere tegn"
+msgstr ""
+
+#: news/templates/news/edit_event.html:277
+msgid "Vennligst skriv inn færre tegn"
+msgstr ""
+
+#: news/templates/news/edit_event.html:278
+msgid "Laster flere resultater"
+msgstr ""
+
+#: news/templates/news/edit_event.html:279
+msgid "Du kan ikke velge flere"
+msgstr ""
+
+#: news/templates/news/edit_event.html:280
+msgid "Ingen resultater"
+msgstr ""
+
+#: news/templates/news/edit_event.html:281
+msgid "Fjern alle"
 msgstr ""
 
 #: news/templates/news/event.html:28

@@ -39,7 +39,7 @@
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
                             {{ form.loan_from }}
-                            <label for="{{ form.loan_to.id_for_label }}">{{ form.loan_from.label }}</label>
+                            <label for="{{ form.loan_from.id_for_label }}">{{ form.loan_from.label }}</label>
                             <span class="helper-text hs-red-text">{{ form.loan_from.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
@@ -119,7 +119,7 @@
         const maxLoanDays = {{ item.max_loan_duration|default:"undefined" }}
 
         {% if loan_from_max_date %}
-            const loanFromMaxDate = "{{ loan_from_max_date }}"
+            const loanFromMaxDate = "{{ loan_from_max_date|date:'d. F Y' }}"
         {% else %}
             const loanFromMaxDate = undefined
         {% endif %}

@@ -1,9 +1,7 @@
 name: Deploy to Server
 
 on:
-  pull_request:
-    # Change to merge when implemented (still beta)
-    types: [closed]
+  push:
     branches:
       - master
 
@@ -12,22 +10,21 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using key
-      uses: appleboy/ssh-action@v0.1.4
-      if: github.event.pull_request.merged == true
-      with:
-        host: ${{ secrets.host }}
-        username: ${{ secrets.user }}
-        key: ${{ secrets.id }}
-        port: ${{ secrets.port }}
-        script: |
-          cd ${{ secrets.deploy_dir }}
-          . venv-prod/bin/activate
-          cd website
-          git pull
-          python -m pip install --upgrade pip
-          pip install --upgrade --force-reinstall -r prod_requirements.txt
-          python manage.py migrate
-          python manage.py collectstatic --noinput
-          python manage.py compilemessages
-          echo "${{ secrets.dingseboms_password }}" | sudo -S systemctl restart gunicorn
+      - name: executing remote ssh commands using key
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.host }}
+          username: ${{ secrets.user }}
+          key: ${{ secrets.id }}
+          port: ${{ secrets.port }}
+          script: |
+            cd ${{ secrets.deploy_dir }}
+            . venv-prod/bin/activate
+            cd website
+            git pull
+            python -m pip install --upgrade pip
+            pip install --upgrade --force-reinstall -r prod_requirements.txt
+            python manage.py migrate
+            python manage.py collectstatic --noinput
+            python manage.py compilemessages
+            echo "${{ secrets.dingseboms_password }}" | sudo -S systemctl restart gunicorn

@@ -5,31 +5,33 @@ on:
     branches:
       - master
   pull_request:
+    branches:
+      - master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install --upgrade --force-reinstall -r prod_requirements.txt
-    - name: Initialize Django
-        # Stop the build if migrations are not committed to repo. If action stops here,
-        # run `pt manage.py makemigrations` and commit the generated files.
-      run: |
-        python manage.py makemigrations --check
-        python manage.py migrate
-    - name: Run pre-commit hooks
-      run: |
-        pre-commit run --all-files
-    - name: Run Django tests
-      run: |
-        python manage.py test
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.10
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade --force-reinstall -r prod_requirements.txt
+      - name:
+          Initialize Django
+          # Stop the build if migrations are not committed to repo. If action stops here,
+          # run `pt manage.py makemigrations` and commit the generated files.
+        run: |
+          python manage.py makemigrations --check
+          python manage.py migrate
+      - name: Run pre-commit hooks
+        run: |
+          pre-commit run --all-files
+      - name: Run Django tests
+        run: |
+          python manage.py test

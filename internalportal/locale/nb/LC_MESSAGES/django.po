@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-02-24 15:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Gå tilbake"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/approved_email.txt:2
+#: internalportal/templates/internalportal/applications/approved_email.txt:1
 #, python-format
 msgid ""
 "Hei %(name)s,\n"
@@ -218,7 +218,7 @@ msgid ""
 "%(application_group)s"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/denied_email.txt:2
+#: internalportal/templates/internalportal/applications/denied_email.txt:1
 #, python-format
 msgid ""
 "Hei %(name)s,\n"
@@ -233,7 +233,7 @@ msgid ""
 "%(application_group)s"
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/interview_email.txt:2
+#: internalportal/templates/internalportal/applications/interview_email.txt:1
 #, python-format
 msgid ""
 "Hei %(application_name)s,\n"
@@ -249,7 +249,7 @@ msgid ""
 "Foreslått tidspunkt for intervjuet er %(start_time)s i "
 msgstr ""
 
-#: internalportal/templates/internalportal/applications/interview_email.txt:13
+#: internalportal/templates/internalportal/applications/interview_email.txt:12
 msgid "Med vennlig hilsen"
 msgstr ""
 
@@ -298,96 +298,96 @@ msgstr ""
 msgid "Ingen aktive medlemmer."
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:10
+#: internalportal/templates/internalportal/internalportal.html:7
 msgid "Internportal"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:27
+#: internalportal/templates/internalportal/internalportal.html:21
 msgid "Siste internnytt"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:41
+#: internalportal/templates/internalportal/internalportal.html:35
 msgid "Her var det intetnytt"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:51
+#: internalportal/templates/internalportal/internalportal.html:45
 msgid "Siste interne arrangementer"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:70
+#: internalportal/templates/internalportal/internalportal.html:64
 msgid "Ingen interne arrangementer"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:80
+#: internalportal/templates/internalportal/internalportal.html:74
 msgid "Åpne lånesøknader"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:93
+#: internalportal/templates/internalportal/internalportal.html:87
 msgid "Ingen lånesøknader"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:108
+#: internalportal/templates/internalportal/internalportal.html:102
 msgid "Lånesøknader"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:117
+#: internalportal/templates/internalportal/internalportal.html:111
 msgid "Vaktliste"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:126
+#: internalportal/templates/internalportal/internalportal.html:120
 msgid "Lager"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:135
+#: internalportal/templates/internalportal/internalportal.html:129
 msgid "Reservasjoner"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:144
+#: internalportal/templates/internalportal/internalportal.html:138
 msgid "Bildegalleri"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:154
+#: internalportal/templates/internalportal/internalportal.html:148
 msgid "Adminpanel"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:163
+#: internalportal/templates/internalportal/internalportal.html:157
 msgid "Medlemsliste for dørtilgang"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:176
+#: internalportal/templates/internalportal/internalportal.html:171
 msgid "Søkere"
 msgstr ""
 
-#: internalportal/templates/internalportal/internalportal.html:178
+#: internalportal/templates/internalportal/internalportal.html:173
 msgid "venter"
 msgstr ""
 
-#: internalportal/views.py:108
+#: internalportal/views.py:109
 msgid "Søknad sendt videre til neste gruppe"
 msgstr ""
 
-#: internalportal/views.py:117
+#: internalportal/views.py:118
 msgid "Søknaden finnes ikke"
 msgstr ""
 
-#: internalportal/views.py:132
+#: internalportal/views.py:133
 msgid "Søknaden har ingen flere grupper å gå til"
 msgstr ""
 
-#: internalportal/views.py:141
+#: internalportal/views.py:142
 #, python-brace-format
 msgid "Gruppen {group_name} finnes ikke. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:158
+#: internalportal/views.py:159
 #, python-brace-format
 msgid "Gruppen {group} har ingen ledere. Kontakt administrator."
 msgstr ""
 
-#: internalportal/views.py:169
+#: internalportal/views.py:170
 msgid "Søknad sendt videre"
 msgstr ""
 
-#: internalportal/views.py:270
+#: internalportal/views.py:271
 msgid "Få brukeren til å logge inn med Feide først og bruk søkerens ntnu-mail."
 msgstr ""

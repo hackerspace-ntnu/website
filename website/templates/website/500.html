@@ -1,21 +1,22 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
+{% load includeslots %}
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row center-align">
-                <h1>OOPS!</h1>
-                <h3>500 - Noe har gått galt</h3>
+    {% includeslots "website/page_overview/content_title.html" %}
+    {% slot children %}
+    <div class="row center-align">
+        <h1>OOPS!</h1>
+        <h3>{% trans "500 - Noe har gått galt" %}</h3>
+    </div>
+{% endslots %}
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <p class="flow-text center-align">Vår server føler seg ikke helt i toppform i dag, men en melding er sendt til våre utviklere som kommer med kyllingsuppe og varmeflaske så fort som mulig.</p>
             </div>
         </div>
     </div>
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <p class="flow-text center-align">Vår server føler seg ikke helt i toppform i dag, men en melding er sendt til våre utviklere som kommer med kyllingsuppe og varmeflaske så fort som mulig.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 {% endblock %}

@@ -16,7 +16,7 @@ from django.views.generic import DeleteView, DetailView, ListView, TemplateView
 from django.views.generic.edit import BaseDetailView
 
 from applications.models import Application, ApplicationGroup, ApplicationGroupChoice
-from authentication.views import get_user_by_stud_or_ntnu_email
+from authentication.views import convert_to_stud_email, get_user_by_stud_or_ntnu_email
 from committees.models import Committee
 from internalportal.forms import InterviewEmailForm
 from inventory.models.item_loan import ItemLoan
@@ -170,7 +170,7 @@ class ApplicationNextGroupView(UserPassesTestMixin, BaseDetailView):
             _("Søknad sendt videre"),
             new_application_message,
             "Hackerspace NTNU",
-            emails,
+            convert_to_stud_email(*emails),
             fail_silently=False,
         )
 

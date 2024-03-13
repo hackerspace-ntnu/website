@@ -21,6 +21,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from authentication.views import convert_to_stud_email
 from committees.models import Committee
 
 from .forms import (
@@ -398,7 +399,6 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             upload_form.save()
 
             skills = form.cleaned_data["skills"]
-            print(skills)
             if len(skills) > 0 and not form.cleaned_data["draft"]:
                 self._send_mail_to_members_without_skill(skills, self.object)
 
@@ -412,6 +412,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             get_user_model()
             .objects.filter(groups__name__in=list(committee_array))
             .exclude(profile__skills__in=skills)
+            .values_list("email", flat=True)
         )
 
         plain_message = render_to_string(
@@ -423,7 +424,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
             "[Hackerspace NTNU] Arrangement gir skill du mangler!",
             plain_message,
             "Hackerspace NTNU",
-            list(members_without_skill),
+            convert_to_stud_email(*members_without_skill),
             fail_silently=False,
         )
         pass

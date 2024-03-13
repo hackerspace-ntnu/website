@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-02-27 01:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,52 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: inventory/templates/inventory/inventory.html:12
+#: inventory/templates/inventory/edit_item.html:12
+msgid "Rediger lagerinnslag"
+msgstr "Edit inventory item"
+
+#: inventory/templates/inventory/equipment/equipment_list.html:11
+msgid "Utstyr"
+msgstr "Equipment"
+
+#: inventory/templates/inventory/equipment/equipment_list.html:12
+msgid ""
+"Her kan du finne utstyr som Hackerspace har. Ikke alt utstyr er mulig å låne "
+"bort, men de som er, linker til gjenstanden i lageret for utlån."
+msgstr ""
+"Here you can find equipment that Hackerspace has. Not all equipment are "
+"available to borrow, but those that are, have a link to the item in the "
+"storage."
+
+#: inventory/templates/inventory/inventory.html:9
 msgid "Lager"
 msgstr "Inventory"
 
-#: inventory/templates/inventory/inventory.html:13
+#: inventory/templates/inventory/inventory.html:10
 msgid ""
 "Her kan du søke i lageret vårt. Lyst til å låne noe? Kom innom verkstedet!"
 msgstr ""
 "Here you can search in our inventory. Want to borrow something? Visit the "
 "workshop!"
 
-#: inventory/templates/inventory/inventory.html:14
+#: inventory/templates/inventory/inventory.html:13
 msgid "Se utstyr og apparater"
 msgstr "View equipment and apparatus"
 
-#: inventory/templates/inventory/inventory.html:28
+#: inventory/templates/inventory/inventory.html:24
 msgid "Ting, tang og tare"
 msgstr "Things and stuff"
 
-#: inventory/templates/inventory/inventory.html:29
-#: inventory/templates/inventory/inventory.html:37
+#: inventory/templates/inventory/inventory.html:25
+#: inventory/templates/inventory/inventory.html:33
 msgid "Navn"
 msgstr "Name"
 
-#: inventory/templates/inventory/inventory.html:33
+#: inventory/templates/inventory/inventory.html:29
 msgid "Velg sorteringskriterie"
 msgstr "Choose sorting criterion"
 
-#: inventory/templates/inventory/inventory.html:34
+#: inventory/templates/inventory/inventory.html:30
 msgid "Popularitet"
 msgstr "Popularity"
 
-#: inventory/templates/inventory/inventory.html:35
-#: inventory/templates/inventory/inventory.html:36
+#: inventory/templates/inventory/inventory.html:31
+#: inventory/templates/inventory/inventory.html:32
 msgid "Lagerbeholdning"
 msgstr "Inventory Quantity"
 
-#: inventory/templates/inventory/inventory.html:35
+#: inventory/templates/inventory/inventory.html:31
 msgid "Synkende"
 msgstr "Descending"
 
-#: inventory/templates/inventory/inventory.html:36
+#: inventory/templates/inventory/inventory.html:32
 msgid "Stigende"
 msgstr "Ascending"
 
-#: inventory/templates/inventory/inventory.html:39
+#: inventory/templates/inventory/inventory.html:35
 msgid "Sorter etter"
 msgstr "Sort by"
 
@@ -112,3 +129,11 @@ msgstr "the workshop"
 #: inventory/templates/inventory/items_list.html:76
 msgid "og spør oss!"
 msgstr "and ask us!"
+
+#: inventory/templates/inventory/loan_applications.html:7
+msgid "Lånesøknader"
+msgstr "Loan applications"
+
+#: inventory/templates/inventory/loan_applications.html:8
+msgid "Oversikt over lånesøknader"
+msgstr "Overview of loan applications"

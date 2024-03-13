@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-27 01:01+0100\n"
+"POT-Creation-Date: 2024-03-13 20:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,7 +217,7 @@ msgid "Lagre og publiser artikkel"
 msgstr ""
 
 #: news/templates/news/edit_article.html:76
-#: news/templates/news/edit_event.html:241
+#: news/templates/news/edit_event.html:239
 msgid "Lagre som utkast"
 msgstr ""
 
@@ -241,12 +241,19 @@ msgstr ""
 msgid "Filer"
 msgstr ""
 
-#: news/templates/news/edit_event.html:220
+#: news/templates/news/edit_event.html:199
+msgid ""
+"Det kan være nyttig å legge ved powerpoint eller andre relevante filer i "
+"arrangementet. Da får deltakerene mulighet til å gjøre seg klare før "
+"arrangementet starter."
+msgstr ""
+
+#: news/templates/news/edit_event.html:218
 msgid "Ferdig"
 msgstr ""
 
-#: news/templates/news/edit_event.html:235
-#: news/templates/news/edit_event.html:238
+#: news/templates/news/edit_event.html:233
+#: news/templates/news/edit_event.html:236
 msgid "Lagre og publiser arrangement"
 msgstr ""
 

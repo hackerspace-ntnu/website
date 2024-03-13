@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from applications.validators import validate_phone_number
 
@@ -21,7 +22,7 @@ class ItemLoan(models.Model):
     amount = models.IntegerField("Antall", validators=[MinValueValidator(1)])
 
     # Automatically set once the application is accepted
-    loan_from = models.DateField("Utlånt fra", default=timezone.now, blank=True)
+    loan_from = models.DateField(_("Lån fra"), default=timezone.now)
     loan_to = models.DateField("Lån til")
     purpose = models.CharField("Formål", max_length=50)
 

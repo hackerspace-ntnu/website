@@ -2,13 +2,8 @@
 {% load static %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row center-align">
-                <h4>Administratorpanel</h4>
-            </div>
-        </div>
-    </div>
+    {% translate "Administratorpanel" as trans_admin %}
+    {% include "website/page_overview/content_title.html" with title=trans_admin %}
     <div class="section">
         <div class="container">
             <div class="row">

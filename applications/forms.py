@@ -3,6 +3,7 @@ from django.forms import ModelForm, Textarea, TextInput
 from django.template.loader import render_to_string
 from django.urls import reverse
 
+from authentication.views import convert_to_stud_email
 from committees.models import Committee
 
 from .models import Application, ApplicationGroupChoice
@@ -94,6 +95,6 @@ class ApplicationForm(ModelForm):
                 "[Hackerspace NTNU] Ny søknad!",
                 new_application_message,
                 "Hackerspace NTNU",
-                emails,
+                convert_to_stud_email(*emails),
                 fail_silently=False,
             )

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 17:21+0100\n"
+"POT-Creation-Date: 2024-03-13 19:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -213,7 +213,7 @@ msgid "Lagre og publiser artikkel"
 msgstr "Save and publish article"
 
 #: news/templates/news/edit_article.html:82
-#: news/templates/news/edit_event.html:245
+#: news/templates/news/edit_event.html:243
 msgid "Lagre som utkast"
 msgstr "Save as draft"
 
@@ -237,12 +237,21 @@ msgstr "Skills"
 msgid "Filer"
 msgstr "Files"
 
-#: news/templates/news/edit_event.html:224
+#: news/templates/news/edit_event.html:203
+msgid ""
+"Det kan være nyttig å legge ved powerpoint eller andre relevante filer i "
+"arrangementet. Da får deltakerene mulighet til å gjøre seg klare før "
+"arrangementet starter."
+msgstr ""
+"It can be beneficial to add relevant documents "
+"to let participants prepare ahead of time."
+
+#: news/templates/news/edit_event.html:222
 msgid "Ferdig"
 msgstr "Done"
 
-#: news/templates/news/edit_event.html:239
-#: news/templates/news/edit_event.html:242
+#: news/templates/news/edit_event.html:237
+#: news/templates/news/edit_event.html:240
 msgid "Lagre og publiser arrangement"
 msgstr "Save and publish event"
 

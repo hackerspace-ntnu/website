@@ -1,8 +1,7 @@
 from itertools import chain
 
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.views.generic import ListView, TemplateView
 from rest_framework.generics import ListAPIView
 
@@ -34,7 +33,11 @@ class UserSearchAPIView(ListAPIView):
 
         if search_query is None:
             return get_user_model().objects.none()
-        users = get_user_model().objects.filter(groups__in=Group.objects.all())
+        users = (
+            get_user_model()
+            .objects.annotate(group_count=Count("groups"))
+            .filter(group_count__gt=0)
+        )
         user_or_filter = (
             Q(username__icontains=search_query)
             | Q(first_name__icontains=search_query)

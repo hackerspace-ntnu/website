@@ -258,7 +258,7 @@
         const data = [];
         {% for responsible in responsibles.all %}
             data.push({
-                id: "{{ responsible.username }}",
+                id: "{{ responsible.id }}",
                 text: "{{ responsible.get_full_name }}",
                 selected: true
             })
@@ -281,7 +281,7 @@
                 processResults: (res) => {
                     return {
                         results: res.map((usr) => ({
-                            id: usr["username"],
+                            id: usr["id"],
                             text: `${usr["first_name"]} ${usr["last_name"]}`
                         }))}
                 },

@@ -327,6 +327,8 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        print("form", form)
+        print("context", self.get_context_data()["responsibles"])
         self.object = form.save(commit=False)
         context = self.get_context_data()
 

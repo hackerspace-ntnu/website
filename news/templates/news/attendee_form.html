@@ -3,15 +3,8 @@
 {% load i18n %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h3>{% trans "Oppmøte" %}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Oppmøte" as trans_registrations %}
+    {% include "website/page_overview/content_title.html" title=trans_registrations %}
     <div class="container">
         <div class="section">
             <form method="post">

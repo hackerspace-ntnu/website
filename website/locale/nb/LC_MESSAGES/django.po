@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:31+0100\n"
+"POT-Creation-Date: 2024-03-13 20:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: website/templates/website/403.html:14
+msgid "Forbudt! Hut dæ ut!"
+msgstr ""
+
+#: website/templates/website/403.html:15
+msgid "Eller prøv å logge inn..."
+msgstr ""
+
+#: website/templates/website/404.html:11
+msgid "404 - Ikke funnet"
+msgstr ""
+
+#: website/templates/website/404.html:19
+msgid "Vi finner dessverre ikke siden du leter etter."
+msgstr ""
+
+#: website/templates/website/500.html:10
+msgid "500 - Noe har gått galt"
+msgstr ""
+
 #: website/templates/website/_social_buttons.html:8
 msgid "Søk Hackerspace"
 msgstr ""
 
-#: website/templates/website/about.html:9
+#: website/templates/website/about.html:5
 msgid "Om Hackerspace NTNU"
 msgstr ""
 
-#: website/templates/website/about.html:22
+#: website/templates/website/about.html:16
 msgid ""
 "Hackerspace NTNU er et studentdrevet prosjekt åpent for alle studenter "
 "uansett studieretning eller Hackerspace-medlemsskap. Vi tilbyr en kreativ "
@@ -35,7 +55,7 @@ msgid ""
 "Reality-utstyr"
 msgstr ""
 
-#: website/templates/website/about.html:23
+#: website/templates/website/about.html:17
 msgid ""
 "Om du er en førsteklassing som trenger hjelp med ditt første Arduino-"
 "prosjekt eller en fjerdeklassing som ønsker å lage en 3D-modell av "
@@ -44,45 +64,49 @@ msgid ""
 "emner"
 msgstr ""
 
-#: website/templates/website/about.html:24
+#: website/templates/website/about.html:18
 msgid "Kom innom for å se hva vi driver med og slå av en prat"
 msgstr ""
 
-#: website/templates/website/about.html:24
+#: website/templates/website/about.html:18
 msgid ""
 "Du finner oss i andre etasje i A-blokka på Realfagbygget, NTNU Gløshaugen"
 msgstr ""
 
-#: website/templates/website/about.html:25
+#: website/templates/website/about.html:19
 msgid "Vis kart"
 msgstr ""
 
-#: website/templates/website/about.html:34
+#: website/templates/website/about.html:28
 msgid "Ofte stilte spørsmål"
 msgstr ""
 
-#: website/templates/website/about.html:51
+#: website/templates/website/about.html:45
 msgid "Våre aktive grupper"
 msgstr ""
 
-#: website/templates/website/about.html:77
+#: website/templates/website/about.html:71
 msgid "Leder"
 msgstr ""
 
-#: website/templates/website/about.html:80
+#: website/templates/website/about.html:74
 msgid "Nestleder"
 msgstr ""
 
-#: website/templates/website/about.html:83
+#: website/templates/website/about.html:77
 msgid "Økonomiansvarlig"
 msgstr ""
 
-#: website/templates/website/about.html:87
+#: website/templates/website/about.html:81
 msgid "E-post"
 msgstr ""
 
-#: website/templates/website/about.html:108
+#: website/templates/website/about.html:102
 msgid "Ingen medlemmer er lagt til enda"
+msgstr ""
+
+#: website/templates/website/admin.html:5
+msgid "Administratorpanel"
 msgstr ""
 
 #: website/templates/website/footer.html:9
@@ -142,7 +166,7 @@ msgstr ""
 #: website/templates/website/footer.html:35
 #: website/templates/website/header.html:129
 #: website/templates/website/header.html:213
-#: website/templates/website/rules.html:15
+#: website/templates/website/rules.html:10
 msgid "Regler"
 msgstr ""
 
@@ -359,15 +383,41 @@ msgstr ""
 msgid "Siste arrangementer"
 msgstr ""
 
-#: website/templates/website/rules.html:17
+#: website/templates/website/rules.html:11
 msgid "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr"
 msgstr ""
 
-#: website/templates/website/rules.html:43
-#: website/templates/website/rules.html:49
+#: website/templates/website/rules.html:35
+#: website/templates/website/rules.html:41
 msgid "Intern"
 msgstr ""
 
-#: website/templates/website/rules.html:56
+#: website/templates/website/rules.html:48
 msgid "Fant ingen regler 🤠"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:12
+msgid ""
+"Vi har oppdatert våre retningslinjer for behandling av personinformasjon"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:16
+msgid ""
+"I forbindelse med nye lovverk (vektlagt er Personvernforordningen, også "
+"kjent som GDPR) og formalisering internt i organisasjonen, ønsker vi å "
+"informere og innhente nytt samtykke om bruk av personvern i Hackerspace."
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:18
+msgid ""
+"Vennligst bekreft at du har lest og godtar informasjonen og samtykker til "
+"vilkårene tilgjengelig"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:18
+msgid "her"
+msgstr ""
+
+#: website/templates/website/tos-returningls.html:19
+msgid "JEG HAR LEST, FORSTÅTT OG GODTAR VILKÅRENE"
 msgstr ""

@@ -1,3 +1,5 @@
+from typing import List, Union
+
 from django.contrib.auth import get_user_model, logout
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -94,3 +96,17 @@ def get_user_by_stud_or_ntnu_email(email: str):
         user = User.objects.filter(email=query_email).first()
         if user:
             return user
+
+
+def convert_to_stud_email(*user_emails: Union[str, None]) -> List[str]:
+    new_emails = []
+    for email in user_emails:
+        if not email:
+            continue
+        split_email = email.split("@ntnu")
+        if len(split_email) > 1:
+            new_email = split_email[0] + "@stud.ntnu.no"
+            new_emails.append(new_email)
+        else:
+            new_emails.append(email)
+    return new_emails

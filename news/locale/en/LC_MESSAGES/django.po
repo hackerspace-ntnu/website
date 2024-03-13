@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 19:31+0100\n"
+"POT-Creation-Date: 2024-03-13 20:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,12 +31,12 @@ msgid "Administrator-meny"
 msgstr "Administrator Menu"
 
 #: news/templates/news/_event_admin_menu.html:14
-#: news/templates/news/edit_event.html:16
+#: news/templates/news/edit_event.html:12
 msgid "Rediger arrangement"
 msgstr "Edit event"
 
 #: news/templates/news/_event_admin_menu.html:20
-#: news/templates/news/attendee_form.html:19
+#: news/templates/news/attendee_form.html:12
 msgid "Registrer oppmøte"
 msgstr "Register attendance"
 
@@ -128,7 +128,7 @@ msgstr "Read"
 msgid "ganger"
 msgstr "times"
 
-#: news/templates/news/article.html:61 news/templates/news/edit_article.html:16
+#: news/templates/news/article.html:61 news/templates/news/edit_article.html:12
 msgid "Rediger artikkel"
 msgstr "Edit article"
 
@@ -181,25 +181,25 @@ msgstr "NO, GO BACK"
 msgid "Publisert"
 msgstr "Published"
 
-#: news/templates/news/attendee_form.html:10
+#: news/templates/news/attendee_form.html:6
 msgid "Oppmøte"
 msgstr "Attendance"
 
-#: news/templates/news/attendee_form.html:43
+#: news/templates/news/attendee_form.html:36
 msgid "Oppmøtt"
 msgstr "Attended"
 
-#: news/templates/news/attendee_form.html:52
+#: news/templates/news/attendee_form.html:45
 msgid "Lagre"
 msgstr "Save"
 
-#: news/templates/news/edit_article.html:27
-#: news/templates/news/edit_event.html:29
+#: news/templates/news/edit_article.html:21
+#: news/templates/news/edit_event.html:25
 msgid "Innhold"
 msgstr "Content"
 
-#: news/templates/news/edit_article.html:48
-#: news/templates/news/edit_event.html:51
+#: news/templates/news/edit_article.html:42
+#: news/templates/news/edit_event.html:47
 msgid ""
 "Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
 "Bilder kan legges til ved drag-and-drop."
@@ -207,51 +207,51 @@ msgstr ""
 "Only markdown is supported in this field, HTML will be returned as "
 "plaintext. Images can be added using drag-and-drop."
 
-#: news/templates/news/edit_article.html:80
-#: news/templates/news/edit_article.html:81
+#: news/templates/news/edit_article.html:74
+#: news/templates/news/edit_article.html:75
 msgid "Lagre og publiser artikkel"
 msgstr "Save and publish article"
 
-#: news/templates/news/edit_article.html:82
-#: news/templates/news/edit_event.html:243
+#: news/templates/news/edit_article.html:76
+#: news/templates/news/edit_event.html:239
 msgid "Lagre som utkast"
 msgstr "Save as draft"
 
-#: news/templates/news/edit_event.html:61
+#: news/templates/news/edit_event.html:57
 msgid "Velg hovedbilde"
 msgstr "Select main image"
 
-#: news/templates/news/edit_event.html:84
+#: news/templates/news/edit_event.html:80
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr "Internal event (Only Hackerspace members can see the event)"
 
-#: news/templates/news/edit_event.html:151 news/templates/news/event.html:103
+#: news/templates/news/edit_event.html:147 news/templates/news/event.html:103
 msgid "Påmelding"
 msgstr "Registration"
 
-#: news/templates/news/edit_event.html:185
+#: news/templates/news/edit_event.html:181
 msgid "Ferdigheter"
 msgstr "Skills"
 
-#: news/templates/news/edit_event.html:202 news/templates/news/event.html:153
+#: news/templates/news/edit_event.html:198 news/templates/news/event.html:153
 msgid "Filer"
 msgstr "Files"
 
-#: news/templates/news/edit_event.html:203
+#: news/templates/news/edit_event.html:199
 msgid ""
 "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i "
 "arrangementet. Da får deltakerene mulighet til å gjøre seg klare før "
 "arrangementet starter."
 msgstr ""
-"It can be beneficial to add relevant documents "
-"to let participants prepare ahead of time."
+"It can be beneficial to add relevant documents to let participants prepare "
+"ahead of time."
 
-#: news/templates/news/edit_event.html:222
+#: news/templates/news/edit_event.html:218
 msgid "Ferdig"
 msgstr "Done"
 
-#: news/templates/news/edit_event.html:237
-#: news/templates/news/edit_event.html:240
+#: news/templates/news/edit_event.html:233
+#: news/templates/news/edit_event.html:236
 msgid "Lagre og publiser arrangement"
 msgstr "Save and publish event"
 
@@ -441,11 +441,11 @@ msgstr ""
 msgid "NO, GO BACK"
 msgstr ""
 
-#: news/templates/news/events.html:15
+#: news/templates/news/events.html:10
 msgid "Arrangementer"
 msgstr "Events"
 
-#: news/templates/news/events.html:27 news/templates/news/news.html:27
+#: news/templates/news/events.html:18 news/templates/news/news.html:18
 msgid "Dine utkast"
 msgstr "Your drafts"
 
@@ -453,50 +453,50 @@ msgstr "Your drafts"
 msgid "info"
 msgstr "info"
 
-#: news/templates/news/news.html:15
+#: news/templates/news/news.html:10
 msgid "Nyheter"
 msgstr "News"
 
-#: news/templates/news/news.html:45
+#: news/templates/news/news.html:36
 msgid "Publiserte artikler"
 msgstr "Published articles"
 
-#: news/templates/news/skills_form.html:10
+#: news/templates/news/skills_form.html:6
 msgid "Skills"
 msgstr "Skills"
 
-#: news/templates/news/skills_form.html:21
+#: news/templates/news/skills_form.html:14
 msgid "Approve Skills"
 msgstr "Approve Skills"
 
-#: news/templates/news/skills_form.html:28
+#: news/templates/news/skills_form.html:21
 msgid "Select All Attendees"
 msgstr "Select All Attendees"
 
-#: news/templates/news/skills_form.html:35
+#: news/templates/news/skills_form.html:28
 msgid "Select All"
 msgstr "Select All"
 
-#: news/templates/news/skills_form.html:51
+#: news/templates/news/skills_form.html:44
 msgid "Waiting List"
 msgstr "Waiting List"
 
-#: news/templates/news/skills_form.html:57
+#: news/templates/news/skills_form.html:50
 msgid "Already Has Skills"
 msgstr "Already Has Skills"
 
-#: news/templates/news/skills_form.html:61
+#: news/templates/news/skills_form.html:54
 msgid "Missing Prerequisites"
 msgstr "Missing Prerequisites"
 
-#: news/templates/news/skills_form.html:73
+#: news/templates/news/skills_form.html:66
 msgid "Attendance Registered"
 msgstr "Attendance Registered"
 
-#: news/templates/news/skills_form.html:77
+#: news/templates/news/skills_form.html:70
 msgid "Attendance Not Registered"
 msgstr "Attendance Not Registered"
 
-#: news/templates/news/skills_form.html:94
+#: news/templates/news/skills_form.html:87
 msgid "Save"
 msgstr "Save"

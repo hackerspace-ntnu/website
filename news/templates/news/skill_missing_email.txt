@@ -1,8 +1,8 @@
 Hei,
 
 Denne mailen blir sendt til deg fordi du mangler
-
-{% for skill in skills %}{{ skill }} {% endfor %}
+{% for skill in skills %}
+{{ skill }}{% endfor %}
 
 Det har nå blitt åpnet et arrangement som gir denne skillen så meld deg på.
 Husk at for å kunne pange må man ha oppnådd Hackerspace grunnkurs.
@@ -18,15 +18,14 @@ LabOps Hackerspace NTNU
 
 -----------------------------------
 
-
 Hello,
 
-This email is being sent to you because you are missing the following skill(s):
-
-{% for skill in skills %}{{ skill }} {% endfor %}
+This email is being sent to you because you have not acquired the following skill(s):
+{% for skill in skills %}
+{{ skill }}{% endfor %}
 
 An event has now been opened that offers this skill, so sign up.
-Please remember that to participate, one must have completed the Hackerspace basic course.
+Please remember that to retire (pang), one must have completed the Hackerspace basic course.
 
 Access the event here: hackerspace-ntnu.no/events/{{ event.id }}
 

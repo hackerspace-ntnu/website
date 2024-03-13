@@ -9,15 +9,8 @@
 {% endblock head %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Rediger lagerinnslag</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Rediger lagerinnslag" as trans_edit_item %}
+    {% include "website/page_overview/content_title.html" title=trans_edit_item %}
 
     <div class="section">
         <div class="container">

@@ -5,7 +5,7 @@ from django.urls import reverse
 from social_django.utils import load_backend, load_strategy
 
 from authentication.apps import AuthenticationConfig
-from authentication.views import associate_by_email, save_profile
+from authentication.views import associate_by_email, convert_to_stud_email, save_profile
 
 
 class AuthenticationConfigTest(TestCase):
@@ -126,3 +126,48 @@ class AssociationTest(TestCase):
     def test_assoc_existing_user(self):
         associate = associate_by_email(self.backend, {}, user=self.testuser)
         self.assertIsNone(associate)
+
+    def test_convert_stud_emails(self):
+        emails = [
+            "no@stud.ntnu.no",
+            "some_other_stud@stud.ntnu.no",
+        ]
+        new_emails = convert_to_stud_email(*emails)
+
+        self.assertEqual(emails, new_emails)
+
+    def test_convert_ntnu_emails(self):
+        emails = [
+            "no@ntnu.no",
+            "some_other_stud@ntnu.no",
+        ]
+
+        new_emails = convert_to_stud_email(*emails)
+
+        self.assertEqual(len(new_emails), 2)
+        self.assertNotEqual(emails, new_emails)
+        self.assertEqual(new_emails[0], "no@stud.ntnu.no")
+        self.assertEqual(new_emails[1], "some_other_stud@stud.ntnu.no")
+
+    def test_convert_ntnu_and_stud_emails(self):
+        emails = [
+            "no@stud.ntnu.no",
+            "some_other_stud@ntnu.no",
+        ]
+
+        new_emails = convert_to_stud_email(*emails)
+
+        self.assertEqual(len(new_emails), 2)
+        self.assertNotEqual(emails, new_emails)
+        self.assertEqual(new_emails[0], "no@stud.ntnu.no")
+        self.assertEqual(new_emails[0], emails[0])
+        self.assertEqual(new_emails[1], "some_other_stud@stud.ntnu.no")
+
+    def test_convert_empty_email(self):
+        emails = ["", "ntnu", "@ntnu.", "@ntnu.no"]
+        new_emails = convert_to_stud_email(*emails)
+        self.assertEqual(new_emails, ["ntnu", "@stud.ntnu.no", "@stud.ntnu.no"])
+
+    def test_convert_none_values(self):
+        new_emails = convert_to_stud_email("f@ntnu.no", None, None)
+        self.assertEqual(new_emails, ["f@stud.ntnu.no"])

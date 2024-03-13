@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-03 00:33+0100\n"
+"POT-Creation-Date: 2024-03-13 20:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: applications/templates/applications/application_info.html:9
+#: applications/templates/applications/application_form.html:12
+msgid "Søknad"
+msgstr "Application"
+
+#: applications/templates/applications/application_form.html:15
+msgid "Tilbake til infoside"
+msgstr "Back to information page"
+
+#: applications/templates/applications/application_info.html:6
 msgid "Informasjon om opptaket"
 msgstr "Information about the admission"
 
-#: applications/templates/applications/application_info.html:20
+#: applications/templates/applications/application_info.html:15
 msgid "Gå til søknad"
 msgstr "Go to application"
 
-#: applications/templates/applications/application_info.html:29
+#: applications/templates/applications/application_info.html:24
 msgid "Praktisk informasjon om medlemskap"
 msgstr "Practical information about membership"
 
-#: applications/templates/applications/application_info.html:30
+#: applications/templates/applications/application_info.html:25
 msgid "Tusen takk for din interesse!"
 msgstr "Thank you very much for your interest!"
 
-#: applications/templates/applications/application_info.html:31
+#: applications/templates/applications/application_info.html:26
 msgid ""
 "På denne nettsiden får du informasjon om medlemskap og gruppene i "
 "Hackerspace."
@@ -42,7 +50,7 @@ msgstr ""
 "On this website, you will find information about membership and the groups "
 "in Hackerspace."
 
-#: applications/templates/applications/application_info.html:32
+#: applications/templates/applications/application_info.html:27
 msgid ""
 "Dersom du blir tatt opp i en av våre grupper, blir du selvsagt også medlem "
 "av Hackerspace."
@@ -50,11 +58,11 @@ msgstr ""
 "If you are accepted into one of our groups, you will naturally become a "
 "member of Hackerspace as well."
 
-#: applications/templates/applications/application_info.html:33
+#: applications/templates/applications/application_info.html:28
 msgid "Erfaring"
 msgstr "Experience"
 
-#: applications/templates/applications/application_info.html:34
+#: applications/templates/applications/application_info.html:29
 msgid ""
 "Man trenger ikke være en verdensmester for å søke i Hackerspace.<br>Både "
 "nybegynnere og viderekommende er velkommen til å søke hos oss. Vi er først "
@@ -68,11 +76,11 @@ msgstr ""
 "Hackerspace will be trained in the most commonly used equipment in our "
 "workshop, with specific training for the group they join."
 
-#: applications/templates/applications/application_info.html:35
+#: applications/templates/applications/application_info.html:30
 msgid "Vaktlisten"
 msgstr "Shift Schedule"
 
-#: applications/templates/applications/application_info.html:37
+#: applications/templates/applications/application_info.html:32
 msgid ""
 "Alle medlemmer av Hackerspace er med på å holde verkstedet åpent. På vakt "
 "hjelper du nysgjerrige studenter som stikker innom og vil bruke utstyret "
@@ -87,11 +95,11 @@ msgstr ""
 "socializing with others in the workshop during your shift. Each member is "
 "scheduled for two hours per week."
 
-#: applications/templates/applications/application_info.html:39
+#: applications/templates/applications/application_info.html:34
 msgid "Stander"
 msgstr "Stands"
 
-#: applications/templates/applications/application_info.html:41
+#: applications/templates/applications/application_info.html:36
 msgid ""
 "Du har kanskje møtt Hackerspace på stand på NTNU? Det er fordi Hackerspace "
 "står mye på stand for å spre ordet om hvem vi er og hva vi gjør. Dette er "
@@ -101,26 +109,26 @@ msgstr ""
 "Hackerspace often sets up stands to spread the word about who we are and "
 "what we do. This is something everyone in Hackerspace participates in."
 
-#: applications/templates/applications/application_info.html:52
+#: applications/templates/applications/application_info.html:47
 msgid "Hovedgrupper"
 msgstr "Main Groups"
 
-#: applications/templates/applications/application_info.html:53
+#: applications/templates/applications/application_info.html:48
 msgid "Under finner du informasjon om hovedgruppene som har opptak nå"
 msgstr ""
 "Below you will find information about the main groups currently open for "
 "admission"
 
-#: applications/templates/applications/application_info.html:65
-#: applications/templates/applications/application_info.html:92
+#: applications/templates/applications/application_info.html:60
+#: applications/templates/applications/application_info.html:87
 msgid "Ingen grupper lagt til i opptaket."
 msgstr "No groups added to the admission process."
 
-#: applications/templates/applications/application_info.html:76
+#: applications/templates/applications/application_info.html:71
 msgid "Prosjektgruppene"
 msgstr "Project Groups"
 
-#: applications/templates/applications/application_info.html:77
+#: applications/templates/applications/application_info.html:72
 msgid ""
 "Prosjektgruppene gjennomfører en rekke prosjekter som varierer fra år til "
 "år. Prosjektene varer som oftest i to semestre."
@@ -128,7 +136,7 @@ msgstr ""
 "The project groups carry out a variety of projects that vary from year to "
 "year. Projects usually last for two semesters."
 
-#: applications/templates/applications/application_info.html:78
+#: applications/templates/applications/application_info.html:73
 msgid ""
 "Som medlem av en prosjektgruppe jobber du konkret på et prosjekt sammen med "
 "andre på gruppen."
@@ -136,7 +144,7 @@ msgstr ""
 "As a member of a project group, you work actively on a project alongside "
 "others in the group."
 
-#: applications/templates/applications/application_info.html:79
+#: applications/templates/applications/application_info.html:74
 msgid ""
 "Om du har forslag til noen andre prosjekter, kan dette sendes med et "
 "søknadsskjema."
@@ -144,7 +152,7 @@ msgstr ""
 "If you have suggestions for other projects, you can include them in your "
 "application."
 
-#: applications/templates/applications/application_info.html:80
+#: applications/templates/applications/application_info.html:75
 msgid "Under finner du informasjon om prosjektene som har opptak nå."
 msgstr ""
 "Below you will find information about the projects currently open for "

@@ -11,16 +11,9 @@
 {% endblock %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Vaktliste</h4>
-                    <p>{% trans "Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har" %}.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Vaktliste" as trans_watchlist %}
+    {% translate "Vaktlisten gir en oversikt over når verkstedet er åpent og bemannet, og hva slags kompetanse de vakthavende har" as trans_watchlist_description %}
+    {% include "website/page_overview/content_title.html" with title=trans_watchlist description=trans_watchlist_description %}
 
     {% if perms.watchlist.delete_shiftslot %}
         {% include "watchlist/_watchlist_admin_banner.html" %}

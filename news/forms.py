@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.db.utils import OperationalError, ProgrammingError
 from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
-from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from markdownx.fields import MarkdownxFormField
 
 from committees.models import Committee
@@ -111,7 +111,7 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
         )
 
 
-class UserFullnameChoiceField(forms.ModelChoiceField):
+class UserFullnameChoiceField(forms.ModelMultipleChoiceField):
     """
     Denne klassen overrider ModelChoiceField for å vise vanlige
     fulle navn istedenfor brukernavn
@@ -175,13 +175,16 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     registration_end = SplitDateTimeFieldCustom(label="Påmeldingsfrist")
     deregistration_end = SplitDateTimeFieldCustom(label="Avmeldingsfrist")
 
-    responsible = forms.CharField(
-        label="Arrangementansvarlig",
+    responsibles = UserFullnameChoiceField(
+        label=_("Arrangementansvarlig"),
+        queryset=User.objects.all()
+        .filter(groups__name__in=get_committees())
+        .order_by("first_name"),
     )
 
-    def clean_responsible(self):
-        data = self.cleaned_data["responsible"]
-        return get_object_or_404(User, username=data)
+    def clean_responsibles(self):
+        data = self.cleaned_data["responsibles"]
+        return User.objects.filter(pk__in=data)
 
     class Meta:
         model = Event
@@ -190,7 +193,7 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
             "main_content",
             "ingress_content",
             "thumbnail",
-            "responsible",
+            "responsibles",
             "internal",
             "registration",
             "max_limit",

@@ -40,7 +40,9 @@
                     </div>
                     <div class="row">
                         <div class="col s12 rule-body">
-                            {{ rule.body | safe }}
+                            {% autoescape off %}
+                                {{ rule.body_formatted_markdown | safe }}
+                            {% endautoescape %}
                         </div>
                     </div>
                 </div>

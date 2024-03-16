@@ -53,8 +53,6 @@ INSTALLED_APPS = [
     "news",
     "door",
     "files",
-    "ckeditor",
-    "ckeditor_uploader",
     "authentication",
     "userprofile",
     "seasonal_events",
@@ -200,79 +198,6 @@ if not DEBUG:
     STATIC_ROOT = "../static"
     MEDIA_ROOT = "../media"
 
-CKEDITOR_UPLOAD_PATH = "ck_uploads"
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_UPLOAD_SLUGIFY_FILENAME = False
-CKEDITOR_RESTRICT_BY_USER = False
-CKEDITOR_BROWSE_SHOW_DIRS = False
-
-CKEDITOR_CONFIGS = {
-    "default": {
-        "width": "100%",
-        "toolbar": "Custom",
-        "toolbar_Custom": [
-            ["Bold", "Italic", "-", "Undo", "Redo", "-", "PasteText"],
-            [
-                "NumberedList",
-                "BulletedList",
-                "-",
-                "Link",
-                "-",
-                "Outdent",
-                "Indent",
-                "-",
-                "Blockquote",
-            ],
-            ["Maximize", "Find", "Replace"],
-            [
-                "Image",
-                "Table",
-                "HorizontalRule",
-                "Smiley",
-                "SpecialChar",
-                "PageBreak",
-                "Iframe",
-            ],
-        ],
-        "extraPlugins": "blockquote",
-    },
-    "tos_editor": {
-        "width": "100%",
-        "toolbar": "Custom",
-        "toolbar_Custom": [
-            ["Bold", "Italic", "-", "Undo", "Redo", "-", "PasteText"],
-            [
-                "NumberedList",
-                "BulletedList",
-                "-",
-                "Link",
-                "-",
-                "Outdent",
-                "Indent",
-                "-",
-                "Blockquote",
-            ],
-            ["Maximize", "Find", "Replace"],
-            [
-                "Image",
-                "Table",
-                "HorizontalRule",
-                "Smiley",
-                "SpecialChar",
-                "PageBreak",
-                "Iframe",
-                "-",
-                "Source",
-            ],
-        ],
-        "fullPage": True,
-        "extraPlugins": "blockquote",
-        "allowedContent": "h1 h2 h3 h4 p b i strong ul li div (*); a [*](*)",
-    },
-}
-
-DEFAULT_CONFIG = CKEDITOR_CONFIGS
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",

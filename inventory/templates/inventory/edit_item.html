@@ -63,10 +63,9 @@
                         </div>
                     </div>
 
-                    <div class="input-field">
-                        <p>{{ form.description.label }}</p>
-                        <span class="helper-text hs-red-text">{{ form.description.errors }}</span>
-                        {{ form.description }}
+
+                    <div class="input-field col s12">
+                        {% include "website/inputs/markdown.html" with form=form form_field=form.description %}
                     </div>
 
                     <div>

@@ -1,12 +1,15 @@
 from typing import Iterable, List
 
-from ckeditor.fields import RichTextField
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.contrib.auth.admin import User
 from django.core.files.base import ContentFile
 from django.db import models
 from django.db.models import Q
 from django.shortcuts import reverse
 from django.utils import timezone
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 from sorl.thumbnail import get_thumbnail
 
 from applications.validators import validate_phone_number
@@ -15,11 +18,14 @@ from committees.models import Committee
 
 class TermsOfService(models.Model):
 
-    text = RichTextField(config_name="tos_editor")
+    text = MarkdownxField()
     pub_date = models.DateField(default=timezone.now, verbose_name="Publiseringsdato")
 
     def __str__(self):
         return self.pub_date.strftime("%d. %B %Y")
+
+    def body_formatted_markdown(self):
+        return clean(markdownify(self.text), markdown_tags, markdown_attrs)
 
 
 class Skill(models.Model):

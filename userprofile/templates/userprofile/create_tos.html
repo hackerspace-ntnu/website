@@ -3,8 +3,6 @@
 
 {% block head %}
     {{ jquery | safe }}
-    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
 {% endblock head %}
 
 {% block content %}
@@ -29,9 +27,9 @@
                             <br>
                         </div>
                         {% csrf_token %}
+
                         <div class="input-field col s12">
-                            <p>{{ form.text.label }}</p>
-                            {{ form.text }}
+                            {% include "website/inputs/markdown.html" with form=form form_field=form.text%}
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>

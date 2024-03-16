@@ -1,9 +1,12 @@
 from datetime import datetime
 
-from ckeditor.fields import RichTextField
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from files.models import Image
 
@@ -57,7 +60,7 @@ class RuleManager(models.Manager):
 
 class Rule(models.Model):
     title = models.CharField(max_length=100, verbose_name="Tittel", blank=False)
-    body = RichTextField()
+    body = MarkdownxField()
     thumb = models.ForeignKey(
         "files.Image",
         blank=True,
@@ -77,6 +80,9 @@ class Rule(models.Model):
 
     def __str__(self):
         return self.title
+
+    def body_formatted_markdown(self):
+        return clean(markdownify(self.body), markdown_tags, markdown_attrs)
 
     class Meta:
         permissions = (("can_view_internal_rule", "Can view internal rule"),)

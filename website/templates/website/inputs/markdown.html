@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load static %}
+
+<div>
+    <p>{{ form_field.label }}</p>
+    <span class="helper-text hs-red-text">{{ form_field.errors }}</span>
+    {{ form_field }}
+    <div class="helper-text">
+        <p>{% trans "Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan legges til ved drag-and-drop." %}</p>
+        <p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
+    </div>
+    {{ form.media }}
+</div>

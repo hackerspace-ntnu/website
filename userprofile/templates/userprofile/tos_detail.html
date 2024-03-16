@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col s12">
                 {% autoescape off %}
-                    {{ termsofservice.text }}
+                    {{ termsofservice.body_formatted_markdown | safe }}
                 {% endautoescape %}
             </div>
         </div>

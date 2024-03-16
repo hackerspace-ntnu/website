@@ -1,6 +1,10 @@
-from ckeditor_uploader.fields import RichTextUploadingField
+from bleach import clean
+from bleach_whitelist import markdown_attrs, markdown_tags
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from files.models import Image
 from inventory.models.item_loan import ItemLoan
@@ -9,22 +13,24 @@ from inventory.models.item_loan import ItemLoan
 class Item(models.Model):
     """Represents a single item in inventory"""
 
-    name = models.CharField("Navn", max_length=50)
-    stock = models.IntegerField("Lagerbeholdning", validators=[MinValueValidator(0)])
+    name = models.CharField(_("Navn"), max_length=50)
+    stock = models.IntegerField(_("Lagerbeholdning"), validators=[MinValueValidator(0)])
     unknown_stock = models.BooleanField(
-        "Ukjent lagerbeholdning", null=False, blank=False, default=False
+        _("Ukjent lagerbeholdning"), null=False, blank=False, default=False
     )
-    can_loan = models.BooleanField("Kan lånes", null=False, blank=False, default=True)
-    description = RichTextUploadingField("Beskrivelse", blank=True)
+    can_loan = models.BooleanField(
+        _("Kan lånes"), null=False, blank=False, default=True
+    )
+    description = MarkdownxField(_("Beskrivelse"), blank=True)
     thumbnail = models.ForeignKey(
-        Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Bilde"
+        Image, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_("Bilde")
     )
-    location = models.CharField("Hylleplass", max_length=50, blank=True)
+    location = models.CharField(_("Hylleplass"), max_length=50, blank=True)
     max_loan_duration = models.PositiveIntegerField(
-        "Maks lånevarighet (dager)", blank=True, null=True
+        _("Maks lånevarighet (dager)"), blank=True, null=True
     )
 
-    views = models.IntegerField("Detaljsidevisninger", default=0, editable=True)
+    views = models.IntegerField(_("Detaljsidevisninger"), default=0, editable=True)
 
     def __str__(self):
         return self.name + " (x" + str(self.stock) + ")"
@@ -82,3 +88,6 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         self.location = self.location.lower()
         return super(Item, self).save(*args, **kwargs)
+
+    def body_formatted_markdown(self):
+        return clean(markdownify(self.description), markdown_tags, markdown_attrs)

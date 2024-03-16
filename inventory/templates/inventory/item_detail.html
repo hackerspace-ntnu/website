@@ -46,7 +46,7 @@
                 {% if item.description %}
                     <div class="divider"></div>
                     {% autoescape off %}
-                        {{ item.description }}
+                        {{ item.body_formatted_markdown | safe }}
                     {% endautoescape %}
                 {% endif %}
 

@@ -158,10 +158,6 @@ strong {
     align-self: center;
 }
 
-/* CKEditor override */
-.django-ckeditor-widget {
-    width: 100%;
-}
 /* GENERELL STYLING OG MATERIAL OVERRIDES BEGYNNER HER */
 .card-action a {
     color: #5BBA47 !important;

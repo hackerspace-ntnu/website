@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const datepickers = document.querySelectorAll('.datepicker');
-
     internationalization = {
         months:	[
             'Januar',
@@ -37,45 +35,53 @@ document.addEventListener("DOMContentLoaded", function() {
         weekdaysAbbrev: ['S','M','T','O','T','F','L']
     }
 
-    for (dp of datepickers) {
-        options = {
-            format: 'dd.mm.yyyy',
-            firstDay: 1,
-            i18n: internationalization,
-            minDate: new Date()
-        }
-        const maxDateStr = dp.getAttribute('data-max-date')
-        if (maxDateStr) {
-            options.maxDate = new Date(maxDateStr)
-        }
-        M.Datepicker.init(dp, options);
+    const loanFromDateEl = document.getElementById('id_loan_from');
+    const loanToDateEl = document.getElementById('id_loan_to');
+
+    options = {
+        format: 'dd.mm.yyyy',
+        firstDay: 1,
+        i18n: internationalization
     }
 
-
-    // Vis og gjem deler som relateres til påmeldinger
-    var reg_box = document.getElementsByClassName('reg-box')[0];
-    var reg_check = document.getElementsByName('registration')[0]
-    var ext_reg = document.getElementsByClassName('ext-reg')[0];
-
-    if(reg_check.checked) {
-        reg_box.classList.remove('hide');
-        ext_reg.classList.add('hide');
-    }
-    else {
-        reg_box.classList.add('hide');
-        ext_reg.classList.remove('hide');
-    }
-
-    reg_check.onchange = function() {
-        if(this.checked) {
-            reg_box.classList.remove('hide');
-            ext_reg.classList.add('hide');
-        }
-        else {
-            reg_box.classList.add('hide');
-            ext_reg.classList.remove('hide');
-            document.getElementById('id_external_registration').value = '';
-        }
-    };
+    initDatepickers(loanToDateEl, loanFromDateEl, maxLoanDays, loanFromMaxDate, options)
+    loanFromDateEl.addEventListener('change', () => {
+        updateLoanToDatepicker(loanToDateEl, loanFromDateEl, options, maxLoanDays)
+    });
 
 });
+
+function parseFormattedDate(dateString) {
+    const dateParts = dateString.split('.');
+    return new Date(dateParts[2], dateParts[1]-1, dateParts[0]);
+}
+
+function initDatepickers(loanToEl, loanFromEl, maxLoanDays, loanFromMaxDate, dpOptions) {
+    const toDateOptions = dpOptions
+    const fromDateOptions = {
+            ...toDateOptions,
+    }
+
+    fromDateOptions.minDate = parseFormattedDate(loanFromEl.value);
+    if (loanFromMaxDate) {
+        fromDateOptions.maxDate = new Date(loanFromMaxDate);
+    }
+
+    M.Datepicker.init(loanFromEl, fromDateOptions);
+    M.Datepicker.init(loanToEl, toDateOptions);
+
+    updateLoanToDatepicker(loanToEl, loanFromEl, toDateOptions, maxLoanDays)
+}
+
+function updateLoanToDatepicker(loanToEl, loanFromEl, datepickerOptions, maxLoanDays) {
+    const loanFromDate = parseFormattedDate(loanFromEl.value)
+
+    datepickerOptions.minDate = loanFromDate
+
+    if (maxLoanDays) {
+        const maxDate = new Date(loanFromDate)
+        maxDate.setDate(loanFromDate.getDate() + maxLoanDays)
+        datepickerOptions.maxDate = maxDate
+    }
+    M.Datepicker.init(loanToEl, datepickerOptions);
+}

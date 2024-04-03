@@ -22,7 +22,7 @@
     var thumb_preview = document.querySelector('#thumb-preview');
 
     document.addEventListener('click', function(e) {
-        if(e.target.innerText === "VELG") {
+        if(e.target.innerText === "{% trans 'VELG' %}") { // This is really funny to me
             var selectedImgId = e.target.attributes.value.value;
             thumbnail_input.value = selectedImgId;
             thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;

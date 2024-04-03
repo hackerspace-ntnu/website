@@ -1,0 +1,19 @@
+
+services:
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "80:8000"
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    networks:
+      - default
+    volumes:
+      - ./volumes/database:/var/lib/postgresql/data

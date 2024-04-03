@@ -87,9 +87,9 @@ if DB == "postgres":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": DATABASE_NAME,  # noqa: F405
-            "USER": DATABASE_USER,  # noqa: F405
-            "PASSWORD": DATABASE_PASSWORD,  # noqa: F405
+            "NAME": os.environ.get("DATABASE_NAME"),  # noqa: F405
+            "USER": os.environ.get("DATABASE_USER"),  # noqa: F405
+            "PASSWORD": os.environ.get("DATABASE_PASSWORD"),  # noqa: F405
             "HOST": "localhost",
             "PORT": "",
         }
@@ -197,8 +197,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 if not DEBUG:
-    STATIC_ROOT = "../static"
-    MEDIA_ROOT = "../media"
+    STATIC_ROOT = "/app/static"
+    MEDIA_ROOT = "/app/media"
 
 CKEDITOR_UPLOAD_PATH = "ck_uploads"
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"

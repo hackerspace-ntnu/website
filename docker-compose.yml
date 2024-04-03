@@ -4,16 +4,33 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: unless-stopped
+    # restart: unless-stopped
     networks:
       - default
+    volumes:
+      - ./volumes/media:/app/media
     ports:
-      - "80:8000"
+      - "8000:8000"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-develop}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-develop}
+      POSTGRES_DB: ${POSTGRES_DB:-develop}
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres
-    restart: unless-stopped
+    # restart: unless-stopped
     networks:
       - default
     volumes:
       - ./volumes/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-develop}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-develop}
+      POSTGRES_DB: ${POSTGRES_DB:-develop}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

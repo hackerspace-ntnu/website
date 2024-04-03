@@ -2,6 +2,7 @@ FROM --platform=$BUILDPLATFORM python:3.10-slim
 # AS builder
 EXPOSE 8000
 WORKDIR /app
+RUN apt-get update && apt-get install -y gettext
 COPY requirements.txt .
 COPY prod_requirements.txt .
 RUN pip3 install -r prod_requirements.txt --no-cache-dir

@@ -27,3 +27,4 @@ venv/
 *.html.py
 *.txt.py
 pyenv/
+.python-version

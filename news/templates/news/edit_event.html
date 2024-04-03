@@ -9,15 +9,11 @@
 {% endblock head %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>{% trans "Rediger arrangement" %}</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Rediger arrangement" as trans_edit %}
+    {% include "website/page_overview/content_title.html" with title=trans_edit %}
+
+    {% include "news/_list_admin_banner.html" %}
+
     <form enctype="multipart/form-data" method="post" novalidate>
         <div class="section">
             <div class="container">
@@ -88,9 +84,9 @@
                         </div>
                         <div class="input-field col s12">
                             <i class="material-icons prefix">person</i>
-                            {{ form.responsible }}
-                            <label for="id_responsible">{{ form.responsible.label }}</label>
-                            <span class="helper-text hs-red-text">{{ form.responsible.errors }}</span>
+                            {{ form.responsibles }}
+                            <label for="id_responsibles">{{ form.responsibles.label }}</label>
+                            <span class="helper-text hs-red-text">{{ form.responsibles.errors }}</span>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
@@ -200,9 +196,7 @@
                     <div class="row">
                         <div class="col s12">
                             <h5>{% trans "Filer" %}</h5>
-                            <p>{% trans "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i
-                                arrangementet.
-                                Da får deltakerene mulighet til å gjøre seg klare før arrangementet starter." %}</p>
+                            <p>{% trans "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i arrangementet. Da får deltakerene mulighet til å gjøre seg klare før arrangementet starter." %}</p>
                             <div class="divider"></div>
                             <br>
                         </div>

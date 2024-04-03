@@ -1,5 +1,6 @@
 {% extends "website/base.html" %}
 {% load static %}
+{% load i18n %}
 {% block header %}
     {{ jquery | safe }}
     <link rel="stylesheet" type="text/css" href="{% static 'userprofile/css/userprofile_style.css' %}">
@@ -8,15 +9,10 @@
     <script id="display_skill" src="{% static 'userprofile/javascript/display_skill.js' %}" data-redirect-to={{redirect_skill.id}}></script>
 {% endblock %}
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>Ferdigheter</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    {% translate "Ferdigheter" as trans_skills %}
+    {% include "website/page_overview/content_title.html" with title=trans_skills %}
+
     <div class="section">
         <div class="container">
             <div class="row profile-basic">

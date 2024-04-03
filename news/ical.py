@@ -44,9 +44,12 @@ class HSEventFeed(ICalFeed):
         return item.place
 
     def item_organizer(self, item):
-        if not item.responsible:
-            return ""
-        return f"{item.responsible.first_name} {item.responsible.last_name}"
+        return ",".join(
+            [
+                f"{responsible.first_name} {responsible.last_name}"
+                for responsible in item.responsibles.all()
+            ]
+        )
 
 
 class HSEventSingleFeed(HSEventFeed):

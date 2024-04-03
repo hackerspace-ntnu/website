@@ -2,15 +2,9 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>{% trans "Om Hackerspace NTNU" %}</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% translate "Om Hackerspace NTNU" as trans_about_hs %}
+    {% include "website/page_overview/content_title.html" with title=trans_about_hs %}
+
     <div class="section hs-gray no-pad no-margin">
         <img class="responsive-img no-pad darken-50 " src="{% static 'website/img/group_photos/gensere.JPG' %}">
     </div>

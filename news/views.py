@@ -144,7 +144,6 @@ class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
     template_name = "news/attendee_form.html"
     model = Event
     fields = ["title"]
-    permission_required = "news.can_see_attendees"
 
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
@@ -179,7 +178,6 @@ class EventAttendeeSkillsView(PermissionRequiredMixin, UpdateView):
     template_name = "news/skills_form.html"
     model = Event
     fields = ["title"]
-    permission_required = "news.can_see_attendees"
 
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeSkillsView, self).get_context_data(**kwargs)

@@ -3,15 +3,9 @@
 {% load i18n %}
 
 {% block content %}
-    <div class="section hs-green white-text">
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h4>{% trans "Internportal" %}</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    {% translate "Internportal" as trans_internalportal %}
+    {% include "website/page_overview/content_title.html" with title=trans_internalportal %}
 
     <div class="section">
         <div class="container">

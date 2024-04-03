@@ -1,7 +1,14 @@
 from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
 
-from .models import Article, Event, EventRegistration, Upload
+from .models import Article, Event, Event_responsible, EventRegistration, Upload
+
+
+class EventRegistrationInline(admin.TabularInline):
+    model = Event_responsible
+    extra = 1
+    verbose_name = "Event responsible"
+    verbose_name_plural = "Event responsible"
 
 
 @admin.register(Event)
@@ -33,10 +40,11 @@ class Eventadmin(MarkdownxModelAdmin):
             },
         ),
         ("Skills", {"fields": ["skills"]}),
-        ("Advanced", {"fields": ["draft", "internal", "responsible"]}),
+        ("Advanced", {"fields": ["draft", "internal"]}),
     ]
     search_fields = ["title"]
     list_display = ["title", "pub_date", "draft", "internal"]
+    inlines = [EventRegistrationInline]
 
 
 @admin.register(Article)

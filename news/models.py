@@ -101,12 +101,10 @@ class Event(models.Model):
         default=timezone.now, verbose_name="Publiseringsdato"
     )
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    responsible = models.ForeignKey(
-        User,
-        related_name="responsible",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+    responsibles = models.ManyToManyField(
+        to=User,
+        through="news.Event_responsible",
+        related_name="responsibles",
         verbose_name="Arrangementansvarlig",
     )
 
@@ -313,13 +311,7 @@ class Event(models.Model):
     class Meta:
         app_label = "news"
         ordering = ("time_start",)
-        permissions = (
-            (
-                "can_see_attendees",
-                "Can see attending, waitlist, register meetup in a event",
-            ),
-            ("can_view_internal_event", "Can see internal events"),
-        )
+        permissions = (("can_view_internal_event", "Can see internal events"),)
 
     def formatted_markdown(self):
         return clean(markdownify(self.main_content), markdown_tags, markdown_attrs)
@@ -387,3 +379,18 @@ class EventRegistration(models.Model):
         :return: The waitlist
         """
         return self.event.is_waiting(self.user)
+
+
+class Event_responsible(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    responsible = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )

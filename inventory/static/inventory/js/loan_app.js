@@ -83,6 +83,5 @@ function updateLoanToDatepicker(loanToEl, loanFromEl, datepickerOptions, maxLoan
         maxDate.setDate(loanFromDate.getDate() + maxLoanDays)
         datepickerOptions.maxDate = maxDate
     }
-
     M.Datepicker.init(loanToEl, datepickerOptions);
 }

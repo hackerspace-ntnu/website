@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 from dateutil.relativedelta import relativedelta
 from django.contrib import messages
@@ -197,10 +197,9 @@ class ItemLoanApplicationView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["item"] = Item.objects.get(id=self.kwargs["pk"])
-        loan_from_max_date = datetime.now() + relativedelta(
+        context["loan_from_max_date"] = date.today() + relativedelta(
             months=self.months_max_ahead
         )
-        context["loan_from_max_date"] = loan_from_max_date
         return context
 
     def form_valid(self, form):
@@ -236,8 +235,8 @@ class ItemLoanApplicationView(CreateView):
                 "loan_from"
             ] = "Du kan ikke starte å låne denne gjenstanden før i dag"
             return self.render_to_response(self.get_context_data(form=form))
-        if loan_from_datetime > datetime.now() + relativedelta(
-            months=self.months_max_ahead
+        if loan_from_datetime.date() > (
+            date.today() + relativedelta(months=self.months_max_ahead)
         ):
             form.errors[
                 "loan_from"

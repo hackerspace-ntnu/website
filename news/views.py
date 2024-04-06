@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import (
     CreateView,
@@ -355,7 +355,7 @@ class EventCreateView(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     model = Event
     template_name = "news/edit_event.html"
     form_class = EventForm
-    success_url = "/events/"
+    success_url = reverse_lazy("events:all")
     permission_required = "news.add_event"
 
     def get_success_message(self, cleaned_data):
@@ -462,13 +462,13 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
 
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Article
-    success_url = "/news/"
+    success_url = reverse_lazy("news:all")
     permission_required = "news.delete_article"
 
 
 class EventDeleteView(PermissionRequiredMixin, DeleteView):
     model = Event
-    success_url = "/events/"
+    success_url = reverse_lazy("events:all")
     permission_required = "news.delete_event"
 
 

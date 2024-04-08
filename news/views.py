@@ -63,30 +63,35 @@ class EventView(DetailView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
+        user = self.request.user
         context_data["userstatus"] = "ikke pålogget"
         context_data["expired_event"] = datetime.now() > self.object.time_end
         context_data[
             "food_preferences"
         ] = self.object.get_food_preferences_of_registered()
 
-        if self.request.user.is_authenticated:
-            context_data["userstatus"] = self.object.userstatus(self.request.user)
-            if self.object.is_waiting(self.request.user):
+        if user.is_authenticated:
+            context_data["userstatus"] = self.object.userstatus(user)
+            if self.object.is_waiting(user):
                 context_data["get_position"] = (
                     "Du er nummer "
-                    + str(self.object.get_position(user=self.request.user))
+                    + str(self.object.get_position(user=user))
                     + " på ventelisten"
                 )
             else:
                 context_data["get_position"] = "Du er ikke på ventelisten."
 
             if self.object.skills.all():
-                context_data["user_skills"] = self.request.user.profile.skills.all()
+                context_data["user_skills"] = user.profile.skills.all()
                 context_data[
                     "unreachable_skills"
-                ] = self.request.user.profile.filter_skills_reachability(
+                ] = user.profile.filter_skills_reachability(
                     self.object.skills.all(), reachable=False
                 )
+            context_data["event_admin_perm"] = (
+                user.has_perm("news.change_event")
+                and user in self.object.responsibles.all()
+            ) or user.is_superuser
 
         return context_data
 
@@ -145,6 +150,14 @@ class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
     model = Event
     fields = ["title"]
 
+    def get_permission_required(self):
+        user = self.request.user
+        perms = user and (
+            user.is_superuser
+            or self.get_object().responsibles.filter(id=user.id).exists()
+        )
+        return (perms,)
+
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeEditView, self).get_context_data(**kwargs)
         if self.request.POST:
@@ -159,6 +172,7 @@ class EventAttendeeEditView(PermissionRequiredMixin, UpdateView):
         context = self.get_context_data(form=form)
         formset = context["registrations"]
         if formset.is_valid():
+            print(self.object)
             response = super().form_valid(form)
             formset.instance = self.object
             formset.save()
@@ -178,6 +192,14 @@ class EventAttendeeSkillsView(PermissionRequiredMixin, UpdateView):
     template_name = "news/skills_form.html"
     model = Event
     fields = ["title"]
+
+    def get_permission_required(self):
+        user = self.request.user
+        perms = user and (
+            user.is_superuser
+            or self.get_object().responsibles.filter(id=user.id).exists()
+        )
+        return (perms,)
 
     def get_context_data(self, **kwargs):
         context = super(EventAttendeeSkillsView, self).get_context_data(**kwargs)

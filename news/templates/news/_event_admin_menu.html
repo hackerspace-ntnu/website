@@ -8,19 +8,19 @@
         <div class="row">
             <div class="col s12">
                 <ul class='collection'>
-                    {% if perms.news.change_event %}
+                    {% if event_admin_perm %}
                         <li class="collection-item"><a href="/events/{{ event.id }}/edit">
                             <i class="material-icons">edit</i>
                             <span class="collection-icon-text">{% trans "Rediger arrangement" %}</span></a>
                         </li>
                     {% endif %}
-                    {% if event.registration and user in event.responsibles %}
+                    {% if event.registration and event_admin_perm %}
                         <li class="collection-item"><a href="/events/{{ event.id }}/attended">
                             <i class="material-icons">check</i>
                             <span class="collection-icon-text">{% trans "Registrer oppmøte" %}</span>
                         </a></li>
                     {% endif %}
-                    {% if event.skills.all and user in event.responsibles %}
+                    {% if event.skills.all and event_admin_perm %}
                         <li class="collection-item">
                             <a href="/events/{{ event.id }}/skills">
                                 <i class="material-icons">how_to_reg</i>
@@ -28,7 +28,7 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% if perms.news.delete_event %}
+                    {% if perms.news.delete_event and event_admin_perm %}
                         <li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text">
                             <i class="material-icons">delete</i>
                             <span class="collection-icon-text">{% trans "Slett arrangement" %}</span></a>
@@ -37,7 +37,7 @@
                 </ul>
             </div>
         </div>
-        {% if event.registration and user in event.responsibles %}
+        {% if event.registration and event_admin_perm %}
             <div class="row">
                 <div class="col s12 m12 l6">
                     <ul class="collection with-header">
@@ -88,7 +88,7 @@
                 </div>
             </div>
             {% if event.servering %}
-                {% if user in event.responsibles or user.is_superuser %}
+                {% if event_admin_perm %}
                     <div class="row">
                         <div class="col s12 m12">
                             <ul class="collection with-header">

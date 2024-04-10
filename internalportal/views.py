@@ -183,7 +183,7 @@ class ApplicationNextGroupView(UserPassesTestMixin, BaseDetailView):
 class ApplicationRemoveView(UserPassesTestMixin, DeleteView):
     model = Application
     template_name = "internalportal/applications/application_confirm_delete.html"
-    success_url = "/internalportal/applications/"
+    success_url = reverse_lazy("internalportal:applications")
 
     def test_func(self):
         committee = get_commitee_with_leader(self.request.user)

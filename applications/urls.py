@@ -7,9 +7,9 @@ app_name = "application"
 
 urlpatterns = [
     path("", views.ApplicationInfoView.as_view(), name="application_info"),
-    path("application", views.ApplicationView.as_view(), name="application_form"),
+    path("application/", views.ApplicationView.as_view(), name="application_form"),
     path(
-        "success",
+        "success/",
         TemplateView.as_view(template_name="applications/application_success.html"),
         name="application_success",
     ),

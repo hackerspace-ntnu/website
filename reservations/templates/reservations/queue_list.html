@@ -20,7 +20,7 @@
                 <h4>Viktig informasjon</h4>
                 {% if printer_rule %}
                     <blockquote>
-                        {% trans "Les" %} <a href="/rules/{{printer_rule.id}}">{% trans "regler for bruk av 3D-printer" %}</a> {% trans "før du starter" %}.
+                        {% trans "Les" %} <a href="{% url 'rule_details' printer_rule.id %}">{% trans "regler for bruk av 3D-printer" %}</a> {% trans "før du starter" %}.
                     </blockquote>
                 {% endif %}
                 <blockquote>{% trans "Ved å benytte reservasjonssystemet vårt setter vi av våre ressurser (både printer og folk på vakt som følger med). Det er derfor forventet at du møter opp tidsnok (gjerne 5 minutter før avsatt  tid) og ikke går over tiden du har booket" %}.

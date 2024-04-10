@@ -8,28 +8,28 @@
         <div class="row">
             <div class="col s12">
                 <ul class='collection'>
-                    {% if event_admin_perm %}
-                        <li class="collection-item"><a href="/events/{{ event.id }}/edit">
+                    {% if perms.news.change_event %}
+                        <li class="collection-item"><a href="{% url 'events:edit' event.id %}">
                             <i class="material-icons">edit</i>
                             <span class="collection-icon-text">{% trans "Rediger arrangement" %}</span></a>
                         </li>
                     {% endif %}
-                    {% if event.registration and event_admin_perm %}
-                        <li class="collection-item"><a href="/events/{{ event.id }}/attended">
+                    {% if event.registration and user in event.responsibles %}
+                        <li class="collection-item"><a href="{% url 'events:attended' event.id %}">
                             <i class="material-icons">check</i>
                             <span class="collection-icon-text">{% trans "Registrer oppmøte" %}</span>
                         </a></li>
                     {% endif %}
                     {% if event.skills.all and event_admin_perm %}
                         <li class="collection-item">
-                            <a href="/events/{{ event.id }}/skills">
+                            <a href="{% url 'events:skills' event.id %}">
                                 <i class="material-icons">how_to_reg</i>
                                 <span class="collection-icon-text">{% trans "Gi ferdigheter" %}</span>
                             </a>
                         </li>
                     {% endif %}
                     {% if perms.news.delete_event and event_admin_perm %}
-                        <li class="collection-item"><a href="/events/{{ event.id }}/delete" class="modal-trigger hs-red-text">
+                        <li class="collection-item"><a href="{% url 'events:delete' event.id %}" class="modal-trigger hs-red-text">
                             <i class="material-icons">delete</i>
                             <span class="collection-icon-text">{% trans "Slett arrangement" %}</span></a>
                         </li>
@@ -62,7 +62,7 @@
                                     <a class="event-attendee-name" href="{% url 'userprofile:profile_by_id' user.user.id %}">
                                         {{ user.user.get_full_name }}
                                     </a>
-                                    <a class="event-attendee-icon" href="/events/{{ event.id }}/attended">
+                                    <a class="event-attendee-icon" href="{% url 'events:attended' event.id %}">
                                         {% if event.is_past_start %}
                                             {% if user.attended %}
                                                 <span class="secondary-content tooltipped" data-position="top" data-tooltip="{% trans "Oppmøte registrert!" %}">

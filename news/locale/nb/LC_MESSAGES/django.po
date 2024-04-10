@@ -18,6 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: news/forms.py:179
+msgid "Arrangementansvarlig"
+msgstr ""
+
 #: news/templates/news/_event-list-element.html:13
 msgid "Skjer nå!"
 msgstr ""
@@ -37,7 +41,7 @@ msgid "Administrator-meny"
 msgstr ""
 
 #: news/templates/news/_event_admin_menu.html:14
-#: news/templates/news/edit_event.html:12
+#: news/templates/news/edit_event.html:21
 msgid "Rediger arrangement"
 msgstr ""
 
@@ -200,12 +204,12 @@ msgid "Lagre"
 msgstr ""
 
 #: news/templates/news/edit_article.html:21
-#: news/templates/news/edit_event.html:25
+#: news/templates/news/edit_event.html:34
 msgid "Innhold"
 msgstr ""
 
 #: news/templates/news/edit_article.html:42
-#: news/templates/news/edit_event.html:47
+#: news/templates/news/edit_event.html:56
 msgid ""
 "Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
 "Bilder kan legges til ved drag-and-drop."
@@ -217,44 +221,72 @@ msgid "Lagre og publiser artikkel"
 msgstr ""
 
 #: news/templates/news/edit_article.html:76
-#: news/templates/news/edit_event.html:239
+#: news/templates/news/edit_event.html:248
 msgid "Lagre som utkast"
 msgstr ""
 
-#: news/templates/news/edit_event.html:57
+#: news/templates/news/edit_event.html:66
 msgid "Velg hovedbilde"
 msgstr ""
 
-#: news/templates/news/edit_event.html:80
+#: news/templates/news/edit_event.html:89
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr ""
 
-#: news/templates/news/edit_event.html:147 news/templates/news/event.html:105
+#: news/templates/news/edit_event.html:156 news/templates/news/event.html:105
 msgid "Påmelding"
 msgstr ""
 
-#: news/templates/news/edit_event.html:181
+#: news/templates/news/edit_event.html:190
 msgid "Ferdigheter"
 msgstr ""
 
-#: news/templates/news/edit_event.html:198 news/templates/news/event.html:155
+#: news/templates/news/edit_event.html:207 news/templates/news/event.html:155
 msgid "Filer"
 msgstr ""
 
-#: news/templates/news/edit_event.html:199
+#: news/templates/news/edit_event.html:208
 msgid ""
 "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i "
 "arrangementet. Da får deltakerene mulighet til å gjøre seg klare før "
 "arrangementet starter."
 msgstr ""
 
-#: news/templates/news/edit_event.html:218
+#: news/templates/news/edit_event.html:227
 msgid "Ferdig"
 msgstr ""
 
-#: news/templates/news/edit_event.html:233
-#: news/templates/news/edit_event.html:236
+#: news/templates/news/edit_event.html:242
+#: news/templates/news/edit_event.html:245
 msgid "Lagre og publiser arrangement"
+msgstr ""
+
+#: news/templates/news/edit_event.html:269
+msgid "Kunne ikke hente flere resultater"
+msgstr ""
+
+#: news/templates/news/edit_event.html:270
+msgid "Vennligst skriv inn flere tegn"
+msgstr ""
+
+#: news/templates/news/edit_event.html:271
+msgid "Vennligst skriv inn færre tegn"
+msgstr ""
+
+#: news/templates/news/edit_event.html:272
+msgid "Laster flere resultater"
+msgstr ""
+
+#: news/templates/news/edit_event.html:273
+msgid "Du kan ikke velge flere"
+msgstr ""
+
+#: news/templates/news/edit_event.html:274
+msgid "Ingen resultater"
+msgstr ""
+
+#: news/templates/news/edit_event.html:275
+msgid "Fjern alle"
 msgstr ""
 
 #: news/templates/news/event.html:28

@@ -4,6 +4,7 @@ from django.db.utils import OperationalError, ProgrammingError
 from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from markdownx.fields import MarkdownxFormField
 
 from committees.models import Committee
@@ -175,11 +176,15 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     deregistration_end = SplitDateTimeFieldCustom(label="Avmeldingsfrist")
 
     responsibles = UserFullnameChoiceField(
-        label="Arrangementansvarlig",
+        label=_("Arrangementansvarlig"),
         queryset=User.objects.all()
         .filter(groups__name__in=get_committees())
         .order_by("first_name"),
     )
+
+    def clean_responsibles(self):
+        data = self.cleaned_data["responsibles"]
+        return User.objects.filter(pk__in=data)
 
     class Meta:
         model = Event

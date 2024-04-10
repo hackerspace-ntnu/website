@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 20:22+0100\n"
+"POT-Creation-Date: 2024-03-13 23:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,15 +27,15 @@ msgstr "Or try to log in..."
 
 #: website/templates/website/404.html:11
 msgid "404 - Ikke funnet"
-msgstr ""
+msgstr "404 - Not found"
 
 #: website/templates/website/404.html:19
 msgid "Vi finner dessverre ikke siden du leter etter."
-msgstr ""
+msgstr "We sadly cannot find the page you are looking for"
 
 #: website/templates/website/500.html:10
 msgid "500 - Noe har gått galt"
-msgstr ""
+msgstr "500 - Something went wrong."
 
 #: website/templates/website/_social_buttons.html:8
 msgid "Søk Hackerspace"

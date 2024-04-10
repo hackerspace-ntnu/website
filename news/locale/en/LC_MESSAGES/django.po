@@ -12,6 +12,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: news/forms.py:179
+msgid "Arrangementansvarlig"
+msgstr "Event organizer"
+
 #: news/templates/news/_event-list-element.html:13
 msgid "Skjer nå!"
 msgstr "Happening now!"
@@ -31,7 +35,7 @@ msgid "Administrator-meny"
 msgstr "Administrator Menu"
 
 #: news/templates/news/_event_admin_menu.html:14
-#: news/templates/news/edit_event.html:12
+#: news/templates/news/edit_event.html:21
 msgid "Rediger arrangement"
 msgstr "Edit event"
 
@@ -194,12 +198,12 @@ msgid "Lagre"
 msgstr "Save"
 
 #: news/templates/news/edit_article.html:21
-#: news/templates/news/edit_event.html:25
+#: news/templates/news/edit_event.html:34
 msgid "Innhold"
 msgstr "Content"
 
 #: news/templates/news/edit_article.html:42
-#: news/templates/news/edit_event.html:47
+#: news/templates/news/edit_event.html:56
 msgid ""
 "Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
 "Bilder kan legges til ved drag-and-drop."
@@ -213,31 +217,31 @@ msgid "Lagre og publiser artikkel"
 msgstr "Save and publish article"
 
 #: news/templates/news/edit_article.html:76
-#: news/templates/news/edit_event.html:239
+#: news/templates/news/edit_event.html:248
 msgid "Lagre som utkast"
 msgstr "Save as draft"
 
-#: news/templates/news/edit_event.html:57
+#: news/templates/news/edit_event.html:66
 msgid "Velg hovedbilde"
 msgstr "Select main image"
 
-#: news/templates/news/edit_event.html:80
+#: news/templates/news/edit_event.html:89
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr "Internal event (Only Hackerspace members can see the event)"
 
-#: news/templates/news/edit_event.html:147 news/templates/news/event.html:105
+#: news/templates/news/edit_event.html:156 news/templates/news/event.html:105
 msgid "Påmelding"
 msgstr "Registration"
 
-#: news/templates/news/edit_event.html:181
+#: news/templates/news/edit_event.html:190
 msgid "Ferdigheter"
 msgstr "Skills"
 
-#: news/templates/news/edit_event.html:198 news/templates/news/event.html:155
+#: news/templates/news/edit_event.html:207 news/templates/news/event.html:155
 msgid "Filer"
 msgstr "Files"
 
-#: news/templates/news/edit_event.html:199
+#: news/templates/news/edit_event.html:208
 msgid ""
 "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i "
 "arrangementet. Da får deltakerene mulighet til å gjøre seg klare før "
@@ -246,14 +250,42 @@ msgstr ""
 "It can be beneficial to add relevant documents to let participants prepare "
 "ahead of time."
 
-#: news/templates/news/edit_event.html:218
+#: news/templates/news/edit_event.html:227
 msgid "Ferdig"
 msgstr "Done"
 
-#: news/templates/news/edit_event.html:233
-#: news/templates/news/edit_event.html:236
+#: news/templates/news/edit_event.html:242
+#: news/templates/news/edit_event.html:245
 msgid "Lagre og publiser arrangement"
 msgstr "Save and publish event"
+
+#: news/templates/news/edit_event.html:269
+msgid "Kunne ikke hente flere resultater"
+msgstr "The results could not be loaded"
+
+#: news/templates/news/edit_event.html:270
+msgid "Vennligst skriv inn flere tegn"
+msgstr "Please add more characters"
+
+#: news/templates/news/edit_event.html:271
+msgid "Vennligst skriv inn færre tegn"
+msgstr "Please remove characters"
+
+#: news/templates/news/edit_event.html:272
+msgid "Laster flere resultater"
+msgstr "Loading more results"
+
+#: news/templates/news/edit_event.html:273
+msgid "Du kan ikke velge flere"
+msgstr "You cannot choose more"
+
+#: news/templates/news/edit_event.html:274
+msgid "Ingen resultater"
+msgstr "No results found"
+
+#: news/templates/news/edit_event.html:275
+msgid "Fjern alle"
+msgstr "Remove all"
 
 #: news/templates/news/event.html:28
 msgid "Dette arrangementet er lagret som utkast og dermed kun synlig for deg"
@@ -270,6 +302,7 @@ msgid ""
 msgstr ""
 "This event is open to all students regardless of Hackerspace membership"
 
+#: news/templates/news/event.html:49
 #: news/templates/news/event.html:49
 msgid "Fra"
 msgstr "From"

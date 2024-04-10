@@ -345,7 +345,7 @@ class EventUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
             )
         else:
             context["uploads_form"] = uploadformset(instance=self.object)
-
+        context["responsibles"] = self.object.responsibles
         return context
 
     def form_valid(self, form):

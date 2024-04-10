@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-03 19:21+0200\n"
+"POT-Creation-Date: 2024-04-11 00:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -261,31 +261,31 @@ msgstr ""
 msgid "Lagre og publiser arrangement"
 msgstr ""
 
-#: news/templates/news/edit_event.html:269
+#: news/templates/news/edit_event.html:270
 msgid "Kunne ikke hente flere resultater"
 msgstr ""
 
-#: news/templates/news/edit_event.html:270
+#: news/templates/news/edit_event.html:271
 msgid "Vennligst skriv inn flere tegn"
 msgstr ""
 
-#: news/templates/news/edit_event.html:271
+#: news/templates/news/edit_event.html:272
 msgid "Vennligst skriv inn færre tegn"
 msgstr ""
 
-#: news/templates/news/edit_event.html:272
+#: news/templates/news/edit_event.html:273
 msgid "Laster flere resultater"
 msgstr ""
 
-#: news/templates/news/edit_event.html:273
+#: news/templates/news/edit_event.html:274
 msgid "Du kan ikke velge flere"
 msgstr ""
 
-#: news/templates/news/edit_event.html:274
+#: news/templates/news/edit_event.html:275
 msgid "Ingen resultater"
 msgstr ""
 
-#: news/templates/news/edit_event.html:275
+#: news/templates/news/edit_event.html:276
 msgid "Fjern alle"
 msgstr ""
 

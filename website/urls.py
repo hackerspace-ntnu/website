@@ -8,7 +8,7 @@ from rest_framework import routers
 
 from inventory.views.item import InventoryListAPIView
 from reservations import views as reservation_views
-from search.views import SearchAPIView, SearchView
+from search.views import SearchAPIView, SearchView, UserSearchAPIView
 from userprofile.views import (
     MembersAPIView,
     MembersView,
@@ -64,6 +64,7 @@ urlpatterns = [
     path("s/", include("django.contrib.flatpages.urls")),
     path("search/", SearchView.as_view(), name="search"),
     path("api/search/", SearchAPIView.as_view(), name="search-api"),
+    path("api/user-search/", UserSearchAPIView.as_view(), name="user-search-api"),
     path("profile/", include("userprofile.urls")),
     path("reservations/", include("reservations.urls"), name="reservations"),
     path("members/", MembersView.as_view(), name="member-list"),

@@ -4,6 +4,15 @@
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
+    <link href="{% static 'website/css/select2.min.css' %}" rel="stylesheet" />
+    <style>
+        .select-wrapper {
+            display: none;
+        }
+        .select2 {
+            margin-top: 30px;
+        }
+    </style>
 {% endblock head %}
 
 {% block content %}
@@ -73,11 +82,11 @@
                             </p>
                             <span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
                         </div>
-                        <div class="input-field col s12">
+                        <div class="col s12 input-field">
                             <i class="material-icons prefix">person</i>
-                            {{ form.responsibles }}
-                            <label for="id_responsibles">{{ form.responsibles.label }}</label>
-                            <span class="helper-text hs-red-text">{{ form.responsibles.errors }}</span>
+                            <label for="responsible-list">{{ form.responsibles.label }}</label>
+                            <div style="margin-top: 40px; margin-bottom: -20px;" class="helper-text hs-red-text">{{ form.responsibles.errors }}</div>
+                            <select id="responsible-list" multiple name="responsibles"></select>
                         </div>
                         <div class="input-field col s12 m6">
                             <i class="material-icons prefix">date_range</i>
@@ -235,6 +244,41 @@
             </div>
         </div>
     </form>
+    <script src="{% static 'website/js/select2.min.js' %}" type="text/javascript" ></script>
+    <script>
+        const data = [];
+        {% for responsible in responsibles.all %}
+            data.push({
+                id: "{{ responsible.id }}",
+                text: "{{ responsible.get_full_name }}",
+                selected: true
+            })
+        {% endfor %}
+
+        $("#responsible-list").select2({
+            data: data,
+            language: {
+                errorLoading: () => '{% trans "Kunne ikke hente flere resultater" %}',
+                inputTooShort: () => '{% trans "Vennligst skriv inn flere tegn" %}',
+                inputTooLong: () => '{% trans "Vennligst skriv inn færre tegn" %}',
+                loadingMore: () => '{% trans "Laster flere resultater" %}',
+                maximumSelected: () => '{% trans "Du kan ikke velge flere" %}',
+                noResults: () => '{% trans "Ingen resultater" %}',
+                removeAllItems: () => '{% trans "Fjern alle" %}',
+            },
+            ajax: {
+                url: (params) => `/api/user-search?page-size=10&query=${params.term ?? ''}`,
+                dataType: "json",
+                processResults: (res) => {
+                    return {
+                        results: res.map((usr) => ({
+                            id: usr["id"],
+                            text: `${usr["first_name"]} ${usr["last_name"]}`
+                        }))}
+                },
+            }
+        })
+    </script>
     <script src="{% static 'news/js/edit_event.js' %}"></script>
     <script src="{% static 'website/js/datetimepicker.js' %}"></script>
     <script src="{% static 'news/js/save_draft_or_publish.js' %}"></script>

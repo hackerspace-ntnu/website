@@ -14,15 +14,15 @@
                     <!-- Hamburger -->
                     <a href="#" data-target="mobile-sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <!-- Tre logoer for å styre margin så det ser pent ut og responsivt -->
-                    <a href="/" class="brand-logo hide-on-med-and-down valign-wrapper">
+                    <a href="{% url 'index' %}" class="brand-logo hide-on-med-and-down valign-wrapper">
                         <img class="brand-logo-coglight" src="{{ coglight_url }}"/>
                         <img class="brand-logo-text" src="{{ logo_url }}"/>
                     </a>
-                    <a href="/" class="brand-logo tab-img hide-on-large-only hide-on-small-only valign-wrapper">
+                    <a href="{% url 'index' %}" class="brand-logo tab-img hide-on-large-only hide-on-small-only valign-wrapper">
                         <img class="brand-logo-coglight" src="{{ coglight_url }}"/>
                         <img class="brand-logo-text" src="{{ logo_url }}"/>
                     </a>
-                    <a href="/" class="brand-logo mobile-img hide-on-med-and-up show-on-small valign-wrapper">
+                    <a href="{% url 'index' %}" class="brand-logo mobile-img hide-on-med-and-up show-on-small valign-wrapper">
                         <img class="brand-logo-text" src="{{ logo_url }}"/>
                     </a>
                     <div class="valign-wrapper hide-on-large-only right">
@@ -75,12 +75,12 @@
                                     <a href="#"><span class="white-text"></span></a>
                                 {% else %}
                                     <!-- TODO: Fix styling of image -->
-                                    <a href="/"><img style="width:128px; height:164" src="{% static "website/img/logo/Icon_green_transparent.png" %}"></a>
+                                    <a href="{% url 'index' %}"><img style="width:128px; height:164" src="{% static "website/img/logo/Icon_green_transparent.png" %}"></a>
                                 {% endif %}
                             </div>
                         </li>
                         <li>
-                            <a class="waves-effect" href="/">
+                            <a class="waves-effect" href="{% url 'index' %}">
                                 <i class="material-icons">home</i>{% trans "Hjem" %}
                             </a>
                         </li>

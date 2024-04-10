@@ -60,7 +60,9 @@ def banner_context(request):
         should_show = False
         for site in banner.site.split(","):
             site_pattern = re.compile(site.replace("*", ".*"))
-            if site_pattern.match(request.resolver_match.view_name):
+            if request.resolver_match and site_pattern.match(
+                request.resolver_match.view_name
+            ):
                 should_show = True
                 break
 

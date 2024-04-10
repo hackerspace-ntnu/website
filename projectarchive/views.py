@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -98,5 +98,5 @@ class ArticleUpdateView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView
 
 class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
     model = Projectarticle
-    success_url = "/projectarchive/"
+    success_url = reverse_lazy("projectarchive:Article_List")
     permission_required = "projectarchive.delete_projectarticle"

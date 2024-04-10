@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 20:22+0100\n"
+"POT-Creation-Date: 2024-04-03 19:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -225,7 +225,7 @@ msgstr "Select main image"
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr "Internal event (Only Hackerspace members can see the event)"
 
-#: news/templates/news/edit_event.html:147 news/templates/news/event.html:103
+#: news/templates/news/edit_event.html:147 news/templates/news/event.html:105
 msgid "Påmelding"
 msgstr "Registration"
 
@@ -233,7 +233,7 @@ msgstr "Registration"
 msgid "Ferdigheter"
 msgstr "Skills"
 
-#: news/templates/news/edit_event.html:198 news/templates/news/event.html:153
+#: news/templates/news/edit_event.html:198 news/templates/news/event.html:155
 msgid "Filer"
 msgstr "Files"
 
@@ -270,114 +270,110 @@ msgid ""
 msgstr ""
 "This event is open to all students regardless of Hackerspace membership"
 
-#: news/templates/news/event.html:44
-msgid "Arrangementansvarlig"
-msgstr "Event organizer"
-
-#: news/templates/news/event.html:47
+#: news/templates/news/event.html:49
 msgid "Fra"
 msgstr "From"
 
-#: news/templates/news/event.html:48
+#: news/templates/news/event.html:50
 msgid "Til"
 msgstr "To"
 
-#: news/templates/news/event.html:51
+#: news/templates/news/event.html:53
 msgid "til"
 msgstr "to"
 
-#: news/templates/news/event.html:69
+#: news/templates/news/event.html:71
 msgid "Last ned ICS-fil"
 msgstr "Download ICS file"
 
-#: news/templates/news/event.html:75
+#: news/templates/news/event.html:77
 msgid "Ved å delta på arrangementet vil du få følgende ferdigheter godkjent:"
 msgstr ""
 "By participating in the event, you will have the following skills approved:"
 
-#: news/templates/news/event.html:83
+#: news/templates/news/event.html:85
 msgid "Du har allerede denne ferdigheten"
 msgstr "You already have this skill"
 
-#: news/templates/news/event.html:85
+#: news/templates/news/event.html:87
 msgid "Du mangler en forutsetning for denne ferdigheten"
 msgstr "You lack a prerequisite for this skill"
 
-#: news/templates/news/event.html:109
+#: news/templates/news/event.html:111
 msgid "Påmeldte"
 msgstr "Attendees"
 
-#: news/templates/news/event.html:109
+#: news/templates/news/event.html:111
 msgid "på venteliste"
 msgstr "on waiting list"
 
-#: news/templates/news/event.html:116
+#: news/templates/news/event.html:118
 msgid "Logg inn for å melde deg på"
 msgstr "Log in to sign up"
 
-#: news/templates/news/event.html:119 news/templates/news/event.html:121
-#: news/templates/news/event.html:124 news/templates/news/event.html:214
+#: news/templates/news/event.html:121 news/templates/news/event.html:123
+#: news/templates/news/event.html:126 news/templates/news/event.html:216
 msgid "Meld deg på"
 msgstr "Sign up"
 
-#: news/templates/news/event.html:122
+#: news/templates/news/event.html:124
 msgid "Påmelding åpner"
 msgstr "Registration opens"
 
-#: news/templates/news/event.html:125
+#: news/templates/news/event.html:127
 msgid "Fristen for påmelding er ute."
 msgstr "The registration deadline has passed."
 
-#: news/templates/news/event.html:129 news/templates/news/event.html:131
-#: news/templates/news/event.html:212
+#: news/templates/news/event.html:131 news/templates/news/event.html:133
+#: news/templates/news/event.html:214
 msgid "Meld deg av"
 msgstr "Withdraw registration"
 
-#: news/templates/news/event.html:132
+#: news/templates/news/event.html:134
 msgid "Fristen for avregistrering er ute."
 msgstr "The withdrawal deadline has passed."
 
-#: news/templates/news/event.html:136
+#: news/templates/news/event.html:138
 msgid "Frist for påmelding er"
 msgstr "The registration deadline is"
 
-#: news/templates/news/event.html:137
+#: news/templates/news/event.html:139
 msgid "Frist for avmelding er"
 msgstr "The withdrawal deadline is"
 
-#: news/templates/news/event.html:139
+#: news/templates/news/event.html:141
 msgid "Arrangementet benytter ekstern nettside for pålogging."
 msgstr "The event uses an external website for login."
 
-#: news/templates/news/event.html:140
+#: news/templates/news/event.html:142
 msgid "Åpne påmeldingsside i ny fane"
 msgstr "Open registration page in new tab"
 
-#: news/templates/news/event.html:142
+#: news/templates/news/event.html:144
 msgid "Arrangementet er over og du kan ikke melde deg på."
 msgstr "The event is over and you cannot register."
 
-#: news/templates/news/event.html:144
+#: news/templates/news/event.html:146
 msgid "Arrangementet krever ikke påmelding."
 msgstr "The event does not require registration."
 
-#: news/templates/news/event.html:154
+#: news/templates/news/event.html:156
 msgid "Arrangøren har lagt ved følgende filer"
 msgstr "The organizer has attached the following files"
 
-#: news/templates/news/event.html:180
+#: news/templates/news/event.html:182
 msgid "Ingen filer"
 msgstr "No files"
 
-#: news/templates/news/event.html:193
+#: news/templates/news/event.html:195
 msgid "Informasjon om påmelding"
 msgstr "Registration information"
 
-#: news/templates/news/event.html:195
+#: news/templates/news/event.html:197
 msgid "Du forsøker å melde deg av arrangementet."
 msgstr "You are trying to withdraw your registration from the event."
 
-#: news/templates/news/event.html:196
+#: news/templates/news/event.html:198
 msgid ""
 "Merk at dersom det er venteliste i arrangementet, vil du havne bakerst i "
 "køen dersom du ønsker å melde deg på igjen."
@@ -385,7 +381,7 @@ msgstr ""
 "Note that if there is a waiting list for the event, you will be placed at "
 "the end of the queue if you wish to re-register."
 
-#: news/templates/news/event.html:198
+#: news/templates/news/event.html:200
 msgid ""
 "Arrangementets påmeldingsfrist er utløpt. Dersom du melder deg av, har du "
 "ikke mulighet til å melde deg på igjen."
@@ -393,27 +389,27 @@ msgstr ""
 "The registration deadline for the event has expired. If you withdraw your "
 "registration, you will not be able to register again."
 
-#: news/templates/news/event.html:201
+#: news/templates/news/event.html:203
 msgid "Ved å melde deg på dette arrangementet forventes det at du møter opp."
 msgstr "By registering for this event, it is expected that you attend."
 
-#: news/templates/news/event.html:202
+#: news/templates/news/event.html:204
 msgid "Du kan ikke melde deg av etter"
 msgstr "You cannot withdraw your registration after"
 
-#: news/templates/news/event.html:204
+#: news/templates/news/event.html:206
 msgid "Dette arrangementet har servering. Sørg for at dine"
 msgstr "This event includes catering. Make sure your"
 
-#: news/templates/news/event.html:204
+#: news/templates/news/event.html:206
 msgid "innstillinger for matpreferanser"
 msgstr "dietary preferences settings"
 
-#: news/templates/news/event.html:204
+#: news/templates/news/event.html:206
 msgid "er oppdaterte."
 msgstr "are up to date."
 
-#: news/templates/news/event.html:216
+#: news/templates/news/event.html:218
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -500,3 +496,6 @@ msgstr "Attendance Not Registered"
 #: news/templates/news/skills_form.html:87
 msgid "Save"
 msgstr "Save"
+
+#~ msgid "Arrangementansvarlig"
+#~ msgstr "Event organizer"

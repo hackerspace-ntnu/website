@@ -27,15 +27,15 @@
                     <h5>Lenker</h5>
                     <div class="divider"></div>
                     <ul>
-                        <li><a href="/news/">{% trans "Nyheter" %}</a></li>
-                        <li><a href="/events/">{% trans "Arrangementer" %}</a></li>
-                        <li><a href="/about/">{% trans "Om oss" %}</a></li>
+                        <li><a href="{% url 'news:all' %}">{% trans "Nyheter" %}</a></li>
+                        <li><a href="{% url 'events:all' %}">{% trans "Arrangementer" %}</a></li>
+                        <li><a href="{% url 'about' %}">{% trans "Om oss" %}</a></li>
                     </ul>
                     <ul>
-                        <li><a href="/rules/">{% trans "Regler" %}</a></li>
+                        <li><a href="{% url 'rules' %}">{% trans "Regler" %}</a></li>
                     </ul>
                     <ul>
-                        <li><a href="/tos/">{% trans "Vilkår for bruk av nettside" %}</a></li>
+                        <li><a href="{% url 'tos' %}">{% trans "Vilkår for bruk av nettside" %}</a></li>
                     </ul>
                 </div>
                 <div class="col m6 l4 hide-on-small-only">

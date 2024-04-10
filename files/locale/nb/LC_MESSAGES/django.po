@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 23:06+0100\n"
+"POT-Creation-Date: 2024-04-03 20:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,10 @@ msgstr ""
 
 #: files/templates/files/_file_widget.html:10
 msgid "Fjern"
+msgstr ""
+
+#: files/templates/files/_gallery_include.html:25
+msgid "VELG"
 msgstr ""
 
 #: files/templates/files/_gallery_include.html:29

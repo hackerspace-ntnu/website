@@ -8,7 +8,7 @@
 
 <div class="row">
     {% if form.thumbnail.value and form.thumbnail.value != "None" %}
-        <div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: url('/files/image-view/{{ form.thumbnail.value }}'); background-repeat:no-repeat; background-size: cover;">
+        <div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: url('{% url 'files:image-detail' form.thumbnail.value %}'); background-repeat:no-repeat; background-size: cover;">
     {% else %}
         <div id="thumb-preview" class="card small thumb-preview col s12" style="background-image: none; background-repeat:no-repeat; background-size:cover;">
     {% endif %}
@@ -22,10 +22,10 @@
     var thumb_preview = document.querySelector('#thumb-preview');
 
     document.addEventListener('click', function(e) {
-        if(e.target.innerText === "VELG") {
+        if(e.target.innerText === "{% trans 'VELG' %}") { // This is really funny to me
             var selectedImgId = e.target.attributes.value.value;
             thumbnail_input.value = selectedImgId;
-            thumb_preview.style.backgroundImage = "url('/files/image-view/" + selectedImgId;
+            thumb_preview.style.backgroundImage = `url('/files/image-view/${selectedImgId}/`;
             M.toast({html: '{% trans "Bildet er valgt" %}'});
             M.Modal.getInstance(thumbModal).close();
         }

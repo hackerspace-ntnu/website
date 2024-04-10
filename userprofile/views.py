@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 # For approving skills
 from django.views.generic import CreateView, RedirectView
@@ -177,7 +177,7 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     template_name = "userprofile/edit_profile.html"
-    success_url = "/profile"
+    success_url = reverse_lazy("userprofile:profile")
     success_message = "Profilen er oppdatert."
 
     def get_form_kwargs(self):

@@ -1,5 +1,6 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
+from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseRedirect
@@ -136,6 +137,7 @@ class ItemLoanApplicationView(CreateView):
     fields = [
         "item",
         "amount",
+        "loan_from",
         "loan_to",
         "purpose",
         "contact_name",
@@ -146,6 +148,7 @@ class ItemLoanApplicationView(CreateView):
     template_name = "inventory/loan_apply.html"
     success_message = "Lånesøknaden er registrert!"
     success_url = reverse_lazy("inventory:inventory")
+    months_max_ahead = 1
 
     def get_success_url(self):
         # SuccessMessageMixin doesn't actually work so fuck it
@@ -185,16 +188,18 @@ class ItemLoanApplicationView(CreateView):
     def get_form(self, *args, **kwargs):
         # Add the datepicker class to the loan to field before it's sent off
         form = super().get_form(*args, **kwargs)
-        max_duration = Item.objects.get(id=self.kwargs["pk"]).max_loan_duration
-        if max_duration is not None:
-            max_date = datetime.now() + timedelta(days=max_duration)
-            form.fields["loan_to"].widget.attrs["data-max-date"] = max_date
         form.fields["loan_to"].widget.attrs["class"] = "datepicker"
+        form.fields["loan_from"].widget.attrs["class"] = "datepicker"
+        form.fields["loan_from"].widget.format = "%d.%m.%Y"  # Set date format
+        form.fields["loan_to"].widget.format = "%d.%m.%Y"  # Set date format
         return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["item"] = Item.objects.get(id=self.kwargs["pk"])
+        context["loan_from_max_date"] = date.today() + relativedelta(
+            months=self.months_max_ahead
+        )
         return context
 
     def form_valid(self, form):
@@ -210,13 +215,32 @@ class ItemLoanApplicationView(CreateView):
         max_duration = Item.objects.get(id=self.kwargs["pk"]).max_loan_duration
         # Convert 'loan to' date from datetime.date to datetime.datetime (i.e. add time 00:00)
         # (because same type is required for the comparison check)
+        loan_from_datetime = datetime.combine(
+            form.instance.loan_from, datetime.max.time()
+        )
         loan_to_datetime = datetime.combine(form.instance.loan_to, datetime.min.time())
-        if max_duration and loan_to_datetime > datetime.now() + timedelta(
+
+        if max_duration and loan_to_datetime > loan_from_datetime + timedelta(
             days=max_duration
         ):
             form.errors[
                 "loan_to"
             ] = f"Du kan ikke låne denne gjenstanden lenger enn {max_duration} dager"
+            return self.render_to_response(self.get_context_data(form=form))
+        if loan_to_datetime < loan_from_datetime:
+            form.errors["loan_from"] = "Startdato for lån må være før sluttdato for lån"
+            return self.render_to_response(self.get_context_data(form=form))
+        if loan_from_datetime < datetime.now():
+            form.errors[
+                "loan_from"
+            ] = "Du kan ikke starte å låne denne gjenstanden før i dag"
+            return self.render_to_response(self.get_context_data(form=form))
+        if loan_from_datetime.date() > (
+            date.today() + relativedelta(months=self.months_max_ahead)
+        ):
+            form.errors[
+                "loan_from"
+            ] = f"""Du kan ikke starte å låne denne gjenstanden mer enn {self.months_max_ahead} måned frem i tid"""
             return self.render_to_response(self.get_context_data(form=form))
 
         # bit ugly but it works

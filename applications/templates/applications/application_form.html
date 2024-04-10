@@ -12,7 +12,7 @@
     {% translate "Søknad" as trans_apply %}
     {% includeslots "website/page_overview/content_title.html" with title=trans_apply %}
     {% slot children %}
-    <a class="btn btn-flat hs-green-text white" href="/opptak/">{% trans "Tilbake til infoside" %}</a>
+    <a class="btn btn-flat hs-green-text white" href="{% url 'application:application_info' %}">{% trans "Tilbake til infoside" %}</a>
 {% endslots %}
 <div class="section">
     <div class="container">

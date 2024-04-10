@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 23:06+0100\n"
+"POT-Creation-Date: 2024-04-03 19:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -303,6 +303,7 @@ msgstr ""
 "This event is open to all students regardless of Hackerspace membership"
 
 #: news/templates/news/event.html:49
+#: news/templates/news/event.html:49
 msgid "Fra"
 msgstr "From"
 
@@ -528,3 +529,6 @@ msgstr "Attendance Not Registered"
 #: news/templates/news/skills_form.html:87
 msgid "Save"
 msgstr "Save"
+
+#~ msgid "Arrangementansvarlig"
+#~ msgstr "Event organizer"

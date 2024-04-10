@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 23:06+0100\n"
+"POT-Creation-Date: 2024-04-03 19:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: inventory/templates/inventory/edit_item.html:12
+#: inventory/models/item_loan.py:25
+msgid "Lån fra"
+msgstr "Borrow from"
+
+#: inventory/templates/inventory/edit_item.html:13
 msgid "Rediger lagerinnslag"
 msgstr "Edit inventory item"
 

@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views.generic import DeleteView, ListView, View
 
 from .forms import ImageForm
@@ -10,7 +11,7 @@ from .models import FileCategory, Image
 
 class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image
-    success_url = "/files/images"
+    success_url = reverse_lazy("files:images")
     permission_required = "files.delete_image"
 
 

@@ -54,7 +54,7 @@
                             <p>{% trans "Enten du ønsker å få en LED-lampe til å blinke eller lage en 3D-modell av Trondheim, kan medlemmene i Hackerspace tilby variert og god kompetanse og hjelpe deg med det, uavhengig av ditt medlemsskap i Hackerspace." %}</p>
                             <p>{% trans "Om du lurer på noe, har et prosjekt du ønsker hjelp med, eller bare vil slå av en prat, tar vi deg varmt imot på" %} <a class="hs-green-text" target="_blank" href="{{ mazemap_link }}">{% trans "vårt verksted" %}</a> og <a class="hs-green-text" target="_blank" href="https://hackerspace-ntnu.slack.com/">{% trans "Slack-kanal" %}</a>.</p>
                             <p>{% trans "Vaktordningen sørger for at du alltid møter noen på verkstedet klare til å demonstrere utstyr eller hjelpe deg." %}</p>
-                            <a class="btn-flat btn-med waves-effect hs-green white-text" href="/about/">{% trans "Les mer om oss her" %}</a>
+                            <a class="btn-flat btn-med waves-effect hs-green white-text" href="{% url 'about' %}">{% trans "Les mer om oss her" %}</a>
                             <br>
                         </div>
                         <div class="col s12 l6">
@@ -137,7 +137,7 @@
             <script>
                 // For å få slideshow til å laste pent inn setter vi bakgrunnen til bildet som benyttes og tinter det.
                 var elem = document.querySelector('.slider');
-                elem.style.backgroundImage = "url('static/website/img/people_and_tech/cover6.jpg')"
+                elem.style.backgroundImage = "url('{% static 'website/img/people_and_tech/cover6.jpg' %}')"
                 elem.style.height = "100%";
                 elem.style.width = "100%";
                 elem.style.backgroundSize = "cover";

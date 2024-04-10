@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
@@ -25,7 +26,7 @@ class ApplicationInfoView(ListView):
 class ApplicationView(FormView):
     template_name = "applications/application_form.html"
     form_class = ApplicationForm
-    success_url = "/opptak/success"
+    success_url = reverse_lazy("application:application_success")
 
     def form_valid(self, form):
         form.save()  # must save before sending email in order to access group choice priorities

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-03 20:23+0200\n"
+"POT-Creation-Date: 2024-04-11 12:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,7 @@ msgid "Last opp bilde"
 msgstr ""
 
 #: files/templates/files/image_confirm_delete.html:4
-msgid "Are you sure you want to delete "
+msgid "Er du sikker på at du vil slette "
 msgstr ""
 
 #: files/templates/files/images-modal.html:8

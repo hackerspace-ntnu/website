@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-11 00:10+0200\n"
+"POT-Creation-Date: 2024-04-11 12:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: inventory/models/item.py:16 inventory/templates/inventory/inventory.html:25
+#: inventory/templates/inventory/inventory.html:33
+msgid "Navn"
+msgstr "Name"
+
+#: inventory/models/item.py:17 inventory/templates/inventory/inventory.html:31
+#: inventory/templates/inventory/inventory.html:32
+msgid "Lagerbeholdning"
+msgstr "Inventory Quantity"
+
+#: inventory/models/item.py:19
+#, fuzzy
+#| msgid "Lagerbeholdning"
+msgid "Ukjent lagerbeholdning"
+msgstr "Inventory Quantity"
+
+#: inventory/models/item.py:22
+msgid "Kan lånes"
+msgstr "Can be borrowed"
+
+#: inventory/models/item.py:24
+msgid "Beskrivelse"
+msgstr "Description"
+
+#: inventory/models/item.py:26
+msgid "Bilde"
+msgstr "Image"
+
+#: inventory/models/item.py:28 inventory/templates/inventory/items_list.html:30
+msgid "Hylleplass"
+msgstr "Shelf Location"
+
+#: inventory/models/item.py:30
+msgid "Maks lånevarighet (dager)"
+msgstr "Max borrow duration (days)"
+
+#: inventory/models/item.py:33
+msgid "Detaljsidevisninger"
+msgstr "Page views"
+
 #: inventory/models/item_loan.py:25
 msgid "Lån fra"
 msgstr "Borrow from"
 
-#: inventory/templates/inventory/edit_item.html:13
+#: inventory/templates/inventory/edit_item.html:11
 msgid "Rediger lagerinnslag"
 msgstr "Edit inventory item"
 
@@ -58,11 +98,6 @@ msgstr "View equipment and apparatus"
 msgid "Ting, tang og tare"
 msgstr "Things and stuff"
 
-#: inventory/templates/inventory/inventory.html:25
-#: inventory/templates/inventory/inventory.html:33
-msgid "Navn"
-msgstr "Name"
-
 #: inventory/templates/inventory/inventory.html:29
 msgid "Velg sorteringskriterie"
 msgstr "Choose sorting criterion"
@@ -70,11 +105,6 @@ msgstr "Choose sorting criterion"
 #: inventory/templates/inventory/inventory.html:30
 msgid "Popularitet"
 msgstr "Popularity"
-
-#: inventory/templates/inventory/inventory.html:31
-#: inventory/templates/inventory/inventory.html:32
-msgid "Lagerbeholdning"
-msgstr "Inventory Quantity"
 
 #: inventory/templates/inventory/inventory.html:31
 msgid "Synkende"
@@ -105,10 +135,6 @@ msgstr "None"
 #: inventory/templates/inventory/items_list.html:27
 msgid "på lager"
 msgstr "in stock"
-
-#: inventory/templates/inventory/items_list.html:30
-msgid "Hylleplass"
-msgstr "Shelf Location"
 
 #: inventory/templates/inventory/items_list.html:34
 msgid "forventet på lager"
@@ -142,10 +168,16 @@ msgstr "Loan applications"
 msgid "Oversikt over lånesøknader"
 msgstr "Overview of loan applications"
 
-#: inventory/views/item_loan.py:107
+#: inventory/views/item_loan.py:102
 msgid "Lånesøknaden er avslått"
 msgstr "Loan applications is denied"
 
-#: inventory/views/item_loan.py:124
+#: inventory/views/item_loan.py:119
 msgid "Lånesøknaden er lukket"
 msgstr "Loan application is closed"
+
+#: inventory/views/item_loan.py:146
+#, fuzzy
+#| msgid "Lånesøknaden er avslått"
+msgid "Lånesøknaden er registrert!"
+msgstr "Loan applications is denied"

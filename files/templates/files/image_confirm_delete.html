@@ -1,6 +1,6 @@
 {% load i18n %}
 
 <form method="post">{% csrf_token %}
-    <p>{% trans "Are you sure you want to delete " %}{{ object }}?</p>
+    <p>{% trans "Er du sikker på at du vil slette " %}{{ object }}?</p>
     <input type="submit" value="Confirm">
 </form>

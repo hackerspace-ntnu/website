@@ -23,7 +23,6 @@ class SlotsIncludedNode(IncludeNode):
 
     def render(self, context):
         for slot in self.slots:
-            print("slot", slot)
             context[slot.name] = slot.nodelist.render(context)
         return super().render(context)
 

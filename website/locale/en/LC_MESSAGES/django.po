@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 23:06+0100\n"
+"POT-Creation-Date: 2024-04-11 12:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -417,6 +417,14 @@ msgstr "Recent news"
 msgid "Siste arrangementer"
 msgstr "Recent events"
 
+#: website/templates/website/inputs/markdown.html:9
+msgid ""
+"Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
+"Bilder kan legges til ved drag-and-drop."
+msgstr ""
+"Only markdown is supported in this field. HTML is returned as plaintext."
+"Images can be added as drag-and-drop."
+
 #: website/templates/website/rules.html:11
 msgid "Nøvendig informasjon og regler for bruk av verkstedet og diverse utstyr"
 msgstr "Necessary information and rules for the workshop and its equipment"
@@ -464,32 +472,3 @@ msgstr "here"
 msgid "JEG HAR LEST, FORSTÅTT OG GODTAR VILKÅRENE"
 msgstr "I HAVE READ, UNDERSTOOD, AND ACCEPTED THE TERMS"
 
-#, fuzzy
-#~| msgid "Siste nytt"
-#~ msgid "Siste internnytt"
-#~ msgstr "Recent news"
-
-#~ msgid "Her var det intetnytt"
-#~ msgstr "Nothinng new here"
-
-#, fuzzy
-#~| msgid "Siste arrangementer"
-#~ msgid "Siste interne arrangementer"
-#~ msgstr "Recent events"
-
-#, fuzzy
-#~| msgid "Siste arrangementer"
-#~ msgid "Ingen interne arrangementer"
-#~ msgstr "Recent events"
-
-#~ msgid "Åpne lånesøknader"
-#~ msgstr "Open item loans"
-
-#~ msgid "Ingen lånesøknader"
-#~ msgstr "No item loans"
-
-#~ msgid "Lånesøknader"
-#~ msgstr "Item loans"
-
-#~ msgid "Bildegalleri"
-#~ msgstr "Gallery"

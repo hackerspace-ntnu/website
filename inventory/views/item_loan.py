@@ -7,13 +7,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    TemplateView,
-)
+from django.utils.translation import gettext as _
+from django.views.generic import CreateView, DetailView, ListView, TemplateView
+from django.views.generic.dates import BaseDetailView
+from django.views.generic.edit import DeletionMixin
 
 from inventory.models.item import Item
 from inventory.models.item_loan import ItemLoan
@@ -97,12 +94,12 @@ class ItemLoanApproveView(PermissionRequiredMixin, TemplateView):
         )
 
 
-class ItemLoanDeclineView(PermissionRequiredMixin, DeleteView):
+class ItemLoanDeclineView(BaseDetailView, PermissionRequiredMixin, DeletionMixin):
     """Endpoint for deleting/rejecting loans"""
 
     model = ItemLoan
     permission_required = "inventory.delete_itemloan"
-    success_message = "Lånesøknaden er avslått"
+    success_message = _("Lånesøknaden er avslått")
     success_url = reverse_lazy("inventory:loans")
 
     def get_success_url(self):
@@ -114,12 +111,12 @@ class ItemLoanDeclineView(PermissionRequiredMixin, DeleteView):
         return self.post(request, *args, **kwargs)
 
 
-class ItemLoanReturnedView(PermissionRequiredMixin, DeleteView):
+class ItemLoanReturnedView(BaseDetailView, PermissionRequiredMixin, DeletionMixin):
     """Endpoint for returning loans (deletes them)"""
 
     model = ItemLoan
     permission_required = "inventory.delete_itemloan"
-    success_message = "Lånesøknaden er lukket"
+    success_message = _("Lånesøknaden er lukket")
     success_url = reverse_lazy("inventory:loans")
 
     def get_success_url(self):

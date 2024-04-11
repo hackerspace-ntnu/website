@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models import Count
 from django.db.utils import OperationalError, ProgrammingError
 from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput
@@ -111,16 +112,6 @@ class SplitDateTimeFieldCustom(forms.SplitDateTimeField):
         )
 
 
-class UserFullnameChoiceField(forms.ModelMultipleChoiceField):
-    """
-    Denne klassen overrider ModelChoiceField for å vise vanlige
-    fulle navn istedenfor brukernavn
-    """
-
-    def label_from_instance(self, obj):
-        return obj.get_full_name()
-
-
 class MaterialFileWidget(ClearableFileInput):
     template_name = "files/_file_widget.html"
 
@@ -175,16 +166,21 @@ class EventForm(UpdatePubDateOnDraftPublishMixin, forms.ModelForm):
     registration_end = SplitDateTimeFieldCustom(label="Påmeldingsfrist")
     deregistration_end = SplitDateTimeFieldCustom(label="Avmeldingsfrist")
 
-    responsibles = UserFullnameChoiceField(
+    responsibles = forms.Field(
         label=_("Arrangementansvarlig"),
-        queryset=User.objects.all()
-        .filter(groups__name__in=get_committees())
-        .order_by("first_name"),
     )
 
     def clean_responsibles(self):
-        data = self.cleaned_data["responsibles"]
-        return User.objects.filter(pk__in=data)
+        """Get users from responsibles data, filter and check if they exist."""
+        data = self.data.getlist("responsibles")
+        users = User.objects.annotate(group_count=Count("groups")).filter(
+            pk__in=data, group_count__gt=0
+        )
+        if type(data) is list and users.count() != len(data):
+            raise forms.ValidationError(
+                _("Bruker er ikke i en registert gruppe."), code="invalid"
+            )
+        return users
 
     class Meta:
         model = Event

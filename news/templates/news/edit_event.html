@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
     <link href="{% static 'website/css/select2.min.css' %}" rel="stylesheet" />
     <style>
-        .select-wrapper {
+        #responsible-input-wrapper .select-wrapper {
             display: none;
         }
         .select2 {
@@ -82,7 +82,7 @@
                             </p>
                             <span class="helper-text hs-red-text">{{ form.internal.errors }}</span>
                         </div>
-                        <div class="col s12 input-field">
+                        <div class="col s12 input-field" id="responsible-input-wrapper">
                             <i class="material-icons prefix">person</i>
                             <label for="responsible-list">{{ form.responsibles.label }}</label>
                             <div style="margin-top: 40px; margin-bottom: -20px;" class="helper-text hs-red-text">{{ form.responsibles.errors }}</div>

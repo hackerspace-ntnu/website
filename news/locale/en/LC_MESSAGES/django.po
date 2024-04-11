@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-03 19:21+0200\n"
+"POT-Creation-Date: 2024-04-11 00:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,31 +259,31 @@ msgstr "Done"
 msgid "Lagre og publiser arrangement"
 msgstr "Save and publish event"
 
-#: news/templates/news/edit_event.html:269
+#: news/templates/news/edit_event.html:270
 msgid "Kunne ikke hente flere resultater"
 msgstr "The results could not be loaded"
 
-#: news/templates/news/edit_event.html:270
+#: news/templates/news/edit_event.html:271
 msgid "Vennligst skriv inn flere tegn"
 msgstr "Please add more characters"
 
-#: news/templates/news/edit_event.html:271
+#: news/templates/news/edit_event.html:272
 msgid "Vennligst skriv inn færre tegn"
 msgstr "Please remove characters"
 
-#: news/templates/news/edit_event.html:272
+#: news/templates/news/edit_event.html:273
 msgid "Laster flere resultater"
 msgstr "Loading more results"
 
-#: news/templates/news/edit_event.html:273
+#: news/templates/news/edit_event.html:274
 msgid "Du kan ikke velge flere"
 msgstr "You cannot choose more"
 
-#: news/templates/news/edit_event.html:274
+#: news/templates/news/edit_event.html:275
 msgid "Ingen resultater"
 msgstr "No results found"
 
-#: news/templates/news/edit_event.html:275
+#: news/templates/news/edit_event.html:276
 msgid "Fjern alle"
 msgstr "Remove all"
 
@@ -302,7 +302,6 @@ msgid ""
 msgstr ""
 "This event is open to all students regardless of Hackerspace membership"
 
-#: news/templates/news/event.html:49
 #: news/templates/news/event.html:49
 msgid "Fra"
 msgstr "From"
@@ -529,6 +528,3 @@ msgstr "Attendance Not Registered"
 #: news/templates/news/skills_form.html:87
 msgid "Save"
 msgstr "Save"
-
-#~ msgid "Arrangementansvarlig"
-#~ msgstr "Event organizer"

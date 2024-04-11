@@ -3,8 +3,6 @@
 {% load static %}
 
 {% block head %}
-    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'news/css/news_style.css' %}">
     <link href="{% static 'website/css/select2.min.css' %}" rel="stylesheet" />
     <style>
@@ -49,15 +47,8 @@
                             <span class="helper-text hs-red-text">{{ form.ingress_content.errors }}</span>
                         </div>
                         <div class="input-field col s12">
-                            <p>{{ form.main_content.label }}</p>
-                            <span class="helper-text hs-red-text">{{ form.main_content.errors }}</span>
-                            {{ form.main_content }}
-                            <div class="helper-text">
-                                <p>{% trans "Bare markdown støttes i dette feltet, html blir returnert som plaintext. Bilder kan legges til ved drag-and-drop." %}</p>
-                                <p><a href="https://www.markdownguide.org/cheat-sheet/">Markdown cheat-sheet</a></p>
-                            </div>
+                            {% include "website/inputs/markdown.html" with form=form form_field=form.main_content%}
                         </div>
-                        {{ form.media }}
                     </div>
                 </div>
                 <div class="card-panel">

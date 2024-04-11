@@ -1,7 +1,5 @@
-from ckeditor_uploader import views as ck_upload_views
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.decorators import permission_required
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
@@ -56,17 +54,6 @@ urlpatterns = [
     path("tos/<int:pk>/", TermsOfServiceView.as_view(), name="tos-details"),
     path("news/", include("news.urls")),
     path("events/", include("news.event_urls")),
-    path("ckeditor/", include("ckeditor_uploader.urls")),
-    path(
-        "ckeditor/upload",
-        permission_required("news.add_article")(ck_upload_views.upload),
-        name="ckeditor_upload",
-    ),
-    path(
-        "ckeditor/browse",
-        permission_required("news.add_article")(ck_upload_views.browse),
-        name="ckeditor_browse",
-    ),
     path("authentication/", include("authentication.urls", namespace="auth")),
     path("door/", include("door.urls")),
     path("opptak/", include("applications.urls"), name="opptak"),

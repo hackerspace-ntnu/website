@@ -143,9 +143,10 @@ class ItemLoanApplicationView(CreateView):
         "consent",
     ]
     template_name = "inventory/loan_apply.html"
-    success_message = "Lånesøknaden er registrert!"
+    success_message = _("Lånesøknaden er registrert!")
     success_url = reverse_lazy("inventory:inventory")
     months_max_ahead = 1
+    date_format = "%d.%m.%Y"
 
     def get_success_url(self):
         # SuccessMessageMixin doesn't actually work so fuck it
@@ -187,8 +188,11 @@ class ItemLoanApplicationView(CreateView):
         form = super().get_form(*args, **kwargs)
         form.fields["loan_to"].widget.attrs["class"] = "datepicker"
         form.fields["loan_from"].widget.attrs["class"] = "datepicker"
-        form.fields["loan_from"].widget.format = "%d.%m.%Y"  # Set date format
-        form.fields["loan_to"].widget.format = "%d.%m.%Y"  # Set date format
+        form.fields["loan_from"].widget.format = self.date_format
+        form.fields["loan_to"].widget.format = self.date_format
+        form.fields["loan_from"].input_formats.append(self.date_format)
+        form.fields["loan_to"].input_formats.append(self.date_format)
+        print(form.fields["loan_from"].input_formats)
         return form
 
     def get_context_data(self, **kwargs):

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-13 23:06+0100\n"
+"POT-Creation-Date: 2024-04-11 12:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,6 +381,12 @@ msgstr ""
 
 #: website/templates/website/index.html:86
 msgid "Siste arrangementer"
+msgstr ""
+
+#: website/templates/website/inputs/markdown.html:9
+msgid ""
+"Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
+"Bilder kan legges til ved drag-and-drop."
 msgstr ""
 
 #: website/templates/website/rules.html:11

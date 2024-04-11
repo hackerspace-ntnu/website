@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-11 00:09+0200\n"
+"POT-Creation-Date: 2024-04-11 12:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: news/forms.py:179
+#: news/forms.py:170
 msgid "Arrangementansvarlig"
+msgstr ""
+
+#: news/forms.py:181
+msgid "Bruker er ikke i en registert gruppe."
 msgstr ""
 
 #: news/templates/news/_event-list-element.html:13
@@ -41,7 +45,7 @@ msgid "Administrator-meny"
 msgstr ""
 
 #: news/templates/news/_event_admin_menu.html:14
-#: news/templates/news/edit_event.html:21
+#: news/templates/news/edit_event.html:19
 msgid "Rediger arrangement"
 msgstr ""
 
@@ -138,7 +142,7 @@ msgstr ""
 msgid "ganger"
 msgstr ""
 
-#: news/templates/news/article.html:61 news/templates/news/edit_article.html:12
+#: news/templates/news/article.html:61 news/templates/news/edit_article.html:10
 msgid "Rediger artikkel"
 msgstr ""
 
@@ -163,6 +167,7 @@ msgid "Ingen nyere artikler"
 msgstr ""
 
 #: news/templates/news/article_confirm_delete.html:12
+#: news/templates/news/event_confirm_delete.html:12
 msgid "Bekreft handling"
 msgstr ""
 
@@ -171,18 +176,22 @@ msgid "Er du sikker på at du vil slette følgende artikkel?"
 msgstr ""
 
 #: news/templates/news/article_confirm_delete.html:16
+#: news/templates/news/event_confirm_delete.html:16
 msgid "Tittel"
 msgstr ""
 
 #: news/templates/news/article_confirm_delete.html:17
+#: news/templates/news/event_confirm_delete.html:17
 msgid "Publiseringsdato"
 msgstr ""
 
 #: news/templates/news/article_confirm_delete.html:19
+#: news/templates/news/event_confirm_delete.html:19
 msgid "JA"
 msgstr ""
 
 #: news/templates/news/article_confirm_delete.html:22
+#: news/templates/news/event_confirm_delete.html:22
 msgid "NEI, GÅ TILBAKE"
 msgstr ""
 
@@ -203,89 +212,82 @@ msgstr ""
 msgid "Lagre"
 msgstr ""
 
-#: news/templates/news/edit_article.html:21
-#: news/templates/news/edit_event.html:34
+#: news/templates/news/edit_article.html:19
+#: news/templates/news/edit_event.html:32
 msgid "Innhold"
 msgstr ""
 
-#: news/templates/news/edit_article.html:42
-#: news/templates/news/edit_event.html:56
-msgid ""
-"Bare markdown støttes i dette feltet, html blir returnert som plaintext. "
-"Bilder kan legges til ved drag-and-drop."
-msgstr ""
-
-#: news/templates/news/edit_article.html:74
-#: news/templates/news/edit_article.html:75
+#: news/templates/news/edit_article.html:65
+#: news/templates/news/edit_article.html:66
 msgid "Lagre og publiser artikkel"
 msgstr ""
 
-#: news/templates/news/edit_article.html:76
-#: news/templates/news/edit_event.html:248
+#: news/templates/news/edit_article.html:67
+#: news/templates/news/edit_event.html:239
 msgid "Lagre som utkast"
 msgstr ""
 
-#: news/templates/news/edit_event.html:66
+#: news/templates/news/edit_event.html:57
 msgid "Velg hovedbilde"
 msgstr ""
 
-#: news/templates/news/edit_event.html:89
+#: news/templates/news/edit_event.html:80
 msgid "Internt arrangement (Kun Hackerspace-medlemmer kan se arrangementet)"
 msgstr ""
 
-#: news/templates/news/edit_event.html:156 news/templates/news/event.html:105
+#: news/templates/news/edit_event.html:147 news/templates/news/event.html:105
 msgid "Påmelding"
 msgstr ""
 
-#: news/templates/news/edit_event.html:190
+#: news/templates/news/edit_event.html:181
 msgid "Ferdigheter"
 msgstr ""
 
-#: news/templates/news/edit_event.html:207 news/templates/news/event.html:155
+#: news/templates/news/edit_event.html:198 news/templates/news/event.html:155
 msgid "Filer"
 msgstr ""
 
-#: news/templates/news/edit_event.html:208
+#: news/templates/news/edit_event.html:199
 msgid ""
 "Det kan være nyttig å legge ved powerpoint eller andre relevante filer i "
 "arrangementet. Da får deltakerene mulighet til å gjøre seg klare før "
 "arrangementet starter."
 msgstr ""
 
-#: news/templates/news/edit_event.html:227
+#: news/templates/news/edit_event.html:218
 msgid "Ferdig"
 msgstr ""
 
-#: news/templates/news/edit_event.html:242
-#: news/templates/news/edit_event.html:245
+#: news/templates/news/edit_event.html:233
+#: news/templates/news/edit_event.html:236
 msgid "Lagre og publiser arrangement"
 msgstr ""
 
-#: news/templates/news/edit_event.html:270
+#: news/templates/news/edit_event.html:261
 msgid "Kunne ikke hente flere resultater"
 msgstr ""
 
-#: news/templates/news/edit_event.html:271
+#: news/templates/news/edit_event.html:262
 msgid "Vennligst skriv inn flere tegn"
 msgstr ""
 
-#: news/templates/news/edit_event.html:272
+#: news/templates/news/edit_event.html:263
 msgid "Vennligst skriv inn færre tegn"
 msgstr ""
 
-#: news/templates/news/edit_event.html:273
+#: news/templates/news/edit_event.html:264
 msgid "Laster flere resultater"
 msgstr ""
 
-#: news/templates/news/edit_event.html:274
+#: news/templates/news/edit_event.html:265
 msgid "Du kan ikke velge flere"
 msgstr ""
 
-#: news/templates/news/edit_event.html:275
+#: news/templates/news/edit_event.html:266
 msgid "Ingen resultater"
 msgstr ""
 
-#: news/templates/news/edit_event.html:276
+#: news/templates/news/edit_event.html:267
 msgid "Fjern alle"
 msgstr ""
 
@@ -441,28 +443,8 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: news/templates/news/event_confirm_delete.html:12
-msgid "Confirm Action"
-msgstr ""
-
 #: news/templates/news/event_confirm_delete.html:13
-msgid "Are you sure you want to delete the following event?"
-msgstr ""
-
-#: news/templates/news/event_confirm_delete.html:16
-msgid "Title"
-msgstr ""
-
-#: news/templates/news/event_confirm_delete.html:17
-msgid "Publication Date"
-msgstr ""
-
-#: news/templates/news/event_confirm_delete.html:19
-msgid "YES"
-msgstr ""
-
-#: news/templates/news/event_confirm_delete.html:22
-msgid "NO, GO BACK"
+msgid "Er du sikker på at du vil slette følgende arrangement?"
 msgstr ""
 
 #: news/templates/news/events.html:10

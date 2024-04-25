@@ -9,7 +9,7 @@ django-filter==24.1
 Markdown==3.6
 Pillow==10.3.0
 python-dataporten-auth==2.0.0
-social-auth-app-django==5.4.0
+social-auth-app-django==5.4.1
 rapidfuzz==3.6.2
 django-ical==1.9.2
 django-markdownx==4.0.7

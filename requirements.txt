@@ -1,5 +1,5 @@
 pre-commit==3.6.2
-Django==5.0.3
+Django==5.0.8
 django-ckeditor==6.2.0
 coverage==7.4.4
 sorl-thumbnail==12.10.0

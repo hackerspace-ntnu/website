@@ -1,0 +1,40 @@
+services:
+  website-db:
+    image: postgres:13
+    container_name: website-db
+    environment:
+      POSTGRES_DB: production
+      POSTGRES_USER: production
+      POSTGRES_PASSWORD: change-me
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "production"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    networks:
+      - nginx-network
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: website
+    depends_on:
+      website-db:
+        condition: service_healthy
+    volumes:
+      - static:/app/static
+      - media:/app/media
+    restart: unless-stopped
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+
+volumes:
+  static:
+  media:

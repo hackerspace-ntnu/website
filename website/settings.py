@@ -27,11 +27,6 @@ SOCIAL_AUTH_DATAPORTEN_FEIDE_SECRET = None
 
 ADMINS = (("devops", "hackerspace-dev@idi.ntnu.no"),)
 
-try:
-    from website.local_settings import *  # noqa: F403
-except ImportError:
-    pass
-
 #################################
 # Installed apps                #
 #################################
@@ -330,3 +325,8 @@ CRONJOBS = [
         ">>/tmp/scheduled_job.log",
     )
 ]
+
+try:
+    from website.local_settings import *  # noqa: F403
+except ImportError:
+    pass

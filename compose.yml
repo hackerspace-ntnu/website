@@ -1,7 +1,7 @@
 services:
   website-db:
     image: postgres:13
-    container_name: website-db
+    container_name: website-old-db
     environment:
       POSTGRES_DB: production
       POSTGRES_USER: production
@@ -16,24 +16,25 @@ services:
       retries: 5
       start_period: 80s
     networks:
-      - nginx-network
+      - nginx_default
   website:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: website
+    container_name: website-old
     depends_on:
-      website-db:
+      website-old-db:
         condition: service_healthy
     volumes:
       - static:/app/static
       - media:/app/media
     restart: unless-stopped
     networks:
-      - nginx-network
+      - nginx_default
 
 networks:
-  nginx-network:
+  nginx_default:
+    external: true
 
 volumes:
   static:

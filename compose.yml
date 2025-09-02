@@ -1,5 +1,5 @@
 services:
-  website-db:
+  website-old-db:
     image: postgres:13
     container_name: website-old-db
     env_file:
@@ -15,7 +15,7 @@ services:
       start_period: 80s
     networks:
       - nginx_default
-  website:
+  website-old:
     build:
       context: .
       dockerfile: Dockerfile

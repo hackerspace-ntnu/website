@@ -14,6 +14,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 DOOR_KEY = "DOOR_KEY"
 
+DATABASE_HOST = "localhost"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_URLCONF = "website.urls"
 WSGI_APPLICATION = "website.wsgi.application"
@@ -88,7 +89,7 @@ if DB == "postgres":
             "NAME": DATABASE_NAME,  # noqa: F405
             "USER": DATABASE_USER,  # noqa: F405
             "PASSWORD": DATABASE_PASSWORD,  # noqa: F405
-            "HOST": "localhost",
+            "HOST": DATABASE_HOST,
             "PORT": "",
         }
     }

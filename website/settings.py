@@ -28,6 +28,12 @@ SOCIAL_AUTH_DATAPORTEN_FEIDE_SECRET = None
 
 ADMINS = (("devops", "hackerspace-dev@idi.ntnu.no"),)
 
+try:
+    from website.local_settings import *  # noqa: F403
+except ImportError:
+    pass
+
+
 #################################
 # Installed apps                #
 #################################
@@ -192,8 +198,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 if not DEBUG:
-    STATIC_ROOT = "../static"
-    MEDIA_ROOT = "../media"
+    STATIC_ROOT = "/app/static"
+    MEDIA_ROOT = "/app/media"
 
 
 STATICFILES_FINDERS = (
@@ -326,8 +332,3 @@ CRONJOBS = [
         ">>/tmp/scheduled_job.log",
     )
 ]
-
-try:
-    from website.local_settings import *  # noqa: F403
-except ImportError:
-    pass

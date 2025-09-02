@@ -2,13 +2,11 @@ services:
   website-db:
     image: postgres:13
     container_name: website-old-db
-    environment:
-      POSTGRES_DB: production
-      POSTGRES_USER: production
-      POSTGRES_PASSWORD: change-me
+    env_file:
+      - .env
     volumes:
       - ./data/db:/var/lib/postgresql/data
-    restart: always
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready", "-d", "production"]
       interval: 30s

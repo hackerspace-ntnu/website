@@ -1,4 +1,3 @@
-# image base and version
 FROM python:3.12.11
 
 # enviroment variables
@@ -8,9 +7,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # Create directory
 WORKDIR /app
 
-#RUN adduser django
-#RUN chown django:django /app
-#USER django
 ENV PATH /home/django/.local/bin:$PATH
 
 # Install requirements
@@ -29,7 +25,5 @@ RUN apt update
 RUN apt install gettext -y
 
 # Setup start commands
-# RUN python manage.py migrate
-# CMD ["gunicorn","--bind","0.0.0.0:8000","website.wsgi"]
 RUN chmod +x ./docker-entrypoint.sh
 ENTRYPOINT ["./docker-entrypoint.sh"]

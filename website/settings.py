@@ -156,6 +156,12 @@ MIDDLEWARE = [
     "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.hackerspace-ntnu.no",
+    "https://hackerspace-ntnu.no",
+    "http://localhost:8000",
+]
+
 
 AUTHENTICATION_BACKENDS = [
     "dataporten.social.DataportenFeideOAuth2",

@@ -28,3 +28,4 @@ venv/
 *.txt.py
 pyenv/
 .python-version
+data

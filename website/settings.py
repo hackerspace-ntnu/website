@@ -14,6 +14,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 DOOR_KEY = "DOOR_KEY"
 
+DATABASE_HOST = "localhost"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_URLCONF = "website.urls"
 WSGI_APPLICATION = "website.wsgi.application"
@@ -30,6 +31,7 @@ try:
     from website.local_settings import *  # noqa: F403
 except ImportError:
     pass
+
 
 #################################
 # Installed apps                #
@@ -88,7 +90,7 @@ if DB == "postgres":
             "NAME": DATABASE_NAME,  # noqa: F405
             "USER": DATABASE_USER,  # noqa: F405
             "PASSWORD": DATABASE_PASSWORD,  # noqa: F405
-            "HOST": "localhost",
+            "HOST": DATABASE_HOST,
             "PORT": "",
         }
     }
@@ -154,6 +156,12 @@ MIDDLEWARE = [
     "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://www.hackerspace-ntnu.no",
+    "https://hackerspace-ntnu.no",
+    "http://localhost:8000",
+]
+
 
 AUTHENTICATION_BACKENDS = [
     "dataporten.social.DataportenFeideOAuth2",
@@ -195,8 +203,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
 if not DEBUG:
-    STATIC_ROOT = "../static"
-    MEDIA_ROOT = "../media"
+    STATIC_ROOT = "/app/static"
+    MEDIA_ROOT = "/app/media"
 
 
 STATICFILES_FINDERS = (
